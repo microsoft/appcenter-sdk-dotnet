@@ -1,16 +1,21 @@
 using Foundation;
 using ObjCRuntime;
+using System;
 
 namespace Microsoft.Sonoma.Core.iOS.Bindings
 {
+	//TODO SNMFeature must be reconciled with the same interface found elsewhere
+	interface ISNMFeature { }
+
 	// typedef NSString * (^SNMLogMessageProvider)();
 	delegate string SNMLogMessageProvider();
 
-
-	//TODO this needs to be fixed.
+	//TODO this needs to be fixed. might require a special implementation.
 	// typedef void (^SNMLogHandler)(SNMLogMessageProvider, SNMLogLevel, const char *, const char *, uint);
 	//unsafe delegate void SNMLogHandler(SNMLogMessageProvider arg0, SNMLogLevel arg1, sbyte* arg2, sbyte* arg3, uint arg4);
 
+	//TODO this seems to work when replacing sbyte* with IntPtr...
+	unsafe delegate void SNMLogHandler(SNMLogMessageProvider arg0, SNMLogLevel arg1, IntPtr arg2, IntPtr arg3, uint arg4);
 
 	// @interface SNMSonoma : NSObject
 	[BaseType(typeof(NSObject))]
@@ -64,9 +69,9 @@ namespace Microsoft.Sonoma.Core.iOS.Bindings
 
 		//TODO this needs to be fixed
 		//// +(void)setLogHandler:(SNMLogHandler)logHandler;
-		//[Static]
-		//[Export("setLogHandler:")]
-		//void SetLogHandler(SNMLogHandler logHandler);
+		[Static]
+		[Export("setLogHandler:")]
+		void SetLogHandler(SNMLogHandler logHandler);
 
 		// +(NSUUID *)installId;
 		[Static]
@@ -84,13 +89,27 @@ namespace Microsoft.Sonoma.Core.iOS.Bindings
 	[BaseType(typeof(NSObject))]
 	interface SNMFeature
 	{
-		// @required +(BOOL)isEnabled;
-		[Static, Abstract]
-		[Export("isEnabled")]
-		bool IsEnabled { get; set; }
-	}
+		/*
+		 * TODO do we lose functionality by not using the functional versions of
+		 * get/set? not sure that this would invoke the logic associated
+		 * with these functions in the native iOS SDK.
+		*/
 
-	interface ISNMFeature {}
+		//TODO Figure out why the isenabled was given as abstract
+		//@required +(BOOL)isEnabled;
+		//[Static, Abstract]
+		//[Export("isEnabled")]
+		//bool IsEnabled { get; set; }
+
+		// @required +(BOOL)isEnabled;
+		[Static]
+		[Export("isEnabled")]
+		bool IsEnabled();
+
+		[Static]
+		[Export("setEnabled:")]
+		bool setEnabled(bool isEnabled);
+	}
 
 	//@interface SNMFeatureAbstract : NSObject <SNMFeature>
 	[BaseType (typeof(NSObject))]
