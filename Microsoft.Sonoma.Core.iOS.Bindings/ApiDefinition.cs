@@ -11,10 +11,10 @@ namespace Microsoft.Sonoma.Core.iOS.Bindings
 	delegate string SNMLogMessageProvider();
 
 	//TODO this needs to be fixed. might require a special implementation.
-	// typedef void (^SNMLogHandler)(SNMLogMessageProvider, SNMLogLevel, const char *, const char *, uint);
 	//unsafe delegate void SNMLogHandler(SNMLogMessageProvider arg0, SNMLogLevel arg1, sbyte* arg2, sbyte* arg3, uint arg4);
 
 	//TODO this seems to work when replacing sbyte* with IntPtr...
+	// typedef void (^SNMLogHandler)(SNMLogMessageProvider, SNMLogLevel, const char *, const char *, uint);
 	unsafe delegate void SNMLogHandler(SNMLogMessageProvider arg0, SNMLogLevel arg1, IntPtr arg2, IntPtr arg3, uint arg4);
 
 	// @interface SNMSonoma : NSObject
