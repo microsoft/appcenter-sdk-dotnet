@@ -5,8 +5,8 @@ using ObjCRuntime;
 
 namespace Microsoft.Sonoma.Core
 {
-	using iOSSonoma = iOS.Bindings.SNMSonoma;
-	using iOSLogLevel = iOS.Bindings.SNMLogLevel;
+	using iOSSonoma = Microsoft.Sonoma.Core.iOS.Bindings.SNMSonoma;
+	using iOSLogLevel = Microsoft.Sonoma.Core.iOS.Bindings.SNMLogLevel;
 
 	/// <summary>
 	/// SDK core used to initialize, start and control specific feature.
@@ -20,23 +20,23 @@ namespace Microsoft.Sonoma.Core
 		{
 			get
 			{
-				var value = iOSSonoma.LogLevel;
-				switch (value)
+				var val = iOSSonoma.LogLevel();
+				switch (val)
 				{
 					case iOSLogLevel.None: //TODO this none->info seems incorrect
-						return Core.LogLevel.Info;
+						return LogLevel.Info;
 					case iOSLogLevel.Assert:
-						return Core.LogLevel.Assert;
+						return LogLevel.Assert;
 					case iOSLogLevel.Error:
-						return Core.LogLevel.Error;
+						return LogLevel.Error;
 					case iOSLogLevel.Warning:
-						return Core.LogLevel.Warn;
+						return LogLevel.Warn;
 					case iOSLogLevel.Debug:
-						return Core.LogLevel.Debug;
+						return LogLevel.Debug;
 					case iOSLogLevel.Verbose:
-						return Core.LogLevel.Verbose;
+						return LogLevel.Verbose;
 					default:
-						throw new ArgumentOutOfRangeException(nameof(value), value, null);
+						throw new ArgumentOutOfRangeException(nameof(val), val, null);
 				}
 			}
 			set
@@ -44,29 +44,29 @@ namespace Microsoft.Sonoma.Core
 				iOSLogLevel loglevel;
 				switch (value)
 				{
-					case Core.LogLevel.Info: //TODO this none<-info seems incorrect
+					case LogLevel.Info: //TODO this none<-info seems incorrect
 						loglevel = iOSLogLevel.None;
 						break;
-					case Core.LogLevel.Assert:
+					case LogLevel.Assert:
 						loglevel = iOSLogLevel.Assert;
 						break;
-					case Core.LogLevel.Error:
+					case LogLevel.Error:
 						loglevel = iOSLogLevel.Error;
 						break;
-					case Core.LogLevel.Warn:
+					case LogLevel.Warn:
 						loglevel = iOSLogLevel.Warning;
 						break;
-					case Core.LogLevel.Debug:
+					case LogLevel.Debug:
 						loglevel = iOSLogLevel.Debug;
 						break;
-					case Core.LogLevel.Verbose:
+					case LogLevel.Verbose:
 						loglevel = iOSLogLevel.Verbose;
 						break;
 					default:
 						throw new ArgumentOutOfRangeException(nameof(value), value, null);
 				}
 
-				iOSSonoma.LogLevel = loglevel;
+				iOSSonoma.SetLogLevel(iOSLogLevel.Verbose);
 			}
 		}
 
@@ -121,7 +121,7 @@ namespace Microsoft.Sonoma.Core
 		/// </remarks>
 		public static bool Enabled
 		{
-			get { return iOSSonoma.IsEnabled; }
+			get { return iOSSonoma.IsEnabled(); }
 			set { iOSSonoma.SetEnabled(value); }
 		}
 

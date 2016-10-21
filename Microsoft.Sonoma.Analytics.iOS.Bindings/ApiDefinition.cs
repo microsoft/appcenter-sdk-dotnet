@@ -13,16 +13,18 @@ namespace Microsoft.Sonoma.Analytics.iOS.Bindings
 		// @required +(BOOL)isEnabled;
 		[Static, Abstract]
 		[Export("isEnabled")]
-		bool IsEnabled { get; set; }
+	 	bool Enabled { get; set; }
 	}
-
 	// @interface SNMFeatureAbstract : NSObject <SNMFeature>
-	[BaseType(typeof(NSObject))]
+	[BaseType(typeof(SNMFeature))]
 	interface SNMFeatureAbstract : ISNMFeature
 	{
+		//[Static, Override, Abstract]
+		//[Export("isEnabled")]
+		//bool Enabled { get; set; }
 	}
 
-	// @interface SNMAnalytics : SNMFeatureAbstract
+	// @interface SNMAnalytics : SNMFeature
 	[BaseType(typeof(SNMFeatureAbstract))]
 	interface SNMAnalytics
 	{
@@ -55,5 +57,6 @@ namespace Microsoft.Sonoma.Analytics.iOS.Bindings
 		[Static]
 		[Export("isAutoPageTrackingEnabled")]
 		bool IsAutoPageTrackingEnabled();
+
 	}
 }

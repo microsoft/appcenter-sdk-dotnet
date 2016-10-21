@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Foundation;
 
 namespace Microsoft.Sonoma.Analytics
 {
@@ -24,8 +25,8 @@ namespace Microsoft.Sonoma.Analytics
 		/// </summary>
 		public static bool Enabled
 		{
-			get { return iOSAnalytics.Enable; }
-			set { AndroidAnalytics.Enabled = value; }
+			get { return iOSAnalytics.Enabled; }
+			set { iOSAnalytics.Enabled = value; }
 		}
 
 		/// <summary>
@@ -34,8 +35,8 @@ namespace Microsoft.Sonoma.Analytics
 		/// </summary>
 		public static bool AutoPageTrackingEnabled
 		{
-			get { return AndroidAnalytics.AutoPageTrackingEnabled; }
-			set { AndroidAnalytics.AutoPageTrackingEnabled = value; }
+			get { return iOSAnalytics.IsAutoPageTrackingEnabled(); }
+			set { iOSAnalytics.SetAutoPageTrackingEnabled(value); }
 		}
 
 		/// <summary>
@@ -45,7 +46,12 @@ namespace Microsoft.Sonoma.Analytics
 		/// <param name="properties">Optional properties.</param>
 		public static void TrackEvent(string name, [Optional] IDictionary<string, string> properties)
 		{
-			AndroidAnalytics.TrackEvent(name, properties);
+			if (properties != null)
+			{
+				iOSAnalytics.TrackEvent(name, StringDictToNSDict(properties));
+				return;
+			}
+			iOSAnalytics.TrackEvent(name);
 		}
 
 		/// <summary>
@@ -55,7 +61,27 @@ namespace Microsoft.Sonoma.Analytics
 		/// <param name="properties">Optional properties.</param>
 		public static void TrackPage(string name, [Optional] IDictionary<string, string> properties)
 		{
-			AndroidAnalytics.TrackPage(name, properties);
+			if (properties != null)
+			{
+				iOSAnalytics.TrackPage(name, StringDictToNSDict(properties));
+				return;
+			}
+			iOSAnalytics.TrackPage(name);
+		}
+
+		//TODO move this to some kind of utility file?
+		private static NSDictionary StringDictToNSDict(IDictionary<string, string> dict)
+		{
+			NSDictionary nsdict = new NSDictionary();
+			
+			foreach (var pair in dict)
+			{
+				NSObject NSObjValue = NSObject.FromObject(pair.Value);
+				NSString NSStringKey = (NSString)NSObject.FromObject(pair.Key);
+				nsdict.SetValueForKey(NSObjValue, NSStringKey);
+			}
+
+			return nsdict;
 		}
 	}
 }

@@ -7,6 +7,7 @@ namespace Microsoft.Sonoma.Core.iOS.Bindings
 	//TODO SNMFeature must be reconciled with the same interface found elsewhere
 	interface ISNMFeature { }
 
+
 	// typedef NSString * (^SNMLogMessageProvider)();
 	delegate string SNMLogMessageProvider();
 
@@ -44,7 +45,7 @@ namespace Microsoft.Sonoma.Core.iOS.Bindings
 		// +(BOOL)isInitialized;
 		[Static]
 		[Export("isInitialized")]
-		bool IsInitialized { get; }
+		bool IsInitialized();
 
 		// +(void)setServerUrl:(NSString *)serverUrl;
 		[Static]
@@ -59,13 +60,17 @@ namespace Microsoft.Sonoma.Core.iOS.Bindings
 		// +(BOOL)isEnabled;
 		[Static]
 		[Export("isEnabled")]
-		bool IsEnabled { get; }
+		bool IsEnabled();
 
 		// +(SNMLogLevel)logLevel;
 		// +(void)setLogLevel:(SNMLogLevel)logLevel;
 		[Static]
 		[Export("logLevel")]
-		SNMLogLevel LogLevel { get; set; }
+		SNMLogLevel LogLevel();
+
+		[Static]
+		[Export("setLogLevel:")]
+		void SetLogLevel(SNMLogLevel logLevel);
 
 		//TODO this needs to be fixed
 		//// +(void)setLogHandler:(SNMLogHandler)logHandler;
@@ -84,36 +89,23 @@ namespace Microsoft.Sonoma.Core.iOS.Bindings
 		bool IsDebuggerAttached();
 	}
 
-	// @protocol SNMFeature <NSObject>
-	[Protocol, Model]
-	[BaseType(typeof(NSObject))]
-	interface SNMFeature
-	{
-		/*
-		 * TODO do we lose functionality by not using the functional versions of
-		 * get/set? not sure that this would invoke the logic associated
-		 * with these functions in the native iOS SDK.
-		*/
-
-		//TODO Figure out why the isenabled was given as abstract
-		//@required +(BOOL)isEnabled;
-		//[Static, Abstract]
-		//[Export("isEnabled")]
-		//bool IsEnabled { get; set; }
-
-		// @required +(BOOL)isEnabled;
-		[Static]
-		[Export("isEnabled")]
-		bool IsEnabled();
-
-		[Static]
-		[Export("setEnabled:")]
-		bool setEnabled(bool isEnabled);
-	}
-
-	//@interface SNMFeatureAbstract : NSObject <SNMFeature>
-	[BaseType (typeof(NSObject))]
-	interface SNMFeatureAbstract : ISNMFeature
-	{
-	}
+	//TODO make it so that snmfeature stuff is only defined in core, and referenced by the other two
+	//// @protocol SNMFeature <NSObject>
+	//[Protocol, Model]
+	//[BaseType(typeof(NSObject))]
+	//interface SNMFeature
+	//{
+	//	// @required +(BOOL)isEnabled;
+	//	[Static, Abstract]
+	//	[Export("isEnabled")]
+	//	bool Enabled { get; set; }
+	//}
+	//// @interface SNMFeatureAbstract : NSObject <SNMFeature>
+	//[BaseType(typeof(SNMFeature))]
+	//interface SNMFeatureAbstract : ISNMFeature
+	//{
+	//	//[Static, Override, Abstract]
+	//	//[Export("isEnabled")]
+	//	//bool Enabled { get; set; }
+	//}
 }
