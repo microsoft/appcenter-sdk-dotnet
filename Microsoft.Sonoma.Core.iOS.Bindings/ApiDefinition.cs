@@ -4,9 +4,7 @@ using System;
 
 namespace Microsoft.Sonoma.Core.iOS.Bindings
 {
-	//TODO SNMFeature must be reconciled with the same interface found elsewhere
 	interface ISNMFeature { }
-
 
 	// typedef NSString * (^SNMLogMessageProvider)();
 	delegate string SNMLogMessageProvider();
@@ -87,30 +85,21 @@ namespace Microsoft.Sonoma.Core.iOS.Bindings
 		[Static]
 		[Export("isDebuggerAttached")]
 		bool IsDebuggerAttached();
-
-		// +(BOOL)isDebuggerAttached;
-		[Static]
-		[Export("randomaerpsdcjn")]
-		bool random();
 	}
 
-	//TODO make it so that snmfeature stuff is only defined in core, and referenced by the other two
-	//// @protocol SNMFeature <NSObject>
-	//[Protocol, Model]
-	//[BaseType(typeof(NSObject))]
-	//interface SNMFeature
-	//{
-	//	// @required +(BOOL)isEnabled;
-	//	[Static, Abstract]
-	//	[Export("isEnabled")]
-	//	bool Enabled { get; set; }
-	//}
-	//// @interface SNMFeatureAbstract : NSObject <SNMFeature>
-	//[BaseType(typeof(SNMFeature))]
-	//interface SNMFeatureAbstract : ISNMFeature
-	//{
-	//	//[Static, Override, Abstract]
-	//	//[Export("isEnabled")]
-	//	//bool Enabled { get; set; }
-	//}
+	// @protocol SNMFeature <NSObject>
+	[Protocol, Model]
+	[BaseType(typeof(NSObject))]
+	interface SNMFeature
+	{
+		// @required +(BOOL)isEnabled;
+		[Static, Abstract]
+		[Export("isEnabled")]
+		bool Enabled { get; set; }
+	}
+	// @interface SNMFeatureAbstract : NSObject <SNMFeature>
+	[BaseType(typeof(SNMFeature))]
+	interface SNMFeatureAbstract : ISNMFeature
+	{
+	}
 }

@@ -2,30 +2,8 @@ using Foundation;
 
 namespace Microsoft.Sonoma.Analytics.iOS.Bindings
 {
-	//TODO SNMFeature must be reconciled with the same interface found elsewhere
-	interface ISNMFeature { }
-
-	// @protocol SNMFeature <NSObject>
-	[Protocol, Model]
-	[BaseType(typeof(NSObject))]
-	interface SNMFeature
-	{
-		// @required +(BOOL)isEnabled;
-		[Static, Abstract]
-		[Export("isEnabled")]
-	 	bool Enabled { get; set; }
-	}
-	// @interface SNMFeatureAbstract : NSObject <SNMFeature>
-	[BaseType(typeof(SNMFeature))]
-	interface SNMFeatureAbstract : ISNMFeature
-	{
-		//[Static, Override, Abstract]
-		//[Export("isEnabled")]
-		//bool Enabled { get; set; }
-	}
-
 	// @interface SNMAnalytics : SNMFeature
-	[BaseType(typeof(SNMFeatureAbstract))]
+	[BaseType(typeof(Core.iOS.Bindings.SNMFeatureAbstract))]
 	interface SNMAnalytics
 	{
 		// +(void)trackEvent:(NSString *)eventName;

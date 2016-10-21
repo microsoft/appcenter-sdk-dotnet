@@ -5,9 +5,6 @@ using ObjCRuntime;
 
 namespace Microsoft.Sonoma.Crashes.iOS.Bindings
 {
-	//TODO SNMFeature must be reconciled with the same interface found elsewhere
-	interface ISNMFeature { }
-
 	[BaseType(typeof(NSObject))]
 	interface SNMDevice
 	{
@@ -60,43 +57,11 @@ namespace Microsoft.Sonoma.Crashes.iOS.Bindings
 		bool IsAppKill { get; }
 	}
 
-	// @protocol SNMFeature <NSObject>
-	[Protocol, Model]
-	[BaseType(typeof(NSObject))]
-	interface SNMFeature
-	{
-		/*
-		 * TODO do we lose functionality by not using the functional versions of
-		 * get/set? not sure that this would invoke the logic associated
-		 * with these functions in the native iOS SDK.
-		*/
-
-		//TODO Figure out why the isenabled was given as abstract
-		//@required +(BOOL)isEnabled;
-		//[Static, Abstract]
-		//[Export("isEnabled")]
-		//bool IsEnabled { get; set; }
-
-		// @required +(BOOL)isEnabled;
-		[Static]
-		[Export("isEnabled")]
-		bool IsEnabled();
-
-		[Static]
-		[Export("setEnabled:")]
-		bool setEnabled(bool isEnabled);
-	}
-	// @interface SNMFeatureAbstract : NSObject <SNMFeature>
-	[BaseType(typeof(NSObject))]
-	interface SNMFeatureAbstract : ISNMFeature
-	{
-	}
-
 	// typedef void (^SNMUserConfirmationHandler)(NSArray<SNMErrorReport *> * _Nonnull);
 	delegate void SNMUserConfirmationHandler(SNMErrorReport[] arg0);
 
 	// @interface SNMCrashes : SNMFeatureAbstract
-	[BaseType(typeof(SNMFeatureAbstract))]
+	[BaseType(typeof(Core.iOS.Bindings.SNMFeatureAbstract))]
 	interface SNMCrashes
 	{
 		// +(void)generateTestCrash;

@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.Sonoma.Analytics;
 using Microsoft.Sonoma.Core;
-using iOSBinding = Microsoft.Sonoma.Core.iOS.Bindings;
 using UIKit;
 
 namespace Contoso.iOS.Puppet
@@ -17,11 +16,9 @@ namespace Contoso.iOS.Puppet
 		{
 			base.ViewDidLoad();
 			//TODO i know this should be in app delegate, here just for some very early debugging
-			//Sonoma.SetServerUrl("http://in-integration.dev.avalanch.es:8081");
-			//Sonoma.Initialize("e7eb534d-58b7-461b-a888-ec250c983e08");
 			//Sonoma.LogLevel = LogLevel.Verbose;
 			//LogLevel l = Sonoma.LogLevel;
-			Sonoma.LogLevel = LogLevel.Verbose;
+			//Sonoma.LogLevel = LogLevel.Verbose;
 			Sonoma.SetServerUrl("http://in-integration.dev.avalanch.es:8081");
 			Sonoma.Start("e7eb534d-58b7-461b-a888-ec250c983e08", typeof(Analytics));
 

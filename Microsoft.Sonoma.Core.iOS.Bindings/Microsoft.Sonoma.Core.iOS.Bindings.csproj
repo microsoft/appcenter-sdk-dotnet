@@ -36,16 +36,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ObjcBindingApiDefinition Include="ApiDefinitions.cs" />
+    <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <NativeReference Include="libSonomaCore.a">
-      <Kind>Static</Kind>
-      <SmartLink>False</SmartLink>
-    </NativeReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
 </Project>

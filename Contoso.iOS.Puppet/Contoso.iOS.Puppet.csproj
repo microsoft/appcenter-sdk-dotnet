@@ -27,11 +27,13 @@
     <MtouchArch>i386</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
+    <DeviceSpecificBuild>false</DeviceSpecificBuild>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\Release</OutputPath>
+    <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -48,6 +50,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -115,6 +118,26 @@
     <Compile Include="SecondViewController.designer.cs">
       <DependentUpon>SecondViewController.cs</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <NativeReference Include="..\Microsoft.Sonoma.Core.iOS.Bindings\libSonomaCore.a">
+      <Kind>Static</Kind>
+      <ForceLoad>True</ForceLoad>
+    </NativeReference>
+    <NativeReference Include="..\Microsoft.Sonoma.Analytics.iOS.Bindings\libSonomaAnalytics.a">
+      <Kind>Static</Kind>
+      <ForceLoad>True</ForceLoad>
+    </NativeReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Sonoma.Analytics.iOS\Microsoft.Sonoma.Analytics.iOS.csproj">
+      <Project>{EF5D0090-9E12-45B5-961C-45D787BD80A5}</Project>
+      <Name>Microsoft.Sonoma.Analytics.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Sonoma.Core.iOS\Microsoft.Sonoma.Core.iOS.csproj">
+      <Project>{B87370CD-AF51-45E0-AA15-3E0ABC0C30A0}</Project>
+      <Name>Microsoft.Sonoma.Core.iOS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

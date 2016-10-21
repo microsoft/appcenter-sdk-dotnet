@@ -36,10 +36,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ObjcBindingCoreSource Include="Structs.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ObjcBindingCoreSource Include="Structs.cs" />
+    <ProjectReference Include="..\Microsoft.Sonoma.Core.iOS.Bindings\Microsoft.Sonoma.Core.iOS.Bindings.csproj">
+      <Project>{5490FECC-63B2-4543-B4FE-EDD8D1BD8351}</Project>
+      <Name>Microsoft.Sonoma.Core.iOS.Bindings</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
 </Project>
