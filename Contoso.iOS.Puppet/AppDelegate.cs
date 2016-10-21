@@ -1,7 +1,7 @@
 ﻿using Foundation;
 using UIKit;
-using Microsoft.Sonoma.Core;
-using Microsoft.Sonoma.Analytics;
+//using Microsoft.Sonoma.Core;
+//using Microsoft.Sonoma.Analytics;
 
 namespace Contoso.iOS.Puppet
 {

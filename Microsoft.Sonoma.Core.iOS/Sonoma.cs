@@ -66,7 +66,7 @@ namespace Microsoft.Sonoma.Core
 						throw new ArgumentOutOfRangeException(nameof(value), value, null);
 				}
 
-				iOSSonoma.SetLogLevel(iOSLogLevel.Verbose);
+				iOSSonoma.SetLogLevel(loglevel);
 			}
 		}
 

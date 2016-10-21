@@ -87,6 +87,11 @@ namespace Microsoft.Sonoma.Core.iOS.Bindings
 		[Static]
 		[Export("isDebuggerAttached")]
 		bool IsDebuggerAttached();
+
+		// +(BOOL)isDebuggerAttached;
+		[Static]
+		[Export("randomaerpsdcjn")]
+		bool random();
 	}
 
 	//TODO make it so that snmfeature stuff is only defined in core, and referenced by the other two
