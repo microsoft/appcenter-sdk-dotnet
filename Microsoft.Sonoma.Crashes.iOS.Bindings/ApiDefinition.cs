@@ -81,4 +81,6 @@ namespace Microsoft.Sonoma.Crashes.iOS.Bindings
 		//[Verify(MethodToProperty)]
 		SNMErrorReport LastSessionCrashReport { get; }
 	}
+
+
 }

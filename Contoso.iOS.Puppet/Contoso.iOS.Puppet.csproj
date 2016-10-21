@@ -28,6 +28,7 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
+    <MtouchExtraArgs>--framework:/Users/alcho-mac/Projects/Sonoma-SDK-Xamarin/Contoso.iOS.Puppet/CrashReporter.framework</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>pdbonly</DebugType>
@@ -128,6 +129,13 @@
       <Kind>Static</Kind>
       <ForceLoad>True</ForceLoad>
     </NativeReference>
+    <NativeReference Include="..\Microsoft.Sonoma.Crashes.iOS.Bindings\libSonomaCrashes.a">
+      <Kind>Static</Kind>
+      <Frameworks>/Users/alcho-mac/Projects/Sonoma-SDK-Xamarin/Contoso.iOS.Puppet/CrashReporter.framework</Frameworks>
+      <ForceLoad>True</ForceLoad>
+      <LinkerFlags>-lc++</LinkerFlags>
+      <IsCxx>True</IsCxx>
+    </NativeReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Sonoma.Analytics.iOS\Microsoft.Sonoma.Analytics.iOS.csproj">
@@ -137,6 +145,10 @@
     <ProjectReference Include="..\Microsoft.Sonoma.Core.iOS\Microsoft.Sonoma.Core.iOS.csproj">
       <Project>{B87370CD-AF51-45E0-AA15-3E0ABC0C30A0}</Project>
       <Name>Microsoft.Sonoma.Core.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Sonoma.Crashes.iOS\Microsoft.Sonoma.Crashes.iOS.csproj">
+      <Project>{4936A94C-BE22-4F73-8468-64FA4371FF80}</Project>
+      <Name>Microsoft.Sonoma.Crashes.iOS</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
