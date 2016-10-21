@@ -49,5 +49,16 @@
     <Compile Include="PlatformCrashes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Sonoma.Crashes.iOS.Bindings\Microsoft.Sonoma.Crashes.iOS.Bindings.csproj">
+      <Project>{FCEB9729-627A-4964-B853-1649CA1FA76D}</Project>
+      <Name>Microsoft.Sonoma.Crashes.iOS.Bindings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Sonoma.Core.iOS.Bindings\Microsoft.Sonoma.Core.iOS.Bindings.csproj">
+      <Project>{5490FECC-63B2-4543-B4FE-EDD8D1BD8351}</Project>
+      <Name>Microsoft.Sonoma.Core.iOS.Bindings</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="..\Microsoft.Sonoma.Crashes.Shared\Microsoft.Sonoma.Xamarin.Crashes.Shared.projitems" Label="Shared" Condition="Exists('..\Microsoft.Sonoma.Crashes.Shared\Microsoft.Sonoma.Xamarin.Crashes.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
