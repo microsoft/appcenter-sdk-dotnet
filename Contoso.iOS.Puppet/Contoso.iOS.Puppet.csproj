@@ -28,7 +28,7 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
-    <MtouchExtraArgs>--framework:/Users/alcho-mac/Projects/Sonoma-SDK-Xamarin/Contoso.iOS.Puppet/CrashReporter.framework</MtouchExtraArgs>
+    <MtouchExtraArgs>--framework:/Users/guperrot/git/Sonoma-SDK-Xamarin/Contoso.iOS.Puppet/CrashReporter.framework</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>pdbonly</DebugType>
@@ -131,7 +131,7 @@
     </NativeReference>
     <NativeReference Include="..\Microsoft.Sonoma.Crashes.iOS.Bindings\libSonomaCrashes.a">
       <Kind>Static</Kind>
-      <Frameworks>/Users/alcho-mac/Projects/Sonoma-SDK-Xamarin/Contoso.iOS.Puppet/CrashReporter.framework</Frameworks>
+      <Frameworks>/Users/guperrot/git/Sonoma-SDK-Xamarin/Contoso.iOS.Puppet/CrashReporter.framework</Frameworks>
       <ForceLoad>True</ForceLoad>
       <LinkerFlags>-lc++</LinkerFlags>
       <IsCxx>True</IsCxx>
@@ -149,6 +149,18 @@
     <ProjectReference Include="..\Microsoft.Sonoma.Crashes.iOS\Microsoft.Sonoma.Crashes.iOS.csproj">
       <Project>{4936A94C-BE22-4F73-8468-64FA4371FF80}</Project>
       <Name>Microsoft.Sonoma.Crashes.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Sonoma.Analytics.iOS.Bindings\Microsoft.Sonoma.Analytics.iOS.Bindings.csproj">
+      <Project>{45EA6818-8759-4E48-BD7A-E240E4D4B0F7}</Project>
+      <Name>Microsoft.Sonoma.Analytics.iOS.Bindings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Sonoma.Core.iOS.Bindings\Microsoft.Sonoma.Core.iOS.Bindings.csproj">
+      <Project>{5490FECC-63B2-4543-B4FE-EDD8D1BD8351}</Project>
+      <Name>Microsoft.Sonoma.Core.iOS.Bindings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Sonoma.Crashes.iOS.Bindings\Microsoft.Sonoma.Crashes.iOS.Bindings.csproj">
+      <Project>{FCEB9729-627A-4964-B853-1649CA1FA76D}</Project>
+      <Name>Microsoft.Sonoma.Crashes.iOS.Bindings</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

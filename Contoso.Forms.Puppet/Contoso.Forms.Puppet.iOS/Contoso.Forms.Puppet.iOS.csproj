@@ -126,10 +126,6 @@
       <Project>{B87370CD-AF51-45E0-AA15-3E0ABC0C30A0}</Project>
       <Name>Microsoft.Sonoma.Core.iOS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Sonoma.Core.iOS.Bindings\Microsoft.Sonoma.Core.iOS.Bindings.csproj">
-      <Project>{5490FECC-63B2-4543-B4FE-EDD8D1BD8351}</Project>
-      <Name>Microsoft.Sonoma.Core.iOS.Bindings</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Sonoma.Crashes.iOS\Microsoft.Sonoma.Crashes.iOS.csproj">
       <Project>{4936A94C-BE22-4F73-8468-64FA4371FF80}</Project>
       <Name>Microsoft.Sonoma.Crashes.iOS</Name>
@@ -138,8 +134,44 @@
       <Project>{EF5D0090-9E12-45B5-961C-45D787BD80A5}</Project>
       <Name>Microsoft.Sonoma.Analytics.iOS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Contoso.Forms.Puppet\Contoso.Forms.Puppet.csproj">
+      <Project>{3ACABF82-A3EB-4479-AD2B-004B57B0277E}</Project>
+      <Name>Contoso.Forms.Puppet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.Sonoma.Analytics.Forms.iOS\Microsoft.Sonoma.Analytics.Forms.iOS.csproj">
+      <Project>{33DA3801-060C-4AFF-9511-B1EA7B26C5C0}</Project>
+      <Name>Microsoft.Sonoma.Analytics.Forms.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.Sonoma.Crashes.iOS.Bindings\Microsoft.Sonoma.Crashes.iOS.Bindings.csproj">
+      <Project>{FCEB9729-627A-4964-B853-1649CA1FA76D}</Project>
+      <Name>Microsoft.Sonoma.Crashes.iOS.Bindings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.Sonoma.Core.iOS.Bindings\Microsoft.Sonoma.Core.iOS.Bindings.csproj">
+      <Project>{5490FECC-63B2-4543-B4FE-EDD8D1BD8351}</Project>
+      <Name>Microsoft.Sonoma.Core.iOS.Bindings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.Sonoma.Analytics.iOS.Bindings\Microsoft.Sonoma.Analytics.iOS.Bindings.csproj">
+      <Project>{45EA6818-8759-4E48-BD7A-E240E4D4B0F7}</Project>
+      <Name>Microsoft.Sonoma.Analytics.iOS.Bindings</Name>
+    </ProjectReference>
   </ItemGroup>
-  <Import Project="..\..\Microsoft.Sonoma.Core.Shared\Microsoft.Sonoma.Xamarin.Core.Shared.projitems" Label="Shared" Condition="Exists('..\..\Microsoft.Sonoma.Core.Shared\Microsoft.Sonoma.Xamarin.Core.Shared.projitems')" />
+  <ItemGroup>
+    <NativeReference Include="..\..\Microsoft.Sonoma.Core.iOS.Bindings\libSonomaCore.a">
+      <Kind>Static</Kind>
+      <ForceLoad>True</ForceLoad>
+    </NativeReference>
+    <NativeReference Include="..\..\Microsoft.Sonoma.Analytics.iOS.Bindings\libSonomaAnalytics.a">
+      <Kind>Static</Kind>
+      <ForceLoad>True</ForceLoad>
+    </NativeReference>
+    <NativeReference Include="..\..\Microsoft.Sonoma.Crashes.iOS.Bindings\libSonomaCrashes.a">
+      <Kind>Static</Kind>
+      <ForceLoad>True</ForceLoad>
+      <Frameworks>/Users/guperrot/git/Sonoma-SDK-Xamarin/Contoso.iOS.Puppet/CrashReporter.framework</Frameworks>
+      <LinkerFlags>-lc++</LinkerFlags>
+      <IsCxx>True</IsCxx>
+    </NativeReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.3.1.114\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.1.114\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.2.127\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.2.127\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />

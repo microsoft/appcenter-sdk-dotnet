@@ -18,8 +18,8 @@ namespace Contoso.Forms.Puppet
 
         protected override void OnStart()
         {
-            // Handle when your app starts
-            //Sonoma.SetServerUrl("http://in-integration.dev.avalanch.es:8081");
+			// Handle when your app starts
+			//Sonoma.SetServerUrl("http://in-integration.dev.avalanch.es:8081");
             Debug.WriteLine("Sonoma.LogLevel=" + Sonoma.LogLevel);
             Sonoma.LogLevel = LogLevel.Verbose;
             Debug.WriteLine("Sonoma.LogLevel=" + Sonoma.LogLevel);           

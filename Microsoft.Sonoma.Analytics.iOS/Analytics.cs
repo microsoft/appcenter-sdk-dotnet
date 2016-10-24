@@ -5,6 +5,7 @@ using Foundation;
 
 namespace Microsoft.Sonoma.Analytics
 {
+	using System.Linq;
 	using iOSAnalytics = iOS.Bindings.SNMAnalytics;
 
 	/// <summary>
@@ -69,19 +70,9 @@ namespace Microsoft.Sonoma.Analytics
 			iOSAnalytics.TrackPage(name);
 		}
 
-		//TODO move this to some kind of utility file?
 		private static NSDictionary StringDictToNSDict(IDictionary<string, string> dict)
 		{
-			NSDictionary nsdict = new NSDictionary();
-			
-			foreach (var pair in dict)
-			{
-				NSObject NSObjValue = NSObject.FromObject(pair.Value);
-				NSString NSStringKey = (NSString)NSObject.FromObject(pair.Key);
-				nsdict.SetValueForKey(NSObjValue, NSStringKey);
-			}
-
-			return nsdict;
+			return NSDictionary.FromObjectsAndKeys(dict.Values.ToArray(), dict.Keys.ToArray());
 		}
 	}
 }
