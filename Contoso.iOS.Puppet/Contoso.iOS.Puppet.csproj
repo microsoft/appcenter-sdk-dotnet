@@ -28,7 +28,7 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
-    <MtouchExtraArgs>--framework:/Users/guperrot/git/Sonoma-SDK-Xamarin/Contoso.iOS.Puppet/CrashReporter.framework</MtouchExtraArgs>
+    <MtouchExtraArgs></MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>pdbonly</DebugType>
@@ -131,7 +131,7 @@
     </NativeReference>
     <NativeReference Include="..\Microsoft.Sonoma.Crashes.iOS.Bindings\libSonomaCrashes.a">
       <Kind>Static</Kind>
-      <Frameworks>/Users/guperrot/git/Sonoma-SDK-Xamarin/Contoso.iOS.Puppet/CrashReporter.framework</Frameworks>
+      <Frameworks>./CrashReporter.framework</Frameworks>
       <ForceLoad>True</ForceLoad>
       <LinkerFlags>-lc++</LinkerFlags>
       <IsCxx>True</IsCxx>

@@ -167,7 +167,7 @@
     <NativeReference Include="..\..\Microsoft.Sonoma.Crashes.iOS.Bindings\libSonomaCrashes.a">
       <Kind>Static</Kind>
       <ForceLoad>True</ForceLoad>
-      <Frameworks>/Users/guperrot/git/Sonoma-SDK-Xamarin/Contoso.iOS.Puppet/CrashReporter.framework</Frameworks>
+      <Frameworks>./CrashReporter.framework</Frameworks>
       <LinkerFlags>-lc++</LinkerFlags>
       <IsCxx>True</IsCxx>
     </NativeReference>
