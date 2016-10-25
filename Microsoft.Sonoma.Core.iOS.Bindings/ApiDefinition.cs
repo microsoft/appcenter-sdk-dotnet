@@ -213,4 +213,23 @@ namespace Microsoft.Sonoma.Core.iOS.Bindings
 	{
 	}
 
+	// @interface SNMLogger : NSObject
+	[BaseType(typeof(NSObject))]
+	interface SNMLogger
+	{
+		// +(void)logMessage:(SNMLogMessageProvider)messageProvider level:(SNMLogLevel)loglevel tag:(NSString *)tag file:(const char *)file function:(const char *)function line:(uint)line;
+		[Static]
+		[Export("logMessage:level:tag:file:function:line:")]
+		unsafe void LogMessage(SNMLogMessageProvider messageProvider, SNMLogLevel loglevel, string tag, IntPtr file, IntPtr function, uint line);
+	}
+
+	// @interface SNMWrapperLogger : NSObject
+	[BaseType(typeof(NSObject))]
+	interface SNMWrapperLogger
+	{
+		// +(void)SNMWrapperLog:(SNMLogMessageProvider)message tag:(NSString *)tag level:(SNMLogLevel)level;
+		[Static]
+		[Export("SNMWrapperLog:tag:level:")]
+		void SNMWrapperLog(SNMLogMessageProvider message, string tag, SNMLogLevel level);
+	}
 }

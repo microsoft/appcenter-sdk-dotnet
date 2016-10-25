@@ -3,6 +3,7 @@ using UIKit;
 using Microsoft.Sonoma.Core;
 using Microsoft.Sonoma.Analytics;
 using Microsoft.Sonoma.Crashes;
+using System;
 
 namespace Contoso.iOS.Puppet
 {
@@ -29,9 +30,21 @@ namespace Contoso.iOS.Puppet
 			Sonoma.SetServerUrl("http://in-integration.dev.avalanch.es:8081");
 			Sonoma.Start("e7eb534d-58b7-461b-a888-ec250c983e08", typeof(Analytics), typeof(Crashes));
 
+			try
+			{
+				ThrowAnException();
+			}
+			catch(Exception e)
+			{
+				SonomaLog.Verbose("THETAG", "THEMESSAGE", e);
+			}
+
 			return true;
 		}
-
+		private void ThrowAnException()
+		{
+			throw new Exception();
+		}
 		public override void OnResignActivation(UIApplication application)
 		{
 			// Invoked when the application is about to move from active to inactive state.
