@@ -5,12 +5,6 @@ using ObjCRuntime;
 
 namespace Microsoft.Sonoma.Crashes.iOS.Bindings
 {
-	[BaseType(typeof(NSObject))]
-	interface SNMDevice
-	{
-		//need to flesh this out?
-	}
-
 	// @interface SNMErrorReport : NSObject
 	[BaseType(typeof(NSObject))]
 	interface SNMErrorReport
@@ -45,7 +39,7 @@ namespace Microsoft.Sonoma.Crashes.iOS.Bindings
 
 		// @property (readonly, nonatomic) SNMDevice * device;
 		[Export("device")]
-		SNMDevice Device { get; }
+		Core.iOS.Bindings.SNMDevice Device { get; }
 
 		// @property (readonly, assign, nonatomic) NSUInteger appProcessIdentifier;
 		[Export("appProcessIdentifier")]

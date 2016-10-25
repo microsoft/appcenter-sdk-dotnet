@@ -156,15 +156,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <NativeReference Include="..\..\Microsoft.Sonoma.Core.iOS.Bindings\libSonomaCore.a">
+    <NativeReference Include="..\..\iOS-Native-SDK-Binaries\libSonomaAnalytics.a">
       <Kind>Static</Kind>
       <ForceLoad>True</ForceLoad>
     </NativeReference>
-    <NativeReference Include="..\..\Microsoft.Sonoma.Analytics.iOS.Bindings\libSonomaAnalytics.a">
+    <NativeReference Include="..\..\iOS-Native-SDK-Binaries\libSonomaCore.a">
       <Kind>Static</Kind>
       <ForceLoad>True</ForceLoad>
     </NativeReference>
-    <NativeReference Include="..\..\Microsoft.Sonoma.Crashes.iOS.Bindings\libSonomaCrashes.a">
+    <NativeReference Include="..\..\iOS-Native-SDK-Binaries\libSonomaCrashes.a">
       <Kind>Static</Kind>
       <ForceLoad>True</ForceLoad>
       <Frameworks>./CrashReporter.framework</Frameworks>

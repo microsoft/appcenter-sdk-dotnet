@@ -1,7 +1,8 @@
 ﻿using Foundation;
 using UIKit;
-//using Microsoft.Sonoma.Core;
-//using Microsoft.Sonoma.Analytics;
+using Microsoft.Sonoma.Core;
+using Microsoft.Sonoma.Analytics;
+using Microsoft.Sonoma.Crashes;
 
 namespace Contoso.iOS.Puppet
 {
@@ -23,7 +24,10 @@ namespace Contoso.iOS.Puppet
 			// Override point for customization after application launch.
 			// If not required for your application you can safely delete this method
 
+			Sonoma.LogLevel = LogLevel.Verbose;
 
+			Sonoma.SetServerUrl("http://in-integration.dev.avalanch.es:8081");
+			Sonoma.Start("e7eb534d-58b7-461b-a888-ec250c983e08", typeof(Analytics), typeof(Crashes));
 
 			return true;
 		}

@@ -7,6 +7,7 @@ namespace Microsoft.Sonoma.Core
 {
 	using iOSSonoma = Microsoft.Sonoma.Core.iOS.Bindings.SNMSonoma;
 	using iOSLogLevel = Microsoft.Sonoma.Core.iOS.Bindings.SNMLogLevel;
+	using iOSWrapperSdk = Microsoft.Sonoma.Core.iOS.Bindings.SNMWrapperSdk;
 
 	/// <summary>
 	/// SDK core used to initialize, start and control specific feature.
@@ -23,7 +24,7 @@ namespace Microsoft.Sonoma.Core
 				var val = iOSSonoma.LogLevel();
 				switch (val)
 				{
-					case iOSLogLevel.None: //TODO this none->info seems incorrect
+					case iOSLogLevel.Info:
 						return LogLevel.Info;
 					case iOSLogLevel.Assert:
 						return LogLevel.Assert;
@@ -44,8 +45,8 @@ namespace Microsoft.Sonoma.Core
 				iOSLogLevel loglevel;
 				switch (value)
 				{
-					case LogLevel.Info: //TODO this none<-info seems incorrect
-						loglevel = iOSLogLevel.None;
+					case LogLevel.Info:
+						loglevel = iOSLogLevel.Info;
 						break;
 					case LogLevel.Assert:
 						loglevel = iOSLogLevel.Assert;
@@ -86,6 +87,7 @@ namespace Microsoft.Sonoma.Core
 		/// <param name="appSecret">A unique and secret key used to identify the application.</param>
 		public static void Initialize(string appSecret)
 		{
+			SetWrapperSdk();
 			iOSSonoma.Start(appSecret);
 		}
 
@@ -96,6 +98,7 @@ namespace Microsoft.Sonoma.Core
 		/// <param name="features">List of features to use.</param>
 		public static void Start(params Type[] features)
 		{
+			SetWrapperSdk();
 			foreach (var feature in GetFeatures(features))
 			{
 				iOSSonoma.StartFeature(feature);
@@ -110,6 +113,7 @@ namespace Microsoft.Sonoma.Core
 		/// <param name="features">List of features to use.</param>
 		public static void Start(string appSecret, params Type[] features)
 		{
+			SetWrapperSdk();
 			iOSSonoma.Start(appSecret, GetFeatures(features));
 		}
 
@@ -133,7 +137,6 @@ namespace Microsoft.Sonoma.Core
 		/// </remarks>
 		public static Guid InstallId => Guid.Parse(iOSSonoma.InstallId().ToString());
 
-
 		private static Class[] GetFeatures(IEnumerable<Type> features)
 		{
 			return features.Select(feature => GetClassForType(GetBindingType(feature))).ToArray();
@@ -151,17 +154,13 @@ namespace Microsoft.Sonoma.Core
 
 		private static Type GetBindingType(Type type)
 		{
-			//TODO does this do what i want it to do?
 			return (Type)type.GetProperty("BindingType").GetValue(null, null);
 		}
 
-		//TODO implement this and put it in the beginning of each start function when it becomes available
-		//private static SetWrapperSdk()
-		//{
-		//	var WrapperSDK = new 
-		//	iOSSonoma.SetWrapperSdk(new AndroidWrapperSdk { WrapperSdkName = WrapperSdk.Name, WrapperSdkVersion = WrapperSdk.Version });
-		//}
+		private static void SetWrapperSdk()
+		{
+			iOSWrapperSdk wrapperSdk = new iOSWrapperSdk(WrapperSdk.Version, WrapperSdk.Name, "", "", "");
+			iOSSonoma.SetWrapperSdk(wrapperSdk);
+		}
 	}
 }
-
-//TODO i don't do anything with wrappersdk stuff (like the application thing found in the android impl)
