@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace Microsoft.Sonoma.Core
+﻿namespace Microsoft.Sonoma.Core
 {
-
 	using iOSMessageProvider = Microsoft.Sonoma.Core.iOS.Bindings.SNMLogMessageProvider;
 	using iOSLogger = Microsoft.Sonoma.Core.iOS.Bindings.SNMWrapperLogger;
 
@@ -31,12 +28,6 @@ namespace Microsoft.Sonoma.Core
 		{
 			iOSMessageProvider msg_provider = () => { return message; };
 			iOSLogger.SNMWrapperLog(msg_provider, tag, Microsoft.Sonoma.Core.iOS.Bindings.SNMLogLevel.Info);
-		}
-
-		public static void Assert(string tag, string message)
-		{
-			iOSMessageProvider msg_provider = () => { return message; };
-			iOSLogger.SNMWrapperLog(msg_provider, tag, Microsoft.Sonoma.Core.iOS.Bindings.SNMLogLevel.Assert);
 		}
 
 		public static void Warn(string tag, string message)

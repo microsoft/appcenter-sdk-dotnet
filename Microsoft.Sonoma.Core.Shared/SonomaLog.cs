@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Microsoft.Sonoma.Core
 {
 	public static partial class SonomaLog
@@ -21,11 +22,6 @@ namespace Microsoft.Sonoma.Core
 		public static void Info(string tag, string message, Exception exception)
 		{
 			Info(tag, ConcatMessageException(message, exception));
-		}
-
-		public static void Assert(string tag, string message, Exception exception)
-		{
-			Assert(tag, ConcatMessageException(message, exception));
 		}
 
 		public static void Warn(string tag, string message, Exception exception)
