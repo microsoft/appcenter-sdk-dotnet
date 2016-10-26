@@ -61,8 +61,8 @@ Task("Build")
 	.Does(() => 
 {
 	// Build solution
-	NuGetRestore("./Sonoma-SDK-Xamarin.sln");
-	DotNetBuild("./Sonoma-SDK-Xamarin.sln", c => c.Configuration = "Release");
+	NuGetRestore("./Sonoma-SDK-Xamarin-Build.sln");
+	DotNetBuild("./Sonoma-SDK-Xamarin-Build.sln", c => c.Configuration = "Release");
 });
 
 // Task dependencies for binding each platform.
