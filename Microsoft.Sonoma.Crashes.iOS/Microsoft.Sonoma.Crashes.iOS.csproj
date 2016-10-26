@@ -58,6 +58,10 @@
       <Project>{5490FECC-63B2-4543-B4FE-EDD8D1BD8351}</Project>
       <Name>Microsoft.Sonoma.Core.iOS.Bindings</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Sonoma.Core.iOS\Microsoft.Sonoma.Core.iOS.csproj">
+      <Project>{B87370CD-AF51-45E0-AA15-3E0ABC0C30A0}</Project>
+      <Name>Microsoft.Sonoma.Core.iOS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\Microsoft.Sonoma.Crashes.Shared\Microsoft.Sonoma.Xamarin.Crashes.Shared.projitems" Label="Shared" Condition="Exists('..\Microsoft.Sonoma.Crashes.Shared\Microsoft.Sonoma.Xamarin.Crashes.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
