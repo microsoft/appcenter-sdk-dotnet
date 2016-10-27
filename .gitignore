@@ -1,6 +1,9 @@
 # Ignore aar files
 *.aar
 
+# Ignore .a files
+*.a
+
 # Ignore generated resource files
 Resource.designer.cs
 
