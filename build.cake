@@ -19,7 +19,7 @@ class SonomaModule {
 }
 
 // SDK versions
-var ANDROID_SDK_VERSION = "0.1.2";
+var ANDROID_SDK_VERSION = "0.1.3";
 var IOS_SDK_VERSION = "0.1.3";
 
 // URLs for downloading binaries.
