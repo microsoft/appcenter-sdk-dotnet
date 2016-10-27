@@ -122,11 +122,24 @@ Task("Externals-Ios")
 	Unzip("./externals/ios/plcrashreporter.zip", "./externals/ios/");
 
 	// Copy the framework to a shallower location
+
+	var framework_binary_location = "./externals/ios/" + PL_CRASH_NAME + "/iOS Framework/CrashReporter.framework/Versions/A/CrashReporter";
 	var framework_dest_path = "./externals/ios/CrashReporter.framework";
 	CreateDirectory(framework_dest_path);
-	CopyDirectory("./externals/ios/" + PL_CRASH_NAME + "/iOS Framework/CrashReporter.framework/Versions/A", framework_dest_path);
-	CopyDirectory("./externals/ios/" + PL_CRASH_NAME + "/iOS Framework/CrashReporter.framework/Versions/A", framework_dest_path);
+	CopyFile(framework_binary_location, framework_dest_path + "/CrashReporter");
 
+	// Put the PLCrashReporter framework into the two apps that need it
+	var puppet_frameworks_directory = "./Contoso.iOS.Puppet/SonomaFrameworks";
+	var ios_puppet_framework_dir = puppet_frameworks_directory + "/CrashReporter.framework";
+	CreateDirectory(puppet_frameworks_directory);
+	CreateDirectory(ios_puppet_framework_dir);
+	CopyFile(framework_binary_location, ios_puppet_framework_dir + "/CrashReporter");
+
+	var forms_frameworks_directory = "./Contoso.Forms.Puppet/Contoso.Forms.Puppet.iOS/SonomaFrameworks";
+	var ios_forms_framework_dir = forms_frameworks_directory + "/CrashReporter.framework";
+	CreateDirectory(forms_frameworks_directory);
+	CreateDirectory(ios_forms_framework_dir);
+	CopyFile(framework_binary_location, ios_forms_framework_dir + "/CrashReporter");
 });
 
 // Create a common externals task depending on platform specific ones
