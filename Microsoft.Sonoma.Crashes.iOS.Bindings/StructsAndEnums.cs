@@ -2,7 +2,6 @@ using System;
 using ObjCRuntime;
 
 namespace Microsoft.Sonoma.Crashes.iOS.Bindings {
-	//TODO the ulong was actually given as a nuint
 	[Native]
 	public enum SNMErrorLogSetting : ulong
 	{
@@ -11,7 +10,6 @@ namespace Microsoft.Sonoma.Crashes.iOS.Bindings {
 		AutoSend = 2
 	}
 
-	//TODO the ulong was actually given as a nuint
 	[Native]
 	public enum SNMUserConfirmation : ulong
 	{

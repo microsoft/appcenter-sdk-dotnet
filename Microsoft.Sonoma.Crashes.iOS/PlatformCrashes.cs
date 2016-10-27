@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.Sonoma.Crashes.Shared;
+using Microsoft.Sonoma.Crashes.iOS.Bindings;
 
 namespace Microsoft.Sonoma.Crashes
 {
@@ -13,9 +14,9 @@ namespace Microsoft.Sonoma.Crashes
 		public override Type BindingType => typeof(iOSCrashes);
 
 		public override bool Enabled
-		{
-			get { return iOSCrashes.Enabled; }
-			set { iOSCrashes.Enabled = value; }
+        {
+            get { return SNMCrashes.IsEnabled(); }
+            set { SNMCrashes.SetEnabled(value); }
 		}
 
 		public override bool HasCrashedInLastSession => iOSCrashes.HasCrashedInLastSession;
@@ -25,10 +26,11 @@ namespace Microsoft.Sonoma.Crashes
 			throw new NotImplementedException();
 		}
 
+        //TODO this just logs every exception possible, which is not the way crashes are handled in the native sdk
 		static PlatformCrashes()
 		{
-			//TODO implement me
-
+            SNMCrashes.SetDelegate(new CrashDelegate());
+            SNMCrashes.NotifyWithUserConfirmation(SNMUserConfirmation.Always);
 
 		}
 
@@ -37,4 +39,16 @@ namespace Microsoft.Sonoma.Crashes
 			throw new NotImplementedException();
 		}
 	}
+
+    class CrashDelegate : SNMCrashesDelegate
+    {
+        public override bool CrashesShouldProcessErrorReport(SNMCrashes crashes, SNMErrorReport errorReport)
+        {
+            return true;
+        }
+        public override SNMErrorAttachment AttachmentWithCrashes(SNMCrashes crashes, SNMErrorReport errorReport)
+        {
+            return null;
+        }
+    }
 }

@@ -204,8 +204,8 @@ namespace Microsoft.Sonoma.Core.iOS.Bindings
 	{
 		// @required +(BOOL)isEnabled;
 		[Static, Abstract]
-		[Export("isEnabled")]
-		bool Enabled { get; set; }
+        [Export("isEnabled")]
+        bool Enabled { get; set;}
 	}
 	// @interface SNMFeatureAbstract : NSObject <SNMFeature>
 	[BaseType(typeof(SNMFeature))]
