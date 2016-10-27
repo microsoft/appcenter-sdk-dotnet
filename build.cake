@@ -41,6 +41,14 @@ var SONOMA_MODULES = new [] {
 	new SonomaModule("crashes-release.aar", "SonomaCrashes.framework.zip", "Microsoft.Sonoma.Crashes", "SonomaCrashes.nuspec")
 };
 
+
+// CrashReporter name and version
+var PL_CRASH_NAME = "PLCrashReporter-1.2";
+
+// URL for downloading PLCrashReporter framework
+var PL_CRASH_URL = "https://www.plcrashreporter.org/static/downloads/" + PL_CRASH_NAME + ".zip";
+
+
 // Task TARGET for build
 var TARGET = Argument("target", Argument("t", "Default"));
 
@@ -93,7 +101,32 @@ Task("Externals-Android")
 Task("Externals-Ios")
 	.Does(() =>
 {
-	// Does nothing until the project has iOS binding.
+	// Clean up download directory.
+	if(DirectoryExists("./externals/ios"))
+		DeleteDirectory("./externals/ios", true);
+	CreateDirectory("./externals/ios");
+
+	// Download zip file containing sonoma frameworks
+	DownloadFile(IOS_URL, "./externals/ios/ios.zip");
+
+	Unzip("./externals/ios/ios.zip", "./externals/ios/");
+
+	// Copy the sonoma binaries directly from the frameworks and add the ".a" extension
+	var files = GetFiles("./externals/ios/*/*.framework/Sonoma*");
+	foreach (var file in files) {
+		MoveFile(file, "./externals/ios/" + file.GetFilename() + ".a");
+	}
+
+	// Download zip file containing PLCrashReporter framework
+	DownloadFile(PL_CRASH_URL, "./externals/ios/plcrashreporter.zip");
+	Unzip("./externals/ios/plcrashreporter.zip", "./externals/ios/");
+
+	// Copy the framework to a shallower location
+	var framework_dest_path = "./externals/ios/CrashReporter.framework";
+	CreateDirectory(framework_dest_path);
+	CopyDirectory("./externals/ios/" + PL_CRASH_NAME + "/iOS Framework/CrashReporter.framework/Versions/A", framework_dest_path);
+	CopyDirectory("./externals/ios/" + PL_CRASH_NAME + "/iOS Framework/CrashReporter.framework/Versions/A", framework_dest_path);
+
 });
 
 // Create a common externals task depending on platform specific ones
