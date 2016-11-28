@@ -64,6 +64,7 @@ Multiplatform Xamarin.Forms app has three projects in your solution - portable c
 * Search and select "Mobile Center Analytics" and "Mobile Center Crashes". Then Click 'Add Packages'
 
 **For Xamarion.iOS**
+
 1. Navigate to the file "MobileCenterFrameworks/CrashReporter.framework/CrashReporter" inside of the iOS Project directory from the Solution Explorer
 2. Right-click on the file and select "Properties"
 3. In the "Properties" panel, locate the property "Copy to Output Directory" under "Advanced" and change its value to "Copy if newer"
