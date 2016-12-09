@@ -65,6 +65,12 @@ Multiplatform Xamarin.Forms app has three projects in your solution - portable c
 * Navigate Project -> Manage NuGet Packages...
 * Search and select "Mobile Center Analytics" and "Mobile Center Crashes". Then Click 'Add Packages'
 
+**For Xamarion.iOS**
+
+1. Navigate to the file "MobileCenterFrameworks/CrashReporter.framework/CrashReporter" inside of the iOS Project directory from the Solution Explorer
+2. Right-click on the file and select "Properties"
+3. In the "Properties" panel, locate the property "Copy to Output Directory" under "Advanced" and change its value to "Copy if newer"
+
 Now that you've integrated the SDK in your application, it's time to start the SDK and make use of Mobile Center services.
 
 **Note:** If you installed the "Mobile Center Crashes" package for iOS prior to version 0.3.0, your iOS project should contain the folder
