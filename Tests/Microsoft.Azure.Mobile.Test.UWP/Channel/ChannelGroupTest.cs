@@ -17,19 +17,28 @@ namespace Microsoft.Azure.Mobile.Test.Channel
     [TestClass]
     public class ChannelGroupTest
     {
+        private TestChannelGroup _channelGroup;
+        private Mock<IIngestion> _mockIngestion;
+        private Mock<IStorage> _mockStorage;
+        private string _appSecret = Guid.NewGuid().ToString();
+
+        [TestInitialize]
+        public void InitializeChannelGroupTest()
+        {
+            _mockIngestion = Mock.Create<IIngestion>();
+            _mockStorage = Mock.Create<IStorage>();
+            _channelGroup = new TestChannelGroup(_mockStorage.Object, _mockIngestion.Object, _appSecret);
+        }
+
         /// <summary>
         /// Verify that setting the server url works correctly.
         /// </summary>
         [TestMethod]
         public void TestSetServerUrl()
         {
-            var mockIngestion = Mock.Create<IIngestion>();
-            var mockStorage = Mock.Create<IStorage>();
-            var appSecret = Guid.NewGuid().ToString();
-            var channelGroup = new TestChannelGroup(mockStorage.Object, mockIngestion.Object, appSecret);
-            var urlString = "here is a string dot com";
-            channelGroup.SetServerUrl(urlString);
-            mockIngestion.Verify(ingestion => ingestion.SetServerUrl(Param.Is<string>(s => s == (urlString))), Occurred.Once()); //this should fail until dot net is removed
+            const string urlString = "here is a string dot com";
+            _channelGroup.SetServerUrl(urlString);
+            _mockIngestion.Verify(ingestion => ingestion.SetServerUrl(Param.Is<string>(s => s == (urlString))), Occurred.Once()); //this should fail until dot net is removed
         }
         
         //TODO make the purpose of this test a bit more clear. currently, adding a channel will never return null. maybe use this test to verify events are subscribed to?
@@ -39,12 +48,8 @@ namespace Microsoft.Azure.Mobile.Test.Channel
         [TestMethod]
         public void TestAddChannel()
         {
-            var mockIngestion = Mock.Create<IIngestion>();
-            var mockStorage = Mock.Create<IStorage>();
-            var appSecret = Guid.NewGuid().ToString();
-            var channelGroup = new TestChannelGroup(mockStorage.Object, mockIngestion.Object, appSecret);
-            var channelName = "some_channel";
-            var addedChannel = channelGroup.AddChannel(channelName, 2, TimeSpan.FromSeconds(3), 3);
+            const string channelName = "some_channel";
+            var addedChannel = _channelGroup.AddChannel(channelName, 2, TimeSpan.FromSeconds(3), 3);
 
             Assert.IsNotNull(addedChannel);
         }
@@ -55,13 +60,9 @@ namespace Microsoft.Azure.Mobile.Test.Channel
         [TestMethod]
         public void TestAddDuplicateChannel()
         {
-            var mockIngestion = Mock.Create<IIngestion>();
-            var mockStorage = Mock.Create<IStorage>();
-            var appSecret = Guid.NewGuid().ToString();
-            var channelGroup = new TestChannelGroup(mockStorage.Object, mockIngestion.Object, appSecret);
             var channelMock = Mock.Create<IChannel>();
-            channelGroup.AddChannel(channelMock.Object);
-            Assert.ThrowsException<MobileCenterException>(() => channelGroup.AddChannel(channelMock.Object));
+            _channelGroup.AddChannel(channelMock.Object);
+            Assert.ThrowsException<MobileCenterException>(() => _channelGroup.AddChannel(channelMock.Object));
         }
 
         /// <summary>
@@ -70,37 +71,28 @@ namespace Microsoft.Azure.Mobile.Test.Channel
         [TestMethod]
         public void TestAddNullChannel()
         {
-            var mockIngestion = Mock.Create<IIngestion>();
-            var mockStorage = Mock.Create<IStorage>();
-            var appSecret = Guid.NewGuid().ToString();
-            var channelGroup = new TestChannelGroup(mockStorage.Object, mockIngestion.Object, appSecret);
-            Assert.ThrowsException<MobileCenterException>(() => channelGroup.AddChannel(null));
+            Assert.ThrowsException<MobileCenterException>(() => _channelGroup.AddChannel(null));
         }
 
         /// <summary>
         /// Verify that enabling/disabling a channel group enables/disables all of its children.
         /// </summary>
         [TestMethod]
-        public void TestEnableChannelGroup()
+        public void TestEnable()
         {
-            var mockIngestion = Mock.Create<IIngestion>();
-            var mockStorage = Mock.Create<IStorage>();
-            var appSecret = Guid.NewGuid().ToString();
-            var channelGroup = new TestChannelGroup(mockStorage.Object, mockIngestion.Object, appSecret);
-            var numChannels = 5;
+            const int numChannels = 5;
             var channelMocks = new List<Mock>();
             for (var i = 0; i < numChannels; ++i)
             {
                 channelMocks.Add(Mock.Create<IChannel>());
             }
-            foreach (var mock in channelMocks)
+            foreach (var mockedChannel in channelMocks.Select(mock => mock.Object as IChannel))
             {
-                var mockedChannel = mock.Object as IChannel;
-                channelGroup.AddChannel(mockedChannel);
+                _channelGroup.AddChannel(mockedChannel);
             }
 
-            channelGroup.SetEnabled(true);
-            channelGroup.SetEnabled(false);
+            _channelGroup.SetEnabled(true);
+            _channelGroup.SetEnabled(false);
 
             foreach (var channelMock in channelMocks.Select(mock => mock as Mock<IChannel>))
             {
@@ -110,9 +102,34 @@ namespace Microsoft.Azure.Mobile.Test.Channel
 
         }
 
+        /// <summary>
+        /// Verify that shutting down channel group shuts down all of its children.
+        /// </summary>
+        [TestMethod]
+        public void TestShutdown()
+        {
+            const int numChannels = 5;
+            var channelMocks = new List<Mock>();
+            for (var i = 0; i < numChannels; ++i)
+            {
+                channelMocks.Add(Mock.Create<IChannel>());
+            }
+            foreach (var mockedChannel in channelMocks.Select(mock => mock.Object as IChannel))
+            {
+                _channelGroup.AddChannel(mockedChannel);
+            }
+
+            _channelGroup.Shutdown();
+
+            foreach (var channelMock in channelMocks.Select(mock => mock as Mock<IChannel>))
+            {
+                channelMock.Verify(channel => channel.Shutdown(), Occurred.Once());
+            }
+        }
+
         private static Task GetCompletedTask()
         {
-            Task completedTask = Task.Delay(0);
+            var completedTask = Task.Delay(0);
             completedTask.Wait();
             return completedTask;
         }

@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Mobile
 {
@@ -228,7 +229,15 @@ namespace Microsoft.Azure.Mobile
             else
             {
                 _channelGroup = new ChannelGroup(appSecret);
-         
+                //TODO what if disabled here but enabled when starting service? its possible to have conflicts
+                AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+                {
+                    MobileCenterLog.Assert("Zander", "waiting");
+                    Task.Delay(10000).Wait();
+                    MobileCenterLog.Assert("Zander", "done waiting");
+
+                };
+                throw new Exception();
                 if (_serverUrl != null)
                 {
                     _channelGroup.SetServerUrl(_serverUrl);
