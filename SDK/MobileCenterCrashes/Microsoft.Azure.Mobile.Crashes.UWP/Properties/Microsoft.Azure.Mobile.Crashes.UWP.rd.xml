@@ -30,4 +30,7 @@
   	<!-- add directives for your library here -->
 
   </Library>
+  <Library Name="mscorlib">
+    <Type Name="RuntimeHelpers"  Serialize="Public" />
+  </Library>
 </Directives>
