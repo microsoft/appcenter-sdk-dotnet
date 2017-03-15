@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Azure.Mobile.Anal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Azure.Mobile.Analytics.Test.Windows", "Tests\Microsoft.Azure.Mobile.Analytics.Test.Windows\Microsoft.Azure.Mobile.Analytics.Test.Windows.csproj", "{4CFBAE12-D17F-49FF-B41D-C861EEB965C4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WatsonComponent", "SDK\MobileCenterCrashes\WatsonComponent\WatsonComponent.vcxproj", "{90C894FD-91C3-4D11-B782-F576B8B47948}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		SDK\MobileCenter\Microsoft.Azure.Mobile.Shared\Microsoft.Azure.Mobile.Shared.projitems*{15e3fc9b-7714-4468-a296-81627a5b8f01}*SharedItemsImports = 4
@@ -334,6 +336,20 @@ Global
 		{4CFBAE12-D17F-49FF-B41D-C861EEB965C4}.Release|x64.Build.0 = Release|Any CPU
 		{4CFBAE12-D17F-49FF-B41D-C861EEB965C4}.Release|x86.ActiveCfg = Release|Any CPU
 		{4CFBAE12-D17F-49FF-B41D-C861EEB965C4}.Release|x86.Build.0 = Release|Any CPU
+		{90C894FD-91C3-4D11-B782-F576B8B47948}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{90C894FD-91C3-4D11-B782-F576B8B47948}.Debug|ARM.ActiveCfg = Debug|ARM
+		{90C894FD-91C3-4D11-B782-F576B8B47948}.Debug|ARM.Build.0 = Debug|ARM
+		{90C894FD-91C3-4D11-B782-F576B8B47948}.Debug|x64.ActiveCfg = Debug|x64
+		{90C894FD-91C3-4D11-B782-F576B8B47948}.Debug|x64.Build.0 = Debug|x64
+		{90C894FD-91C3-4D11-B782-F576B8B47948}.Debug|x86.ActiveCfg = Debug|Win32
+		{90C894FD-91C3-4D11-B782-F576B8B47948}.Debug|x86.Build.0 = Debug|Win32
+		{90C894FD-91C3-4D11-B782-F576B8B47948}.Release|Any CPU.ActiveCfg = Release|Win32
+		{90C894FD-91C3-4D11-B782-F576B8B47948}.Release|ARM.ActiveCfg = Release|ARM
+		{90C894FD-91C3-4D11-B782-F576B8B47948}.Release|ARM.Build.0 = Release|ARM
+		{90C894FD-91C3-4D11-B782-F576B8B47948}.Release|x64.ActiveCfg = Release|x64
+		{90C894FD-91C3-4D11-B782-F576B8B47948}.Release|x64.Build.0 = Release|x64
+		{90C894FD-91C3-4D11-B782-F576B8B47948}.Release|x86.ActiveCfg = Release|Win32
+		{90C894FD-91C3-4D11-B782-F576B8B47948}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -362,5 +378,6 @@ Global
 		{E76DC547-2B63-4911-971C-767587EBFAB6} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
 		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
 		{4CFBAE12-D17F-49FF-B41D-C861EEB965C4} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
+		{90C894FD-91C3-4D11-B782-F576B8B47948} = {A60D537E-41F7-44D6-95C8-5DDB77B07308}
 	EndGlobalSection
 EndGlobal
