@@ -79,12 +79,12 @@ namespace Microsoft.Azure.Mobile
         }
 
         /// <summary>
-        /// Change the base URL (scheme + authority + port only) used to communicate with the backend.
+        ///     Change the base URL (scheme + authority + port only) used to send logs.
         /// </summary>
-        /// <param name="serverUrl">Base URL to use for server communication.</param>
-        public static void SetServerUrl(string serverUrl)
+        /// <param name="logUrl">base log URL.</param>
+        public static void SetLogUrl(string logUrl)
         {
-            iOSMobileCenter.SetServerUrl(serverUrl);
+            iOSMobileCenter.SetLogUrl(logUrl);
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Microsoft.Azure.Mobile
         /// <remarks>
         /// The identifier is lost if clearing application data or uninstalling application.
         /// </remarks>
-        public static Guid? InstallId => Guid.Parse(iOSMobileCenter.InstallId().ToString());
+        public static Guid? InstallId => Guid.Parse(iOSMobileCenter.InstallId().AsString());
 
         private static Class[] GetServices(IEnumerable<Type> services)
         {
