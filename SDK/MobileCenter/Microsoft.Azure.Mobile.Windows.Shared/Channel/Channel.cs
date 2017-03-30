@@ -43,7 +43,7 @@ namespace Microsoft.Azure.Mobile.Channel
             _batchTimeInterval = batchTimeInterval;
             _batchScheduled = false;
             _enabled = true;
-            //DeviceInformationHelper.InformationInvalidated += (sender, e) => InvalidateDeviceCache();
+            DeviceInformationHelper.InformationInvalidated += (sender, e) => InvalidateDeviceCache();
             Task.Factory.StartNew(CountFromDiskAsync);
         }
 

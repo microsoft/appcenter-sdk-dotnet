@@ -9,7 +9,7 @@ namespace Microsoft.Azure.Mobile.Utils
         private string _cachedScreenSize;
 
         //Why is this event handler required?
-        //public override event EventHandler InformationInvalidated;
+        public static event EventHandler InformationInvalidated;
 
         public DeviceInformationHelper()
         {
