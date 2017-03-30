@@ -1,4 +1,4 @@
-﻿using System.Resources;
+using System.Resources;
 using System.Reflection;
 
 // General Information about an assembly is controlled through the following 
@@ -25,5 +25,10 @@ using System.Reflection;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.0.0.0")]
+<<<<<<< HEAD
 [assembly: AssemblyFileVersion("0.7.1.0")]
 [assembly: AssemblyInformationalVersion("0.7.1-SNAPSHOT")]
+=======
+[assembly: AssemblyFileVersion("0.7.0.1")]
+[assembly: AssemblyInformationalVersion("0.8.0-r0001")]
+>>>>>>> 9f6978352ecf7bcc3ea454acc5a8d9a5ea36d08c
