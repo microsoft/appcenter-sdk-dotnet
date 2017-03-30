@@ -82,7 +82,11 @@ namespace Microsoft.Azure.Mobile
         /// <summary>
         ///     Change the base URL (scheme + authority + port only) used to send logs.
         /// </summary>
+<<<<<<< HEAD
         /// <param name="logUrl">base log URL.</param>
+=======
+        /// <param name="logUrl">Base URL to use for server communication.</param>
+>>>>>>> 9f6978352ecf7bcc3ea454acc5a8d9a5ea36d08c
         public static void SetLogUrl(string logUrl)
         {
             AndroidMobileCenter.SetServerUrl(logUrl);
