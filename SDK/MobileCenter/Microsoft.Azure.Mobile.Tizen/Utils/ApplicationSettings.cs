@@ -1,23 +1,24 @@
 ﻿using System.Collections.Generic;
+using Xamarin.Forms;
+
 
 namespace Microsoft.Azure.Mobile.Utils
 {
     public class ApplicationSettings : IApplicationSettings
     {
-        public static Dictionary<string, object> LocalSettings = new Dictionary<string, object>();
+        public static IDictionary<string, object> LocalSettings = Application.Current.Properties;
 
         public object this[string key]
         {
             get
             {
-                // return Windows.Storage.ApplicationData.Current.LocalSettings.Values[key];
                 return LocalSettings[key];
             }
 
             set
             {
-                // Windows.Storage.ApplicationData.Current.LocalSettings.Values[key] = value;
                 LocalSettings[key] = value;
+                Application.Current.SavePropertiesAsync();
             }
         }
 
@@ -28,6 +29,7 @@ namespace Microsoft.Azure.Mobile.Utils
             if (!found)
             {
                 this[key] = defaultValue;
+                Application.Current.SavePropertiesAsync();
                 return defaultValue;
             }
             return (T)result;
@@ -35,8 +37,8 @@ namespace Microsoft.Azure.Mobile.Utils
 
         public void Remove(string key)
         {
-            // Windows.Storage.ApplicationData.Current.LocalSettings.Values.Remove(key);
             LocalSettings.Remove(key);
+            Application.Current.SavePropertiesAsync();
         }
     }
 }
