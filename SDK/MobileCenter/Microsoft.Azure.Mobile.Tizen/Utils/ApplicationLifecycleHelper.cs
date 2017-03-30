@@ -2,13 +2,20 @@
 /*using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;*/
 
+using Tizen.Applications;
+
 namespace Microsoft.Azure.Mobile.Utils
 {
     public class ApplicationLifecycleHelper : IApplicationLifecycleHelper
     {
+        //Static instance of current Application
+        private static CoreUIApplication CoreUIApp = (CoreUIApplication)(Application.Current);
+
         public ApplicationLifecycleHelper()
         {
             Enabled = true;
+
+            // TODO add unhandled exception handler
             /*Application.Current.UnhandledException += (sender, eventArgs) =>
             {
                 UnhandledExceptionOccurred?.Invoke(sender, new UnhandledExceptionOccurredEventArgs(eventArgs.Exception));
@@ -17,12 +24,14 @@ namespace Microsoft.Azure.Mobile.Utils
 
         private void InvokeResuming(object sender, object e)
         {
+            MobileCenterLog.Debug(MobileCenterLog.LogTag, "Calling InvokeResuming()");
             ApplicationResuming?.Invoke(sender, EventArgs.Empty);
         }
 
         private void InvokeSuspending(object sender, object e)
         {
-            ApplicationSuspending?.Invoke(sender, EventArgs.Empty);
+            MobileCenterLog.Debug(MobileCenterLog.LogTag, "Calling InvokeSuspending()");
+            ApplicationSuspended?.Invoke(sender, EventArgs.Empty);
         }
 
         private bool _enabled;
@@ -37,21 +46,22 @@ namespace Microsoft.Azure.Mobile.Utils
                 {
                     return;
                 }
-                /*if (value)
+                
+                if (value)
                 {
-                    CoreApplication.Resuming += InvokeResuming;
-                    CoreApplication.Suspending += InvokeSuspending;
+                    CoreUIApp.Resumed += InvokeResuming;
+                    CoreUIApp.Paused += InvokeSuspending;
                 }
                 else
                 {
-                    CoreApplication.Resuming -= InvokeResuming;
-                    CoreApplication.Suspending -= InvokeSuspending;
-                }*/
+                    CoreUIApp.Resumed -= InvokeResuming;
+                    CoreUIApp.Paused -= InvokeSuspending;
+                }
                 _enabled = value;
             }
         }
 
-        public event EventHandler ApplicationSuspending;
+        public event EventHandler ApplicationSuspended;
         public event EventHandler ApplicationResuming;
         public event EventHandler<UnhandledExceptionOccurredEventArgs> UnhandledExceptionOccurred;
     }
