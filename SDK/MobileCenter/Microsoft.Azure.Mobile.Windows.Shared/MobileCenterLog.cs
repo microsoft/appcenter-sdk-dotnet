@@ -1,5 +1,10 @@
 ﻿#define DEBUG
+
+#if TIZEN
+using Tizen;
+#else
 using System;
+#endif // TIZEN
 
 namespace Microsoft.Azure.Mobile
 {
@@ -67,7 +72,11 @@ namespace Microsoft.Azure.Mobile
             {
                 if (Level <= level)
                 {
+#if TIZEN
+                    Tizen.Log.Debug("MC_TEST", $"[{tag}] {levelName}: {message}");
+#else
                     System.Diagnostics.Debug.WriteLine($"[{tag}] {levelName}: {message}");
+#endif // TIZEN
                 }
             }
         }

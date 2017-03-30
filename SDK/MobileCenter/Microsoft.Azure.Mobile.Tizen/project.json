@@ -10,6 +10,7 @@
     "SQLitePCLRaw.core": "1.1.2",
     "SQLitePCLRaw.provider.sqlite3.netstandard11": "1.1.2",
     "System.Data.Common": "4.3.0",
+    "System.Linq": "4.3.0",
     "System.Net.NetworkInformation": "4.3.0",
     "Tizen.Library": "1.0.0-pre2",
     "Xamarin.Forms": "2.3.4.192-pre2",
