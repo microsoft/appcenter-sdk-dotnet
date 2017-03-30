@@ -6,7 +6,7 @@ namespace Microsoft.Azure.Mobile.Analytics
     /// <summary>
     ///     Analytics feature.
     /// </summary>
-    public static class Analytics
+    public class Analytics : IMobileCenterService
     {
         /// <summary>
         ///     Enable or disable Analytics module.
@@ -24,7 +24,7 @@ namespace Microsoft.Azure.Mobile.Analytics
         /// </summary>
         /// <param name="name">An event name.</param>
         /// <param name="properties">Optional properties.</param>
-        public static void TrackEvent(string name, [Optional] IDictionary<string, string> properties)
+        public static void TrackEvent(string name, IDictionary<string, string> properties = null)
         {
         }
 

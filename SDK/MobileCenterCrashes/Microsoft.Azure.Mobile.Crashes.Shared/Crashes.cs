@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Mobile.Crashes
@@ -6,32 +7,23 @@ namespace Microsoft.Azure.Mobile.Crashes
     /// <summary>
     /// Crashes service.
     /// </summary>
-    public static class Crashes
+    public partial class Crashes
     {
         static Crashes()
         {
             PlatformCrashes.SendingErrorReport += (sender, e) =>
             {
-                if (SendingErrorReport != null)
-                {
-                    SendingErrorReport(sender, e);
-                }
+                SendingErrorReport?.Invoke(sender, e);
             };
 
             PlatformCrashes.SentErrorReport += (sender, e) =>
             {
-                if (SentErrorReport != null)
-                {
-                    SentErrorReport(sender, e);
-                }
+                SentErrorReport?.Invoke(sender, e);
             };
 
             PlatformCrashes.FailedToSendErrorReport += (sender, e) => 
             {
-                if (FailedToSendErrorReport != null)
-                {
-                    FailedToSendErrorReport(sender, e);
-                }
+                FailedToSendErrorReport?.Invoke(sender, e);
             };
 
             PlatformCrashes.ShouldProcessErrorReport = null;
@@ -97,8 +89,6 @@ namespace Microsoft.Azure.Mobile.Crashes
         //        PlatformCrashes.GetErrorAttachment = value;
         //    }
         //}
-
-        internal const string LogTag = MobileCenterLog.LogTag + "Crashes";
 
         private static readonly IPlatformCrashes PlatformCrashes = new PlatformCrashes();
 

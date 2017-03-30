@@ -12,7 +12,7 @@ namespace Microsoft.Azure.Mobile
     /// <summary>
     /// SDK core used to initialize, start and control specific service.
     /// </summary>
-    public static partial class MobileCenter
+    public partial class MobileCenter
     {
         /* The key identifier for parsing app secrets */
         private const string PlatformIdentifier = "android";
@@ -80,9 +80,9 @@ namespace Microsoft.Azure.Mobile
         }
 
         /// <summary>
-        ///     Change the base URL (scheme + authority + port only) used to send logs.
+        /// Change the base URL (scheme + authority + port only) used to communicate with the backend.
         /// </summary>
-        /// <param name="logUrl">base log URL.</param>
+        /// <param name="logUrl">Base URL to use for server communication.</param>
         public static void SetLogUrl(string logUrl)
         {
             AndroidMobileCenter.SetServerUrl(logUrl);
