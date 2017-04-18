@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Mobile.Crashes
@@ -37,6 +36,10 @@ namespace Microsoft.Azure.Mobile.Crashes
              * So instead we use the property explicitly here to preserve the method call even after optimization.
              */
             var type = BindingType;
+        }
+
+        internal Crashes()
+        {
         }
 
         /// <summary>

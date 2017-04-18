@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Mobile.Utils
 {
+    /// <summary>
+    /// Used to register application with watson for Crashes.
+    /// </summary>
     public class WatsonCrashesStarter
     {
         private const string WatsonKey = "VSMCAppSecret";
@@ -22,7 +21,11 @@ namespace Microsoft.Azure.Mobile.Utils
             }
             catch (Exception e)
             {
+#if DEBUG
                 throw new MobileCenterException("Failed to register crashes with Watson", e);
+#else
+                MobileCenterLog.Warn(MobileCenterLog.LogTag, "Crashes service is not yet supported on UWP.");
+#endif
             }
         }
     }

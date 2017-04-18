@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Android.App;
+using Com.Microsoft.Azure.Mobile;
 using Java.Lang;
 
 namespace Microsoft.Azure.Mobile
 {
-    using Com.Microsoft.Azure.Mobile;
     using AndroidWrapperSdk = Com.Microsoft.Azure.Mobile.Ingestion.Models.WrapperSdk;
 
     /// <summary>
@@ -16,6 +16,10 @@ namespace Microsoft.Azure.Mobile
     {
         /* The key identifier for parsing app secrets */
         private const string PlatformIdentifier = "android";
+        
+        internal MobileCenter()
+        {
+        }
 
         /// <summary>
         /// This property controls the amount of logs emitted by the SDK.
@@ -80,16 +84,12 @@ namespace Microsoft.Azure.Mobile
         }
 
         /// <summary>
-        ///     Change the base URL (scheme + authority + port only) used to send logs.
+        /// Change the base URL (scheme + authority + port only) used to communicate with the backend.
         /// </summary>
-<<<<<<< HEAD
-        /// <param name="logUrl">base log URL.</param>
-=======
         /// <param name="logUrl">Base URL to use for server communication.</param>
->>>>>>> 9f6978352ecf7bcc3ea454acc5a8d9a5ea36d08c
         public static void SetLogUrl(string logUrl)
         {
-            AndroidMobileCenter.SetServerUrl(logUrl);
+            AndroidMobileCenter.SetLogUrl(logUrl);
         }
 
         /// <summary>
@@ -184,7 +184,24 @@ namespace Microsoft.Azure.Mobile
 
         private static Class[] GetServices(IEnumerable<Type> services)
         {
-            return services.Select(service => Class.FromType((Type)service.GetProperty("BindingType").GetValue(null, null))).ToArray();
+            var classes = new List<Class>();
+            foreach (var t in services)
+            {
+                var propertyInfo = t.GetProperty("BindingType");
+                if (propertyInfo != null)
+                {
+                    var  value = (Type)propertyInfo.GetValue(null, null);
+                    if (value != null)
+                    {
+                        var aClass = Class.FromType((Type)propertyInfo.GetValue(null, null));
+                        if (aClass != null)
+                        {
+                            classes.Add(aClass);
+                        }   
+                    }
+                }
+            }
+            return classes.ToArray();
         }
     }
 }

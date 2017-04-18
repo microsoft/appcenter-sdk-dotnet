@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using Microsoft.Azure.Mobile.Channel;
-using Microsoft.Azure.Mobile.Ingestion;
-using Microsoft.Azure.Mobile.Storage;
 using Microsoft.Azure.Mobile.Test.Windows.Channel;
 using Microsoft.Azure.Mobile.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -19,7 +14,7 @@ namespace Microsoft.Azure.Mobile.Test
         public void InitializeMobileCenterTest()
         {
             MockMobileCenterService.Reset();
-            MobileCenter.Reset();
+            MobileCenter.Instance = null;
         }
 
         /// <summary>
@@ -67,18 +62,6 @@ namespace Microsoft.Azure.Mobile.Test
             MobileCenter.Configure("appsecret");
 
             Assert.AreEqual(LogLevel.Assert, MobileCenter.LogLevel);
-        }
-
-        /// <summary>
-        /// Verify that the default log level is warn
-        /// </summary>
-        [TestMethod]
-        public void DefaultLogLevel()
-        {
-            MobileCenterLog.Level = LogLevel.Info;
-            MobileCenter.Configure("appsecret");
-
-            Assert.AreEqual(LogLevel.Warn, MobileCenter.LogLevel);
         }
 
         /// <summary>
@@ -217,14 +200,14 @@ namespace Microsoft.Azure.Mobile.Test
         [TestMethod]
         public void GetInstallId()
         {
-            var settingsMock = new Mock<IApplicationSettings>();
-            MobileCenter.Instance = new MobileCenter(settingsMock.Object);
-            settingsMock.Setup(settings => settings.GetValue(MobileCenter.InstallIdKey, It.IsAny<Guid>()))
-                .Returns(Guid.NewGuid());
+            var settings = new ApplicationSettings();
+            var fakeInstallId = Guid.NewGuid();
+            settings[MobileCenter.InstallIdKey] = fakeInstallId;
+            MobileCenter.Instance = new MobileCenter(settings);
             var installId = MobileCenter.InstallId;
 
-            settingsMock.Verify(settings => settings.GetValue(MobileCenter.InstallIdKey, It.IsAny<Guid>()), Times.Once());
             Assert.IsTrue(installId.HasValue);
+            Assert.AreEqual(installId.Value, fakeInstallId);
         }
 
         /// <summary>

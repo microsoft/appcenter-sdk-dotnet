@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Mobile.Ingestion.Models
 {
-    using Newtonsoft.Json;
-
-    [JsonObject( JsonIdentifier )]
+    /// <summary>
+    /// Log type for sending information about which services have been started
+    /// </summary>
+    [JsonObject(JsonIdentifier)]
     public class StartServiceLog : Log
     {
         internal const string JsonIdentifier = "start_service";
@@ -12,7 +14,10 @@ namespace Microsoft.Azure.Mobile.Ingestion.Models
         /// <summary>
         /// Initializes a new instance of the Log class.
         /// </summary>
-        public StartServiceLog() { }
+        public StartServiceLog()
+        {
+            Services = new List<string>();
+        }
 
         /// <summary>
         /// Initializes a new instance of the Log class

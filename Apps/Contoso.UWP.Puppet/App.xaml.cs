@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Azure.Mobile;
 using Microsoft.Azure.Mobile.Analytics;
@@ -32,7 +23,7 @@ namespace Contoso.UWP.Puppet
         public App()
         {
             MobileCenter.LogLevel = LogLevel.Verbose;
-            MobileCenter.Configure("98038a20-4014-445a-b27f-048082036045");
+            MobileCenter.Configure("42f4a839-c54c-44da-8072-a2f2a61751b2");
             Analytics.Enabled = true;
             MobileCenter.Start(typeof(Analytics), typeof(Crashes));
             MobileCenter.Enabled = true;

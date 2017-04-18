@@ -1,18 +1,19 @@
-﻿using Android.App;
+﻿using System.Collections.Generic;
+using Android.App;
 using Android.OS;
 using Android.Widget;
-using Microsoft.Azure.Mobile.Analytics;
 using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Analytics;
 using Microsoft.Azure.Mobile.Crashes;
 using System.Collections.Generic;
-using System.Threading;
+using Microsoft.Azure.Mobile.Distribute;
 
 namespace Contoso.Android.Puppet
 {
     [Activity(Label = "SXPuppet", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
-        private const string LogTag = "MobileCenterXamarinPuppet";
+        const string LogTag = "MobileCenterXamarinPuppet";
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -35,11 +36,9 @@ namespace Contoso.Android.Puppet
             MobileCenter.LogLevel = LogLevel.Verbose;
             MobileCenterLog.Info(LogTag, "MobileCenter.LogLevel=" + MobileCenter.LogLevel);
             MobileCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
-<<<<<<< HEAD
-            MobileCenter.Start("bff0949b-7970-439d-9745-92cdc59b10fe", typeof(Analytics), typeof(Crashes));
-=======
-            MobileCenter.Start("7f222d3c-0f5e-421b-93e7-f862c462e07e", typeof(Analytics), typeof(Crashes));
->>>>>>> 9f6978352ecf7bcc3ea454acc5a8d9a5ea36d08c
+            Distribute.SetInstallUrl("http://install.asgard-int.trafficmanager.net");
+            Distribute.SetApiUrl("https://asgard-int.trafficmanager.net/api/v0.1");
+            MobileCenter.Start("bff0949b-7970-439d-9745-92cdc59b10fe", typeof(Analytics), typeof(Crashes), typeof(Distribute));
             Analytics.TrackEvent("myEvent", new Dictionary<string, string> { { "someKey", "someValue" } });
             MobileCenterLog.Info(LogTag, "MobileCenter.InstallId=" + MobileCenter.InstallId);
             MobileCenterLog.Info(LogTag, "MobileCenter.HasCrashedInLastSession=" + Crashes.HasCrashedInLastSession);

@@ -1,9 +1,6 @@
-﻿using System;
-
-namespace Microsoft.Azure.Mobile.Crashes
+﻿namespace Microsoft.Azure.Mobile.Crashes
 {
-    public class Crashes
+    public static class Crashes
     {
-    
     }
 }

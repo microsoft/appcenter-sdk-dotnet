@@ -52,8 +52,8 @@ var ANDROID_ASSEMBLIES_FOLDER = TEMPORARY_PREFIX + "AndroidAssemblies";
 var PCL_ASSEMBLIES_FOLDER = TEMPORARY_PREFIX + "PCLAssemblies";
 
 // Native SDK versions
-var ANDROID_SDK_VERSION = "0.5.0";
-var IOS_SDK_VERSION = "0.5.1";
+var ANDROID_SDK_VERSION = "0.6.1";
+var IOS_SDK_VERSION = "0.6.1";
 
 // URLs for downloading binaries.
 /*
@@ -74,7 +74,8 @@ var WINDOWS_ASSEMBLIES_URL = SDK_STORAGE_URL + WINDOWS_ASSEMBLIES_ZIP;
 var MOBILECENTER_MODULES = new [] {
 	new MobileCenterModule("mobile-center-release.aar", "MobileCenter.framework.zip", "SDK/MobileCenter/Microsoft.Azure.Mobile", "MobileCenter.nuspec"),
 	new MobileCenterModule("mobile-center-analytics-release.aar", "MobileCenterAnalytics.framework.zip", "SDK/MobileCenterAnalytics/Microsoft.Azure.Mobile.Analytics", "MobileCenterAnalytics.nuspec"),
-	new MobileCenterModule("mobile-center-crashes-release.aar", "MobileCenterCrashes.framework.zip", "SDK/MobileCenterCrashes/Microsoft.Azure.Mobile.Crashes", "MobileCenterCrashes.nuspec")
+	new MobileCenterModule("mobile-center-crashes-release.aar", "MobileCenterCrashes.framework.zip", "SDK/MobileCenterCrashes/Microsoft.Azure.Mobile.Crashes", "MobileCenterCrashes.nuspec"),
+	new MobileCenterModule("mobile-center-distribute-release.aar", "MobileCenterDistribute.framework.zip", "SDK/MobileCenterDistribute/Microsoft.Azure.Mobile.Distribute", "MobileCenterDistribute.nuspec")	
 };
 
 // Task TARGET for build
@@ -123,7 +124,10 @@ Task("MacBuild")
 	// Build solution
 	NuGetRestore("./MobileCenter-SDK-Build-Mac.sln");
 	DotNetBuild("./MobileCenter-SDK-Build-Mac.sln", c => c.Configuration = "Release");
-}).OnError(()=>RunTarget("clean"));
+}).OnError(exception => {
+	RunTarget("clean");
+	throw exception;
+});
 
 // Building Windows code task
 Task("WindowsBuild").Does(() => 
@@ -131,7 +135,10 @@ Task("WindowsBuild").Does(() =>
 	// Build solution
 	NuGetRestore("./MobileCenter-SDK-Build-Windows.sln");
 	DotNetBuild("./MobileCenter-SDK-Build-Windows.sln", c => c.Configuration = "Release");
-}).OnError(()=>RunTarget("clean"));
+}).OnError(exception => {
+	RunTarget("clean");
+	throw exception;
+});
 
 // Build and prepare UWP dlls
 Task("PrepareUWPAssemblies").Does(() =>
@@ -147,7 +154,10 @@ Task("PrepareUWPAssemblies").Does(() =>
 	{
 		CopyFile(assembly, UWP_ASSEMBLIES_FOLDER + "/" + System.IO.Path.GetFileName(assembly));
 	}
-}).OnError(()=>RunTarget("clean"));
+}).OnError(exception => {
+	RunTarget("clean");
+	throw exception;
+});
 
 // Build and prepare iOS dlls
 Task("PrepareIosAssemblies").IsDependentOn("Externals-Ios").Does(() =>
@@ -160,7 +170,9 @@ Task("PrepareIosAssemblies").IsDependentOn("Externals-Ios").Does(() =>
 									"SDK/MobileCenterAnalytics/Microsoft.Azure.Mobile.Analytics.iOS/bin/Release/Microsoft.Azure.Mobile.Analytics.dll",
 									"SDK/MobileCenterAnalytics/Microsoft.Azure.Mobile.Analytics.iOS/bin/Release/Microsoft.Azure.Mobile.Analytics.iOS.Bindings.dll",
 									"SDK/MobileCenterCrashes/Microsoft.Azure.Mobile.Crashes.iOS/bin/Release/Microsoft.Azure.Mobile.Crashes.dll",
-									"SDK/MobileCenterCrashes/Microsoft.Azure.Mobile.Crashes.iOS/bin/Release/Microsoft.Azure.Mobile.Crashes.iOS.Bindings.dll" };
+									"SDK/MobileCenterCrashes/Microsoft.Azure.Mobile.Crashes.iOS/bin/Release/Microsoft.Azure.Mobile.Crashes.iOS.Bindings.dll",
+									"SDK/MobileCenterDistribute/Microsoft.Azure.Mobile.Distribute.iOS/bin/Release/Microsoft.Azure.Mobile.Distribute.dll",
+									"SDK/MobileCenterDistribute/Microsoft.Azure.Mobile.Distribute.iOS/bin/Release/Microsoft.Azure.Mobile.Distribute.iOS.Bindings.dll" };
 
 	CleanDirectory(IOS_ASSEMBLIES_FOLDER);
 	foreach (var assembly in assemblies)
@@ -180,14 +192,20 @@ Task("PrepareAndroidAssemblies").IsDependentOn("Externals-Android").Does(() =>
 									"SDK/MobileCenterAnalytics/Microsoft.Azure.Mobile.Analytics.Android/bin/Release/Microsoft.Azure.Mobile.Analytics.dll",
 									"SDK/MobileCenterAnalytics/Microsoft.Azure.Mobile.Analytics.Android/bin/Release/Microsoft.Azure.Mobile.Analytics.Android.Bindings.dll",
 									"SDK/MobileCenterCrashes/Microsoft.Azure.Mobile.Crashes.Android/bin/Release/Microsoft.Azure.Mobile.Crashes.dll",
-									"SDK/MobileCenterCrashes/Microsoft.Azure.Mobile.Crashes.Android/bin/Release/Microsoft.Azure.Mobile.Crashes.Android.Bindings.dll" };
+									"SDK/MobileCenterCrashes/Microsoft.Azure.Mobile.Crashes.Android/bin/Release/Microsoft.Azure.Mobile.Crashes.Android.Bindings.dll",
+									"SDK/MobileCenterDistribute/Microsoft.Azure.Mobile.Distribute.Android/bin/Release/Microsoft.Azure.Mobile.Distribute.dll",
+									"SDK/MobileCenterDistribute/Microsoft.Azure.Mobile.Distribute.Android/bin/Release/Microsoft.Azure.Mobile.Distribute.Android.Bindings.dll" };
 
 	CleanDirectory(ANDROID_ASSEMBLIES_FOLDER);
 	foreach (var assembly in assemblies)
 	{
 		CopyFile(assembly, ANDROID_ASSEMBLIES_FOLDER + "/" + System.IO.Path.GetFileName(assembly));
 	}
-}).OnError(()=>RunTarget("clean"));
+}).OnError(exception => {
+	RunTarget("clean");
+	throw exception;
+});
+
 
 // Build and prepare PCL dlls
 Task("PreparePCLAssemblies").Does(() =>
@@ -197,14 +215,19 @@ Task("PreparePCLAssemblies").Does(() =>
 
 	var assemblies = new string[] {	"SDK/MobileCenter/Microsoft.Azure.Mobile/bin/Release/Microsoft.Azure.Mobile.dll",
 									"SDK/MobileCenterAnalytics/Microsoft.Azure.Mobile.Analytics/bin/Release/Microsoft.Azure.Mobile.Analytics.dll",
-									"SDK/MobileCenterCrashes/Microsoft.Azure.Mobile.Crashes/bin/Release/Microsoft.Azure.Mobile.Crashes.dll" };
+									"SDK/MobileCenterCrashes/Microsoft.Azure.Mobile.Crashes/bin/Release/Microsoft.Azure.Mobile.Crashes.dll",
+									"SDK/MobileCenterDistribute/Microsoft.Azure.Mobile.Distribute/bin/Release/Microsoft.Azure.Mobile.Distribute.dll" };
 
 	CleanDirectory(PCL_ASSEMBLIES_FOLDER);
 	foreach (var assembly in assemblies)
 	{
 		CopyFile(assembly, PCL_ASSEMBLIES_FOLDER + "/" + System.IO.Path.GetFileName(assembly));
 	}
-}).OnError(()=>RunTarget("clean"));
+}).OnError(exception => {
+	RunTarget("clean");
+	throw exception;
+});
+
 
 // Task dependencies for binding each platform.
 Task("Bindings-Android").IsDependentOn("Externals-Android");
@@ -244,7 +267,14 @@ Task("Externals-Ios")
 	{
 		MoveFile(file, "./externals/ios/" + file.GetFilename() + ".a");
 	}
-}).OnError(()=>RunTarget("clean"));
+
+	// Copy Distribute resource bundle and copy it to the externals directory. There is no method in cake to get all subdirectories.
+	if(DirectoryExists("./externals/ios/MobileCenter-SDK-iOS/MobileCenterDistributeResources.bundle"))
+		MoveDirectory("./externals/ios/MobileCenter-SDK-iOS/MobileCenterDistributeResources.bundle", "./externals/ios/MobileCenterDistributeResources.bundle");
+}).OnError(exception => {
+	RunTarget("clean");
+	throw exception;
+});
 
 // Create a common externals task depending on platform specific ones
 Task("Externals").IsDependentOn("Externals-Ios").IsDependentOn("Externals-Android");
@@ -281,7 +311,11 @@ Task("NuGet")
 		});
 	}
 	MoveFiles("Microsoft.Azure.Mobile*.nupkg", "output");
-}).OnError(()=>RunTarget("clean"));
+}).OnError(exception => {
+	RunTarget("clean");
+	throw exception;
+});
+
 
 Task("PrepareAssemblies").IsDependentOn("PreparePCLAssemblies").Does(()=>
 {
@@ -300,12 +334,6 @@ Task("PrepareNuspecsForVSTS").IsDependentOn("Version").Does(()=>
 {
 	foreach (var module in MOBILECENTER_MODULES)
 	{
-		var macFolder = "../../mac/assemblies/";
-		var windowsFolder = "../../windows/assemblies/";
-		ReplaceTextInFiles("./NuGetSpec/" + module.MainNuGetSpecFilename, "$pcl_dir$", macFolder + "PCLAssemblies");
-		ReplaceTextInFiles("./NuGetSpec/" + module.MainNuGetSpecFilename, "$ios_dir$", macFolder + "iOSAssemblies");
-		ReplaceTextInFiles("./NuGetSpec/" + module.MainNuGetSpecFilename, "$windows_dir$", windowsFolder + "UWPAssemblies");
-		ReplaceTextInFiles("./NuGetSpec/" + module.MainNuGetSpecFilename, "$android_dir$", macFolder + "AndroidAssemblies");
 		ReplaceTextInFiles("./NuGetSpec/" + module.MainNuGetSpecFilename, "$version$", module.NuGetVersion);
 	}
 });
@@ -349,6 +377,9 @@ Task("UploadAssemblies")
 		Key = apiKey,
 		UseHttps = true
 	}, assembliesZip);
+}).OnError(exception => {
+	RunTarget("clean");
+	throw exception;
 }).Finally(()=>RunTarget("RemoveTemporaries"));
 
 Task("MergeAssemblies")
@@ -409,6 +440,9 @@ Task("MergeAssemblies")
 	DeleteDirectory(DOWNLOADED_ASSEMBLIES_FOLDER, true);
 	CleanDirectory("output");
 	MoveFiles("*.nupkg", "output");
+}).OnError(exception => {
+	RunTarget("clean");
+	throw exception;
 });
 
 Task("TestApps").IsDependentOn("UITest").Does(() =>
@@ -428,13 +462,6 @@ Task("RestoreTestPackages").Does(() =>
 	NuGetUpdate("./Tests/Contoso.Forms.Test/packages.config");
 	NuGetUpdate("./Tests/iOS/packages.config");
 	NuGetUpdate("./Tests/Droid/packages.config");
-});
-
-Task("UpdateDemoDependencies").Does(() =>
-{
-	NuGetUpdate("./Apps/Contoso.Forms.Demo/Contoso.Forms.Demo/packages.config");
-	NuGetUpdate("./Apps/Contoso.Forms.Demo/Contoso.Forms.Demo.Droid/packages.config");
-	NuGetUpdate("./Apps/Contoso.Forms.Demo/Contoso.Forms.Demo.iOS/packages.config");
 });
 
 // Remove any uploaded nugets from azure storage
@@ -498,247 +525,41 @@ Task("DownloadAssemblies").Does(()=>
 	Unzip(assembliesZip, DOWNLOADED_ASSEMBLIES_FOLDER);
 	DeleteFiles(assembliesZip);
 	Information("Successfully downloaded assemblies.");
+}).OnError(exception => {
+	RunTarget("clean");
+	throw exception;
 });
 
-Task("IncrementRevisionNumberWithHash").Does(()=>
+Task("PrepareAssemblyPathsVSTS").Does(()=>
 {
-	IncrementRevisionNumber(true);
-});
-
-Task("IncrementRevisionNumber").Does(()=>
-{
-	IncrementRevisionNumber(false);
-});
-
-Task("SetReleaseVersion").Does(()=>
-{
-	// Get base version of PCL core
-	var baseSemanticVersion = GetPCLBaseSemanticVersion();
-
-	// Replace versions in all non-demo app files
-	var informationalVersionPattern = @"AssemblyInformationalVersion\(" + "\".*\"" + @"\)";
-	var assemblyInfoFiles = GetFiles("**/AssemblyInfo.cs");
-	ReplaceRegexInFilesWithExclusion("**/AssemblyInfo.cs", informationalVersionPattern, "AssemblyInformationalVersion(\"" + baseSemanticVersion + "\")", "Demo");
-
-	//Replace version in wrapper sdk
-	UpdateWrapperSdkVersion(baseSemanticVersion);
-});
-
-Task("UpdateDemoVersion").Does(()=>
-{
-	var newVersion = Argument<string>("DemoVersion");
-	// Replace version in all the demo application assemblies
-	var demoAssemblyInfoGlob = "Apps/**/*Demo*/**/AssemblyInfo.cs";
-	var informationalVersionPattern = @"AssemblyInformationalVersion\(" + "\".*\"" + @"\)";
-	ReplaceRegexInFiles(demoAssemblyInfoGlob, informationalVersionPattern, "AssemblyInformationalVersion(\"" + newVersion + "\")");
-	var fileVersionPattern = @"AssemblyFileVersion\(" + "\".*\"" + @"\)";
-	ReplaceRegexInFiles(demoAssemblyInfoGlob, fileVersionPattern, "AssemblyFileVersion(\"" + newVersion + ".0\")");
-
-	// Replace android versions
-	var manifestGlob = "Apps/**/*Demo*/**/AndroidManifest.xml";
-	// Manifest version name tag
-	var versionNamePattern = "android:versionName=\"[^\"]+\"";
-	var newVersionName = "android:versionName=\"" + newVersion + "\"";
-	ReplaceRegexInFiles(manifestGlob, versionNamePattern, newVersionName);
-	// Manifest version code
-	var manifests = GetFiles("Apps/**/*Demo*/**/AndroidManifest.xml");
-	foreach (var manifest in manifests)
-	{
-		IncrementManifestVersionCode(manifest);
-	}
-
-	//Replace UWP version
-	var uwpManifestGlob = "Apps/**/*Demo*/**/Package.appxmanifest";
-	var versionTagPattern = " Version=\"[^\"]+\"";
-	var newVersionTagText = " Version=\""+newVersion+".0\"";
-	ReplaceRegexInFiles(uwpManifestGlob, versionTagPattern, newVersionTagText);
-
-	//Replace iOS version
-	var bundleVersionPattern = @"<key>CFBundleVersion<\/key>\s*<string>[^<]*<\/string>";
-	var newBundleVersionString = "<key>CFBundleVersion</key>\n\t<string>" + newVersion + "</string>";
-	ReplaceRegexInFilesWithExclusion("Apps/**/*Demo*/**/Info.plist", bundleVersionPattern, newBundleVersionString, "/bin/", "/obj/");
-	var bundleShortVersionPattern = @"<key>CFBundleShortVersionString<\/key>\s*<string>[^<]*<\/string>";
-	var newBundleShortVersionString = "<key>CFBundleShortVersionString</key>\n\t<string>" + newVersion + "</string>";
-	ReplaceRegexInFilesWithExclusion("Apps/**/*Demo*/**/Info.plist", bundleShortVersionPattern, newBundleShortVersionString, "/bin/", "/obj/");
-
-	RunTarget("UpdateDemoDependencies");
-});
-
-Task("StartNewVersion").Does(()=>
-{
-	var newVersion = Argument<string>("NewVersion");
-	var snapshotVersion = newVersion + "-SNAPSHOT";
-
-	// Replace version in all the demo application assemblies
-	var assemblyInfoGlob = "**/AssemblyInfo.cs";
-	var informationalVersionPattern = @"AssemblyInformationalVersion\(" + "\".*\"" + @"\)";
-	ReplaceRegexInFilesWithExclusion(assemblyInfoGlob, informationalVersionPattern, "AssemblyInformationalVersion(\"" + snapshotVersion + "\")", "Demo");
-	var fileVersionPattern = @"AssemblyFileVersion\(" + "\".*\"" + @"\)";
-	ReplaceRegexInFilesWithExclusion(assemblyInfoGlob, fileVersionPattern, "AssemblyFileVersion(\"" + newVersion + ".0\")");
-
-	// Update wrapper sdk version
-	UpdateWrapperSdkVersion(snapshotVersion);
-
-	// Replace android versions
-	var manifestGlob = "Apps/**/AndroidManifest.xml";
-	// Manifest version name tag
-	var versionNamePattern = "android:versionName=\"[^\"]+\"";
-	var newVersionName = "android:versionName=\"" + snapshotVersion + "\"";
-	ReplaceRegexInFilesWithExclusion(manifestGlob, versionNamePattern, newVersionName, "Demo");
-	// Manifest version code
-	var manifests = GetFiles(manifestGlob);
-	foreach (var manifest in manifests)
-	{
-		if (!manifest.FullPath.Contains("Demo"))
+		var iosAssemblies = EnvironmentVariable("IOS_ASSEMBLY_PATH_NUSPEC");
+		var androidAssemblies = EnvironmentVariable("ANDROID_ASSEMBLY_PATH_NUSPEC");
+		var pclAssemblies = EnvironmentVariable("PCL_ASSEMBLY_PATH_NUSPEC");
+		var uwpAssemblies = EnvironmentVariable("UWP_ASSEMBLY_PATH_NUSPEC");
+		var nuspecPathPrefix = EnvironmentVariable("NUSPEC_PATH");
+		
+		foreach (var module in MOBILECENTER_MODULES)
 		{
-			IncrementManifestVersionCode(manifest);
+			ReplaceTextInFiles(nuspecPathPrefix + module.MainNuGetSpecFilename, "$pcl_dir$", pclAssemblies);
+			ReplaceTextInFiles(nuspecPathPrefix + module.MainNuGetSpecFilename, "$ios_dir$", iosAssemblies);
+			ReplaceTextInFiles(nuspecPathPrefix + module.MainNuGetSpecFilename, "$windows_dir$", uwpAssemblies);
+			ReplaceTextInFiles(nuspecPathPrefix + module.MainNuGetSpecFilename, "$android_dir$", androidAssemblies);
 		}
-	}
-
-	//Replace UWP version
-	var uwpManifestGlob = "Apps/**/Package.appxmanifest";
-	var versionTagPattern = " Version=\"[^\"]+\"";
-	var newVersionTagText = " Version=\""+newVersion+".0\"";
-	ReplaceRegexInFilesWithExclusion(uwpManifestGlob, versionTagPattern, newVersionTagText, "Demo");
-
-	//Replace iOS version
-	var bundleVersionPattern = @"<key>CFBundleVersion<\/key>\s*<string>[^<]*<\/string>";
-	var newBundleVersionString = "<key>CFBundleVersion</key>\n\t<string>" + newVersion + "</string>";
-	ReplaceRegexInFilesWithExclusion("Apps/**/Info.plist", bundleVersionPattern, newBundleVersionString, "/bin/", "/obj/", "Demo");
-	var bundleShortVersionPattern = @"<key>CFBundleShortVersionString<\/key>\s*<string>[^<]*<\/string>";
-	var newBundleShortVersionString = "<key>CFBundleShortVersionString</key>\n\t<string>" + newVersion + "</string>";
-	ReplaceRegexInFilesWithExclusion("Apps/**/Info.plist", bundleShortVersionPattern, newBundleShortVersionString, "/bin/", "/obj/", "Demo");
 });
 
-void IncrementRevisionNumber(bool useHash)
+Task("NugetPackVSTS").Does(()=>
 {
-	// Get base version of PCL core
-	var baseSemanticVersion = GetPCLBaseSemanticVersion();
-
-	var nugetVer = GetLatestNuGetVersion();
-    var baseVersion = GetBaseVersion(nugetVer);
-	var newRevNum = baseSemanticVersion == baseVersion ? GetRevisionNumber(nugetVer) + 1 : 1; 
-	var newRevString = GetPaddedString(newRevNum, 4);
-	var newVersion = baseVersion + "-r" + newRevString;
-	if (useHash)
+	var nuspecPathPrefix = EnvironmentVariable("NUSPEC_PATH");
+	foreach (var module in MOBILECENTER_MODULES)
 	{
-		newVersion += "-" + GetShortCommitHash();
+		var spec = GetFiles(nuspecPathPrefix + module.MainNuGetSpecFilename);
+		/* Create the NuGet packages */
+		Information("Building a NuGet package for " + module.MainNuGetSpecFilename);
+		NuGetPack(spec, new NuGetPackSettings {
+			Verbosity = NuGetVerbosity.Detailed,
+		});
 	}
-
-	//Replace AssemblyInformationalVersion in all AssemblyInfo files
-	var informationalVersionPattern = @"AssemblyInformationalVersion\(" + "\".*\"" + @"\)";
-	ReplaceRegexInFiles("**/AssemblyInfo.cs", informationalVersionPattern, "AssemblyInformationalVersion(\"" + newVersion + "\")");
-
-	// Increment revision number of AssemblyFileVersion
-	var fileVersionPattern = @"AssemblyFileVersion\(" + "\".*\"" + @"\)";
-	var files = FindRegexInFiles("**/AssemblyInfo.cs", fileVersionPattern);
-	foreach (var file in files)
-	{
-		var fileVersionTrimmedPattern = @"AssemblyFileVersion\("+ "\"" + @"([0-9]+.){3}";
-		var fullVersion = FindRegexMatchInFile(file, fileVersionPattern, RegexOptions.None);
-		var trimmedVersion = FindRegexMatchInFile(file, fileVersionTrimmedPattern, RegexOptions.None);
-		var newFileVersion = trimmedVersion + newRevNum + "\")";
-		ReplaceTextInFiles(file.FullPath, fullVersion, newFileVersion);
-	}
-}
-
-string GetPCLBaseSemanticVersion()
-{
-	var assemblyInfo = ParseAssemblyInfo("./SDK/MobileCenter/Microsoft.Azure.Mobile/Properties/AssemblyInfo.cs");
-	return GetBaseVersion(assemblyInfo.AssemblyInformationalVersion);
-}
-
-string GetShortCommitHash()
-{
-	var lastCommit = GitLogTip(".");
-	return lastCommit.Sha.Substring(0, 7);
-}
-
-string GetLatestNuGetVersion()
-{
-	//Since password and feed id are secret variables in VSTS (and thus cannot be accessed like other environment variables),
-	//provide the option to pass them as parameters to the cake script
-	var nugetUser = EnvironmentVariable("NUGET_USER");
-	var nugetPassword = Argument("NuGetPassword", EnvironmentVariable("NUGET_PASSWORD"));
-	var nugetFeedId = Argument("NuGetFeedId", EnvironmentVariable("NUGET_FEED_ID"));
-	var url = "https://msmobilecenter.pkgs.visualstudio.com/_packaging/" + nugetFeedId + "/nuget/v2/Search()?\\$filter=IsAbsoluteLatestVersion+and+Id+eq+'Microsoft.Azure.Mobile'&includePrerelease=true";
-	HttpWebRequest request = (HttpWebRequest)WebRequest.Create (url);
-	request.Headers["X-NuGet-ApiKey"] = nugetPassword;
-    request.Credentials = new NetworkCredential(nugetUser, nugetPassword);
-    HttpWebResponse response = (HttpWebResponse)request.GetResponse ();
-	var responseString = String.Empty;
-	using (var reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
-	{
-		responseString = reader.ReadToEnd();
-	}
-	var startTag = "<d:Version>";
-	var endTag = "</d:Version>";
-	int start = responseString.IndexOf(startTag);
-	int end = responseString.IndexOf(endTag);
-	var tag = responseString.Substring(start + startTag.Length, end - start - startTag.Length);
-	return tag;
-}
-
-void IncrementManifestVersionCode(FilePath manifest)
-{
-	var versionCodePattern = "android:versionCode=\"[^\"]+\"";
-	var versionCodeText = FindRegexMatchInFile(manifest, versionCodePattern, RegexOptions.None);
-	var firstPart = "android:versionCode=\"";
-	var length = versionCodeText.Length - 1 - firstPart.Length;
-	var versionCode = int.Parse(versionCodeText.Substring(firstPart.Length, length));
-	var newVersionCodeText = firstPart + (versionCode + 1) + "\"";
-	ReplaceRegexInFiles(manifest.FullPath, versionCodePattern, newVersionCodeText);
-}
-
-string GetBaseVersion(string fullVersion)
-{
-	var indexDash = fullVersion.IndexOf("-");
-	if (indexDash == -1)
-	{
-		return fullVersion;
-	}
-	return fullVersion.Substring(0, indexDash);
-}
-
-void UpdateWrapperSdkVersion(string newVersion)
-{
-	var patternString = "Version = \"[^\"]+\";";
-	var newString = "Version = \"" + newVersion + "\";";
-	ReplaceRegexInFiles("SDK/MobileCenter/Microsoft.Azure.Mobile.Shared/WrapperSdk.cs", patternString, newString);
-}
-
-int GetRevisionNumber(string fullVersion)
-{
-	var revStart = fullVersion.IndexOf("-r");
-	if (revStart == -1)
-	{
-		return 0;
-	}
-	var revEnd = fullVersion.IndexOf("-", revStart + 1);
-	if (revEnd == -1)
-	{
-		revEnd = fullVersion.Length;
-	}
-	var revString = fullVersion.Substring(revStart + 2, revEnd - revStart - 2);
-	try
-	{
-		return Int32.Parse(revString);
-	}
-	catch
-	{
-		return 0; //if the revision number could not be parsed, start new revision
-	}
-}
-
-string GetPaddedString(int num, int numDigits)
-{
-	var numString = num.ToString();
-	while (numString.Length < numDigits)
-	{
-		numString = "0" + numString;
-	}
-	return numString;
-}
+});
 
 void DeleteDirectoryIfExists(string directoryName)
 {
@@ -752,27 +573,6 @@ void CleanDirectory(string directoryName)
 {
 	DeleteDirectoryIfExists(directoryName);
 	CreateDirectory(directoryName);
-}
-
-void ReplaceRegexInFilesWithExclusion(string globberPattern, string regEx, string replacement, params string[] excludeFilePathsContaining)
-{
-	var assemblyInfoFiles = GetFiles(globberPattern);
-	foreach (var file in assemblyInfoFiles)
-	{
-		bool shouldReplace = true;
-		foreach (var excludeString in excludeFilePathsContaining)
-		{
-			if (file.FullPath.Contains(excludeString))
-			{
-				shouldReplace = false;
-				break;
-			}
-		}
-		if (shouldReplace)
-		{
-			ReplaceRegexInFiles(file.FullPath, regEx, replacement);
-		}
-	}
 }
 
 RunTarget(TARGET);
