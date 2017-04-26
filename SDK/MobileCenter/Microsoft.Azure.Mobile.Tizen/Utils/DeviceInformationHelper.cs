@@ -1,6 +1,7 @@
 ﻿using System;
 using Tizen.System;
-using Xamarin.Forms;
+
+using Tizen.Applications;
 
 namespace Microsoft.Azure.Mobile.Utils
 {
@@ -50,7 +51,7 @@ namespace Microsoft.Azure.Mobile.Utils
 
         protected override string GetAppNamespace()
         {
-            return Application.Current.GetType().Namespace;
+            return Tizen.Applications.Application.Current.ApplicationInfo.ApplicationId;
         }
 
         protected override string GetDeviceOemName()
@@ -81,20 +82,16 @@ namespace Microsoft.Azure.Mobile.Utils
             return osVersion;
         }
 
-        //TODO
         protected override string GetAppVersion()
         {
-            //var packageVersion = Windows.ApplicationModel.Package.Current.Id.Version;
-            //return $"{packageVersion.Major}.{packageVersion.Minor}";
-            return "1.2";
+            string packageId = Tizen.Applications.Application.Current.ApplicationInfo.PackageId;
+            return PackageManager.GetPackage(packageId).Version;
         }
 
         //TODO
         protected override string GetAppBuild()
         {
-            //var packageVersion = Windows.ApplicationModel.Package.Current.Id.Version;
-            //return packageVersion.Build.ToString();
-            return "Tizen-Build-Id";
+            return "Undefined";
         }
 
         protected override string GetScreenSize()
