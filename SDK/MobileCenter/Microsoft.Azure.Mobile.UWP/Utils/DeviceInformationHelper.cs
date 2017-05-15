@@ -5,6 +5,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.Foundation.Metadata;
+using Windows.UI.Core;
 
 namespace Microsoft.Azure.Mobile.Utils
 {
@@ -27,23 +28,27 @@ namespace Microsoft.Azure.Mobile.Utils
 
         static DeviceInformationHelper()
         {
-            // This must all be done from the leaving background event because DisplayInformation can only be uses
-            // from the main thread
-            CoreApplication.Resuming += (o, e) => {
-                lock (LockObject)
+            if (ApiInformation.IsPropertyPresent("CoreApplication", "LeavingBackground"))
+            {
+                // This must all be done from the leaving background event because DisplayInformation can only be uses
+                // from the main thread
+                CoreApplication.LeavingBackground += (o, e) =>
                 {
-                    if (_leftBackground)
+                    lock (LockObject)
                     {
-                        return;
-                    }
-                    DisplayInformation.DisplayContentsInvalidated += (displayInfo, obj) =>
-                    {
+                        if (_leftBackground)
+                        {
+                            return;
+                        }
+                        DisplayInformation.DisplayContentsInvalidated += (displayInfo, obj) =>
+                        {
+                            RefreshDisplayCache();
+                        };
+                        _leftBackground = true;
                         RefreshDisplayCache();
-                    };
-                    _leftBackground = true;
-                    RefreshDisplayCache();
-                }
-            };
+                    }
+                };
+            }
         }
 
         //NOTE: This method MUST be called from the UI thread
@@ -51,7 +56,6 @@ namespace Microsoft.Azure.Mobile.Utils
         {
             lock (LockObject)
             {
-
                 DisplayInformation displayInfo = null;
                 try
                 {
@@ -80,8 +84,7 @@ namespace Microsoft.Azure.Mobile.Utils
             if (ApiInformation.IsPropertyPresent(displayInfoName, "ScreenWidthInRawPixels") &&
                 ApiInformation.IsPropertyPresent(displayInfoName, "ScreenHeightInRawPixels"))
             {
-                //TODO: Uncomment this
-                //return $"{displayInfo.ScreenWidthInRawPixels}x{displayInfo.ScreenHeightInRawPixels}";
+                return $"{displayInfo.ScreenWidthInRawPixels}x{displayInfo.ScreenHeightInRawPixels}";
             }
             return null;
         }
@@ -93,6 +96,8 @@ namespace Microsoft.Azure.Mobile.Utils
 
         protected override string GetDeviceModel()
         {
+            // Returns the SystemProductName if available, otherwise returns SKU. No guarantee
+            // that either of these will be avaliable.
             var deviceInfo = new EasClientDeviceInformation();
             return string.IsNullOrEmpty(deviceInfo.SystemProductName) ? deviceInfo.SystemSku : deviceInfo.SystemProductName;
         }
@@ -110,7 +115,6 @@ namespace Microsoft.Azure.Mobile.Utils
 
         protected override string GetOsName()
         {
-            ManagementClass
             var deviceInfo = new EasClientDeviceInformation();
             return deviceInfo.OperatingSystem;
         }

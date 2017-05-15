@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{AA6821F3-930A-49E4-BA3F-D68255F39F1E}"
 EndProject
@@ -12,9 +12,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MobileCenter", "MobileCenter", "{A0839AAC-BC4D-4DDE-9ACB-C094BC599C16}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MobileCenterAnalytics", "MobileCenterAnalytics", "{95CACF52-25AA-4C05-B587-2BBF4B5514D1}"
-	ProjectSection(SolutionItems) = preProject
-		SDK\MobileCenter\Microsoft.Azure.Mobile.UWP\Utils\ApplicationLifecycleHelper.cs = SDK\MobileCenter\Microsoft.Azure.Mobile.UWP\Utils\ApplicationLifecycleHelper.cs
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MobileCenterCrashes", "MobileCenterCrashes", "{A60D537E-41F7-44D6-95C8-5DDB77B07308}"
 EndProject

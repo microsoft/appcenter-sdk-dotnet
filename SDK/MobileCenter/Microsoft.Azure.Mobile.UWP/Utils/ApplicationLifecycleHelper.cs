@@ -41,15 +41,11 @@ namespace Microsoft.Azure.Mobile.Utils
                 {
                     CoreApplication.Resuming += InvokeResuming;
                     CoreApplication.Suspending += InvokeSuspended;
-                    //CoreApplication.LeavingBackground += InvokeResuming;
-                    //CoreApplication.EnteredBackground += InvokeSuspended;
                 }
                 else
                 {
                     CoreApplication.Resuming -= InvokeResuming;
                     CoreApplication.Suspending -= InvokeSuspended;
-                    //CoreApplication.LeavingBackground -= InvokeResuming;
-                    //CoreApplication.EnteredBackground -= InvokeSuspended;
                 }
                 _enabled = value;
             }
