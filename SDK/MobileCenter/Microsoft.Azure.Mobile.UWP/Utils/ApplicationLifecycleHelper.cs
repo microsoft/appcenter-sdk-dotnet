@@ -39,13 +39,17 @@ namespace Microsoft.Azure.Mobile.Utils
                 }
                 if (value)
                 {
-                    CoreApplication.LeavingBackground += InvokeResuming;
-                    CoreApplication.EnteredBackground += InvokeSuspended;
+                    CoreApplication.Resuming += InvokeResuming;
+                    CoreApplication.Suspending += InvokeSuspended;
+                    //CoreApplication.LeavingBackground += InvokeResuming;
+                    //CoreApplication.EnteredBackground += InvokeSuspended;
                 }
                 else
                 {
-                    CoreApplication.LeavingBackground -= InvokeResuming;
-                    CoreApplication.EnteredBackground -= InvokeSuspended;
+                    CoreApplication.Resuming -= InvokeResuming;
+                    CoreApplication.Suspending -= InvokeSuspended;
+                    //CoreApplication.LeavingBackground -= InvokeResuming;
+                    //CoreApplication.EnteredBackground -= InvokeSuspended;
                 }
                 _enabled = value;
             }

@@ -4,6 +4,7 @@ using Windows.Security.ExchangeActiveSyncProvisioning;
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Display;
 using Windows.UI.Xaml;
+using Windows.Foundation.Metadata;
 
 namespace Microsoft.Azure.Mobile.Utils
 {
@@ -28,7 +29,7 @@ namespace Microsoft.Azure.Mobile.Utils
         {
             // This must all be done from the leaving background event because DisplayInformation can only be uses
             // from the main thread
-            CoreApplication.LeavingBackground += (o, e) => {
+            CoreApplication.Resuming += (o, e) => {
                 lock (LockObject)
                 {
                     if (_leftBackground)
@@ -73,7 +74,16 @@ namespace Microsoft.Azure.Mobile.Utils
 
         private static string ScreenSizeFromDisplayInfo(DisplayInformation displayInfo)
         {
-            return $"{displayInfo.ScreenWidthInRawPixels}x{displayInfo.ScreenHeightInRawPixels}";
+            // The APIs to get screen resolution are not available in < 14393, in which case
+            // null is returned
+            var displayInfoName = typeof(DisplayInformation).Name;
+            if (ApiInformation.IsPropertyPresent(displayInfoName, "ScreenWidthInRawPixels") &&
+                ApiInformation.IsPropertyPresent(displayInfoName, "ScreenHeightInRawPixels"))
+            {
+                //TODO: Uncomment this
+                //return $"{displayInfo.ScreenWidthInRawPixels}x{displayInfo.ScreenHeightInRawPixels}";
+            }
+            return null;
         }
 
         protected override string GetSdkName()
@@ -100,6 +110,7 @@ namespace Microsoft.Azure.Mobile.Utils
 
         protected override string GetOsName()
         {
+            ManagementClass
             var deviceInfo = new EasClientDeviceInformation();
             return deviceInfo.OperatingSystem;
         }
