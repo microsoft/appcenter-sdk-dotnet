@@ -140,7 +140,7 @@ namespace Microsoft.Azure.Mobile.Test.Channel
             Assert.IsTrue(SentLogOccurred(MaxLogsPerBatch));
         }
 
-//        [TestMethod]
+        [TestMethod]
         public void ChannelInvokesFailedToSendLogEvent()
         {
             MakeIngestionCallsFail();
@@ -171,15 +171,11 @@ namespace Microsoft.Azure.Mobile.Test.Channel
         [TestMethod]
         public void ChannelInvokesSendingLogEventAfterEnabling()
         {
-            _channel.Shutdown();
+            _channel.Shutdown().Wait();
             for (int i = 0; i < MaxLogsPerBatch; ++i)
             {
-                _channel.Enqueue(new TestLog());
+                _channel.Enqueue(new TestLog())?.Wait();
             }
-
-            // Wait while log is saving; changing enabled value of channel too soon
-            // will invalidate its currently running operations
-            Task.Delay(1000).Wait();
 
             _channel.SetEnabled(true);
 
@@ -189,7 +185,7 @@ namespace Microsoft.Azure.Mobile.Test.Channel
         /// <summary>
         /// Validate that FailedToSendLog calls when channel is disabled
         /// </summary>
-        [TestMethod]
+      [TestMethod]
         public void ChannelInvokesFailedToSendLogEventAfterDisabling()
         {
             _channel.SetEnabled(false);
@@ -208,7 +204,7 @@ namespace Microsoft.Azure.Mobile.Test.Channel
         [TestMethod]
         public void ClearLogs()
         {
-            _channel.Shutdown();
+            _channel.Shutdown().Wait();
             _channel.Enqueue(new TestLog());
 
             Task.Delay(DefaultWaitTime).Wait();
