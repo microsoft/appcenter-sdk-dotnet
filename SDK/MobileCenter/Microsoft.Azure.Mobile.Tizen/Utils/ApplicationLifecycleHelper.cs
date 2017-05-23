@@ -8,12 +8,16 @@ namespace Microsoft.Azure.Mobile.Utils
 {
     public class ApplicationLifecycleHelper : IApplicationLifecycleHelper
     {
+        private static bool _started;
+        private static bool _suspended;
+
         //Static instance of current Application
         private static CoreUIApplication CoreUIApp = (CoreUIApplication)(Application.Current);
 
         public ApplicationLifecycleHelper()
         {
             Enabled = true;
+            _started = true;
 
             // TODO add unhandled exception handler
             /*Application.Current.UnhandledException += (sender, eventArgs) =>
@@ -25,12 +29,14 @@ namespace Microsoft.Azure.Mobile.Utils
         private void InvokeResuming(object sender, object e)
         {
             MobileCenterLog.Debug(MobileCenterLog.LogTag, "Calling InvokeResuming()");
+            _suspended = false;
             ApplicationResuming?.Invoke(sender, EventArgs.Empty);
         }
 
         private void InvokeSuspending(object sender, object e)
         {
             MobileCenterLog.Debug(MobileCenterLog.LogTag, "Calling InvokeSuspending()");
+            _suspended = true;
             ApplicationSuspended?.Invoke(sender, EventArgs.Empty);
         }
 
@@ -64,8 +70,13 @@ namespace Microsoft.Azure.Mobile.Utils
             }
         }
 
+        public bool HasShownWindow => _started;
+        public bool IsSuspended => _suspended;
+
         public event EventHandler ApplicationSuspended;
         public event EventHandler ApplicationResuming;
+        public event EventHandler ApplicationStarted;
+
         public event EventHandler<UnhandledExceptionOccurredEventArgs> UnhandledExceptionOccurred;
     }
 }

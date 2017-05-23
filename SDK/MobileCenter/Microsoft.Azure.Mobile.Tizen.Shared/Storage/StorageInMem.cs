@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using Newtonsoft.Json;
-using System.Data.Common;
+//using System.Data.Common;
 using Microsoft.Azure.Mobile.Ingestion.Models;
 
 //using System.Core.System.Data.Linq;
