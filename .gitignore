@@ -267,16 +267,11 @@ ModelManifest.xml
 tools/
 externals/
 
-<<<<<<< HEAD
 # Vim git mergetool temporary files
 *.orig
-=======
+
 # Google services json
 **/google-services.json
 
 # Output directory
 output/
-
-#google-services
-google-services.json
->>>>>>> c7274aa220225b9603ae68fa530e1d6bf8040bb1
