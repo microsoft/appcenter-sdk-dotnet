@@ -7,8 +7,10 @@ namespace Microsoft.Azure.Mobile.Ingestion.Http
     {
         public NetworkStateAdapter()
         {
+		// TODO check
             //NetworkChange.NetworkAddressChanged += (sender, args) => NetworkAddressChanged?.Invoke(sender, args);
         }
+	// TODO check
         public bool IsConnected => true; /*NetworkInterface.GetIsNetworkAvailable();*/
         public event EventHandler NetworkAddressChanged;
     }

@@ -6,7 +6,7 @@
       "version": "1.0.0"
     },
     "Xamarin.Forms": "2.3.4.192-pre2",
-    "Xamarin.Forms.Platform.Tizen": "2.3.4-r192-001"
+    "Xamarin.Forms.Platform.Tizen": "2.3.4-r214-002"
   },
   "runtimes": {
     "win": {},

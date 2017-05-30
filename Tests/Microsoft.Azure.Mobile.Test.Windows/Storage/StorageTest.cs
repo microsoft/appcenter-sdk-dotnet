@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Mobile.Ingestion.Models;
 using Microsoft.Azure.Mobile.Storage;
-using Microsoft.Azure.Mobile.Test.Windows.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SQLite;
 
 namespace Microsoft.Azure.Mobile.Test
 {
@@ -171,7 +170,7 @@ namespace Microsoft.Azure.Mobile.Test
             _storage.GetLogsAsync(StorageTestChannelName, limit, retrievedLogsSecondTry).RunNotAsync();
             CollectionAssert.AreEquivalent(addedLogs, retrievedLogsFirstTry);
             Assert.AreEqual(0, retrievedLogsSecondTry.Count);
-        }  
+        }
 
         /// <summary>
         ///     Verify that a channel that starts with the name of another channel does not cause problems.
@@ -210,23 +209,9 @@ namespace Microsoft.Azure.Mobile.Test
         [TestMethod]
         public void FailToGetALog()
         {
-            var storageAdapter = new StorageAdapter("Microsoft.Azure.Mobile.Storage");        
-            storageAdapter.OpenAsync().RunNotAsync();
-            var command = storageAdapter.CreateCommand();
-            var logJsonString = "'this is not a valid log json string'";
-            var channelParameter = command.CreateParameter();
-            channelParameter.ParameterName = "channelName";
-            channelParameter.Value = StorageTestChannelName;
-            var logParameter = command.CreateParameter();
-            logParameter.ParameterName = "log";
-            logParameter.Value = logJsonString;
-            command.Parameters.Add(channelParameter);
-            command.Parameters.Add(logParameter);
-            command.CommandText = "INSERT INTO logs (channel, log) " +
-                                  $"VALUES (@{channelParameter.ParameterName}, @{logParameter.ParameterName})";
-            command.Prepare();
-            command.ExecuteNonQuery();
-            storageAdapter.Close();
+            var invalidLogEntry = new Mobile.Storage.Storage.LogEntry { Channel = StorageTestChannelName, Log = "good luck deserializing me!" };
+            var connection = new SQLiteConnection("Microsoft.Azure.Mobile.Storage");
+            connection.Insert(invalidLogEntry);
             var logs = new List<Log>();
             var batchId = _storage.GetLogsAsync(StorageTestChannelName, 4, logs).RunNotAsync();
             var count = _storage.CountLogsAsync(StorageTestChannelName).RunNotAsync();

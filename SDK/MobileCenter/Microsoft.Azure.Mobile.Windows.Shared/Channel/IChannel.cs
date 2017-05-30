@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.Azure.Mobile.Ingestion.Models;
+using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Mobile.Channel
 {
@@ -37,6 +37,6 @@ namespace Microsoft.Azure.Mobile.Channel
         /// <summary>
         /// Stop all calls in progress and deactivate this channel
         /// </summary>
-        void Shutdown();
+        Task Shutdown();
     }
 }

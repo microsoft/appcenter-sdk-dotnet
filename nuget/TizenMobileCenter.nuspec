@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Microsoft.Azure.Mobile</id>
+    <version>0.12.1.0</version>
+    <authors>Microsoft Corporation, Samsung Electronics</authors>
+    <owners>Microsoft Corporation, Samsung Electronics</owners>
+    <licenseUrl>https://aka.ms/vbgfx2</licenseUrl>
+    <projectUrl>https://aka.ms/vbgfx2</projectUrl>
+    <iconUrl>https://aka.ms/p2wifj</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This package contains the basic functionalities that all Mobile Center services use to communicate with the backend.</description>
+    <releaseNotes>Tizen-compatible Mobile Center Service.</releaseNotes>
+    <copyright>Copyright (c) Microsoft Corporation. All Rights Reserved. Copyright (c) Samsung Electronics. All Rights Reserved.</copyright>
+    <tags>MobileCenter</tags>
+	<dependencies>
+    <group targetFramework="DNXCore">
+        <dependency id="Tizen" version="1.0.2" />
+        <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.2.2"/>
+        <dependency id="Microsoft.Data.SQLite" version="1.1.0"/>
+        <dependency id="sqlite" version="[3.12.3,3.12.3]"/>
+        <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.5"/>
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+
+    <!-- Tizen -->
+    <file src="../dll/Microsoft.Azure.Mobile.dll" target="lib/netstandard1.0/Microsoft.Azure.Mobile.dll" />
+
+  </files>
+</package>

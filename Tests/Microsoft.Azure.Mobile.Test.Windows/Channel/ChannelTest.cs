@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Mobile.Channel;
-using Microsoft.Azure.Mobile.Ingestion;
 using Microsoft.Azure.Mobile.Storage;
 using Microsoft.Azure.Mobile.Ingestion.Models;
-using Microsoft.Azure.Mobile.Test.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Microsoft.Azure.Mobile.Test.Channel
 {
@@ -26,7 +24,7 @@ namespace Microsoft.Azure.Mobile.Test.Channel
         private readonly string _appSecret = Guid.NewGuid().ToString();
         private const int DefaultWaitTime = 5000;
 
-        /* Event semaphores for invokation verification */
+        // Event semaphores for invokation verification
         private const int SendingLogSemaphoreIdx = 0;
         private const int SentLogSemaphoreIdx = 1;
         private const int FailedToSendLogSemaphoreIdx = 2;
@@ -75,7 +73,7 @@ namespace Microsoft.Azure.Mobile.Test.Channel
 
             Assert.IsTrue(_channel.IsEnabled);
         }
-        
+
         /// <summary>
         /// Verify that enqueuing a log passes the same log reference to enqueue event argument
         /// </summary>
@@ -107,7 +105,7 @@ namespace Microsoft.Azure.Mobile.Test.Channel
             }
             Assert.IsTrue(SendingLogOccurred(1));
         }
-        
+
         /// <summary>
         /// Verify that when channel is disabled, sent event is not triggered
         /// </summary>
@@ -154,6 +152,103 @@ namespace Microsoft.Azure.Mobile.Test.Channel
             Assert.IsTrue(FailedToSendLogOccurred(MaxLogsPerBatch));
         }
 
+        /// <summary>
+        /// Validate that links are same on an error and a log
+        /// </summary>
+        [TestMethod]
+        public void FailedToSendLogEventArgsAreSame()
+        {
+            var ex = new Exception();
+            var log = new TestLog();
+            var failedEventLogArgs = new FailedToSendLogEventArgs(log, ex);
+            Assert.AreSame(log, failedEventLogArgs.Log);
+            Assert.AreSame(ex, failedEventLogArgs.Exception);
+        }
+
+        /// <summary>
+        /// Validate that channel will send log after enabling
+        /// </summary>
+        [TestMethod]
+        public void ChannelInvokesSendingLogEventAfterEnabling()
+        {
+            _channel.Shutdown().Wait();
+            for (int i = 0; i < MaxLogsPerBatch; ++i)
+            {
+                _channel.Enqueue(new TestLog())?.Wait();
+            }
+
+            _channel.SetEnabled(true);
+
+            Assert.IsTrue(SendingLogOccurred(MaxLogsPerBatch));
+        }
+
+        /// <summary>
+        /// Validate that FailedToSendLog calls when channel is disabled
+        /// </summary>
+      [TestMethod]
+        public void ChannelInvokesFailedToSendLogEventAfterDisabling()
+        {
+            _channel.SetEnabled(false);
+            for (int i = 0; i < MaxLogsPerBatch; ++i)
+            {
+                _channel.Enqueue(new TestLog());
+            }
+
+            Assert.IsTrue(SendingLogOccurred(MaxLogsPerBatch));
+            Assert.IsTrue(FailedToSendLogOccurred(MaxLogsPerBatch));
+        }
+
+        /// <summary>
+        /// Validate that all logs removed
+        /// </summary>
+        [TestMethod]
+        public void ClearLogs()
+        {
+            _channel.Shutdown().Wait();
+            _channel.Enqueue(new TestLog());
+
+            Task.Delay(DefaultWaitTime).Wait();
+
+            _channel.Clear();
+            _channel.SetEnabled(true);
+
+            Assert.IsFalse(SendingLogOccurred(1));
+        }
+
+        /// <summary>
+        /// Validate that channel's mutex is disposed
+        /// </summary>
+        [TestMethod]
+        public void DisposeChannelTest()
+        {
+            _channel.Dispose();
+            Assert.ThrowsException<ObjectDisposedException>(() => _channel.SetEnabled(true));
+        }
+
+        /// <summary>
+        /// Validate that StorageException is processing without exception
+        /// </summary>
+        [TestMethod]
+        public void ThrowStorageExceptionInDeleteLogsTime()
+        {
+            var storage = new Mock<IStorage>();
+            storage.Setup(s => s.DeleteLogsAsync(It.IsAny<string>(), It.IsAny<string>())).Throws<StorageException>();
+            storage.Setup(s => s.GetLogsAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<List<Log>>())).Returns(Task.FromResult(""));
+
+            Mobile.Channel.Channel channel = new Mobile.Channel.Channel("name", 1, _batchTimeSpan, 1, _appSecret, _mockIngestion, storage.Object);
+
+            //Shutdown channel and store some log
+            channel.Shutdown();
+            channel.Enqueue(new TestLog());
+
+            //Wait while log is saving
+            Task.Delay(1000).Wait();
+
+            channel.SetEnabled(true);
+
+            // Not throw any exception
+        }
+
         private void SetChannelWithTimeSpan(TimeSpan timeSpan)
         {
             _storage.DeleteLogsAsync(ChannelName).Wait();
@@ -185,7 +280,7 @@ namespace Microsoft.Azure.Mobile.Test.Channel
             _channel.SendingLog += (sender, args) => { _eventSemaphores[SendingLogSemaphoreIdx].Release(); };
             _channel.SentLog += (sender, args) => { _eventSemaphores[SentLogSemaphoreIdx].Release(); };
             _channel.FailedToSendLog += (sender, args) => { _eventSemaphores[FailedToSendLogSemaphoreIdx].Release(); };
-            _channel.EnqueuingLog += (sender, args) => { _eventSemaphores[EnqueuingLogSemaphoreIdx].Release(); };       
+            _channel.EnqueuingLog += (sender, args) => { _eventSemaphores[EnqueuingLogSemaphoreIdx].Release(); };
         }
 
         private bool FailedToSendLogOccurred(int numTimes, int waitTime = DefaultWaitTime)
@@ -210,12 +305,14 @@ namespace Microsoft.Azure.Mobile.Test.Channel
 
         private static bool EventWithSemaphoreOccurred(SemaphoreSlim semaphore, int numTimes, int waitTime)
         {
-            var enteredAll = true;
             for (var i = 0; i < numTimes; ++i)
             {
-                enteredAll &= semaphore.Wait(waitTime);
+                if (!semaphore.Wait(waitTime))
+                {
+                    return false;
+                }
             }
-            return enteredAll;
+            return true;
         }
     }
 }

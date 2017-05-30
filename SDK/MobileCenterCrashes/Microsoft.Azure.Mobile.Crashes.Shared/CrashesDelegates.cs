@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace Microsoft.Azure.Mobile.Crashes
 {
@@ -9,12 +9,12 @@ namespace Microsoft.Azure.Mobile.Crashes
     /// <param name="report">The error report that is being considered for processing.</param>
     public delegate bool ShouldProcessErrorReportCallback(ErrorReport report);
 
-    ///// <summary>
-    ///// Callback type for getting an error attachment for a particular error report.
-    ///// </summary>
-    ///// <returns>The error attachment to be associated with <c>report</c>.</returns>
-    ///// <param name="report">The error report for which an error attachment is to be returned.</param>
-    //public delegate ErrorAttachment GetErrorAttachmentCallback(ErrorReport report);
+    /// <summary>
+    /// Callback type for getting error attachments for a particular error report.
+    /// </summary>
+    /// <returns>The error attachments to be associated with <c>report</c>.</returns>
+    /// <param name="report">The error report for which error attachments are to be returned.</param>
+    public delegate IEnumerable<ErrorAttachmentLog> GetErrorAttachmentsCallback(ErrorReport report);
 
     /// <summary>
     /// Determine whether user confirmation is required to process a report. <see cref="Crashes.NotifyUserConfirmation"/> must be called by yourself./> 

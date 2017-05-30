@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Android.Runtime;
+using Com.Microsoft.Azure.Mobile;
+using Com.Microsoft.Azure.Mobile.Crashes.Model;
 
 namespace Microsoft.Azure.Mobile.Crashes
 {
@@ -12,10 +15,6 @@ namespace Microsoft.Azure.Mobile.Crashes
     using AndroidCrashes = Com.Microsoft.Azure.Mobile.Crashes.AndroidCrashes;
     using AndroidICrashListener = Com.Microsoft.Azure.Mobile.Crashes.ICrashesListener;
     using AndroidExceptionDataManager = Com.Microsoft.Azure.Mobile.Crashes.WrapperSdkExceptionManager;
-    using System.Threading.Tasks;
-    using Com.Microsoft.Azure.Mobile;
-    using Com.Microsoft.Azure.Mobile.Crashes.Model;
-    using System.Threading;
 
     class PlatformCrashes : PlatformCrashesBase
     {
@@ -24,7 +23,7 @@ namespace Microsoft.Azure.Mobile.Crashes
         public override SentErrorReportEventHandler SentErrorReport { get; set; }
         public override FailedToSendErrorReportEventHandler FailedToSendErrorReport { get; set; }
         public override ShouldProcessErrorReportCallback ShouldProcessErrorReport { get; set; }
-        //public override GetErrorAttachmentCallback GetErrorAttachment { get; set; }
+        public override GetErrorAttachmentsCallback GetErrorAttachments { get; set; }
         public override ShouldAwaitUserConfirmationCallback ShouldAwaitUserConfirmation { get; set; }
 
         public override void NotifyUserConfirmation(UserConfirmation confirmation)
@@ -63,7 +62,7 @@ namespace Microsoft.Azure.Mobile.Crashes
         {
             var callback = new GetLastSessionCrashReportCallback();
             AndroidCrashes.GetLastSessionCrashReport(callback);
-            var androidErrorReport = await callback.Result;
+            var androidErrorReport = await callback.Result.ConfigureAwait(false);
             if (androidErrorReport == null)
                 return null;
             return ErrorReportCache.GetErrorReport(androidErrorReport);
@@ -138,17 +137,24 @@ namespace Microsoft.Azure.Mobile.Crashes
             /*
              * We don't assume order between java crash handler and c# crash handler.
              * This method is called after either of those 2 events.
-             * It is thus effective only the second time when we got both the c# exception and the Android error log.
+             * It is thus effective only the second time when we got both the .NET exception and the Android error log.
              */
             if (_errorLog != null && _exception != null)
             {
-                /* Generate structured data for the C# exception and overwrite the Java exception. */
-                _errorLog.Exception = GenerateModelException(_exception);
+                /*
+                 * Generate structured data for the C# exception and overwrite the Java exception to enhance it.
+                 * Unless if we have java exception in top cause, this would make it worse.
+                 * Having java exception as intermediate cause is better with .NET stack structure though.
+                 */
+                if (!(_exception is Java.Lang.Exception))
+                {
+                    _errorLog.Exception = GenerateModelException(_exception);
 
-                /* Tell the Android SDK to overwrite the modified error log on disk. */
-                AndroidExceptionDataManager.SaveWrapperSdkErrorLog(_errorLog);
+                    /* Tell the Android SDK to overwrite the modified error log on disk. */
+                    AndroidExceptionDataManager.SaveWrapperSdkErrorLog(_errorLog);
+                }
 
-                /* Save the System.Exception to disk as a serialized object. */
+                /* Save the System.Exception to disk as a serialized object for client side inspection. */
                 byte[] exceptionData = CrashesUtils.SerializeException(_exception);
                 AndroidExceptionDataManager.SaveWrapperExceptionData(exceptionData, _errorLog.Id);
             }

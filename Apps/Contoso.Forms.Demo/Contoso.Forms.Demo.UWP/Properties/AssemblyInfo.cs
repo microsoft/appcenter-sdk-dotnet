@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -25,9 +24,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.0.0.0")]
-<<<<<<< HEAD
-[assembly: AssemblyFileVersion("0.7.0.0")]
-=======
-[assembly: AssemblyFileVersion("0.6.0.1")]
->>>>>>> 9f6978352ecf7bcc3ea454acc5a8d9a5ea36d08c
+[assembly: AssemblyFileVersion("0.12.0.0")]
 [assembly: ComVisible(false)]

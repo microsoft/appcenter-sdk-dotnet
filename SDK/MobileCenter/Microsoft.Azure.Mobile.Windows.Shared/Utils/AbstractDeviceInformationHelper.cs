@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Mobile.Utils
 {
     public abstract class AbstractDeviceInformationHelper : IDeviceInformationHelper
     {
-        public Ingestion.Models.Device GetDeviceInformation()
+        public virtual async Task<Ingestion.Models.Device> GetDeviceInformationAsync()
         {
-            return new Ingestion.Models.Device
+            var device = new Ingestion.Models.Device
             {
                 SdkName = GetSdkName(),
                 SdkVersion = GetSdkVersion(),
@@ -31,6 +32,8 @@ namespace Microsoft.Azure.Mobile.Utils
                 LiveUpdateDeploymentKey = GetLiveUpdateDevelopmentKey(),
                 LiveUpdatePackageHash = GetLiveUpdatePackageHash()
             };
+
+            return await Task<Ingestion.Models.Device>.Factory.StartNew(() => device).ConfigureAwait(false);
         }
 
         protected abstract string GetSdkName();
@@ -68,11 +71,13 @@ namespace Microsoft.Azure.Mobile.Utils
         {
             return null;
         }
+
         private string GetSdkVersion()
         {
-            return GetType().GetTypeInfo().Assembly.GetName().Version.ToString();
+           return GetType().GetTypeInfo().Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
         }
-        private string GetLocale()
+
+    private string GetLocale()
         {
             return System.Globalization.CultureInfo.CurrentCulture.Name;
         }

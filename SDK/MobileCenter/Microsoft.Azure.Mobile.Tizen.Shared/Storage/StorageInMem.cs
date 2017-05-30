@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using Newtonsoft.Json;
-using System.Data.Common;
+//using System.Data.Common;
 using Microsoft.Azure.Mobile.Ingestion.Models;
 
 //using System.Core.System.Data.Linq;
@@ -65,7 +65,7 @@ namespace Microsoft.Azure.Mobile.Storage
 
         public async Task DeleteLogsAsync(string channelName)
         {
-            MobileCenterLog.Debug(MobileCenterLog.LogTag, "DeleteLogsAsync(1) Entered, channelName: " + channelName);
+            MobileCenterLog.Assert(MobileCenterLog.LogTag, "DeleteLogsAsync(1) Entered, channelName: " + channelName);
             await Task.Factory.StartNew(() =>
             {
                 try
@@ -75,14 +75,14 @@ namespace Microsoft.Azure.Mobile.Storage
                     {
                         if (log.channel == channelName)
                         {
-                            MobileCenterLog.Error(MobileCenterLog.LogTag, "DeleteLogsAsync(1) deleting log record with rowId: " + log.rowid);
+                            MobileCenterLog.Assert(MobileCenterLog.LogTag, "DeleteLogsAsync(1) deleting log record with rowId: " + log.rowid);
                         }
                         else
                         {
                             newLogs.Add(log);
                         }
                     }
-                    MobileCenterLog.Error(MobileCenterLog.LogTag, "DeleteLogsAsync(1) re-assigning log storage");
+                    MobileCenterLog.Assert(MobileCenterLog.LogTag, "DeleteLogsAsync(1) re-assigning log storage");
                     _logs = newLogs;
 
                     /*
@@ -98,14 +98,14 @@ namespace Microsoft.Azure.Mobile.Storage
                     }
                     */
 
-                    MobileCenterLog.Error(MobileCenterLog.LogTag, "DeleteLogsAsync(1) all selected logs deleted");
+                    MobileCenterLog.Assert(MobileCenterLog.LogTag, "DeleteLogsAsync(1) all selected logs deleted");
                 }
                 catch (Exception e)
                 {
                     MobileCenterLog.Error(MobileCenterLog.LogTag, "DeleteLogsAsync(1) exception: " + e.GetType() + "\n" + e.Message);
                 }
             });
-            MobileCenterLog.Debug(MobileCenterLog.LogTag, "[OK] DeleteLogsAsync(1) DONE");
+            MobileCenterLog.Assert(MobileCenterLog.LogTag, "[OK] DeleteLogsAsync(1) DONE");
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Microsoft.Azure.Mobile.Storage
         /// <exception cref="StorageException"/>
         private async Task DeleteLogAsync(string channelName, long rowId)
         {
-            MobileCenterLog.Debug(MobileCenterLog.LogTag, "DeleteLogsAsync(2) Entered, channelName: " + channelName + ", rowId: " + rowId);
+            MobileCenterLog.Assert(MobileCenterLog.LogTag, "DeleteLogsAsync(2) Entered, channelName: " + channelName + ", rowId: " + rowId);
             await Task.Factory.StartNew(() =>
             {
                 try
@@ -126,14 +126,14 @@ namespace Microsoft.Azure.Mobile.Storage
                     {
                         if ((log.channel == channelName) && (log.rowid == rowId))
                         {
-                            MobileCenterLog.Error(MobileCenterLog.LogTag, "DeleteLogsAsync(1) deleting log record with rowId: " + log.rowid);
+                            MobileCenterLog.Assert(MobileCenterLog.LogTag, "DeleteLogsAsync(1) deleting log record with rowId: " + log.rowid);
                         }
                         else
                         {
                             newLogs.Add(log);
                         }
                     }
-                    MobileCenterLog.Error(MobileCenterLog.LogTag, "DeleteLogsAsync(1) re-assigning log storage");
+                    MobileCenterLog.Assert(MobileCenterLog.LogTag, "DeleteLogsAsync(1) re-assigning log storage");
                     _logs = newLogs;
 
                     /*// Query the database for the rows to be deleted.
@@ -153,12 +153,12 @@ namespace Microsoft.Azure.Mobile.Storage
                     MobileCenterLog.Error(MobileCenterLog.LogTag, "DeleteLogsAsync(2) exception: " + e.GetType() + "\n" + e.Message);
                 }
             });
-            MobileCenterLog.Debug(MobileCenterLog.LogTag, "[OK] DeleteLogsAsync(2) DONE");
+            MobileCenterLog.Assert(MobileCenterLog.LogTag, "[OK] DeleteLogsAsync(2) DONE");
         }
 
         public async Task<string> GetLogsAsync(string channelName, int limit, List<Log> logs)
         {
-            MobileCenterLog.Debug(MobileCenterLog.LogTag, "GetLogsAsync(3) Entered, channelName: " + channelName + ", limit: " + limit);
+            MobileCenterLog.Assert(MobileCenterLog.LogTag, "GetLogsAsync(3) Entered, channelName: " + channelName + ", limit: " + limit);
             var batchId = "";
             await Task.Factory.StartNew(() =>
             {
@@ -176,14 +176,14 @@ namespace Microsoft.Azure.Mobile.Storage
                     // Process the results
                     batchId = Guid.NewGuid().ToString();
                     logs?.AddRange(queryLogs.ToList<Log>());
-                    MobileCenterLog.Debug(MobileCenterLog.LogTag, "GetLogsAsync(3) extracted: " + logs.Count() + " logs, batchId: " + batchId);
+                    MobileCenterLog.Assert(MobileCenterLog.LogTag, "GetLogsAsync(3) extracted: " + logs.Count() + " logs, batchId: " + batchId);
                 }
                 catch (Exception e)
                 {
                     MobileCenterLog.Error(MobileCenterLog.LogTag, "DeleteLogsAsync(2) exception: " + e.GetType() + "\n" + e.Message);
                 }
             });
-            MobileCenterLog.Debug(MobileCenterLog.LogTag, "[OK] GetLogsAsync(3) DONE");
+            MobileCenterLog.Assert(MobileCenterLog.LogTag, "[OK] GetLogsAsync(3) DONE");
             return batchId;
         }
 

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Azure.Mobile.Ingestion.Models;
+﻿using Microsoft.Azure.Mobile.Ingestion.Models;
+using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Mobile.Channel
 {
@@ -12,6 +10,6 @@ namespace Microsoft.Azure.Mobile.Channel
         /// Enqueue a log for processing
         /// </summary>
         /// <param name="log"></param>
-        void Enqueue(Log log);
+        Task Enqueue(Log log);
     }
 }

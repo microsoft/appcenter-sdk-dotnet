@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Microsoft.Azure.Mobile
+﻿namespace Microsoft.Azure.Mobile
 {
+    /// <summary>
+    /// Contains base functionality for classes that implement IMobileCenterService
+    /// </summary>
     public abstract class MobileCenterService : IMobileCenterService
     {
     }

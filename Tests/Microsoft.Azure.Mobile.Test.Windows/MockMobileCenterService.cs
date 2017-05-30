@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Azure.Mobile.Channel;
+﻿using Microsoft.Azure.Mobile.Channel;
 using Moq;
 
 namespace Microsoft.Azure.Mobile.Test
@@ -30,9 +25,9 @@ namespace Microsoft.Azure.Mobile.Test
             set { MockInstance.Object.InstanceEnabled = value; }
         }
 
-        public void OnChannelGroupReady(IChannelGroup channelGroup)
+        public void OnChannelGroupReady(IChannelGroup channelGroup, string appSecret)
         {
-            MockInstance.Object.OnChannelGroupReady(channelGroup);
+            MockInstance.Object.OnChannelGroupReady(channelGroup, appSecret);
         }
     }
 }

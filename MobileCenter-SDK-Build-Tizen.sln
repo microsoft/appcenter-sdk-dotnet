@@ -19,7 +19,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.Azure.Mobile.Wind
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Azure.Mobile.Analytics.Tizen", "SDK\MobileCenterAnalytics\Microsoft.Azure.Mobile.Analytics.Tizen\Microsoft.Azure.Mobile.Analytics.Tizen.csproj", "{200073BF-FA7E-42AF-8ED5-AA50BE7C0295}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "VSMC.Analytics.Windows.Shared", "SDK\MobileCenterAnalytics\VSMC.Analytics.Windows.Shared\VSMC.Analytics.Windows.Shared.shproj", "{7CE5BF9E-3650-4151-8B54-C1301AA73606}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.Azure.Mobile.Analytics.Windows.Shared", "SDK\MobileCenterAnalytics\Microsoft.Azure.Mobile.Analytics.Windows.Shared\Microsoft.Azure.Mobile.Analytics.Windows.Shared.shproj", "{7CE5BF9E-3650-4151-8B54-C1301AA73606}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Azure.Mobile.Crashes.Tizen", "SDK\MobileCenterCrashes\Microsoft.Azure.Mobile.Crashes.Tizen\Microsoft.Azure.Mobile.Crashes.Tizen.csproj", "{2F715D51-643C-4F7F-9EA4-6554D4EECCB2}"
 EndProject
@@ -29,9 +29,9 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.Azure.Mobile.Tize
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		SDK\MobileCenterAnalytics\VSMC.Analytics.Windows.Shared\VSMC.Analytics.Windows.Shared.projitems*{200073bf-fa7e-42af-8ed5-aa50be7c0295}*SharedItemsImports = 4
+		SDK\MobileCenterAnalytics\Microsoft.Azure.Mobile.Analytics.Windows.Shared\Microsoft.Azure.Mobile.Analytics.Windows.Shared.projitems*{200073bf-fa7e-42af-8ed5-aa50be7c0295}*SharedItemsImports = 4
 		SDK\MobileCenterCrashes\Microsoft.Azure.Mobile.Crashes.Shared\Microsoft.Azure.Mobile.Crashes.Shared.projitems*{2f715d51-643c-4f7f-9ea4-6554d4eeccb2}*SharedItemsImports = 4
-		SDK\MobileCenterAnalytics\VSMC.Analytics.Windows.Shared\VSMC.Analytics.Windows.Shared.projitems*{7ce5bf9e-3650-4151-8b54-c1301aa73606}*SharedItemsImports = 13
+		SDK\MobileCenterAnalytics\Microsoft.Azure.Mobile.Analytics.Windows.Shared\Microsoft.Azure.Mobile.Analytics.Windows.Shared.projitems*{7ce5bf9e-3650-4151-8b54-c1301aa73606}*SharedItemsImports = 13
 		SDK\MobileCenter\Microsoft.Azure.Mobile.Shared\Microsoft.Azure.Mobile.Shared.projitems*{8dc8f88c-85f0-49c7-b03f-8354a1393197}*SharedItemsImports = 4
 		SDK\MobileCenter\Microsoft.Azure.Mobile.Tizen.Shared\Microsoft.Azure.Mobile.Tizen.Shared.projitems*{8dc8f88c-85f0-49c7-b03f-8354a1393197}*SharedItemsImports = 4
 		SDK\MobileCenter\Microsoft.Azure.Mobile.Windows.Shared\Microsoft.Azure.Mobile.Windows.Shared.projitems*{8dc8f88c-85f0-49c7-b03f-8354a1393197}*SharedItemsImports = 4

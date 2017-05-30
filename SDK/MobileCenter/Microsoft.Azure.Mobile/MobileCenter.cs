@@ -6,13 +6,17 @@ using System.Diagnostics;
 namespace Microsoft.Azure.Mobile
 {
     /// <summary>
-    ///     SDK core used to initialize, start and control specific service.
+    /// SDK core used to initialize, start and control specific service.
     /// </summary>
     public partial class MobileCenter
     {
+        internal MobileCenter()
+        {
+        }
+
         /* Error message to display for unsupported targets. */
         private const string ErrorMessage =
-            "[MobileCenter] ASSERT: Cannot use Mobile Center on this target. If you are on Android or iOS, you must add the NuGet packages in the Android and iOS projects as well. Other targets such as Universal Windows Applications are not yet supported.";
+            "[MobileCenter] ASSERT: Cannot use Mobile Center on this target. If you are on Android or iOS or UWP, you must add the NuGet packages in the Android and iOS and UWP projects as well. Other targets are not yet supported.";
 
         /// <summary>
         ///     This property controls the amount of logs emitted by the SDK.
@@ -36,13 +40,9 @@ namespace Microsoft.Azure.Mobile
         public static Guid? InstallId { get; }
 
         /// <summary>
-        ///     Change the base URL (scheme + authority + port only) used to send logs.
+        ///     Change the base URL (scheme + authority + port only) used to communicate with the backend.
         /// </summary>
-<<<<<<< HEAD
-        /// <param name="logUrl">base log URL.</param>
-=======
         /// <param name="logUrl">Base URL to use for server communication.</param>
->>>>>>> 9f6978352ecf7bcc3ea454acc5a8d9a5ea36d08c
         public static void SetLogUrl(string logUrl)
         {
         }
