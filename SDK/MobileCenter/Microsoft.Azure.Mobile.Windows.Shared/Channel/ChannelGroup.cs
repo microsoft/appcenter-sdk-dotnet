@@ -116,11 +116,7 @@ namespace Microsoft.Azure.Mobile.Channel
 
         private static IStorage DefaultStorage()
         {
-#if TIZEN
-            return new StorageInMem();
-#else
             return new Storage.Storage();
-#endif // TIZEN
         }
 
         private void AnyChannelEnqueuingLog(object sender, EnqueuingLogEventArgs e)
