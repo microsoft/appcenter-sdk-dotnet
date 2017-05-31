@@ -64,7 +64,7 @@ namespace Microsoft.Azure.Mobile.Storage
                 var logJsonString = LogSerializer.Serialize(log);
                 var logEntry = new LogEntry { Channel = channelName, Log = logJsonString };
                 await _storageAdapter.InsertAsync(logEntry).ConfigureAwait(false);
-            }   
+            }
         }
 
         /// <summary>
@@ -242,7 +242,7 @@ namespace Microsoft.Azure.Mobile.Storage
             _pendingDbIdentifierGroups.Add(GetFullIdentifier(channelName, batchId), ids);
             MobileCenterLog.Debug(MobileCenterLog.LogTag, message);
         }
-       
+
         private async Task InitializeDatabaseAsync()
         {
             // The mutex should already be owned and the task should be started

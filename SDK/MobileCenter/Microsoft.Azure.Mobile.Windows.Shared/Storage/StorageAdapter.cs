@@ -4,6 +4,11 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using SQLite;
 
+#if TIZEN
+using Tizen.Applications;
+using SQLitePCL;
+#endif
+
 namespace Microsoft.Azure.Mobile.Storage
 {
     internal class StorageAdapter : IStorageAdapter
@@ -12,6 +17,12 @@ namespace Microsoft.Azure.Mobile.Storage
 
         public StorageAdapter(string databasePath)
         {
+#if TIZEN
+            databasePath = Application.Current.DirectoryInfo.Data + databasePath;
+            MobileCenterLog.Debug(MobileCenterLog.LogTag, "Database Path for Tizen: " + databasePath);
+            raw.SetProvider(new SQLite3Provider_sqlite3());
+            raw.FreezeProvider(true);
+#endif
             _dbConnection = new SQLiteAsyncConnection(databasePath);
         }
 
