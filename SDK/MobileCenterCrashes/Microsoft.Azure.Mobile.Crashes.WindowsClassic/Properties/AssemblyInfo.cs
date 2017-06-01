@@ -1,18 +1,21 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Microsoft.Azure.Mobile.UWP")]
+[assembly: AssemblyTitle("Microsoft.Azure.Mobile.Crashes")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Microsoft.Azure.Mobile.UWP")]
+[assembly: AssemblyProduct("Microsoft.Azure.Mobile.Crashes")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+
+// The following GUID is for the ID of the typelib if this project is exposed to COM
+[assembly: Guid("dc55c086-714d-4e2f-b6ce-3c14bc3b6646")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -28,4 +31,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("0.12.1.0")]
 [assembly: AssemblyInformationalVersion("0.12.1-SNAPSHOT")]
 [assembly: ComVisible(false)]
-[assembly: InternalsVisibleTo("Microsoft.Azure.Mobile.Test.UWP")]
+
