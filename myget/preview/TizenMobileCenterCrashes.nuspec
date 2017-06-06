@@ -23,7 +23,7 @@
   <files>
 
     <!-- Tizen -->
-    <file src="../../SDK/MobileCenterCrashes/Microsoft.Azure.Mobile.Crashes.Tizen/bin/Release/Microsoft.Azure.Mobile.Crashes.dll" target="lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll" />
+    <file src="./SDK/MobileCenterCrashes/Microsoft.Azure.Mobile.Crashes.Tizen/bin/Release/Microsoft.Azure.Mobile.Crashes.dll" target="lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll" />
 
   </files>
 </package>
