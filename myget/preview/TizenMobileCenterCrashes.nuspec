@@ -25,7 +25,7 @@
     <!-- Tizen -->
     <!--<file src="./SDK/MobileCenterCrashes/Microsoft.Azure.Mobile.Crashes.Tizen/bin/Release/Microsoft.Azure.Mobile.Crashes.dll" target="lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll" />-->
     <!--<file src="**/bin/Release/Microsoft.Azure.Mobile.Crashes.dll" target="lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll" />-->
-    <file src="d:\a\1\a\SDK\MobileCenter\Microsoft.Azure.Mobile.Tizen\bin\Release\Microsoft.Azure.Mobile.Crashes.dll" target="lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll" />
+    <file src="d:\a\1\s\SDK\MobileCenterCrashes\Microsoft.Azure.Mobile.Crashes.Tizen\bin\Release\Microsoft.Azure.Mobile.Crashes.dll" target="lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll" />
 
   </files>
 </package>
