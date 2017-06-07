@@ -24,7 +24,8 @@
 
     <!-- Tizen -->
     <!--<file src="./SDK/MobileCenterAnalytics/Microsoft.Azure.Mobile.Analytics.Tizen/bin/Release/Microsoft.Azure.Mobile.Analytics.dll" target="lib/netstandard1.0/Microsoft.Azure.Mobile.Analytics.dll" />-->
-    <file src="**/bin/Release/Microsoft.Azure.Mobile.Analytics.dll" target="lib/netstandard1.0/Microsoft.Azure.Mobile.Analytics.dll" />
+    <!--<file src="**/bin/Release/Microsoft.Azure.Mobile.Analytics.dll" target="lib/netstandard1.0/Microsoft.Azure.Mobile.Analytics.dll" />-->
+    <file src="d:\a\1\a\SDK\MobileCenter\Microsoft.Azure.Mobile.Tizen\bin\Release\Microsoft.Azure.Mobile.Analytics.dll" target="lib/netstandard1.0/Microsoft.Azure.Mobile.Analytics.dll" />
 
   </files>
 </package>

@@ -28,7 +28,8 @@
 
     <!-- Tizen -->
     <!--<file src="./SDK/MobileCenter/Microsoft.Azure.Mobile.Tizen/bin/Release/Microsoft.Azure.Mobile.dll" target="lib/netstandard1.0/Microsoft.Azure.Mobile.dll" />-->
-    <file src="**/bin/Release/Microsoft.Azure.Mobile.dll" target="lib/netstandard1.0/Microsoft.Azure.Mobile.dll" />
+    <!--<file src="**/bin/Release/Microsoft.Azure.Mobile.dll" target="lib/netstandard1.0/Microsoft.Azure.Mobile.dll" />-->
+    <file src="d:\a\1\a\SDK\MobileCenter\Microsoft.Azure.Mobile.Tizen\bin\Release\Microsoft.Azure.Mobile.dll" target="lib/netstandard1.0/Microsoft.Azure.Mobile.dll" />
 
   </files>
 </package>
