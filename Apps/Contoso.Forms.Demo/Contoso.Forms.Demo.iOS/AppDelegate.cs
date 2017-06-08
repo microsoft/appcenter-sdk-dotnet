@@ -12,14 +12,7 @@ namespace Contoso.Forms.Demo.iOS
             Xamarin.Forms.Forms.Init();
             Distribute.DontCheckForUpdatesInDebug();
             LoadApplication(new App());
-
             return base.FinishedLaunching(uiApplication, launchOptions);
-        }
-
-        public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
-        {
-            Distribute.OpenUrl(url);
-            return true;
         }
     }
 }

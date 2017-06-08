@@ -17,13 +17,6 @@ namespace Contoso.Forms.Puppet.iOS
             LoadApplication(new App());
             return base.FinishedLaunching(uiApplication, launchOptions);
         }
-
-        public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
-        {
-            Distribute.OpenUrl(url);
-
-            return true;
-        }
     }
 
     public class AnalyticsDelegate : MSAnalyticsDelegate

@@ -7,41 +7,29 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Mobile.Crashes
 {
-    public partial class Crashes
+    public partial class Crashes : IMobileCenterService
     {
+        public string ServiceName => "Crashes";
+
+        public bool InstanceEnabled { get; set; }
+
         private static Crashes _instanceField;
-        private static readonly object CrashesLock = new object();
+
         public static Crashes Instance
         {
             get
             {
-                lock (CrashesLock)
-                {
-                    return _instanceField ?? (_instanceField = new Crashes());
-                }
+                return _instanceField ?? (_instanceField = new Crashes());
             }
             set
             {
-                lock (CrashesLock)
-                {
-                    _instanceField = value; //for testing
-                }
+                _instanceField = value; //for testing
             }
         }
 
-        protected string ChannelName => "crashes";
-        public string ServiceName => "Crashes";
-
-        /// <exception cref="MobileCenterException"/>
-        public void OnChannelGroupReady(IChannelGroup channelGroup)
+        public void OnChannelGroupReady(IChannelGroup channelGroup, string appSecret)
         {
-            var platformCrashes = PlatformCrashes as PlatformCrashes;
-            var appSecretHolder = channelGroup as IAppSecretHolder;
-            if (appSecretHolder == null)
-            {
-                throw new MobileCenterException("Cannot find app secret to register crashes service");
-            }
-            platformCrashes?.Configure(appSecretHolder.AppSecret);
+            MobileCenterLog.Warn(MobileCenterLog.LogTag, "Crashes service is not yet supported on Tizen.");
             //base.OnChannelGroupReady(channelGroup);
         }
     }
