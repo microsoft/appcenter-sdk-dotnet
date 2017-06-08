@@ -5,6 +5,11 @@ namespace Microsoft.Azure.Mobile.Crashes
 {
     public class CrashesDelegate : MSCrashesDelegate
     {
+        /// <summary>
+        /// The max attachments per crash report.
+        /// </summary>
+        private const int kMaxAttachmentsPerCrashReport = 2;
+
         readonly PlatformCrashes _owner;
 
         internal CrashesDelegate(PlatformCrashes owner)
@@ -45,6 +50,11 @@ namespace Microsoft.Azure.Mobile.Crashes
                     {
                         MobileCenterLog.Warn(Crashes.LogTag, "Skipping null ErrorAttachmentLog in Crashes.GetErrorAttachments.");
                     }
+                }
+                if (nsArray.Count > kMaxAttachmentsPerCrashReport)
+                {
+                    MobileCenterLog.Warn(Crashes.LogTag, 
+                                        string.Format("A limit of {0} attachments per error report might be enforced by server.", kMaxAttachmentsPerCrashReport));
                 }
                 return nsArray;
             }

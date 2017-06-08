@@ -7,6 +7,11 @@ namespace Microsoft.Azure.Mobile.Crashes
 {
     class AndroidCrashListener : Object, ICrashesListener
     {
+        /// <summary>
+        /// The max attachments per crash report.
+        /// </summary>
+        private const int kMaxAttachmentsPerCrashReport = 2;
+
         readonly PlatformCrashes _owner;
 
         public AndroidCrashListener(PlatformCrashes owner)
@@ -30,6 +35,11 @@ namespace Microsoft.Azure.Mobile.Crashes
                 {
                     /* Let Java SDK warn against null. */
                     attachmentList.Add(attachment?.internalAttachment);
+                }
+                if (attachmentList.Size() > kMaxAttachmentsPerCrashReport)
+                {
+                    MobileCenterLog.Warn(Crashes.LogTag, 
+                                       string.Format("A limit of {0} attachments per error report might be enforced by server.", kMaxAttachmentsPerCrashReport));
                 }
                 return attachmentList;
             }
