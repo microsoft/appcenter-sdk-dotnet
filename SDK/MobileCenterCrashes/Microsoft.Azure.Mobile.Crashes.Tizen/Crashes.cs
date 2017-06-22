@@ -9,9 +9,10 @@ namespace Microsoft.Azure.Mobile.Crashes
 {
     public partial class Crashes : IMobileCenterService
     {
-        public string ServiceName => "Crashes";
+        #region static
+        private static readonly object CrashesLock = new object();
 
-        public bool InstanceEnabled { get; set; }
+        public static readonly string LogTag = "Crashes";
 
         private static Crashes _instanceField;
 
@@ -19,18 +20,78 @@ namespace Microsoft.Azure.Mobile.Crashes
         {
             get
             {
-                return _instanceField ?? (_instanceField = new Crashes());
+                lock(CrashesLock)
+                {
+                    return _instanceField ?? (_instanceField = new Crashes());
+                }
             }
             set
             {
-                _instanceField = value; //for testing
+                lock (CrashesLock)
+                {
+                    _instanceField = value; //for testing
+                }
             }
         }
 
-        public void OnChannelGroupReady(IChannelGroup channelGroup, string appSecret)
+        #endregion
+
+
+        #region instance
+
+        //protected override string ChannelName => "crashes";
+
+        public /*override*/ string ServiceName => "Crashes";
+
+        public /*override*/ bool InstanceEnabled
         {
-            MobileCenterLog.Warn(MobileCenterLog.LogTag, "Crashes service is not yet supported on Tizen.");
-            //base.OnChannelGroupReady(channelGroup);
+            get
+            {
+                //return base.InstanceEnabled;
+                return true;
+            }
+
+            set
+            {
+            }
         }
+
+        private bool _hasStarted;
+
+        //private void ApplyEnabledState(bool enabled)
+        //{
+        //    lock (_serviceLock)
+        //    {
+        //        // TODO TIZENImplement Crashes.ApplyEnabled State
+        //        // Based on if (enabled), do the following
+        //        // 1) Set Enabled = true
+        //        //    Set the exception handlers
+        //        //    Instantiate and assign necessary variables
+        //        //    Start Thread to check for stored error logs
+        //        // 2) Set Enabled = false
+        //        //    Destroy crash logs, etc, etc
+
+        //        // TODO refer to Android Implementation
+        //    }
+        //}
+
+        public /*override*/ void OnChannelGroupReady(IChannelGroup channelGroup, string appSecret)
+        {
+            AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+            {
+                MobileCenterLog.Debug(Crashes.LogTag, $"Crashes has Received Exception!!!\n{(Exception)args.ExceptionObject}");
+            };
+
+            //MobileCenterLog.Warn(MobileCenterLog.LogTag, "Crashes service is not yet supported on Tizen.");
+            //lock (_serviceLock)
+            //{
+            //    // TODO TIZEN Implement Crashes.OnChannelGroupReady
+            //    // base.OnChannelGroupReady(channelGroup, appSecret);
+
+            //    // Refer to implementation from Android
+            //}
+        }
+
+        #endregion
     }
 }

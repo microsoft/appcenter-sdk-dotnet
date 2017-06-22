@@ -21,6 +21,7 @@ namespace Microsoft.Azure.Mobile.Crashes
 #if WINDOWS_UWP
 #elif TIZEN
             // Not supported yet
+            throw new TestCrashException();     // testing
 #else
             throw new TestCrashException();
 #endif

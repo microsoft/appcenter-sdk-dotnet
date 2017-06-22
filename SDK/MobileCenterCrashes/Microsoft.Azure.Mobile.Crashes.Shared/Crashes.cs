@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Mobile.Crashes
                 SentErrorReport?.Invoke(sender, e);
             };
 
-            PlatformCrashes.FailedToSendErrorReport += (sender, e) => 
+            PlatformCrashes.FailedToSendErrorReport += (sender, e) =>
             {
                 FailedToSendErrorReport?.Invoke(sender, e);
             };
@@ -30,7 +30,7 @@ namespace Microsoft.Azure.Mobile.Crashes
             PlatformCrashes.GetErrorAttachments = null;
             PlatformCrashes.ShouldAwaitUserConfirmation = null;
 
-            /* 
+            /*
              * We need to add [Android.Runtime.Preserve] to BindingType to avoid it
              * from being removed by "Link all assemblies optimization".
              * However we cannot do it because this code is shared with ios and PCL.

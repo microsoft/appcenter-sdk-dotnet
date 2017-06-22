@@ -9,9 +9,6 @@ namespace Microsoft.Azure.Mobile.Ingestion.Http
     {
         public NetworkStateAdapter()
         {
-            // TODO check
-            //NetworkChange.NetworkAddressChanged += (sender, args) => NetworkAddressChanged?.Invoke(sender, args);
-
             // IPAddressChanged Event handles change between networks/ IP change within the same network,
             //              but not disconnection from a network
             IPAddressChanged += (sender, args) =>
@@ -25,9 +22,6 @@ namespace Microsoft.Azure.Mobile.Ingestion.Http
                 NetworkAddressChanged?.Invoke(sender, args);
             };
         }
-        // TODO check
-        //public bool IsConnected => true; /*NetworkInterface.GetIsNetworkAvailable();*/
-
         // Check if the state of the currently active connection is connected
         public bool IsConnected => (CurrentConnection.State == ConnectionState.Connected);
         public event EventHandler NetworkAddressChanged;
