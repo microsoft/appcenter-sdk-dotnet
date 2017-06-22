@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Microsoft.Azure.Mobile.Crashes</id>
+    <version>1.0.3</version>
+    <authors>Microsoft Corporation, Samsung Electronics</authors>
+    <owners>Microsoft Corporation, Samsung Electronics</owners>
+    <licenseUrl>https://aka.ms/vbgfx2</licenseUrl>
+    <projectUrl>https://aka.ms/vbgfx2</projectUrl>
+    <iconUrl>https://aka.ms/p2wifj</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This package contains functionalities to collect crash reports for your application.</description>
+    <releaseNotes>Tizen-compatible Mobile Center Analytics Service.</releaseNotes>
+    <copyright>Copyright (c) Microsoft Corporation. All Rights Reserved. Copyright (c) Samsung Electronics. All Rights Reserved.</copyright>
+    <tags>MobileCenter</tags>
+	<dependencies>
+      <group targetFramework="DNXCore">
+      	<dependency id="Tizen" version="1.0.2" />
+        <dependency id="Microsoft.Azure.Mobile" version="1.0.3" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+
+    <!-- Tizen -->
+    <file src="../dll/Microsoft.Azure.Mobile.Crashes.dll" target="lib/netstandard1.3/Microsoft.Azure.Mobile.Crashes.dll" />
+
+  </files>
+</package>
