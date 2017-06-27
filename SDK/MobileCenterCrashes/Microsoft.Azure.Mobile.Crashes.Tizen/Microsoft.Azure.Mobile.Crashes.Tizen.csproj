@@ -117,8 +117,15 @@
   <ItemGroup>
     <Compile Include="Crashes.cs" />
     <Compile Include="ErrorAttachmentLog.cs" />
+    <Compile Include="ErrorReport.cs" />
+    <Compile Include="Ingestion\Models\AbstractErrorLog.cs" />
+    <Compile Include="Ingestion\Models\ManagedErrorLog.cs" />
+    <Compile Include="Ingestion\Models\ModelException.cs" />
+    <Compile Include="Ingestion\Models\ModelStackFrame.cs" />
     <Compile Include="PlatformCrashes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ErrorLogHelper.cs" />
+    <Compile Include="Utils\ShutDownHelper.cs" />
     <EmbeddedResource Include="Properties\Microsoft.Azure.Mobile.Crashes.Tizen.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -157,7 +164,25 @@
       <FlavorProperties GUID="{2F98DAC9-6F16-457B-AED7-D43CAC379341}" Configuration="Debug|Any CPU">
         <ProjectCommonFlavorCfg />
       </FlavorProperties>
+      <FlavorProperties GUID="{2F98DAC9-6F16-457B-AED7-D43CAC379341}" Configuration="Debug|x86">
+        <ProjectCommonFlavorCfg />
+      </FlavorProperties>
+      <FlavorProperties GUID="{2F98DAC9-6F16-457B-AED7-D43CAC379341}" Configuration="Debug|ARM">
+        <ProjectCommonFlavorCfg />
+      </FlavorProperties>
+      <FlavorProperties GUID="{2F98DAC9-6F16-457B-AED7-D43CAC379341}" Configuration="Debug|x64">
+        <ProjectCommonFlavorCfg />
+      </FlavorProperties>
       <FlavorProperties GUID="{2F98DAC9-6F16-457B-AED7-D43CAC379341}" Configuration="Release|Any CPU">
+        <ProjectCommonFlavorCfg />
+      </FlavorProperties>
+      <FlavorProperties GUID="{2F98DAC9-6F16-457B-AED7-D43CAC379341}" Configuration="Release|x86">
+        <ProjectCommonFlavorCfg />
+      </FlavorProperties>
+      <FlavorProperties GUID="{2F98DAC9-6F16-457B-AED7-D43CAC379341}" Configuration="Release|ARM">
+        <ProjectCommonFlavorCfg />
+      </FlavorProperties>
+      <FlavorProperties GUID="{2F98DAC9-6F16-457B-AED7-D43CAC379341}" Configuration="Release|x64">
         <ProjectCommonFlavorCfg />
       </FlavorProperties>
     </VisualStudio>

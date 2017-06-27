@@ -38,11 +38,12 @@ namespace Microsoft.Azure.Mobile.Crashes
              */
             var type = BindingType;
         }
-
+#if TIZEN
+#else
         internal Crashes()
         {
         }
-
+#endif
         // We use the EditorBrowsable attribute to hide the unimplemented APIs from UWP apps.
         // The APIs will still be visible if this is added as a project reference, but otherwise,
         // (so if it's added via nuget), they will be hidden. Unless the VS instance has resharper,
