@@ -19,11 +19,15 @@ namespace Microsoft.Azure.Mobile.Crashes
         // TODO TIZEN Look into Crashes LogTag
         public new static string LogTag = "MobileCenterCrashes";
 
+        public static string PREF_KEY_ALWAYS_SEND = Constants.KeyPrefix + "Crashes" + "_ALWAYS_SEND";
+
         private static readonly object CrashesLock = new object();
 
         private static Crashes _instanceField;
 
         internal static CountdownEvent _countDownLatch = null;
+
+        private static readonly IApplicationSettings _applicationSettings = new ApplicationSettings();
 
         public static Crashes Instance
         {
@@ -44,6 +48,8 @@ namespace Microsoft.Azure.Mobile.Crashes
         }
 
         private static IDictionary<Guid, ErrorReport> _errorReportCache;
+
+        private static IDictionary<Guid, Tuple<ManagedErrorLog, ErrorReport>> _UnProcessedErrorReports;
 
         private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
@@ -85,30 +91,149 @@ namespace Microsoft.Azure.Mobile.Crashes
             }
         }
 
-        private static Task processPendingErrors()
+        private static bool ShouldStopProcessingErrors
+        {
+            get
+            {
+                if (!Instance.InstanceEnabled)
+                {
+                    MobileCenterLog.Info(LogTag, "Crashes service is disabled while processing errors. Cancel processing all pending errors.");
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        private static Task ProcessPendingErrors()
         {
             var fileList = ErrorLogHelper.GetErrorLogFileNames();
             foreach (string fileName in fileList)
             {
+                if (ShouldStopProcessingErrors)
+                    return Task.CompletedTask;
+
                 ManagedErrorLog errorLog = ErrorLogHelper.ReadErrorLogFromFile(fileName);
                 ErrorReport errorReport = BuildErrorReport(errorLog);
 
                 // TODO TIZEN decide whether to process Error Report based on User callbacks
                 // TODO TIZEN check if enabled state is changed in the middle - refer android shouldStopProcessingPendingErrors
 
+                if (errorReport == null)
+                {
+                    ErrorLogHelper.RemoveErrorLogFile(errorLog.Id);
+                    ErrorLogHelper.RemoveExceptionFile(errorLog.Id);
+                }
+                else if (PlatformCrashes.ShouldProcessErrorReport != null && !PlatformCrashes.ShouldProcessErrorReport(errorReport))
+                {
+                    MobileCenterLog.Debug(LogTag, "PlatFormCrashes.ShouldProcessErrorReport returned false, clean up and ignore log: " + errorLog.Id.ToString());
+                    ErrorLogHelper.RemoveErrorLogFile(errorLog.Id);
+                    ErrorLogHelper.RemoveExceptionFile(errorLog.Id);
+                }
+                else
+                {
+                    MobileCenterLog.Debug(LogTag, "PlatFormCrashes.ShouldProcessErrorReport returned true, continue processing log: " + errorLog.Id.ToString());
+                    // TODO TIZEN Store in Unprocessed error cache
+                    _UnProcessedErrorReports[errorLog.Id] = Tuple.Create(errorLog, errorReport);
+                }
+
+                // TODO TIZEN Handle serialization and file i/o errors
+
+
                 // testing
-                // only enque after performing all checks
-                Instance.Channel.Enqueue(errorLog);
-                ErrorLogHelper.RemoveErrorLogFile(errorLog.Id);
-                ErrorLogHelper.RemoveExceptionFile(errorLog.Id);
+                //// only enque after performing all checks
+                //Instance.Channel.Enqueue(errorLog);
+                //ErrorLogHelper.RemoveErrorLogFile(errorLog.Id);
+                //ErrorLogHelper.RemoveExceptionFile(errorLog.Id);
             }
+
+            if (ShouldStopProcessingErrors)
+            {
+                return Task.CompletedTask;
+            }
+
+            ProcessUserConfirmation();
+
             // TODO TIZEN After checking shouldProcess()
             // handle user confirmation
             // remove files in the end
 
+            return Task.CompletedTask;
+        }
+
+        private static Task ProcessUserConfirmation()
+        {
+            bool shouldAwaitUserConfirmation = false;
+            if (PlatformCrashes.ShouldAwaitUserConfirmation != null)
+            {
+                shouldAwaitUserConfirmation = PlatformCrashes.ShouldAwaitUserConfirmation();
+            }
+            MobileCenterLog.Debug(LogTag, $"{_UnProcessedErrorReports.Count}, {_applicationSettings.GetValue(PREF_KEY_ALWAYS_SEND, false)}");
+            if (_UnProcessedErrorReports.Count > 0 && (_applicationSettings.GetValue(PREF_KEY_ALWAYS_SEND, false) || !shouldAwaitUserConfirmation))
+            {
+                if (!shouldAwaitUserConfirmation)
+                {
+                    MobileCenterLog.Debug(LogTag, "PlatformCrashes.ShouldAwaitUserConfirmation returned false, continue sending logs");
+                }
+                else
+                {
+                    MobileCenterLog.Debug(LogTag, "The flag for user confirmation is set to ALWAYS_SEND, continue sending logs");
+                }
+                HandleUserConfirmation(UserConfirmation.Send);
+            }
+            return Task.CompletedTask;
+        }
+
+        private static Task HandleUserConfirmation(UserConfirmation userConfirmation)
+        {
+            // TODO TIZEN look into Android mhandler.post(runnable) and Runnable.Run()
+            if (!Instance.InstanceEnabled)
+            {
+                MobileCenterLog.Error(LogTag, "Crashes service not initialized, discarding calls.");
+                return Task.CompletedTask;
+            }
+
+            if (userConfirmation == UserConfirmation.DontSend)
+            {
+                foreach (Guid logId in _UnProcessedErrorReports.Keys)
+                {
+                    ErrorLogHelper.RemoveErrorLogFile(logId);
+                    ErrorLogHelper.RemoveExceptionFile(logId);
+                }
+                _UnProcessedErrorReports.Clear();
+            }
+            else
+            {
+                if (userConfirmation == UserConfirmation.AlwaysSend)
+                    _applicationSettings[PREF_KEY_ALWAYS_SEND] = true;
+
+
+                List<Guid> ToBeRemoved = new List<Guid>();
+                foreach (Guid Id in _UnProcessedErrorReports.Keys)
+                {
+                    if (ShouldStopProcessingErrors)
+                        break;
+
+                    var tuple =_UnProcessedErrorReports[Id];
+                    var errorLog = tuple.Item1;
+                    var errorReport = tuple.Item2;
+
+                    Instance.Channel.Enqueue(errorLog);
+
+                    // TODO TIZEN Process ErrorAttachmentLog
+
+                    ToBeRemoved.Add(Id);
+                    ErrorLogHelper.RemoveErrorLogFile(Id);
+                    ErrorLogHelper.RemoveExceptionFile(Id);
+                }
+                foreach (Guid Id in ToBeRemoved)
+                {
+                    _UnProcessedErrorReports.Remove(Id);
+                }
+            }
 
             return Task.CompletedTask;
         }
+
 
         private static ErrorReport BuildErrorReport(ManagedErrorLog log)
         {
@@ -135,6 +260,7 @@ namespace Microsoft.Azure.Mobile.Crashes
             LogSerializer.AddLogType(ManagedErrorLog.JsonIdentifier, typeof(ManagedErrorLog));
             ErrorLogHelper.InitializeErrorDirectoryPath();
             _errorReportCache = new Dictionary<Guid, ErrorReport>();
+            _UnProcessedErrorReports = new Dictionary<Guid, Tuple<ManagedErrorLog, ErrorReport>>();
         }
 
         public override bool InstanceEnabled
@@ -243,7 +369,7 @@ namespace Microsoft.Azure.Mobile.Crashes
                 if (InstanceEnabled)
                 {
                     // TODO TIZEN process pending errors
-                    processPendingErrors();
+                    ProcessPendingErrors();
                 }
             }
         }
