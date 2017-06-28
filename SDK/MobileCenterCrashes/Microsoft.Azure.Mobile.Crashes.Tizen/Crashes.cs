@@ -369,6 +369,9 @@ namespace Microsoft.Azure.Mobile.Crashes
 
                 Channel.SendingLog += (sender, args) =>
                 {
+                    if (args.Log.GetType() != typeof(ManagedErrorLog))
+                        return;
+
                     var errorReportEventArgs = new SendingErrorReportEventArgs();
                     errorReportEventArgs.Report = _errorReportCache[((ManagedErrorLog)args.Log).Id];
                     PlatformCrashes.SendingErrorReport?.Invoke(sender, errorReportEventArgs);
@@ -376,6 +379,9 @@ namespace Microsoft.Azure.Mobile.Crashes
 
                 Channel.SentLog += (sender, args) =>
                 {
+                    if (args.Log.GetType() != typeof(ManagedErrorLog))
+                        return;
+
                     var errorReportEventArgs = new SentErrorReportEventArgs();
                     errorReportEventArgs.Report = _errorReportCache[((ManagedErrorLog)args.Log).Id];
                     PlatformCrashes.SentErrorReport?.Invoke(sender, errorReportEventArgs);
@@ -383,6 +389,9 @@ namespace Microsoft.Azure.Mobile.Crashes
 
                 Channel.FailedToSendLog += (sender, args) =>
                 {
+                    if (args.Log.GetType() != typeof(ManagedErrorLog))
+                        return;
+
                     var errorReportEventArgs = new FailedToSendErrorReportEventArgs();
                     errorReportEventArgs.Report = _errorReportCache[((ManagedErrorLog)args.Log).Id];
                     errorReportEventArgs.Exception = args.Exception;
