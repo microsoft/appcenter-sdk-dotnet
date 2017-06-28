@@ -10,9 +10,39 @@ namespace Microsoft.Azure.Mobile.Crashes
         public override SendingErrorReportEventHandler SendingErrorReport { get; set; }
         public override SentErrorReportEventHandler SentErrorReport { get; set; }
         public override FailedToSendErrorReportEventHandler FailedToSendErrorReport { get; set; }
+        // TODO TIZEN add GetErrorAttachmentsCallback memeber to crashes and set it here
         public override GetErrorAttachmentsCallback GetErrorAttachments { get; set; }
-        public override ShouldProcessErrorReportCallback ShouldProcessErrorReport { get; set; }
-        public override ShouldAwaitUserConfirmationCallback ShouldAwaitUserConfirmation { get; set; }
+        public override ShouldProcessErrorReportCallback ShouldProcessErrorReport
+        {
+            get
+            {
+                if (Crashes._ShouldProcessErrorReport == null)
+                {
+                    return (errorReport) => { return true; };
+                }
+                return Crashes._ShouldProcessErrorReport;
+            }
+            set
+            {
+                Crashes._ShouldProcessErrorReport = value;
+            }
+        }
+
+        public override ShouldAwaitUserConfirmationCallback ShouldAwaitUserConfirmation
+        {
+            get
+            {
+                if (Crashes._ShouldAwaitUserConfirmation == null)
+                {
+                    return () => { return false; };
+                }
+                return Crashes._ShouldAwaitUserConfirmation;
+            }
+            set
+            {
+                Crashes._ShouldAwaitUserConfirmation = value;
+            }
+        }
 
         public override Type BindingType => typeof(Crashes);
 
@@ -46,7 +76,7 @@ namespace Microsoft.Azure.Mobile.Crashes
         {
             // TODO TIZEN Check user confirmation
             // Trigger action based on that value
-
+            Crashes.HandleUserConfirmation(confirmation);
         }
 
         static PlatformCrashes()

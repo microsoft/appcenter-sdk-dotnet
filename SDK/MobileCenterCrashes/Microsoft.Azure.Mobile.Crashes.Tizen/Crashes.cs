@@ -17,9 +17,9 @@ namespace Microsoft.Azure.Mobile.Crashes
     {
         #region static
         // TODO TIZEN Look into Crashes LogTag
-        public new static string LogTag = "MobileCenterCrashes";
+        internal new static string LogTag = "MobileCenterCrashes";
 
-        public static string PREF_KEY_ALWAYS_SEND = Constants.KeyPrefix + "Crashes" + "_ALWAYS_SEND";
+        internal static string PREF_KEY_ALWAYS_SEND = Constants.KeyPrefix + "Crashes" + "_ALWAYS_SEND";
 
         private static readonly object CrashesLock = new object();
 
@@ -28,6 +28,10 @@ namespace Microsoft.Azure.Mobile.Crashes
         internal static CountdownEvent _countDownLatch = null;
 
         private static readonly IApplicationSettings _applicationSettings = new ApplicationSettings();
+
+        internal static ShouldAwaitUserConfirmationCallback _ShouldAwaitUserConfirmation = null;
+
+        internal static ShouldProcessErrorReportCallback _ShouldProcessErrorReport = null;
 
         public static Crashes Instance
         {
@@ -162,11 +166,7 @@ namespace Microsoft.Azure.Mobile.Crashes
 
         private static Task ProcessUserConfirmation()
         {
-            bool shouldAwaitUserConfirmation = false;
-            if (PlatformCrashes.ShouldAwaitUserConfirmation != null)
-            {
-                shouldAwaitUserConfirmation = PlatformCrashes.ShouldAwaitUserConfirmation();
-            }
+            bool shouldAwaitUserConfirmation = PlatformCrashes.ShouldAwaitUserConfirmation();
             MobileCenterLog.Debug(LogTag, $"{_UnProcessedErrorReports.Count}, {_applicationSettings.GetValue(PREF_KEY_ALWAYS_SEND, false)}");
             if (_UnProcessedErrorReports.Count > 0 && (_applicationSettings.GetValue(PREF_KEY_ALWAYS_SEND, false) || !shouldAwaitUserConfirmation))
             {
@@ -183,7 +183,7 @@ namespace Microsoft.Azure.Mobile.Crashes
             return Task.CompletedTask;
         }
 
-        private static Task HandleUserConfirmation(UserConfirmation userConfirmation)
+        internal static Task HandleUserConfirmation(UserConfirmation userConfirmation)
         {
             // TODO TIZEN look into Android mhandler.post(runnable) and Runnable.Run()
             if (!Instance.InstanceEnabled)
@@ -366,6 +366,29 @@ namespace Microsoft.Azure.Mobile.Crashes
             {
                 base.OnChannelGroupReady(channelGroup, appSecret);
                 ApplyEnabledState(InstanceEnabled);
+
+                Channel.SendingLog += (sender, args) =>
+                {
+                    var errorReportEventArgs = new SendingErrorReportEventArgs();
+                    errorReportEventArgs.Report = _errorReportCache[((ManagedErrorLog)args.Log).Id];
+                    PlatformCrashes.SendingErrorReport?.Invoke(sender, errorReportEventArgs);
+                };
+
+                Channel.SentLog += (sender, args) =>
+                {
+                    var errorReportEventArgs = new SentErrorReportEventArgs();
+                    errorReportEventArgs.Report = _errorReportCache[((ManagedErrorLog)args.Log).Id];
+                    PlatformCrashes.SentErrorReport?.Invoke(sender, errorReportEventArgs);
+                };
+
+                Channel.FailedToSendLog += (sender, args) =>
+                {
+                    var errorReportEventArgs = new FailedToSendErrorReportEventArgs();
+                    errorReportEventArgs.Report = _errorReportCache[((ManagedErrorLog)args.Log).Id];
+                    errorReportEventArgs.Exception = args.Exception;
+                    PlatformCrashes.FailedToSendErrorReport?.Invoke(sender, errorReportEventArgs);
+                };
+
                 if (InstanceEnabled)
                 {
                     // TODO TIZEN process pending errors
@@ -373,9 +396,6 @@ namespace Microsoft.Azure.Mobile.Crashes
                 }
             }
         }
-
-
-
         #endregion
     }
 }
