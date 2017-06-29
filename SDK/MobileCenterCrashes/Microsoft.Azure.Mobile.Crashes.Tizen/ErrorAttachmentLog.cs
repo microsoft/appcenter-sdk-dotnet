@@ -30,7 +30,7 @@ namespace Microsoft.Azure.Mobile.Crashes
 
         static ErrorAttachmentLog PlatformAttachmentWithText(string text, string fileName)
         {
-            return PlatformAttachmentWithBinary(Encoding.UTF8.GetBytes(text), fileName, "text/plain");
+            return PlatformAttachmentWithBinary(Encoding.UTF8.GetBytes(text), fileName, CONTENT_TYPE_PLAIN_TEXT);
         }
 
         static ErrorAttachmentLog PlatformAttachmentWithBinary(byte[] data, string fileName, string contentType)
@@ -41,7 +41,7 @@ namespace Microsoft.Azure.Mobile.Crashes
         [JsonProperty(PropertyName = "id")]
         public Guid Id { get; set; }
 
-        [JsonProperty(PropertyName = "errro_id")]
+        [JsonProperty(PropertyName = "error_id")]
         public Guid ErrorId { get; set; }
 
         [JsonProperty(PropertyName = "content_type")]
