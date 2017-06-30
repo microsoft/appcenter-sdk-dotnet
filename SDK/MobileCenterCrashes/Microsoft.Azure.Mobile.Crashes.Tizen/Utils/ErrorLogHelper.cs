@@ -136,5 +136,15 @@ namespace Microsoft.Azure.Mobile.Crashes.Utils
                 File.Delete(file);
             }
         }
+
+        public static void RemoveAllFiles()
+        {
+            var files = Directory.EnumerateFiles(ErrorDirectoryPath);
+            foreach (string file in files)
+            {
+                File.Delete(file);
+            }
+        }
+
     }
 }

@@ -11,7 +11,24 @@ namespace Microsoft.Azure.Mobile.Crashes
         public override SentErrorReportEventHandler SentErrorReport { get; set; }
         public override FailedToSendErrorReportEventHandler FailedToSendErrorReport { get; set; }
         // TODO TIZEN add GetErrorAttachmentsCallback memeber to crashes and set it here
-        public override GetErrorAttachmentsCallback GetErrorAttachments { get; set; }
+        public override GetErrorAttachmentsCallback GetErrorAttachments
+        {
+            get
+            {
+                if (Crashes._GetErrorAttachments == null)
+                {
+                    return (errorReport) =>
+                    {
+                        return null;
+                    };
+                }
+                return Crashes._GetErrorAttachments;
+            }
+            set
+            {
+                Crashes._GetErrorAttachments = value;
+            }
+        }
         public override ShouldProcessErrorReportCallback ShouldProcessErrorReport
         {
             get

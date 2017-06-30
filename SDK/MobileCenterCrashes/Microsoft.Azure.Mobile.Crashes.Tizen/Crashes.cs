@@ -33,6 +33,8 @@ namespace Microsoft.Azure.Mobile.Crashes
 
         internal static ShouldProcessErrorReportCallback _ShouldProcessErrorReport = null;
 
+        internal static GetErrorAttachmentsCallback _GetErrorAttachments = null;
+
         public static Crashes Instance
         {
             get
@@ -220,6 +222,8 @@ namespace Microsoft.Azure.Mobile.Crashes
                     Instance.Channel.Enqueue(errorLog);
 
                     // TODO TIZEN Process ErrorAttachmentLog
+                    IEnumerable<ErrorAttachmentLog> errorAttachments = PlatformCrashes.GetErrorAttachments(errorReport);
+                    HandleErrorAttachments(errorAttachments, Id);
 
                     ToBeRemoved.Add(Id);
                     ErrorLogHelper.RemoveErrorLogFile(Id);
@@ -234,6 +238,31 @@ namespace Microsoft.Azure.Mobile.Crashes
             return Task.CompletedTask;
         }
 
+        private static Task HandleErrorAttachments(IEnumerable<ErrorAttachmentLog> errorAttachments, Guid errorId)
+        {
+            if (errorAttachments == null)
+            {
+                MobileCenterLog.Info(LogTag, $"PlatformCrashes.GetErrorAttachments returned null. No additional information attached to log: {errorId.ToString()}");
+            }
+            else
+            {
+                foreach (ErrorAttachmentLog attachment in errorAttachments)
+                {
+                    if (attachment == null)
+                    {
+                        MobileCenterLog.Info(LogTag, $"Skipping null ErrorAttachmentLog");
+                    }
+                    else
+                    {
+                        attachment.Id = Guid.NewGuid();
+                        attachment.ErrorId = errorId;
+                        // TODO TIZEN check if attachment is valid (required fields not null)
+                        Instance.Channel.Enqueue(attachment);
+                    }
+                }
+            }
+            return Task.CompletedTask;
+        }
 
         private static ErrorReport BuildErrorReport(ManagedErrorLog log)
         {
@@ -258,6 +287,7 @@ namespace Microsoft.Azure.Mobile.Crashes
         internal Crashes()
         {
             LogSerializer.AddLogType(ManagedErrorLog.JsonIdentifier, typeof(ManagedErrorLog));
+            LogSerializer.AddLogType(ErrorAttachmentLog.JsonIdentifier, typeof(ErrorAttachmentLog));
             ErrorLogHelper.InitializeErrorDirectoryPath();
             _errorReportCache = new Dictionary<Guid, ErrorReport>();
             _UnProcessedErrorReports = new Dictionary<Guid, Tuple<ManagedErrorLog, ErrorReport>>();
@@ -318,7 +348,7 @@ namespace Microsoft.Azure.Mobile.Crashes
                 // TODO TIZEN
                 // Stop tasks related to crashes -> checking for crash data
                 // Delete previously stored crash logs??
-
+                ErrorLogHelper.RemoveAllFiles();
             }
             else
             {
