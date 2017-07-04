@@ -1,6 +1,7 @@
 ﻿using Microsoft.Azure.Mobile.Crashes;
 using Xamarin.Forms;
 
+
 namespace Contoso.Forms.Test
 {
     public partial class LastSessionErrorReportPage : ContentPage
@@ -15,11 +16,12 @@ namespace Contoso.Forms.Test
 
         protected override void OnAppearing()
         {
-            base.OnAppearing();
+            // TODO temporary commented because can not be built
+            /*base.OnAppearing();
             Crashes.GetLastSessionCrashReportAsync().ContinueWith(task =>
             {
                 Device.BeginInvokeOnMainThread(() => UpdateLabels(task.Result));
-            });
+            });*/
         }
 
         void DismissPage(object sender, System.EventArgs e)
