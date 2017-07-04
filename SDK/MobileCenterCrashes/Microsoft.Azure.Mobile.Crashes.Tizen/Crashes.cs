@@ -82,9 +82,12 @@ namespace Microsoft.Azure.Mobile.Crashes
                 MobileCenterLog.Debug(LogTag, $"Aborting!!!");
             }
 
+            // TODO
+            // Shouldn't it be final?
             ShutDownHelper.ShutDown();
         }
 
+        // Do we need this field?
         private static bool _isHandlerSet = false;
 
         private static ErrorReport _lastSessionErrorReport = null;

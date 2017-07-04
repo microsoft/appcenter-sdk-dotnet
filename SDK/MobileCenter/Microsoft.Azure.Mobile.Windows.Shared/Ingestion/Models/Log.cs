@@ -71,7 +71,7 @@ namespace Microsoft.Azure.Mobile.Ingestion.Models
             {
                 throw new Rest.ValidationException(Rest.ValidationRules.CannotBeNull, "Device");
             }
-            Device.Validate();          
+            Device.Validate();
         }
     }
 }
