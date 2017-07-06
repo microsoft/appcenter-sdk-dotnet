@@ -10,7 +10,6 @@ namespace Microsoft.Azure.Mobile.Crashes
         public override SendingErrorReportEventHandler SendingErrorReport { get; set; }
         public override SentErrorReportEventHandler SentErrorReport { get; set; }
         public override FailedToSendErrorReportEventHandler FailedToSendErrorReport { get; set; }
-        // TODO TIZEN add GetErrorAttachmentsCallback memeber to crashes and set it here
         public override GetErrorAttachmentsCallback GetErrorAttachments
         {
             get
@@ -91,7 +90,7 @@ namespace Microsoft.Azure.Mobile.Crashes
 
         public override void NotifyUserConfirmation(UserConfirmation confirmation)
         {
-            // TODO TIZEN Check user confirmation
+            // TIZEN Check user confirmation
             // Trigger action based on that value
             Crashes.HandleUserConfirmation(confirmation);
         }

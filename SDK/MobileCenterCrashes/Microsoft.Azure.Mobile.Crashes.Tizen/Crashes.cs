@@ -59,8 +59,7 @@ namespace Microsoft.Azure.Mobile.Crashes
 
         private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            // DONE
-            // TODO TIZEN Handle crash
+            // TIZEN Handle crash
             // 1) Generate Error log from Exception
             // 2) Store to file
             // 3) SuhtDown process
@@ -82,6 +81,7 @@ namespace Microsoft.Azure.Mobile.Crashes
                 MobileCenterLog.Debug(LogTag, $"Aborting!!!");
             }
 
+            // TODO TIZEN check if crash is propogated to native layer for generation of crash dump
             ShutDownHelper.ShutDown();
         }
 
@@ -121,8 +121,8 @@ namespace Microsoft.Azure.Mobile.Crashes
                 ManagedErrorLog errorLog = ErrorLogHelper.ReadErrorLogFromFile(fileName);
                 ErrorReport errorReport = BuildErrorReport(errorLog);
 
-                // TODO TIZEN decide whether to process Error Report based on User callbacks
-                // TODO TIZEN check if enabled state is changed in the middle - refer android shouldStopProcessingPendingErrors
+                // TIZEN decide whether to process Error Report based on User callbacks
+                // TIZEN check if enabled state is changed in the middle - refer android shouldStopProcessingPendingErrors
 
                 if (errorReport == null)
                 {
@@ -138,18 +138,11 @@ namespace Microsoft.Azure.Mobile.Crashes
                 else
                 {
                     MobileCenterLog.Debug(LogTag, "PlatFormCrashes.ShouldProcessErrorReport returned true, continue processing log: " + errorLog.Id.ToString());
-                    // TODO TIZEN Store in Unprocessed error cache
+                    // TIZEN Store in Unprocessed error cache
                     _UnProcessedErrorReports[errorLog.Id] = Tuple.Create(errorLog, errorReport);
                 }
 
                 // TODO TIZEN Handle serialization and file i/o errors
-
-
-                // testing
-                //// only enque after performing all checks
-                //Instance.Channel.Enqueue(errorLog);
-                //ErrorLogHelper.RemoveErrorLogFile(errorLog.Id);
-                //ErrorLogHelper.RemoveExceptionFile(errorLog.Id);
             }
 
             if (ShouldStopProcessingErrors)
@@ -157,11 +150,12 @@ namespace Microsoft.Azure.Mobile.Crashes
                 return Task.CompletedTask;
             }
 
-            ProcessUserConfirmation();
-
-            // TODO TIZEN After checking shouldProcess()
+            // TIZEN After checking shouldProcess()
             // handle user confirmation
             // remove files in the end
+
+            ProcessUserConfirmation();
+
 
             return Task.CompletedTask;
         }
@@ -221,7 +215,7 @@ namespace Microsoft.Azure.Mobile.Crashes
 
                     Instance.Channel.Enqueue(errorLog);
 
-                    // TODO TIZEN Process ErrorAttachmentLog
+                    // TIZEN Process ErrorAttachmentLog
                     IEnumerable<ErrorAttachmentLog> errorAttachments = PlatformCrashes.GetErrorAttachments(errorReport);
                     HandleErrorAttachments(errorAttachments, Id);
 
@@ -319,8 +313,7 @@ namespace Microsoft.Azure.Mobile.Crashes
         {
             lock (_serviceLock)
             {
-                initialize(enabled);
-                // TODO TIZEN Implement Crashes.ApplyEnabled State
+                // TIZEN Implement Crashes.ApplyEnabled State
                 // Based on if (enabled), do the following
                 // 1) Set Enabled = true
                 //    Set the exception handlers
@@ -330,7 +323,7 @@ namespace Microsoft.Azure.Mobile.Crashes
                 //    Destroy crash logs, etc, etc
                 //    Look into it
 
-                // refer to Android Implementation
+                initialize(enabled);
             }
         }
 
@@ -345,9 +338,9 @@ namespace Microsoft.Azure.Mobile.Crashes
                     _isHandlerSet = false;
                 }
 
-                // TODO TIZEN
+                // TIZEN
                 // Stop tasks related to crashes -> checking for crash data
-                // Delete previously stored crash logs??
+                // Delete previously stored crash logs
                 ErrorLogHelper.RemoveAllFiles();
             }
             else
@@ -357,7 +350,7 @@ namespace Microsoft.Azure.Mobile.Crashes
                     AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
                     _isHandlerSet = true;
 
-                    // TODO TIZEN
+                    // TIZEN
                     // Acquire countdown latch
                     // Retrieve error log file and send to Mobile Center
                     string filePath = ErrorLogHelper.GetLastAddedLogFile();
@@ -370,11 +363,9 @@ namespace Microsoft.Azure.Mobile.Crashes
 
                             // TODO TIZEN checking for read failures
 
-                            // TODO TIZEN build error report and store it
+                            // TIZEN build error report and store it
                             _lastSessionErrorReport = BuildErrorReport(errorLog);
                             _countDownLatch.Signal();
-
-                            // TODO TIZEN process any callbacks registered by the user
                         });
                     }
                 }
@@ -383,14 +374,7 @@ namespace Microsoft.Azure.Mobile.Crashes
 
         public override void OnChannelGroupReady(IChannelGroup channelGroup, string appSecret)
         {
-            //MobileCenterLog.Warn(MobileCenterLog.LogTag, "Crashes service is not yet supported on Tizen.");
-            //lock (_serviceLock)
-            //{
-            //    // TODO TIZEN Implement Crashes.OnChannelGroupReady
-            //    // base.OnChannelGroupReady(channelGroup, appSecret);
-
-            //    // Refer to implementation from Android
-            //}
+            // TIZEN Implement Crashes.OnChannelGroupReady
 
             lock (_serviceLock)
             {
@@ -430,7 +414,7 @@ namespace Microsoft.Azure.Mobile.Crashes
 
                 if (InstanceEnabled)
                 {
-                    // TODO TIZEN process pending errors
+                    // TIZEN process pending errors
                     ProcessPendingErrors();
                 }
             }

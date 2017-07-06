@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Microsoft.Azure.Mobile.Crashes
 {
-    // TODO TIZEN process error attachment log in Crashes
+    // TIZEN process error attachment log in Crashes
     // Implement callback for ErrorAttachmentLog in Crashes
     // Add checks for logtype when typecasting to ManagedErrorLog in Crashes
     [JsonObject(JsonIdentifier)]
