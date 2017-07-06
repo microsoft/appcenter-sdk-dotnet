@@ -4,6 +4,23 @@ using Xamarin.Forms;
 
 namespace Contoso.Forms.Test
 {
+#if TIZEN
+    public delegate void RequestUpdateCallback();
+
+    public class ErrorReportPageUpdateCallback
+    {
+        public static LastSessionErrorReportPage page { get; set; }
+
+        public static RequestUpdateCallback RequestUpdate { get; set; }
+
+        public static void Update(ErrorReport errorReport)
+        {
+            if (page != null)
+                Device.BeginInvokeOnMainThread(() => page.UpdateLabels(errorReport));
+        }
+    };
+#endif
+
     public partial class LastSessionErrorReportPage : ContentPage
     {
         readonly string _nullText;
@@ -16,12 +33,17 @@ namespace Contoso.Forms.Test
 
         protected override void OnAppearing()
         {
-            // TODO temporary commented because can not be built
-            /*base.OnAppearing();
+            base.OnAppearing();
+#if TIZEN
+            // Implemented in Tizen-specific part
+            ErrorReportPageUpdateCallback.page = this;
+            ErrorReportPageUpdateCallback.RequestUpdate();
+#else
             Crashes.GetLastSessionCrashReportAsync().ContinueWith(task =>
             {
                 Device.BeginInvokeOnMainThread(() => UpdateLabels(task.Result));
-            });*/
+            });
+#endif
         }
 
         void DismissPage(object sender, System.EventArgs e)
@@ -29,7 +51,7 @@ namespace Contoso.Forms.Test
             Navigation.PopModalAsync();
         }
 
-        void UpdateLabels(ErrorReport errorReport)
+        public void UpdateLabels(ErrorReport errorReport)
         {
             ExceptionTypeLabel.Text = errorReport?.Exception?.GetType().Name ?? _nullText;
             ExceptionMessageLabel.Text = errorReport?.Exception?.Message ?? _nullText;
