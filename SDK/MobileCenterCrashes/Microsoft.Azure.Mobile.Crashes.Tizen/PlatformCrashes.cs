@@ -90,17 +90,13 @@ namespace Microsoft.Azure.Mobile.Crashes
 
         public override void NotifyUserConfirmation(UserConfirmation confirmation)
         {
-            // TIZEN Check user confirmation
-            // Trigger action based on that value
             Crashes.HandleUserConfirmation(confirmation);
         }
 
         static PlatformCrashes()
         {
             MobileCenterLog.Info(Crashes.LogTag, "Set up crash handler.");
-
             // TODO TIZEN find way to retrieve native crashes
-            //AndroidCrashes.Instance.SetWrapperSdkListener(new CrashListener());
         }
 
         public PlatformCrashes()

@@ -16,7 +16,6 @@ namespace Microsoft.Azure.Mobile.Crashes
     public partial class Crashes : MobileCenterService
     {
         #region static
-        // TODO TIZEN Look into Crashes LogTag
         internal new static string LogTag = "MobileCenterCrashes";
 
         internal static string PREF_KEY_ALWAYS_SEND = Constants.KeyPrefix + "Crashes" + "_ALWAYS_SEND";
@@ -48,7 +47,7 @@ namespace Microsoft.Azure.Mobile.Crashes
             {
                 lock (CrashesLock)
                 {
-                    _instanceField = value; //for testing
+                    _instanceField = value;
                 }
             }
         }
@@ -59,11 +58,6 @@ namespace Microsoft.Azure.Mobile.Crashes
 
         private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            // TIZEN Handle crash
-            // 1) Generate Error log from Exception
-            // 2) Store to file
-            // 3) SuhtDown process
-
             var exception = (Exception)e.ExceptionObject;
             var errorLog = new ManagedErrorLog(0, null, e.IsTerminating, exception, Instance.initializeTimeStamp, Guid.NewGuid());
 
@@ -119,10 +113,12 @@ namespace Microsoft.Azure.Mobile.Crashes
                     return Task.CompletedTask;
 
                 ManagedErrorLog errorLog = ErrorLogHelper.ReadErrorLogFromFile(fileName);
+                if (errorLog == null)
+                {
+                    MobileCenterLog.Error(LogTag, $"Error reading error File - {fileName}. Skipping");
+                    continue;
+                }
                 ErrorReport errorReport = BuildErrorReport(errorLog);
-
-                // TIZEN decide whether to process Error Report based on User callbacks
-                // TIZEN check if enabled state is changed in the middle - refer android shouldStopProcessingPendingErrors
 
                 if (errorReport == null)
                 {
@@ -131,18 +127,15 @@ namespace Microsoft.Azure.Mobile.Crashes
                 }
                 else if (PlatformCrashes.ShouldProcessErrorReport != null && !PlatformCrashes.ShouldProcessErrorReport(errorReport))
                 {
-                    MobileCenterLog.Debug(LogTag, "PlatFormCrashes.ShouldProcessErrorReport returned false, clean up and ignore log: " + errorLog.Id.ToString());
+                    MobileCenterLog.Info(LogTag, "PlatFormCrashes.ShouldProcessErrorReport returned false, clean up and ignore log: " + errorLog.Id.ToString());
                     ErrorLogHelper.RemoveErrorLogFile(errorLog.Id);
                     ErrorLogHelper.RemoveExceptionFile(errorLog.Id);
                 }
                 else
                 {
-                    MobileCenterLog.Debug(LogTag, "PlatFormCrashes.ShouldProcessErrorReport returned true, continue processing log: " + errorLog.Id.ToString());
-                    // TIZEN Store in Unprocessed error cache
+                    MobileCenterLog.Info(LogTag, "PlatFormCrashes.ShouldProcessErrorReport returned true, continue processing log: " + errorLog.Id.ToString());
                     _UnProcessedErrorReports[errorLog.Id] = Tuple.Create(errorLog, errorReport);
                 }
-
-                // TODO TIZEN Handle serialization and file i/o errors
             }
 
             if (ShouldStopProcessingErrors)
@@ -150,13 +143,7 @@ namespace Microsoft.Azure.Mobile.Crashes
                 return Task.CompletedTask;
             }
 
-            // TIZEN After checking shouldProcess()
-            // handle user confirmation
-            // remove files in the end
-
             ProcessUserConfirmation();
-
-
             return Task.CompletedTask;
         }
 
@@ -181,7 +168,6 @@ namespace Microsoft.Azure.Mobile.Crashes
 
         internal static Task HandleUserConfirmation(UserConfirmation userConfirmation)
         {
-            // TODO TIZEN look into Android mhandler.post(runnable) and Runnable.Run()
             if (!Instance.InstanceEnabled)
             {
                 MobileCenterLog.Error(LogTag, "Crashes service not initialized, discarding calls.");
@@ -215,7 +201,6 @@ namespace Microsoft.Azure.Mobile.Crashes
 
                     Instance.Channel.Enqueue(errorLog);
 
-                    // TIZEN Process ErrorAttachmentLog
                     IEnumerable<ErrorAttachmentLog> errorAttachments = PlatformCrashes.GetErrorAttachments(errorReport);
                     HandleErrorAttachments(errorAttachments, Id);
 
@@ -248,9 +233,15 @@ namespace Microsoft.Azure.Mobile.Crashes
                     }
                     else
                     {
+                        if (attachment.Data == null || attachment.FileName == null || attachment.ContentType == null)
+                        {
+                            MobileCenterLog.Info(LogTag, "Skipping Attachment. NULL values not accepted in ErrorAttachmentLog.");
+                            continue;
+                        }
+
                         attachment.Id = Guid.NewGuid();
                         attachment.ErrorId = errorId;
-                        // TODO TIZEN check if attachment is valid (required fields not null)
+
                         Instance.Channel.Enqueue(attachment);
                     }
                 }
@@ -262,12 +253,14 @@ namespace Microsoft.Azure.Mobile.Crashes
         {
             if (!_errorReportCache.ContainsKey(log.Id))
             {
-                // If not in cache retrieve from file
                 Exception exception = ErrorLogHelper.ReadExceptionFromFile(log.Id);
+                if (exception == null)
+                {
+                    return null;
+                }
                 _errorReportCache[log.Id] = new ErrorReport(log, exception);
             }
             return _errorReportCache[log.Id];
-            // TODO TIZEN handle errors and return null if failed
         }
 
         #endregion
@@ -313,16 +306,6 @@ namespace Microsoft.Azure.Mobile.Crashes
         {
             lock (_serviceLock)
             {
-                // TIZEN Implement Crashes.ApplyEnabled State
-                // Based on if (enabled), do the following
-                // 1) Set Enabled = true
-                //    Set the exception handlers
-                //    Instantiate and assign necessary variables
-                //    Start Thread to check for stored error logs
-                // 2) Set Enabled = false
-                //    Destroy crash logs, etc, etc
-                //    Look into it
-
                 initialize(enabled);
             }
         }
@@ -338,9 +321,6 @@ namespace Microsoft.Azure.Mobile.Crashes
                     _isHandlerSet = false;
                 }
 
-                // TIZEN
-                // Stop tasks related to crashes -> checking for crash data
-                // Delete previously stored crash logs
                 ErrorLogHelper.RemoveAllFiles();
             }
             else
@@ -350,9 +330,6 @@ namespace Microsoft.Azure.Mobile.Crashes
                     AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
                     _isHandlerSet = true;
 
-                    // TIZEN
-                    // Acquire countdown latch
-                    // Retrieve error log file and send to Mobile Center
                     string filePath = ErrorLogHelper.GetLastAddedLogFile();
                     if (filePath != null)
                     {
@@ -360,10 +337,13 @@ namespace Microsoft.Azure.Mobile.Crashes
                         Task.Run(() =>
                         {
                             ManagedErrorLog errorLog = ErrorLogHelper.ReadErrorLogFromFile(filePath);
+                            if (errorLog == null)
+                            {
+                                MobileCenterLog.Error(Crashes.LogTag, $"File read error. Unable to retrieve error Log from file. Setting Last Session Crash report to NULL");
+                                _lastSessionErrorReport = null;
+                                _countDownLatch.Signal();
+                            }
 
-                            // TODO TIZEN checking for read failures
-
-                            // TIZEN build error report and store it
                             _lastSessionErrorReport = BuildErrorReport(errorLog);
                             _countDownLatch.Signal();
                         });
@@ -414,7 +394,6 @@ namespace Microsoft.Azure.Mobile.Crashes
 
                 if (InstanceEnabled)
                 {
-                    // TIZEN process pending errors
                     ProcessPendingErrors();
                 }
             }
