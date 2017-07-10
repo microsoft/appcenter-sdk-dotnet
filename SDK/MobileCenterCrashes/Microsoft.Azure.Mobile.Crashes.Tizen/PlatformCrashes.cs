@@ -84,7 +84,8 @@ namespace Microsoft.Azure.Mobile.Crashes
 
         public override Task<ErrorReport> GetLastSessionCrashReportAsync()
         {
-            Crashes._countDownLatch.Wait();
+            if (Crashes._countDownLatch != null)
+                Crashes._countDownLatch.Wait();
             return Task.FromResult(Crashes.LastSessionCrashReport);
         }
 
