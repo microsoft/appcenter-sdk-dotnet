@@ -79,6 +79,7 @@ namespace Microsoft.Azure.Mobile.Crashes
             ShutDownHelper.ShutDown();
         }
 
+        // Do we need this field?
         private static bool _isHandlerSet = false;
 
         private static ErrorReport _lastSessionErrorReport = null;

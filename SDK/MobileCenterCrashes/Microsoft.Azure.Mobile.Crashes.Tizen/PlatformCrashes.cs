@@ -86,6 +86,7 @@ namespace Microsoft.Azure.Mobile.Crashes
         {
             if (Crashes._countDownLatch != null)
                 Crashes._countDownLatch.Wait();
+
             return Task.FromResult(Crashes.LastSessionCrashReport);
         }
 
