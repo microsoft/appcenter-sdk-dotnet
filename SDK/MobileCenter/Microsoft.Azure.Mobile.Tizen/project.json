@@ -4,24 +4,21 @@
     "SQLitePCLRaw.core": "1.1.2", // Package temporarily required by Tizen to support SQLite
     "SQLitePCLRaw.provider.sqlite3.netstandard11": "1.1.2", // Package temporarily required by Tizen to support SQLite
     "Microsoft.NETCore.App": {
-      "version": "1.0.0"
+      "version": "2.0.0-preview1-002111-00"
     },
     "Microsoft.Rest.ClientRuntime": "2.3.6",
     "Newtonsoft.Json": "9.0.1",
-    "Tizen": "1.0.2",
-    "Tizen.Library": "1.0.0-pre3",
-    "Xamarin.Forms": "2.3.4.192-pre2",
-    "Xamarin.Forms.Platform.Tizen": "2.3.4-r214-002"
+    "Tizen.NET": "3.0.0",
+    "Xamarin.Forms": "2.3.5.233-pre1",
+    "Xamarin.Forms.Platform.Tizen": "2.3.5-r233-008"
   },
   "runtimes": {
-    "win": {},
-    "linux": {}
+    "tizen.4.0.0-armel": {}
   },
   "frameworks": {
-    "netcoreapp1.0": {
+    "netcoreapp2.0": {
       "imports": [
-        "portable-net45+wp80+win81+wpa81",
-        "netstandard1.6"
+        "portable-net45+wp80+win81+wpa81"
       ]
     }
   }

@@ -16,10 +16,11 @@
     <!-- ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids-->
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFrameworkIdentifier>DNXCore</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
-    <NuGetTargetMoniker>.NETCoreApp,Version=v1.0</NuGetTargetMoniker>
+    <NuGetTargetMoniker>.NETCoreApp,Version=v2.0</NuGetTargetMoniker>
+    <BaseNuGetRuntimeIdentifier>tizen.4.0.0-armel</BaseNuGetRuntimeIdentifier>
     <NoStdLib>true</NoStdLib>
     <NoWarn>$(NoWarn);1701</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -159,7 +160,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <!-- Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" /-->
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

@@ -19,7 +19,7 @@ namespace Microsoft.Azure.Mobile.Utils
             Enabled = true;
             _started = true;
 
-            // TODO add unhandled exception handler
+            // TODO TIZEN add unhandled exception handler
             /*Application.Current.UnhandledException += (sender, eventArgs) =>
             {
                 UnhandledExceptionOccurred?.Invoke(sender, new UnhandledExceptionOccurredEventArgs(eventArgs.Exception));
