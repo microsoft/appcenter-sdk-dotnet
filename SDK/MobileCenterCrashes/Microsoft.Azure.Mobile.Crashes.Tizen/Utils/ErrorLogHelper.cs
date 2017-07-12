@@ -66,33 +66,49 @@ namespace Microsoft.Azure.Mobile.Crashes.Utils
 
         public static ManagedErrorLog ReadErrorLogFromFile(string filePath)
         {
-            StreamReader reader = File.OpenText(filePath);
-            string logString = reader.ReadToEnd();
-            return (ManagedErrorLog)LogSerializer.DeserializeLog(logString);
+            try
+            {
+                StreamReader reader = File.OpenText(filePath);
+                string logString = reader.ReadToEnd();
+                return (ManagedErrorLog)LogSerializer.DeserializeLog(logString);
+            }
+            catch (Exception)
+            {
+                MobileCenterLog.Error(Crashes.LogTag, $"Failed to read error Log from file - {filePath}");
+                return null;
+            }
         }
 
         public static Exception ReadExceptionFromFile(Guid logId)
         {
-            string filePath = ErrorDirectoryPath + logId.ToString() + EXCEPTION_FILE_EXTENSION;
-            FileStream file = new FileStream(filePath, FileMode.Open);
-
-            int bytes = (int)file.Length;
-            int offset = 0;
-
-            byte[] exceptionBytes = new byte[bytes];
-
-            while (bytes > 0)
+            try
             {
-                int readBytes = file.Read(exceptionBytes, offset, bytes);
+                string filePath = ErrorDirectoryPath + logId.ToString() + EXCEPTION_FILE_EXTENSION;
+                FileStream file = new FileStream(filePath, FileMode.Open);
 
-                if (readBytes == 0)
-                    break;
+                int bytes = (int)file.Length;
+                int offset = 0;
 
-                offset += readBytes;
-                bytes -= readBytes;
+                byte[] exceptionBytes = new byte[bytes];
+
+                while (bytes > 0)
+                {
+                    int readBytes = file.Read(exceptionBytes, offset, bytes);
+
+                    if (readBytes == 0)
+                        break;
+
+                    offset += readBytes;
+                    bytes -= readBytes;
+                }
+
+                return CrashesUtils.DeserializeException(exceptionBytes);
             }
-
-            return CrashesUtils.DeserializeException(exceptionBytes);
+            catch (Exception)
+            {
+                MobileCenterLog.Error(Crashes.LogTag, $"Failed to read exception from file - Error ID: {logId.ToString()}");
+                return null;
+            }
         }
 
         public static IEnumerable<string> GetErrorLogFileNames()

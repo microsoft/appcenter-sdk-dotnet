@@ -21,33 +21,13 @@ namespace Microsoft.Azure.Mobile.Crashes.Ingestion.Models
             : base(toffset, device, fatal, TimeHelper.CurrentTimeInMilliseconds() - initializeTimestamp, sid)
         {
             Exception = new ModelException(exception);
-
-            // testing
-            RawException = exception;
-
-            // testing
-            ExceptionMessage = exception.Message;
-
             // TODO TIZEN Look into thread stack traces
-
         }
 
         // TODO TIZEN Look into thread stack traces
 
-
         [JsonProperty(PropertyName = "exception")]
         public ModelException Exception { get; set; }
-
-
-        //testing
-        [JsonIgnore]
-        [JsonProperty(PropertyName = "raw_exception")]
-        public Exception RawException { get; set; }
-
-        // testing
-        [JsonIgnore]
-        [JsonProperty(PropertyName = "exception_message")]
-        public string ExceptionMessage { get; set; }
 
         public override void Validate()
         {
