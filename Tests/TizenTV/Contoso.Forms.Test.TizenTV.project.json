@@ -1,14 +1,11 @@
 ﻿{
-	"buildOptions": {
-		"emitEntryPoint": true,
-		"debugType": "portable",
-		"platform": "AnyCPU",
-		"preserveCompilationContext": true
-	},
+  "buildOptions": {
+    "emitEntryPoint": true,
+    "debugType": "portable",
+    "platform": "AnyCPU",
+    "preserveCompilationContext": true
+  },
   "dependencies": {
-    "Microsoft.Azure.Mobile.Analytics.Tizen": "0.13.0",
-    "Microsoft.Azure.Mobile.Crashes.Tizen": "0.13.0",
-    "Microsoft.Azure.Mobile.Tizen": "0.13.0",
     "Microsoft.NETCore.App": {
       "version": "2.0.0-preview1-002111-00"
     },
@@ -20,14 +17,14 @@
     "Tizen.NET": "3.0.0",
     "Xamarin.Forms.Platform.Tizen": "2.3.5-r233-009"
   },
-	"runtimes": {
-		"tizen.4.0.0-armel": {}
-	},
-	"frameworks": {
-		"netcoreapp2.0": {
-			"imports": [
-				"portable-net45+wp80+win81+wpa81"
-			]
-		}
-	}
+  "runtimes": {
+    "tizen.4.0.0-armel": {}
+  },
+  "frameworks": {
+    "netcoreapp2.0": {
+      "imports": [
+        "portable-net45+wp80+win81+wpa81"
+      ]
+    }
+  }
 }

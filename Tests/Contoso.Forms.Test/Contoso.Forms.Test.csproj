@@ -92,14 +92,14 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Reference Include="Microsoft.Azure.Mobile, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Tizen.0.13.0.0\lib\netstandard1.0\Microsoft.Azure.Mobile.dll</HintPath>
+    <Reference Include="Microsoft.Azure.Mobile">
+      <HintPath>..\..\SDK\MobileCenter\Microsoft.Azure.Mobile.Tizen\bin\Debug\Microsoft.Azure.Mobile.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.Mobile.Analytics, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Analytics.Tizen.0.13.0.0\lib\netstandard1.0\Microsoft.Azure.Mobile.Analytics.dll</HintPath>
+    <Reference Include="Microsoft.Azure.Mobile.Analytics">
+      <HintPath>..\..\SDK\MobileCenterAnalytics\Microsoft.Azure.Mobile.Analytics.Tizen\bin\Debug\Microsoft.Azure.Mobile.Analytics.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.Mobile.Crashes, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Crashes.Tizen.0.13.0.0\lib\netstandard1.0\Microsoft.Azure.Mobile.Crashes.dll</HintPath>
+    <Reference Include="Microsoft.Azure.Mobile.Crashes">
+      <HintPath>..\..\SDK\MobileCenterCrashes\Microsoft.Azure.Mobile.Crashes.Tizen\bin\Debug\Microsoft.Azure.Mobile.Crashes.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Core">
       <HintPath>..\..\packages\Xamarin.Forms.2.3.4.231\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Core.dll</HintPath>

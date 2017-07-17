@@ -11,4 +11,8 @@
   <label>Contoso.Forms.Test.TizenTV</label>
 	<icon>Contoso.Forms.Test.TizenTV.png</icon>
 	</ui-application>
+	<privileges>
+	    <privilege>http://tizen.org/privilege/internet</privilege>
+		<privilege>http://tizen.org/privilege/network.get</privilege>
+	</privileges>
 </manifest>
