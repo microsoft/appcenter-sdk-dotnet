@@ -14,6 +14,33 @@
           "lib/netstandard1.3/ElmSharp.dll": {}
         }
       },
+      "Microsoft.Azure.Mobile.Analytics.Tizen/0.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Analytics.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Analytics.dll": {}
+        }
+      },
+      "Microsoft.Azure.Mobile.Crashes.Tizen/0.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll": {}
+        }
+      },
+      "Microsoft.Azure.Mobile.Tizen/0.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -1972,6 +1999,33 @@
         },
         "runtime": {
           "lib/netstandard1.3/ElmSharp.dll": {}
+        }
+      },
+      "Microsoft.Azure.Mobile.Analytics.Tizen/0.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Analytics.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Analytics.dll": {}
+        }
+      },
+      "Microsoft.Azure.Mobile.Crashes.Tizen/0.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll": {}
+        }
+      },
+      "Microsoft.Azure.Mobile.Tizen/0.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.dll": {}
         }
       },
       "Microsoft.CSharp/4.3.0": {
@@ -4424,6 +4478,36 @@
         "elmsharp.nuspec",
         "lib/netstandard1.3/ElmSharp.dll",
         "lib/netstandard1.3/ElmSharp.xml"
+      ]
+    },
+    "Microsoft.Azure.Mobile.Analytics.Tizen/0.13.0": {
+      "sha512": "vleuBQTEGuRaKZH/vZiyl2YUiybJdDeYqDafCLD0sCWrsRPQHNNulBk13jfNE4tM/5Njm0VujmIZIROQuVBzhA==",
+      "type": "package",
+      "path": "microsoft.azure.mobile.analytics.tizen/0.13.0",
+      "files": [
+        "lib/netstandard1.0/Microsoft.Azure.Mobile.Analytics.dll",
+        "microsoft.azure.mobile.analytics.tizen.0.13.0.nupkg.sha512",
+        "microsoft.azure.mobile.analytics.tizen.nuspec"
+      ]
+    },
+    "Microsoft.Azure.Mobile.Crashes.Tizen/0.13.0": {
+      "sha512": "7jbTb8QZh55Ee0vjN/GDnEhSoZcH60K7iqVrr6eYAkjp/tCN/BkJ5h+c4ousT6qDX/6d5kdDgZ4guSVr+RDzsQ==",
+      "type": "package",
+      "path": "microsoft.azure.mobile.crashes.tizen/0.13.0",
+      "files": [
+        "lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll",
+        "microsoft.azure.mobile.crashes.tizen.0.13.0.nupkg.sha512",
+        "microsoft.azure.mobile.crashes.tizen.nuspec"
+      ]
+    },
+    "Microsoft.Azure.Mobile.Tizen/0.13.0": {
+      "sha512": "urI+OIhI+kNc/xq4hocUVGKGTo5oXnO/SgpQG8sBtDijV2M4Es54N9SIg6L6Iokumyj/OPVfmlgOfLDQtCZLkw==",
+      "type": "package",
+      "path": "microsoft.azure.mobile.tizen/0.13.0",
+      "files": [
+        "lib/netstandard1.0/Microsoft.Azure.Mobile.dll",
+        "microsoft.azure.mobile.tizen.0.13.0.nupkg.sha512",
+        "microsoft.azure.mobile.tizen.nuspec"
       ]
     },
     "Microsoft.CSharp/4.3.0": {
@@ -8987,6 +9071,9 @@
   },
   "projectFileDependencyGroups": {
     "": [
+      "Microsoft.Azure.Mobile.Analytics.Tizen >= 0.13.0",
+      "Microsoft.Azure.Mobile.Crashes.Tizen >= 0.13.0",
+      "Microsoft.Azure.Mobile.Tizen >= 0.13.0",
       "Microsoft.NETCore.App >= 2.0.0-preview1-002111-00",
       "Microsoft.Rest.ClientRuntime >= 2.3.6",
       "Newtonsoft.Json >= 10.0.2",
@@ -9010,6 +9097,9 @@
       "projectStyle": "ProjectJson"
     },
     "dependencies": {
+      "Microsoft.Azure.Mobile.Analytics.Tizen": "0.13.0",
+      "Microsoft.Azure.Mobile.Crashes.Tizen": "0.13.0",
+      "Microsoft.Azure.Mobile.Tizen": "0.13.0",
       "Microsoft.NETCore.App": "2.0.0-preview1-002111-00",
       "Microsoft.Rest.ClientRuntime": "2.3.6",
       "Newtonsoft.Json": "10.0.2",

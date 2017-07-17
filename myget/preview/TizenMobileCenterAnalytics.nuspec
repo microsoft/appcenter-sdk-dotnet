@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Microsoft.Azure.Mobile.Analytics.Tizen</id>
-    <version>0.12.1.0</version>
+    <version>0.13.0.0</version>
     <authors>Microsoft Corporation, Samsung Electronics</authors>
     <owners>Microsoft Corporation, Samsung Electronics</owners>
     <licenseUrl>https://aka.ms/vbgfx2</licenseUrl>
@@ -16,7 +16,7 @@
 	<dependencies>
       <group targetFramework="DNXCore5.0">
 		    <dependency id="Tizen" version="1.0.2" />
-        <dependency id="Microsoft.Azure.Mobile.Tizen" version="0.12.1.0" />
+        <dependency id="Microsoft.Azure.Mobile.Tizen" version="0.13.0.0" />
       </group>
     </dependencies>
   </metadata>
