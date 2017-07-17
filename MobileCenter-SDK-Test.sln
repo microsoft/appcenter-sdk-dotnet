@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Forms.Test", "Tests\Contoso.Forms.Test\Contoso.Forms.Test.csproj", "{AABF653E-0CC1-4D59-93DB-4EEF0E1DF916}"
 EndProject
@@ -12,7 +12,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Forms.Test.iOS", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Forms.Test.UITests", "Tests\UITests\Contoso.Forms.Test.UITests.csproj", "{78990F7A-6C3E-4007-B0E3-A8BF9625A327}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Forms.Test.TizenMobile", "Tests\Tizen\Contoso.Forms.Test.TizenMobile.csproj", "{330D3E80-4915-47E7-8FBB-0F48EF887CFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Forms.Test.TizenMobile", "Tests\TizenMobile\Contoso.Forms.Test.TizenMobile.csproj", "{330D3E80-4915-47E7-8FBB-0F48EF887CFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Forms.Test.TizenTV", "Tests\TizenTV\Contoso.Forms.Test.TizenTV.csproj", "{58DD4D77-D60D-4C6A-A904-DF6691CECCB1}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -86,6 +88,18 @@ Global
 		{330D3E80-4915-47E7-8FBB-0F48EF887CFD}.Release|iPhone.Build.0 = Release|Any CPU
 		{330D3E80-4915-47E7-8FBB-0F48EF887CFD}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{330D3E80-4915-47E7-8FBB-0F48EF887CFD}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{58DD4D77-D60D-4C6A-A904-DF6691CECCB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58DD4D77-D60D-4C6A-A904-DF6691CECCB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58DD4D77-D60D-4C6A-A904-DF6691CECCB1}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{58DD4D77-D60D-4C6A-A904-DF6691CECCB1}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{58DD4D77-D60D-4C6A-A904-DF6691CECCB1}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{58DD4D77-D60D-4C6A-A904-DF6691CECCB1}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{58DD4D77-D60D-4C6A-A904-DF6691CECCB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58DD4D77-D60D-4C6A-A904-DF6691CECCB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58DD4D77-D60D-4C6A-A904-DF6691CECCB1}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{58DD4D77-D60D-4C6A-A904-DF6691CECCB1}.Release|iPhone.Build.0 = Release|Any CPU
+		{58DD4D77-D60D-4C6A-A904-DF6691CECCB1}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{58DD4D77-D60D-4C6A-A904-DF6691CECCB1}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

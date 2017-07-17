@@ -9003,10 +9003,10 @@
   },
   "project": {
     "restore": {
-      "projectUniqueName": "C:\\Projects\\mobile-center-sdk-dotnet\\Tests\\Tizen\\Contoso.Forms.Test.TizenMobile.csproj",
-      "projectName": "Contoso.Forms.Test.TizenMobile",
-      "projectPath": "C:\\Projects\\mobile-center-sdk-dotnet\\Tests\\Tizen\\Contoso.Forms.Test.TizenMobile.csproj",
-      "projectJsonPath": "C:\\Projects\\mobile-center-sdk-dotnet\\Tests\\Tizen\\Contoso.Forms.Test.TizenMobile.project.json",
+      "projectUniqueName": "C:\\Projects\\mobile-center-sdk-dotnet\\Tests\\TizenTV\\Contoso.Forms.Test.TizenTV.csproj",
+      "projectName": "Contoso.Forms.Test.TizenTV",
+      "projectPath": "C:\\Projects\\mobile-center-sdk-dotnet\\Tests\\TizenTV\\Contoso.Forms.Test.TizenTV.csproj",
+      "projectJsonPath": "C:\\Projects\\mobile-center-sdk-dotnet\\Tests\\TizenTV\\Contoso.Forms.Test.TizenTV.project.json",
       "projectStyle": "ProjectJson"
     },
     "dependencies": {
