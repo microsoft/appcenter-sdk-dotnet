@@ -14,6 +14,33 @@
           "lib/netstandard1.3/ElmSharp.dll": {}
         }
       },
+      "Microsoft.Azure.Mobile.Analytics.Tizen/0.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Analytics.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Analytics.dll": {}
+        }
+      },
+      "Microsoft.Azure.Mobile.Crashes.Tizen/0.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll": {}
+        }
+      },
+      "Microsoft.Azure.Mobile.Tizen/0.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -1001,10 +1028,11 @@
       "Tizen/1.0.5": {
         "type": "package",
         "dependencies": {
+          "NETStandard.Library": "1.6.1",
           "Tizen.Log": "1.0.0"
         },
         "compile": {
-          "ref/netstandard1.3/Tizen.dll": {}
+          "lib/netstandard1.3/Tizen.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/Tizen.dll": {}
@@ -1089,14 +1117,15 @@
           "lib/netstandard1.3/Tizen.Applications.Common.dll": {}
         }
       },
-      "Tizen.Applications.DataControl/1.0.6": {
+      "Tizen.Applications.DataControl/1.0.7": {
         "type": "package",
         "dependencies": {
+          "NETStandard.Library": "1.6.1",
           "Tizen": "1.0.5",
-          "Tizen.Applications.Common": "1.5.6"
+          "Tizen.Applications.Common": "1.5.8"
         },
         "compile": {
-          "ref/netstandard1.3/Tizen.Applications.DataControl.dll": {}
+          "lib/netstandard1.3/Tizen.Applications.DataControl.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/Tizen.Applications.DataControl.dll": {}
@@ -1315,6 +1344,9 @@
       },
       "Tizen.Log/1.0.0": {
         "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
         "compile": {
           "lib/netstandard1.3/Tizen.Log.dll": {}
         },
@@ -1528,7 +1560,7 @@
       "Tizen.NET/3.0.0": {
         "type": "package",
         "dependencies": {
-          "ElmSharp": "1.2.0",
+          "ElmSharp": "1.2.1",
           "Tizen": "1.0.5",
           "Tizen.Account.AccountManager": "1.0.7",
           "Tizen.Account.FidoClient": "1.0.3",
@@ -1536,7 +1568,7 @@
           "Tizen.Applications.Alarm": "1.5.8",
           "Tizen.Applications.Badge": "1.0.6",
           "Tizen.Applications.Common": "1.5.8",
-          "Tizen.Applications.DataControl": "1.0.6",
+          "Tizen.Applications.DataControl": "1.0.7",
           "Tizen.Applications.MessagePort": "1.5.8",
           "Tizen.Applications.Notification": "1.5.9",
           "Tizen.Applications.NotificationEventListener": "1.5.9",
@@ -1569,7 +1601,7 @@
           "Tizen.Multimedia.StreamRecorder": "1.0.0",
           "Tizen.Multimedia.Util": "1.0.1",
           "Tizen.Multimedia.Vision": "1.0.0",
-          "Tizen.NUI": "0.2.42",
+          "Tizen.NUI": "0.2.43",
           "Tizen.Network.Bluetooth": "1.0.9",
           "Tizen.Network.Connection": "1.0.18",
           "Tizen.Network.IoTConnectivity": "1.0.6",
@@ -1690,11 +1722,12 @@
           "lib/netstandard1.3/Tizen.Network.WiFiDirect.dll": {}
         }
       },
-      "Tizen.NUI/0.2.42": {
+      "Tizen.NUI/0.2.43": {
         "type": "package",
         "dependencies": {
-          "Tizen.Applications.Common": "1.5.1",
-          "Tizen.Applications.UI": "1.5.1"
+          "NETStandard.Library": "1.6.1",
+          "Tizen.Applications.Common": "1.5.8",
+          "Tizen.Applications.UI": "1.5.8"
         },
         "compile": {
           "lib/netstandard1.6/Tizen.NUI.dll": {}
@@ -1972,6 +2005,33 @@
         },
         "runtime": {
           "lib/netstandard1.3/ElmSharp.dll": {}
+        }
+      },
+      "Microsoft.Azure.Mobile.Analytics.Tizen/0.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Analytics.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Analytics.dll": {}
+        }
+      },
+      "Microsoft.Azure.Mobile.Crashes.Tizen/0.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll": {}
+        }
+      },
+      "Microsoft.Azure.Mobile.Tizen/0.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.Azure.Mobile.dll": {}
         }
       },
       "Microsoft.CSharp/4.3.0": {
@@ -3453,10 +3513,11 @@
       "Tizen/1.0.5": {
         "type": "package",
         "dependencies": {
+          "NETStandard.Library": "1.6.1",
           "Tizen.Log": "1.0.0"
         },
         "compile": {
-          "ref/netstandard1.3/Tizen.dll": {}
+          "lib/netstandard1.3/Tizen.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/Tizen.dll": {}
@@ -3541,14 +3602,15 @@
           "lib/netstandard1.3/Tizen.Applications.Common.dll": {}
         }
       },
-      "Tizen.Applications.DataControl/1.0.6": {
+      "Tizen.Applications.DataControl/1.0.7": {
         "type": "package",
         "dependencies": {
+          "NETStandard.Library": "1.6.1",
           "Tizen": "1.0.5",
-          "Tizen.Applications.Common": "1.5.6"
+          "Tizen.Applications.Common": "1.5.8"
         },
         "compile": {
-          "ref/netstandard1.3/Tizen.Applications.DataControl.dll": {}
+          "lib/netstandard1.3/Tizen.Applications.DataControl.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/Tizen.Applications.DataControl.dll": {}
@@ -3767,6 +3829,9 @@
       },
       "Tizen.Log/1.0.0": {
         "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
         "compile": {
           "lib/netstandard1.3/Tizen.Log.dll": {}
         },
@@ -3980,7 +4045,7 @@
       "Tizen.NET/3.0.0": {
         "type": "package",
         "dependencies": {
-          "ElmSharp": "1.2.0",
+          "ElmSharp": "1.2.1",
           "Tizen": "1.0.5",
           "Tizen.Account.AccountManager": "1.0.7",
           "Tizen.Account.FidoClient": "1.0.3",
@@ -3988,7 +4053,7 @@
           "Tizen.Applications.Alarm": "1.5.8",
           "Tizen.Applications.Badge": "1.0.6",
           "Tizen.Applications.Common": "1.5.8",
-          "Tizen.Applications.DataControl": "1.0.6",
+          "Tizen.Applications.DataControl": "1.0.7",
           "Tizen.Applications.MessagePort": "1.5.8",
           "Tizen.Applications.Notification": "1.5.9",
           "Tizen.Applications.NotificationEventListener": "1.5.9",
@@ -4021,7 +4086,7 @@
           "Tizen.Multimedia.StreamRecorder": "1.0.0",
           "Tizen.Multimedia.Util": "1.0.1",
           "Tizen.Multimedia.Vision": "1.0.0",
-          "Tizen.NUI": "0.2.42",
+          "Tizen.NUI": "0.2.43",
           "Tizen.Network.Bluetooth": "1.0.9",
           "Tizen.Network.Connection": "1.0.18",
           "Tizen.Network.IoTConnectivity": "1.0.6",
@@ -4142,11 +4207,12 @@
           "lib/netstandard1.3/Tizen.Network.WiFiDirect.dll": {}
         }
       },
-      "Tizen.NUI/0.2.42": {
+      "Tizen.NUI/0.2.43": {
         "type": "package",
         "dependencies": {
-          "Tizen.Applications.Common": "1.5.1",
-          "Tizen.Applications.UI": "1.5.1"
+          "NETStandard.Library": "1.6.1",
+          "Tizen.Applications.Common": "1.5.8",
+          "Tizen.Applications.UI": "1.5.8"
         },
         "compile": {
           "lib/netstandard1.6/Tizen.NUI.dll": {}
@@ -4416,7 +4482,7 @@
   },
   "libraries": {
     "ElmSharp/1.2.1": {
-      "sha512": "P1k7aIIzEwybtH0Dx3WAy9x+9J7KsR1tnuwIlAkgKCcvRGH97DDOJz7llG7ZAvWC5+SfM8IRPfhLzTuGinUyHA==",
+      "sha512": "hefxykb83nfw7jRyw6Km46T44M/fUU9MPMAUeMdGGL2ABaV+v+5fl4b1JMRIFLbFjvZE4ALVVptaxcWSYKzHlg==",
       "type": "package",
       "path": "elmsharp/1.2.1",
       "files": [
@@ -4424,6 +4490,36 @@
         "elmsharp.nuspec",
         "lib/netstandard1.3/ElmSharp.dll",
         "lib/netstandard1.3/ElmSharp.xml"
+      ]
+    },
+    "Microsoft.Azure.Mobile.Analytics.Tizen/0.13.0": {
+      "sha512": "vleuBQTEGuRaKZH/vZiyl2YUiybJdDeYqDafCLD0sCWrsRPQHNNulBk13jfNE4tM/5Njm0VujmIZIROQuVBzhA==",
+      "type": "package",
+      "path": "microsoft.azure.mobile.analytics.tizen/0.13.0",
+      "files": [
+        "lib/netstandard1.0/Microsoft.Azure.Mobile.Analytics.dll",
+        "microsoft.azure.mobile.analytics.tizen.0.13.0.nupkg.sha512",
+        "microsoft.azure.mobile.analytics.tizen.nuspec"
+      ]
+    },
+    "Microsoft.Azure.Mobile.Crashes.Tizen/0.13.0": {
+      "sha512": "7jbTb8QZh55Ee0vjN/GDnEhSoZcH60K7iqVrr6eYAkjp/tCN/BkJ5h+c4ousT6qDX/6d5kdDgZ4guSVr+RDzsQ==",
+      "type": "package",
+      "path": "microsoft.azure.mobile.crashes.tizen/0.13.0",
+      "files": [
+        "lib/netstandard1.0/Microsoft.Azure.Mobile.Crashes.dll",
+        "microsoft.azure.mobile.crashes.tizen.0.13.0.nupkg.sha512",
+        "microsoft.azure.mobile.crashes.tizen.nuspec"
+      ]
+    },
+    "Microsoft.Azure.Mobile.Tizen/0.13.0": {
+      "sha512": "urI+OIhI+kNc/xq4hocUVGKGTo5oXnO/SgpQG8sBtDijV2M4Es54N9SIg6L6Iokumyj/OPVfmlgOfLDQtCZLkw==",
+      "type": "package",
+      "path": "microsoft.azure.mobile.tizen/0.13.0",
+      "files": [
+        "lib/netstandard1.0/Microsoft.Azure.Mobile.dll",
+        "microsoft.azure.mobile.tizen.0.13.0.nupkg.sha512",
+        "microsoft.azure.mobile.tizen.nuspec"
       ]
     },
     "Microsoft.CSharp/4.3.0": {
@@ -8080,19 +8176,18 @@
       ]
     },
     "Tizen/1.0.5": {
-      "sha512": "WMhPIsx4yeYvpILdsUkFP9HHM9W3GTEANKJ1fEsyRbJZhBtMhbX+AlcaGyb0rc7lkArvLTUzp6sVLH3/R61dbA==",
+      "sha512": "dVvNKCUn4PObfM8JxRv8CBZ18IhkMdkkGIxArODcalofitaNTL3UEdlPnv/eT6XpNbFofHWQOT8r7IXNbpNhYA==",
       "type": "package",
       "path": "tizen/1.0.5",
       "files": [
         "lib/netstandard1.3/Tizen.dll",
         "lib/netstandard1.3/Tizen.xml",
-        "ref/netstandard1.3/Tizen.dll",
         "tizen.1.0.5.nupkg.sha512",
         "tizen.nuspec"
       ]
     },
     "Tizen.Account.AccountManager/1.0.7": {
-      "sha512": "n4eF5rpg7EpRQ+/AqPVp4S/RS4sdeBH8O/jrJPVZOOHiSIkp8B443oBtDNt+kbvBY4c7H0fScP4FmvsilMIE4Q==",
+      "sha512": "FFTKlu9N8ofHOB73at985iZ60VsifK35FFVrWHwZuSi14a3MgmCI1MNucGH5bnw1zJqmnZ4oYRgfaB+1Z3F7tw==",
       "type": "package",
       "path": "tizen.account.accountmanager/1.0.7",
       "files": [
@@ -8103,7 +8198,7 @@
       ]
     },
     "Tizen.Account.FidoClient/1.0.3": {
-      "sha512": "qbXCFTNeyOaBf3c6Ma7LcUwzSBCP6q2h5X3KOajPNVz27K//DtlGMtgdpuV6SMQZWujFoN6nQ7Ue5aV4vPXOAw==",
+      "sha512": "nfv97+VrGd19pQ1gmu/k9GzZc84a80zUO8jklu+UsoP/qR9YXPkikyacepk3yciVQZGx/DBe5tAaJOAZQQ96pg==",
       "type": "package",
       "path": "tizen.account.fidoclient/1.0.3",
       "files": [
@@ -8114,7 +8209,7 @@
       ]
     },
     "Tizen.Account.OAuth2/1.0.7": {
-      "sha512": "wHUmsreAMJKCOZDWWuoZrH29JkgK7N692USjb3p/aw/P3yM0IAGQMmOhwxr2h08scubIY+jwgg5OLmBITG1ciQ==",
+      "sha512": "go/PbXeHEEb3t9Dt9InbxaybwIveTRlpLSYNp5HPqgADxZmFF+PZ1J+QenhbQKlQb2KgLYdC5VrLyOvgn93szQ==",
       "type": "package",
       "path": "tizen.account.oauth2/1.0.7",
       "files": [
@@ -8125,7 +8220,7 @@
       ]
     },
     "Tizen.Applications.Alarm/1.5.8": {
-      "sha512": "rjZ1kruoiaxSArHzrTLPllk+sTQ5j37Cp+RLQs030yrw0o9JCLAT2KpnLRl1hkwSXVLPfHZkr5ze2JYebFHWRw==",
+      "sha512": "l852KDWDjyMTuTnXnxKG8VQVuRKoC0l4ASJAAdAhnb9OTlTH1gXqs25kaksrP4kVLcfmQF6SBuCIrA0v++kjQA==",
       "type": "package",
       "path": "tizen.applications.alarm/1.5.8",
       "files": [
@@ -8136,7 +8231,7 @@
       ]
     },
     "Tizen.Applications.Badge/1.0.6": {
-      "sha512": "jxM+hh0rnaksc5MSRbU3PoJOItm1VTtMpqMX6+QqVcsj/N2CpkBqwKoAeH3r/cvhx9LqgMXvvLjn1rqRglmsDA==",
+      "sha512": "FUZaMVUPza3sS2us2upj7rp9PJ1F2kPOMDYv3zvbSQzpNWcnjHOwB20kkpuw7+aE+5Ij21goU63iOQnQP+CNTQ==",
       "type": "package",
       "path": "tizen.applications.badge/1.0.6",
       "files": [
@@ -8147,7 +8242,7 @@
       ]
     },
     "Tizen.Applications.Common/1.5.8": {
-      "sha512": "ooTYEWTHGyVAsZl0kueeYLZRXGL8WtnpEmQDvU/+4FFHgIudn/jDLzJSe3kxjWh6QQ9Hpfpa92i4MHH9fSSsaQ==",
+      "sha512": "Q2OQtg9/jLwTcfljeRzNBIPVfiNzzbxcf16+dwQ2ywryIQwdx7fpPvsw3PQFnQLBQ+Nr5VC/PSl/Se6ukTZHGQ==",
       "type": "package",
       "path": "tizen.applications.common/1.5.8",
       "files": [
@@ -8157,21 +8252,19 @@
         "tizen.applications.common.nuspec"
       ]
     },
-    "Tizen.Applications.DataControl/1.0.6": {
-      "sha512": "dr9qWC0Aiu2osNDKvrZ/00SuqMNwnI3IMGSqUtWno2bng2eut/Jjy6D6jsIHlPnpCkZtmO4Aftled6nQi+ltAw==",
+    "Tizen.Applications.DataControl/1.0.7": {
+      "sha512": "YILEKd6s1Nfw97g8EiDXVTbZW5ddaQuUQUok1YRVKOxFLsOno/whRfFOX+Xs/6yU3lNvWlhf06aGN32Kw+M7+g==",
       "type": "package",
-      "path": "tizen.applications.datacontrol/1.0.6",
+      "path": "tizen.applications.datacontrol/1.0.7",
       "files": [
         "lib/netstandard1.3/Tizen.Applications.DataControl.dll",
         "lib/netstandard1.3/Tizen.Applications.DataControl.xml",
-        "ref/netstandard1.3/Tizen.Applications.DataControl.dll",
-        "ref/netstandard1.3/Tizen.Applications.DataControl.xml",
-        "tizen.applications.datacontrol.1.0.6.nupkg.sha512",
+        "tizen.applications.datacontrol.1.0.7.nupkg.sha512",
         "tizen.applications.datacontrol.nuspec"
       ]
     },
     "Tizen.Applications.MessagePort/1.5.8": {
-      "sha512": "bxyD43LcMbgkPN4CJIl6C56t3qCiSxbnauUdWR4am1w5LYu+3U9+tj4iPLUcfcUIs4qE8eHf5+iPdVPDDSTouQ==",
+      "sha512": "DzYu0M46kGjqGWta/MQo26UTQgMkph3vtVk7pTB2dWp87jWaEiOhmItV1IGbMcx9UZ6CUbBqF7DkikFrLaC2aA==",
       "type": "package",
       "path": "tizen.applications.messageport/1.5.8",
       "files": [
@@ -8182,7 +8275,7 @@
       ]
     },
     "Tizen.Applications.Notification/1.5.9": {
-      "sha512": "E1Mue09m3xrcb5ny15vg/nVQ26ZkH5J0AP1kvts+RrOknUYYMWFodFqPx35vqLh1NigeW688FU6FeNeVhFPzhw==",
+      "sha512": "n0K8uFmZ1LCJKFjB9ErGbS6LuSilRUZgd4KF2UPEkZ7kvVPfEfhGrXaZLZDo7CdsLqv1a+H+4jx5IYGR2UEU+w==",
       "type": "package",
       "path": "tizen.applications.notification/1.5.9",
       "files": [
@@ -8193,7 +8286,7 @@
       ]
     },
     "Tizen.Applications.NotificationEventListener/1.5.9": {
-      "sha512": "J8Y0hRCvUVGUlI9d/fi7inI45uzyp8nqRWl4yM/CJADboS1LoVfAHYo6qApRkb962CreveIJVHPIC9oaSbXDUw==",
+      "sha512": "N8B9h1GFB12h4WN/yOrtv2x3fTG2gT5+PoiE/xCAomqTxLR4SCiGwt8zX2zWZ8+sIp3RWNh+I4u0z7RQVKO4GA==",
       "type": "package",
       "path": "tizen.applications.notificationeventlistener/1.5.9",
       "files": [
@@ -8204,7 +8297,7 @@
       ]
     },
     "Tizen.Applications.PackageManager/1.5.8": {
-      "sha512": "VSwnOs/LhHk63fqtrnlKP+cKreU0idlnWv3yV8+nlya73zFFwJY/ye1HU3oHWoj3KYLfQghd6rKyCxr75kh4Eg==",
+      "sha512": "VQxgoHKsS4gFwMfn+tWUfzwFb7NzDgu0yVE3w6RSdAnxWYzNiaUOI/WInA4H0d37DKQBu3tyAeRBKbi0FnElpw==",
       "type": "package",
       "path": "tizen.applications.packagemanager/1.5.8",
       "files": [
@@ -8215,7 +8308,7 @@
       ]
     },
     "Tizen.Applications.Preference/1.5.8": {
-      "sha512": "1RA6zMo9rxkG68CPMU+wTV5/zmqQdb4XmJQRaCSmylO+874BN+H7Y541RWS+tYrHp+XZPdXqXUImMdSrScwR8w==",
+      "sha512": "rZ9wiG1E38cmXholsO5hEYnFJJYagxhNdaee2UYB6zonARk7xlBkGQbzWXtsSPAlCeobGG4EW9O9vTQR6vfACw==",
       "type": "package",
       "path": "tizen.applications.preference/1.5.8",
       "files": [
@@ -8226,7 +8319,7 @@
       ]
     },
     "Tizen.Applications.RemoteView/1.0.3": {
-      "sha512": "ccRybO7iotVdXijuSZHVP0ob7D6g4wntroBZAfISqYuYNlb/Y+8gaGi3EbxS6zdHdcrvONRTrWdIWdsIslnyYQ==",
+      "sha512": "4JBOW8ihUCA67zkzMHdySQQzsEAjnpVuErfodqvNJE9ORgLPHFiJ47c5YC7V6Z7YXZA2HNSwKttfeiBWueBgsQ==",
       "type": "package",
       "path": "tizen.applications.remoteview/1.0.3",
       "files": [
@@ -8237,7 +8330,7 @@
       ]
     },
     "Tizen.Applications.Service/1.5.8": {
-      "sha512": "deo/SQepBMtae/RpEzgTDNjKOKk7cqEjGmaCL1vHCBG1Kh2d0vMNbA+J1k2aoqrVSU2Rq5dK2JHcVraOpXvjpw==",
+      "sha512": "0O/oI5qTA0eD1szunjy9OGBUE5v2CYf3lHY62f1J80JRBGoovF4W22z3Fmz+RuGeFl4SFuQt8Y9tbYNArsFFXg==",
       "type": "package",
       "path": "tizen.applications.service/1.5.8",
       "files": [
@@ -8248,7 +8341,7 @@
       ]
     },
     "Tizen.Applications.ToastMessage/1.5.8": {
-      "sha512": "KBUIMtAT896U6Wi9eSvlDg4bfopmZ1Ehv38h+yuIdtPoYckjfLDDxW4lYnbjAQdb6NaU1vWGzNp2Ana0ztKjHA==",
+      "sha512": "LL7MxpT57cB+dbcot9Gya/5DQs99hbpodoJIvsADQMer+7IchwvhVzlilAKGgVGY2cRuJeJoKwk0auffdEZ8BQ==",
       "type": "package",
       "path": "tizen.applications.toastmessage/1.5.8",
       "files": [
@@ -8259,7 +8352,7 @@
       ]
     },
     "Tizen.Applications.UI/1.5.8": {
-      "sha512": "Tz9b8x6+80xE4QCWEUXRN2Udnu1n8XRw1erBAl653rKUoFKhfe4sm498GjxTUrcSzXh36uQMCyA1h8mmp46n2w==",
+      "sha512": "ko0dhoPcdUj+XC1FCXuV/nzIv9bZXBNOrqwNrjMeuShIuxYQNo97xwN42PwwZLEX6uAaO7ShA9wIDXQcadk5ug==",
       "type": "package",
       "path": "tizen.applications.ui/1.5.8",
       "files": [
@@ -8270,7 +8363,7 @@
       ]
     },
     "Tizen.Applications.WidgetApplication/1.0.7": {
-      "sha512": "FBSixH4pBEPT+fdPYkq8xsH/I7etWkraLGzwtxPgZS8+ppZDqM6N1VTOy1V4OgPitoESDRpI2hO9uSIKr2btww==",
+      "sha512": "czAYyLsCtEd37BDILQUqfD+DIkT8ak1uXgNebkjTMEOji5HbA60cMwlxLeHppkV5E8rhZJj8nJuqezy2JlZcMg==",
       "type": "package",
       "path": "tizen.applications.widgetapplication/1.0.7",
       "files": [
@@ -8281,7 +8374,7 @@
       ]
     },
     "Tizen.Applications.WidgetControl/1.0.5": {
-      "sha512": "IV2M+2a0JZfJyLohL47huQWIJGmfYd9I5WOllKWQ1Cqojqb5CZM9wol6QCoRnn8U71bmViq/D/2QCRIt1ixYyw==",
+      "sha512": "xdz1vsitPpGNM/vSHHZARZcZjmmJs5Fu3h29OCckx/Dx5vh3RGAE24x3wXRu3awEfBFi5W2gnMV40EvGQEiYKQ==",
       "type": "package",
       "path": "tizen.applications.widgetcontrol/1.0.5",
       "files": [
@@ -8292,7 +8385,7 @@
       ]
     },
     "Tizen.Content.Download/1.0.5": {
-      "sha512": "FgXehTddohkPo4mjCwbpqDcZhH7ikGncSEHoV2PpxfCRmDMXYzHyDVR2rhAqKTqvSUJqSv0O7iL0nEZ/Ptsq4g==",
+      "sha512": "on7bX8J6njU/PAs1FX5sIcRunf9Masa8mV/dltBRt+PTIeWI9a1hQFxzja9d4Cxb+Z2MJ3FTehcNlMs1K+EMZQ==",
       "type": "package",
       "path": "tizen.content.download/1.0.5",
       "files": [
@@ -8303,7 +8396,7 @@
       ]
     },
     "Tizen.Content.MediaContent/1.0.20": {
-      "sha512": "aAdENpKBkNNPKr0g+ZFYMqsmmM2vtmDj4ztKH+P545qWYKqoXE8s7sHs+vbaifkX4KT8qq8pw0b7kycPfJsDyw==",
+      "sha512": "FXA6XqKwgIFvBjBkpIId8ly4RnwOuXiaaCm2Zp2Ag8tf7xRasyNjrh1fY99i2P49m6z7/PJV2DPAJmpQ4L82gw==",
       "type": "package",
       "path": "tizen.content.mediacontent/1.0.20",
       "files": [
@@ -8314,7 +8407,7 @@
       ]
     },
     "Tizen.Content.MimeType/1.0.4": {
-      "sha512": "9v1ZSyrTmb5JdVWiGB0VdmQg+dYnsBXL3g2LEKR6BCK0C0Pepzf1MsO90UuP/Cgdk0XFodRjM47yWpPXIpfL9A==",
+      "sha512": "zlMOWRNdl/WnTyV4JE/wbuj36Ejval4l7Z2rm9pM+FqNB0rgpE3YaUsFeyDXHROsHcQL8xD/fhbSdpEcZawgBA==",
       "type": "package",
       "path": "tizen.content.mimetype/1.0.4",
       "files": [
@@ -8336,7 +8429,7 @@
       ]
     },
     "Tizen.Location.Geofence/1.0.4": {
-      "sha512": "+zYk/71gJnoRBl9C0KmvwV3xkrwJwmuYlCXM7yEoRTDKxK35HSVVKqsGOeZbM5hZSsdaVQIGgYlHvQeHIZve1A==",
+      "sha512": "RdCcO+bK63Dc90pkkMDSCt6xr6SFVKgpTpME/mlC+SuSjXedJ+14dYO//RUO2U4aZ6Bjn/gW7+joZOJI5M6U5w==",
       "type": "package",
       "path": "tizen.location.geofence/1.0.4",
       "files": [
@@ -8347,7 +8440,7 @@
       ]
     },
     "Tizen.Log/1.0.0": {
-      "sha512": "c7S+MwPtNHC0rv/XfK/G+0cJtouhDsCpwIoAw1fJ+dkZX3SQHMmH5SInHN+wdF6Crqj6vWvRnSMtwZUcDkPY5Q==",
+      "sha512": "QcEf+zN2S8RIYvkwBQV/rx+6Cr3RkdwLpaQR+bS57akLLbMWLI0KTDlvoSJgYO6+vReEjutIWLhK1dSlkYXtCg==",
       "type": "package",
       "path": "tizen.log/1.0.0",
       "files": [
@@ -8358,7 +8451,7 @@
       ]
     },
     "Tizen.Maps/1.0.11": {
-      "sha512": "Xk8/nmW4Up1OWokdNPHPbdOFWa+HO+nMJNchg/jiRmHywldmeItqR61oNGzbJX9lABSK4Zs/et11hQQitTv/qw==",
+      "sha512": "yqEDQiuf069TU+GfxxqayTIYQOcbTfYHDXRl2XagmCkMb5o24uKNB5hGtpweEZKpVviRWVjZklHVtiYcs1D/jQ==",
       "type": "package",
       "path": "tizen.maps/1.0.11",
       "files": [
@@ -8369,7 +8462,7 @@
       ]
     },
     "Tizen.Messaging/1.0.3": {
-      "sha512": "OgEn2zqX3QW6jglR3T+Xx0qt6xJtYVRUIzH290GVF0TbqpF7qlh2pDsMwiJigF9OT0LTxvauNGaZl451CP0Pbw==",
+      "sha512": "da4CCiP2w7V+X2+4F4iHjMzLZqzGjUQyvQPTCf+slh48/AV08WiVA9t32FrCOdZxHEm4PbEPFD36iZz2qq00SA==",
       "type": "package",
       "path": "tizen.messaging/1.0.3",
       "files": [
@@ -8380,7 +8473,7 @@
       ]
     },
     "Tizen.Messaging.Push/1.0.5": {
-      "sha512": "9tfH/updXIFhcu7dO8+idHumhRHwz191QBzYhxO1u4kSmqe5mxUEYqpOSTk4hcpPb34eaEpb3/furgn4i4Ys/Q==",
+      "sha512": "WlWlL8o8LWGpaWcf+VDTYLt/P8efi8Rn0j/Uo/nD8odFyPocFAI+gVXeHIlzhWscvKsRxJn968gOFo7GkE+0AA==",
       "type": "package",
       "path": "tizen.messaging.push/1.0.5",
       "files": [
@@ -8391,7 +8484,7 @@
       ]
     },
     "Tizen.Multimedia/1.2.0": {
-      "sha512": "XEWpYXSkPLh7xnU7AZ6BvbmKmCrkuuISXuSQyIe6QFrxkw7lp3tFZfTFA3nDus/DDcijDcSxXOBMMEBdDVLVUw==",
+      "sha512": "T4RHQGlBE7YmKqWBZOouQLgoq/mSVpmpUcU9sI2sAaEEwvonNNm5VFGO4IIgEOdQNfb8ABzerPphgbGotj+MbA==",
       "type": "package",
       "path": "tizen.multimedia/1.2.0",
       "files": [
@@ -8413,7 +8506,7 @@
       ]
     },
     "Tizen.Multimedia.Camera/1.0.0": {
-      "sha512": "qB4/MwIBcxa4mRqEQZY3FhHi4nDRr8mHe+JsNU5HZoSM8v/r5o6hF/Uq4Mmq6WL8tRWZKYGkItPoOL6YrLBPzw==",
+      "sha512": "eitUE+QwJQwJorrftofCBIjOrrAUKn+swY87DuHUKHO5gvPbRXOonzPAdc2WxNy2NSAigFk4H9e/9zKE/aWdTA==",
       "type": "package",
       "path": "tizen.multimedia.camera/1.0.0",
       "files": [
@@ -8424,7 +8517,7 @@
       ]
     },
     "Tizen.Multimedia.MediaCodec/1.0.0": {
-      "sha512": "Zs+9R6+UIBxQJAMH93tzYbPkqfdRmr/cQORfa0hWp3rUX5Ask9fke+c/QIKsef7nkRVwF8QpM0saE+oEtbn4xg==",
+      "sha512": "0hVaguUr0SzDSTQ9f8000B4rxuLPeiPDGJHTxneMRQkjBWO5re3LkYMsBYO9eVzysqrwEEJTVh9P6KgqqMaQeg==",
       "type": "package",
       "path": "tizen.multimedia.mediacodec/1.0.0",
       "files": [
@@ -8435,7 +8528,7 @@
       ]
     },
     "Tizen.Multimedia.MediaPlayer/1.0.1": {
-      "sha512": "LKLiPrZRyBowZmibWN2RwFithmJf4+CmeqRfIIA1wuxTFGYjw1C/ZOaJAdwe/HKFJroTA+eUqORPkp7IYF4M5A==",
+      "sha512": "AJdiY9iUZ0vS5AZVHILZSn9H/K14MeU9ADy/GLqUEmFBHc1wDLOuxMIgoIgAbDIS1hnnQMJslLx4I+YLKzE5Wg==",
       "type": "package",
       "path": "tizen.multimedia.mediaplayer/1.0.1",
       "files": [
@@ -8446,7 +8539,7 @@
       ]
     },
     "Tizen.Multimedia.Metadata/1.0.0": {
-      "sha512": "jHyM1fcwwKIQ2HLnjT9eXDQGtIuSlVzDhuIg3vF6L1z7IzTex/2Rln3igWF8RKpcbycIqCBJHlHc8GpBIabhBg==",
+      "sha512": "ICyxdWaRGpD7/uw3d8oR60+3DyJvf15ZEoNnxdQ0+Kc1EDfUQ7bVT4yIXkB43u548yEKVsCiIough9DHUlfySg==",
       "type": "package",
       "path": "tizen.multimedia.metadata/1.0.0",
       "files": [
@@ -8457,7 +8550,7 @@
       ]
     },
     "Tizen.Multimedia.Radio/1.0.1": {
-      "sha512": "pXq3gVGVUtPZcucsTqt3RnfNLFhLZkTRLLqITE3iF4mzRKLNHk6aKW5G1cGi7T4ZcAkPyLQ/TMvkokixWBnZYQ==",
+      "sha512": "g5ZjP4wC3r3M+9ttho8EcS+ruMKh0EhYpHbs4gJxn6AxKNiiUC39GtqBaryln41ZxFu2psSQdmAbDayV6TSOPw==",
       "type": "package",
       "path": "tizen.multimedia.radio/1.0.1",
       "files": [
@@ -8468,7 +8561,7 @@
       ]
     },
     "Tizen.Multimedia.Recorder/1.0.1": {
-      "sha512": "7DtRNRSCrHRRLl3zknaOyJvR71ZD76hP49R0T2u+2q/kak4tpv0nxEVqXzUnckVqFJAA+WY8sIfZX2wWX6YwqQ==",
+      "sha512": "+pNPvUqUPIHl3pzPITJtd6eQf8fmHEGpIc98pJuxTUtGI5Q/qiFQR7YPp139QWJv76LS8VCdtFwvQvh/Trn2Ng==",
       "type": "package",
       "path": "tizen.multimedia.recorder/1.0.1",
       "files": [
@@ -8479,7 +8572,7 @@
       ]
     },
     "Tizen.Multimedia.Remoting/1.0.0": {
-      "sha512": "OP6O/5iromuQKjIsnJ5kdEXeuQhn6nGhrest0lG5WomJXCXmKFuiJJJAbAVkq6Vn0wMV74i54uYr2Psc3A1bMQ==",
+      "sha512": "TIfGm530w5dRDcGxB4p1EwpMl7J+Sii9YVuxX/rpMK8dPfVtyMoNnl4gfnzg0ZV1KQ2id+kB/34CYeGAfODqcg==",
       "type": "package",
       "path": "tizen.multimedia.remoting/1.0.0",
       "files": [
@@ -8490,7 +8583,7 @@
       ]
     },
     "Tizen.Multimedia.StreamRecorder/1.0.0": {
-      "sha512": "7JZjNt3yg8gZd4AB4/sFYfqgxFXUkZH5OrMVaOQxjmu3k6VnIPpfqR7z8bp7b3ajy++h5NdIQ5UBq10pcR6AIw==",
+      "sha512": "bWbnnabuuHDLx0dqpchsAAR3kQOoVGr04gSl9PN51d4Upgsi1YL8DNLRm5HCvAWsZoUJRfJQyuv6Ijv8dG68Pw==",
       "type": "package",
       "path": "tizen.multimedia.streamrecorder/1.0.0",
       "files": [
@@ -8501,7 +8594,7 @@
       ]
     },
     "Tizen.Multimedia.Util/1.0.1": {
-      "sha512": "nt/okUeOFMC50U6CAdtGB1rrJ/EYge4T+pNj5ZNnQYOfz+AvHah5w3trITJ7964eeXrJLKODckYibiS/igzTAg==",
+      "sha512": "J/RZnpMSfQpkLV60et4vKPgGUvHIi1fw8aAuGlOYgALeqhskDg3kCAaYfzt6sQwnEc6hKROkKeS23KMxPDMlDA==",
       "type": "package",
       "path": "tizen.multimedia.util/1.0.1",
       "files": [
@@ -8512,7 +8605,7 @@
       ]
     },
     "Tizen.Multimedia.Vision/1.0.0": {
-      "sha512": "w7ynyVgCSZni1k1yT6T8pliplOpsFqCtCqrjkM94vfMvtxQ9U434tvNgN4vO23T48UJ4g3VDXR2IeAApLJSlTg==",
+      "sha512": "E6gVm7zpzPDxuYWyQiEbogH11XvU0MlUeQlVkOzM/xrozEJbHd8bYwhchAU9NsGLPwcjyoyrs6UWSGdmCvKHuA==",
       "type": "package",
       "path": "tizen.multimedia.vision/1.0.0",
       "files": [
@@ -8523,7 +8616,7 @@
       ]
     },
     "Tizen.NET/3.0.0": {
-      "sha512": "7Ev2eT+fE34yM3+NH0wV5EXheuiORP94pznQ3NNSK1iomJShconl1DN3P5ERZA7j7lrwxKs9mUKMpcv3SsTy6Q==",
+      "sha512": "Wsi5rfMsJrmSaPXojm+wOOgnEQyvyIIBbQK0hpEBFl3yd6SfKBT47lNIC54NWaR8/ZOe+3p6dYFLBaiZiEgFaQ==",
       "type": "package",
       "path": "tizen.net/3.0.0",
       "files": [
@@ -8532,7 +8625,7 @@
       ]
     },
     "Tizen.Network.Bluetooth/1.0.9": {
-      "sha512": "KCZLA3up0tu6ov96aV1QpxJWHkCdOob0qj9W0tdGmjYx1mXjT7KvTwL7sS5OyZfbPaxX/s+A4EGuzmBfybGJNg==",
+      "sha512": "+YLpIBbCIi6LlMY2q9fSzXVtxaEl90/L24g9V5z4MYeQoVW4qnFYnaEOkiTmhnoeRzl1Y613c3y8EdQf2+RLEQ==",
       "type": "package",
       "path": "tizen.network.bluetooth/1.0.9",
       "files": [
@@ -8543,7 +8636,7 @@
       ]
     },
     "Tizen.Network.Connection/1.0.18": {
-      "sha512": "YjF1KkWXGldT+1re9pinXmcN3CyGhudVE55KniNrmkQ54ZY5kTx5+NSCd1wgGi6KP8KBDV97thWqudMD49FLAw==",
+      "sha512": "56ki1UH3uCdlUPYh7g4qSCESs3d0NDtzBE4fNyWGMYNbJhF4qP9IC78TWKUNT0R4nndkMHWJ+ahf75n2Ox4DGw==",
       "type": "package",
       "path": "tizen.network.connection/1.0.18",
       "files": [
@@ -8554,7 +8647,7 @@
       ]
     },
     "Tizen.Network.IoTConnectivity/1.0.6": {
-      "sha512": "GJamATr5+qcx+qvs6jUvc4LDif2iOUNVVJgCV6PAVhdZObQ+qzua4Y8RI3Mnd8VzgjM+Q0C6voPii9wHVtDOrw==",
+      "sha512": "8DsVujzGSSI0T2njLo7ffM3fMO/STLDEGq2t/TYXA88EIR+LYxKor1lUjez6esotsJtd9f3ACOOyQhdGBTjmFQ==",
       "type": "package",
       "path": "tizen.network.iotconnectivity/1.0.6",
       "files": [
@@ -8565,7 +8658,7 @@
       ]
     },
     "Tizen.Network.Nfc/1.0.10": {
-      "sha512": "GTJ9LdrjQ9RVsPnjsESHPOe4J6ck/c6ihoHHQEXQqX/5yfHbqRx5byOXptWYfgTLaNpeyctbp0LWFJmRr7cKcg==",
+      "sha512": "Y+CY7cx9MkwJcj++zigV419V5YpRL7i86OyXK2B/ZjbqGq6Ojka2pxeGiDeGAE/22DTohFHC8u8S7xSr+b78yg==",
       "type": "package",
       "path": "tizen.network.nfc/1.0.10",
       "files": [
@@ -8576,7 +8669,7 @@
       ]
     },
     "Tizen.Network.Smartcard/1.0.5": {
-      "sha512": "KOisK1iaPJmveJ2qAaRLz9ycC5a+rEwA7wSxWfTmiKvwA0mJDElcUrZQfAq0/VmPCi4hsVDuswu97g+UZB39Ww==",
+      "sha512": "gE37xhWXGo7qh8i1yI+tvfFZazRiBZzuEF6g0OICWe6DItlZCcxvqY/SIInmaHwgHqVaFGcRFD95KmI+cKQ5PA==",
       "type": "package",
       "path": "tizen.network.smartcard/1.0.5",
       "files": [
@@ -8587,7 +8680,7 @@
       ]
     },
     "Tizen.Network.WiFi/1.0.18": {
-      "sha512": "F/Hr+f70T6ZvYNPaftjgyY2saN7oZnFzRn2KWBQonR4NylTjOoNxK/6jnvMOhDX/0tZhZgKhFPMuZF3dfvJnsg==",
+      "sha512": "VhlsfhRi5+CK3EnTnbaj5TR78YVpDSsL49OkGUDEwuHUYPFSZlDgxzhO3FHnXmAl4dfJhi5R8V/YiPiTUvrlkA==",
       "type": "package",
       "path": "tizen.network.wifi/1.0.18",
       "files": [
@@ -8598,7 +8691,7 @@
       ]
     },
     "Tizen.Network.WiFiDirect/1.0.5": {
-      "sha512": "hlbwiXPqwUo50XNVirc2KJFjTwZgu4S4FW+w5e8JgS2mnoLU5FHBeJicFWzJK3kwvewtpEFhMpFsrRqyE48kGw==",
+      "sha512": "Th2vupX6FPcyXNKwgP5SjjWlr4w+1ElUsL1bPhZ208ekMgttnjiSxvBoDqlb9DCnKXLwermP8D0GL4XYohOdeg==",
       "type": "package",
       "path": "tizen.network.wifidirect/1.0.5",
       "files": [
@@ -8608,20 +8701,19 @@
         "tizen.network.wifidirect.nuspec"
       ]
     },
-    "Tizen.NUI/0.2.42": {
-      "sha512": "scamXKvIYMZ9jHIc2JnCl26uRFvR6GyJRNJhSXM7H990mZKSsaGphNqMqvHxxBaKfXb2Y6mbeQi96CPAXVyjlA==",
+    "Tizen.NUI/0.2.43": {
+      "sha512": "d77ZlcNWh1pqIj9zUuxZ7BfJ4EqXyrRjyzgZRUq5CkwTpbrS6ZAismoAWuu2vofbfuAp6UuHXLhbuC5++POITA==",
       "type": "package",
-      "path": "tizen.nui/0.2.42",
+      "path": "tizen.nui/0.2.43",
       "files": [
-        "lib/netstandard1.3/Tizen.NUI.dll",
         "lib/netstandard1.6/Tizen.NUI.dll",
         "lib/netstandard1.6/Tizen.NUI.xml",
-        "tizen.nui.0.2.42.nupkg.sha512",
+        "tizen.nui.0.2.43.nupkg.sha512",
         "tizen.nui.nuspec"
       ]
     },
     "Tizen.Security/1.0.7": {
-      "sha512": "ILe4wtvKADIPxdKjOuDVFWEme84fbi2nUqeyUrGaOa4wrIrYSmGNmFujZSQOQO0/dnVUOVae0G+TjeARvEFr9A==",
+      "sha512": "0ja8IVDLBChiYj8Due5DHaZcCJLPDAtEdRq/c8zyL2wl47x8BvRtIkP0Z76FW1e/j9i+kefo/+zTCwipTlu07A==",
       "type": "package",
       "path": "tizen.security/1.0.7",
       "files": [
@@ -8632,7 +8724,7 @@
       ]
     },
     "Tizen.Security.SecureRepository/1.0.9": {
-      "sha512": "VzfWx8lAgR3b07hHdUZzuPeWmV93pLuRs1mhpUpy8LBpgNwW9Yq2AMvSdKY9LjRTpXMEvLia6tqKbXiETyo2Zg==",
+      "sha512": "FyjMHrn0ccclhXT5M9aaMxbTl7SiK16kru0MZnNGFXG1HcDXawGdKOB7Jqwxa2kkdB237OLYPDioVXnNG6DyXw==",
       "type": "package",
       "path": "tizen.security.securerepository/1.0.9",
       "files": [
@@ -8643,7 +8735,7 @@
       ]
     },
     "Tizen.Security.TEEC/1.0.0": {
-      "sha512": "NeyBKEp+3m6PLDatDeFvvWQydRYtFYgl+5YFOmeWAZykrO40v3cZX416QDc1++Vz+6IIxXDykCaKCMFK/3a+jQ==",
+      "sha512": "AhTuVJVZVyu9YwE23cvWcAmDbk8HPQlucvafcVC1kzFAH8lDXABMBS6c8f8Mibu6lF2lNFgbAUtXOj/dRuEVCw==",
       "type": "package",
       "path": "tizen.security.teec/1.0.0",
       "files": [
@@ -8654,7 +8746,7 @@
       ]
     },
     "Tizen.Sensor/1.0.7": {
-      "sha512": "4hJna2Dkmsdfz3/YjKFZai0CkW9UTFRwC7cp0iiRYaWSMg82Bb5KbhYQ9Ym3Pk0QeP6QhHB4RcgMxhvWwZ9QFg==",
+      "sha512": "1kYOxBYmE6sKbT+VPzdU/07T0bjfUP8DXLG26c7mIGud1FjBA2fGMln8wrXQMZNW2olQ7kiCWXgB0AC5cOxo+Q==",
       "type": "package",
       "path": "tizen.sensor/1.0.7",
       "files": [
@@ -8665,7 +8757,7 @@
       ]
     },
     "Tizen.System/1.0.9": {
-      "sha512": "tKkLVQSdT5X25anywoYo8CApeiVchMvq7p+DWS0RSCs4MGW1GMtvik5OGpWwDnEyXpLoutFgsqnsvve2g5wD6g==",
+      "sha512": "qWZUEEX1Nq6OSxdrtF7/ZHgBjug9MyBLlfBgAkLOjT9Sa0u3aWcbOVhr4dMlmQM8xSnHaDWAvtPpHiK5MvBsWA==",
       "type": "package",
       "path": "tizen.system/1.0.9",
       "files": [
@@ -8676,7 +8768,7 @@
       ]
     },
     "Tizen.System.Feedback/1.0.3": {
-      "sha512": "SrxfgCARUjIpSGHDd6CTLMd/EpPTIGBdqz6Ex2htPk6c5wOdtC1HmheeQvOfGonKkgJLsl8yveTvJy8LsYnSBQ==",
+      "sha512": "Iz8vSAZA+v0MF1fpwb0p9NFu7tfYrT4uodJD8034Fn4usRm4N+ykHb+qFrHT9TYaQYthHx6xYErNZviSidIfFw==",
       "type": "package",
       "path": "tizen.system.feedback/1.0.3",
       "files": [
@@ -8687,7 +8779,7 @@
       ]
     },
     "Tizen.System.Information/1.0.4": {
-      "sha512": "ztEpFt0U19i2ntQRpYWhiyEHh1jkVg96Cxvl5w+cMUuLIxB+xKyiWOkoXAQS2sWNryKH2eQQPAtQqKwzvyeogw==",
+      "sha512": "rG9TfBTCqFox0x0e101x0CRr2IQ5DMoASUnMUUlM4Vftc8Llj9ku4D0vOkMXRfLfDXSWPMvoLsmZ8J+YRHtvYQ==",
       "type": "package",
       "path": "tizen.system.information/1.0.4",
       "files": [
@@ -8698,7 +8790,7 @@
       ]
     },
     "Tizen.System.MediaKey/1.0.4": {
-      "sha512": "GtK2Fz1qczxToNuFkF2p3Wpv8NXvUhpcnwWYg/Z8I9EYiF4x9lId4puMvA+YA5xxGXY7EpYuM/CQ1yldtcjYEQ==",
+      "sha512": "kzeTAJUsO1hAwbVqENOjl0tYYgXHzBt4cyoX8+94WqDqWdzBM45lMpXai7juxA+O8t3r8kibZEOGVt6IhboFJQ==",
       "type": "package",
       "path": "tizen.system.mediakey/1.0.4",
       "files": [
@@ -8709,7 +8801,7 @@
       ]
     },
     "Tizen.System.Storage/1.0.3": {
-      "sha512": "LB3P+zlXfBi/KeiBZQE9VzgmDdGC87IUzX9tABpp/odTm6cX5vMB55fzW1c/ZvLJrlf6cZUBMLKJCI0mO5eOAA==",
+      "sha512": "ZUqVU23cACUPqdJVrOyUDCCVnpcby49NipF9/s+PXf8d/gqw2yRP85qThtO68BBL6rcxQkfFdZImXDJ3J2osIQ==",
       "type": "package",
       "path": "tizen.system.storage/1.0.3",
       "files": [
@@ -8731,7 +8823,7 @@
       ]
     },
     "Tizen.Telephony/1.0.12": {
-      "sha512": "p6FMzqaSLC2bXXj8tgMFkAivxpR3h+foUUNXVHh/czw9Xyt0hlkEsqr9Jonuf0NQeYNH54L8hMtIv1Axqn+b6g==",
+      "sha512": "0GR9ctgnKl3O7TbP5NvFZM8JwrXl5QWFCvDzsG7STsdP0Ecxpkq33osP6nA+rpWrX/00XYqp0xdo9htQXoLeIQ==",
       "type": "package",
       "path": "tizen.telephony/1.0.12",
       "files": [
@@ -8742,7 +8834,7 @@
       ]
     },
     "Tizen.Tracer/1.0.5": {
-      "sha512": "6uFclBCMIo7nFc8Y57yPgxxsL4mFfnPd0FXAPZXnB5sT4PWzdJf3tZlPm4Up2VYX8S9aJLpl+AZWGzay/59e7w==",
+      "sha512": "ZU8v1FPsm696pRkt4w2D4mOY2PEMFYcnIK8yMVOymqu90FZoZhEkjS2glKsXj31X3j//oyFt+ygzC5Dn37Lx/w==",
       "type": "package",
       "path": "tizen.tracer/1.0.5",
       "files": [
@@ -8753,7 +8845,7 @@
       ]
     },
     "Tizen.Uix.InputMethodManager/1.0.6": {
-      "sha512": "1fKGb3esOFUu+3fc2mWRvFJ66WRms5OH9dxTM00Vcp1AwvWnN0egcnSBuzdzNqTTGhL4gwzIAHxxJst0S7+y5Q==",
+      "sha512": "3fAq25585dp1pPZlv9WkFmuy95XbbB0s1qP7CGRMMikZqsaB3iTaE2e5LJ/CEzdkOexsEs1YjXv0kg4x21XSCw==",
       "type": "package",
       "path": "tizen.uix.inputmethodmanager/1.0.6",
       "files": [
@@ -8764,7 +8856,7 @@
       ]
     },
     "Tizen.Uix.Stt/1.0.2": {
-      "sha512": "MPLlwYztAxLqmyRzptgxo5G27s9W/8bBSx2IjYOHse8sYr9wVr1TS3cFM3EMhhgKVPcmISF3qwFa76h9c9eApg==",
+      "sha512": "FIZXwbtMUaW7xIf2Moty1qPXmnuDxZwXytEI0WzC45AHRP5gw29jWQDa9ukzVTdSfkeAtcGFMyUJ7Ds/a4WgpQ==",
       "type": "package",
       "path": "tizen.uix.stt/1.0.2",
       "files": [
@@ -8775,7 +8867,7 @@
       ]
     },
     "Tizen.Uix.Tts/1.0.2": {
-      "sha512": "wNmghWy/t+u3W4txzaa52cKAVR3VhCg8nsvdnYhZEr9Ilu2Nj9RrYlHJGCdh9w+QnKyqZhfYz+5FLD8zwi0eHA==",
+      "sha512": "tj9u8iNMuegA0ZbEm9eRaImxs2zqD8N5tWklDO3eFRwGous46/t9yhlIEY+EejU+Du5eqtqYP2aqzDOPAwq/wQ==",
       "type": "package",
       "path": "tizen.uix.tts/1.0.2",
       "files": [
@@ -8786,7 +8878,7 @@
       ]
     },
     "Tizen.Uix.VoiceControl/1.0.5": {
-      "sha512": "+cOAGBajPQWcQuwntPGag7dw2m/IL343TXZwThSDnptAiW4ulM8qQQ2p1Pv6Pi+n69GneQjLRQkPABDRjt+84A==",
+      "sha512": "BAjTWxYFiwMFmi0qZZrZZzLptbAT5n6Zj2L3NHK1EbSQCXNrHVkOAuiSgIQy0vYWuym09bfPPWZaLWeO9xvH8w==",
       "type": "package",
       "path": "tizen.uix.voicecontrol/1.0.5",
       "files": [
@@ -8797,7 +8889,7 @@
       ]
     },
     "Tizen.WebView/1.0.1": {
-      "sha512": "ol57TfOlbe2lxeyCMGcaU0QmPVW75ezJm5rXVfEpq6PFez/ZHrfyZ8y1xDnG0t/5ggR/hSCdYeGsJ/egKim2MQ==",
+      "sha512": "dJkqBkIwhsbMhAN+gJnyPTW2iznSGJ/Akm664evNtpnmA2FoBgm/NIpRyiRyRmwea2PinWpljxOiUsj+QhFSYg==",
       "type": "package",
       "path": "tizen.webview/1.0.1",
       "files": [
@@ -8973,7 +9065,7 @@
       ]
     },
     "Xamarin.Forms.Platform.Tizen/2.3.5-r233-009": {
-      "sha512": "ifFXJ0bV81tQTJW9MsHLObO3B2NIRwZQP8RGb1pWEq8v0tkzVup7j7LamoCjzAxx5swVbQMEmF2TQ1NBu1IrFQ==",
+      "sha512": "6R7XdWtSvrU0ZdoVsKoAgkEdH8G0SKV08eVlrD9S/GLAyglD1RPHgOAbSBr4QrU59g3hkA1FoXjpLiCuaSGiMA==",
       "type": "package",
       "path": "xamarin.forms.platform.tizen/2.3.5-r233-009",
       "files": [
@@ -8987,6 +9079,9 @@
   },
   "projectFileDependencyGroups": {
     "": [
+      "Microsoft.Azure.Mobile.Analytics.Tizen >= 0.13.0",
+      "Microsoft.Azure.Mobile.Crashes.Tizen >= 0.13.0",
+      "Microsoft.Azure.Mobile.Tizen >= 0.13.0",
       "Microsoft.NETCore.App >= 2.0.0-preview1-002111-00",
       "Microsoft.Rest.ClientRuntime >= 2.3.6",
       "Newtonsoft.Json >= 10.0.2",
@@ -8999,17 +9094,20 @@
     ".NETCoreApp,Version=v2.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Samsung\\.nuget\\packages\\": {}
+    "C:\\Users\\Alexey\\.nuget\\packages\\": {}
   },
   "project": {
     "restore": {
-      "projectUniqueName": "C:\\Projects\\mobile-center-sdk-dotnet\\Tests\\TizenTV\\Contoso.Forms.Test.TizenTV.csproj",
+      "projectUniqueName": "C:\\projects\\mobile-center-sdk-dotnet\\Tests\\TizenTV\\Contoso.Forms.Test.TizenTV.csproj",
       "projectName": "Contoso.Forms.Test.TizenTV",
-      "projectPath": "C:\\Projects\\mobile-center-sdk-dotnet\\Tests\\TizenTV\\Contoso.Forms.Test.TizenTV.csproj",
-      "projectJsonPath": "C:\\Projects\\mobile-center-sdk-dotnet\\Tests\\TizenTV\\Contoso.Forms.Test.TizenTV.project.json",
+      "projectPath": "C:\\projects\\mobile-center-sdk-dotnet\\Tests\\TizenTV\\Contoso.Forms.Test.TizenTV.csproj",
+      "projectJsonPath": "C:\\projects\\mobile-center-sdk-dotnet\\Tests\\TizenTV\\Contoso.Forms.Test.TizenTV.project.json",
       "projectStyle": "ProjectJson"
     },
     "dependencies": {
+      "Microsoft.Azure.Mobile.Analytics.Tizen": "0.13.0",
+      "Microsoft.Azure.Mobile.Crashes.Tizen": "0.13.0",
+      "Microsoft.Azure.Mobile.Tizen": "0.13.0",
       "Microsoft.NETCore.App": "2.0.0-preview1-002111-00",
       "Microsoft.Rest.ClientRuntime": "2.3.6",
       "Newtonsoft.Json": "10.0.2",
