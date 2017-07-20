@@ -19,7 +19,7 @@ namespace Contoso.Forms.Test.TizenMobile
             };
 
             base.OnCreate();
-            MobileCenter.Configure("6825bcfe-3582-4d4a-b3a7-fe06154414a4");
+            MobileCenter.Configure("aae8b673-40f5-47b9-a688-30e42212cb02");
             LoadApplication(new App());
         }
 
