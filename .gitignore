@@ -1,4 +1,4 @@
-# Ignore aar files
+#Ignore aar files
 *.aar
 
 # Ignore .a files
