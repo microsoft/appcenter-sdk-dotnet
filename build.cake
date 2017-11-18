@@ -73,7 +73,7 @@ var ANDROID_URL = SDK_STORAGE_URL + "AppCenter-SDK-Android-" + ANDROID_SDK_VERSI
 var IOS_URL = SDK_STORAGE_URL + "AppCenter-SDK-Apple-" + IOS_SDK_VERSION + ".zip";
 var MAC_ASSEMBLIES_URL = SDK_STORAGE_URL + MAC_ASSEMBLIES_ZIP;
 var WINDOWS_ASSEMBLIES_URL = SDK_STORAGE_URL + WINDOWS_ASSEMBLIES_ZIP;
-
+var NUSPEC_FOLDER = "nuget";
 // Available AppCenter modules.
 var APP_CENTER_MODULES = new [] {
     new AppCenterModule("app-center-release.aar", "SDK/AppCenter/Microsoft.AppCenter", "AppCenter.nuspec"),
@@ -257,7 +257,7 @@ Task("PackageId")
     // Extract package ids for modules.
     foreach (var module in APP_CENTER_MODULES)
     {
-        var nuspecText = FileReadText("./nuget/" + module.MainNuspecFilename);
+        var nuspecText = FileReadText(NUSPEC_FOLDER + "/" + module.MainNuspecFilename);
         var startTag = "<id>";
         var endTag = "</id>";
         int startIndex = nuspecText.IndexOf(startTag) + startTag.Length;
@@ -400,7 +400,37 @@ Task("PrepareNuspecsForVSTS").IsDependentOn("Version").Does(()=>
 {
     foreach (var module in APP_CENTER_MODULES)
     {
-        ReplaceTextInFiles("./nuget/" + module.MainNuspecFilename, "$version$", module.NuGetVersion);
+        ReplaceTextInFiles(NUSPEC_FOLDER + "/" + module.MainNuspecFilename, "$version$", module.NuGetVersion);
+    }
+});
+
+Task("UnlistNugetPackages").Does(() =>
+{
+    RunTarget("PackageId");
+    //Since password and feed id are secret variables in VSTS (and thus cannot be accessed like other environment variables),
+    //provide the option to pass them as parameters to the cake script
+    var nugetUser = Argument<string>("NugetUser");
+    var nugetPassword = Argument<string>("NugetPassword");
+    foreach (var module in APP_CENTER_MODULES)
+    {
+        var nuspecText = System.IO.File.ReadAllText(NUSPEC_FOLDER + "/" + module.MainNuspecFilename);
+        var startTag = "<version>";
+        var endTag = "</version>";
+        int start = nuspecText.IndexOf(startTag);
+        int end = nuspecText.IndexOf(endTag);
+        var version = nuspecText.Substring(start + startTag.Length, end - start - startTag.Length);
+        var url = $"https://www.nuget.org/api/v2/package/{module.PackageId}/{version}";
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create (url);
+        request.Method = "DELETE";
+        request.Headers["X-NuGet-ApiKey"] = nugetPassword;
+        request.Credentials = new NetworkCredential(nugetUser, nugetPassword);
+        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+        var responseString = String.Empty;
+        using (var reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+        {
+            responseString = reader.ReadToEnd();
+        }
+        Information(responseString);
     }
 });
 
