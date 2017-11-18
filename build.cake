@@ -406,7 +406,7 @@ Task("PrepareNuspecsForVSTS").IsDependentOn("Version").Does(()=>
 
 Task("UnlistNugetPackages").Does(() =>
 {
-    NUSPEC_FOLDER = "nuspecs";
+    NUSPEC_FOLDER = ".";
     RunTarget("PackageId");
     //Since password and feed id are secret variables in VSTS (and thus cannot be accessed like other environment variables),
     //provide the option to pass them as parameters to the cake script
