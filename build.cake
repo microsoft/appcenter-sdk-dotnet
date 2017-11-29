@@ -80,8 +80,8 @@ var APP_CENTER_MODULES = new [] {
     new AppCenterModule("app-center-analytics-release.aar", "SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics", "AppCenterAnalytics.nuspec"),
     new AppCenterModule("app-center-crashes-release.aar", "SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes", "AppCenterCrashes.nuspec"),
     new AppCenterModule("app-center-distribute-release.aar", "SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute", "AppCenterDistribute.nuspec"),
-    new AppCenterModule("app-center-push-release.aar", "SDK/AppCenterPush/Microsoft.AppCenter.Push", "AppCenterPush.nuspec"),
-    new AppCenterModule("app-center-rum-release.aar", "SDK/AppCenterRum/Microsoft.AppCenter.Rum", "AppCenterRum.nuspec")
+    new AppCenterModule("app-center-push-release.aar", "SDK/AppCenterPush/Microsoft.AppCenter.Push", "AppCenterPush.nuspec")
+    //new AppCenterModule("app-center-rum-release.aar", "SDK/AppCenterRum/Microsoft.AppCenter.Rum", "AppCenterRum.nuspec")
 };
 
 // Task TARGET for build
