@@ -1,6 +1,6 @@
 [![GitHub Release](https://img.shields.io/github/release/Microsoft/AppCenter-SDK-DotNet.svg)](https://github.com/Microsoft/AppCenter-SDK-DotNet/releases/latest)
 [![NuGet](https://img.shields.io/nuget/v/Microsoft.AppCenter.svg)](https://www.nuget.org/packages/Microsoft.AppCenter/)
-[![license](https://img.shields.io/badge/license-MIT%20License-yellow.svg)](https://github.com/Microsoft/AppCenter-SDK-DotNet/blob/master/license.txt)
+[![license](https://img.shields.io/badge/license-MIT%20License-blue.svg)](https://github.com/Microsoft/AppCenter-SDK-DotNet/blob/master/license.txt)
 
 # Visual Studio App Center SDK for .NET
 
