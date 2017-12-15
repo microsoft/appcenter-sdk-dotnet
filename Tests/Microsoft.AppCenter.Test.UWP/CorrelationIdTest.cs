@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.AppCenter.Test.UWP
