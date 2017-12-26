@@ -1,54 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AppCenter.Ingestion.Models;
 
-namespace Microsoft.AppCenter.Ingestion.Http
+namespace Microsoft.AppCenter.Ingestion
 {
-    public abstract class ServiceCall : IServiceCall
+    internal class ServiceCall : IServiceCall
     {
-        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
 
-        public IIngestion Ingestion { get; }
-        public IList<Log> Logs { get; }
-        public string AppSecret { get; }
-        public Guid InstallId { get; }
+        public bool IsCanceled { get; private set; }
+        public bool IsCompleted { get; private set; }
+        public bool IsFaulted { get; private set; }
+
+        public string Result { get; private set; }
+        public Exception Exception { get; private set; }
 
         public CancellationToken CancellationToken => _tokenSource.Token;
-
-        protected ServiceCall(IIngestion ingestion, IList<Log> logs, string appSecret, Guid installId)
+        
+        public void ContinueWith(Action<IServiceCall> continuationAction)
         {
-            Ingestion = ingestion;
-            Logs = logs;
-            AppSecret = appSecret;
-            InstallId = installId;
+            // TODO
         }
 
-        public virtual void Cancel()
+        public void SetResult(string result)
+        {
+            // TODO
+        }
+
+        public void SetException(Exception exception)
+        {
+            // TODO
+        }
+
+        public void Cancel()
         {
             _tokenSource.Cancel();
         }
 
-        public virtual async Task ExecuteAsync()
-        {
-            _tokenSource.Dispose();
-            _tokenSource = new CancellationTokenSource();
-            await Ingestion.ExecuteCallAsync(this).ConfigureAwait(false);
-        }
-
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _tokenSource?.Dispose();
-            }
+            _tokenSource.Dispose();
         }
     }
 }

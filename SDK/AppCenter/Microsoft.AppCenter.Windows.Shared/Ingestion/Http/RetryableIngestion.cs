@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion.Models;
 
 namespace Microsoft.AppCenter.Ingestion.Http
 {
-    public class RetryableIngestion : IngestionDecorator
+    internal sealed class RetryableIngestion : IngestionDecorator
     {
-        private static readonly Random Random = new Random();
-        private static readonly SemaphoreSlim RandomMutex = new SemaphoreSlim(1, 1);
         private static readonly TimeSpan[] DefaultIntervals =
             {
                 TimeSpan.FromSeconds(10),
@@ -17,64 +14,121 @@ namespace Microsoft.AppCenter.Ingestion.Http
                 TimeSpan.FromMinutes(20)
             };
 
-        private readonly Func<Task>[] _retryIntervals;
+
+        private readonly Random _random = new Random();
+        private readonly IDictionary<ServiceCallDecorator, Timer> _calls = new Dictionary<ServiceCallDecorator, Timer>();
+        private readonly TimeSpan[] _retryIntervals;
 
         public RetryableIngestion(IIngestion decoratedApi)
             : this(decoratedApi, DefaultIntervals)
         {
         }
 
-        public RetryableIngestion(IIngestion decoratedApi, TimeSpan[] retryIntervals) : base(decoratedApi)
+        public RetryableIngestion(IIngestion decoratedApi, TimeSpan[] retryIntervals)
+            : base(decoratedApi)
         {
-            if (retryIntervals == null) throw new ArgumentNullException(nameof(retryIntervals));
-            _retryIntervals = new Func<Task>[retryIntervals.Length];
-            for (int i = 0; i < retryIntervals.Length; i++)
+            _retryIntervals = retryIntervals ?? throw new ArgumentNullException(nameof(retryIntervals));
+        }
+
+        private Timer IntervalCall(int retry, Action action)
+        {
+            var interval = (int)(_retryIntervals[retry - 1].TotalMilliseconds / 2.0);
+            lock (_random)
             {
-                _retryIntervals[i] = GetDelayFunc(retryIntervals, i);
+                interval += _random.Next(interval);
             }
+            AppCenterLog.Warn(AppCenterLog.LogTag, $"Try #{retry} failed and will be retried in {interval} ms");
+            return new Timer(state => action(), null, interval, Timeout.Infinite);
         }
 
-        public RetryableIngestion(IIngestion decoratedApi, Func<Task>[] retryIntervals) : base(decoratedApi)
+        private void RetryCall(ServiceCallDecorator call, int retry)
         {
-            if (retryIntervals == null) throw new ArgumentNullException(nameof(retryIntervals));
-            _retryIntervals = retryIntervals;
+            var result = base.Call(call.AppSecret, call.InstallId, call.Logs);
+            // TODO Cancel result on cancel call
+            result.ContinueWith(_ => RetryCallContinuation(call, result, retry + 1));
         }
 
-        public override IServiceCall PrepareServiceCall(string appSecret, Guid installId, IList<Log> logs)
+        private void RetryCallContinuation(ServiceCallDecorator call, IServiceCall result, int retry)
         {
-            var decoratedCall = DecoratedApi.PrepareServiceCall(appSecret, installId, logs);
-            return new RetryableServiceCall(decoratedCall, _retryIntervals);
-        }
-
-        public override async Task ExecuteCallAsync(IServiceCall call)
-        {
-            var retryableCall = call as RetryableServiceCall;
-            if (retryableCall == null)
+            // Canceled.
+            if (call.IsCanceled)
             {
-                await base.ExecuteCallAsync(call).ConfigureAwait(false);
                 return;
             }
-            await retryableCall.ExecuteAsync().ConfigureAwait(false);
-        }
-
-        private static Func<Task> GetDelayFunc(TimeSpan[] intervals, int retry)
-        {
-            return async () =>
+            if (result.IsCanceled)
             {
-                var delayMilliseconds = (int)(intervals[retry].TotalMilliseconds / 2.0);
-                delayMilliseconds += await GetRandomIntAsync(delayMilliseconds).ConfigureAwait(false);
-                var message = $"Try #{retry} failed and will be retried in {delayMilliseconds} ms";
-                AppCenterLog.Warn(AppCenterLog.LogTag, message);
-                await Task.Delay(delayMilliseconds).ConfigureAwait(false);
-            };
+                call.Cancel();
+                return;
+            }
+
+            // Faulted.
+            if (result.IsFaulted)
+            {
+                var isRecoverable = result.Exception is IngestionException ingestionException && ingestionException.IsRecoverable;
+                if (!isRecoverable || retry - 1 >= _retryIntervals.Length)
+                {
+                    call.SetException(result.Exception);
+                    return;
+                }
+
+                // Shedule next retry.
+                var timer = IntervalCall(retry, () =>
+                {
+                    lock (_calls)
+                    {
+                        if (!_calls.Remove(call))
+                        {
+                            return;
+                        }
+                    }
+                    RetryCall(call, retry);
+                });
+                lock (_calls)
+                {
+                    _calls.Add(call, timer);
+                }
+                return;
+            }
+
+            // Succeeded.
+            call.SetResult(result.Result);
         }
 
-        private static async Task<int> GetRandomIntAsync(int max)
+        public override IServiceCall Call(string appSecret, Guid installId, IList<Log> logs)
         {
-            await RandomMutex.WaitAsync().ConfigureAwait(false);
-            var randomInt = Random.Next(max);
-            RandomMutex.Release();
-            return randomInt;
+            var call = new ServiceCallDecorator
+            {
+                AppSecret = appSecret,
+                InstallId = installId,
+                Logs = logs
+            };
+            RetryCall(call, 0);
+            return call;
+        }
+
+        public override void Close()
+        {
+            CancelAllCalls();
+            base.Close();
+        }
+
+        public override void Dispose()
+        {
+            CancelAllCalls();
+            base.Dispose();
+        }
+
+        private void CancelAllCalls()
+        {
+            lock (_calls)
+            {
+                foreach (var call in _calls)
+                {
+                    call.Key.Cancel();
+                    call.Value.Dispose();
+                }
+                _calls.Clear();
+            }
         }
     }
 }

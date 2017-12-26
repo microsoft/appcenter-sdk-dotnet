@@ -72,10 +72,12 @@ namespace Microsoft.AppCenter.Channel
         public string Name { get; }
 
         #region Events
+
         public event EventHandler<EnqueuingLogEventArgs> EnqueuingLog;
         public event EventHandler<SendingLogEventArgs> SendingLog;
         public event EventHandler<SentLogEventArgs> SentLog;
         public event EventHandler<FailedToSendLogEventArgs> FailedToSendLog;
+        
         #endregion
 
         public void SetEnabled(bool enabled)
@@ -329,45 +331,33 @@ namespace Microsoft.AppCenter.Channel
                 }
                 try
                 {
-                    TriggerIngestion(state, logs, batchId);
+                    // Before sending logs, trigger the sending event for this channel
+                    if (SendingLog != null)
+                    {
+                        foreach (var eventArgs in logs.Select(log => new SendingLogEventArgs(log)))
+                        {
+                            SendingLog?.Invoke(this, eventArgs);
+                        }
+                    }
+
+                    // If the optional Install ID has no value, default to using empty GUID
+                    var installId = await AppCenter.GetInstallIdAsync().ConfigureAwait(false) ?? Guid.Empty;
+                    _ingestion.Call(_appSecret, installId, logs).ContinueWith(call =>
+                    {
+                        // TODO handle error and cancel
+                        //if (call.IsFaulted)
+                        //{
+                        //    HandleSendingFailure(state, batchId, call.Exception);
+                        //    return;
+                        //}
+                        HandleSendingSuccess(state, batchId);
+                    });
                     CheckPendingLogs(state);
                 }
                 catch (StorageException)
                 {
                     AppCenterLog.Warn(AppCenterLog.LogTag, "Something went wrong sending logs to ingestion");
                 }
-            }
-        }
-
-        private void TriggerIngestion(State state, IList<Log> logs, string batchId)
-        {
-            // Before sending logs, trigger the sending event for this channel
-            if (SendingLog != null)
-            {
-                foreach (var eventArgs in logs.Select(log => new SendingLogEventArgs(log)))
-                {
-                    SendingLog?.Invoke(this, eventArgs);
-                }
-            }
-
-            // If the optional Install ID has no value, default to using empty GUID
-            // TODO When InstallId will really be async, we should not use Result anymore
-            var rawInstallId = AppCenter.GetInstallIdAsync().Result;
-            var installId = rawInstallId.HasValue ? rawInstallId.Value : Guid.Empty;
-            using (var serviceCall = _ingestion.PrepareServiceCall(_appSecret, installId, logs))
-            {
-                serviceCall.ExecuteAsync().ContinueWith(completedTask =>
-                {
-                    var ingestionException = completedTask.Exception?.InnerException as IngestionException;
-                    if (ingestionException == null)
-                    {
-                        HandleSendingSuccess(state, batchId);
-                    }
-                    else
-                    {
-                        HandleSendingFailure(state, batchId, ingestionException);
-                    }
-                });
             }
         }
 
