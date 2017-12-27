@@ -1,7 +1,7 @@
-﻿using Microsoft.AppCenter.Ingestion.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Microsoft.AppCenter.Ingestion.Models;
 
 namespace Microsoft.AppCenter
 {

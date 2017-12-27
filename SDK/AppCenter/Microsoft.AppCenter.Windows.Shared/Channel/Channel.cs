@@ -317,12 +317,12 @@ namespace Microsoft.AppCenter.Channel
                     return;
                 }
                 AppCenterLog.Debug(AppCenterLog.LogTag,
-                    $"triggerIngestion({Name}) pendingLogCount={_pendingLogCount}");
+                    $"TriggerIngestion({Name}) pending log count: {_pendingLogCount}");
                 _batchScheduled = false;
                 if (_sendingBatches.Count >= _maxParallelBatches)
                 {
                     AppCenterLog.Debug(AppCenterLog.LogTag,
-                        "Already sending " + _maxParallelBatches + " batches of analytics data to the server");
+                        $"Already sending {_maxParallelBatches} batches of analytics data to the server");
                     return;
                 }
             }
