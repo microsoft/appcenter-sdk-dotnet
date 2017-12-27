@@ -43,8 +43,20 @@ namespace Microsoft.AppCenter.Ingestion.Http
 
         private void RetryCall(ServiceCallDecorator call, int retry)
         {
+            if (call.IsCanceled)
+            {
+                return;
+            }
             var result = base.Call(call.AppSecret, call.InstallId, call.Logs);
-            // TODO Cancel result on cancel call
+
+            // Cancel retry if cancel call.
+            call.ContinueWith(_ =>
+            {
+                if (call.IsCanceled && !result.IsCanceled)
+                {
+                    result.Cancel();
+                }
+            });
             result.ContinueWith(_ => RetryCallContinuation(call, result, retry + 1));
         }
 

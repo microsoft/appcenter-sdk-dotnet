@@ -80,6 +80,10 @@ namespace Microsoft.AppCenter.Channel
         
         #endregion
 
+        /// <summary>
+        /// Enable or disable the channel
+        /// </summary>
+        /// <param name="enabled">Value indicating whether channel should be enabled or disabled</param>
         public void SetEnabled(bool enabled)
         {
             State state;
@@ -101,6 +105,10 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
+        /// <summary>
+        /// Enqueue a log for processing
+        /// </summary>
+        /// <param name="log"></param>
         public async Task EnqueueAsync(Log log)
         {
             try
@@ -344,13 +352,14 @@ namespace Microsoft.AppCenter.Channel
                     var installId = await AppCenter.GetInstallIdAsync().ConfigureAwait(false) ?? Guid.Empty;
                     _ingestion.Call(_appSecret, installId, logs).ContinueWith(call =>
                     {
-                        // TODO handle error and cancel
-                        //if (call.IsFaulted)
-                        //{
-                        //    HandleSendingFailure(state, batchId, call.Exception);
-                        //    return;
-                        //}
-                        HandleSendingSuccess(state, batchId);
+                        if (call.IsCanceled || call.IsFaulted)
+                        {
+                            HandleSendingFailure(state, batchId, call.Exception);
+                        }
+                        else
+                        {
+                            HandleSendingSuccess(state, batchId);
+                        }
                     });
                     CheckPendingLogs(state);
                 }
@@ -393,12 +402,12 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
-        private void HandleSendingFailure(State state, string batchId, IngestionException e)
+        private void HandleSendingFailure(State state, string batchId, Exception e)
         {
             AppCenterLog.Error(AppCenterLog.LogTag, $"Sending logs for channel '{Name}', batch '{batchId}' failed: {e?.Message}");
             try
             {
-                var isRecoverable = e?.IsRecoverable ?? false;
+                var isRecoverable = e is IngestionException ingestionException && ingestionException.IsRecoverable;
                 List<Log> removedLogs;
                 using (_mutex.GetLock(state))
                 {
@@ -460,6 +469,9 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
+        /// <summary>
+        /// Stop all calls in progress and deactivate this channel
+        /// </summary>
         public Task ShutdownAsync()
         {
             Suspend(_mutex.State, false, new CancellationException());

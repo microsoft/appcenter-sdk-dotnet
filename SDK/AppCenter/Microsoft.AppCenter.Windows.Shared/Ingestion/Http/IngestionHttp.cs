@@ -30,7 +30,17 @@ namespace Microsoft.AppCenter.Ingestion.Http
             var call = new ServiceCall();
             CallAsync(appSecret, installId, logs, call.CancellationToken).ContinueWith(task =>
             {
-                // TODO
+                // Cancellation token is already shared.
+
+                // If task is fulted.
+                if (task.IsFaulted)
+                {
+                    call.SetException(task.Exception);
+                    return;
+                }
+
+                // If task is succeeded.
+                call.SetResult(task.Result);
             });
             return call;
         }

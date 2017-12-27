@@ -30,10 +30,29 @@ namespace Microsoft.AppCenter.Ingestion.Http
             }
             foreach (var call in calls)
             {
-                var result = base.Call(call.AppSecret, call.InstallId, call.Logs);
-                // TODO handle error and cancel
-                call.SetResult(result.Result);
+                RetryCall(call);
             }
+        }
+
+        private void RetryCall(ServiceCallDecorator call)
+        {
+            if (call.IsCanceled)
+            {
+                return;
+            }
+            var result = base.Call(call.AppSecret, call.InstallId, call.Logs);
+
+            // Cancel retry if cancel call.
+            call.ContinueWith(_ =>
+            {
+                if (call.IsCanceled && !result.IsCanceled)
+                {
+                    result.Cancel();
+                }
+            });
+
+            // Pass result.
+            result.ContinueWith(call.CopyState);
         }
 
         public override IServiceCall Call(string appSecret, Guid installId, IList<Log> logs)
