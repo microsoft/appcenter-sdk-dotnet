@@ -306,6 +306,7 @@ namespace Microsoft.AppCenter.Test.Channel
         public void DisposeChannelTest()
         {
             //System.Diagnostics.Debug.WriteLine($"Running DisposeChannelTest test in thread {System.Threading.Thread.CurrentThread.ManagedThreadId}");
+            bool dummy = _channel.IsEnabled;
             _channel.Dispose();
             //System.Threading.Thread.Sleep(200);
             Assert.ThrowsException<ObjectDisposedException>(() => _channel.SetEnabled(true));
