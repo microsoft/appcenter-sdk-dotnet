@@ -336,7 +336,7 @@ namespace Microsoft.AppCenter.Test.Channel
                 .Returns(() => Task.FromResult("test-batch-id"));
 
             System.Diagnostics.Debug.WriteLine($"Creating channel {DateTime.Now.ToString("hh:mm:ss.ffff")}");
-            _channel = new Microsoft.AppCenter.Channel.Channel(ChannelName, 1, _batchTimeSpan, 1, _appSecret, _mockIngestion, storage.Object);
+            _channel = new Microsoft.AppCenter.Channel.Channel(TestContext.TestName, 1, _batchTimeSpan, 1, _appSecret, _mockIngestion, storage.Object);
             SetupEventCallbacks();
 
             // Shutdown channel and store some log
@@ -392,7 +392,8 @@ namespace Microsoft.AppCenter.Test.Channel
             if (TestContext.TestName != "ThrowStorageExceptionInDeleteLogsTime")
             {
                 _storage = new MockStorage();
-                _channel = new Microsoft.AppCenter.Channel.Channel(ChannelName, MaxLogsPerBatch, timeSpan, MaxParallelBatches,
+                System.Diagnostics.Debug.WriteLine($"Creating channel in SetChannelWithTimeSpan {DateTime.Now.ToString("hh:mm:ss.ffff")}");
+                _channel = new Microsoft.AppCenter.Channel.Channel(TestContext.TestName, MaxLogsPerBatch, timeSpan, MaxParallelBatches,
                     _appSecret, _mockIngestion, _storage);
                 SetupEventCallbacks();
             }
