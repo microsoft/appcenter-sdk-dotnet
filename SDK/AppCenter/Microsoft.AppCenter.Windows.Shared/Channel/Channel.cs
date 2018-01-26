@@ -47,13 +47,17 @@ namespace Microsoft.AppCenter.Channel
             var lockHolder = _mutex.GetLock();
             Task.Run(() => _storage.CountLogsAsync(Name)).ContinueWith(task =>
             {
-                System.Diagnostics.Debug.WriteLine($"Runnning continuation in channel with name {Name} {DateTime.Now.ToString("hh:mm:ss.ffff")}");
+                //System.Threading.Thread.Sleep(50);
+                System.Diagnostics.Debug.WriteLine($"Runnning continuation with thread {Environment.CurrentManagedThreadId} in channel with name {Name} {DateTime.Now.ToString("hh:mm:ss.ffff")}");
                 
                 if (!task.IsFaulted && !task.IsCanceled)
                 {
                     _pendingLogCount = task.Result;
                 }
+
+                System.Diagnostics.Debug.WriteLine($"Runnning in continuation before dispose");
                 lockHolder.Dispose();
+                System.Diagnostics.Debug.WriteLine($"Runnning in continuation after dispose");
             });
         }
 
@@ -539,6 +543,7 @@ namespace Microsoft.AppCenter.Channel
         /// </summary>
         public void Dispose()
         {
+            System.Diagnostics.Debug.WriteLine($"Disposing mutex {DateTime.Now.ToString("hh:mm:ss.ffff")}");
             _mutex.Dispose();
         }
     }
