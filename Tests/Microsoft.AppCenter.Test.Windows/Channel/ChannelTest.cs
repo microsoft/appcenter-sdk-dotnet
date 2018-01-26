@@ -79,7 +79,7 @@ namespace Microsoft.AppCenter.Test.Channel
         {
             _unobservedTaskException = e.Exception;
         }
-
+        /*
         /// <summary>
         /// Verify that channel is enabled by default
         /// </summary>
@@ -307,7 +307,7 @@ namespace Microsoft.AppCenter.Test.Channel
             //System.Threading.Thread.Sleep(200);
             Assert.ThrowsException<ObjectDisposedException>(() => _channel.SetEnabled(true));
         }
-
+        */
         /// <summary>
         /// Validate that StorageException is processing without exception
         /// </summary>
@@ -352,7 +352,7 @@ namespace Microsoft.AppCenter.Test.Channel
 
             // Not throw any exception
         }
-
+        /*
         /// <summary>
         /// Verify that when a recoverable http error occurs, ingestion stays open
         /// </summary>
@@ -388,7 +388,7 @@ namespace Microsoft.AppCenter.Test.Channel
             Assert.IsTrue(_mockIngestion.IsClosed);
             Assert.IsFalse(_channel.IsEnabled);
         }
-
+        */
         private void SetChannelWithTimeSpan(TimeSpan timeSpan)
         {
             if (TestContext.TestName != "ThrowStorageExceptionInDeleteLogsTime")

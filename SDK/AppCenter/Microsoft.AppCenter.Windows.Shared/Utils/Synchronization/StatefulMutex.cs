@@ -96,7 +96,6 @@ namespace Microsoft.AppCenter.Utils.Synchronization
 
             public void Dispose()
             {
-                System.Diagnostics.Debug.WriteLine($"Releasing mutex {DateTime.Now.ToString("hh:mm:ss.ffff")}");
                 _parent._mutex.Release();
             }
         }
