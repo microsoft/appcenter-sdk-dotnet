@@ -62,6 +62,9 @@ namespace Microsoft.AppCenter.Test.Channel
         {
             System.Diagnostics.Debug.WriteLine($"Test cleanup method called {DateTime.Now.ToString("hh:mm:ss.ffff")}");
             // The UnobservedTaskException will only happen if a Task gets collected by the GC with an exception unobserved
+
+            EnsureAllTaskAreFinishedInChannel();
+
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
@@ -387,6 +390,15 @@ namespace Microsoft.AppCenter.Test.Channel
 
             Assert.IsTrue(_mockIngestion.IsClosed);
             Assert.IsFalse(_channel.IsEnabled);
+        }
+
+        private void EnsureAllTaskAreFinishedInChannel()
+        {
+            try
+            {
+                bool dummy = _channel.IsEnabled;
+            }
+            catch (ObjectDisposedException) { }
         }
         
         private void SetChannelWithTimeSpan(TimeSpan timeSpan)
