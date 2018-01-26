@@ -34,7 +34,8 @@ namespace Microsoft.AppCenter.Test.Channel
         private const int SentLogSemaphoreIdx = 1;
         private const int FailedToSendLogSemaphoreIdx = 2;
         private const int EnqueuingLogSemaphoreIdx = 3;
-        private readonly List<SemaphoreSlim> _eventSemaphores = new List<SemaphoreSlim> { new SemaphoreSlim(0), new SemaphoreSlim(0), new SemaphoreSlim(0), new SemaphoreSlim(0) };
+        private const int FilteringLogSemaphoreIdx = 4;
+        private readonly List<SemaphoreSlim> _eventSemaphores = new List<SemaphoreSlim> { new SemaphoreSlim(0), new SemaphoreSlim(0), new SemaphoreSlim(0), new SemaphoreSlim(0), new SemaphoreSlim(0) };
 
         public TestContext TestContext { get;set;}
 
@@ -46,6 +47,7 @@ namespace Microsoft.AppCenter.Test.Channel
         [TestInitialize]
         public void InitializeChannelTest()
         {
+            System.Diagnostics.Debug.WriteLine($"Test init method called {DateTime.Now.ToString("hh:mm:ss.ffff")}");
             _unobservedTaskException = null;
             _mockIngestion.CallShouldSucceed = true;
             _mockIngestion.Open();
@@ -58,9 +60,16 @@ namespace Microsoft.AppCenter.Test.Channel
         [TestCleanup]
         public void CleanupAppCenterTest()
         {
+            System.Diagnostics.Debug.WriteLine($"Test cleanup method called {DateTime.Now.ToString("hh:mm:ss.ffff")}");
             // The UnobservedTaskException will only happen if a Task gets collected by the GC with an exception unobserved
+
+            EnsureAllTaskAreFinishedInChannel();
+
             GC.Collect();
             GC.WaitForPendingFinalizers();
+
+            System.Diagnostics.Debug.WriteLine($"After GC in cleanup method {DateTime.Now.ToString("hh:mm:ss.ffff")}");
+
             TaskScheduler.UnobservedTaskException -= OnUnobservedTaskException;
 
             if (_unobservedTaskException != null)
@@ -73,7 +82,7 @@ namespace Microsoft.AppCenter.Test.Channel
         {
             _unobservedTaskException = e.Exception;
         }
-
+        
         /// <summary>
         /// Verify that channel is enabled by default
         /// </summary>
@@ -149,6 +158,50 @@ namespace Microsoft.AppCenter.Test.Channel
             _channel.EnqueueAsync(log).RunNotAsync();
             Assert.IsTrue(FailedToSendLogOccurred(1));
             Assert.IsFalse(EnqueuingLogOccurred(1));
+        }
+
+        [TestMethod]
+        public void ChannelInvokesFilteringLogEvent()
+        {
+            for (var i = 0; i < MaxLogsPerBatch; ++i)
+            {
+                _channel.EnqueueAsync(new TestLog()).RunNotAsync();
+            }
+
+            Assert.IsTrue(FilteringLogOccurred(MaxLogsPerBatch));
+        }
+
+        /// <summary>
+        /// Validate filtering out a log
+        /// </summary>
+        [TestMethod]
+        public void FilterLogShouldNotSend()
+        {
+            _channel.FilteringLog += (sender, args) => args.FilterRequested = true;
+            for (int i = 0; i < MaxLogsPerBatch; ++i)
+            {
+                _channel.EnqueueAsync(new TestLog()).RunNotAsync();
+            }
+            Assert.IsTrue(FilteringLogOccurred(MaxLogsPerBatch));
+            Assert.IsFalse(SendingLogOccurred(MaxLogsPerBatch));
+            Assert.IsFalse(SentLogOccurred(MaxLogsPerBatch));
+        }
+
+        /// <summary>
+        /// Validate filters can cancel each other
+        /// </summary>
+        [TestMethod]
+        public void FilterLogThenCancelFilterLogInAnotherHandlerShouldSend()
+        {
+            _channel.FilteringLog += (sender, args) => args.FilterRequested = true;
+            _channel.FilteringLog += (sender, args) => args.FilterRequested = false;
+            for (int i = 0; i < MaxLogsPerBatch; ++i)
+            {
+                _channel.EnqueueAsync(new TestLog()).RunNotAsync();
+            }
+            Assert.IsTrue(FilteringLogOccurred(MaxLogsPerBatch));
+            Assert.IsTrue(SendingLogOccurred(MaxLogsPerBatch));
+            Assert.IsTrue(SentLogOccurred(MaxLogsPerBatch));
         }
 
         [TestMethod]
@@ -252,16 +305,21 @@ namespace Microsoft.AppCenter.Test.Channel
         [TestMethod]
         public void DisposeChannelTest()
         {
+            //System.Diagnostics.Debug.WriteLine($"Running DisposeChannelTest test in thread {System.Threading.Thread.CurrentThread.ManagedThreadId}");
+            bool dummy = _channel.IsEnabled;
             _channel.Dispose();
+            //System.Threading.Thread.Sleep(200);
             Assert.ThrowsException<ObjectDisposedException>(() => _channel.SetEnabled(true));
         }
-
+        
         /// <summary>
         /// Validate that StorageException is processing without exception
         /// </summary>
         [TestMethod]
         public void ThrowStorageExceptionInDeleteLogsTime()
         {
+
+            System.Diagnostics.Debug.WriteLine($"ThrowStorageExceptionInDeleteLogsTime test started {DateTime.Now.ToString("hh:mm:ss.ffff")}");
             var log = new TestLog();
             var storageException = new StorageException();
 
@@ -270,6 +328,8 @@ namespace Microsoft.AppCenter.Test.Channel
             // test fails.
             TaskScheduler.UnobservedTaskException += (sender, e) =>
             {
+                System.Diagnostics.Debug.WriteLine($"UnobservedTaskException handler {DateTime.Now.ToString("hh:mm:ss.ffff")}");
+
                 if (e.Exception.InnerException == storageException)
                 {
                     e.SetObserved();
@@ -281,7 +341,8 @@ namespace Microsoft.AppCenter.Test.Channel
                 .Callback((string channelName, int limit, List<Log> logs) => logs.Add(log))
                 .Returns(() => Task.FromResult("test-batch-id"));
 
-            _channel = new Microsoft.AppCenter.Channel.Channel(ChannelName, 1, _batchTimeSpan, 1, _appSecret, _mockIngestion, storage.Object);
+            System.Diagnostics.Debug.WriteLine($"Creating channel {DateTime.Now.ToString("hh:mm:ss.ffff")}");
+            _channel = new Microsoft.AppCenter.Channel.Channel(TestContext.TestName, 1, _batchTimeSpan, 1, _appSecret, _mockIngestion, storage.Object);
             SetupEventCallbacks();
 
             // Shutdown channel and store some log
@@ -290,11 +351,12 @@ namespace Microsoft.AppCenter.Test.Channel
 
             _channel.SetEnabled(true);
 
+            System.Diagnostics.Debug.WriteLine($"Waiting for send log to occur {DateTime.Now.ToString("hh:mm:ss.ffff")}");
             Assert.IsTrue(SentLogOccurred(1));
 
             // Not throw any exception
         }
-
+        
         /// <summary>
         /// Verify that when a recoverable http error occurs, ingestion stays open
         /// </summary>
@@ -331,12 +393,22 @@ namespace Microsoft.AppCenter.Test.Channel
             Assert.IsFalse(_channel.IsEnabled);
         }
 
+        private void EnsureAllTaskAreFinishedInChannel()
+        {
+            try
+            {
+                bool dummy = _channel.IsEnabled;
+            }
+            catch (ObjectDisposedException) { }
+        }
+        
         private void SetChannelWithTimeSpan(TimeSpan timeSpan)
         {
             if (TestContext.TestName != "ThrowStorageExceptionInDeleteLogsTime")
             {
                 _storage = new MockStorage();
-                _channel = new Microsoft.AppCenter.Channel.Channel(ChannelName, MaxLogsPerBatch, timeSpan, MaxParallelBatches,
+                System.Diagnostics.Debug.WriteLine($"Creating channel in SetChannelWithTimeSpan {DateTime.Now.ToString("hh:mm:ss.ffff")}");
+                _channel = new Microsoft.AppCenter.Channel.Channel(TestContext.TestName, MaxLogsPerBatch, timeSpan, MaxParallelBatches,
                     _appSecret, _mockIngestion, _storage);
                 SetupEventCallbacks();
             }
@@ -366,6 +438,7 @@ namespace Microsoft.AppCenter.Test.Channel
             _channel.SentLog += (sender, args) => { _eventSemaphores[SentLogSemaphoreIdx].Release(); };
             _channel.FailedToSendLog += (sender, args) => { _eventSemaphores[FailedToSendLogSemaphoreIdx].Release(); };
             _channel.EnqueuingLog += (sender, args) => { _eventSemaphores[EnqueuingLogSemaphoreIdx].Release(); };
+            _channel.FilteringLog += (sender, args) => { _eventSemaphores[FilteringLogSemaphoreIdx].Release(); };
         }
 
         private bool FailedToSendLogOccurred(int numTimes, int waitTime = DefaultWaitTime)
@@ -376,6 +449,11 @@ namespace Microsoft.AppCenter.Test.Channel
         private bool EnqueuingLogOccurred(int numTimes, int waitTime = DefaultWaitTime)
         {
             return EventWithSemaphoreOccurred(_eventSemaphores[EnqueuingLogSemaphoreIdx], numTimes, waitTime);
+        }
+
+        private bool FilteringLogOccurred(int numTimes, int waitTime = DefaultWaitTime)
+        {
+            return EventWithSemaphoreOccurred(_eventSemaphores[FilteringLogSemaphoreIdx], numTimes, waitTime);
         }
 
         private bool SentLogOccurred(int numTimes, int waitTime = DefaultWaitTime)
