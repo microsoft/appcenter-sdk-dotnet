@@ -47,6 +47,7 @@ namespace Microsoft.AppCenter.Test.Channel
         [TestInitialize]
         public void InitializeChannelTest()
         {
+            System.Diagnostics.Debug.WriteLine($"Test init method called {DateTime.Now.ToString("hh:mm:ss.ffff")}");
             _unobservedTaskException = null;
             _mockIngestion.CallShouldSucceed = true;
             _mockIngestion.Open();
@@ -59,9 +60,13 @@ namespace Microsoft.AppCenter.Test.Channel
         [TestCleanup]
         public void CleanupAppCenterTest()
         {
+            System.Diagnostics.Debug.WriteLine($"Test cleanup method called {DateTime.Now.ToString("hh:mm:ss.ffff")}");
             // The UnobservedTaskException will only happen if a Task gets collected by the GC with an exception unobserved
             GC.Collect();
             GC.WaitForPendingFinalizers();
+
+            System.Diagnostics.Debug.WriteLine($"After GC in cleanup method {DateTime.Now.ToString("hh:mm:ss.ffff")}");
+
             TaskScheduler.UnobservedTaskException -= OnUnobservedTaskException;
 
             if (_unobservedTaskException != null)
@@ -307,6 +312,8 @@ namespace Microsoft.AppCenter.Test.Channel
         [TestMethod]
         public void ThrowStorageExceptionInDeleteLogsTime()
         {
+
+            System.Diagnostics.Debug.WriteLine($"ThrowStorageExceptionInDeleteLogsTime test started {DateTime.Now.ToString("hh:mm:ss.ffff")}");
             var log = new TestLog();
             var storageException = new StorageException();
 
@@ -315,6 +322,8 @@ namespace Microsoft.AppCenter.Test.Channel
             // test fails.
             TaskScheduler.UnobservedTaskException += (sender, e) =>
             {
+                System.Diagnostics.Debug.WriteLine($"UnobservedTaskException handler {DateTime.Now.ToString("hh:mm:ss.ffff")}");
+
                 if (e.Exception.InnerException == storageException)
                 {
                     e.SetObserved();
@@ -326,6 +335,7 @@ namespace Microsoft.AppCenter.Test.Channel
                 .Callback((string channelName, int limit, List<Log> logs) => logs.Add(log))
                 .Returns(() => Task.FromResult("test-batch-id"));
 
+            System.Diagnostics.Debug.WriteLine($"Creating channel {DateTime.Now.ToString("hh:mm:ss.ffff")}");
             _channel = new Microsoft.AppCenter.Channel.Channel(ChannelName, 1, _batchTimeSpan, 1, _appSecret, _mockIngestion, storage.Object);
             SetupEventCallbacks();
 
@@ -335,6 +345,7 @@ namespace Microsoft.AppCenter.Test.Channel
 
             _channel.SetEnabled(true);
 
+            System.Diagnostics.Debug.WriteLine($"Waiting for send log to occur {DateTime.Now.ToString("hh:mm:ss.ffff")}");
             Assert.IsTrue(SentLogOccurred(1));
 
             // Not throw any exception

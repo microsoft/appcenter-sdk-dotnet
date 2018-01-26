@@ -47,6 +47,7 @@ namespace Microsoft.AppCenter.Channel
             var lockHolder = _mutex.GetLock();
             Task.Run(() => _storage.CountLogsAsync(Name)).ContinueWith(task =>
             {
+                System.Diagnostics.Debug.WriteLine($"Runnning continuation in channel constructor {DateTime.Now.ToString("hh:mm:ss.ffff")}");
                 if (!task.IsFaulted && !task.IsCanceled)
                 {
                     _pendingLogCount = task.Result;
