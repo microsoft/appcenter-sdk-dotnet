@@ -158,17 +158,12 @@ namespace Microsoft.AppCenter.Crashes
             throw new TestCrashException();
         }
 
-#if USES_WATSON
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("This does not exist in UWP and should not be used.")]
-#else
         ///// <summary>
-        ///// Track a handled error.
+        ///// Track a handled error. TODO make it public once backend supports it.
         ///// </summary>
         ///// <param name="exception">The .NET exception describing the handled error.</param>
         ///// <param name="properties">Optional properties.</param>
-#endif
-        public static void TrackError(Exception exception, IDictionary<string, string> properties = null)
+        internal static void TrackError(Exception exception, IDictionary<string, string> properties = null)
         {
             PlatformTrackError(exception, properties);
         }
