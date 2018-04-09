@@ -28,7 +28,7 @@ namespace Microsoft.AppCenter.Test.Channel
         private const int MaxParallelBatches = 3;
 
         // We wait tasks now and don't need wait more
-        private const int DefaultWaitTime = 500;
+        private const int DefaultWaitTime = 1000;
 
         // Event semaphores for invokation verification
         private const int SendingLogSemaphoreIdx = 0;
@@ -137,7 +137,7 @@ namespace Microsoft.AppCenter.Test.Channel
             {
                 await _channel.EnqueueAsync(new TestLog());
             }
-            VerifySendingLog(1);
+            VerifySendingLog(MaxLogsPerBatch);
         }
 
         /// <summary>
