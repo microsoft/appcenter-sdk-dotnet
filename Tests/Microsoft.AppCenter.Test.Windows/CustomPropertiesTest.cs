@@ -1,8 +1,7 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
-using Microsoft.AppCenter.Ingestion.Models;
 using System.Collections.Generic;
+using Microsoft.AppCenter.Ingestion.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.AppCenter.Test.Windows
 {

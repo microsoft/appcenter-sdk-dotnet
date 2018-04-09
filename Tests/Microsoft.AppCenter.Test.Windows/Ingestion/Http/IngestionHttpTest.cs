@@ -12,13 +12,13 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
     [TestClass]
     public class IngestionHttpTest : HttpIngestionTest
     {
-        private IngestionHttp _ingestionHttp;
+        private HttpIngestion _httpIngestion;
 
         [TestInitialize]
         public void InitializeIngestionHttpTest()
         {
             _adapter = new Mock<IHttpNetworkAdapter>();
-            _ingestionHttp = new IngestionHttp(_adapter.Object);
+            _httpIngestion = new HttpIngestion(_adapter.Object);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         {
             var call = PrepareServiceCall();
             SetupAdapterSendResponse(HttpStatusCode.OK);
-            _ingestionHttp.ExecuteCallAsync(call).RunNotAsync();
+            _httpIngestion.ExecuteCallAsync(call).RunNotAsync();
             VerifyAdapterSend(Times.Once());
 
             // No throw any exception
@@ -43,7 +43,7 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         {
             var call = PrepareServiceCall();
             SetupAdapterSendResponse(HttpStatusCode.NotFound);
-            Assert.ThrowsException<HttpIngestionException>(() => _ingestionHttp.ExecuteCallAsync(call).RunNotAsync());
+            Assert.ThrowsException<HttpIngestionException>(() => _httpIngestion.ExecuteCallAsync(call).RunNotAsync());
             VerifyAdapterSend(Times.Once());
         }
 
@@ -56,7 +56,7 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
             var call = PrepareServiceCall();
             call.Cancel();
             SetupAdapterSendResponse(HttpStatusCode.OK);
-            _ingestionHttp.ExecuteCallAsync(call).RunNotAsync();
+            _httpIngestion.ExecuteCallAsync(call).RunNotAsync();
             VerifyAdapterSend(Times.Never());
         }
 
@@ -69,9 +69,9 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
             var appSecret = Guid.NewGuid().ToString();
             var installId = Guid.NewGuid();
             var logs = new List<Log>();
-            var call = _ingestionHttp.PrepareServiceCall(appSecret, installId, logs);
+            var call = _httpIngestion.PrepareServiceCall(appSecret, installId, logs);
             Assert.IsInstanceOfType(call, typeof(HttpServiceCall));
-            Assert.AreEqual(call.Ingestion, _ingestionHttp);
+            Assert.AreEqual(call.Ingestion, _httpIngestion);
             Assert.AreEqual(call.AppSecret, appSecret);
             Assert.AreEqual(call.InstallId, installId);
             Assert.AreEqual(call.Logs, logs);
@@ -85,10 +85,10 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         {
             var appSecret = Guid.NewGuid().ToString();
             var installId = Guid.NewGuid();
-            var headers = _ingestionHttp.CreateHeaders(appSecret, installId);
+            var headers = _httpIngestion.CreateHeaders(appSecret, installId);
             
-            Assert.IsTrue(headers.ContainsKey(IngestionHttp.AppSecret));
-            Assert.IsTrue(headers.ContainsKey(IngestionHttp.InstallId));
+            Assert.IsTrue(headers.ContainsKey(HttpIngestion.AppSecret));
+            Assert.IsTrue(headers.ContainsKey(HttpIngestion.InstallId));
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
             var appSecret = Guid.NewGuid().ToString();
             var installId = Guid.NewGuid();
             var logs = new List<Log>();
-            return _ingestionHttp.PrepareServiceCall(appSecret, installId, logs);
+            return _httpIngestion.PrepareServiceCall(appSecret, installId, logs);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
             {
                 retryIntervals[i] = _intervals[i].Wait;
             }
-            _retryableIngestion = new RetryableIngestion(new IngestionHttp(_adapter.Object), retryIntervals);
+            _retryableIngestion = new RetryableIngestion(new HttpIngestion(_adapter.Object), retryIntervals);
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         public void RetryableIngestionWithNullIntervals()
         {
             TimeSpan[] timeSpans = null;
-            Assert.ThrowsException<ArgumentNullException>(() => { new RetryableIngestion(new IngestionHttp(_adapter.Object), timeSpans); });
+            Assert.ThrowsException<ArgumentNullException>(() => { new RetryableIngestion(new HttpIngestion(_adapter.Object), timeSpans); });
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         public void RetryableIngestionWithNullFunc()
         {
             Func<Task>[] funcs = null;
-            Assert.ThrowsException<ArgumentNullException>(() => { new RetryableIngestion(new IngestionHttp(_adapter.Object), funcs); });
+            Assert.ThrowsException<ArgumentNullException>(() => { new RetryableIngestion(new HttpIngestion(_adapter.Object), funcs); });
         }
 
         /// <summary>

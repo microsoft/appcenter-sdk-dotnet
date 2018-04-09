@@ -1,6 +1,6 @@
-﻿using Microsoft.AppCenter.Utils;
+﻿using System;
+using Microsoft.AppCenter.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace Microsoft.AppCenter.Test.Windows.Utils
 {

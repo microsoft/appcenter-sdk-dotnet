@@ -22,15 +22,15 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
             var installId = Guid.NewGuid().ToString();
             var headers = new Dictionary<string, string>
             {
-                { IngestionHttp.AppSecret, appSecret },
-                { IngestionHttp.InstallId, installId }
+                { HttpIngestion.AppSecret, appSecret },
+                { HttpIngestion.InstallId, installId }
             };
             var jsonContent = "{}";
             var request = _adapter.CreateRequest(uri, "POST", headers, jsonContent);
 
             Assert.AreEqual(request.Method, HttpMethod.Post);
-            Assert.IsTrue(request.Headers.Contains(IngestionHttp.AppSecret));
-            Assert.IsTrue(request.Headers.Contains(IngestionHttp.InstallId));
+            Assert.IsTrue(request.Headers.Contains(HttpIngestion.AppSecret));
+            Assert.IsTrue(request.Headers.Contains(HttpIngestion.InstallId));
             Assert.IsInstanceOfType(request.Content, typeof(StringContent));
         }
     }

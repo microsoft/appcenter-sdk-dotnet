@@ -22,7 +22,7 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
             _adapter = new Mock<IHttpNetworkAdapter>();
             _networkState = new NetworkStateAdapter();
 
-            var httpIngestion = new IngestionHttp(_adapter.Object);
+            var httpIngestion = new HttpIngestion(_adapter.Object);
             _networkStateIngestion = new NetworkStateIngestion(httpIngestion, _networkState);
         }
 

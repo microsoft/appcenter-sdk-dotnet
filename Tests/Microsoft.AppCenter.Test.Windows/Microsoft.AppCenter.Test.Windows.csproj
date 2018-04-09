@@ -120,7 +120,6 @@
     <Compile Include="Ingestion\Models\DeviceTest.cs" />
     <Compile Include="AppCenterServiceTest.cs" />
     <Compile Include="AppCenterTest.cs" />
-    <Compile Include="MockIngestion.cs" />
     <Compile Include="MockAppCenterService.cs" />
     <Compile Include="Storage\FakeStorageTest.cs" />
     <Compile Include="Storage\MockStorage.cs" />

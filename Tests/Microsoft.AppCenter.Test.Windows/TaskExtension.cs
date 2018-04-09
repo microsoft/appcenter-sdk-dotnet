@@ -8,67 +8,49 @@ namespace Microsoft.AppCenter.Test
     {
         public static T RunNotAsync<T>(this Task<T> @this)
         {
-            try
-            {
-                @this.Wait();
-            }
-            catch (AggregateException e)
-            {
-                throw e.InnerException;
-            }
-            return @this.Result;
+            return @this.GetAwaiter().GetResult();
         }
+
         public static void RunNotAsync(this Task @this)
         {
-            try
-            {
-                @this.Wait();
-            }
-            catch (AggregateException e)
-            {
-                throw e.InnerException;
-            }
+            @this.GetAwaiter().GetResult();
         }
 
         public static Task GetCompletedTask()
         {
-            var completedTask = Task.Delay(0);
-            completedTask.Wait();
-            return completedTask;
+            return Task.FromResult(false);
         }
 
         public static Task GetFaultedTask(Exception e)
         {
-            Task task = null;
+            var task = Task.Factory.StartNew(() => throw e);
             try
             {
-                task = Task.Factory.StartNew(() => { throw e; });
                 task.Wait();
             }
-            catch (Exception)
+            catch
             {
-
+                // ignored
             }
+
             return task;
         }
 
         public static Task<T> GetCompletedTask<T>(T retVal)
         {
-            var completedTask = Task<T>.Factory.StartNew(() => retVal);
-            completedTask.Wait();
-            return completedTask;
+            return Task.FromResult(retVal);
         }
 
         public static Task<T> GetFaultedTask<T>(T retVal)
         {
-            var task = Task.Factory.StartNew<T>(() => { throw new IngestionException(); });
+            var task = Task.Factory.StartNew<T>(() => throw new IngestionException());
             try
             {
                 task.Wait();
             }
-            catch (Exception)
+            catch
             {
-
+                // ignored
             }
             return task;
         }
