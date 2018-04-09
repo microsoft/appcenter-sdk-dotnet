@@ -7,7 +7,7 @@
     <ProjectGuid>{E52C5D53-4485-4350-9F4E-AFF85CC18FD7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.AppCenter.Test.Windows</RootNamespace>
+    <RootNamespace>Microsoft.AppCenter.Test</RootNamespace>
     <AssemblyName>Microsoft.AppCenter.Test.Windows</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -102,14 +102,13 @@
     <Compile Include="Channel\MockChannelGroupFactory.cs" />
     <Compile Include="CustomPropertiesTest.cs" />
     <Compile Include="IngestionExceptions.cs" />
-    <Compile Include="Ingestion\Http\HttpIngestionTest.cs" />
+    <Compile Include="Ingestion\Http\IngestionTest.cs" />
     <Compile Include="Ingestion\Http\HttpNetworkAdapterTest.cs" />
-    <Compile Include="Ingestion\Http\IngestionHttpExceptionTest.cs" />
-    <Compile Include="Ingestion\Http\IngestionHttpTest.cs" />
+    <Compile Include="Ingestion\Http\HttpIngestionExceptionTest.cs" />
+    <Compile Include="Ingestion\Http\HttpIngestionTest.cs" />
     <Compile Include="Ingestion\Http\NetworkStateTest.cs" />
     <Compile Include="Ingestion\Http\RetryableTest.cs" />
     <Compile Include="Ingestion\Http\ServiceCallTest.cs" />
-    <Compile Include="Ingestion\Http\TestServiceCall.cs" />
     <Compile Include="Ingestion\IngestionExceptionTest.cs" />
     <Compile Include="Ingestion\Models\CustomPropertiesLogTest.cs" />
     <Compile Include="Ingestion\Models\JsonLogConverterTest.cs" />

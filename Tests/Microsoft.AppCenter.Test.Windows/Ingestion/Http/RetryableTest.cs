@@ -11,7 +11,7 @@ using Moq;
 namespace Microsoft.AppCenter.Test.Ingestion.Http
 {
     [TestClass]
-    public class RetryableTest : HttpIngestionTest
+    public class RetryableTest : IngestionTest
     {
         private TestInterval[] _intervals;
         private IIngestion _retryableIngestion;

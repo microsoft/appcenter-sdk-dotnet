@@ -1,45 +1,86 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion.Http;
+using Microsoft.AppCenter.Ingestion.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace Microsoft.AppCenter.Test.Ingestion.Http
 {
-    public class HttpIngestionTest
+    [TestClass]
+    public class HttpIngestionTest : IngestionTest
     {
-        protected Mock<IHttpNetworkAdapter> _adapter;
+        private HttpIngestion _httpIngestion;
 
-        /// <summary>
-        /// Helper for setup responce.
-        /// </summary>
-        protected void SetupAdapterSendResponse(HttpStatusCode statusCode)
+        [TestInitialize]
+        public void InitializeHttpIngestionTest()
         {
-            var setup = _adapter
-                .Setup(a => a.SendAsync(It.IsAny<string>(), "POST", It.IsAny<IDictionary<string, string>>(), It.IsAny<string>(),
-                    It.IsAny<CancellationToken>()));
-            if (statusCode == HttpStatusCode.OK)
-            {
-                setup.Returns(Task.Run(() => ""));
-            }
-            else
-            {
-                setup.Throws(new HttpIngestionException("")
-                {
-                    StatusCode = (int)statusCode
-                });
-            }
+            _adapter = new Mock<IHttpNetworkAdapter>();
+            _httpIngestion = new HttpIngestion(_adapter.Object);
         }
 
         /// <summary>
-        /// Helper for verify SendAsync call.
+        /// Verify that ingestion call http adapter and not fails on success.
         /// </summary>
-        protected void VerifyAdapterSend(Times times)
+        [TestMethod]
+        public async Task HttpIngestionStatusCodeOk()
         {
-            _adapter
-                .Verify(a => a.SendAsync(It.IsAny<string>(), "POST", It.IsAny<IDictionary<string, string>>(), It.IsAny<string>(),
-                    It.IsAny<CancellationToken>()), times);
+            SetupAdapterSendResponse(HttpStatusCode.OK);
+            var appSecret = Guid.NewGuid().ToString();
+            var installId = Guid.NewGuid();
+            var logs = new List<Log>();
+            var call = _httpIngestion.Call(appSecret, installId, logs);
+            await call.ToTask();
+            VerifyAdapterSend(Times.Once);
+
+            // No throw any exception
+        }
+
+        /// <summary>
+        /// Verify that ingestion throw exception on error response.
+        /// </summary>
+        [TestMethod]
+        public async Task HttpIngestionStatusCodeError()
+        {
+            SetupAdapterSendResponse(HttpStatusCode.NotFound);
+            var appSecret = Guid.NewGuid().ToString();
+            var installId = Guid.NewGuid();
+            var logs = new List<Log>();
+            var call = _httpIngestion.Call(appSecret, installId, logs);
+            await Assert.ThrowsExceptionAsync<HttpIngestionException>(() => call.ToTask());
+            VerifyAdapterSend(Times.Once);
+        }
+
+        /// <summary>
+        /// Verify that ingestion don't call http adapter when call is closed.
+        /// </summary>
+        [TestMethod]
+        public async Task HttpIngestionCancel()
+        {
+            SetupAdapterSendResponse(HttpStatusCode.OK);
+            var appSecret = Guid.NewGuid().ToString();
+            var installId = Guid.NewGuid();
+            var logs = new List<Log>();
+            var call = _httpIngestion.Call(appSecret, installId, logs);
+            call.Cancel();
+            await Assert.ThrowsExceptionAsync<CancellationException>(() => call.ToTask());
+            VerifyAdapterSend(Times.Never);
+        }
+
+        /// <summary>
+        /// Verify that ingestion create headers correctly.
+        /// </summary>
+        [TestMethod]
+        public void HttpIngestionCreateHeaders()
+        {
+            var appSecret = Guid.NewGuid().ToString();
+            var installId = Guid.NewGuid();
+            var headers = _httpIngestion.CreateHeaders(appSecret, installId);
+            
+            Assert.IsTrue(headers.ContainsKey(HttpIngestion.AppSecret));
+            Assert.IsTrue(headers.ContainsKey(HttpIngestion.InstallId));
         }
     }
 }

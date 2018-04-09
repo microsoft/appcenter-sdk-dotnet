@@ -11,7 +11,7 @@ using Moq;
 namespace Microsoft.AppCenter.Test.Ingestion.Http
 {
     [TestClass]
-    public class NetworkStateTest : HttpIngestionTest
+    public class NetworkStateTest : IngestionTest
     {
         private NetworkStateAdapter _networkState;
         private NetworkStateIngestion _networkStateIngestion;

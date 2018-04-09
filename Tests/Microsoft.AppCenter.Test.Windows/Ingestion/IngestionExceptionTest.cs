@@ -1,6 +1,6 @@
-﻿using Microsoft.AppCenter.Ingestion;
+﻿using System;
+using Microsoft.AppCenter.Ingestion;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace Microsoft.AppCenter.Test.Windows.Ingestion
 {
@@ -13,10 +13,10 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion
         [TestMethod]
         public void CheckMessageError()
         {
-            string exceptionMessage = "Test exception message";
-            IngestionException ingException = new IngestionException(exceptionMessage);
+            var exceptionMessage = "Test exception message";
+            var ingestionException = new IngestionException(exceptionMessage);
 
-            Assert.AreEqual(exceptionMessage, ingException.Message);
+            Assert.AreEqual(exceptionMessage, ingestionException.Message);
         }
 
         /// <summary>
@@ -25,12 +25,12 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion
         [TestMethod]
         public void CheckInternalError()
         {
-            string exceptionMessage = "Test exception message";
-            Exception internalException = new Exception(exceptionMessage);
-            IngestionException ingException = new IngestionException(internalException);
+            var exceptionMessage = "Test exception message";
+            var internalException = new Exception(exceptionMessage);
+            var ingestionException = new IngestionException(internalException);
 
-            Assert.AreSame(internalException, ingException.InnerException);
-            Assert.AreEqual(exceptionMessage, ingException.InnerException.Message);
+            Assert.AreSame(internalException, ingestionException.InnerException);
+            Assert.AreEqual(exceptionMessage, ingestionException.InnerException.Message);
         }
     }
 }

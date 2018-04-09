@@ -54,5 +54,26 @@ namespace Microsoft.AppCenter.Test
             }
             return task;
         }
+        
+        public static Task<string> ToTask(this IServiceCall @this)
+        {
+            var source = new TaskCompletionSource<string>();
+            @this.ContinueWith(serviceCall =>
+            {
+                if (serviceCall.IsCanceled)
+                {
+                    source.SetCanceled();
+                }
+                else if (serviceCall.IsFaulted)
+                {
+                    source.SetException(serviceCall.Exception);
+                }
+                else
+                {
+                    source.SetResult(serviceCall.Result);
+                }
+            });
+            return source.Task;
+        }
     }
 }
