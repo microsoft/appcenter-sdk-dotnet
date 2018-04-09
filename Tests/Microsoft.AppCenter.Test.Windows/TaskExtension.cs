@@ -41,9 +41,9 @@ namespace Microsoft.AppCenter.Test
             return Task.FromResult(retVal);
         }
 
-        public static Task<T> GetFaultedTask<T>(T retVal)
+        public static Task<T> GetFaultedTask<T>(Exception exception)
         {
-            var task = Task.Factory.StartNew<T>(() => throw new IngestionException());
+            var task = Task.Factory.StartNew<T>(() => throw exception);
             try
             {
                 task.Wait();

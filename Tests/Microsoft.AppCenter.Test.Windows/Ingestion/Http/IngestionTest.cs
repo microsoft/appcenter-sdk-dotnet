@@ -19,25 +19,23 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         /// <summary>
         /// Helper for setup responce.
         /// </summary>
-        protected void SetupAdapterSendResponse(HttpStatusCode statusCode)
+        protected void SetupAdapterSendResponse(params HttpStatusCode[] statusCodes)
         {
             var setup = _adapter
-                .Setup(a => a.SendAsync(
+                .SetupSequence(a => a.SendAsync(
                     It.IsAny<string>(),
                     "POST",
                     It.IsAny<IDictionary<string, string>>(),
                     It.IsAny<string>(),
                     It.IsAny<CancellationToken>()));
-            if (statusCode == HttpStatusCode.OK)
+            foreach (var statusCode in statusCodes)
             {
-                setup.ReturnsAsync("");
-            }
-            else
-            {
-                setup.Throws(new HttpIngestionException("")
-                {
-                    StatusCode = (int)statusCode
-                });
+                setup.Returns(statusCode == HttpStatusCode.OK
+                    ? TaskExtension.GetCompletedTask("")
+                    : TaskExtension.GetFaultedTask<string>(new HttpIngestionException("")
+                    {
+                        StatusCode = (int)statusCode
+                    }));
             }
         }
 
