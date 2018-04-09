@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Microsoft.AppCenter;
+﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Distribute;
 using Microsoft.AppCenter.Push;
-using Microsoft.AppCenter.Rum;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Contoso.Forms.Puppet
@@ -18,18 +16,9 @@ namespace Contoso.Forms.Puppet
         public const string LogTag = "AppCenterXamarinPuppet";
 
         // App Center keys
-        private const string UwpKey = "a678b499-1912-4a94-9d97-25b569284d3a";
-        private const string AndroidKey = "bff0949b-7970-439d-9745-92cdc59b10fe";
-        private const string IosKey = "b889c4f2-9ac2-4e2e-ae16-dae54f2c5899";
-
-        static App()
-        {
-            // Set event handlers in static constructor to avoid duplication
-            Crashes.SendingErrorReport += SendingErrorReportHandler;
-            Crashes.SentErrorReport += SentErrorReportHandler;
-            Crashes.FailedToSendErrorReport += FailedToSendErrorReportHandler;
-            Push.PushNotificationReceived += PrintNotification;
-        }
+        const string UwpKey = "a678b499-1912-4a94-9d97-25b569284d3a";
+        const string AndroidKey = "bff0949b-7970-439d-9745-92cdc59b10fe";
+        const string IosKey = "b889c4f2-9ac2-4e2e-ae16-dae54f2c5899";
 
         public App()
         {
@@ -39,41 +28,48 @@ namespace Contoso.Forms.Puppet
 
         protected override void OnStart()
         {
-            AppCenterLog.Assert(LogTag, "AppCenter.LogLevel=" + AppCenter.LogLevel);
-            AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenterLog.Info(LogTag, "AppCenter.LogLevel=" + AppCenter.LogLevel);
-            AppCenterLog.Info(LogTag, "AppCenter.Configured=" + AppCenter.Configured);
+            if (!AppCenter.Configured)
+            {
+                AppCenterLog.Assert(LogTag, "AppCenter.LogLevel=" + AppCenter.LogLevel);
+                AppCenter.LogLevel = LogLevel.Verbose;
+                AppCenterLog.Info(LogTag, "AppCenter.LogLevel=" + AppCenter.LogLevel);
+                AppCenterLog.Info(LogTag, "AppCenter.Configured=" + AppCenter.Configured);
 
-            // Set callbacks
-            Crashes.ShouldProcessErrorReport = ShouldProcess;
-            Crashes.ShouldAwaitUserConfirmation = ConfirmationHandler;
-            Crashes.GetErrorAttachments = GetErrorAttachments;
-            Distribute.ReleaseAvailable = OnReleaseAvailable;
+                // Set callbacks
+                Crashes.ShouldProcessErrorReport = ShouldProcess;
+                Crashes.ShouldAwaitUserConfirmation = ConfirmationHandler;
+                Crashes.GetErrorAttachments = GetErrorAttachments;
+                Distribute.ReleaseAvailable = OnReleaseAvailable;
 
-            AppCenterLog.Assert(LogTag, "AppCenter.Configured=" + AppCenter.Configured);
-            AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
-            Distribute.SetInstallUrl("http://install.appcenter-int.trafficmanager.net");
-            Distribute.SetApiUrl("https://appcenter-int.trafficmanager.net/api/v0.1");
-            RealUserMeasurements.SetRumKey("b1919553367d44d8b0ae72594c74e0ff");
-            AppCenter.Start($"uwp={UwpKey};android={AndroidKey};ios={IosKey}",
-                               typeof(Analytics), typeof(Crashes), typeof(Distribute), typeof(Push), typeof(RealUserMeasurements));
-            AppCenter.IsEnabledAsync().ContinueWith(enabled =>
-            {
-                AppCenterLog.Info(LogTag, "AppCenter.Enabled=" + enabled.Result);
-            });
-            AppCenter.GetInstallIdAsync().ContinueWith(installId =>
-            {
-                AppCenterLog.Info(LogTag, "AppCenter.InstallId=" + installId.Result);
-            });
-            AppCenterLog.Info(LogTag, "AppCenter.SdkVersion=" + AppCenter.SdkVersion);
-            Crashes.HasCrashedInLastSessionAsync().ContinueWith(hasCrashed =>
-            {
-                AppCenterLog.Info(LogTag, "Crashes.HasCrashedInLastSession=" + hasCrashed.Result);
-            });
-            Crashes.GetLastSessionCrashReportAsync().ContinueWith(report =>
-            {
-                AppCenterLog.Info(LogTag, "Crashes.LastSessionCrashReport.Exception=" + report.Result?.Exception);
-            });
+                // Event handlers
+                Crashes.SendingErrorReport += SendingErrorReportHandler;
+                Crashes.SentErrorReport += SentErrorReportHandler;
+                Crashes.FailedToSendErrorReport += FailedToSendErrorReportHandler;
+                Push.PushNotificationReceived += PrintNotification;
+
+                AppCenterLog.Assert(LogTag, "AppCenter.Configured=" + AppCenter.Configured);
+                AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
+                Distribute.SetInstallUrl("http://install.appcenter-int.trafficmanager.net");
+                Distribute.SetApiUrl("https://appcenter-int.trafficmanager.net/api/v0.1");
+                AppCenter.Start($"uwp={UwpKey};android={AndroidKey};ios={IosKey}", typeof(Analytics), typeof(Crashes), typeof(Distribute), typeof(Push));
+                AppCenter.IsEnabledAsync().ContinueWith(enabled =>
+                {
+                    AppCenterLog.Info(LogTag, "AppCenter.Enabled=" + enabled.Result);
+                });
+                AppCenter.GetInstallIdAsync().ContinueWith(installId =>
+                {
+                    AppCenterLog.Info(LogTag, "AppCenter.InstallId=" + installId.Result);
+                });
+                AppCenterLog.Info(LogTag, "AppCenter.SdkVersion=" + AppCenter.SdkVersion);
+                Crashes.HasCrashedInLastSessionAsync().ContinueWith(hasCrashed =>
+                {
+                    AppCenterLog.Info(LogTag, "Crashes.HasCrashedInLastSession=" + hasCrashed.Result);
+                });
+                Crashes.GetLastSessionCrashReportAsync().ContinueWith(report =>
+                {
+                    AppCenterLog.Info(LogTag, "Crashes.LastSessionCrashReport.Exception=" + report.Result?.Exception);
+                });
+            }
         }
 
         static void PrintNotification(object sender, PushNotificationReceivedEventArgs e)
