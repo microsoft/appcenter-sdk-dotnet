@@ -108,7 +108,7 @@
     <Compile Include="Ingestion\Http\HttpIngestionTest.cs" />
     <Compile Include="Ingestion\Http\NetworkStateIngestionTest.cs" />
     <Compile Include="Ingestion\Http\RetryableIngestionTest.cs" />
-    <Compile Include="Ingestion\Http\ServiceCallTest.cs" />
+    <Compile Include="Ingestion\ServiceCallTest.cs" />
     <Compile Include="Ingestion\IngestionExceptionTest.cs" />
     <Compile Include="Ingestion\Models\CustomPropertiesLogTest.cs" />
     <Compile Include="Ingestion\Models\JsonLogConverterTest.cs" />
