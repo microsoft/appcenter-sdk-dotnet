@@ -10,6 +10,7 @@ namespace Microsoft.AppCenter.Ingestion
         private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private Action<IServiceCall> _continuationAction;
         private readonly object _lock = new object();
+        private bool _disposed;
 
         public bool IsCanceled => CancellationToken.IsCancellationRequested;
         public bool IsCompleted { get; private set; }
@@ -37,6 +38,10 @@ namespace Microsoft.AppCenter.Ingestion
 
         public void ContinueWith(Action<IServiceCall> continuationAction)
         {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(ServiceCall));
+            }
             lock (_lock)
             {
                 if (!IsCompleted && !IsCanceled)
@@ -52,6 +57,10 @@ namespace Microsoft.AppCenter.Ingestion
 
         public void CopyState(IServiceCall source)
         {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(ServiceCall));
+            }
             if (source.IsCanceled)
             {
                 Cancel();
@@ -67,6 +76,10 @@ namespace Microsoft.AppCenter.Ingestion
 
         public void SetResult(string result)
         {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(ServiceCall));
+            }
             Action<IServiceCall> continuationAction;
             lock (_lock)
             {
@@ -86,6 +99,10 @@ namespace Microsoft.AppCenter.Ingestion
 
         public void SetException(Exception exception)
         {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(ServiceCall));
+            }
             Action<IServiceCall> continuationAction;
             lock (_lock)
             {
@@ -105,6 +122,10 @@ namespace Microsoft.AppCenter.Ingestion
 
         public void Cancel()
         {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(ServiceCall));
+            }
             Action<IServiceCall> continuationAction;
             lock (_lock)
             {
@@ -123,6 +144,11 @@ namespace Microsoft.AppCenter.Ingestion
 
         public void Dispose()
         {
+            if (_disposed)
+            {
+                return;
+            }
+            _disposed = true;
             _tokenSource.Dispose();
         }
     }

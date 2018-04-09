@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion.Http;
-using Microsoft.AppCenter.Ingestion.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -28,12 +25,11 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         public async Task HttpIngestionStatusCodeOk()
         {
             SetupAdapterSendResponse(HttpStatusCode.OK);
-            var appSecret = Guid.NewGuid().ToString();
-            var installId = Guid.NewGuid();
-            var logs = new List<Log>();
-            var call = _httpIngestion.Call(appSecret, installId, logs);
-            await call.ToTask();
-            VerifyAdapterSend(Times.Once);
+            using (var call = _httpIngestion.Call(AppSecret, InstallId, Logs))
+            {
+                await call.ToTask();
+                VerifyAdapterSend(Times.Once());
+            }
 
             // No throw any exception
         }
@@ -45,12 +41,11 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         public async Task HttpIngestionStatusCodeError()
         {
             SetupAdapterSendResponse(HttpStatusCode.NotFound);
-            var appSecret = Guid.NewGuid().ToString();
-            var installId = Guid.NewGuid();
-            var logs = new List<Log>();
-            var call = _httpIngestion.Call(appSecret, installId, logs);
-            await Assert.ThrowsExceptionAsync<HttpIngestionException>(() => call.ToTask());
-            VerifyAdapterSend(Times.Once);
+            using (var call = _httpIngestion.Call(AppSecret, InstallId, Logs))
+            {
+                await Assert.ThrowsExceptionAsync<HttpIngestionException>(() => call.ToTask());
+                VerifyAdapterSend(Times.Once());
+            }
         }
 
         /// <summary>
@@ -60,13 +55,12 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         public async Task HttpIngestionCancel()
         {
             SetupAdapterSendResponse(HttpStatusCode.OK);
-            var appSecret = Guid.NewGuid().ToString();
-            var installId = Guid.NewGuid();
-            var logs = new List<Log>();
-            var call = _httpIngestion.Call(appSecret, installId, logs);
-            call.Cancel();
-            await Assert.ThrowsExceptionAsync<CancellationException>(() => call.ToTask());
-            VerifyAdapterSend(Times.Never);
+            using (var call = _httpIngestion.Call(AppSecret, InstallId, Logs))
+            {
+                call.Cancel();
+                await Assert.ThrowsExceptionAsync<CancellationException>(() => call.ToTask());
+                VerifyAdapterSend(Times.Never());
+            }
         }
 
         /// <summary>
@@ -75,9 +69,7 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         [TestMethod]
         public void HttpIngestionCreateHeaders()
         {
-            var appSecret = Guid.NewGuid().ToString();
-            var installId = Guid.NewGuid();
-            var headers = _httpIngestion.CreateHeaders(appSecret, installId);
+            var headers = _httpIngestion.CreateHeaders(AppSecret, InstallId);
             
             Assert.IsTrue(headers.ContainsKey(HttpIngestion.AppSecret));
             Assert.IsTrue(headers.ContainsKey(HttpIngestion.InstallId));

@@ -4,12 +4,13 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion;
 using Microsoft.AppCenter.Ingestion.Http;
-using Microsoft.AppCenter.Ingestion.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace Microsoft.AppCenter.Test.Ingestion.Http
 {
+    using System.Linq;
+
     [TestClass]
     public class NetworkStateTest : IngestionTest
     {
@@ -27,32 +28,18 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         }
 
         /// <summary>
-        /// Verify that ingestion create ServiceCall correctly.
-        /// </summary>
-        [TestMethod]
-        public void NetworkStateIngestionPrepareServiceCall()
-        {
-            var appSecret = Guid.NewGuid().ToString();
-            var installId = Guid.NewGuid();
-            var logs = new List<Log>();
-            var call = _networkStateIngestion.PrepareServiceCall(appSecret, installId, logs);
-            Assert.IsInstanceOfType(call, typeof(NetworkStateServiceCall));
-            Assert.AreEqual(call.AppSecret, appSecret);
-            Assert.AreEqual(call.InstallId, installId);
-            Assert.AreEqual(call.Logs, logs);
-        }
-
-        /// <summary>
         /// Verify that call executed when network is available.
         /// </summary>
         [TestMethod]
-        public void NetworkStateIngestionOnline()
+        public async Task NetworkStateIngestionOnlineAsync()
         {
-            var call = PrepareServiceCall();
             SetupAdapterSendResponse(HttpStatusCode.OK);
             _networkState.IsConnected = true;
-            _networkStateIngestion.ExecuteCallAsync(call).RunNotAsync();
-            VerifyAdapterSend(Times.Once());
+            using (var call = _networkStateIngestion.Call(AppSecret, InstallId, Logs))
+            {
+                await call.ToTask();
+                VerifyAdapterSend(Times.Once());
+            }
 
             // No throw any exception
         }
@@ -61,68 +48,57 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         /// Verify that call not executed when network is not available.
         /// </summary>
         [TestMethod]
-        public void NetworkStateIngestionOffline()
+        public async Task NetworkStateIngestionOffline()
         {
-            var call = PrepareServiceCall();
             SetupAdapterSendResponse(HttpStatusCode.OK);
             _networkState.IsConnected = false;
-            var completedInTime = false;
-            _networkStateIngestion.ExecuteCallAsync(call).ContinueWith(task => completedInTime = true);
-            Task.Delay(TimeSpan.FromSeconds(5)).Wait();
-            Assert.IsFalse(completedInTime);
-            VerifyAdapterSend(Times.Never());
+            using (var call = _networkStateIngestion.Call(AppSecret, InstallId, Logs))
+            {
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                Assert.IsFalse(call.IsCompleted);
+                VerifyAdapterSend(Times.Never());
+            }
         }
 
         /// <summary>
         /// Verify that call resent when network is available again.
         /// </summary>
         [TestMethod]
-        public void NetworkStateIngestionComeBackOnline()
+        public async Task NetworkStateIngestionComeBackOnline()
         {
-            var call = PrepareServiceCall();
             SetupAdapterSendResponse(HttpStatusCode.OK);
             _networkState.IsConnected = false;
-            var task = _networkStateIngestion.ExecuteCallAsync(call);
-            VerifyAdapterSend(Times.Never());
-            _networkState.IsConnected = true;
-            task.Wait();
-            VerifyAdapterSend(Times.Once());
+            using (var call = _networkStateIngestion.Call(AppSecret, InstallId, Logs))
+            {
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                Assert.IsFalse(call.IsCompleted);
+                VerifyAdapterSend(Times.Never());
+                _networkState.IsConnected = true;
+                await call.ToTask();
+                VerifyAdapterSend(Times.Once());
+            }
         }
 
         /// <summary>
         /// Verify that multiple calls are resent when network is available again.
         /// </summary>
         [TestMethod]
-        public void NetworkStateIngestionComeBackOnlineMultipleCalls()
+        public async Task NetworkStateIngestionComeBackOnlineMultipleCalls()
         {
-            int numCalls = 5;
-            var calls = new List<IServiceCall>();
-            for (int i = 0; i < numCalls; ++i)
-            {
-                calls.Add(PrepareServiceCall());
-            }
+            const int CallsCount = 5;
             SetupAdapterSendResponse(HttpStatusCode.OK);
             _networkState.IsConnected = false;
-
-            var tasks = new List<Task>();
-            foreach (var call in calls)
+            var calls = new List<IServiceCall>();
+            for (var i = 0; i < CallsCount; ++i)
             {
-                tasks.Add(_networkStateIngestion.ExecuteCallAsync(call));
+                calls.Add(_networkStateIngestion.Call(AppSecret, InstallId, Logs));
             }
+            await Task.Delay(TimeSpan.FromSeconds(3));
+            Assert.IsFalse(calls.Any(call => call.IsCompleted));
             _networkState.IsConnected = true;
-            Task.WaitAll(tasks.ToArray());
-            VerifyAdapterSend(Times.Exactly(numCalls));
-        }
-
-        /// <summary>
-        /// Helper for prepare ServiceCall.
-        /// </summary>
-        private IServiceCall PrepareServiceCall()
-        {
-            var appSecret = Guid.NewGuid().ToString();
-            var installId = Guid.NewGuid();
-            var logs = new List<Log>();
-            return _networkStateIngestion.PrepareServiceCall(appSecret, installId, logs);
+            await Task.WhenAll(calls.Select(call => call.ToTask()));
+            VerifyAdapterSend(Times.Exactly(CallsCount));
+            calls.ForEach(call => call.Dispose());
         }
     }
 }
