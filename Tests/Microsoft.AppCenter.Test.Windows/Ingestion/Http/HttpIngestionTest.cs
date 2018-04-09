@@ -6,7 +6,7 @@ using Microsoft.AppCenter.Ingestion.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Microsoft.AppCenter.Test.Ingestion.Http
+namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
 {
     [TestClass]
     public class HttpIngestionTest : BaseIngestionTest

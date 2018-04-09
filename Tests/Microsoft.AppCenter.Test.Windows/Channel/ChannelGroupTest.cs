@@ -15,14 +15,14 @@ namespace Microsoft.AppCenter.Test.Channel
         private ChannelGroup _channelGroup;
         private Mock<IStorage> _mockStorage;
         private Mock<IIngestion> _mockIngestion;
-        private readonly string _appSecret = Guid.NewGuid().ToString();
 
         [TestInitialize]
         public void InitializeChannelGroupTest()
         {
             _mockIngestion = new Mock<IIngestion>();
             _mockStorage = new Mock<IStorage>();
-            _channelGroup = new ChannelGroup(_mockIngestion.Object, _mockStorage.Object, _appSecret);
+            var appSecret = Guid.NewGuid().ToString();
+            _channelGroup = new ChannelGroup(_mockIngestion.Object, _mockStorage.Object, appSecret);
         }
 
         /// <summary>

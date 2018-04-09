@@ -8,7 +8,7 @@ using Microsoft.AppCenter.Ingestion.Models;
 using Moq;
 using Moq.Language.Flow;
 
-namespace Microsoft.AppCenter.Test.Ingestion.Http
+namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
 {
     public class BaseIngestionTest
     {
