@@ -6,7 +6,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
 {
     internal sealed class NetworkStateIngestion : IngestionDecorator
     {
-        private readonly HashSet<ServiceCallDecorator> _calls = new HashSet<ServiceCallDecorator>();
+        private readonly HashSet<ServiceCall> _calls = new HashSet<ServiceCall>();
         private readonly INetworkStateAdapter _networkStateAdapter;
 
         public NetworkStateIngestion(IIngestion decoratedApi, INetworkStateAdapter networkStateAdapter)
@@ -22,7 +22,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
             {
                 return;
             }
-            var calls = new List<ServiceCallDecorator>();
+            var calls = new List<ServiceCall>();
             lock (_calls)
             {
                 calls.AddRange(_calls);
@@ -34,7 +34,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
             }
         }
 
-        private void RetryCall(ServiceCallDecorator call)
+        private void RetryCall(ServiceCall call)
         {
             if (call.IsCanceled)
             {
@@ -61,12 +61,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
             {
                 return base.Call(appSecret, installId, logs);
             }
-            var call = new ServiceCallDecorator
-            {
-                AppSecret = appSecret,
-                InstallId = installId,
-                Logs = logs
-            };
+            var call = new ServiceCall(appSecret, installId, logs);
             lock (_calls)
             {
                 _calls.Add(call);

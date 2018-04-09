@@ -32,7 +32,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Models\Serialization\CustomPropertyJsonConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Models\StringProperty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Models\ValidationException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Ingestion\ServiceCallDecorator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\IStorageAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\StorageAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Constants.cs" />
@@ -42,7 +41,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Http\NetworkStateIngestion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Models\StartServiceLog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\ServiceCall.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Http\IngestionHttp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Http\HttpIngestion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Http\RetryableIngestion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\IIngestion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\IngestionException.cs" />

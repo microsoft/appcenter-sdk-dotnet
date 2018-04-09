@@ -9,7 +9,7 @@ using Microsoft.AppCenter.Ingestion.Models.Serialization;
 
 namespace Microsoft.AppCenter.Ingestion.Http
 {
-    internal sealed class IngestionHttp : IIngestion
+    internal sealed class HttpIngestion : IIngestion
     {
         internal const string DefaultBaseUrl = "https://in.appcenter.ms";
         internal const string ApiVersion = "/logs?api-version=1.0.0";
@@ -20,14 +20,14 @@ namespace Microsoft.AppCenter.Ingestion.Http
         private string _baseLogUrl;
         private readonly IHttpNetworkAdapter _httpNetwork;
 
-        public IngestionHttp(IHttpNetworkAdapter httpNetwork)
+        public HttpIngestion(IHttpNetworkAdapter httpNetwork)
         {
             _httpNetwork = httpNetwork;
         }
 
         public IServiceCall Call(string appSecret, Guid installId, IList<Log> logs)
         {
-            var call = new ServiceCall();
+            var call = new ServiceCall(appSecret, installId, logs);
             CallAsync(appSecret, installId, logs, call.CancellationToken).ContinueWith(task =>
             {
                 // Cancellation token is already shared.

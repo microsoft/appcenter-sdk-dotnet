@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
+using Microsoft.AppCenter.Ingestion.Models;
 
 namespace Microsoft.AppCenter.Ingestion
 {
@@ -17,7 +19,22 @@ namespace Microsoft.AppCenter.Ingestion
         public Exception Exception { get; private set; }
 
         public CancellationToken CancellationToken => _tokenSource.Token;
+
+        public string AppSecret { get; }
+        public Guid InstallId { get; }
+        public IList<Log> Logs { get; }
         
+        public ServiceCall()
+        {
+        }
+
+        public ServiceCall(string appSecret, Guid installId, IList<Log> logs)
+        {
+            AppSecret = appSecret;
+            InstallId = installId;
+            Logs = logs;
+        }
+
         public void ContinueWith(Action<IServiceCall> continuationAction)
         {
             lock (_lock)

@@ -16,7 +16,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
 
 
         private readonly Random _random = new Random();
-        private readonly IDictionary<ServiceCallDecorator, Timer> _calls = new Dictionary<ServiceCallDecorator, Timer>();
+        private readonly IDictionary<ServiceCall, Timer> _calls = new Dictionary<ServiceCall, Timer>();
         private readonly TimeSpan[] _retryIntervals;
 
         public RetryableIngestion(IIngestion decoratedApi)
@@ -41,7 +41,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
             return new Timer(state => action(), null, interval, Timeout.Infinite);
         }
 
-        private void RetryCall(ServiceCallDecorator call, int retry)
+        private void RetryCall(ServiceCall call, int retry)
         {
             if (call.IsCanceled)
             {
@@ -60,7 +60,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
             result.ContinueWith(_ => RetryCallContinuation(call, result, retry + 1));
         }
 
-        private void RetryCallContinuation(ServiceCallDecorator call, IServiceCall result, int retry)
+        private void RetryCallContinuation(ServiceCall call, IServiceCall result, int retry)
         {
             // Canceled.
             if (call.IsCanceled)
@@ -108,12 +108,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
 
         public override IServiceCall Call(string appSecret, Guid installId, IList<Log> logs)
         {
-            var call = new ServiceCallDecorator
-            {
-                AppSecret = appSecret,
-                InstallId = installId,
-                Logs = logs
-            };
+            var call = new ServiceCall(appSecret, installId, logs);
             RetryCall(call, 0);
             return call;
         }
