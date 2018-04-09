@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion.Http;
 using Microsoft.AppCenter.Ingestion.Models;
 using Moq;
+using Moq.Language.Flow;
 
 namespace Microsoft.AppCenter.Test.Ingestion.Http
 {
-    public class IngestionTest
+    public class BaseIngestionTest
     {
         protected Mock<IHttpNetworkAdapter> _adapter;
 
@@ -19,24 +21,27 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         /// <summary>
         /// Helper for setup responce.
         /// </summary>
-        protected void SetupAdapterSendResponse(params HttpStatusCode[] statusCodes)
+        protected ISetup<IHttpNetworkAdapter, Task<string>> SetupAdapterSendResponse(params HttpStatusCode[] statusCodes)
         {
+            var index = 0;
             var setup = _adapter
-                .SetupSequence(a => a.SendAsync(
+                .Setup(a => a.SendAsync(
                     It.IsAny<string>(),
                     "POST",
                     It.IsAny<IDictionary<string, string>>(),
                     It.IsAny<string>(),
                     It.IsAny<CancellationToken>()));
-            foreach (var statusCode in statusCodes)
+            setup.Returns(() =>
             {
-                setup.Returns(statusCode == HttpStatusCode.OK
+                var statusCode = statusCodes[index < statusCodes.Length ? index++ : statusCodes.Length - 1];
+                return statusCode == HttpStatusCode.OK
                     ? TaskExtension.GetCompletedTask("")
                     : TaskExtension.GetFaultedTask<string>(new HttpIngestionException("")
                     {
-                        StatusCode = (int)statusCode
-                    }));
-            }
+                        StatusCode = (int) statusCode
+                    });
+            });
+            return setup;
         }
 
         /// <summary>

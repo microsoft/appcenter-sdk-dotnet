@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Microsoft.AppCenter.Ingestion.Models;
 
@@ -8,20 +9,25 @@ namespace Microsoft.AppCenter.Ingestion.Http
     internal sealed class RetryableIngestion : IngestionDecorator
     {
         private static readonly TimeSpan[] DefaultIntervals =
-            {
-                TimeSpan.FromSeconds(10),
-                TimeSpan.FromMinutes(.5),
-                TimeSpan.FromMinutes(20)
-            };
-
-
-        private readonly Random _random = new Random();
+        {
+            TimeSpan.FromSeconds(10),
+            TimeSpan.FromMinutes(.5),
+            TimeSpan.FromMinutes(20)
+        };
+        
         private readonly IDictionary<ServiceCall, Timer> _calls = new Dictionary<ServiceCall, Timer>();
         private readonly TimeSpan[] _retryIntervals;
 
         public RetryableIngestion(IIngestion decoratedApi)
-            : this(decoratedApi, DefaultIntervals)
+            : base(decoratedApi)
         {
+            var random = new Random();
+            _retryIntervals = DefaultIntervals.Select(defaultInterval =>
+            {
+                var interval = (int)(defaultInterval.TotalMilliseconds / 2.0);
+                interval += random.Next(interval);
+                return TimeSpan.FromMilliseconds(interval);
+            }).ToArray();
         }
 
         public RetryableIngestion(IIngestion decoratedApi, TimeSpan[] retryIntervals)
@@ -32,11 +38,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
 
         private Timer IntervalCall(int retry, Action action)
         {
-            var interval = (int)(_retryIntervals[retry - 1].TotalMilliseconds / 2.0);
-            lock (_random)
-            {
-                interval += _random.Next(interval);
-            }
+            var interval = (int)_retryIntervals[retry - 1].TotalMilliseconds;
             AppCenterLog.Warn(AppCenterLog.LogTag, $"Try #{retry} failed and will be retried in {interval} ms");
             return new Timer(state => action(), null, interval, Timeout.Infinite);
         }

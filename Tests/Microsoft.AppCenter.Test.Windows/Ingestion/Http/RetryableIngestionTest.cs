@@ -9,7 +9,7 @@ using Moq;
 namespace Microsoft.AppCenter.Test.Ingestion.Http
 {
     [TestClass]
-    public class RetryableTest : IngestionTest
+    public class RetryableIngestionTest : BaseIngestionTest
     {
         private static readonly TimeSpan[] Intervals =
         {
@@ -50,13 +50,14 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         {
             // RequestTimeout - retryable
             SetupAdapterSendResponse(HttpStatusCode.RequestTimeout, HttpStatusCode.OK);
+            var start = DateTime.Now;
             using (var call = _retryableIngestion.Call(AppSecret, InstallId, Logs))
             {
-                await Task.Delay(500);
+                await Task.Delay(start.AddSeconds(0.5) - DateTime.Now);
                 Assert.IsFalse(call.IsCompleted);
                 VerifyAdapterSend(Times.Exactly(1));
 
-                await Task.Delay(1000);
+                await Task.Delay(start.AddSeconds(1.5) - DateTime.Now);
                 Assert.IsTrue(call.IsCompleted);
                 VerifyAdapterSend(Times.Exactly(2));
             }
@@ -70,21 +71,22 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         {
             // RequestTimeout - retryable
             SetupAdapterSendResponse(HttpStatusCode.RequestTimeout, HttpStatusCode.RequestTimeout, HttpStatusCode.RequestTimeout, HttpStatusCode.OK);
+            var start = DateTime.Now;
             using (var call = _retryableIngestion.Call(AppSecret, InstallId, Logs))
             {
-                await Task.Delay(500);
+                await Task.Delay(start.AddSeconds(0.5) - DateTime.Now);
                 Assert.IsFalse(call.IsCompleted);
                 VerifyAdapterSend(Times.Exactly(1));
 
-                await Task.Delay(1000);
+                await Task.Delay(start.AddSeconds(1.5) - DateTime.Now);
                 Assert.IsFalse(call.IsCompleted);
                 VerifyAdapterSend(Times.Exactly(2));
 
-                await Task.Delay(1000);
+                await Task.Delay(start.AddSeconds(2.5) - DateTime.Now);
                 Assert.IsFalse(call.IsCompleted);
                 VerifyAdapterSend(Times.Exactly(3));
 
-                await Task.Delay(1000);
+                await Task.Delay(start.AddSeconds(3.5) - DateTime.Now);
                 Assert.IsTrue(call.IsCompleted);
                 VerifyAdapterSend(Times.Exactly(4));
             }
@@ -98,21 +100,23 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         {
             // RequestTimeout - retryable
             SetupAdapterSendResponse(HttpStatusCode.RequestTimeout);
+            var start = DateTime.Now;
             using (var call = _retryableIngestion.Call(AppSecret, InstallId, Logs))
             {
-                await Task.Delay(500);
+                await Task.Delay(start.AddSeconds(0.5) - DateTime.Now);
                 Assert.IsFalse(call.IsCompleted);
                 VerifyAdapterSend(Times.Exactly(1));
 
-                await Task.Delay(1000);
+                await Task.Delay(start.AddSeconds(1.5) - DateTime.Now);
                 Assert.IsFalse(call.IsCompleted);
                 VerifyAdapterSend(Times.Exactly(2));
 
                 call.Cancel();
 
-                await Task.Delay(1000);
+                await Task.Delay(start.AddSeconds(2.5) - DateTime.Now);
                 Assert.IsFalse(call.IsCompleted);
                 VerifyAdapterSend(Times.Exactly(2));
+                await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => call.ToTask());
             }
         }
 

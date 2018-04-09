@@ -39,7 +39,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
                 // If task is fulted.
                 if (task.IsFaulted)
                 {
-                    call.SetException(task.Exception);
+                    call.SetException(task.Exception?.InnerException);
                     return;
                 }
 

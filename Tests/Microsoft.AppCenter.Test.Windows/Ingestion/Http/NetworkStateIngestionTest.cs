@@ -12,7 +12,7 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
     using System.Linq;
 
     [TestClass]
-    public class NetworkStateTest : IngestionTest
+    public class NetworkStateIngestionTest : BaseIngestionTest
     {
         private NetworkStateAdapter _networkState;
         private NetworkStateIngestion _networkStateIngestion;

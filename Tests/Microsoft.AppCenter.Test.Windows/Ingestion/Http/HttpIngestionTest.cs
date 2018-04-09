@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -7,7 +9,7 @@ using Moq;
 namespace Microsoft.AppCenter.Test.Ingestion.Http
 {
     [TestClass]
-    public class HttpIngestionTest : IngestionTest
+    public class HttpIngestionTest : BaseIngestionTest
     {
         private HttpIngestion _httpIngestion;
 
@@ -54,12 +56,22 @@ namespace Microsoft.AppCenter.Test.Ingestion.Http
         [TestMethod]
         public async Task HttpIngestionCancel()
         {
-            SetupAdapterSendResponse(HttpStatusCode.OK);
+            _adapter
+                .Setup(a => a.SendAsync(
+                    It.IsAny<string>(),
+                    "POST",
+                    It.IsAny<IDictionary<string, string>>(),
+                    It.IsAny<string>(),
+                    It.IsAny<CancellationToken>()))
+                .Returns(async () =>
+                {
+                    await Task.Delay(500);
+                    return "";
+                });
             using (var call = _httpIngestion.Call(AppSecret, InstallId, Logs))
             {
                 call.Cancel();
-                await Assert.ThrowsExceptionAsync<CancellationException>(() => call.ToTask());
-                VerifyAdapterSend(Times.Never());
+                await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => call.ToTask());
             }
         }
 
