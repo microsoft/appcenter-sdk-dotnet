@@ -11,7 +11,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
         private static readonly TimeSpan[] DefaultIntervals =
         {
             TimeSpan.FromSeconds(10),
-            TimeSpan.FromMinutes(.5),
+            TimeSpan.FromSeconds(30),
             TimeSpan.FromMinutes(20)
         };
         
