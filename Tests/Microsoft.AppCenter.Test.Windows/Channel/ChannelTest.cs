@@ -23,12 +23,9 @@ namespace Microsoft.AppCenter.Test.Channel
         private Channel _channel;
         private IStorage _storage;
 
-        private const string ChannelName = "channelName";
+        private const string ChannelName = "test";
         private const int MaxLogsPerBatch = 3;
         private const int MaxParallelBatches = 3;
-
-        // We wait tasks now and don't need wait more
-        private const int DefaultWaitTime = 1000;
 
         // Event semaphores for invokation verification
         private const int SendingLogSemaphoreIdx = 0;
@@ -123,7 +120,7 @@ namespace Microsoft.AppCenter.Test.Channel
             };
 
             await _channel.EnqueueAsync(log);
-            Assert.IsTrue(sem.Wait(DefaultWaitTime));
+            Assert.IsTrue(sem.Wait(0));
         }
 
         /// <summary>
@@ -338,34 +335,68 @@ namespace Microsoft.AppCenter.Test.Channel
         }
 
         /// <summary>
-        /// Verify that when a recoverable http error occurs, ingestion stays open
+        /// Verify recoverable http error
         /// </summary>
         [TestMethod]
-        public async Task IngestionNotClosedOnRecoverableHttpError()
+        public async Task RecoverableHttpError()
         {
+            SetChannelWithTimeSpan(TimeSpan.Zero);
+
+            // Enqueue some log and and do not complete it
+            var call = new ServiceCall();
+            _mockIngestion
+                .Setup(ingestion => ingestion.Call(
+                    It.IsAny<string>(),
+                    It.IsAny<Guid>(),
+                    It.IsAny<IList<Log>>()))
+                .Returns((string appSecret, Guid installId, IList<Log> logs) => call);
+            await _channel.EnqueueAsync(new TestLog());
+            VerifySendingLog(1);
+            
+            // Next one will fail
             SetupIngestionCallFail(new RecoverableIngestionException());
             await _channel.EnqueueAsync(new TestLog());
+            VerifySendingLog(1);
 
-            // wait for SendingLog event
-            _eventSemaphores[SendingLogSemaphoreIdx].Wait();
-            // wait up to 20 seconds for suspend to finish
-            VerifyChannelDisable(TimeSpan.FromSeconds(20));
+            // Wait up to 20 seconds for suspend to finish
+            VerifyChannelDisable(TimeSpan.FromSeconds(10));
             _mockIngestion.Verify(ingestion => ingestion.Close(), Times.Never);
+            VerifyFailedToSendLog(0);
+            Assert.IsFalse(call.IsCompleted);
+            Assert.IsFalse(call.IsCanceled);
         }
 
         /// <summary>
-        /// Verify that if a non-recoverable http error occurs, ingestion is closed
+        /// Verify non-recoverable http error
         /// </summary>
         [TestMethod]
-        public async Task IngestionClosedOnNonRecoverableHttpError()
+        public async Task NonRecoverableHttpError()
         {
+            SetChannelWithTimeSpan(TimeSpan.Zero);
+
+            // Enqueue some log and and do not complete it
+            var call = new ServiceCall();
+            _mockIngestion
+                .Setup(ingestion => ingestion.Call(
+                    It.IsAny<string>(),
+                    It.IsAny<Guid>(),
+                    It.IsAny<IList<Log>>()))
+                .Returns((string appSecret, Guid installId, IList<Log> logs) => call);
+            await _channel.EnqueueAsync(new TestLog());
+            VerifySendingLog(1);
+            
+            // Next one will fail
             SetupIngestionCallFail(new NonRecoverableIngestionException());
             await _channel.EnqueueAsync(new TestLog());
+            VerifySendingLog(1);
 
-            // wait up to 20 seconds for suspend to finish
-            VerifyChannelDisable(TimeSpan.FromSeconds(20));
-            Assert.IsFalse(_channel.IsEnabled);
-            _mockIngestion.Verify(ingestion => ingestion.Close(), Times.Once);
+            // Wait up to 20 seconds for suspend to finish
+            VerifyChannelDisable(TimeSpan.FromSeconds(10));
+            _mockIngestion.Verify(ingestion => ingestion.Close(), Times.Never);
+            VerifyFailedToSendLog(2);
+
+            // The first call is canceled
+            await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => call.ToTask());
         }
 
         private void SetChannelWithTimeSpan(TimeSpan timeSpan)
@@ -431,24 +462,24 @@ namespace Microsoft.AppCenter.Test.Channel
             _channel.FilteringLog += (sender, args) => { _eventSemaphores[FilteringLogSemaphoreIdx].Release(); };
         }
 
-        private void VerifySendingLog(int expectedTimes, int waitTime = DefaultWaitTime) =>
-            Assert.AreEqual(expectedTimes, EventWithSemaphoreOccurred(_eventSemaphores[SendingLogSemaphoreIdx], expectedTimes, waitTime),
+        private void VerifySendingLog(int expectedTimes) =>
+            Assert.AreEqual(expectedTimes, EventWithSemaphoreOccurred(_eventSemaphores[SendingLogSemaphoreIdx]),
                 $"Failed on verify {nameof(Channel.SendingLog)} event call times");
 
-        private void VerifySentLog(int expectedTimes, int waitTime = DefaultWaitTime) =>
-            Assert.AreEqual(expectedTimes, EventWithSemaphoreOccurred(_eventSemaphores[SentLogSemaphoreIdx], expectedTimes, waitTime),
+        private void VerifySentLog(int expectedTimes) =>
+            Assert.AreEqual(expectedTimes, EventWithSemaphoreOccurred(_eventSemaphores[SentLogSemaphoreIdx]),
                 $"Failed on verify {nameof(Channel.SentLog)} event call times");
 
-        private void VerifyFailedToSendLog(int expectedTimes, int waitTime = DefaultWaitTime) =>
-            Assert.AreEqual(expectedTimes, EventWithSemaphoreOccurred(_eventSemaphores[FailedToSendLogSemaphoreIdx], expectedTimes, waitTime),
+        private void VerifyFailedToSendLog(int expectedTimes) =>
+            Assert.AreEqual(expectedTimes, EventWithSemaphoreOccurred(_eventSemaphores[FailedToSendLogSemaphoreIdx]),
                 $"Failed on verify {nameof(Channel.FailedToSendLog)} event call times");
 
-        private void VerifyEnqueuingLog(int expectedTimes, int waitTime = DefaultWaitTime) =>
-            Assert.AreEqual(expectedTimes, EventWithSemaphoreOccurred(_eventSemaphores[EnqueuingLogSemaphoreIdx], expectedTimes, waitTime),
+        private void VerifyEnqueuingLog(int expectedTimes) =>
+            Assert.AreEqual(expectedTimes, EventWithSemaphoreOccurred(_eventSemaphores[EnqueuingLogSemaphoreIdx]),
                 $"Failed on verify {nameof(Channel.EnqueuingLog)} event call times");
 
-        private void VerifyFilteringLog(int expectedTimes, int waitTime = DefaultWaitTime) =>
-            Assert.AreEqual(expectedTimes, EventWithSemaphoreOccurred(_eventSemaphores[FilteringLogSemaphoreIdx], expectedTimes, waitTime),
+        private void VerifyFilteringLog(int expectedTimes) =>
+            Assert.AreEqual(expectedTimes, EventWithSemaphoreOccurred(_eventSemaphores[FilteringLogSemaphoreIdx]),
                 $"Failed on verify {nameof(Channel.FilteringLog)} event call times");
 
         private void VerifyChannelDisable(TimeSpan timeout)
@@ -463,16 +494,15 @@ namespace Microsoft.AppCenter.Test.Channel
             Assert.IsTrue(task.Wait(timeout));
         }
 
-        private static int EventWithSemaphoreOccurred(SemaphoreSlim semaphore, int numTimes, int waitTime)
+        private static int EventWithSemaphoreOccurred(SemaphoreSlim semaphore)
         {
-            for (var i = 0; i < numTimes; ++i)
+            for (var i = 0;; ++i)
             {
-                if (!semaphore.Wait(waitTime))
+                if (!semaphore.Wait(i == 0 ? 1000 : 100))
                 {
                     return i;
                 }
             }
-            return numTimes;
         }
     }
 }
