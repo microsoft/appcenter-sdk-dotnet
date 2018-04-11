@@ -25,6 +25,9 @@ namespace Microsoft.AppCenter.Ingestion
         /// <param name="logs">Payload</param>
         IServiceCall Call(string appSecret, Guid installId, IList<Log> logs);
 
+        /// <summary>
+        /// Close all current calls.
+        /// </summary>
         void Close();
     }
 }

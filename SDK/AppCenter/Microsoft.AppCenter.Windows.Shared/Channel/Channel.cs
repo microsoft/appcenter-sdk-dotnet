@@ -21,7 +21,8 @@ namespace Microsoft.AppCenter.Channel
         private readonly IStorage _storage;
         private readonly IIngestion _ingestion;
         private readonly IDeviceInformationHelper _deviceInfoHelper = new DeviceInformationHelper();
-        private readonly Dictionary<string, List<Log>> _sendingBatches = new Dictionary<string, List<Log>>();
+        private readonly IDictionary<string, List<Log>> _sendingBatches = new Dictionary<string, List<Log>>();
+        private readonly ISet<IServiceCall> _calls = new HashSet<IServiceCall>();
         private readonly int _maxParallelBatches;
         private readonly int _maxLogsPerBatch;
         private long _pendingLogCount;
@@ -250,6 +251,7 @@ namespace Microsoft.AppCenter.Channel
 
         private void Resume(State state)
         {
+            AppCenterLog.Verbose(AppCenterLog.LogTag, $"Resume channel: '{Name}'");
             try
             {
                 using (_mutex.GetLock(state))
@@ -261,13 +263,14 @@ namespace Microsoft.AppCenter.Channel
             }
             catch (StatefulMutexException)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "The Resume operation has been cancelled");
+                AppCenterLog.Warn(AppCenterLog.LogTag, "The resume operation has been cancelled");
             }
             CheckPendingLogs(state);
         }
 
         private void Suspend(State state, bool deleteLogs, Exception exception)
         {
+            AppCenterLog.Verbose(AppCenterLog.LogTag, $"Suspend channel: '{Name}'");
             try
             {
                 List<Log> unsentLogs = null;
@@ -292,25 +295,24 @@ namespace Microsoft.AppCenter.Channel
                 }
                 if (deleteLogs)
                 {
-                    try
-                    {
-                        _ingestion.Close();
-                    }
-                    catch (IngestionException e)
-                    {
-                        AppCenterLog.Error(AppCenterLog.LogTag, "Failed to close ingestion", e);
-                    }
+                    List<IServiceCall> calls;
                     using (_mutex.GetLock(state))
                     {
+                        calls = _calls.ToList();
+                        _calls.Clear();
                         _pendingLogCount = 0;
                         TriggerDeleteLogsOnSuspending();
+                    }
+                    foreach (var call in calls)
+                    {
+                        call.Cancel();
                     }
                 }
                 _storage.ClearPendingLogState(Name);
             }
             catch (StatefulMutexException)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "The Suspend operation has been cancelled");
+                AppCenterLog.Warn(AppCenterLog.LogTag, "The suspend operation has been cancelled");
             }
         }
 
@@ -332,8 +334,7 @@ namespace Microsoft.AppCenter.Channel
                 {
                     if (completedTask.IsFaulted)
                     {
-                        AppCenterLog.Warn(AppCenterLog.LogTag,
-                            "Failed to invoke events for logs being deleted.");
+                        AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to invoke events for logs being deleted.");
                         return;
                     }
                     foreach (var log in logs)
@@ -390,23 +391,39 @@ namespace Microsoft.AppCenter.Channel
 
                     // If the optional Install ID has no value, default to using empty GUID
                     var installId = await AppCenter.GetInstallIdAsync().ConfigureAwait(false) ?? Guid.Empty;
-                    _ingestion.Call(_appSecret, installId, logs).ContinueWith(call =>
+                    var ingestionCall = _ingestion.Call(_appSecret, installId, logs);
+                    using (await _mutex.GetLockAsync(state).ConfigureAwait(false))
                     {
-                        if (call.IsCanceled || call.IsFaulted)
-                        {
-                            HandleSendingFailure(state, batchId, call.Exception);
-                        }
-                        else
-                        {
-                            HandleSendingSuccess(state, batchId);
-                        }
-                    });
+                        _calls.Add(ingestionCall);
+                    }
+                    ingestionCall.ContinueWith(call => HandleSendingResult(state, batchId, call));
                     CheckPendingLogs(state);
                 }
                 catch (StorageException)
                 {
                     AppCenterLog.Warn(AppCenterLog.LogTag, "Something went wrong sending logs to ingestion");
                 }
+            }
+        }
+
+        private void HandleSendingResult(State state, string batchId, IServiceCall call)
+        {
+            // Get a lock without checking the state here.
+            using (_mutex.GetLock())
+            {
+                _calls.Remove(call);
+            }
+            if (call.IsCanceled)
+            {
+                HandleSendingCancel(state, batchId);
+            }
+            else if (call.IsFaulted)
+            {
+                HandleSendingFailure(state, batchId, call.Exception);
+            }
+            else
+            {
+                HandleSendingSuccess(state, batchId);
             }
         }
 
@@ -442,6 +459,32 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
+        private void HandleSendingCancel(State state, string batchId)
+        {
+            AppCenterLog.Debug(AppCenterLog.LogTag, $"Sending logs for channel '{Name}', batch '{batchId}' canceled");
+            try
+            {
+                List<Log> removedLogs;
+                using (_mutex.GetLock(state))
+                {
+                    removedLogs = _sendingBatches[batchId];
+                    _sendingBatches.Remove(batchId);
+                }
+                if (FailedToSendLog != null)
+                {
+                    foreach (var log in removedLogs)
+                    {
+                        FailedToSendLog?.Invoke(this, new FailedToSendLogEventArgs(log, new CancellationException()));
+                    }
+                }
+            }
+            catch (StatefulMutexException)
+            {
+                AppCenterLog.Debug(AppCenterLog.LogTag,
+                    "Handle sending cancel operation has been canceled. Callbacks were invoked when channel suspended.");
+            }
+        }
+
         private void HandleSendingFailure(State state, string batchId, Exception e)
         {
             AppCenterLog.Error(AppCenterLog.LogTag, $"Sending logs for channel '{Name}', batch '{batchId}' failed: {e?.Message}");
@@ -469,7 +512,8 @@ namespace Microsoft.AppCenter.Channel
             }
             catch (StatefulMutexException)
             {
-                AppCenterLog.Debug(AppCenterLog.LogTag, "Handle sending failure operation has been canceled. Callbacks were invoked when channel suspended.");
+                AppCenterLog.Debug(AppCenterLog.LogTag,
+                    "Handle sending failure operation has been canceled. Callbacks were invoked when channel suspended.");
             }
         }
 

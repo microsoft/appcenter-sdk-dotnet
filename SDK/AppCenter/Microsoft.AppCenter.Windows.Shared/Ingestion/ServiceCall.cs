@@ -5,6 +5,7 @@ using Microsoft.AppCenter.Ingestion.Models;
 
 namespace Microsoft.AppCenter.Ingestion
 {
+    /// <inheritdoc />
     internal class ServiceCall : IServiceCall
     {
         private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
