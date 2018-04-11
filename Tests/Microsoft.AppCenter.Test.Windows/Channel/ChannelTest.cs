@@ -334,6 +334,38 @@ namespace Microsoft.AppCenter.Test.Channel
             // Not throw any exception
         }
 
+        [TestMethod]
+        public async Task MultiBatchTest()
+        {
+            SetChannelWithTimeSpan(TimeSpan.Zero);
+            
+            var calls = new[] { new ServiceCall(), new ServiceCall(), new ServiceCall() };
+            var setup = _mockIngestion
+                .SetupSequence(ingestion => ingestion.Call(
+                    It.IsAny<string>(),
+                    It.IsAny<Guid>(),
+                    It.IsAny<IList<Log>>()));
+            foreach (var call in calls)
+            {
+                setup.Returns(call);
+            }
+            
+            // Send in separate batches
+            await _channel.EnqueueAsync(new TestLog());
+            VerifySendingLog(1);
+            await _channel.EnqueueAsync(new TestLog());
+            VerifySendingLog(1);
+            await _channel.EnqueueAsync(new TestLog());
+            VerifySendingLog(1);
+
+            // Complete all
+            foreach (var call in calls)
+            {
+                call.SetResult("test");
+            }
+            VerifySentLog(3);
+        }
+
         /// <summary>
         /// Verify recoverable http error
         /// </summary>
