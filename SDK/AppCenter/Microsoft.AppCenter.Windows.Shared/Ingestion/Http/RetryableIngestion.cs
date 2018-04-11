@@ -129,14 +129,23 @@ namespace Microsoft.AppCenter.Ingestion.Http
 
         private void CancelAllCalls()
         {
+            List<ServiceCall> calls;
             lock (_calls)
             {
-                foreach (var call in _calls)
+                if (_calls.Count == 0)
                 {
-                    call.Key.Cancel();
-                    call.Value.Dispose();
+                    return;
+                }
+                calls = _calls.Select(i => i.Key).ToList();
+                foreach (var timer in _calls.Values)
+                {
+                    timer.Dispose();
                 }
                 _calls.Clear();
+            }
+            foreach (var call in calls)
+            {
+                call.Cancel();
             }
         }
     }
