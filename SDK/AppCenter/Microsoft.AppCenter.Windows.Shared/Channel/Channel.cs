@@ -148,12 +148,16 @@ namespace Microsoft.AppCenter.Channel
                 if (discardLogs)
                 {
                     AppCenterLog.Warn(AppCenterLog.LogTag, "Channel is disabled; logs are discarded");
+                    AppCenterLog.Verbose(AppCenterLog.LogTag, $"Invoke SendingLog event for channel '{Name}'");
                     SendingLog?.Invoke(this, new SendingLogEventArgs(log));
+                    AppCenterLog.Verbose(AppCenterLog.LogTag, $"Invoke FailedToSendLog event for channel '{Name}'");
                     FailedToSendLog?.Invoke(this, new FailedToSendLogEventArgs(log, new CancellationException()));
                     return;
                 }
+                AppCenterLog.Verbose(AppCenterLog.LogTag, $"Invoke EnqueuingLog event for channel '{Name}'");
                 EnqueuingLog?.Invoke(this, new EnqueuingLogEventArgs(log));
                 await PrepareLogAsync(log, state).ConfigureAwait(false);
+                AppCenterLog.Verbose(AppCenterLog.LogTag, $"Invoke FilteringLog event for channel '{Name}'");
                 var filteringLogEventArgs = new FilteringLogEventArgs(log);
                 FilteringLog?.Invoke(this, filteringLogEventArgs);
                 if (filteringLogEventArgs.FilterRequested)
@@ -290,6 +294,7 @@ namespace Microsoft.AppCenter.Channel
                 {
                     foreach (var log in unsentLogs)
                     {
+                        AppCenterLog.Verbose(AppCenterLog.LogTag, $"Invoke FailedToSendLog event for channel '{Name}'");
                         FailedToSendLog?.Invoke(this, new FailedToSendLogEventArgs(log, exception));
                     }
                 }
@@ -339,7 +344,9 @@ namespace Microsoft.AppCenter.Channel
                     }
                     foreach (var log in logs)
                     {
+                        AppCenterLog.Verbose(AppCenterLog.LogTag, $"Invoke SendingLog for channel '{Name}'");
                         SendingLog?.Invoke(this, new SendingLogEventArgs(log));
+                        AppCenterLog.Verbose(AppCenterLog.LogTag, $"Invoke FailedToSendLog event for channel '{Name}'");
                         FailedToSendLog?.Invoke(this, new FailedToSendLogEventArgs(log, new CancellationException()));
                     }
                     if (logs.Count >= ClearBatchSize)
@@ -383,9 +390,10 @@ namespace Microsoft.AppCenter.Channel
                     // Before sending logs, trigger the sending event for this channel
                     if (SendingLog != null)
                     {
-                        foreach (var eventArgs in logs.Select(log => new SendingLogEventArgs(log)))
+                        foreach (var log in logs)
                         {
-                            SendingLog?.Invoke(this, eventArgs);
+                            AppCenterLog.Verbose(AppCenterLog.LogTag, $"Invoke SendingLog event for channel '{Name}'");
+                            SendingLog?.Invoke(this, new SendingLogEventArgs(log));
                         }
                     }
 
@@ -453,6 +461,7 @@ namespace Microsoft.AppCenter.Channel
                 {
                     foreach (var log in removedLogs)
                     {
+                        AppCenterLog.Verbose(AppCenterLog.LogTag, $"Invoke SentLog event for channel '{Name}'");
                         SentLog?.Invoke(this, new SentLogEventArgs(log));
                     }
                 }
@@ -474,6 +483,7 @@ namespace Microsoft.AppCenter.Channel
                 {
                     foreach (var log in removedLogs)
                     {
+                        AppCenterLog.Verbose(AppCenterLog.LogTag, $"Invoke FailedToSendLog event for channel '{Name}'");
                         FailedToSendLog?.Invoke(this, new FailedToSendLogEventArgs(log, new CancellationException()));
                     }
                 }
@@ -505,6 +515,7 @@ namespace Microsoft.AppCenter.Channel
                 {
                     foreach (var log in removedLogs)
                     {
+                        AppCenterLog.Verbose(AppCenterLog.LogTag, $"Invoke FailedToSendLog event for channel '{Name}'");
                         FailedToSendLog?.Invoke(this, new FailedToSendLogEventArgs(log, e));
                     }
                 }
