@@ -24,8 +24,8 @@ namespace Microsoft.AppCenter.Test
         }
 
         public bool InstanceEnabled {
-            get { return _mock.Object.InstanceEnabled; }
-            set { _mock.Object.InstanceEnabled = value; }
+            get => _mock.Object.InstanceEnabled;
+            set => _mock.Object.InstanceEnabled = value;
         }
 
         public void OnChannelGroupReady(IChannelGroup channelGroup, string appSecret)

@@ -138,7 +138,7 @@ namespace Microsoft.AppCenter.Channel
             {
                 networkState = new NetworkStateAdapter();
             }
-            return new NetworkStateIngestion(new RetryableIngestion(new IngestionHttp(httpNetwork)), networkState);
+            return new NetworkStateIngestion(new RetryableIngestion(new HttpIngestion(httpNetwork)), networkState);
         }
 
         private static IStorage DefaultStorage()

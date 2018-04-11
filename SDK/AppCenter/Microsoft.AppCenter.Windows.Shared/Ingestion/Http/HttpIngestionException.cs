@@ -9,16 +9,10 @@ namespace Microsoft.AppCenter.Ingestion.Http
         public string RequestContent { get; set; }
         public int StatusCode { get; set; }
         public string ResponseContent { get; set; }
-        public override bool IsRecoverable
-        {
-            get
-            {
-                var statusCode = (int)StatusCode;
-                return statusCode >= 500 || statusCode == 408;
-            }
-        }
+        public override bool IsRecoverable => StatusCode >= 500 || StatusCode == 408;
 
-        public HttpIngestionException(string message) : base(message)
+        public HttpIngestionException(string message)
+            : base(message)
         {
         }
     }

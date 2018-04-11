@@ -7,9 +7,20 @@ namespace Microsoft.AppCenter.Ingestion
         private const string DefaultMessage = "The ingestion operation failed";
 
         public virtual bool IsRecoverable => false;
+        
+        public IngestionException()
+            : base(DefaultMessage)
+        {
+        }
 
-        public IngestionException(string message) : base(message) { }
-        public IngestionException(Exception innerException) : base(DefaultMessage, innerException) { }
-        public IngestionException() : base(DefaultMessage) { }
+        public IngestionException(string message)
+            : base(message)
+        {
+        }
+
+        public IngestionException(Exception innerException)
+            : base(DefaultMessage, innerException)
+        {
+        }
     }
 }
