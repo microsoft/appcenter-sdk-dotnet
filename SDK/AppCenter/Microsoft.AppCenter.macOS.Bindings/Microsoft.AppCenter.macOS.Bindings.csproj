@@ -67,7 +67,8 @@
   <ItemGroup>
     <NativeReference Include="..\..\..\externals\mac\AppCenter.a">
       <Kind>Static</Kind>
-      <SmartLink>False</SmartLink>
+      <LinkerFlags>-lsqlite3</LinkerFlags>
+      <ForceLoad>True</ForceLoad>
     </NativeReference>
   </ItemGroup>
   <ItemGroup>
