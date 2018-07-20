@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 
 namespace Microsoft.AppCenter.Utils
 {
