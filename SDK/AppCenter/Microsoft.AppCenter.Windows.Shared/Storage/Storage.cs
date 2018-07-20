@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion.Models;
 using Microsoft.AppCenter.Ingestion.Models.Serialization;
+using Microsoft.AppCenter.Utils;
 using Newtonsoft.Json;
 using SQLite;
 
@@ -29,11 +30,12 @@ namespace Microsoft.AppCenter.Storage
         }
 
         private readonly IStorageAdapter _storageAdapter;
-        private const string Database = "Microsoft.AppCenter.Storage";
+        private static readonly string DatabasePath = Path.Combine(LocalApplicationStorageHelper.LocalApplicationStoragePath, "Microsoft.AppCenter.Storage");
         private const string DbIdentifierDelimiter = "@";
 
         private readonly Dictionary<string, List<long>> _pendingDbIdentifierGroups = new Dictionary<string, List<long>>();
         private readonly HashSet<long> _pendingDbIdentifiers = new HashSet<long>();
+
         // Blocking collection is thread safe
         private readonly BlockingCollection<Task> _queue = new BlockingCollection<Task>();
         private readonly SemaphoreSlim _flushSemaphore = new SemaphoreSlim(0);
@@ -60,7 +62,7 @@ namespace Microsoft.AppCenter.Storage
         {
             try
             {
-                return new StorageAdapter(Database);
+                return new StorageAdapter(DatabasePath);
             }
             catch (FileLoadException e)
             {

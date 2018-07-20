@@ -56,6 +56,7 @@
     <Compile Include="Utils\ApplicationLifecycleHelper.cs" />
     <Compile Include="Utils\DefaultApplicationSettings.cs" />
     <Compile Include="Utils\DeviceInformationHelper.cs" />
+    <Compile Include="Utils\LocalApplicationStorageHelper.cs" />
     <Compile Include="Utils\WpfHelper.cs" />
   </ItemGroup>
   <ItemGroup>
