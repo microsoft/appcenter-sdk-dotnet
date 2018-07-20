@@ -12,7 +12,7 @@ namespace Microsoft.AppCenter.Utils
         private readonly IDictionary<string, string> _current;
 
         private static readonly string ConfigPath =
-            Path.Combine(LocalApplicationStorageHelper.LocalApplicationStoragePath, "AppCenter.config");
+            Path.Combine(ApplicationStoragePathHelper.ApplicationStoragePath, "AppCenter.config");
 
         public DefaultApplicationSettings()
         {

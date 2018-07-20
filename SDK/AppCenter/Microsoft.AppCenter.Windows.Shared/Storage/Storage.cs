@@ -30,7 +30,7 @@ namespace Microsoft.AppCenter.Storage
         }
 
         private readonly IStorageAdapter _storageAdapter;
-        private static readonly string DatabasePath = Path.Combine(LocalApplicationStorageHelper.LocalApplicationStoragePath, "Microsoft.AppCenter.Storage");
+        private static readonly string DatabasePath = Path.Combine(ApplicationStoragePathHelper.ApplicationStoragePath, "Microsoft.AppCenter.Storage");
         private const string DbIdentifierDelimiter = "@";
 
         private readonly Dictionary<string, List<long>> _pendingDbIdentifierGroups = new Dictionary<string, List<long>>();
