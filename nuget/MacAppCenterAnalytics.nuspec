@@ -15,7 +15,7 @@
     <licenseUrl>https://aka.ms/vbgfx2</licenseUrl>
     <iconUrl>https://aka.ms/k76877</iconUrl>
     <dependencies>
-      <dependency id="Microsoft.AppCenter" version="$version$" />
+      <dependency id="Microsoft.AppCenter" version="[$version$]" />
     </dependencies>
   </metadata>
   <files>
@@ -33,6 +33,6 @@
     <!-- iOS -->
     <file src="$ios_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/Xamarin.iOS10" />
     <file src="$ios_dir$/Microsoft.AppCenter.Analytics.iOS.Bindings.dll" target="lib/Xamarin.iOS10" />
-    
+
   </files>
 </package>

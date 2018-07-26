@@ -13,7 +13,7 @@
     <licenseUrl>https://aka.ms/vbgfx2</licenseUrl>
     <iconUrl>https://aka.ms/k76877</iconUrl>
     <dependencies>
-      <dependency id="Microsoft.AppCenter" version="$version$" />
+      <dependency id="Microsoft.AppCenter" version="[$version$]" />
     </dependencies>
     <version>$version$</version>
   </metadata>
