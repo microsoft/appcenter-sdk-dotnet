@@ -26,7 +26,7 @@ namespace Microsoft.AppCenter.Utils
         public static ApplicationLifecycleHelper Instance
         {
             get { return _instance ?? (_instance = new ApplicationLifecycleHelper()); }
-            
+
             // Setter for testing
             internal set { _instance = value; }
         }
