@@ -13,6 +13,7 @@ namespace Microsoft.AppCenter.Storage
 
         public StorageAdapter(string databasePath)
         {
+            AppCenterLog.Verbose(AppCenterLog.LogTag, $"Database path: {databasePath}");
             _dbConnection = new SQLiteAsyncConnection(databasePath);
         }
 

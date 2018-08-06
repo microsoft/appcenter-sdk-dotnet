@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationLifecycleHelper.cs" />
+    <Compile Include="ApplicationStoragePathHelper.cs" />
     <Compile Include="DefaultApplicationSettings.cs" />
     <Compile Include="DeviceInformationHelper.cs" />
     <Compile Include="GlobalSuppressions.cs" />

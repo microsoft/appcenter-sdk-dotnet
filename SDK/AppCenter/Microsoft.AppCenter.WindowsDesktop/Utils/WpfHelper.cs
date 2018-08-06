@@ -22,6 +22,7 @@ namespace Microsoft.AppCenter.Utils
         }
 
         public static bool IsRunningOnWpf { get; }
+
         public static Assembly PresentationFramework { get; }
     }
 }
