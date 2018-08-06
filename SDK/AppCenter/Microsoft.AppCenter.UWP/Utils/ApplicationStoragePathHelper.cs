@@ -2,6 +2,6 @@
 {
     public class ApplicationStoragePathHelper
     {
-        public static string ApplicationStoragePath => "";
+        public static string ApplicationStoragePath => string.Empty;
     }
 }
