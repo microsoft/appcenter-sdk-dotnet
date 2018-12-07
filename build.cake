@@ -69,8 +69,9 @@ Task("Build")
     buildGroup.ExecuteBuilds();
 }).OnError(HandleError);
 
-Task("PrepareAssemblies").IsDependentOn("Build")
-.Does(()=>
+Task("PrepareAssemblies")
+    .IsDependentOn("Build")
+    .Does(()=>
 {
     // Clean all directories before copying. Doing so before each operation
     // could cause subdirectories that are created first to be deleted.
@@ -130,7 +131,7 @@ Task("Externals-Ios")
         var filename = file.GetFilename();
         MoveFile(file, $"{IosExternals}/{filename}.a");
     }
-    
+
     // Copy Distribute resource bundle and copy it to the externals directory.
     var distributeBundle = "AppCenterDistributeResources.bundle";
     if(DirectoryExists($"{frameworksLocation}/{distributeBundle}"))

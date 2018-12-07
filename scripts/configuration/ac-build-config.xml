@@ -81,6 +81,13 @@
             <assembly path="ARM/Release/WatsonRegistrationUtility/WatsonRegistrationUtility.dll"/>
             <assembly path="ARM/Release/WatsonRegistrationUtility/WatsonRegistrationUtility.winmd"/>
         </group>
+
+        <!-- ARM64 -->
+        <group id="arm64" folder="ARM64">
+            <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.UWP/bin/ARM64/Release/Microsoft.AppCenter.Crashes.dll"/>
+            <assembly path="ARM64/Release/WatsonRegistrationUtility/WatsonRegistrationUtility.dll"/>
+            <assembly path="ARM64/Release/WatsonRegistrationUtility/WatsonRegistrationUtility.winmd"/>
+        </group>
     </group>
     <module dotnetModule="SDK/AppCenter/Microsoft.AppCenter" nuspec="AppCenter.nuspec"/>
     <module dotnetModule="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes" nuspec="AppCenterAnalytics.nuspec"/>
@@ -95,6 +102,7 @@
         <build configuration="Release" platform="x86"/>
         <build configuration="Release" platform="x64"/>
         <build configuration="Release" platform="ARM"/>
+        <build configuration="Release" platform="ARM64"/>
         <build configuration="Release"/>
         <build configuration="Reference"/>
     </buildGroup>

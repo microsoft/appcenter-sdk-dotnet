@@ -4,14 +4,15 @@
     <mc-crashes-Platform Condition="'$(Platform)' != 'Win32'">$(Platform)</mc-crashes-Platform>
     <mc-crashes-Platform Condition="'$(Platform)' == 'Win32'">x86</mc-crashes-Platform>
     <mc-crashes-Platform Condition="'$(Platform)' == 'ARM'">arm</mc-crashes-Platform>
+    <mc-crashes-Platform Condition="'$(Platform)' == 'ARM64'">arm64</mc-crashes-Platform>
     <mc-crashes-ArchDir>$(MSBuildThisFileDirectory)..\..\runtimes\win10-$(mc-crashes-Platform)</mc-crashes-ArchDir>
 
-    <mc-crashes-IsCorrectArch Condition="'$(mc-crashes-Platform)' == 'x86' or '$(mc-crashes-Platform)' == 'x64' or '$(mc-crashes-Platform)' == 'arm'">true</mc-crashes-IsCorrectArch>
+    <mc-crashes-IsCorrectArch Condition="'$(mc-crashes-Platform)' == 'x86' or '$(mc-crashes-Platform)' == 'x64' or '$(mc-crashes-Platform)' == 'arm' or '$(mc-crashes-Platform)' == 'arm64'">true</mc-crashes-IsCorrectArch>
   </PropertyGroup>
 
   <Target Name="PlatformCheck" BeforeTargets="ResolveAssemblyReferences">
     <Warning
-      Text="Please build your project specifically for one of the following platforms: x86, x64, ARM"
+      Text="Please build your project specifically for one of the following platforms: x86, x64, ARM, ARM64"
       Condition="('$(TargetPlatformIdentifier)' == 'UAP') AND ('$(mc-crashes-IsCorrectArch)' != 'true')" />
   </Target>
 

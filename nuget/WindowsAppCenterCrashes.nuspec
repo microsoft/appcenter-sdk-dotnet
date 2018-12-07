@@ -44,5 +44,10 @@
     <file src="$uwp_dir$/ARM/WatsonRegistrationUtility.dll" target="runtimes/win10-arm/native"/>
     <file src="$uwp_dir$/ARM/WatsonRegistrationUtility.winmd" target="runtimes/win10-arm/lib/uap10.0" />
 
+    <!-- ARM64 -->
+    <file src="$uwp_dir$/ARM64/Microsoft.AppCenter.Crashes.dll" target="runtimes/win10-arm64/lib/uap10.0" />
+    <file src="$uwp_dir$/ARM64/WatsonRegistrationUtility.dll" target="runtimes/win10-arm64/native"/>
+    <file src="$uwp_dir$/ARM64/WatsonRegistrationUtility.winmd" target="runtimes/win10-arm64/lib/uap10.0" />
+
   </files>
 </package>
