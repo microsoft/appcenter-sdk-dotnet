@@ -21,6 +21,7 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidTlsProvider>
     </AndroidTlsProvider>
+    <JavaSdkDirectory>/Library/Java/JavaVirtualMachines/jdk-1.8.0_202.jdk/Contents/Home</JavaSdkDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,6 +34,7 @@
     <AndroidLinkMode>None</AndroidLinkMode>
     <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a;x86_64;armeabi</AndroidSupportedAbis>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <JavaSdkDirectory>/Library/Java/JavaVirtualMachines/jdk-1.8.0_202.jdk/Contents/Home</JavaSdkDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +45,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidSupportedAbis>x86;x86_64;armeabi;armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
+    <JavaSdkDirectory>/Library/Java/JavaVirtualMachines/jdk-1.8.0_202.jdk/Contents/Home</JavaSdkDirectory>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
