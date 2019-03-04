@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Microsoft.AppCenter;
 using Xamarin.Forms;
 
@@ -7,6 +8,8 @@ namespace Contoso.Forms.Demo
     [Android.Runtime.Preserve(AllMembers = true)]
     public partial class AppCenterContentPage : ContentPage
     {
+
+        Fabulous.CustomControls.CustomEntryCell customEntryCell;
         public AppCenterContentPage()
         {
             InitializeComponent();
@@ -14,6 +17,11 @@ namespace Contoso.Forms.Demo
             {
                 Icon = "bolt.png";
             }
+            customEntryCell = new Fabulous.CustomControls.CustomEntryCell();
+            customEntryCell.HorizontalTextAlignment = TextAlignment.End;
+            customEntryCell.TextChanged += UserIdCompleted;
+            customEntryCell.Label = "User Id";
+            UserIdTableSection.Add(customEntryCell);
         }
 
         protected override async void OnAppearing()
@@ -27,9 +35,9 @@ namespace Contoso.Forms.Demo
             await AppCenter.SetEnabledAsync(e.Value);
         }
 
-        void UserIdCompleted(object sender, EventArgs e)
+        private void UserIdCompleted(object sender, EventArgs e)
         {
-            var text = string.IsNullOrEmpty(UserIdEntryCell.Text) ? null : UserIdEntryCell.Text;
+            var text = string.IsNullOrEmpty(customEntryCell.Text) ? null : customEntryCell.Text;
             AppCenter.SetUserId(text);
         }
     }
