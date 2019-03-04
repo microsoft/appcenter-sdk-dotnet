@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using Microsoft.AppCenter;
 using Xamarin.Forms;
 
