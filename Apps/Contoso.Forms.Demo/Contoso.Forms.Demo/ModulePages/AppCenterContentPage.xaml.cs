@@ -35,6 +35,7 @@ namespace Contoso.Forms.Demo
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string _userId;
+
         public string UserId
         {
             get { return _userId; }
@@ -46,6 +47,7 @@ namespace Contoso.Forms.Demo
         }
 
         public ICommand TextChanged;
+
         protected virtual void OnTextChanged(string inputText)
         {
             if (PropertyChanged != null)
