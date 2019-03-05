@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Input;
 using Microsoft.AppCenter;
 using Xamarin.Forms;
@@ -39,6 +38,7 @@ namespace Contoso.Forms.Demo
         public string UserId
         {
             get { return _userId; }
+
             set
             {
                 _userId = value;
