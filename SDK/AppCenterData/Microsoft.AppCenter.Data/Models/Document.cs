@@ -30,7 +30,7 @@ namespace Microsoft.AppCenter.Data
         /// Gets the partition.
         /// </summary>
         /// <returns>The partition.</returns>
-        public String GetPartition()
+        public string GetPartition()
         {
             throw new Exception();
         }
@@ -39,7 +39,7 @@ namespace Microsoft.AppCenter.Data
         /// Gets the identifier.
         /// </summary>
         /// <returns>The identifier.</returns>
-        public String GetId()
+        public string GetId()
         {
             throw new Exception();
         }
@@ -48,7 +48,7 @@ namespace Microsoft.AppCenter.Data
         /// Gets the ET ag.
         /// </summary>
         /// <returns>The ET ag.</returns>
-        public String GetETag()
+        public string GetETag()
         {
             throw new Exception();
         }
@@ -67,7 +67,7 @@ namespace Microsoft.AppCenter.Data
         /// Get the document in string.
         /// </summary>
         /// <returns>Serialized document..</returns>
-        public override string ToString()
+        public override String ToString()
         {
             throw new Exception();
         }
@@ -77,7 +77,7 @@ namespace Microsoft.AppCenter.Data
         /// Get the flag indicating if data was retrieved from the local cache (for offline mode)
         /// </summary>
         /// <returns><c>true</c>, if from cache was ised, <c>false</c> otherwise.</returns>
-        public Boolean IsFromCache()
+        public bool IsFromCache()
         {
             throw new Exception();
         }
@@ -86,7 +86,7 @@ namespace Microsoft.AppCenter.Data
         ///Set the flag indicating if data was retrieved from the local cache (for offline mode)
         /// </summary>
         /// <param name="fromCache">If set to <c>true</c> from cache.</param>
-        public void SetFromCache(Boolean fromCache)
+        public void SetFromCache(bool fromCache)
         {
             throw new Exception();
         }
@@ -96,7 +96,7 @@ namespace Microsoft.AppCenter.Data
         /// Get the pending operation value.
         /// </summary>
         /// <returns>The pending operation.</returns>
-        public String GetPendingOperation()
+        public string GetPendingOperation()
         {
             throw new Exception();
         }
@@ -105,7 +105,7 @@ namespace Microsoft.AppCenter.Data
         ///  Set the pending operation value.
         /// </summary>
         /// <param name="pendingOperation">The pending operation saved in the local storage.</param>
-        public void SetPendingOperation(String pendingOperation)
+        public void SetPendingOperation(string pendingOperation)
         {
             throw new Exception();
         }
@@ -114,7 +114,7 @@ namespace Microsoft.AppCenter.Data
         /// Hases the failed.
         /// </summary>
         /// <returns>whether the document has an error associated with it.</returns>
-        public Boolean HasFailed()
+        public bool HasFailed()
         {
             throw new Exception();
         }
