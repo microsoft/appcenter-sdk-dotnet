@@ -67,7 +67,7 @@ namespace Microsoft.AppCenter.Data
         /// Get the document in string.
         /// </summary>
         /// <returns>Serialized document..</returns>
-        public override String ToString()
+        public override string ToString()
         {
             throw new Exception();
         }

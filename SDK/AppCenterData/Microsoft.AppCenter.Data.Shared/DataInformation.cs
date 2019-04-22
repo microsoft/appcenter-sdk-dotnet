@@ -7,116 +7,140 @@ namespace Microsoft.AppCenter.Data
 {
     public partial class Data<T>
     {
-        /**
-        * Change the base URL used to make API calls.
-        *
-        * @param apiUrl API base URL.
-        */
-        // TODO Remove suppress warnings after reflection removed in test app
-        public static void SetApiUrl(String apiUrl)
+        /// <summary>
+        /// Sets the API URL.
+        /// </summary>
+        /// <param name="apiUrl">API URL.</param>
+        public static void SetApiUrl(string apiUrl)
         {
 
         }
 
-        /**
-         * Check whether Storage service is enabled or not.
-         *
-         * @return future with result being <code>true</code> if enabled, <code>false</code> otherwise.
-         * @see AppCenterFuture
-         */
-        public static Task<Boolean> IsEnabled()
+        /// <summary>
+        /// Ises the enabled.
+        /// </summary>
+        /// <returns>The enabled.</returns>
+        public static Task<bool> IsEnabled()
         {
             throw new Exception();
         }
 
-        /**
-         * Enable or disable Storage service.
-         *
-         * @param enabled <code>true</code> to enable, <code>false</code> to disable.
-         * @return future with null result to monitor when the operation completes.
-         */
+
+        /// <summary>
+        /// Sets the enabled.
+        /// </summary>
+        /// <returns>The enabled.</returns>
+        /// <param name="enabled">If set to <c>true</c> enabled.</param>
         public static Task SetEnabled(Boolean enabled)
         {
             throw new Exception();
         }
 
-        /**
-         * Read a document.
-         * The document type (T) must be JSON deserializable.
-         */
-        public static Task<T> Read(String partition, String documentId, T documentType)
+        /// <summary>
+        /// Read the specified partition, documentId and documentType.
+        /// </summary>
+        /// <returns>The read.</returns>
+        /// <param name="partition">Partition.</param>
+        /// <param name="documentId">Document identifier.</param>
+        /// <param name="documentType">Document type.</param>
+        public static Task<T> Read(string partition, string documentId, T documentType)
         {
             throw new Exception();
         }
 
-        /**
-         * Read a document.
-         * The document type (T) must be JSON deserializable.
-         */
-        public static Task<T> Read(String partition, String documentId, T documentType, ReadOptions readOptions)
+        /// <summary>
+        /// Read the specified partition, documentId, documentType and readOptions.
+        /// </summary>
+        /// <returns>The read.</returns>
+        /// <param name="partition">Partition.</param>
+        /// <param name="documentId">Document identifier.</param>
+        /// <param name="documentType">Document type.</param>
+        /// <param name="readOptions">Read options.</param>
+        public static Task<T> Read(string partition, string documentId, T documentType, ReadOptions readOptions)
         {
             throw new Exception();
         }
 
-        /**
-         * List (need optional signature to configure page size).
-         * The document type (T) must be JSON deserializable.
-         */
-        public static Task<PaginatedDocuments<T>> List(String partition, T documentType)
+        /// <summary>
+        /// List the specified partition and documentType.
+        /// </summary>
+        /// <returns>The list.</returns>
+        /// <param name="partition">Partition.</param>
+        /// <param name="documentType">Document type.</param>
+        public static Task<T> List(string partition, T documentType)
         {
             throw new Exception();
         }
 
-        /**
-         * Create a document.
-         * The document instance (T) must be JSON serializable.
-         */
-        public static Task<T> Create(String partition, String documentId, T document, T documentType)
+        /// <summary>
+        /// Create the specified partition, documentId, document and documentType.
+        /// </summary>
+        /// <returns>The create.</returns>
+        /// <param name="partition">Partition.</param>
+        /// <param name="documentId">Document identifier.</param>
+        /// <param name="document">Document.</param>
+        /// <param name="documentType">Document type.</param>
+        public static Task<T> Create(string partition, string documentId, T document, T documentType)
         {
             throw new Exception();
         }
 
-        /**
-         * Create a document.
-         * The document instance (T) must be JSON serializable.
-         */
-        public static Task<T> Create(String partition, String documentId, T document, T documentType, WriteOptions writeOptions)
+        /// <summary>
+        /// Create the specified partition, documentId, document, documentType and writeOptions.
+        /// </summary>
+        /// <returns>The create.</returns>
+        /// <param name="partition">Partition.</param>
+        /// <param name="documentId">Document identifier.</param>
+        /// <param name="document">Document.</param>
+        /// <param name="documentType">Document type.</param>
+        /// <param name="writeOptions">Write options.</param>
+        public static Task<T> Create(string partition, string documentId, T document, T documentType, WriteOptions writeOptions)
         {
             throw new Exception();
         }
 
-        /**
-         * Delete a document.
-         */
-        public static Task<T> Selete(String partition, String documentId)
+        /// <summary>
+        /// Selete the specified partition and documentId.
+        /// </summary>
+        /// <returns>The selete.</returns>
+        /// <param name="partition">Partition.</param>
+        /// <param name="documentId">Document identifier.</param>
+        public static Task<T> Selete(string partition, string documentId)
         {
             throw new Exception();
         }
 
-        /**
-         * Replace a document.
-         * The document instance (T) must be JSON serializable.
-         */
-        public static Task<T> Replace(String partition, String documentId, T document, T documentType)
+        /// <summary>
+        /// Replace the specified partition, documentId, document and documentType.
+        /// </summary>
+        /// <returns>The replace.</returns>
+        /// <param name="partition">Partition.</param>
+        /// <param name="documentId">Document identifier.</param>
+        /// <param name="document">Document.</param>
+        /// <param name="documentType">Document type.</param>
+        public static Task<T> Replace(string partition, string documentId, T document, T documentType)
         {
             throw new Exception();
         }
 
-        /**
-         * Replace a document.
-         * The document instance (T) must be JSON serializable.
-         */
-        public static Task<Data<T>> Replace(String partition, String documentId, T document, T documentType, WriteOptions writeOptions)
+        /// <summary>
+        /// Replace the specified partition, documentId, document, documentType and writeOptions.
+        /// </summary>
+        /// <returns>The replace.</returns>
+        /// <param name="partition">Partition.</param>
+        /// <param name="documentId">Document identifier.</param>
+        /// <param name="document">Document.</param>
+        /// <param name="documentType">Document type.</param>
+        /// <param name="writeOptions">Write options.</param>
+        public static Task<Data<T>> Replace(string partition, string documentId, T document, T documentType, WriteOptions writeOptions)
         {
             throw new Exception();
         }
 
-        /**
-         * Sets a listener that will be invoked on network status change to notify of pending operations execution status.
-         * Pass null to unregister.
-         *
-         * @param listener to notify on remote operations or null to unregister the previous listener.
-         */
+        /// <summary>
+        /// Sets the data store remote operation listener.
+        /// </summary>
+        /// <param name="listener">Listener.</param>
         public static void SetDataStoreRemoteOperationListener(IDataStoreEventListener listener)
         {
             throw new Exception();
