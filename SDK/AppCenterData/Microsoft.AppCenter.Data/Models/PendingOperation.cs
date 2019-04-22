@@ -3,43 +3,18 @@ using System.Threading.Tasks;
 
 namespace Microsoft.AppCenter.Data
 {
-     /// <summary>
-     /// Pending operation.
-     /// </summary>
+    /// <summary>
+    /// Pending operation.
+    /// </summary>
     public class PendingOperation
     {
-        private String Table;
-
-        private String Operation;
-
-        private String Partition;
-
-        private String DocumentId;
-
-        private String Document;
-
-        private String ETag;
-
-        private long ExpirationTime;
-
-        public PendingOperation(string table, string operation, string partition, string documentId, string document, long expirationTime)
-        {
-            Table = table;
-            Operation = operation;
-            Partition = partition;
-            DocumentId = documentId;
-            Document = document;
-            ExpirationTime = expirationTime;
-        }
-
-
         /// <summary>
         /// Gets the table.
         /// </summary>
         /// <returns>Table name the operation is performed on.</returns>
         public String GetTable()
         {
-            return Table;
+            throw new Exception();
         }
 
         /// <summary>
@@ -48,7 +23,7 @@ namespace Microsoft.AppCenter.Data
         /// <returns>The operation.</returns>
         public String GetOperation()
         {
-            return Operation;
+            throw new Exception();
         }
 
         /// <summary>
@@ -57,7 +32,7 @@ namespace Microsoft.AppCenter.Data
         /// <returns>The partition.</returns>
         public String GetPartition()
         {
-            return Partition;
+            throw new Exception();
         }
 
         /// <summary>
@@ -66,7 +41,7 @@ namespace Microsoft.AppCenter.Data
         /// <returns>The document identifier.</returns>
         public String GetDocumentId()
         {
-            return DocumentId;
+            throw new Exception();
         }
 
         /// <summary>
@@ -75,7 +50,7 @@ namespace Microsoft.AppCenter.Data
         /// <returns>The document.</returns>
         public String GetDocument()
         {
-            return Document;
+            throw new Exception();
         }
 
         /// <summary>
@@ -84,7 +59,7 @@ namespace Microsoft.AppCenter.Data
         /// <param name="document">Document.</param>
         public void SetDocument(String document)
         {
-            Document = document;
+            throw new Exception();
         }
 
         /// <summary>
@@ -93,7 +68,7 @@ namespace Microsoft.AppCenter.Data
         /// <returns>The ET ag.</returns>
         public String GetETag()
         {
-            return ETag;
+            throw new Exception();
         }
 
         /// <summary>
@@ -102,7 +77,7 @@ namespace Microsoft.AppCenter.Data
         /// <param name="eTag">E tag.</param>
         public void SetETag(String eTag)
         {
-            ETag = eTag;
+            throw new Exception();
         }
 
         /// <summary>
@@ -111,7 +86,7 @@ namespace Microsoft.AppCenter.Data
         /// <returns>The expiration time.</returns>
         public long GetExpirationTime()
         {
-            return ExpirationTime;
+            throw new Exception();
         }
     }
 }

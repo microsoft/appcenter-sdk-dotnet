@@ -5,14 +5,14 @@ namespace Microsoft.AppCenter.Data
 {
     public class StorageException : Exception
     {
-        public StorageException(String message, Exception cause) : base(message, cause)
+        public StorageException(string message, Exception cause) : base(message, cause)
         {
-            
+            throw new Exception();
         }
 
-        public StorageException(String message) : base(message)
+        public StorageException(string message) : base(message)
         {
-
+            throw new Exception();
         }
     }
 }

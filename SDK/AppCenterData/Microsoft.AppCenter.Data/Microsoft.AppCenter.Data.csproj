@@ -15,6 +15,13 @@
   <ItemGroup>
     <PackageReference Include="MSBuild.Sdk.Extras" Version="1.1.0" PrivateAssets="All" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Models\Page.cs" />
+    <Compile Remove="Models\PendingOperation.cs" />
+    <Compile Remove="Models\TokenResult.cs" />
+    <Compile Remove="Models\TokensResponse.cs" />
+    <Compile Remove="Models\PaginatedDocuments.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
   <Target Name="GetPackagingOutputs" />
 </Project>

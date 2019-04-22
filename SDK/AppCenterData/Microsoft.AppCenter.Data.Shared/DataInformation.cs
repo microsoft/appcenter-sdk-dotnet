@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 using System;
 using System.Threading.Tasks;
 
@@ -27,7 +26,7 @@ namespace Microsoft.AppCenter.Data
          */
         public static Task<Boolean> IsEnabled()
         {
-            return null;
+            throw new Exception();
         }
 
         /**
@@ -38,25 +37,25 @@ namespace Microsoft.AppCenter.Data
          */
         public static Task SetEnabled(Boolean enabled)
         {
-            return null;
+            throw new Exception();
         }
 
         /**
          * Read a document.
          * The document type (T) must be JSON deserializable.
          */
-        public static Task<Data<T>> Read(String partition, String documentId, T documentType)
+        public static Task<T> Read(String partition, String documentId, T documentType)
         {
-            return Read(partition, documentId, documentType, new ReadOptions());
+            throw new Exception();
         }
 
         /**
          * Read a document.
          * The document type (T) must be JSON deserializable.
          */
-        public static Task<Data<T>> Read(String partition, String documentId, T documentType, ReadOptions readOptions)
+        public static Task<T> Read(String partition, String documentId, T documentType, ReadOptions readOptions)
         {
-            return null;
+            throw new Exception();
         }
 
         /**
@@ -65,25 +64,25 @@ namespace Microsoft.AppCenter.Data
          */
         public static Task<PaginatedDocuments<T>> List(String partition, T documentType)
         {
-            return null;
+            throw new Exception();
         }
 
         /**
          * Create a document.
          * The document instance (T) must be JSON serializable.
          */
-        public static Task<Data<T>> Create(String partition, String documentId, T document, T documentType)
+        public static Task<T> Create(String partition, String documentId, T document, T documentType)
         {
-            return null;
+            throw new Exception();
         }
 
         /**
          * Create a document.
          * The document instance (T) must be JSON serializable.
          */
-        public static Task<T> Create(String partition, String documentId, T document,  T documentType, WriteOptions writeOptions)
+        public static Task<T> Create(String partition, String documentId, T document, T documentType, WriteOptions writeOptions)
         {
-            return null;
+            throw new Exception();
         }
 
         /**
@@ -91,16 +90,16 @@ namespace Microsoft.AppCenter.Data
          */
         public static Task<T> Selete(String partition, String documentId)
         {
-            return null;
+            throw new Exception();
         }
 
         /**
          * Replace a document.
          * The document instance (T) must be JSON serializable.
          */
-        public static Task<Data<T>> Replace(String partition, String documentId, T document, T documentType)
+        public static Task<T> Replace(String partition, String documentId, T document, T documentType)
         {
-            return null;
+            throw new Exception();
         }
 
         /**
@@ -109,7 +108,7 @@ namespace Microsoft.AppCenter.Data
          */
         public static Task<Data<T>> Replace(String partition, String documentId, T document, T documentType, WriteOptions writeOptions)
         {
-            return null;
+            throw new Exception();
         }
 
         /**
@@ -120,7 +119,7 @@ namespace Microsoft.AppCenter.Data
          */
         public static void SetDataStoreRemoteOperationListener(IDataStoreEventListener listener)
         {
-
+            throw new Exception();
         }
     }
 }
