@@ -8,7 +8,7 @@ namespace Microsoft.AppCenter.Auth.iOS.Bindings
 {
     // @interface MSIdentity : MSService
     [BaseType(typeof(NSObject))]
-    interface MSIdentity
+    interface MSAuth
     {
         // + (void)setConfigUrl:(NSString*) configUrl;
         [Static]
@@ -37,8 +37,8 @@ namespace Microsoft.AppCenter.Auth.iOS.Bindings
 
         // + (void)openURL:(NSURL *)url;
         [Static]
-        [Export("openURL:")]
-        void OpenUrl(NSUrl url);
+        [Export("openURL: options:")]
+        void OpenUrl(NSUrl url,NSDictionary options);
     }
 
     // typedef void (^MSSignInCompletionHandler)(MSUserInformation* _Nullable userInformation, NSError * _Nullable error);
