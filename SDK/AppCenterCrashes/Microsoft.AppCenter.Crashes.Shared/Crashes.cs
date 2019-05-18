@@ -184,5 +184,20 @@ namespace Microsoft.AppCenter.Crashes
 				PlatformTrackError(exception, properties);
 			}
 		}
+
+#if USES_WATSON
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This does not exist in UWP and should not be used.")]
+#else
+		/// <summary>
+		/// Track a handled error.
+		/// </summary>
+		/// <param name="exception">The .NET exception describing the handled error.</param>
+		/// <param name="property">A single key/value property</param>
+#endif
+		public static void TrackError(Exception exception, (string, string) property)
+		{
+			TrackError(exception, new Dictionary<string, string> {{ property.Item1, property.Item2 }});
+		}
 	}
 }
