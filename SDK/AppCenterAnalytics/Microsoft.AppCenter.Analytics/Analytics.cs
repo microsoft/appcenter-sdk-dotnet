@@ -49,6 +49,15 @@ namespace Microsoft.AppCenter.Analytics
         {
         }
 
+        /// <summary>
+        ///     Track a custom event.
+        /// </summary>
+        /// <param name="name">An event name.</param>
+        /// <param name="property">A single key/value property</param>
+        public static void TrackEvent(string name, (string, string) property)
+        {
+        }
+
         ///// Track a custom page.
 
         ///// <summary>

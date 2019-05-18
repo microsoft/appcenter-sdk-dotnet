@@ -87,6 +87,22 @@ namespace Microsoft.AppCenter.Analytics
             }
         }
 
+        /// <summary>
+        ///     Track a custom event with name and a key/value property.
+        /// </summary>
+        /// <remarks>
+        ///     The name parameter can not be null or empty.Maximum allowed length = 256.
+        ///     The properties parameter maximum item count = 5.
+        ///     The properties keys/names can not be null or empty, maximum allowed key length = 64.
+        ///     The properties values can not be null, maximum allowed value length = 64.
+        /// </remarks>
+        /// <param name="name">An event name.</param>
+        /// <param name="property">A single key/value property</param>
+        public static void TrackEvent(string name, (string, string) property)
+        {
+            TrackEvent(name, new Dictionary<string, string> { { property.Item1, property.Item2 } });
+        }
+
         #endregion
 
         #region instance

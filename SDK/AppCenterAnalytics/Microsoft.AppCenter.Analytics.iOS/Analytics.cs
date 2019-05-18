@@ -74,6 +74,16 @@ namespace Microsoft.AppCenter.Analytics
             iOSAnalytics.TrackEvent(name);
         }
 
+        /// <summary>
+        ///     Track a custom event.
+        /// </summary>
+        /// <param name="name">An event name.</param>
+        /// <param name="property">A single key/value property</param>
+        public static void TrackEvent(string name, (string, string) property)
+        {
+            TrackEvent(name, new Dictionary<string,string> { { property.Item1, property.Item2 } });
+        }
+
         ///// <summary>
         ///// Track a custom page.
         ///// </summary>
