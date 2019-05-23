@@ -193,11 +193,12 @@ namespace Microsoft.AppCenter.Crashes
 		/// Track a handled error.
 		/// </summary>
 		/// <param name="exception">The .NET exception describing the handled error.</param>
-		/// <param name="property">A single key/value property</param>
+        	/// <param name="key">The event key.</param>
+        	/// <param name="value">The event value.</param>
 #endif
-		public static void TrackError(Exception exception, (string, string) property)
+		public static void TrackError(Exception exception, string key, string value)
 		{
-			TrackError(exception, new Dictionary<string, string> {{ property.Item1, property.Item2 }});
+			TrackError(exception, new Dictionary<string, string> {{ key, value }});
 		}
 	}
 }

@@ -77,11 +77,12 @@ namespace Microsoft.AppCenter.Analytics
         /// <summary>
         ///     Track a custom event.
         /// </summary>
-        /// <param name="name">An event name.</param>
-        /// <param name="property">A single key/value property</param>
-        public static void TrackEvent(string name, (string, string) property)
+        /// <param name="name">An event name.</param>        
+        /// <param name="key">The event key.</param>
+        /// <param name="value">The event value.</param>
+        public static void TrackEvent(string name, string key, string value)
         {
-            TrackEvent(name, new Dictionary<string,string> { { property.Item1, property.Item2 } });
+            TrackEvent(name, new Dictionary<string,string> { { key, value } });
         }
 
         ///// <summary>

@@ -71,7 +71,6 @@ namespace Contoso.Forms.Demo
             EventProperties.Clear();
             RefreshPropCount();
             Analytics.TrackEvent(EventNameCell.Text, properties);
-
         }
 
         async void UpdateEnabled(object sender, ToggledEventArgs e)
