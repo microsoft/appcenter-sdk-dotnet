@@ -62,7 +62,7 @@ namespace Contoso.Android.Puppet
             Distribute.ReleaseAvailable = OnReleaseAvailable;
             AppCenterLog.Assert(LogTag, "AppCenter.Configured=" + AppCenter.Configured);
             AppCenter.SetLogUrl("https://in.appcenter.ms");
-            Distribute.SetInstallUrl("https://install.portal-server-core-integration.dev.avalanch.es");
+            Distribute.SetInstallUrl("https://install.appcenter.ms");
             Distribute.SetApiUrl("https://asgard-int.trafficmanager.net/api/v0.1");
             Distribute.SetEnabledForDebuggableBuild(true);
 
