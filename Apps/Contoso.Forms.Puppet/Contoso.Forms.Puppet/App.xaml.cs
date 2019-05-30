@@ -53,7 +53,7 @@ namespace Contoso.Forms.Puppet
                 Push.PushNotificationReceived += PrintNotification;
 
                 AppCenterLog.Assert(LogTag, "AppCenter.Configured=" + AppCenter.Configured);
-                AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
+                AppCenter.SetLogUrl("https://in.appcenter.ms");
                 Distribute.SetInstallUrl("https://install.portal-server-core-integration.dev.avalanch.es");
                 Distribute.SetApiUrl("https://api-gateway-core-integration.dev.avalanch.es/v0.1");
                 Auth.SetConfigUrl("https://config-integration.dev.avalanch.es");

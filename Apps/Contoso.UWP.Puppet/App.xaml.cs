@@ -31,7 +31,7 @@ namespace Contoso.UWP.Puppet
             InitializeComponent();
             Suspending += OnSuspending;
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
+            AppCenter.SetLogUrl("https://in.appcenter.ms");
             AppCenter.Start("42f4a839-c54c-44da-8072-a2f2a61751b2", typeof(Analytics), typeof(Crashes), typeof(Push));
             Push.SetEnabledAsync(true);
             Push.PushNotificationReceived += PushNotificationReceivedHandler;

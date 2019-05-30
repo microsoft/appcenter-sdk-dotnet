@@ -31,7 +31,7 @@ namespace Contoso.iOS.Puppet
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
+            AppCenter.SetLogUrl("https://in.appcenter.ms");
             if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
             {
                 UNUserNotificationCenter.Current.Delegate = new PushDelegate();
