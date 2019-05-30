@@ -55,7 +55,7 @@ namespace Contoso.Forms.Puppet
                 AppCenterLog.Assert(LogTag, "AppCenter.Configured=" + AppCenter.Configured);
                 AppCenter.SetLogUrl("https://in.appcenter.ms");
                 Distribute.SetInstallUrl("https://install.appcenter.ms");
-                Distribute.SetApiUrl("https://api-gateway-core-integration.dev.avalanch.es/v0.1");
+                Distribute.SetApiUrl("https://api.appcenter.ms/v0.1");
                 Auth.SetConfigUrl("https://config-integration.dev.avalanch.es");
                 Data.SetTokenExchangeUrl("https://token-exchange-mbaas-integration.dev.avalanch.es/v0.1");
                 AppCenter.Start($"uwp={UwpKey};android={AndroidKey};ios={IosKey}", typeof(Analytics), typeof(Crashes), typeof(Distribute), typeof(Push), typeof(Auth), typeof(Data));
