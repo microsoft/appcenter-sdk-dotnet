@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -24,21 +24,25 @@
     <MtouchFastDev>true</MtouchFastDev>
     <IOSDebuggerPort>60744</IOSDebuggerPort>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
-    <MtouchLink></MtouchLink>
-    <MtouchHttpClientHandler></MtouchHttpClientHandler>
+    <MtouchLink>
+    </MtouchLink>
+    <MtouchHttpClientHandler>
+    </MtouchHttpClientHandler>
     <DocumentationFile>bin\Debug\Microsoft.AppCenter.Push.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchHttpClientHandler></MtouchHttpClientHandler>
+    <MtouchHttpClientHandler>
+    </MtouchHttpClientHandler>
     <DocumentationFile>bin\Release\Microsoft.AppCenter.Push.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
@@ -59,6 +63,7 @@
     <ProjectReference Include="..\Microsoft.AppCenter.Push.iOS.Bindings\Microsoft.AppCenter.Push.iOS.Bindings.csproj">
       <Project>{9417E221-3287-47AC-BD56-5223057DC389}</Project>
       <Name>Microsoft.AppCenter.Push.iOS.Bindings</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\Microsoft.AppCenter.Push.Shared\Microsoft.AppCenter.Push.Shared.projitems" Label="Shared" Condition="Exists('..\Microsoft.AppCenter.Push.Shared\Microsoft.AppCenter.Push.Shared.projitems')" />

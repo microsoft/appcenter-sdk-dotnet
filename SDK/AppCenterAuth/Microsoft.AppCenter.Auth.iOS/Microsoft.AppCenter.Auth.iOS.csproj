@@ -52,14 +52,18 @@
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.iOS\Microsoft.AppCenter.iOS.csproj">
       <Project>{B87370CD-AF51-45E0-AA15-3E0ABC0C30A0}</Project>
       <Name>Microsoft.AppCenter.iOS</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.iOS.Bindings\Microsoft.AppCenter.iOS.Bindings.csproj">
       <Project>{5490FECC-63B2-4543-B4FE-EDD8D1BD8351}</Project>
       <Name>Microsoft.AppCenter.iOS.Bindings</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.AppCenter.Auth.iOS.Bindings\Microsoft.AppCenter.Auth.iOS.Bindings.csproj">
       <Project>{AA8B3644-7C06-40BD-B3E5-4C51E485CCBE}</Project>
       <Name>Microsoft.AppCenter.Auth.iOS.Bindings</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\Microsoft.AppCenter.Auth.Shared\Microsoft.AppCenter.Auth.Shared.projitems" Label="Shared" Condition="Exists('..\Microsoft.AppCenter.Auth.Shared\Microsoft.AppCenter.Auth.Shared.projitems')" />

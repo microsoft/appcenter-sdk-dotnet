@@ -57,6 +57,7 @@
     <ProjectReference Include="..\Microsoft.AppCenter.iOS.Bindings\Microsoft.AppCenter.iOS.Bindings.csproj">
       <Project>{5490FECC-63B2-4543-B4FE-EDD8D1BD8351}</Project>
       <Name>Microsoft.AppCenter.iOS.Bindings</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems" Label="Shared" Condition="Exists('..\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems')" />

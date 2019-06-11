@@ -38,7 +38,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
-
     <!-- work around for appcenter build of forms.ios.puppet -->
     <Reference Include="netstandard" />
   </ItemGroup>
@@ -61,6 +60,7 @@
     <ProjectReference Include="..\Microsoft.AppCenter.Data.iOS.Bindings\Microsoft.AppCenter.Data.iOS.Bindings.csproj">
       <Project>{0DBD983F-BD8F-4BD6-B08A-AD28457D35EF}</Project>
       <Name>Microsoft.AppCenter.Data.iOS.Bindings</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
