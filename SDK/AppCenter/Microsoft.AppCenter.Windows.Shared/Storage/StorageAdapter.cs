@@ -17,7 +17,7 @@ namespace Microsoft.AppCenter.Storage
 
         public StorageAdapter(string databasePath)
         {
-            // Create the directory in case it does not exist 
+            // Create the directory in case it does not exist.
             var databaseDirectory = Path.GetDirectoryName(databasePath);
             if (databaseDirectory != string.Empty)
             {
