@@ -82,7 +82,8 @@ namespace Microsoft.AppCenter.Crashes
 
         static void PlatformTrackError(Exception exception, IDictionary<string, string> properties)
         {
-            WrapperSdkExceptionManager.TrackException(GenerateModelException(exception, false), properties);
+            var stackTrace = new StackTrace(2, true);
+            WrapperSdkExceptionManager.TrackException(GenerateModelException(exception, stackTrace.ToString()), properties);
         }
 
         // Empty model stack frame used for comparison to optimize JSON payload.
@@ -125,7 +126,7 @@ namespace Microsoft.AppCenter.Crashes
             {
                 AppCenterLog.Error(LogTag, $"Unhandled Exception from source={source}", exception);
                 var javaThrowable = exception as Throwable;
-                var modelException = GenerateModelException(exception, true);
+                var modelException = GenerateModelException(exception);
                 byte[] rawException = javaThrowable == null ? CrashesUtils.SerializeException(exception) : null;
                 WrapperSdkExceptionManager.SaveWrapperException(Thread.CurrentThread(), javaThrowable, modelException, rawException);
                 _exception = exception;
@@ -135,14 +136,14 @@ namespace Microsoft.AppCenter.Crashes
 #pragma warning disable XS0001 // Find usages of mono todo items
 
         // Generate structured data for a dotnet exception.
-        static ModelException GenerateModelException(Exception exception, bool structuredFrames)
+        static ModelException GenerateModelException(Exception exception, string stackTrace = null)
         {
+            stackTrace = stackTrace ?? exception.StackTrace;
             var modelException = new ModelException
             {
                 Type = exception.GetType().FullName,
                 Message = exception.Message,
-                StackTrace = exception.StackTrace,
-                Frames = structuredFrames ? GenerateModelStackFrames(new StackTrace(exception, true)) : null,
+                StackTrace = stackTrace,
                 WrapperSdkName = WrapperSdk.Name
             };
             var aggregateException = exception as AggregateException;
@@ -151,35 +152,19 @@ namespace Microsoft.AppCenter.Crashes
                 modelException.InnerExceptions = new List<ModelException>();
                 foreach (var innerException in aggregateException.InnerExceptions)
                 {
-                    modelException.InnerExceptions.Add(GenerateModelException(innerException, structuredFrames));
+                    modelException.InnerExceptions.Add(GenerateModelException(innerException));
                 }
             }
             else if (exception.InnerException != null)
             {
                 modelException.InnerExceptions = new List<ModelException>
                 {
-                    GenerateModelException(exception.InnerException, structuredFrames)
+                    GenerateModelException(exception.InnerException)
                 };
             }
             return modelException;
         }
 
-        static IList<ModelStackFrame> GenerateModelStackFrames(StackTrace stackTrace)
-        {
-            var modelFrames = new List<ModelStackFrame>();
-            var frames = stackTrace.GetFrames();
-            if (frames != null)
-            {
-                modelFrames.AddRange(frames.Select(frame => new ModelStackFrame
-                {
-                    ClassName = frame.GetMethod()?.DeclaringType?.FullName,
-                    MethodName = frame.GetMethod()?.Name,
-                    FileName = frame.GetFileName(),
-                    LineNumber = frame.GetFileLineNumber() != 0 ? new Integer(frame.GetFileLineNumber()) : null
-                }).Where(modelFrame => !modelFrame.Equals(EmptyModelFrame)));
-            }
-            return modelFrames;
-        }
 #pragma warning restore XS0001 // Find usages of mono todo items
 
 

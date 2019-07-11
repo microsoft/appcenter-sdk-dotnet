@@ -181,7 +181,7 @@ namespace Microsoft.AppCenter.Crashes
 			}
 			else
 			{
-				PlatformTrackError(exception, properties);
+                PlatformTrackError(exception, properties);
 			}
 		}
 	}

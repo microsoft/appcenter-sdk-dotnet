@@ -70,12 +70,15 @@ namespace Microsoft.AppCenter.Crashes
 
         static void PlatformTrackError(Exception exception, IDictionary<string, string> properties)
         {
+            // Two frames skipped to exclude this method and the TrackError method.
+            var stackTrace = new StackTrace(2, true);
+            var modelException = GenerateiOSException(exception, stackTrace.ToString());
             if (properties != null)
             {
-                MSCrashes.TrackModelException(GenerateiOSException(exception, false), StringDictToNSDict(properties));
+                MSCrashes.TrackModelException(modelException, StringDictToNSDict(properties));
                 return;
             }
-            MSCrashes.TrackModelException(GenerateiOSException(exception, false));
+            MSCrashes.TrackModelException(modelException);
         }
 
         /// <summary>
@@ -109,7 +112,7 @@ namespace Microsoft.AppCenter.Crashes
         {
             Exception systemException = e.ExceptionObject as Exception;
             AppCenterLog.Error(LogTag, "Unhandled Exception:", systemException);
-            MSException exception = GenerateiOSException(systemException, true);
+            MSException exception = GenerateiOSException(systemException);
             byte[] exceptionBytes = CrashesUtils.SerializeException(systemException) ?? new byte[0];
             NSData wrapperExceptionData = NSData.FromArray(exceptionBytes);
             MSWrapperException wrapperException = new MSWrapperException
@@ -123,13 +126,12 @@ namespace Microsoft.AppCenter.Crashes
             AppCenterLog.Info(LogTag, "Saved wrapper exception.");
         }
 
-        static MSException GenerateiOSException(Exception exception, bool structuredFrames)
+        static MSException GenerateiOSException(Exception exception, string stackTrace = null)
         {
             var msException = new MSException();
             msException.Type = exception.GetType().FullName;
             msException.Message = exception.Message ?? "";
-            msException.StackTrace = exception.StackTrace;
-            msException.Frames = structuredFrames ? GenerateStackFrames(exception) : null;
+            msException.StackTrace = stackTrace ?? exception.StackTrace;
             msException.WrapperSdkName = WrapperSdk.Name;
 
             var aggregateException = exception as AggregateException;
@@ -139,43 +141,18 @@ namespace Microsoft.AppCenter.Crashes
             {
                 foreach (Exception innerException in aggregateException.InnerExceptions)
                 {
-                    innerExceptions.Add(GenerateiOSException(innerException, structuredFrames));
+                    innerExceptions.Add(GenerateiOSException(innerException));
                 }
             }
             else if (exception.InnerException != null)
             {
-                innerExceptions.Add(GenerateiOSException(exception.InnerException, structuredFrames));
+                innerExceptions.Add(GenerateiOSException(exception.InnerException));
             }
 
             msException.InnerExceptions = innerExceptions.Count > 0 ? innerExceptions.ToArray() : null;
 
             return msException;
         }
-
-#pragma warning disable XS0001 // Find usages of mono todo items
-
-        static MSStackFrame[] GenerateStackFrames(Exception e)
-        {
-            var trace = new StackTrace(e, true);
-            var frameList = new List<MSStackFrame>();
-
-            for (int i = 0; i < trace.FrameCount; ++i)
-            {
-                StackFrame dotnetFrame = trace.GetFrame(i);
-                if (dotnetFrame.GetMethod() == null) continue;
-                var msFrame = new MSStackFrame();
-                msFrame.Address = null;
-                msFrame.Code = null;
-                msFrame.MethodName = dotnetFrame.GetMethod().Name;
-                msFrame.ClassName = dotnetFrame.GetMethod().DeclaringType?.FullName;
-                msFrame.LineNumber = dotnetFrame.GetFileLineNumber() == 0 ? null : (NSNumber)(dotnetFrame.GetFileLineNumber());
-                msFrame.FileName = AnonymizePath(dotnetFrame.GetFileName());
-                frameList.Add(msFrame);
-            }
-            return frameList.ToArray();
-        }
-
-#pragma warning restore XS0001 // Find usages of mono todo items
 
         static string AnonymizePath(string path)
         {
