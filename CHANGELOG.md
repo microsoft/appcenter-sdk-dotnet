@@ -7,7 +7,10 @@
 #### iOS
 
 * **[Fix]** Fix possible deadlock in `Crashes.TrackError`.
+* **[Fix]** Fix an issue where stack traces for exceptions passed to `Crashes.TrackError` were incomplete.
 
+#### Android
+* **[Fix]** Fix an issue where stack traces for exceptions passed to `Crashes.TrackError` were incomplete.
 ### App Center Data
 
 * **[Feature]** Change the default time-to-live (TTL) from 1 day to infinite (never expire).
