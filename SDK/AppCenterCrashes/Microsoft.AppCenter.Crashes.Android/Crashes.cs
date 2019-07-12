@@ -82,8 +82,8 @@ namespace Microsoft.AppCenter.Crashes
 
         static void PlatformTrackError(Exception exception, IDictionary<string, string> properties)
         {
-            var stackTrace = new StackTrace(2, true);
-            WrapperSdkExceptionManager.TrackException(GenerateModelException(exception, stackTrace.ToString()), properties);
+            var stackTrace = GenerateFullStackTrace(exception);
+            WrapperSdkExceptionManager.TrackException(GenerateModelException(exception, stackTrace), properties);
         }
 
         // Empty model stack frame used for comparison to optimize JSON payload.
@@ -163,6 +163,67 @@ namespace Microsoft.AppCenter.Crashes
                 };
             }
             return modelException;
+        }
+
+        // Exceptions don't always have complete stack traces, so they must be augmented.
+        private static string GenerateFullStackTrace(Exception e)
+        {
+            if (string.IsNullOrEmpty(e.StackTrace))
+            {
+                return e.StackTrace;
+            }
+
+            // There is no way to convert an array of StackFrame objects to a StackTrace, and the ToString() of
+            // StackFrame objects appears to be different from those of StackTrace. Thus, we must work with strings.
+            var exceptionStackTrace = new StackTrace(e, true).ToString().Split(Environment.NewLine);
+
+            // Generate current stack trace. Skip three frames to avoid showing SDK code.
+            var currentStackTrace = new StackTrace(3, true).ToString().Split(Environment.NewLine);
+
+            /*
+             * The exception's stack trace begins at the first method that threw, and includes only methods that
+             * rethrew. The current stack trace includes all methods up to and including the first method that threw,
+             * but no methods that rethrew up to the first method that threw. For example:
+             * 
+             * If method A calls B, B calls C, C calls D, and D throws an exception, and the exception is caught in B,
+             * then the stack trace will only include D, C, and B. So A is missing from it. But in the "current" stack
+             * trace generated above, we would only see methods B and A. In some cases there could be frames that were
+             * created after the exception was thrown but are present now. These frames can be ignored, as they were not
+             * part of the flow that involved the exception. For example, we may see exception stack trace "D->C->B" and
+             * current stack trace "F->D->A->B->A". The solution is to find the last frame of the exception's stack
+             * trace in the current stack trace, append everything after, and ignore everything before. So the result
+             * would be "D->C->B->A. Thank you for your time.
+             */
+            var commonFrame = exceptionStackTrace[exceptionStackTrace.Length - 1];
+            var concatenationIndex = -1;
+            for (var i = 0; i < currentStackTrace.Length; ++i)
+            {
+                var otherFrame = currentStackTrace[i];
+                if (otherFrame == commonFrame)
+                {
+                    // If the concatenationIndex has already been set, we've found another match. Thus the concatenation
+                    // index is ambiguous and cannot be solved.
+                    if (concatenationIndex != -1)
+                    {
+                        concatenationIndex = -1;
+                        break;
+                    }
+                    concatenationIndex = i;
+                }
+            }
+
+            // If the concatenation index could not be determined or is out of range, fall back to the exception's
+            // stack trace.
+            if (concatenationIndex == -1 || currentStackTrace.Length <= concatenationIndex)
+            {
+                return e.StackTrace;
+            }
+
+            // Compute the missing frames as everything that comes after the common frame.
+            var missingFrames = currentStackTrace.TakeLast(currentStackTrace.Length - concatenationIndex);
+            var allFrames = exceptionStackTrace.Concat(missingFrames);
+            var completeStackTrace = allFrames.Aggregate((result, item) => result + Environment.NewLine + item);
+            return completeStackTrace;
         }
 
 #pragma warning restore XS0001 // Find usages of mono todo items
