@@ -166,6 +166,7 @@ namespace Microsoft.AppCenter.Crashes
         }
 
         // Exceptions don't always have complete stack traces, so they must be augmented.
+        // Crashes don't need trace augmenting.
         private static string GenerateFullStackTrace(Exception e)
         {
             if (string.IsNullOrEmpty(e.StackTrace))
