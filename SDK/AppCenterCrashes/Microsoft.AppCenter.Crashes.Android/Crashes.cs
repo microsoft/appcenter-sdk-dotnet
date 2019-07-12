@@ -172,13 +172,10 @@ namespace Microsoft.AppCenter.Crashes
             {
                 return e.StackTrace;
             }
-
-            // There is no way to convert an array of StackFrame objects to a StackTrace, and the ToString() of
-            // StackFrame objects appears to be different from those of StackTrace. Thus, we must work with strings.
-            var exceptionStackTrace = new StackTrace(e, true).ToString().Split(Environment.NewLine);
+            var exceptionStackTrace = new StackTrace(e, true);
 
             // Generate current stack trace. Skip three frames to avoid showing SDK code.
-            var currentStackTrace = new StackTrace(3, true).ToString().Split(Environment.NewLine);
+            var currentStackTrace = new StackTrace(3, true);
 
             /*
              * The exception's stack trace begins at the first method that threw, and includes only methods that
@@ -194,12 +191,14 @@ namespace Microsoft.AppCenter.Crashes
              * trace in the current stack trace, append everything after, and ignore everything before. So the result
              * would be "D->C->B->A. Thank you for your time.
              */
-            var commonFrame = exceptionStackTrace[exceptionStackTrace.Length - 1];
+            var commonFrame = exceptionStackTrace.GetFrame(exceptionStackTrace.FrameCount - 1);
             var concatenationIndex = -1;
-            for (var i = 0; i < currentStackTrace.Length; ++i)
+            for (var i = 0; i < currentStackTrace.FrameCount; ++i)
             {
-                var otherFrame = currentStackTrace[i];
-                if (otherFrame == commonFrame)
+                var otherFrame = currentStackTrace.GetFrame(i);
+
+                // Can't just compare the strings because they may have different line numbers.
+                if (otherFrame.GetMethod() == commonFrame.GetMethod())
                 {
                     // If the concatenationIndex has already been set, we've found another match. Thus the concatenation
                     // index is ambiguous and cannot be solved.
@@ -208,20 +207,26 @@ namespace Microsoft.AppCenter.Crashes
                         concatenationIndex = -1;
                         break;
                     }
-                    concatenationIndex = i;
+
+                    // Add one to the index to avoid duplicating the common frame.
+                    concatenationIndex = i + 1;
                 }
             }
 
             // If the concatenation index could not be determined or is out of range, fall back to the exception's
             // stack trace.
-            if (concatenationIndex == -1 || currentStackTrace.Length <= concatenationIndex)
+            if (concatenationIndex == -1 || currentStackTrace.FrameCount <= concatenationIndex)
             {
                 return e.StackTrace;
             }
 
-            // Compute the missing frames as everything that comes after the common frame.
-            var missingFrames = currentStackTrace.TakeLast(currentStackTrace.Length - concatenationIndex);
-            var allFrames = exceptionStackTrace.Concat(missingFrames);
+            // Compute the missing frames as everything that comes after the common frame. There is no way to convert an
+            // array of StackFrame objects to a StackTrace, and the ToString() of StackFrame objects appears to be
+            // different from those of StackTrace. Thus, we must work with strings.
+            var exceptionStackTraceStrings = exceptionStackTrace.ToString().Split(Environment.NewLine);
+            var currentStackTraceString = currentStackTrace.ToString().Split(Environment.NewLine);
+            var missingFrames = currentStackTraceString.TakeLast(currentStackTraceString.Length - concatenationIndex);
+            var allFrames = exceptionStackTraceStrings.Concat(missingFrames);
             var completeStackTrace = allFrames.Aggregate((result, item) => result + Environment.NewLine + item);
             return completeStackTrace;
         }

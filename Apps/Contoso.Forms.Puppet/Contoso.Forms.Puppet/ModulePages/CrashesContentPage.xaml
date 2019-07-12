@@ -38,6 +38,9 @@
             <ViewCell Tapped="AsyncException">
                 <Button Text="Exception Inside Async Task" InputTransparent="true" Clicked="AsyncException" />
             </ViewCell>
+            <ViewCell Tapped="AmbiguousException">
+                <Button Text="Ambiguous Exception (will never crash)" InputTransparent="true" Clicked="AmbiguousException" />
+            </ViewCell>
         </TableSection>
     </TableView>
 </ContentPage>

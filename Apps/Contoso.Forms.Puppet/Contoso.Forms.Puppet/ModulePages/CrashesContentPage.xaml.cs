@@ -188,6 +188,11 @@ namespace Contoso.Forms.Puppet
             HandleOrThrow(() => throw PrepareException());
         }
 
+        void AmbiguousException(object sender, EventArgs e)
+        {
+            BeginOrEndAmbigousCase();
+        }
+
         static Exception PrepareException()
         {
             try
@@ -250,6 +255,40 @@ namespace Contoso.Forms.Puppet
             Properties.Clear();
             RefreshPropCount();
             Crashes.TrackError(e, properties);
+        }
+
+        private void BeginOrEndAmbigousCase(Exception e = null)
+        {
+            if (e == null)
+            {
+                try
+                {
+                    AmbiguousCaseMethod2();
+                }
+                catch (Exception ex)
+                {
+                    BeginOrEndAmbigousCase(ex);
+                }
+            }
+            else
+            {
+                TrackException(e);
+            }
+        }
+
+        private void AmbiguousCaseMethod2()
+        {
+            AmbiguousCaseMethod3();
+        }
+
+        private void AmbiguousCaseMethod3()
+        {
+            AmbiguousCaseMethod4();
+        }
+
+        private void AmbiguousCaseMethod4()
+        {
+            throw new Exception();
         }
     }
 }
