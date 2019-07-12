@@ -190,7 +190,7 @@ namespace Contoso.Forms.Puppet
 
         void AmbiguousException(object sender, EventArgs e)
         {
-            BeginOrEndAmbigousCase();
+            BeginOrEndAmbiguousCase();
         }
 
         static Exception PrepareException()
@@ -257,7 +257,7 @@ namespace Contoso.Forms.Puppet
             Crashes.TrackError(e, properties);
         }
 
-        private void BeginOrEndAmbigousCase(Exception e = null)
+        private void BeginOrEndAmbiguousCase(Exception e = null)
         {
             if (e == null)
             {
@@ -267,7 +267,7 @@ namespace Contoso.Forms.Puppet
                 }
                 catch (Exception ex)
                 {
-                    BeginOrEndAmbigousCase(ex);
+                    BeginOrEndAmbiguousCase(ex);
                 }
             }
             else
