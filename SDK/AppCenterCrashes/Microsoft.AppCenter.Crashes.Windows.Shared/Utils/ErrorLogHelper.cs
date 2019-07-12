@@ -326,13 +326,13 @@ namespace Microsoft.AppCenter.Crashes.Utils
             }
         }
 
-        internal static ModelException CreateModelException(System.Exception exception)
+        internal static ModelException CreateModelException(System.Exception exception, string stackTrace = null)
         {
             var modelException = new ModelException
             {
                 Type = exception.GetType().ToString(),
                 Message = exception.Message,
-                StackTrace = exception.StackTrace
+                StackTrace = stackTrace ?? exception.StackTrace
             };
             if (exception is AggregateException aggregateException)
             {

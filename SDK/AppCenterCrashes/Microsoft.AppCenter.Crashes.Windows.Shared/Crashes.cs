@@ -359,6 +359,7 @@ namespace Microsoft.AppCenter.Crashes
 
         private void InstanceTrackError(System.Exception exception, IDictionary<string, string> properties)
         {
+            var stackTrace = StackTraceHelper.GenerateFullStackTrace(exception);
             lock (_serviceLock)
             {
                 if (IsInactive)
@@ -366,7 +367,7 @@ namespace Microsoft.AppCenter.Crashes
                     return;
                 }
                 properties = PropertyValidator.ValidateProperties(properties, "HandledError");
-                var log = new HandledErrorLog(exception: ErrorLogHelper.CreateModelException(exception), properties: properties, id: Guid.NewGuid(), device: null);
+                var log = new HandledErrorLog(exception: ErrorLogHelper.CreateModelException(exception, stackTrace), properties: properties, id: Guid.NewGuid(), device: null);
                 Channel.EnqueueAsync(log);
             }
         }
