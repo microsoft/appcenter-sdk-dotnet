@@ -18,7 +18,8 @@ namespace Microsoft.AppCenter.Crashes.Utils
             }
             var exceptionStackTrace = new System.Diagnostics.StackTrace(e, true);
 
-            // Generate current stack trace. Skip three frames to avoid showing SDK code.
+            // Generate current stack trace. Skip three frames to avoid showing SDK code -
+            // `GenerateFullStackTrace`, `PlatformTrackError`, and `TrackError`.
             var currentStackTrace = new System.Diagnostics.StackTrace(3, true);
 
             /*
