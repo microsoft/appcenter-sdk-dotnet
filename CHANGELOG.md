@@ -26,6 +26,8 @@ This preview version removes Crashes support for UWP. The App Center backend is 
 
 ### App Center Crashes
 
+* **[Fix]** Fix an issue where stack traces for exceptions passed to `Crashes.TrackError` were incomplete.
+
 #### WPF/WinForms
 
 * **[Feature]** Add support for WPF and WinForms. Some crashes features are not yet supported on those platforms: user identification and showing events that lead to the crash.
@@ -37,10 +39,9 @@ This preview version removes Crashes support for UWP. The App Center backend is 
 #### iOS
 
 * **[Fix]** Fix possible deadlock in `Crashes.TrackError`.
-* **[Fix]** Fix an issue where stack traces for exceptions passed to `Crashes.TrackError` were incomplete.
 
 #### Android
-* **[Fix]** Fix an issue where stack traces for exceptions passed to `Crashes.TrackError` were incomplete.
+
 * **[Fix]** The in-memory cache of error reports is now cleared when disabling Crashes.
 
 ### App Center Data
