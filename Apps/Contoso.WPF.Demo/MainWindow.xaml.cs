@@ -4,16 +4,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using Contoso.WPF.Demo.Properties;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using Microsoft.Win32;
 
 namespace Contoso.WPF.Demo
 {
@@ -23,10 +21,6 @@ namespace Contoso.WPF.Demo
     // ReSharper disable once UnusedMember.Global
     public partial class MainWindow
     {
-        private string fileAttachments;
-
-        private string textAttachments;
-
         private static readonly IDictionary<LogLevel, Action<string, string>> LogFunctions =
             new Dictionary<LogLevel, Action<string, string>>
             {
@@ -43,12 +37,8 @@ namespace Contoso.WPF.Demo
         {
             InitializeComponent();
             UpdateState();
-            AppCenterLogLevel.SelectedIndex = (int) AppCenter.LogLevel;
+            AppCenterLogLevel.SelectedIndex = (int)AppCenter.LogLevel;
             EventProperties.ItemsSource = Properties;
-            fileAttachments = Settings.Default.FileErrorAttachments;
-            textAttachments = Settings.Default.TextErrorAttachments;
-            TextAttachmentTextBox.Text = textAttachments;
-            FileAttachmentLabel.Content = fileAttachments;
         }
 
         private void UpdateState()
@@ -76,7 +66,7 @@ namespace Contoso.WPF.Demo
 
         private void AppCenterLogLevel_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            AppCenter.LogLevel = (LogLevel) AppCenterLogLevel.SelectedIndex;
+            AppCenter.LogLevel = (LogLevel)AppCenterLogLevel.SelectedIndex;
         }
 
         private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -91,7 +81,7 @@ namespace Contoso.WPF.Demo
                 return;
             }
 
-            var level = (LogLevel) LogLevel.SelectedIndex;
+            var level = (LogLevel)LogLevel.SelectedIndex;
             var tag = LogTag.Text;
             var message = LogMessage.Text;
             LogFunctions[level](tag, message);
@@ -99,31 +89,34 @@ namespace Contoso.WPF.Demo
 
         private void TrackEvent_Click(object sender, RoutedEventArgs e)
         {
-            var name = EventName.Text;
+            var name = eventName.Text;
             var propertiesDictionary = Properties.Where(property => property.Key != null && property.Value != null)
                 .ToDictionary(property => property.Key, property => property.Value);
             Analytics.TrackEvent(name, propertiesDictionary);
         }
 
-        private void FileErrorAttachment_Click(object sender, RoutedEventArgs e)
+        private void CountryCodeEnabled_Checked(object sender, RoutedEventArgs e)
         {
-            var filePath = string.Empty;
-            var openFileDialog = new OpenFileDialog
+            if (!CountryCodeEnableCheckbox.IsChecked.HasValue)
             {
-                RestoreDirectory = true
-            };
-            var result = openFileDialog.ShowDialog();
-            if (result ?? false)
+                return;
+            }
+            if (!CountryCodeEnableCheckbox.IsChecked.Value)
             {
-                filePath = openFileDialog.FileName;
-                FileAttachmentLabel.Content = filePath;
+                CountryCodeText.Text = "";
+                AppCenter.SetCountryCode(null);
             }
             else
             {
-                FileAttachmentLabel.Content = "The file isn't selected";
+                CountryCodeText.Text = RegionInfo.CurrentRegion.TwoLetterISORegionName;
+                AppCenter.SetCountryCode(CountryCodeText.Text);
             }
-            Settings.Default.FileErrorAttachments = filePath;
-            Settings.Default.Save();
+            CountryCodePanel.IsEnabled = CountryCodeEnableCheckbox.IsChecked.Value;
+        }
+
+        private void CountryCodeSave_ClickListener(object sender, RoutedEventArgs e)
+        {
+            AppCenter.SetCountryCode(CountryCodeText.Text.Length > 0 ? CountryCodeText.Text : null);
         }
 
         #region Crash
@@ -217,12 +210,5 @@ namespace Contoso.WPF.Demo
         }
 
         #endregion
-
-        private void TextAttachmentTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            textAttachments = TextAttachmentTextBox.Text;
-            Settings.Default.TextErrorAttachments = textAttachments;
-            Settings.Default.Save();
-        }
     }
 }
