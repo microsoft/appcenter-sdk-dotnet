@@ -84,7 +84,7 @@ namespace Microsoft.AppCenter.Utils
         private static Configuration OpenConfiguration()
         {
             // Get new config path.
-            var userConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
+            var userConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             var userConfigPath = Path.GetDirectoryName(userConfig.FilePath);
 
             // Don't have AppCenter.config be reset on each app assembly version, use parent directory.
@@ -120,10 +120,33 @@ namespace Microsoft.AppCenter.Utils
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, "Could not check/migrate old config file", e);
             }
+            return GetConfiguration(ConfigurationUserLevel.None);
+        }
 
-            // Open the configuration (with the new file path).
-            var executionFileMap = new ExeConfigurationFileMap { ExeConfigFilename = FilePath };
-            return ConfigurationManager.OpenMappedExeConfiguration(executionFileMap, ConfigurationUserLevel.None);
+        /// <summary>
+        /// Open the configuration (with the new file path).
+        /// </summary>
+        /// <param name="userLevel">Configuration user level.</param>
+        /// <returns>The configuration object.</returns>
+        internal static Configuration GetConfiguration(ConfigurationUserLevel userLevel)
+        {
+            ExeConfigurationFileMap map = new ExeConfigurationFileMap();
+            map.RoamingUserConfigFilename = Path.Combine(GetConfigurationPath(ConfigurationUserLevel.PerUserRoaming), FileName);
+            map.LocalUserConfigFilename = Path.Combine(GetConfigurationPath(ConfigurationUserLevel.PerUserRoamingAndLocal), FileName);
+            map.ExeConfigFilename = Path.Combine(GetConfigurationPath(ConfigurationUserLevel.None), FileName);
+            return ConfigurationManager.OpenMappedExeConfiguration(map, userLevel);
+        }
+
+        /// <summary>
+        /// Get configuration path by user level.
+        /// </summary>
+        /// <param name="perUserRoaming">Configuration user level.</param>
+        /// <returns>Configuration path.</returns>
+        internal static string GetConfigurationPath(ConfigurationUserLevel perUserRoaming)
+        {
+            var config = ConfigurationManager.OpenExeConfiguration(perUserRoaming);
+            var configPath = Path.GetDirectoryName(config.FilePath);
+            return configPath;
         }
     }
 }
