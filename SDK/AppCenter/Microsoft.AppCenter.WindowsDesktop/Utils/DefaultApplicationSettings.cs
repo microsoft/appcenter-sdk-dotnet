@@ -84,7 +84,7 @@ namespace Microsoft.AppCenter.Utils
         private static Configuration OpenConfiguration()
         {
             // Get new config path.
-            var userConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var userConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
             var userConfigPath = Path.GetDirectoryName(userConfig.FilePath);
 
             // Don't have AppCenter.config be reset on each app assembly version, use parent directory.
