@@ -239,6 +239,11 @@ namespace Microsoft.AppCenter
             }
         }
 
+        static void PlatformSetAuthToken(string authToken)
+        {
+            //TODO implement me. (or log a message.)
+        }
+
         #endregion
 
         #region instance

@@ -199,5 +199,10 @@ namespace Microsoft.AppCenter
         {
             AndroidAppCenter.SetCustomProperties(customProperties.AndroidCustomProperties);
         }
+
+        static void PlatformSetAuthToken(string authToken)
+        {
+            //TODO implement me.
+        }
     }
 }

@@ -11,6 +11,11 @@ namespace Microsoft.AppCenter
     /// </summary>
     public partial class AppCenter
     {
+        /// <summary>
+        /// If using an external identity provider, this method must be set and return a refreshed authentication token for the current user.
+        /// </summary>
+        public static Func<Task<string>> AcquireAuthTokenAsync { get; set; }
+
         // Gets the first instance of an app secret corresponding to the given platform name, or returns the string 
         // as-is if no identifier can be found. Logs a message if no identifiers can be found.
         internal static string GetSecretForPlatform(string secrets, string platformIdentifier)
@@ -27,9 +32,7 @@ namespace Microsoft.AppCenter
                 AppCenterLog.Debug(AppCenterLog.LogTag, "No named identifier found in appSecret; using as-is");
                 return secrets;
             }
-
             var parseErrorMessage = $"Error parsing key for '{platformIdentifier}'";
-
             var platformIndicator = platformIdentifier + "=";
             var secretIdx = secrets.IndexOf(platformIndicator, StringComparison.Ordinal);
             if (secretIdx == -1)
@@ -38,7 +41,6 @@ namespace Microsoft.AppCenter
             }
             secretIdx += platformIndicator.Length;
             var platformSecret = string.Empty;
-
             while (secretIdx < secrets.Length)
             {
                 var nextChar = secrets[secretIdx++];
@@ -46,20 +48,17 @@ namespace Microsoft.AppCenter
                 {
                     break;
                 }
-
                 platformSecret += nextChar;
             }
-
             if (platformSecret == string.Empty)
             {
                 throw new AppCenterException(parseErrorMessage);
             }
-
             return platformSecret;
         }
 
         /// <summary>
-        ///     This property controls the amount of logs emitted by the SDK.
+        /// This property controls the amount of logs emitted by the SDK.
         /// </summary>
         public static LogLevel LogLevel
         {
@@ -68,7 +67,7 @@ namespace Microsoft.AppCenter
         }
 
         /// <summary>
-        ///     Set the custom user id.
+        /// Set the custom user ID.
         /// </summary>
         /// <param name="userId">Custom string to identify user. 256 characters or less.</param>
         public static void SetUserId(string userId)
@@ -91,8 +90,7 @@ namespace Microsoft.AppCenter
         }
 
         /// <summary>
-        ///     Enable or disable the SDK as a whole. 
-        ///     Updating the state propagates the value to all services that have been started.
+        /// Enable or disable the SDK as a whole. Updating the state propagates the value to all services that have been started.
         /// </summary>
         /// <returns>A task to monitor the operation.</returns>
         public static Task SetEnabledAsync(bool enabled)
@@ -101,10 +99,10 @@ namespace Microsoft.AppCenter
         }
 
         /// <summary>
-        ///     Get the unique installation identifier for this application installation on this device.
+        /// Get the unique installation identifier for this application installation on this device.
         /// </summary>
         /// <remarks>
-        ///     The identifier is lost if clearing application data or uninstalling application.
+        /// The identifier is lost if clearing application data or uninstalling application.
         /// </remarks>
         public static Task<Guid?> GetInstallIdAsync()
         {
@@ -112,7 +110,7 @@ namespace Microsoft.AppCenter
         }
 
         /// <summary>
-        ///     Change the base URL (scheme + authority + port only) used to communicate with the backend.
+        /// Change the base URL (scheme + authority + port only) used to communicate with the backend.
         /// </summary>
         /// <param name="logUrl">Base URL to use for server communication.</param>
         public static void SetLogUrl(string logUrl)
@@ -126,8 +124,7 @@ namespace Microsoft.AppCenter
         public static bool Configured => PlatformConfigured;
 
         /// <summary>
-        ///     Configure the SDK.
-        ///     This may be called only once per application process lifetime.
+        /// Configure the SDK. This may be called only once per application process lifetime.
         /// </summary>
         /// <param name="appSecret">A unique and secret key used to identify the application.</param>
         public static void Configure(string appSecret)
@@ -136,8 +133,7 @@ namespace Microsoft.AppCenter
         }
 
         /// <summary>
-        ///     Start services.
-        ///     This may be called only once per service per application process lifetime.
+        /// Start services. This may be called only once per service per application process lifetime.
         /// </summary>
         /// <param name="services">List of services to use.</param>
         public static void Start(params Type[] services)
@@ -146,8 +142,7 @@ namespace Microsoft.AppCenter
         }
 
         /// <summary>
-        ///     Initialize the SDK with the list of services to start.
-        ///     This may be called only once per application process lifetime.
+        /// Initialize the SDK with the list of services to start. This may be called only once per application process lifetime.
         /// </summary>
         /// <param name="appSecret">A unique and secret key used to identify the application.</param>
         /// <param name="services">List of services to use.</param>
@@ -163,6 +158,15 @@ namespace Microsoft.AppCenter
         public static void SetCustomProperties(CustomProperties customProperties)
         {
             PlatformSetCustomProperties(customProperties);
+        }
+
+        /// <summary>
+		/// Sets an authentication token to associate a signed in user with this session.
+		/// </summary>
+		/// <param name="authToken">A JWT obtained from an external identity provider such as Auth0 or Firebase.</param>
+        public static void SetAuthToken(string authToken)
+		{
+            PlatformSetAuthToken(authToken);
         }
     }
 }

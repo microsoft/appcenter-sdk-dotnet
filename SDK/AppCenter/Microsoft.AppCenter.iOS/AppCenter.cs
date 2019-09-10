@@ -188,5 +188,10 @@ namespace Microsoft.AppCenter
         {
             iOSAppCenter.SetCustomProperties(customProperties?.IOSCustomProperties);
         }
+
+        static void PlatformSetAuthToken(string authToken)
+        {
+            //TODO implement me.
+        }
     }
 }
