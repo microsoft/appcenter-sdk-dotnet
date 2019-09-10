@@ -57,6 +57,7 @@
     <Compile Include="Device.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="CustomProperties.cs" />
+    <Compile Include="AndroidAuthTokenListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

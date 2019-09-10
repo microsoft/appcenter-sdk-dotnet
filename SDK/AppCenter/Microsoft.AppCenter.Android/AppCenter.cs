@@ -20,8 +20,18 @@ namespace Microsoft.AppCenter
         /* The key identifier for parsing app secrets */
         const string PlatformIdentifier = "android";
 
-        //TODO implement this.
-        static Func<Task<string>> PlatformAcquireAuthTokenAsync { get; set; }
+        private static Func<Task<string>> _acquireAuthTokenAsync;
+
+        static Func<Task<string>> PlatformAcquireAuthTokenAsync
+        {
+            get => _acquireAuthTokenAsync;
+            set
+            {
+                _acquireAuthTokenAsync = value;
+                var listener = new AndroidAuthTokenListener(value);
+                AndroidAppCenter.SetAuthTokenDelegate(listener);
+            }
+        }
 
         internal AppCenter()
         {
