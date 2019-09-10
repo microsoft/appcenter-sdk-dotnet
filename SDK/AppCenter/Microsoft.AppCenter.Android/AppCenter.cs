@@ -232,7 +232,7 @@ namespace Microsoft.AppCenter
 
         static void PlatformSetAuthToken(string authToken)
         {
-            //TODO implement me.
+            AndroidAppCenter.SetAuthToken(authToken);
         }
     }
 }
