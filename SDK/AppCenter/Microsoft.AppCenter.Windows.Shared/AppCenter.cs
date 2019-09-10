@@ -71,8 +71,18 @@ namespace Microsoft.AppCenter
             }
         }
 
-        //TODO implement this. (maybe log?)
-        static Func<Task<string>> PlatformAcquireAuthTokenAsync { get; set; }
+        static Func<Task<string>> PlatformAcquireAuthTokenAsync
+        {
+            get
+            {
+                AppCenterLog.Error(AppCenterLog.LogTag, "Auth token functionality is not available on this platform.");
+                return null;
+            }
+            set
+            {
+                AppCenterLog.Error(AppCenterLog.LogTag, "Auth token functionality is not available on this platform.");
+            }
+        }
 
         static LogLevel PlatformLogLevel
         {
@@ -244,7 +254,7 @@ namespace Microsoft.AppCenter
 
         static void PlatformSetAuthToken(string authToken)
         {
-            //TODO implement me. (or log a message.)
+            AppCenterLog.Error(AppCenterLog.LogTag, "SetAuthToken is not available on this platform.");
         }
 
         #endregion

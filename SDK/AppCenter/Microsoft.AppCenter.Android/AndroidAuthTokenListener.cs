@@ -18,14 +18,7 @@ namespace Microsoft.AppCenter
 
         void AcquireAuthToken(AuthTokenCallback authTokenCallback)
         {
-            Task.Factory.StartNew(async () =>
-            {
-                if (_acquireAuthToken != null)
-                {
-                    var authToken = await _acquireAuthToken();
-                    authTokenCallback?.Invoke(authToken);
-                }
-            });
+            _acquireAuthToken.Invoke().ContinueWith(t => authTokenCallback(t.Result));
         }
     }
 }

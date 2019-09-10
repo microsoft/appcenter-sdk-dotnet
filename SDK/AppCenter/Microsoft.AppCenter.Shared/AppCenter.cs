@@ -16,10 +16,7 @@ namespace Microsoft.AppCenter
         /// </summary>
         public static Func<Task<string>> AcquireAuthTokenAsync
         {
-            get
-            {
-                return PlatformAcquireAuthTokenAsync;
-            }
+            get => PlatformAcquireAuthTokenAsync;
             set
             {
                 PlatformAcquireAuthTokenAsync = value;

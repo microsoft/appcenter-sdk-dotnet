@@ -19,14 +19,7 @@ namespace Microsoft.AppCenter
 
         void AcquireToken(MSAppCenter appCenter, MSAuthTokenCompletionHandler completionHandler)
         {
-            Task.Factory.StartNew(async () =>
-            {
-                if (_acquireAuthToken != null)
-                {
-                    var authToken = await _acquireAuthToken();
-                    completionHandler?.Invoke(authToken);
-                }
-            });
+            _acquireAuthToken.Invoke().ContinueWith(t => completionHandler(t.Result));
         }
     }
 }

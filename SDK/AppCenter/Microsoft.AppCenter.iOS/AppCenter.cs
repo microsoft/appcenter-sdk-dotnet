@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AppCenter.iOS.Bindings;
 using ObjCRuntime;
 
 namespace Microsoft.AppCenter
@@ -14,19 +15,36 @@ namespace Microsoft.AppCenter
 
     public partial class AppCenter
     {
-        /* The key identifier for parsing app secrets */
+        // The key identifier for parsing app secrets.
         const string PlatformIdentifier = "ios";
+
+        private static readonly object _lockObject = new object();
 
         private static Func<Task<string>> _acquireAuthTokenAsync;
 
+        // Keep a reference to the current delegate to dispose it when it is unset.
+        private static MSAuthTokenDelegate _authTokenDelegate;
+
         static Func<Task<string>> PlatformAcquireAuthTokenAsync
         {
-            get => _acquireAuthTokenAsync;
+            get
+            {
+                // Lock the getter to ensure that the cached value is updated when returning.
+                lock (_lockObject)
+                {
+                    return _acquireAuthTokenAsync;
+                }
+            }
             set
             {
-                _acquireAuthTokenAsync = value;
-                var del = new AuthTokenDelegate(value);
-                iOSAppCenter.SetAuthTokenDelegate(del);
+                lock (_lockObject)
+                {
+                    _acquireAuthTokenAsync = value;
+                    var del = (value == null) ? null : new AuthTokenDelegate(value);
+                    _authTokenDelegate?.Dispose();
+                    _authTokenDelegate = del;
+                    iOSAppCenter.SetAuthTokenDelegate(del);
+                }
             }
         }
 
