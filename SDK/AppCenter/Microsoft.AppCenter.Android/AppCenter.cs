@@ -24,6 +24,9 @@ namespace Microsoft.AppCenter
 
         private static Func<Task<string>> _acquireAuthTokenAsync;
 
+        // Keep a reference to the current delegate to dispose it when it is unset.
+        private static AndroidAuthTokenListener _authTokenListener;
+
         static Func<Task<string>> PlatformAcquireAuthTokenAsync
         {
             get
@@ -36,9 +39,14 @@ namespace Microsoft.AppCenter
             }
             set
             {
-                _acquireAuthTokenAsync = value;
-                AndroidAuthTokenListener listener = (value == null) ? null : new AndroidAuthTokenListener(value);
-                AndroidAppCenter.SetAuthTokenListener(listener);
+                lock (_lockObject)
+                {
+                    _acquireAuthTokenAsync = value;
+                    _authTokenListener?.Dispose();
+                    AndroidAuthTokenListener listener = (value == null) ? null : new AndroidAuthTokenListener(value);
+                    _authTokenListener = listener;
+                    AndroidAppCenter.SetAuthTokenListener(listener);
+                }
             }
         }
 

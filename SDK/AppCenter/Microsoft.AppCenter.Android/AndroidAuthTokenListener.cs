@@ -3,6 +3,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Com.Microsoft.Appcenter;
 
 namespace Microsoft.AppCenter
 {
@@ -16,9 +17,9 @@ namespace Microsoft.AppCenter
             _acquireAuthToken = acquireAuthToken;
         }
 
-        void AcquireAuthToken(AuthTokenCallback authTokenCallback)
+        public void AcquireAuthToken(IAuthTokenCallback callback)
         {
-            _acquireAuthToken.Invoke().ContinueWith(t => authTokenCallback(t.Result));
+            _acquireAuthToken.Invoke().ContinueWith(t => callback.OnAuthTokenResult(t.Result));
         }
     }
 }
