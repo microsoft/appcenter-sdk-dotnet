@@ -14,7 +14,17 @@ namespace Microsoft.AppCenter
         /// <summary>
         /// If using an external identity provider, this method must be set and return a refreshed authentication token for the current user.
         /// </summary>
-        public static Func<Task<string>> AcquireAuthTokenAsync { get; set; }
+        public static Func<Task<string>> AcquireAuthTokenAsync
+        {
+            get
+            {
+                return PlatformAcquireAuthTokenAsync;
+            }
+            set
+            {
+                PlatformAcquireAuthTokenAsync = value;
+            }
+        }
 
         // Gets the first instance of an app secret corresponding to the given platform name, or returns the string 
         // as-is if no identifier can be found. Logs a message if no identifiers can be found.

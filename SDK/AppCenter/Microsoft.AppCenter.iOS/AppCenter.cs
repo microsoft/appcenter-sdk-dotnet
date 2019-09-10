@@ -17,6 +17,19 @@ namespace Microsoft.AppCenter
         /* The key identifier for parsing app secrets */
         const string PlatformIdentifier = "ios";
 
+        private static Func<Task<string>> _acquireAuthTokenAsync;
+
+        static Func<Task<string>> PlatformAcquireAuthTokenAsync
+        {
+            get => _acquireAuthTokenAsync;
+            set
+            {
+                _acquireAuthTokenAsync = value;
+                var del = new AuthTokenDelegate(value);
+                iOSAppCenter.SetAuthTokenDelegate(del);
+            }
+        }
+
         internal AppCenter()
         {
         }
@@ -191,7 +204,7 @@ namespace Microsoft.AppCenter
 
         static void PlatformSetAuthToken(string authToken)
         {
-            //TODO implement me.
+            iOSAppCenter.SetAuthToken(authToken);
         }
     }
 }

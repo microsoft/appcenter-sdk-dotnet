@@ -52,6 +52,7 @@
     <Compile Include="AppCenterLog.cs" />
     <Compile Include="Device.cs" />
     <Compile Include="CustomProperties.cs" />
+    <Compile Include="AuthTokenDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.AppCenter.iOS.Bindings\Microsoft.AppCenter.iOS.Bindings.csproj">

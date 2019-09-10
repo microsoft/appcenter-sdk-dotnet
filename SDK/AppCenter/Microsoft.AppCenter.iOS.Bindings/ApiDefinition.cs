@@ -236,6 +236,16 @@ namespace Microsoft.AppCenter.iOS.Bindings
         [Static]
         [Export("setCustomProperties:")]
         void SetCustomProperties([NullAllowed] MSCustomProperties properties);
+
+        // + (void)setAuthTokenDelegate:(id<MSAuthTokenDelegate>)authTokenDelegate;
+        [Static]
+        [Export("setAuthTokenDelegate:")]
+        void SetAuthTokenDelegate(MSAuthTokenDelegate authTokenDelegate);
+
+        // + (void)setAuthToken:(NSString *)authToken;
+        [Static]
+        [Export("setAuthToken:")]
+        void SetAuthToken(string authToken);
     }
 
     // @protocol MSService <NSObject>
@@ -278,4 +288,17 @@ namespace Microsoft.AppCenter.iOS.Bindings
         [Export("MSWrapperLog:tag:level:")]
         void MSWrapperLog(MSLogMessageProvider message, string tag, MSLogLevel level);
     }
+
+    // @protocol MSAuthTokenDelegate<NSObject>
+    [Protocol, Model]
+    [BaseType(typeof(NSObject))]
+    interface MSAuthTokenDelegate
+    {
+        // - (void) appCenter:(MSAppCenter*)appCenter acquireAuthTokenWithCompletionHandler:(MSAuthTokenCompletionHandler)completionHandler;
+        [Export("appCenter:acquireTokenWithCompletionHandler:")]
+        void AcquireToken(MSAppCenter appCenter, MSAuthTokenCompletionHandler completionHandler);
+    }
+
+    // typedef void (^MSAuthTokenCompletionHandler)(NSString *jwt);
+    delegate void MSAuthTokenCompletionHandler(string jwt);
 }

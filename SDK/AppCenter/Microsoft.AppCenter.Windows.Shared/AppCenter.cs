@@ -71,6 +71,9 @@ namespace Microsoft.AppCenter
             }
         }
 
+        //TODO implement this. (maybe log?)
+        static Func<Task<string>> PlatformAcquireAuthTokenAsync { get; set; }
+
         static LogLevel PlatformLogLevel
         {
             get
