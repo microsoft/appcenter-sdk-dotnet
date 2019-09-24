@@ -19,7 +19,7 @@ namespace Microsoft.AppCenter
 
         public override void AcquireAuthToken(MSAppCenter appCenter, MSAuthTokenCompletionHandler completionHandler)
         {
-            _acquireAuthToken.Invoke().ContinueWith(t => completionHandler(t.Result));
+            _acquireAuthToken().ContinueWith(t => completionHandler(t.Result));
         }
     }
 }

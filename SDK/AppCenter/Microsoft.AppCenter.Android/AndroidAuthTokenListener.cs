@@ -19,7 +19,7 @@ namespace Microsoft.AppCenter
 
         public void AcquireAuthToken(IAuthTokenCallback callback)
         {
-            _acquireAuthToken.Invoke().ContinueWith(t => callback.OnAuthTokenResult(t.Result));
+            _acquireAuthToken().ContinueWith(t => callback.OnAuthTokenResult(t.Result));
         }
     }
 }
