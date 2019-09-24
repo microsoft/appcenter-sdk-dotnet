@@ -17,7 +17,7 @@ namespace Microsoft.AppCenter
             _acquireAuthToken = acquireAuthToken;
         }
 
-        void AcquireToken(MSAppCenter appCenter, MSAuthTokenCompletionHandler completionHandler)
+        public override void AcquireAuthToken(MSAppCenter appCenter, MSAuthTokenCompletionHandler completionHandler)
         {
             _acquireAuthToken.Invoke().ContinueWith(t => completionHandler(t.Result));
         }
