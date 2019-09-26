@@ -7,7 +7,7 @@ using Com.Microsoft.Appcenter;
 
 namespace Microsoft.AppCenter
 {
-    // Maps Objective-C delegate to callback in C#.
+    // Maps Java to callback in C#.
     class AndroidAuthTokenListener : Java.Lang.Object, IAuthTokenListener
     {
         private readonly Func<Task<string>> _acquireAuthToken;
