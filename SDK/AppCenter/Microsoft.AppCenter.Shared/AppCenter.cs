@@ -168,7 +168,7 @@ namespace Microsoft.AppCenter
         }
 
         /// <summary>
-        /// Sets an authentication token to associate a signed in user with this session.
+        /// Sets an authentication token to associate a signed-in user with this session.
         /// </summary>
         /// <param name="authToken">A JWT obtained from an external identity provider such as Auth0 or Firebase.</param>
         public static void SetAuthToken(string authToken)
