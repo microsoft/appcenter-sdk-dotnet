@@ -21,7 +21,7 @@ echo "Installing Android test app on device..."
 adb install Tests/Contoso.Android.FuncTest/bin/Release/com.contoso.android.functest.apk
 
 # Listen to tests
-echo "Start listening test results on socket and writing to result.txt"
+echo "Start listening test results on socket."
 nc -l 127.0.0.1 16384 > results.xml &
 RESULTS=$!
 
