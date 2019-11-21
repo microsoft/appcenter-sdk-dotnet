@@ -17,17 +17,29 @@ duration=$(( SECONDS - start ))
 echo "Android Emulator started after $duration seconds."
 
 # Listen to tests
-nc -l 127.0.0.1 16384 | tee results.txt &
+echo "Start listening test results on socket and writing to result.txt"
+nc -l 127.0.0.1 16384 > results.txt &
 RESULTS=$!
 
 # Run tests
+echo "Installing Android app on device..."
 adb install Tests/Contoso.Android.FuncTest/bin/Release/com.contoso.android.functest.apk
+
+# Run tests
+echo "Run test app..."
+sleep 10;
 adb shell monkey -p com.contoso.android.functest -c android.intent.category.LAUNCHER 1
+adb logcat &
+LOGCAT_PID=$!
 
 # Wait results
+echo "Waiting test results..."
 wait $RESULTS
+kill $LOGCAT_PID
 
 # Check if at least 1 test ran and none failed
+echo "Checking test results."
+cat results.txt
 egrep "Tests run: [^0]" results.txt | egrep "Failed: 0" results.txt > /dev/null
 TEST_PASSED=$?
 
