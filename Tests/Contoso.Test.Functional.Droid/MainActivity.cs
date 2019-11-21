@@ -9,12 +9,11 @@ using Android.Util;
 using Xunit.Runners.ResultChannels;
 using Xunit.Runners.UI;
 
-namespace Contoso.Android.FuncTest
+namespace Contoso.Test.Functional.Droid
 {
     [Activity(Label = "xUnit Android Runner", MainLauncher = true, Theme = "@android:style/Theme.Material.Light")]
     public class MainActivity : RunnerActivity
     {
-
         protected override void OnCreate(Bundle bundle)
         {
             // tests can be inside the main assembly

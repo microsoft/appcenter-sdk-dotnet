@@ -1,7 +1,7 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Android.FuncTest", "Tests\Contoso.Android.FuncTest\Contoso.Android.FuncTest.csproj", "{CA4FB145-763C-4014-B0AF-F5884412E9F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Test.Functional.Droid", "Tests\Contoso.Test.Functional.Droid\Contoso.Test.Functional.Droid.csproj", "{CA4FB145-763C-4014-B0AF-F5884412E9F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

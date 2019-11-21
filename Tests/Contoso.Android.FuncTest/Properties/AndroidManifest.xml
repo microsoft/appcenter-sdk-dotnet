@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="2.6.2-SNAPSHOT" package="com.contoso.android.functest">
-	<uses-sdk android:targetSdkVersion="29" android:minSdkVersion="19" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<application android:label="Contoso.Android.FuncTest"></application>
-</manifest>
