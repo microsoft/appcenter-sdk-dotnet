@@ -4,6 +4,10 @@
 
 ### App Center
 
+#### tvOS
+
+* Add tvOS Support.
+
 #### WPF/WinForms
 
 * **[Fix]** Fix an error on running same application twice and enabling App Center.
@@ -15,7 +19,17 @@
 * **[Fix]** Fix an issue where internal SDK exceptions would sometimes be "unobserved" and would cause undefined behavior.
 * **[Fix]** The SDK now detects the SQLite database is corrupted and deletes it and creates a new one to start over.
 
+### App Center Analytics
+
+#### tvOS
+
+* Add tvOS Support.
+
 ### App Center Crashes
+
+#### tvOS
+
+* Add tvOS Support.
 
 #### UWP/WPF/WinForms
 
