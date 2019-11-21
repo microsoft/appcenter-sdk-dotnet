@@ -25,7 +25,6 @@
     <AndroidLinkMode>None</AndroidLinkMode>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <NoWarn>CS0109</NoWarn>
-    <IntermediateOutputPath></IntermediateOutputPath>
     <MandroidExtraArgs></MandroidExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

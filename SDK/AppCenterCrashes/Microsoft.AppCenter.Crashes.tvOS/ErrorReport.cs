@@ -3,7 +3,7 @@
 
 using System;
 using Foundation;
-using Microsoft.AppCenter.Crashes.iOS.Bindings;
+using Microsoft.AppCenter.Crashes.tvOS.Bindings;
 
 namespace Microsoft.AppCenter.Crashes
 {
@@ -24,13 +24,13 @@ namespace Microsoft.AppCenter.Crashes
 
             AndroidDetails = null;
 
-            iOSDetails = new iOSErrorDetails(msReport.ReporterKey,
+            iOSDetails = null;
+
+            tvOSDetails = new tvOSErrorDetails(msReport.ReporterKey,
                                              msReport.Signal,
                                              msReport.ExceptionName,
                                              msReport.ExceptionReason,
                                              (uint)msReport.AppProcessIdentifier);
-
-            tvOSDetails = null;
 
             MSWrapperException wrapperException = MSWrapperExceptionManager.LoadWrapperExceptionWithUUID(msReport.IncidentIdentifier);
             if (wrapperException != null && wrapperException.ExceptionData != null && wrapperException.ExceptionData.Length > 0)

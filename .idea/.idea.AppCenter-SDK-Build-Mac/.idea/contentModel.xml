@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="AppCenter-SDK-Build-Mac.sln" t="IncludeFlat" />
+      <e p="externals/android/accessors-smart-1.2.jar" t="Include" />
+      <e p="externals/android/appcenter-analytics-release.aar" t="Include" />
+      <e p="externals/android/appcenter-auth-release.aar" t="Include" />
+      <e p="externals/android/appcenter-crashes-release.aar" t="Include" />
+      <e p="externals/android/appcenter-data-release.aar" t="Include" />
+      <e p="externals/android/appcenter-distribute-release.aar" t="Include" />
+      <e p="externals/android/appcenter-push-release.aar" t="Include" />
+      <e p="externals/android/appcenter-release.aar" t="Include" />
+      <e p="externals/android/appcenter-rum-release.aar" t="Include" />
+      <e p="externals/android/asm-5.0.4.jar" t="Include" />
+      <e p="externals/android/common-0.0.10-alpha.aar" t="Include" />
+      <e p="externals/android/json-smart-2.3.jar" t="Include" />
+      <e p="externals/android/msal-0.3.1-alpha.aar" t="Include" />
+      <e p="externals/android/nimbus-jose-jwt-5.7.jar" t="Include" />
+      <e p="externals/ios" t="Include">
+        <e p="AppCenter.a" t="Include" />
+        <e p="AppCenterAnalytics.a" t="Include" />
+        <e p="AppCenterAuth.a" t="Include" />
+        <e p="AppCenterCrashes.a" t="Include" />
+        <e p="AppCenterData.a" t="Include" />
+        <e p="AppCenterDistribute.a" t="Include" />
+        <e p="AppCenterDistributeResources.bundle" t="Include">
+          <e p="cs.lproj" t="Include">
+            <e p="AppCenterDistribute.strings" t="Include" />
+          </e>
+          <e p="de.lproj" t="Include">
+            <e p="AppCenterDistribute.strings" t="Include" />
+          </e>
+          <e p="en.lproj" t="Include">
+            <e p="AppCenterDistribute.strings" t="Include" />
+          </e>
+          <e p="es.lproj" t="Include">
+            <e p="AppCenterDistribute.strings" t="Include" />
+          </e>
+          <e p="fr.lproj" t="Include">
+            <e p="AppCenterDistribute.strings" t="Include" />
+          </e>
+          <e p="Info.plist" t="Include" />
+          <e p="it.lproj" t="Include">
+            <e p="AppCenterDistribute.strings" t="Include" />
+          </e>
+          <e p="ja.lproj" t="Include">
+            <e p="AppCenterDistribute.strings" t="Include" />
+          </e>
+          <e p="ko.lproj" t="Include">
+            <e p="AppCenterDistribute.strings" t="Include" />
+          </e>
+          <e p="pl.lproj" t="Include">
+            <e p="AppCenterDistribute.strings" t="Include" />
+          </e>
+          <e p="ru.lproj" t="Include">
+            <e p="AppCenterDistribute.strings" t="Include" />
+          </e>
+          <e p="tr.lproj" t="Include">
+            <e p="AppCenterDistribute.strings" t="Include" />
+          </e>
+          <e p="zh-Hans.lproj" t="Include">
+            <e p="AppCenterDistribute.strings" t="Include" />
+          </e>
+          <e p="zh-Hant.lproj" t="Include">
+            <e p="AppCenterDistribute.strings" t="Include" />
+          </e>
+        </e>
+        <e p="AppCenterPush.a" t="Include" />
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="SDK" t="Include">
+        <e p="AppCenter" t="Include">
+          <e p="Microsoft.AppCenter" t="IncludeRecursive">
+            <e p="AppCenter.cs" t="Include" />
+            <e p="AppCenterLog.cs" t="Include" />
+            <e p="AppCenterService.cs" t="Include" />
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="CustomProperties.cs" t="Include" />
+            <e p="IAppCenterService.cs" t="Include" />
+            <e p="Microsoft.AppCenter.csproj" t="IncludeRecursive" />
+            <e p="NamespaceDoc.cs" t="Include" />
+            <e p="obj" t="ExcludeRecursive">
+              <e p="Debug" t="Include">
+                <e p="netstandard1.0" t="Include">
+                  <e p="Microsoft.AppCenter.AssemblyInfo.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Android" t="IncludeRecursive">
+            <e p="AppCenter.cs" t="Include" />
+            <e p="AppCenterLog.cs" t="Include" />
+            <e p="AppCenterService.cs" t="Include" />
+            <e p="CustomProperties.cs" t="Include" />
+            <e p="Device.cs" t="Include" />
+            <e p="IAppCenterService.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Android.csproj" t="IncludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Resources" t="Include">
+              <e p="AboutResources.txt" t="Include" />
+              <e p="Resource.Designer.cs" t="Include" />
+              <e p="Values" t="Include">
+                <e p="Strings.xml" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Android.Bindings" t="IncludeRecursive">
+            <e p="Additions" t="Include">
+              <e p="AboutAdditions.txt" t="Include" />
+            </e>
+            <e p="Jars" t="Include">
+              <e p="AboutJars.txt" t="Include" />
+            </e>
+            <e p="Microsoft.AppCenter.Android.Bindings.csproj" t="IncludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Transforms" t="Include">
+              <e p="EnumFields.xml" t="Include" />
+              <e p="EnumMethods.xml" t="Include" />
+              <e p="Metadata.xml" t="Include" />
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.iOS" t="IncludeRecursive">
+            <e p="AppCenter.cs" t="Include" />
+            <e p="AppCenterLog.cs" t="Include" />
+            <e p="AppCenterService.cs" t="Include" />
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="CustomProperties.cs" t="Include" />
+            <e p="Device.cs" t="Include" />
+            <e p="IAppCenterService.cs" t="Include" />
+            <e p="Microsoft.AppCenter.iOS.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Resources" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.iOS.Bindings" t="IncludeRecursive">
+            <e p="ApiDefinition.cs" t="Include" />
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Microsoft.AppCenter.iOS.Bindings.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="StructsAndEnums.cs" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Shared" t="IncludeRecursive">
+            <e p="AppCenter.cs" t="Include" />
+            <e p="AppCenterException.cs" t="Include" />
+            <e p="AppCenterLogShared.cs" t="Include" />
+            <e p="CustomProperties.cs" t="Include" />
+            <e p="Device.cs" t="Include" />
+            <e p="LogLevel.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Shared.projitems" t="Include" />
+            <e p="Microsoft.AppCenter.Shared.shproj" t="IncludeRecursive" />
+            <e p="WrapperSdk.cs" t="Include" />
+          </e>
+        </e>
+        <e p="AppCenterAnalytics" t="Include">
+          <e p="Microsoft.AppCenter.Analytics" t="IncludeRecursive">
+            <e p="Analytics.cs" t="Include" />
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Microsoft.AppCenter.Analytics.csproj" t="IncludeRecursive" />
+            <e p="NamespaceDoc.cs" t="Include" />
+            <e p="obj" t="ExcludeRecursive">
+              <e p="Debug" t="Include">
+                <e p="netstandard1.0" t="Include">
+                  <e p="Microsoft.AppCenter.Analytics.AssemblyInfo.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Analytics.Android" t="IncludeRecursive">
+            <e p="Analytics.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Analytics.Android.csproj" t="IncludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Resources" t="Include">
+              <e p="AboutResources.txt" t="Include" />
+              <e p="Resource.Designer.cs" t="Include" />
+              <e p="Values" t="Include">
+                <e p="Strings.xml" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Analytics.Android.Bindings" t="IncludeRecursive">
+            <e p="Additions" t="Include">
+              <e p="AboutAdditions.txt" t="Include" />
+            </e>
+            <e p="Jars" t="Include">
+              <e p="AboutJars.txt" t="Include" />
+            </e>
+            <e p="Microsoft.AppCenter.Analytics.Android.Bindings.csproj" t="IncludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Transforms" t="Include">
+              <e p="EnumFields.xml" t="Include" />
+              <e p="EnumMethods.xml" t="Include" />
+              <e p="Metadata.xml" t="Include" />
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Analytics.iOS" t="IncludeRecursive">
+            <e p="Analytics.cs" t="Include" />
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Microsoft.AppCenter.Analytics.iOS.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Resources" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Analytics.iOS.Bindings" t="IncludeRecursive">
+            <e p="ApiDefinition.cs" t="Include" />
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Microsoft.AppCenter.Analytics.iOS.Bindings.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Structs.cs" t="Include" />
+          </e>
+        </e>
+        <e p="AppCenterAuth" t="Include">
+          <e p="Microsoft.AppCenter.Auth" t="IncludeRecursive">
+            <e p="Auth.cs" t="Include" />
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Microsoft.AppCenter.Auth.csproj" t="IncludeRecursive" />
+            <e p="NamespaceDoc.cs" t="Include" />
+            <e p="obj" t="ExcludeRecursive">
+              <e p="Debug" t="Include">
+                <e p="netstandard1.0" t="Include">
+                  <e p="Microsoft.AppCenter.Auth.AssemblyInfo.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Auth.Android" t="IncludeRecursive">
+            <e p="Auth.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Auth.Android.csproj" t="IncludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Resources" t="Include">
+              <e p="AboutResources.txt" t="Include" />
+              <e p="drawable" t="Include" />
+              <e p="Resource.Designer.cs" t="Include" />
+              <e p="Values" t="Include">
+                <e p="Strings.xml" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Auth.Android.Bindings" t="IncludeRecursive">
+            <e p="Additions" t="Include">
+              <e p="AboutAdditions.txt" t="Include" />
+            </e>
+            <e p="Jars" t="Include">
+              <e p="AboutJars.txt" t="Include" />
+            </e>
+            <e p="Microsoft.AppCenter.Auth.Android.Bindings.csproj" t="IncludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Transforms" t="Include">
+              <e p="EnumFields.xml" t="Include" />
+              <e p="EnumMethods.xml" t="Include" />
+              <e p="Metadata.xml" t="Include" />
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Auth.Android.Bindings.Msal" t="IncludeRecursive">
+            <e p="Additions" t="Include">
+              <e p="AboutAdditions.txt" t="Include" />
+            </e>
+            <e p="Jars" t="Include">
+              <e p="AboutJars.txt" t="Include" />
+            </e>
+            <e p="Microsoft.AppCenter.Auth.Android.Bindings.Msal.csproj" t="IncludeRecursive" />
+            <e p="packages.config" t="Include" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Transforms" t="Include">
+              <e p="EnumFields.xml" t="Include" />
+              <e p="EnumMethods.xml" t="Include" />
+              <e p="Metadata.xml" t="Include" />
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Auth.Android.Bindings.Msal.Common" t="IncludeRecursive">
+            <e p="Additions" t="Include">
+              <e p="AboutAdditions.txt" t="Include" />
+            </e>
+            <e p="Jars" t="Include">
+              <e p="AboutJars.txt" t="Include" />
+            </e>
+            <e p="Microsoft.AppCenter.Auth.Android.Bindings.Msal.Common.csproj" t="IncludeRecursive" />
+            <e p="packages.config" t="Include" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Transforms" t="Include">
+              <e p="EnumFields.xml" t="Include" />
+              <e p="EnumMethods.xml" t="Include" />
+              <e p="Metadata.xml" t="Include" />
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Auth.iOS" t="IncludeRecursive">
+            <e p="Auth.cs" t="Include" />
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Microsoft.AppCenter.Auth.iOS.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Resources" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Auth.iOS.Bindings" t="IncludeRecursive">
+            <e p="ApiDefinition.cs" t="Include" />
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Microsoft.AppCenter.Auth.iOS.Bindings.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Resources" t="Include" />
+            <e p="Structs.cs" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Auth.Shared" t="IncludeRecursive">
+            <e p="Auth.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Auth.Shared.projitems" t="Include" />
+            <e p="Microsoft.AppCenter.Auth.Shared.shproj" t="IncludeRecursive" />
+            <e p="UserInformation.cs" t="Include" />
+          </e>
+        </e>
+        <e p="AppCenterCrashes" t="Include">
+          <e p="Microsoft.AppCenter.Crashes" t="IncludeRecursive">
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Crashes.cs" t="Include" />
+            <e p="ErrorAttachmentLog.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Crashes.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive">
+              <e p="Debug" t="Include">
+                <e p="netstandard1.0" t="Include">
+                  <e p="Microsoft.AppCenter.Crashes.AssemblyInfo.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="TestCrashException.cs" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Crashes.Android" t="IncludeRecursive">
+            <e p="Crashes.cs" t="Include" />
+            <e p="ErrorAttachmentLog.cs" t="Include" />
+            <e p="ErrorReport.cs" t="Include" />
+            <e p="ErrorReportCache.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Crashes.Android.csproj" t="IncludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Resources" t="Include">
+              <e p="AboutResources.txt" t="Include" />
+              <e p="Resource.Designer.cs" t="Include" />
+              <e p="Values" t="Include">
+                <e p="Strings.xml" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Crashes.Android.Bindings" t="IncludeRecursive">
+            <e p="Additions" t="Include">
+              <e p="AboutAdditions.txt" t="Include" />
+            </e>
+            <e p="Jars" t="Include">
+              <e p="AboutJars.txt" t="Include" />
+            </e>
+            <e p="Microsoft.AppCenter.Crashes.Android.Bindings.csproj" t="IncludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Transforms" t="Include">
+              <e p="EnumFields.xml" t="Include" />
+              <e p="EnumMethods.xml" t="Include" />
+              <e p="Metadata.xml" t="Include" />
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Crashes.iOS" t="IncludeRecursive">
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Crashes.cs" t="Include" />
+            <e p="CrashesUtils.cs" t="Include" />
+            <e p="ErrorAttachmentLog.cs" t="Include" />
+            <e p="ErrorReport.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Crashes.iOS.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Resources" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Crashes.iOS.Bindings" t="IncludeRecursive">
+            <e p="ApiDefinition.cs" t="Include" />
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Extensions.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Crashes.iOS.Bindings.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="StructsAndEnums.cs" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Crashes.Shared" t="IncludeRecursive">
+            <e p="AndroidErrorDetails.cs" t="Include" />
+            <e p="Crashes.cs" t="Include" />
+            <e p="CrashesDelegates.cs" t="Include" />
+            <e p="ErrorAttachmentLog.cs" t="Include" />
+            <e p="ErrorReport.cs" t="Include" />
+            <e p="ErrorReportEventArgs.cs" t="Include" />
+            <e p="iOSErrorDetails.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Crashes.Shared.projitems" t="Include" />
+            <e p="Microsoft.AppCenter.Crashes.Shared.shproj" t="IncludeRecursive" />
+            <e p="NamespaceDoc.cs" t="Include" />
+            <e p="UserConfirmation.cs" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Crashes.Shared.Targets" t="IncludeRecursive">
+            <e p="Microsoft.AppCenter.Crashes.Shared.Targets.projitems" t="Include" />
+            <e p="Microsoft.AppCenter.Crashes.Shared.Targets.shproj" t="IncludeRecursive" />
+            <e p="TestCrashException.cs" t="Include" />
+          </e>
+        </e>
+        <e p="AppCenterData" t="Include">
+          <e p="Microsoft.AppCenter.Data" t="IncludeRecursive">
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Data.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Data.csproj" t="IncludeRecursive" />
+            <e p="NamespaceDoc.cs" t="Include" />
+            <e p="obj" t="ExcludeRecursive">
+              <e p="Debug" t="Include">
+                <e p="netstandard1.0" t="Include">
+                  <e p="Microsoft.AppCenter.Data.AssemblyInfo.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="PaginatedDocuments.cs" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Data.Android" t="IncludeRecursive">
+            <e p="ConversionExtensions.cs" t="Include" />
+            <e p="Data.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Data.Android.csproj" t="IncludeRecursive" />
+            <e p="packages.config" t="Include" />
+            <e p="PaginatedDocuments.cs" t="Include" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Resources" t="Include">
+              <e p="AboutResources.txt" t="Include" />
+              <e p="drawable" t="Include" />
+              <e p="Resource.Designer.cs" t="Include" />
+              <e p="Values" t="Include">
+                <e p="Strings.xml" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Data.Android.Bindings" t="IncludeRecursive">
+            <e p="Additions" t="Include">
+              <e p="AboutAdditions.txt" t="Include" />
+            </e>
+            <e p="Jars" t="Include">
+              <e p="AboutJars.txt" t="Include" />
+            </e>
+            <e p="Microsoft.AppCenter.Data.Android.Bindings.csproj" t="IncludeRecursive" />
+            <e p="packages.config" t="Include" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Transforms" t="Include">
+              <e p="EnumFields.xml" t="Include" />
+              <e p="EnumMethods.xml" t="Include" />
+              <e p="Metadata.xml" t="Include" />
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Data.iOS" t="IncludeRecursive">
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="ConversionExtensions.cs" t="Include" />
+            <e p="Data.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Data.iOS.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive" />
+            <e p="PaginatedDocuments.cs" t="Include" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="RemoteOperationDelegate.cs" t="Include" />
+            <e p="Resources" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Data.iOS.Bindings" t="IncludeRecursive">
+            <e p="ApiDefinition.cs" t="Include" />
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Microsoft.AppCenter.Data.iOS.Bindings.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Resources" t="Include" />
+            <e p="Structs.cs" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Data.Shared" t="IncludeRecursive">
+            <e p="BaseOptions.cs" t="Include" />
+            <e p="Data.cs" t="Include" />
+            <e p="DataException.cs" t="Include" />
+            <e p="DefaultPartitions.cs" t="Include" />
+            <e p="DocumentMetadata.cs" t="Include" />
+            <e p="DocumentWrapper.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Data.Shared.projitems" t="Include" />
+            <e p="Microsoft.AppCenter.Data.Shared.shproj" t="IncludeRecursive" />
+            <e p="Page.cs" t="Include" />
+            <e p="PaginatedDocuments.cs" t="Include" />
+            <e p="ReadOptions.cs" t="Include" />
+            <e p="RemoteOperationCompletedEventArgs.cs" t="Include" />
+            <e p="SharedConversionExtensions.cs" t="Include" />
+            <e p="TimeToLive.cs" t="Include" />
+            <e p="WriteOptions.cs" t="Include" />
+          </e>
+        </e>
+        <e p="AppCenterDistribute" t="Include">
+          <e p="Microsoft.AppCenter.Distribute" t="IncludeRecursive">
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Distribute.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Distribute.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive">
+              <e p="Debug" t="Include">
+                <e p="netstandard1.0" t="Include">
+                  <e p="Microsoft.AppCenter.Distribute.AssemblyInfo.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Distribute.Android" t="IncludeRecursive">
+            <e p="Distribute.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Distribute.Android.csproj" t="IncludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Resources" t="Include">
+              <e p="AboutResources.txt" t="Include" />
+              <e p="Resource.Designer.cs" t="Include" />
+              <e p="Values" t="Include">
+                <e p="Strings.xml" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Distribute.Android.Bindings" t="IncludeRecursive">
+            <e p="Additions" t="Include">
+              <e p="AboutAdditions.txt" t="Include" />
+              <e p="DeepLinkActivity.cs" t="Include" />
+              <e p="DownloadManagerReceiver.cs" t="Include" />
+            </e>
+            <e p="Jars" t="Include">
+              <e p="AboutJars.txt" t="Include" />
+            </e>
+            <e p="Microsoft.AppCenter.Distribute.Android.Bindings.csproj" t="IncludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Transforms" t="Include">
+              <e p="EnumFields.xml" t="Include" />
+              <e p="EnumMethods.xml" t="Include" />
+              <e p="Metadata.xml" t="Include" />
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Distribute.iOS" t="IncludeRecursive">
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Distribute.cs" t="Include" />
+            <e p="Microsoft.AppCenter.Distribute.iOS.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Resources" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Distribute.iOS.Bindings" t="IncludeRecursive">
+            <e p="ApiDefinition.cs" t="Include" />
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Microsoft.AppCenter.Distribute.iOS.Bindings.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Resources" t="Include" />
+            <e p="StructsAndEnums.cs" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Distribute.Shared" t="Include">
+            <e p="Distribute.cs" t="Include" />
+            <e p="DistributeDelegates.cs" t="Include" />
+            <e p="NamespaceDoc.cs" t="Include" />
+            <e p="ReleaseDetails.cs" t="Include" />
+            <e p="UserUpdate.cs" t="Include" />
+          </e>
+        </e>
+        <e p="AppCenterPush" t="Include">
+          <e p="Microsoft.AppCenter.Push" t="IncludeRecursive">
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Microsoft.AppCenter.Push.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive">
+              <e p="Debug" t="Include">
+                <e p="netstandard1.0" t="Include">
+                  <e p="Microsoft.AppCenter.Push.AssemblyInfo.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="Push.cs" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Push.Android" t="IncludeRecursive">
+            <e p="Microsoft.AppCenter.Push.Android.csproj" t="IncludeRecursive" />
+            <e p="packages.config" t="Include" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Push.cs" t="Include" />
+            <e p="PushListener.cs" t="Include" />
+            <e p="PushReceiver.cs" t="Include" />
+            <e p="Resources" t="Include">
+              <e p="AboutResources.txt" t="Include" />
+              <e p="Resource.Designer.cs" t="Include" />
+              <e p="Values" t="Include">
+                <e p="Strings.xml" t="Include" />
+              </e>
+            </e>
+            <e p="TokenService.cs" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Push.Android.Bindings" t="IncludeRecursive">
+            <e p="Additions" t="Include">
+              <e p="AboutAdditions.txt" t="Include" />
+            </e>
+            <e p="Jars" t="Include">
+              <e p="AboutJars.txt" t="Include" />
+            </e>
+            <e p="Microsoft.AppCenter.Push.Android.Bindings.csproj" t="IncludeRecursive" />
+            <e p="packages.config" t="Include" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Transforms" t="Include">
+              <e p="EnumFields.xml" t="Include" />
+              <e p="EnumMethods.xml" t="Include" />
+              <e p="Metadata.xml" t="Include" />
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Push.iOS" t="IncludeRecursive">
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Microsoft.AppCenter.Push.iOS.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Push.cs" t="Include" />
+            <e p="PushDelegate.cs" t="Include" />
+            <e p="Resources" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Push.iOS.Bindings" t="IncludeRecursive">
+            <e p="ApiDefinition.cs" t="Include" />
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Microsoft.AppCenter.Push.iOS.Bindings.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Structs.cs" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Push.Shared" t="IncludeRecursive">
+            <e p="Microsoft.AppCenter.Push.Shared.projitems" t="Include" />
+            <e p="Microsoft.AppCenter.Push.Shared.shproj" t="IncludeRecursive" />
+            <e p="Push.cs" t="Include" />
+            <e p="PushNotificationReceivedEventArgs.cs" t="Include" />
+          </e>
+        </e>
+        <e p="AppCenterRum" t="Include">
+          <e p="Microsoft.AppCenter.Rum" t="IncludeRecursive">
+            <e p="bin" t="ExcludeRecursive" />
+            <e p="Microsoft.AppCenter.Rum.csproj" t="IncludeRecursive" />
+            <e p="obj" t="ExcludeRecursive">
+              <e p="Debug" t="Include">
+                <e p="netstandard1.0" t="Include">
+                  <e p="Microsoft.AppCenter.Rum.AssemblyInfo.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="RealUserMeasurements.cs" t="Include" />
+          </e>
+          <e p="Microsoft.AppCenter.Rum.Android" t="IncludeRecursive">
+            <e p="Microsoft.AppCenter.Rum.Android.csproj" t="IncludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="RealUserMeasurements.cs" t="Include" />
+            <e p="Resources" t="Include">
+              <e p="AboutResources.txt" t="Include" />
+              <e p="Resource.Designer.cs" t="Include" />
+              <e p="Values" t="Include">
+                <e p="Strings.xml" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Rum.Android.Bindings" t="IncludeRecursive">
+            <e p="Additions" t="Include">
+              <e p="AboutAdditions.txt" t="Include" />
+            </e>
+            <e p="Jars" t="Include">
+              <e p="AboutJars.txt" t="Include" />
+            </e>
+            <e p="Microsoft.AppCenter.Rum.Android.Bindings.csproj" t="IncludeRecursive" />
+            <e p="Properties" t="Include">
+              <e p="AssemblyInfo.cs" t="Include" />
+            </e>
+            <e p="Transforms" t="Include">
+              <e p="EnumFields.xml" t="Include" />
+              <e p="EnumMethods.xml" t="Include" />
+              <e p="Metadata.xml" t="Include" />
+            </e>
+          </e>
+          <e p="Microsoft.AppCenter.Rum.Shared" t="IncludeRecursive">
+            <e p="Microsoft.AppCenter.Rum.Shared.projitems" t="Include" />
+            <e p="Microsoft.AppCenter.Rum.Shared.shproj" t="IncludeRecursive" />
+            <e p="RealUserMeasurements.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+    </e>
+    <e p="$USER_HOME$/Library/Caches/Rider2019.2/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/Rider2019.2/resharper-host/local/Transient/ReSharperHost/v192/SolutionCaches/_AppCenter-SDK-Build-Mac.-193022862.00" t="ExcludeRecursive" />
+    <e p="$APPLICATION_CONFIG_DIR$/scratches" t="IncludeRecursive" />
+  </component>
+</project>
