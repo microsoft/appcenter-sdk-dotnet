@@ -6,6 +6,7 @@ using System.Reflection;
 using Android.App;
 using Android.OS;
 using Android.Util;
+using Xunit.Runners.ResultChannels;
 using Xunit.Runners.UI;
 
 namespace Contoso.Android.FuncTest
@@ -22,15 +23,10 @@ namespace Contoso.Android.FuncTest
             //AddTestAssembly(typeof(PortableTests).Assembly);
             // or in any assembly that you load (since JIT is available)
 
+            // Try to send results to the host via a socket for CI.
             try
             {
-#pragma warning disable CS0618 // Type or member is obsolete
-                Writer = new TcpTextWriter("10.0.2.2", 16384);
-#pragma warning restore CS0618 // Type or member is obsolete
-
-                // TODO The new API does not work on command line emulator for some reason (access denied). Need to figure
-                // out why it works when creating an emulator using Android Studio...
-                //ResultChannel = TrxResultChannel.CreateTcpTrxResultChannel("10.0.2.2", 16384).Result;
+                ResultChannel = TrxResultChannel.CreateTcpTrxResultChannel("10.0.2.2", 16384).Result;
             }
             catch (Exception e)
             {

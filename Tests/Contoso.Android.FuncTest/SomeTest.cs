@@ -15,7 +15,7 @@ namespace Contoso.Android.FuncTest
         [Fact]
         public void MyOtherTest()
         {
-            Assert.Equal(1, 1);
+            Assert.Equal(1, 2);
         }
     }
 }
