@@ -29,7 +29,7 @@ adb install Tests/Contoso.Android.FuncTest/bin/Release/com.contoso.android.funct
 echo "Run test app..."
 sleep 10;
 adb shell monkey -p com.contoso.android.functest -c android.intent.category.LAUNCHER 1
-adb logcat &
+adb logcat | grep AppCenter &
 LOGCAT_PID=$!
 
 # Wait results
