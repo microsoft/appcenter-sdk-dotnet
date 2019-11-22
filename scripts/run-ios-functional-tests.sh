@@ -31,7 +31,7 @@ do
     # Check if we ran a test for real
     echo "Checking test results."
     cat results.xml
-    if [ "`xmllint --xpath "//*[local-name()='Counters'][@passed = 0]" results.xml 2> /dev/null`" != "" ];
+    if [ "`xmllint --xpath "//*[local-name()='Counters'][@total = 0]" results.xml 2> /dev/null`" != "" ];
     then
         echo -e "\nNo test ran, retrying...".
         xcrun simctl terminate "${IOS_DEVICE}" com.contoso.test.functional
