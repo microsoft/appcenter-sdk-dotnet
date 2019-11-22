@@ -131,5 +131,8 @@
         <Compile Include="AppDelegate.cs" />
         <Compile Include="SomeTest.cs" />
     </ItemGroup>
+    <ItemGroup>
+      <InterfaceDefinition Include="LaunchScreen.storyboard" />
+    </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
