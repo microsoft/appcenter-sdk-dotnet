@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Test.Functional.iOS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Test.Functional.Droid", "Tests\Contoso.Test.Functional.Droid\Contoso.Test.Functional.Droid.csproj", "{7C330BE4-5B36-4106-81EB-048BB5ADC4E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Test.Functional", "Tests\Microsoft.AppCenter.Test.Functional\Microsoft.AppCenter.Test.Functional.csproj", "{52E0C906-8706-4072-8F98-AB49C96BCC4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,5 +41,17 @@ Global
 		{7C330BE4-5B36-4106-81EB-048BB5ADC4E3}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{7C330BE4-5B36-4106-81EB-048BB5ADC4E3}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{7C330BE4-5B36-4106-81EB-048BB5ADC4E3}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{52E0C906-8706-4072-8F98-AB49C96BCC4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52E0C906-8706-4072-8F98-AB49C96BCC4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52E0C906-8706-4072-8F98-AB49C96BCC4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52E0C906-8706-4072-8F98-AB49C96BCC4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52E0C906-8706-4072-8F98-AB49C96BCC4E}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{52E0C906-8706-4072-8F98-AB49C96BCC4E}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{52E0C906-8706-4072-8F98-AB49C96BCC4E}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{52E0C906-8706-4072-8F98-AB49C96BCC4E}.Release|iPhone.Build.0 = Release|Any CPU
+		{52E0C906-8706-4072-8F98-AB49C96BCC4E}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{52E0C906-8706-4072-8F98-AB49C96BCC4E}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{52E0C906-8706-4072-8F98-AB49C96BCC4E}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{52E0C906-8706-4072-8F98-AB49C96BCC4E}.Debug|iPhone.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal

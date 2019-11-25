@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Reflection;
 using Android.App;
 using Android.OS;
 using Android.Util;
+using Microsoft.AppCenter.Test.Functional;
 using Xunit.Runners.ResultChannels;
 using Xunit.Runners.UI;
 
@@ -16,11 +16,8 @@ namespace Contoso.Test.Functional.Droid
     {
         protected override void OnCreate(Bundle bundle)
         {
-            // tests can be inside the main assembly
-            AddTestAssembly(Assembly.GetExecutingAssembly());
-
-            //AddTestAssembly(typeof(PortableTests).Assembly);
-            // or in any assembly that you load (since JIT is available)
+            // Register tests from shared library.
+            AddTestAssembly(typeof(PortableTest).Assembly);
 
             // Try to send results to the host via a socket for CI.
             try
