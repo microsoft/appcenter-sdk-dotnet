@@ -67,7 +67,6 @@
         <Reference Include="System.Numerics.Vectors" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
       <PackageReference Include="xunit">
         <Version>2.4.1</Version>
       </PackageReference>
@@ -129,10 +128,15 @@
     <ItemGroup>
         <Compile Include="Main.cs" />
         <Compile Include="AppDelegate.cs" />
-        <Compile Include="SomeTest.cs" />
     </ItemGroup>
     <ItemGroup>
       <InterfaceDefinition Include="LaunchScreen.storyboard" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Microsoft.AppCenter.Test.Functional\Microsoft.AppCenter.Test.Functional.csproj">
+        <Project>{52E0C906-8706-4072-8F98-AB49C96BCC4E}</Project>
+        <Name>Microsoft.AppCenter.Test.Functional</Name>
+      </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

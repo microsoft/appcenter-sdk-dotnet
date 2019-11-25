@@ -207,7 +207,6 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SomeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -238,6 +237,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\AboutAssets.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.AppCenter.Test.Functional\Microsoft.AppCenter.Test.Functional.csproj">
+      <Project>{52E0C906-8706-4072-8F98-AB49C96BCC4E}</Project>
+      <Name>Microsoft.AppCenter.Test.Functional</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\xunit.runner.devices.2.5.25\build\monoandroid81\xunit.runner.devices.targets" Condition="Exists('..\..\packages\xunit.runner.devices.2.5.25\build\monoandroid81\xunit.runner.devices.targets')" />

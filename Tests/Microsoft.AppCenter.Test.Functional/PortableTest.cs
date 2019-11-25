@@ -3,9 +3,9 @@
 
 using Xunit;
 
-namespace Contoso.Test.Functional.Droid
+namespace Microsoft.AppCenter.Test.Functional
 {
-    public class SomeTest
+    public class PortableTest
     {
         [Fact]
         public void MyTest()

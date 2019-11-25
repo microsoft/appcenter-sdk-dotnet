@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Reflection;
 using Foundation;
+using Microsoft.AppCenter.Test.Functional;
 using UIKit;
 using Xunit.Runner;
 using Xunit.Runners.ResultChannels;
@@ -25,11 +25,8 @@ namespace Contoso.Test.Functional.iOS
         //
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
-            // tests can be inside the main assembly
-            AddTestAssembly(Assembly.GetExecutingAssembly());
-            // otherwise you need to ensure that the test assemblies will 
-            // become part of the app bundle
-            //AddTestAssembly(typeof(PortableTests).Assembly);
+            // Register tests.
+            AddTestAssembly(typeof(PortableTest).Assembly);
 
             // Try to send results to the host via a socket for CI.
             try
