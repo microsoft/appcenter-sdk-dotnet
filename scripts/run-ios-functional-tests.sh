@@ -11,7 +11,7 @@ xcrun simctl boot "${IOS_DEVICE}"
 echo "Installing test app on device..."
 xcrun simctl install "${IOS_DEVICE}" Tests/Contoso.Test.Functional.iOS/bin/iPhoneSimulator/Release/Contoso.Test.Functional.iOS.app
 
-# We might to run tests multiple times.
+# We might need to run tests multiple times.
 while true
 do
 
