@@ -134,7 +134,7 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Microsoft.AppCenter.Test.Functional\Microsoft.AppCenter.Test.Functional.csproj">
-        <Project>{52E0C906-8706-4072-8F98-AB49C96BCC4E}</Project>
+        <Project>{115F38E3-5DD5-469E-8A06-AA6BE4B99777}</Project>
         <Name>Microsoft.AppCenter.Test.Functional</Name>
       </ProjectReference>
     </ItemGroup>

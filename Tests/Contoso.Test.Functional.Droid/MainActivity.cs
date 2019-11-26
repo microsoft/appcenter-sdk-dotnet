@@ -5,24 +5,26 @@ using System;
 using Android.App;
 using Android.OS;
 using Android.Util;
-using Microsoft.AppCenter.Test.Functional;
 using Xunit.Runners.ResultChannels;
 using Xunit.Runners.UI;
+using Config = Microsoft.AppCenter.Test.Functional.Config;
 
 namespace Contoso.Test.Functional.Droid
 {
     [Activity(Label = "xUnit Android Runner", MainLauncher = true, Theme = "@android:style/Theme.Material.Light")]
     public class MainActivity : RunnerActivity
     {
+        private const string ResultChannelHost = "10.0.2.2";
+
         protected override void OnCreate(Bundle bundle)
         {
             // Register tests from shared library.
-            AddTestAssembly(typeof(PortableTest).Assembly);
+            AddTestAssembly(typeof(Config).Assembly);
 
             // Try to send results to the host via a socket for CI.
             try
             {
-                ResultChannel = TrxResultChannel.CreateTcpTrxResultChannel("10.0.2.2", 16384).Result;
+                ResultChannel = TrxResultChannel.CreateTcpTrxResultChannel(ResultChannelHost, Config.ResultChannelPort).Result;
             }
             catch (Exception e)
             {

@@ -16,6 +16,8 @@ namespace Contoso.Test.Functional.iOS
     [Register("AppDelegate")]
     public class AppDelegate : RunnerAppDelegate
     {
+        private const string ResultChannelHost = "127.0.0.1";
+
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
@@ -25,13 +27,13 @@ namespace Contoso.Test.Functional.iOS
         //
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
-            // Register tests.
-            AddTestAssembly(typeof(PortableTest).Assembly);
+            // Register tests from shared library.
+            AddTestAssembly(typeof(Config).Assembly);
 
             // Try to send results to the host via a socket for CI.
             try
             {
-                ResultChannel = TrxResultChannel.CreateTcpTrxResultChannel("127.0.0.1", 16384).Result;
+                ResultChannel = TrxResultChannel.CreateTcpTrxResultChannel(ResultChannelHost, Config.ResultChannelPort).Result;
             }
             catch (Exception e)
             {
