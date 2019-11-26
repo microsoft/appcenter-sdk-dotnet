@@ -18,7 +18,7 @@ echo "Android Emulator started after $duration seconds."
 
 # Install app
 echo "Installing Android test app on device..."
-adb install Tests/Contoso.Test.Functional.Droid/bin/Release/com.contoso.test.functional.apk
+adb install Tests/Contoso.Test.Functional.Droid/bin/Release/com.contoso.test.functional-Signed.apk
 
 # Listen to tests
 echo "Start listening test results on socket."
