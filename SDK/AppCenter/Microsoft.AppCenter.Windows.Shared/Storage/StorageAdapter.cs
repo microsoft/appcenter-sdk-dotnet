@@ -71,14 +71,21 @@ namespace Microsoft.AppCenter.Storage
             raw.sqlite3_finalize(stmt);
             return result;
         }
+
         private int ExecuteReturningSQLQuery(sqlite3 db, string query)
         {
-            using (sqlite3 ssdb = ugly.open(":memory:"))
+            sqlite3_stmt stmt;
+            int result = raw.sqlite3_prepare_v2(db, query, out stmt);
+            while (result == raw.SQLITE_ROW)
             {
-                sqlite3_stmt stmt = ssdb.prepare("CREATE TABLE foo (x int)");
-                stmt.step();
+                int id = raw.sqlite3_column_int(stmt, 0);
+                string column = raw.sqlite3_column_text(stmt, 1);
             }
+            result = raw.sqlite3_step(stmt);
+            raw.sqlite3_finalize(stmt);
+            return result;
         }
+
         public async Task<List<T>> GetAsync<T>(Expression<Func<T, bool>> pred, int limit) where T : new()
         {
             try
