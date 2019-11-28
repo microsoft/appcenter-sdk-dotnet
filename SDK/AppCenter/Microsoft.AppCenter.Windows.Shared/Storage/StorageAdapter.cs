@@ -55,7 +55,7 @@ namespace Microsoft.AppCenter.Storage
                     throw new StorageException($"Failed to create table: {ErrorCodeToRawSQLite3ConstName(result)} ({result})");
                 }
             });
-            
+
         }
 
         private int ExecuteNonReturningSQLQuery(sqlite3 db, string query)
@@ -72,33 +72,57 @@ namespace Microsoft.AppCenter.Storage
             return result;
         }
 
-        private int ExecuteReturningSQLQuery(sqlite3 db, string query)
+        private List<string> ExecuteReturningSQLQuery(sqlite3 db, string query)
         {
             sqlite3_stmt stmt;
+            List<string> resultQuery = new List<string>();
             int result = raw.sqlite3_prepare_v2(db, query, out stmt);
             while (result == raw.SQLITE_ROW)
             {
-                int id = raw.sqlite3_column_int(stmt, 0);
-                string column = raw.sqlite3_column_text(stmt, 1);
+                while (raw.sqlite3_step(stmt) == raw.SQLITE_OK) {
+                    Dictionary<string, object> temp = new Dictionary<string, object>();
+                    var count = raw.sqlite3_column_count(stmt);
+                    for (var i = 0; i < count; i++) {
+                        var nameCol = raw.sqlite3_column_table_name(stmt, i);
+                        var typeCol = raw.sqlite3_column_type(stmt, i);
+                        object valCol;
+                        switch (typeCol)
+                        {
+                            case (int) SqlType.SQLITE_BLOB:
+                                valCol = raw.sqlite3_column_blob(stmt, i);
+                                break;
+                            case (int) SqlType.SQLITE_DOUBLE:
+                                valCol = raw.sqlite3_column_double(stmt, i);
+                                break;
+                            case (int) SqlType.SQLITE_INTEGER:
+                                valCol = raw.sqlite3_column_int(stmt, i);
+                                break;
+                            case (int) SqlType.SQLITE_TEXT:
+                                valCol = raw.sqlite3_column_text(stmt, i);
+                                break;
+                            default:
+                                valCol = null;
+                                break;
+                        }
+                        temp.Add(nameCol, valCol);
+                    }
+                    resultQuery.Add(string.Join(",", temp));
+                }
             }
-            result = raw.sqlite3_step(stmt);
             raw.sqlite3_finalize(stmt);
-            return result;
+            return resultQuery;
         }
 
-        public async Task<List<T>> GetAsync<T>(Expression<Func<T, bool>> pred, int limit) where T : new()
+        public async Task<List<T>> GetAsync<T>(string tableName, string columnName, Dictionary<string, string> scheme = null)
         {
-            try
+            var queryString = String.Format("SELECT * FROM {0}", tableName, columnName);
+            if (scheme != null && scheme.Count > 0)
             {
-                var table = _dbConnection.Table<T>();
-                return await table.Where(pred).Take(limit).ToListAsync().ConfigureAwait(false);
+                queryString += "WHERE " + string.Join("AND", scheme);
             }
-            catch (SQLiteException e)
-            {
-                throw ToStorageException(e);
-            }
+            return ExecuteReturningSQLQuery(_db, queryString);
         }
-        
+
         private int SQLCount(sqlite3 db, string tableName, string columnName, List<string> values)
         {
             return ExecuteNonReturningSQLQuery(db, String.Format("SELECT COUNT(*) FROM {0} WHERE {1} IN ({2})", tableName, columnName, string.Join(",", values)));
@@ -106,7 +130,6 @@ namespace Microsoft.AppCenter.Storage
 
         public Task<int> CountAsync(string tableName, string columnName, List<int> values)
         {
-            
             return table.Where(pred).CountAsync();
         }
 
@@ -117,19 +140,13 @@ namespace Microsoft.AppCenter.Storage
 
         public Task<int> InsertAsync(string tableName, Dictionary<string, string> scheme)
         {
-            try
-            {
-                return Task.FromResult(SQLInsert(_db, tableName, scheme));
-            }
-            catch (SQLiteException e)
-            {
-                throw ToStorageException(e);
-            }
+
+            return Task.FromResult(SQLInsert(_db, tableName, scheme));
         }
 
-        private static StorageException ToStorageException(SQLiteException e)
+        private static StorageException ToStorageException(int erroeCode)
         {
-            return new StorageException($"SQLite errorCode={e.Result}", e);
+            return new StorageException($"SQLite errorCode={ErrorCodeToRawSQLite3ConstName(erroeCode)}");
         }
 
         private int SQLDelete(sqlite3 db, string tableName, string columnName, List<int> values)
@@ -148,14 +165,7 @@ namespace Microsoft.AppCenter.Storage
 
         public Task<int> DeleteAsync(string tableName, string columnName, List<int> values)
         {
-            try
-            {
-                return Task.FromResult(SQLDelete(_db, tableName, columnName, values));
-            }
-            catch (SQLiteException e)
-            {
-                throw ToStorageException(e);
-            }
+            return Task.FromResult(SQLDelete(_db, tableName, columnName, values));
         }
 
         public Task InitializeStorageAsync()
@@ -204,4 +214,12 @@ namespace Microsoft.AppCenter.Storage
             });
         }
     }
+
+    enum SqlType {
+        SQLITE_INTEGER = 1,
+        SQLITE_TEXT = 2,
+        SQLITE_BLOB = 3,
+        SQLITE_DOUBLE = 4
+    }
+
 }
