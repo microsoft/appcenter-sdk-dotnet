@@ -3,20 +3,21 @@
 
 using Microsoft.AppCenter.Utils;
 using Microsoft.AppCenter.Utils.Files;
-using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using SQLitePCL;
 
 namespace Microsoft.AppCenter.Storage
 {
     internal class StorageAdapter : IStorageAdapter
     {
-        private SQLiteAsyncConnection _dbConnection;
+        sqlite3 _db;
         internal Directory _databaseDirectory;
         private readonly string _databasePath;
+        private static int SqliteConfigurationResult = raw.SQLITE_ERROR;
 
         public StorageAdapter(string databasePath)
         {
@@ -28,22 +29,41 @@ namespace Microsoft.AppCenter.Storage
             }
         }
 
-        public async Task CreateTableAsync<T>() where T : new()
+        public async Task CreateTableAsync (string tableName, Dictionary<string, string> scheme)
         {
-            try
+            //todo tableName
+            int result = CreateTable(_db, tableName, scheme);
+            if (result != raw.SQLITE_OK)
             {
-                // In SQLite-net 1.5 return type was changed.
-                // Using reflection to accept newer library version.
-                var task = (Task)_dbConnection.GetType()
-                    .GetMethod("CreateTableAsync", new[] { typeof(CreateFlags) })
-                    .MakeGenericMethod(typeof(T))
-                    .Invoke(_dbConnection, new object[] { CreateFlags.None });
-                await task.ConfigureAwait(false);
+                // todo throw
             }
-            catch (SQLiteException e)
+            else if (result == raw.SQLITE_DONE)
             {
-                throw ToStorageException(e);
+
             }
+            else
+            {
+                // todo throw
+            }
+        }
+
+        private int CreateTable(sqlite3 db, string tableName, Dictionary<string, string> scheme)
+        {
+            return executeQuery(db, String.Format("CREATE TABLE \"{0}\" (\"{1}\")", tableName, string.Join(",", scheme)));
+        }
+
+        private int executeQuery(sqlite3 db, string query)
+        {
+            sqlite3_stmt stmt;
+            // todo
+            int result = raw.sqlite3_prepare_v2(db, query, out stmt);
+            if (result != raw.SQLITE_OK)
+            {
+                return result;
+            }
+            result = raw.sqlite3_step(stmt);
+            raw.sqlite3_finalize(stmt);
+            return result;
         }
 
         public async Task<List<T>> GetAsync<T>(Expression<Func<T, bool>> pred, int limit) where T : new()
@@ -59,22 +79,28 @@ namespace Microsoft.AppCenter.Storage
             }
         }
 
+
         public Task<int> CountAsync<T>(Expression<Func<T, bool>> pred) where T : new()
         {
             var table = _dbConnection.Table<T>();
             return table.Where(pred).CountAsync();
         }
 
-        public Task<int> InsertAsync<T>(T val) where T : new()
+        public void InsertAsync(string tableName, Dictionary<string, string> scheme)
         {
             try
             {
-                return _dbConnection.InsertAsync(val);
+                Insert(_db, tableName, scheme);
             }
             catch (SQLiteException e)
             {
                 throw ToStorageException(e);
             }
+        }
+
+        private int Insert(sqlite3 db, string tableName, Dictionary<string, string> scheme)
+        {
+            return executeQuery(db, String.Format("INSERT INTO \"{0}\" (\"{1}\")", tableName, string.Join(",", scheme)));
         }
 
         private static StorageException ToStorageException(SQLiteException e)
@@ -82,23 +108,30 @@ namespace Microsoft.AppCenter.Storage
             return new StorageException($"SQLite errorCode={e.Result}", e);
         }
 
-        public async Task<int> DeleteAsync<T>(Expression<Func<T, bool>> pred) where T : new()
+        public async void DeleteAsync<T>(string tableName, string columnName, List<int> values)
         {
             try
             {
-                var numDeleted = 0;
-                var table = _dbConnection.Table<T>();
-                var entries = await table.Where(pred).ToListAsync().ConfigureAwait(false);
-                foreach (var entry in entries)
-                {
-                    numDeleted += await _dbConnection.DeleteAsync(entry).ConfigureAwait(false);
-                }
-                return numDeleted;
+                Delete(db, tableName, columnName, values);
             }
             catch (SQLiteException e)
             {
                 throw ToStorageException(e);
             }
+        }
+
+        private int Delete(sqlite3 db, string tableName, string columnName, List<int> values)
+        {
+            var numDeleted = 0;
+            foreach (var val in values)
+            {
+                int result = executeQuery(db, String.Format("DELETE FROM \"{0}\" WHERE {1} = {2}", tableName, columnName, val));
+                if (result == raw.SQLITE_DONE)
+                {
+                    numDeleted++;
+                }
+            }
+            return numDeleted;
         }
 
         public Task InitializeStorageAsync()
