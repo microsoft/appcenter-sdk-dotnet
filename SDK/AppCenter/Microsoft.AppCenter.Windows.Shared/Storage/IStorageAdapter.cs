@@ -12,10 +12,10 @@ namespace Microsoft.AppCenter.Storage
     {
         Task InitializeStorageAsync();
         Task<List<T>> GetAsync<T>(Expression<Func<T, bool>> pred, int limit) where T : new();
-        Task CreateTableAsync<T>() where T : new();
-        Task<int> CountAsync<T>(Expression<Func<T, bool>> pred) where T : new();
-        Task<int> InsertAsync<T>(T val) where T : new();
-        Task<int> DeleteAsync<T>(Expression<Func<T, bool>> pred) where T : new();
+        Task CreateTableAsync(string tableName, Dictionary<string, string> scheme);
+        Task<int> CountAsync(string tableName, string columnName, List<int> values);
+        Task<int> InsertAsync(string tableName, Dictionary<string, string> scheme);
+        Task<int> DeleteAsync(string tableName, string columnName, List<int> values);
         Task DeleteDatabaseFileAsync();
     }
 }
