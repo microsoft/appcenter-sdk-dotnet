@@ -33,7 +33,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Models\Serialization\CustomPropertyJsonConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Models\StringProperty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Models\ValidationException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\ColumnMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\IStorageAdapter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\SqlDataType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\StorageAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\UserIdEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\SessionContext.cs" />

@@ -4,11 +4,13 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion.Models;
 using Microsoft.AppCenter.Ingestion.Models.Serialization;
 using Microsoft.AppCenter.Utils;
+using Microsoft.AppCenter.Windows.Shared.Storage;
 using Newtonsoft.Json;
 using SQLite;
 
@@ -30,6 +32,14 @@ namespace Microsoft.AppCenter.Storage
             // The serialized json text of the log
             public string Log { get; set; }
         }
+
+        // Const for storage data.
+        private const string TableName = "LogEntry";
+        private const string ColumnChannelName = "Channel";
+        private const string ColumnLogName = "Log";
+        private const string ColumnIdName = "Id";
+        private const string IntegerColumnType = "int";
+        private const string TextColumnType = "text";
 
         private readonly IStorageAdapter _storageAdapter;
         private const string DbIdentifierDelimiter = "@";
@@ -90,7 +100,12 @@ namespace Microsoft.AppCenter.Storage
             {
                 var logJsonString = LogSerializer.Serialize(log);
                 var logEntry = new LogEntry { Channel = channelName, Log = logJsonString };
-                _storageAdapter.InsertAsync(logEntry).GetAwaiter().GetResult();
+                var scheme = new Dictionary<string, object>()
+                {
+                    { "Channel" ,channelName },
+                    { "Log", logJsonString }
+                };
+                _storageAdapter.InsertAsync(TableName, scheme).GetAwaiter().GetResult();
             });
         }
 
@@ -119,9 +134,12 @@ namespace Microsoft.AppCenter.Storage
                     AppCenterLog.Debug(AppCenterLog.LogTag, deletedIdsMessage);
                     foreach (var id in identifiers)
                     {
-                        _storageAdapter
-                            .DeleteAsync<LogEntry>(entry => entry.Channel == channelName && entry.Id == id)
-                            .GetAwaiter().GetResult();
+                        var values = new Dictionary<string, object>()
+                         {
+                            { ColumnChannelName, channelName},
+                            { ColumnIdName, id }
+                        };
+                        _storageAdapter.DeleteAsync(TableName, values, "AND").GetAwaiter().GetResult();
                     }
                 }
                 catch (KeyNotFoundException e)
@@ -145,7 +163,8 @@ namespace Microsoft.AppCenter.Storage
                     AppCenterLog.Debug(AppCenterLog.LogTag,
                         $"Deleting all logs from storage for channel '{channelName}'");
                     ClearPendingLogStateWithoutEnqueue(channelName);
-                    _storageAdapter.DeleteAsync<LogEntry>(entry => entry.Channel == channelName)
+                    var values = new List<object>() { channelName };
+                    _storageAdapter.DeleteAsync(TableName, ColumnChannelName, values)
                         .GetAwaiter().GetResult();
                 }
                 catch (KeyNotFoundException e)
@@ -165,8 +184,10 @@ namespace Microsoft.AppCenter.Storage
         {
             return AddTaskToQueue(() =>
             {
-                return _storageAdapter.CountAsync<LogEntry>(entry => entry.Channel == channelName)
-                    .GetAwaiter().GetResult();
+                var values = new Dictionary<string, object>() {
+                    { ColumnChannelName, channelName }
+                };
+                return _storageAdapter.CountAsync(TableName, values, "AND").GetAwaiter().GetResult();
             });
         }
 
@@ -223,11 +244,29 @@ namespace Microsoft.AppCenter.Storage
                     $"Trying to get up to {limit} logs from storage for {channelName}");
                 var idPairs = new List<Tuple<Guid?, long>>();
                 var failedToDeserializeALog = false;
-                var retrievedEntries =
-                    _storageAdapter.GetAsync<LogEntry>(entry => entry.Channel == channelName && !_pendingDbIdentifiers.Contains(entry.Id), limit)
-                        .GetAwaiter().GetResult();
+                var scheme = new Dictionary<string, object>()
+                {
+                    { ColumnChannelName, channelName},
+                    // todo _pendingDbIdentifiers != id
+                   // { ColumnIdName, entry.Id}
+
+                };
+                foreach (var id in _pendingDbIdentifiers)
+                {
+                    scheme.Add(ColumnIdName, "!=" + id);
+                }
+                var objectdEntries = _storageAdapter.GetAsync(TableName, scheme, "AND", limit).GetAwaiter().GetResult();
+                var retrievedEntries = objectdEntries.Select(x =>
+                new LogEntry()
+                {
+                    Id = (int)x[ColumnIdName],
+                    Channel = (string)x[ColumnChannelName],
+                    Log = (string)x[ColumnLogName]
+                }
+                ).ToList<LogEntry>();
                 foreach (var entry in retrievedEntries)
                 {
+
                     try
                     {
                         var log = LogSerializer.DeserializeLog(entry.Log);
@@ -238,7 +277,8 @@ namespace Microsoft.AppCenter.Storage
                     {
                         AppCenterLog.Error(AppCenterLog.LogTag, "Cannot deserialize a log in storage", e);
                         failedToDeserializeALog = true;
-                        _storageAdapter.DeleteAsync<LogEntry>(row => row.Id == entry.Id)
+                        var values = new List<object> { entry.Id };
+                        _storageAdapter.DeleteAsync(TableName, ColumnIdName, values)
                             .GetAwaiter().GetResult();
                     }
                 }
@@ -280,8 +320,14 @@ namespace Microsoft.AppCenter.Storage
         {
             try
             {
+                var scheme = new List<ColumnMap>
+                {
+                    new ColumnMap { ColumnName = ColumnIdName, ColumnType = IntegerColumnType, IsAutoIncrement = true, IsPrimarykey = true },
+                    new ColumnMap { ColumnName = ColumnChannelName, ColumnType = TextColumnType, IsAutoIncrement = false, IsPrimarykey = false },
+                    new ColumnMap { ColumnName = ColumnLogName, ColumnType = TextColumnType, IsAutoIncrement = false, IsPrimarykey = false }
+                };
                 await _storageAdapter.InitializeStorageAsync().ConfigureAwait(false);
-                await _storageAdapter.CreateTableAsync<LogEntry>().ConfigureAwait(false);
+                await _storageAdapter.CreateTableAsync(TableName, scheme).ConfigureAwait(false);
             }
             catch (Exception e)
             {
