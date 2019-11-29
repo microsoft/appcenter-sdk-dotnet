@@ -41,7 +41,7 @@ namespace Microsoft.AppCenter.Storage
 
         private int SQLCreateTable(sqlite3 db, string tableName, Dictionary<string, string> scheme)
         {
-            return ExecuteNonReturningSQLQuery(db, String.Format("CREATE TABLE \"{0}\" (\"{1}\")", tableName, string.Join(",", scheme)));
+            return ExecuteNonSelectionSqlQuery(db, String.Format("CREATE TABLE \"{0}\" (\"{1}\")", tableName, string.Join(",", scheme)));
         }
 
         public Task CreateTableAsync(string tableName, Dictionary<string, string> scheme)
@@ -58,7 +58,7 @@ namespace Microsoft.AppCenter.Storage
 
         }
 
-        private int ExecuteNonReturningSQLQuery(sqlite3 db, string query)
+        private int ExecuteNonSelectionSqlQuery(sqlite3 db, string query)
         {
             sqlite3_stmt stmt;
             // todo
@@ -72,15 +72,15 @@ namespace Microsoft.AppCenter.Storage
             return result;
         }
 
-        private List<string> ExecuteReturningSQLQuery(sqlite3 db, string query)
+        private List<Dictionary<string, object>> ExecuteSelectionSqlLQuery(sqlite3 db, string query)
         {
             sqlite3_stmt stmt;
-            List<string> resultQuery = new List<string>();
+            List<Dictionary<string, object>> resultQuery = new List<Dictionary<string, object>>();
             int result = raw.sqlite3_prepare_v2(db, query, out stmt);
             while (result == raw.SQLITE_ROW)
             {
                 while (raw.sqlite3_step(stmt) == raw.SQLITE_OK) {
-                    Dictionary<string, object> temp = new Dictionary<string, object>();
+                    Dictionary<string, object> rowData = new Dictionary<string, object>();
                     var count = raw.sqlite3_column_count(stmt);
                     for (var i = 0; i < count; i++) {
                         var nameCol = raw.sqlite3_column_table_name(stmt, i);
@@ -104,38 +104,38 @@ namespace Microsoft.AppCenter.Storage
                                 valCol = null;
                                 break;
                         }
-                        temp.Add(nameCol, valCol);
+                        rowData.Add(nameCol, valCol);
                     }
-                    resultQuery.Add(string.Join(",", temp));
+                    resultQuery.Add(rowData);
                 }
             }
             raw.sqlite3_finalize(stmt);
             return resultQuery;
         }
 
-        public async Task<List<T>> GetAsync<T>(string tableName, string columnName, Dictionary<string, string> scheme = null)
+        public async Task<List<Dictionary<string, object>>> GetAsync(string tableName, string columnName, Dictionary<string, string> scheme = null)
         {
             var queryString = String.Format("SELECT * FROM {0}", tableName, columnName);
             if (scheme != null && scheme.Count > 0)
             {
                 queryString += "WHERE " + string.Join("AND", scheme);
             }
-            return ExecuteReturningSQLQuery(_db, queryString);
+            return ExecuteSelectionSqlLQuery(_db, queryString);
         }
 
-        private int SQLCount(sqlite3 db, string tableName, string columnName, List<string> values)
+        private async Task<int> ExecuteCountSqlQuery(sqlite3 db, string tableName, string columnName, List<int> values)
         {
-            return ExecuteNonReturningSQLQuery(db, String.Format("SELECT COUNT(*) FROM {0} WHERE {1} IN ({2})", tableName, columnName, string.Join(",", values)));
+            return ExecuteNonSelectionSqlQuery(db, String.Format("SELECT COUNT(*) FROM {0} WHERE {1}", tableName, string.Join(" AND ", values.ToDictionary(x=> x, x => " IN " + columnName))));
         }
 
         public Task<int> CountAsync(string tableName, string columnName, List<int> values)
         {
-            return table.Where(pred).CountAsync();
+            return ExecuteCountSqlQuery(_db, tableName, columnName, values);
         }
 
         private int SQLInsert(sqlite3 db, string tableName, Dictionary<string, string> scheme)
         {
-            return ExecuteNonReturningSQLQuery(db, String.Format("INSERT INTO \"{0}\" (\"{1}\")", tableName, string.Join(",", scheme)));
+            return ExecuteNonSelectionSqlQuery(db, String.Format("INSERT INTO \"{0}\" (\"{1}\")", tableName, string.Join(",", scheme)));
         }
 
         public Task<int> InsertAsync(string tableName, Dictionary<string, string> scheme)
@@ -154,7 +154,7 @@ namespace Microsoft.AppCenter.Storage
             var numDeleted = 0;
             foreach (var val in values)
             {
-                int result = ExecuteNonReturningSQLQuery(db, String.Format("DELETE FROM \"{0}\" WHERE {1} = {2}", tableName, columnName, val));
+                int result = ExecuteNonSelectionSqlQuery(db, String.Format("DELETE FROM \"{0}\" WHERE {1} = {2}", tableName, columnName, val));
                 if (result == raw.SQLITE_DONE)
                 {
                     numDeleted++;

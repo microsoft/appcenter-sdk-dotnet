@@ -11,7 +11,7 @@ namespace Microsoft.AppCenter.Storage
     public interface IStorageAdapter
     {
         Task InitializeStorageAsync();
-        Task<List<T>> GetAsync<T>(Expression<Func<T, bool>> pred, int limit) where T : new();
+        Task<List<Dictionary<string, object>>> GetAsync(string tableName, string columnName, Dictionary<string, string> scheme = null);
         Task CreateTableAsync(string tableName, Dictionary<string, string> scheme);
         Task<int> CountAsync(string tableName, string columnName, List<int> values);
         Task<int> InsertAsync(string tableName, Dictionary<string, string> scheme);
