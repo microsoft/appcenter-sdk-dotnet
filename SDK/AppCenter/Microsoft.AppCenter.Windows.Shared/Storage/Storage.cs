@@ -91,7 +91,7 @@ namespace Microsoft.AppCenter.Storage
                 var logJsonString = LogSerializer.Serialize(log);
                 var columnsMapList = new List<List<ColumnValueMap>>(){ new List<ColumnValueMap>()
                 {
-                    new ColumnValueMap() { ColumnName = ColumnChannelName, ColumnValue = channelName, ColumnType = raw.SQLITE_TEXT }, 
+                    new ColumnValueMap() { ColumnName = ColumnChannelName, ColumnValue = channelName, ColumnType = raw.SQLITE_TEXT },
                     new ColumnValueMap() { ColumnName = ColumnLogName, ColumnValue = logJsonString, ColumnType = raw.SQLITE_TEXT }
                 } };
                 _storageAdapter.InsertAsync(TableName, columnsMapList).GetAwaiter().GetResult();
@@ -121,7 +121,7 @@ namespace Microsoft.AppCenter.Storage
                         _pendingDbIdentifiers.Remove(id);
                     }
                     AppCenterLog.Debug(AppCenterLog.LogTag, deletedIdsMessage);
-                    _storageAdapter.DeleteAsync(TableName, $"{ColumnChannelName} = \"{channelName}\"c AND {ColumnIdName} IN ({string.Join(",", identifiers)})").GetAwaiter().GetResult();
+                    _storageAdapter.DeleteAsync(TableName, $"{ColumnChannelName} = \'{channelName}\' AND {ColumnIdName} IN ({string.Join(",", identifiers)})").GetAwaiter().GetResult();
                 }
                 catch (KeyNotFoundException e)
                 {
@@ -145,7 +145,7 @@ namespace Microsoft.AppCenter.Storage
                         $"Deleting all logs from storage for channel '{channelName}'");
                     ClearPendingLogStateWithoutEnqueue(channelName);
                     var values = new List<object>() { channelName };
-                    _storageAdapter.DeleteAsync(TableName, $"{ColumnChannelName} = \"{channelName}\"")
+                    _storageAdapter.DeleteAsync(TableName, $"{ColumnChannelName} = \'{channelName}\'")
                         .GetAwaiter().GetResult();
                 }
                 catch (KeyNotFoundException e)
@@ -228,14 +228,14 @@ namespace Microsoft.AppCenter.Storage
                 {
                     pendingExcludeClause = $" AND {ColumnIdName} NOT IN ({string.Join(",", _pendingDbIdentifiers)})";
                 }
-                string whereClause = $"{ColumnChannelName} = \"{channelName}\" {pendingExcludeClause}";
+                string whereClause = $"{ColumnChannelName} = \'{channelName}\' {pendingExcludeClause}";
                 var objectdEntries = _storageAdapter.GetAsync(TableName, whereClause, limit).GetAwaiter().GetResult();
-                var retrievedEntries = objectdEntries.Select(x =>
+                var retrievedEntries = objectdEntries.Select(entries =>
                     new LogEntry()
                     {
-                        Id = (int)x[ColumnIdName],
-                        Channel = (string)x[ColumnChannelName],
-                        Log = (string)x[ColumnLogName]
+                        Id = (int)entries[0],
+                        Channel = (string)entries[1],
+                        Log = (string)entries[2]
                     }
                 ).ToList<LogEntry>();
                 foreach (var entry in retrievedEntries)
