@@ -83,8 +83,7 @@ namespace Microsoft.AppCenter.Storage
 
         private int ExecuteNonSelectionSqlQuery(sqlite3 db, string query)
         {
-            sqlite3_stmt stmt;
-            int result = raw.sqlite3_prepare_v2(db, query, out stmt);
+            int result = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (result != raw.SQLITE_OK)
             {
                 return result;
@@ -94,56 +93,59 @@ namespace Microsoft.AppCenter.Storage
             return result;
         }
 
-        private List<Dictionary<string, object>> ExecuteSelectionSqlLQuery(sqlite3 db, string query)
+        private List<Dictionary<string, object>> ExecuteSelectionSqlQuery(sqlite3 db, string query)
         {
-            sqlite3_stmt stmt;
-            List<Dictionary<string, object>> resultQuery = new List<Dictionary<string, object>>();
-            int result = raw.sqlite3_prepare_v2(db, query, out stmt);
-            while (result == raw.SQLITE_ROW)
+            var resultList = new List<Dictionary<string, object>>();
+            int queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
+            if (queryResult != raw.SQLITE_OK)
             {
-                while (raw.sqlite3_step(stmt) == raw.SQLITE_OK)
+                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={queryResult}");
+                return null;
+            }
+            while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
+            {
+                Dictionary<string, object> rowData = new Dictionary<string, object>();
+                var count = raw.sqlite3_column_count(stmt);
+                for (var i = 0; i < count; i++)
                 {
-                    Dictionary<string, object> rowData = new Dictionary<string, object>();
-                    var count = raw.sqlite3_column_count(stmt);
-                    for (var i = 0; i < count; i++)
+                    var nameCol = raw.sqlite3_column_table_name(stmt, i);
+                    var typeCol = raw.sqlite3_column_type(stmt, i);
+                    object valCol;
+                    switch (typeCol)
                     {
-                        var nameCol = raw.sqlite3_column_table_name(stmt, i);
-                        var typeCol = raw.sqlite3_column_type(stmt, i);
-                        object valCol;
-                        switch (typeCol)
-                        {
-                            case raw.SQLITE_FLOAT:
-                               valCol = raw.sqlite3_column_double(stmt, i);
-                                break;
-                            case raw.SQLITE_INTEGER:
-                                valCol = raw.sqlite3_column_int(stmt, i);
-                                break;
-                            case raw.SQLITE_TEXT:
-                                valCol = raw.sqlite3_column_text(stmt, i);
-                                break;
-                            default:
-                                valCol = null;
-                                break;
-                        }
-                        rowData.Add(nameCol, valCol);
+                        case raw.SQLITE_FLOAT:
+                            valCol = raw.sqlite3_column_double(stmt, i);
+                            break;
+                        case raw.SQLITE_INTEGER:
+                            valCol = raw.sqlite3_column_int(stmt, i);
+                            break;
+                        case raw.SQLITE_TEXT:
+                            // TODO add reflection here
+                            valCol = raw.sqlite3_column_text(stmt, i);
+                            break;
+                        default:
+                            valCol = null;
+                            break;
                     }
-                    resultQuery.Add(rowData);
+                    rowData.Add(nameCol, valCol);
                 }
+                resultList.Add(rowData);
             }
             raw.sqlite3_finalize(stmt);
-            return resultQuery;
+            return resultList;
         }
 
-        public async Task<List<Dictionary<string, object>>> GetAsync(string tableName, string whereClause, int? limit = null)
+        public Task<List<Dictionary<string, object>>> GetAsync(string tableName, string whereClause, int? limit = null)
         {
             string limitClause = limit != null ? $"LIMIT {limit}" : String.Empty;
             string query = $"SELECT * FROM {tableName} WHERE {whereClause} {limitClause};";
-            return ExecuteSelectionSqlLQuery(_db, query);
+            List<Dictionary<string, object>> executeResult;
+            return Task.FromResult(ExecuteSelectionSqlQuery(_db, query));
         }
 
-        private async Task<int> ExecuteCountSqlQuery(sqlite3 db, string tableName, string whereClause)
+        private Task<int> ExecuteCountSqlQuery(sqlite3 db, string tableName, string whereClause)
         {
-            return ExecuteNonSelectionSqlQuery(db, $"SELECT COUNT(*) FROM {tableName} WHERE {whereClause};");
+            return Task.FromResult(ExecuteNonSelectionSqlQuery(db, $"SELECT COUNT(*) FROM {tableName} WHERE {whereClause};"));
         }
 
         public Task<int> CountAsync(string tableName, string whereClause)
