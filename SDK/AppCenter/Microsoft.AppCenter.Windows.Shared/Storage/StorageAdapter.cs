@@ -158,7 +158,7 @@ namespace Microsoft.AppCenter.Storage
                     columnsHashSet.Add(x.ColumnName);
                     if (x.ColumnType == raw.SQLITE_TEXT) return $"\"{x.ColumnValue}\"";
                     return x.ColumnValue;
-                }).ToList());
+                }));
                 stringValues.Add($"({stringValue})");
             }
             var valuesClause = string.Join(",", stringValues);
