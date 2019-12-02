@@ -29,15 +29,6 @@ namespace Microsoft.AppCenter.Storage
             }
         }
 
-        private static StorageException ErrorCodeToRawSQLite3ConstName(int resultCode)
-        {
-            foreach (FieldInfo field in typeof(Constants).GetFields().Where(f => (f.Name.StartsWith("SQLITE_") && (int)f.GetValue(null) == resultCode)))
-            {
-                return new StorageException($"SQLite errorCode={resultCode} ({field.Name})");
-            }
-            return new StorageException(($"SQLite errorCode={resultCode}"));
-        }
-
         private int SQLCreateTable(sqlite3 db, string tableName, List<ColumnMap> scheme)
         {
             var queryString = $"CREATE TABLE IF NOT EXISTS {tableName} (";
@@ -64,7 +55,7 @@ namespace Microsoft.AppCenter.Storage
                 int result = SQLCreateTable(_db, tableName, columnMaps);
                 if (result != raw.SQLITE_DONE)
                 {
-                    throw new StorageException($"Failed to create table: {ErrorCodeToRawSQLite3ConstName(result)} ({result})");
+                    throw new StorageException($"Failed to create table: {result}");
                 }
             });
 
@@ -73,7 +64,6 @@ namespace Microsoft.AppCenter.Storage
         private int ExecuteNonSelectionSqlQuery(sqlite3 db, string query)
         {
             sqlite3_stmt stmt;
-            // todo
             int result = raw.sqlite3_prepare_v2(db, query, out stmt);
             if (result != raw.SQLITE_OK)
             {
@@ -166,9 +156,9 @@ namespace Microsoft.AppCenter.Storage
             return Task.FromResult(SqlQueryInsert(_db, tableName, columnsClause, valuesClause));
         }
 
-        private static StorageException ToStorageException(int erroeCode)
+        private static StorageException ToStorageException(int errorCode)
         {
-            return new StorageException($"SQLite errorCode={ErrorCodeToRawSQLite3ConstName(erroeCode)}");
+            return new StorageException($"SQLitePCLRaw errorCode={errorCode}");
         }
 
         private int SqlQueryDelete(sqlite3 db, string tableName, string whereClause)
