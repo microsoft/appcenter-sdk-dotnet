@@ -15,7 +15,7 @@ namespace Microsoft.AppCenter.Storage
         Task<List<Dictionary<string, object>>> GetAsync(string tableName, string whereClause, int? limit);
         Task CreateTableAsync(string tableName, List<ColumnMap> columnMaps);
         Task<int> CountAsync(string tableName, string whereClause);
-        Task<int> InsertAsync(string tableName, List<List<ColumnValue>> valueMaps);
+        Task<int> InsertAsync(string tableName, List<List<ColumnValueMap>> valueMaps);
         Task<int> DeleteAsync(string tableName, string whereClause);
         Task DeleteDatabaseFileAsync();
     }

@@ -100,10 +100,10 @@ namespace Microsoft.AppCenter.Storage
             return AddTaskToQueue(() =>
             {
                 var logJsonString = LogSerializer.Serialize(log);
-                var columnsMapList = new List<List<ColumnValue>>(){ new List<ColumnValue>()
+                var columnsMapList = new List<List<ColumnValueMap>>(){ new List<ColumnValueMap>()
                 {
-                    new ColumnValue() { ColumnName = ColumnChannelName, ColumnVal = channelName, ColumnType = raw.SQLITE_TEXT }, 
-                    new ColumnValue() { ColumnName = ColumnLogName, ColumnVal = logJsonString, ColumnType = raw.SQLITE_TEXT }
+                    new ColumnValueMap() { ColumnName = ColumnChannelName, ColumnValue = channelName, ColumnType = raw.SQLITE_TEXT }, 
+                    new ColumnValueMap() { ColumnName = ColumnLogName, ColumnValue = logJsonString, ColumnType = raw.SQLITE_TEXT }
                 } };
                 _storageAdapter.InsertAsync(TableName, columnsMapList).GetAwaiter().GetResult();
             });

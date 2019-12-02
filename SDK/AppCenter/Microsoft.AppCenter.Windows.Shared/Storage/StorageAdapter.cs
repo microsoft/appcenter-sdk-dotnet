@@ -142,12 +142,12 @@ namespace Microsoft.AppCenter.Storage
         }
 
        
-        private int SQLInsert(sqlite3 db, string tableName, string columnsClause, string valuesClause)
+        private int SqlQueryInsert(sqlite3 db, string tableName, string columnsClause, string valuesClause)
         {
             return ExecuteNonSelectionSqlQuery(db, $"INSERT INTO {tableName}{columnsClause} VALUES {valuesClause};");
         }
 
-        public Task<int> InsertAsync(string tableName, List<List<ColumnValue>> valueMaps)
+        public Task<int> InsertAsync(string tableName, List<List<ColumnValueMap>> valueMaps)
         {
             List<string> stringValues = new List<string>();
             HashSet<string> columnsHashSet = new HashSet<string>();
@@ -156,14 +156,14 @@ namespace Microsoft.AppCenter.Storage
                 var stringValue = string.Join(",", entry.Select(x =>
                 {
                     columnsHashSet.Add(x.ColumnName);
-                    if (x.ColumnType == raw.SQLITE_TEXT) return $"\"{x.ColumnVal}\"";
-                    return x.ColumnVal;
+                    if (x.ColumnType == raw.SQLITE_TEXT) return $"\"{x.ColumnValue}\"";
+                    return x.ColumnValue;
                 }).ToList());
                 stringValues.Add($"({stringValue})");
             }
             var valuesClause = string.Join(",", stringValues);
             var columnsClause = $"({string.Join(".", columnsHashSet)})";
-            return Task.FromResult(SQLInsert(_db, tableName, columnsClause, valuesClause));
+            return Task.FromResult(SqlQueryInsert(_db, tableName, columnsClause, valuesClause));
         }
 
         private static StorageException ToStorageException(int erroeCode)
@@ -171,7 +171,7 @@ namespace Microsoft.AppCenter.Storage
             return new StorageException($"SQLite errorCode={ErrorCodeToRawSQLite3ConstName(erroeCode)}");
         }
 
-        private int SQLDelete(sqlite3 db, string tableName, string whereClause)
+        private int SqlQueryDelete(sqlite3 db, string tableName, string whereClause)
         {
             var numDeleted = ExecuteCountSqlQuery(db, tableName, whereClause).GetAwaiter().GetResult();
             int result = ExecuteNonSelectionSqlQuery(db, $"DELETE FROM {tableName} WHERE {whereClause};");
@@ -184,7 +184,7 @@ namespace Microsoft.AppCenter.Storage
         
         public Task<int> DeleteAsync(string tableName, string whereClause)
         {
-            return Task.FromResult(SQLDelete(_db, tableName, whereClause));
+            return Task.FromResult(SqlQueryDelete(_db, tableName, whereClause));
         }
 
         public Task InitializeStorageAsync()
