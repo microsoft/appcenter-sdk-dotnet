@@ -92,6 +92,7 @@ namespace Microsoft.AppCenter.Storage
             int result = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (result != raw.SQLITE_OK)
             {
+                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={result}\t{raw.sqlite3_errmsg(_db)}");
                 return result;
             }
             result = raw.sqlite3_step(stmt);
@@ -99,9 +100,9 @@ namespace Microsoft.AppCenter.Storage
             return result;
         }
 
-        private List<Dictionary<string, object>> ExecuteSelectionSqlQuery(sqlite3 db, string query)
+        private List<List<object>> ExecuteSelectionSqlQuery(sqlite3 db, string query)
         {
-            var resultList = new List<Dictionary<string, object>>();
+            var entries = new List<List<object>> ();
             int queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (queryResult != raw.SQLITE_OK)
             {
@@ -110,7 +111,7 @@ namespace Microsoft.AppCenter.Storage
             }
             while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
             {
-                Dictionary<string, object> rowData = new Dictionary<string, object>();
+                List<object> entry = new List<object>();
                 var count = raw.sqlite3_column_count(stmt);
                 for (var i = 0; i < count; i++)
                 {
@@ -133,19 +134,18 @@ namespace Microsoft.AppCenter.Storage
                             valCol = null;
                             break;
                     }
-                    rowData.Add(nameCol, valCol);
+                    entry.Add(valCol);
                 }
-                resultList.Add(rowData);
+                entries.Add(entry);
             }
             raw.sqlite3_finalize(stmt);
-            return resultList;
+            return entries;
         }
 
-        public Task<List<Dictionary<string, object>>> GetAsync(string tableName, string whereClause, int? limit = null)
+        public Task<List<List<object>>> GetAsync(string tableName, string whereClause, int? limit = null)
         {
             string limitClause = limit != null ? $"LIMIT {limit}" : String.Empty;
             string query = $"SELECT * FROM {tableName} WHERE {whereClause} {limitClause};";
-            List<Dictionary<string, object>> executeResult;
             return Task.FromResult(ExecuteSelectionSqlQuery(_db, query));
         }
 
@@ -174,13 +174,13 @@ namespace Microsoft.AppCenter.Storage
                 var stringValue = string.Join(",", entry.Select(x =>
                 {
                     columnsHashSet.Add(x.ColumnName);
-                    if (x.ColumnType == raw.SQLITE_TEXT) return $"\"{x.ColumnValue}\"";
+                    if (x.ColumnType == raw.SQLITE_TEXT) return $"\'{x.ColumnValue}\'";
                     return x.ColumnValue;
                 }));
                 stringValues.Add($"({stringValue})");
             }
             var valuesClause = string.Join(",", stringValues);
-            var columnsClause = $"({string.Join(".", columnsHashSet)})";
+            var columnsClause = $"({string.Join(",", columnsHashSet)})";
             return Task.FromResult(SqlQueryInsert(_db, tableName, columnsClause, valuesClause));
         }
 
@@ -193,9 +193,9 @@ namespace Microsoft.AppCenter.Storage
         {
             var numDeleted = ExecuteCountSqlQuery(db, tableName, whereClause).GetAwaiter().GetResult();
             int result = ExecuteNonSelectionSqlQuery(db, $"DELETE FROM {tableName} WHERE {whereClause};");
-            if (result == raw.SQLITE_DONE)
+            if (result != raw.SQLITE_DONE && result != raw.SQLITE_OK)
             {
-               // todo
+                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to delete SQL query, result={result}\t{raw.sqlite3_errmsg(_db)}");
             }
             return numDeleted;
         }
