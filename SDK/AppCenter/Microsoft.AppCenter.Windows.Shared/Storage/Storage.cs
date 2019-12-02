@@ -39,8 +39,6 @@ namespace Microsoft.AppCenter.Storage
         private const string ColumnChannelName = "Channel";
         private const string ColumnLogName = "Log";
         private const string ColumnIdName = "Id";
-        private const string IntegerColumnType = "int";
-        private const string TextColumnType = "text";
 
         private readonly IStorageAdapter _storageAdapter;
         private const string DbIdentifierDelimiter = "@";
@@ -78,13 +76,7 @@ namespace Microsoft.AppCenter.Storage
             }
             catch (System.IO.FileLoadException e)
             {
-                if (e.Message.Contains("SQLite-net"))
-                {
-                    AppCenterLog.Error(AppCenterLog.LogTag,
-                        "If you are using sqlite-net-pcl version 1.4.118, please use a different version. " +
-                        "There is a known bug in this version that will prevent App Center from working properly.");
-                    throw new StorageException("Cannot initialize SQLite library.", e);
-                }
+                // TODO Throw
                 throw;
             }
         }
