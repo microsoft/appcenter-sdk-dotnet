@@ -127,15 +127,14 @@ namespace Microsoft.AppCenter.Storage
             return resultQuery;
         }
 
-        public async Task<List<Dictionary<string, object>>> GetAsync(string tableName, Dictionary<string, object> scheme, string pred = "AND", int? limit = null)
+        public async Task<List<Dictionary<string, object>>> GetAsync(string tableName, string whereClause, int? limit = null)
         {
-            var queryCondition = string.Join($" {pred} ", scheme.Select(x => x.Key + " IN " + x.Value).ToList());
-            if ( limit != null)
+            var query = $"SELECT * FROM {tableName} WHERE {whereClause}";
+            if (limit != null)
             {
-                queryCondition += $" LIMIT {limit}";
+                query += $" LIMIT {limit}";
             }
-            var queryString = String.Format("SELECT * FROM {0} WHERE {1}", tableName, queryCondition);
-            return ExecuteSelectionSqlLQuery(_db, queryString);
+            return ExecuteSelectionSqlLQuery(_db, query);
         }
 
         private async Task<int> ExecuteCountSqlQuery(sqlite3 db, string tableName, Dictionary<string, object> scheme, string pred)

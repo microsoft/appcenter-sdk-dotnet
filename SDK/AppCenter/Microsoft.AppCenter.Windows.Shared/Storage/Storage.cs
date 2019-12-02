@@ -244,29 +244,21 @@ namespace Microsoft.AppCenter.Storage
                     $"Trying to get up to {limit} logs from storage for {channelName}");
                 var idPairs = new List<Tuple<Guid?, long>>();
                 var failedToDeserializeALog = false;
-                var scheme = new Dictionary<string, object>()
-                {
-                    { ColumnChannelName, channelName},
-                    // todo _pendingDbIdentifiers != id
-                   // { ColumnIdName, entry.Id}
 
-                };
-                foreach (var id in _pendingDbIdentifiers)
-                {
-                    scheme.Add(ColumnIdName, "!=" + id);
-                }
-                var objectdEntries = _storageAdapter.GetAsync(TableName, scheme, "AND", limit).GetAwaiter().GetResult();
+                string whereClause =
+                    $"{ColumnChannelName} = {channelName} AND {ColumnIdName} NOT IN ({string.Join(",", _pendingDbIdentifiers)})";
+
+                var objectdEntries = _storageAdapter.GetAsync(TableName, whereClause, limit).GetAwaiter().GetResult();
                 var retrievedEntries = objectdEntries.Select(x =>
-                new LogEntry()
-                {
-                    Id = (int)x[ColumnIdName],
-                    Channel = (string)x[ColumnChannelName],
-                    Log = (string)x[ColumnLogName]
-                }
+                    new LogEntry()
+                    {
+                        Id = (int)x[ColumnIdName],
+                        Channel = (string)x[ColumnChannelName],
+                        Log = (string)x[ColumnLogName]
+                    }
                 ).ToList<LogEntry>();
                 foreach (var entry in retrievedEntries)
                 {
-
                     try
                     {
                         var log = LogSerializer.DeserializeLog(entry.Log);
