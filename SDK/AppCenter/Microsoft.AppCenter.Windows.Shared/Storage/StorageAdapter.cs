@@ -31,39 +31,40 @@ namespace Microsoft.AppCenter.Storage
 
         private int SqlQueryCreateTable(sqlite3 db, string tableName, List<ColumnMap> scheme)
         {
-            var queryString = $"CREATE TABLE IF NOT EXISTS {tableName} (";
+            var columnsList = new List<string>();
             foreach (var column in scheme)
             {
-                queryString += $"{column.ColumnName} ";
+                var columnData = $"{column.ColumnName} ";
                 switch (column.ColumnType)
                 {
                     case raw.SQLITE_TEXT:
                     {
-                        queryString += "TEXT ";
+                        columnData += "TEXT ";
                         break;
                     }
                     case raw.SQLITE_INTEGER:
                     {
-                        queryString += "INTEGER ";
+                        columnData += "INTEGER ";
                         break;
                     }
                     case raw.SQLITE_FLOAT:
                     {
-                        queryString += "FLOAT ";
+                        columnData += "FLOAT ";
                         break;
                     }
                 }
-
                 if (column.IsPrimarykey)
                 {
-                    queryString += "PRIMARY KEY ";
+                    columnData += "PRIMARY KEY ";
                 }
                 if (column.IsAutoIncrement)
                 {
-                    queryString += "AUTOINCREMENT ";
+                    columnData += "AUTOINCREMENT";
                 }
+                columnsList.Add(columnData);
             }
-            queryString += ");";
+            var tableClause = string.Join(",", columnsList.ToArray());
+            var queryString = $"CREATE TABLE IF NOT EXISTS {tableName} ({tableClause});";
             return ExecuteNonSelectionSqlQuery(db, queryString);
         }
 
