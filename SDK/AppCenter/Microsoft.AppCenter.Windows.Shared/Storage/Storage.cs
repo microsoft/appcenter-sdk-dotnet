@@ -74,10 +74,9 @@ namespace Microsoft.AppCenter.Storage
             {
                 return new StorageAdapter(Constants.AppCenterDatabasePath);
             }
-            catch (System.IO.FileLoadException e)
+            catch (Exception e)
             {
-                // TODO Throw
-                throw;
+                throw new StorageException($"Failed to create StorageAdapter instance.", e);
             }
         }
 
