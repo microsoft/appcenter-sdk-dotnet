@@ -39,8 +39,6 @@ namespace Microsoft.AppCenter.Storage
         private const string ColumnChannelName = "Channel";
         private const string ColumnLogName = "Log";
         private const string ColumnIdName = "Id";
-        private const string IntegerColumnType = "int";
-        private const string TextColumnType = "text";
 
         private readonly IStorageAdapter _storageAdapter;
         private const string DbIdentifierDelimiter = "@";
@@ -76,16 +74,9 @@ namespace Microsoft.AppCenter.Storage
             {
                 return new StorageAdapter(Constants.AppCenterDatabasePath);
             }
-            catch (System.IO.FileLoadException e)
+            catch (Exception e)
             {
-                if (e.Message.Contains("SQLite-net"))
-                {
-                    AppCenterLog.Error(AppCenterLog.LogTag,
-                        "If you are using sqlite-net-pcl version 1.4.118, please use a different version. " +
-                        "There is a known bug in this version that will prevent App Center from working properly.");
-                    throw new StorageException("Cannot initialize SQLite library.", e);
-                }
-                throw;
+                throw new StorageException($"Failed to create StorageAdapter instance.", e);
             }
         }
 
@@ -132,7 +123,7 @@ namespace Microsoft.AppCenter.Storage
                         _pendingDbIdentifiers.Remove(id);
                     }
                     AppCenterLog.Debug(AppCenterLog.LogTag, deletedIdsMessage);
-                    _storageAdapter.DeleteAsync(TableName, $"{ColumnChannelName} = {channelName} AND {ColumnIdName} IN ({string.Join(",", identifiers)})").GetAwaiter().GetResult();
+                    _storageAdapter.DeleteAsync(TableName, $"{ColumnChannelName} = \"{channelName}\"c AND {ColumnIdName} IN ({string.Join(",", identifiers)})").GetAwaiter().GetResult();
                 }
                 catch (KeyNotFoundException e)
                 {
@@ -156,7 +147,7 @@ namespace Microsoft.AppCenter.Storage
                         $"Deleting all logs from storage for channel '{channelName}'");
                     ClearPendingLogStateWithoutEnqueue(channelName);
                     var values = new List<object>() { channelName };
-                    _storageAdapter.DeleteAsync(TableName, $"{ColumnChannelName} = {channelName}")
+                    _storageAdapter.DeleteAsync(TableName, $"{ColumnChannelName} = \"{channelName}\"")
                         .GetAwaiter().GetResult();
                 }
                 catch (KeyNotFoundException e)
@@ -176,7 +167,7 @@ namespace Microsoft.AppCenter.Storage
         {
             return AddTaskToQueue(() =>
             {
-                string whereClause = $"{ColumnChannelName} = {channelName}";
+                string whereClause = $"{ColumnChannelName} = \"{channelName}\"";
                 return _storageAdapter.CountAsync(TableName, whereClause).GetAwaiter().GetResult();
             });
         }
@@ -234,10 +225,12 @@ namespace Microsoft.AppCenter.Storage
                     $"Trying to get up to {limit} logs from storage for {channelName}");
                 var idPairs = new List<Tuple<Guid?, long>>();
                 var failedToDeserializeALog = false;
-
-                string whereClause =
-                    $"{ColumnChannelName} = {channelName} AND {ColumnIdName} NOT IN ({string.Join(",", _pendingDbIdentifiers)})";
-
+                string pendingExcludeClause = String.Empty;
+                if (_pendingDbIdentifiers != null && _pendingDbIdentifiers.Count > 0)
+                {
+                    pendingExcludeClause = $" AND {ColumnIdName} NOT IN ({string.Join(",", _pendingDbIdentifiers)})";
+                }
+                string whereClause = $"{ColumnChannelName} = \"{channelName}\" {pendingExcludeClause}";
                 var objectdEntries = _storageAdapter.GetAsync(TableName, whereClause, limit).GetAwaiter().GetResult();
                 var retrievedEntries = objectdEntries.Select(x =>
                     new LogEntry()
