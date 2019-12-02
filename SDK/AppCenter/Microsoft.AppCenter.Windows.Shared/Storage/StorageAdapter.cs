@@ -44,20 +44,14 @@ namespace Microsoft.AppCenter.Storage
                 switch (column.ColumnType)
                 {
                     case raw.SQLITE_TEXT:
-                    {
                         columnData += RawTextTypeName + " ";
                         break;
-                    }
                     case raw.SQLITE_INTEGER:
-                    {
                         columnData += RawIntegerTypeName + " ";
                         break;
-                    }
                     case raw.SQLITE_FLOAT:
-                    {
                         columnData += RawFloatTypeName + " ";
                         break;
-                    }
                 }
                 if (column.IsPrimarykey)
                 {
@@ -206,7 +200,7 @@ namespace Microsoft.AppCenter.Storage
         private int SqlQueryDelete(sqlite3 db, string tableName, string whereClause)
         {
             var numDeleted = ExecuteCountSqlQuery(db, tableName, whereClause).GetAwaiter().GetResult();
-            int result = ExecuteNonSelectionSqlQuery(db, $"DELETE FROM {tableName} WHERE {whereClause};");
+            var result = ExecuteNonSelectionSqlQuery(db, $"DELETE FROM {tableName} WHERE {whereClause};");
             if (result != raw.SQLITE_DONE && result != raw.SQLITE_OK)
             {
                 AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to delete SQL query, result={result}\t{raw.sqlite3_errmsg(_db)}");
