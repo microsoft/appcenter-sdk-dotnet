@@ -223,12 +223,12 @@ namespace Microsoft.AppCenter.Storage
                     $"Trying to get up to {limit} logs from storage for {channelName}");
                 var idPairs = new List<Tuple<Guid?, long>>();
                 var failedToDeserializeALog = false;
-                string pendingExcludeClause = String.Empty;
+                var pendingExcludeClause = string.Empty;
                 if (_pendingDbIdentifiers != null && _pendingDbIdentifiers.Count > 0)
                 {
                     pendingExcludeClause = $" AND {ColumnIdName} NOT IN ({string.Join(",", _pendingDbIdentifiers)})";
                 }
-                string whereClause = $"{ColumnChannelName} = \'{channelName}\' {pendingExcludeClause}";
+                var whereClause = $"{ColumnChannelName} = \'{channelName}\' {pendingExcludeClause}";
                 var objectdEntries = _storageAdapter.GetAsync(TableName, whereClause, limit).GetAwaiter().GetResult();
                 var retrievedEntries = objectdEntries.Select(entries =>
                     new LogEntry()
@@ -237,7 +237,7 @@ namespace Microsoft.AppCenter.Storage
                         Channel = (string)entries[1],
                         Log = (string)entries[2]
                     }
-                ).ToList<LogEntry>();
+                ).ToList();
                 foreach (var entry in retrievedEntries)
                 {
                     try

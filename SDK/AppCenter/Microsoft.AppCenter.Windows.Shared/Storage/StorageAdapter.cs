@@ -78,7 +78,7 @@ namespace Microsoft.AppCenter.Storage
         {
             return Task.Run(() =>
             {
-                int result = SqlQueryCreateTable(_db, tableName, columnMaps);
+                var result = SqlQueryCreateTable(_db, tableName, columnMaps);
                 if (result != raw.SQLITE_DONE)
                 {
                     throw new StorageException($"Failed to create table: {result}");
@@ -89,7 +89,7 @@ namespace Microsoft.AppCenter.Storage
 
         private int ExecuteNonSelectionSqlQuery(sqlite3 db, string query)
         {
-            int result = raw.sqlite3_prepare_v2(db, query, out var stmt);
+            var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (result != raw.SQLITE_OK)
             {
                 AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={result}\t{raw.sqlite3_errmsg(_db)}");
@@ -103,7 +103,7 @@ namespace Microsoft.AppCenter.Storage
         private List<List<object>> ExecuteSelectionSqlQuery(sqlite3 db, string query)
         {
             var entries = new List<List<object>>();
-            int queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
+            var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (queryResult != raw.SQLITE_OK)
             {
                 AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={queryResult}\t{raw.sqlite3_errmsg(_db)}");
@@ -111,7 +111,7 @@ namespace Microsoft.AppCenter.Storage
             }
             while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
             {
-                List<object> entry = new List<object>();
+                var entry = new List<object>();
                 var count = raw.sqlite3_column_count(stmt);
                 for (var i = 0; i < count; i++)
                 {
@@ -142,8 +142,8 @@ namespace Microsoft.AppCenter.Storage
 
         public Task<List<List<object>>> GetAsync(string tableName, string whereClause, int? limit = null)
         {
-            string limitClause = limit != null ? $"LIMIT {limit}" : String.Empty;
-            string query = $"SELECT * FROM {tableName} WHERE {whereClause} {limitClause};";
+            var limitClause = limit != null ? $"LIMIT {limit}" : String.Empty;
+            var query = $"SELECT * FROM {tableName} WHERE {whereClause} {limitClause};";
             return Task.FromResult(ExecuteSelectionSqlQuery(_db, query));
         }
 
@@ -181,8 +181,8 @@ namespace Microsoft.AppCenter.Storage
 
         public Task<int> InsertAsync(string tableName, List<List<ColumnValueMap>> valueMaps)
         {
-            List<string> stringValues = new List<string>();
-            HashSet<string> columnsHashSet = new HashSet<string>();
+            var stringValues = new List<string>();
+            var columnsHashSet = new HashSet<string>();
             foreach (var entry in valueMaps)
             {
                 var stringValue = string.Join(",", entry.Select(x =>
