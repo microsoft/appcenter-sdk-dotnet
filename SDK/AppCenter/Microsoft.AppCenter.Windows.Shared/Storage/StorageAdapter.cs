@@ -29,7 +29,7 @@ namespace Microsoft.AppCenter.Storage
             }
         }
 
-        private int SQLCreateTable(sqlite3 db, string tableName, List<ColumnMap> scheme)
+        private int SqlQueryCreateTable(sqlite3 db, string tableName, List<ColumnMap> scheme)
         {
             var queryString = $"CREATE TABLE IF NOT EXISTS {tableName} (";
             foreach (var column in scheme)
@@ -52,7 +52,7 @@ namespace Microsoft.AppCenter.Storage
         {
             return Task.Run(() =>
             {
-                int result = SQLCreateTable(_db, tableName, columnMaps);
+                int result = SqlQueryCreateTable(_db, tableName, columnMaps);
                 if (result != raw.SQLITE_DONE)
                 {
                     throw new StorageException($"Failed to create table: {result}");
@@ -184,7 +184,7 @@ namespace Microsoft.AppCenter.Storage
                 raw.SetProvider(new SQLite3Provider_e_sqlite3());
                 if (raw.sqlite3_initialize() != raw.SQLITE_OK)
                 {
-                    throw new StorageException("Failed to initialize SQLite library");
+                    throw new StorageException("Failed to initialize SQLite storage.");
                 }
                 // Create the directory in case it does not exist.
                 if (_databaseDirectory != null)
