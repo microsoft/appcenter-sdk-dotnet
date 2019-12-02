@@ -203,12 +203,6 @@ namespace Microsoft.AppCenter.Storage
         {
             return Task.Run(() =>
             {
-                raw.SetProvider(new SQLite3Provider_e_sqlite3());
-                if (raw.sqlite3_initialize() != raw.SQLITE_OK)
-                {
-                    throw new StorageException("Failed to initialize SQLite storage.");
-                }
-                // Create the directory in case it does not exist.
                 if (_databaseDirectory != null)
                 {
                     try
@@ -220,6 +214,7 @@ namespace Microsoft.AppCenter.Storage
                         throw new StorageException("Cannot initialize SQLite library.", e);
                     }
                 }
+                raw.SetProvider(new SQLite3Provider_e_sqlite3());
                 if (raw.sqlite3_open(_databasePath, out _db) != raw.SQLITE_OK)
                 {
                     throw new StorageException("Failed to open database connection");
