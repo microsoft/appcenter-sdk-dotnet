@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using Microsoft.AppCenter.Windows.Shared.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -11,11 +12,11 @@ namespace Microsoft.AppCenter.Storage
     public interface IStorageAdapter
     {
         Task InitializeStorageAsync();
-        Task<List<T>> GetAsync<T>(Expression<Func<T, bool>> pred, int limit) where T : new();
-        Task CreateTableAsync<T>() where T : new();
-        Task<int> CountAsync<T>(Expression<Func<T, bool>> pred) where T : new();
-        Task<int> InsertAsync<T>(T val) where T : new();
-        Task<int> DeleteAsync<T>(Expression<Func<T, bool>> pred) where T : new();
+        Task<List<Dictionary<string, object>>> GetAsync(string tableName, string whereClause, int? limit);
+        Task CreateTableAsync(string tableName, List<ColumnMap> columnMaps);
+        Task<int> CountAsync(string tableName, string whereClause);
+        Task<int> InsertAsync(string tableName, List<List<ColumnValueMap>> valueMaps);
+        Task<int> DeleteAsync(string tableName, string whereClause);
         Task DeleteDatabaseFileAsync();
     }
 }
