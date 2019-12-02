@@ -45,7 +45,8 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
             try
             {
                 // Try to clean up resources but don't fail the test if that throws an error.
-                SQLite.SQLiteAsyncConnection.ResetPool();
+                // FIXME
+                //SQLite.SQLiteAsyncConnection.ResetPool();
                 File.Delete(_storagePath);
             }
             catch
