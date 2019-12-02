@@ -99,7 +99,7 @@ namespace Microsoft.AppCenter.Storage
             int queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (queryResult != raw.SQLITE_OK)
             {
-                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={queryResult}");
+                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={queryResult}\t{raw.sqlite3_errmsg(_db)}");
                 return null;
             }
             while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
