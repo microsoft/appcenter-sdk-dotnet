@@ -15,6 +15,12 @@ namespace Microsoft.AppCenter.Storage
 {
     internal class StorageAdapter : IStorageAdapter
     {
+        private const string RawTextTypeName = "TEXT";
+        private const string RawFloatTypeName = "FLOAT";
+        private const string RawIntegerTypeName = "INTEGER";
+        private const string RawAutoincrementSuffix = "AUTOINCREMENT";
+        private const string RawPrimaryKeySuffix = "PRIMARY KEY";
+        
         private sqlite3 _db;
         internal Directory _databaseDirectory;
         private readonly string _databasePath;
@@ -39,27 +45,27 @@ namespace Microsoft.AppCenter.Storage
                 {
                     case raw.SQLITE_TEXT:
                     {
-                        columnData += "TEXT ";
+                        columnData += RawTextTypeName+" ";
                         break;
                     }
                     case raw.SQLITE_INTEGER:
                     {
-                        columnData += "INTEGER ";
+                        columnData += RawIntegerTypeName+" ";
                         break;
                     }
                     case raw.SQLITE_FLOAT:
                     {
-                        columnData += "FLOAT ";
+                        columnData += RawFloatTypeName+" ";
                         break;
                     }
                 }
                 if (column.IsPrimarykey)
                 {
-                    columnData += "PRIMARY KEY ";
+                    columnData += RawPrimaryKeySuffix+" ";
                 }
                 if (column.IsAutoIncrement)
                 {
-                    columnData += "AUTOINCREMENT";
+                    columnData += RawAutoincrementSuffix;
                 }
                 columnsList.Add(columnData);
             }
