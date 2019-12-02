@@ -12,7 +12,6 @@ using Microsoft.AppCenter.Ingestion.Models.Serialization;
 using Microsoft.AppCenter.Utils;
 using Microsoft.AppCenter.Windows.Shared.Storage;
 using Newtonsoft.Json;
-using SQLite;
 using SQLitePCL;
 
 namespace Microsoft.AppCenter.Storage
@@ -24,7 +23,6 @@ namespace Microsoft.AppCenter.Storage
     {
         internal class LogEntry
         {
-            [PrimaryKey, AutoIncrement]
             public int Id { get; set; }
 
             // The name of the channel that emitted the log
