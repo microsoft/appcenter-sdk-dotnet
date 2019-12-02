@@ -105,13 +105,13 @@ namespace Microsoft.AppCenter.Storage
                         object valCol;
                         switch (typeCol)
                         {
-                            case (int)SqlDataType.SQLITE_FLOAT:
-                                valCol = raw.sqlite3_column_double(stmt, i);
+                            case raw.SQLITE_FLOAT:
+                               valCol = raw.sqlite3_column_double(stmt, i);
                                 break;
-                            case (int)SqlDataType.SQLITE_INTEGER:
+                            case raw.SQLITE_INTEGER:
                                 valCol = raw.sqlite3_column_int(stmt, i);
                                 break;
-                            case (int)SqlDataType.SQLITE_TEXT:
+                            case raw.SQLITE_TEXT:
                                 valCol = raw.sqlite3_column_text(stmt, i);
                                 break;
                             default:
