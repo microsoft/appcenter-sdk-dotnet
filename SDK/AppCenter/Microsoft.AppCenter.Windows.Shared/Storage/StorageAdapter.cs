@@ -86,7 +86,7 @@ namespace Microsoft.AppCenter.Storage
             var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (result != raw.SQLITE_OK)
             {
-                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={result}\t{raw.sqlite3_errmsg(_db)}");
+                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={result}\t{GetErrorMessage(_db)}");
                 return result;
             }
             result = raw.sqlite3_step(stmt);
@@ -100,7 +100,7 @@ namespace Microsoft.AppCenter.Storage
             var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (queryResult != raw.SQLITE_OK)
             {
-                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={queryResult}\t{raw.sqlite3_errmsg(_db)}");
+                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={queryResult}\t{GetErrorMessage(_db)}");
                 return null;
             }
             while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
@@ -136,25 +136,41 @@ namespace Microsoft.AppCenter.Storage
 
         public Task<List<List<object>>> GetAsync(string tableName, string whereClause, int? limit = null)
         {
-            var limitClause = limit != null ? $"LIMIT {limit}" : String.Empty;
+            var limitClause = limit != null ? $"LIMIT {limit}" : string.Empty;
             var query = $"SELECT * FROM {tableName} WHERE {whereClause} {limitClause};";
             return Task.FromResult(ExecuteSelectionSqlQuery(_db, query));
         }
 
-        private string GetColumnText(sqlite3_stmt stmt, int index)
+        private static string GetErrorMessage(sqlite3 db)
+        {
+            // In SQLitePCL.raw - 2.0 return type was changed.	
+            // Using reflection to accept newer library version.
+            var str = typeof(raw)
+                .GetMethod("sqlite3_errmsg", new[] { typeof(sqlite3) })
+                .Invoke(null, new object[] { db });
+            return GetString(str);
+        }
+
+        private static string GetColumnText(sqlite3_stmt stmt, int index)
         {
             // In SQLitePCL.raw - 2.0 return type was changed.	
             // Using reflection to accept newer library version.
             var str = typeof(raw)
                 .GetMethod("sqlite3_column_text", new[] { typeof(sqlite3_stmt), typeof(int) })
                 .Invoke(null, new object[] { stmt, index });
-            if (str is string)
+            return GetString(str);
+           
+        }
+
+        private static string GetString(object obj)
+        {
+            if (obj is string)
             {
-                return (string)str;
+                return (string)obj;
             }
-            return (string)str.GetType()
+            return (string)obj.GetType()
                 .GetMethod("utf8_to_string")
-                .Invoke(str, null);
+                .Invoke(obj, null);
         }
 
         private Task<int> ExecuteCountSqlQuery(sqlite3 db, string tableName, string whereClause)
@@ -203,7 +219,7 @@ namespace Microsoft.AppCenter.Storage
             var result = ExecuteNonSelectionSqlQuery(db, $"DELETE FROM {tableName} WHERE {whereClause};");
             if (result != raw.SQLITE_DONE && result != raw.SQLITE_OK)
             {
-                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to delete SQL query, result={result}\t{raw.sqlite3_errmsg(_db)}");
+                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to delete SQL query, result={result}\t{GetErrorMessage(_db)}");
             }
             return numDeleted;
         }
