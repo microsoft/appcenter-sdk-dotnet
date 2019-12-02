@@ -34,7 +34,26 @@ namespace Microsoft.AppCenter.Storage
             var queryString = $"CREATE TABLE IF NOT EXISTS {tableName} (";
             foreach (var column in scheme)
             {
-                queryString += $"{column.ColumnName} {column.ColumnType} ";
+                queryString += $"{column.ColumnName} ";
+                switch (column.ColumnType)
+                {
+                    case raw.SQLITE_TEXT:
+                    {
+                        queryString += "TEXT ";
+                        break;
+                    }
+                    case raw.SQLITE_INTEGER:
+                    {
+                        queryString += "INTEGER ";
+                        break;
+                    }
+                    case raw.SQLITE_FLOAT:
+                    {
+                        queryString += "FLOAT ";
+                        break;
+                    }
+                }
+
                 if (column.IsPrimarykey)
                 {
                     queryString += "PRIMARY KEY ";
