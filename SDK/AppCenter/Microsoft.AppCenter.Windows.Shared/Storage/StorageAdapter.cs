@@ -59,12 +59,11 @@ namespace Microsoft.AppCenter.Storage
             return ExecuteNonSelectionSqlQuery(db, queryString);
         }
 
-        public Task CreateTableAsync(string tableName, List<ColumnMap> scheme)
+        public Task CreateTableAsync(string tableName, List<ColumnMap> columnMaps)
         {
-            //todo tableName
             return Task.Run(() =>
             {
-                int result = SQLCreateTable(_db, tableName, scheme);
+                int result = SQLCreateTable(_db, tableName, columnMaps);
                 if (result != raw.SQLITE_DONE)
                 {
                     throw new StorageException($"Failed to create table: {ErrorCodeToRawSQLite3ConstName(result)} ({result})");
@@ -129,35 +128,44 @@ namespace Microsoft.AppCenter.Storage
 
         public async Task<List<Dictionary<string, object>>> GetAsync(string tableName, string whereClause, int? limit = null)
         {
-            var query = $"SELECT * FROM {tableName} WHERE {whereClause}";
-            if (limit != null)
-            {
-                query += $" LIMIT {limit}";
-            }
+            string limitClause = limit != null ? $"LIMIT {limit}" : String.Empty;
+            string query = $"SELECT * FROM {tableName} WHERE {whereClause} {limitClause};";
             return ExecuteSelectionSqlLQuery(_db, query);
         }
 
-        private async Task<int> ExecuteCountSqlQuery(sqlite3 db, string tableName, Dictionary<string, object> scheme, string pred)
+        private async Task<int> ExecuteCountSqlQuery(sqlite3 db, string tableName, string whereClause)
         {
-            var queryCondition = string.Join($" {pred} ", scheme.Select(x => x.Key + " IN " + x.Value).ToList());
-            return ExecuteNonSelectionSqlQuery(db, String.Format("SELECT COUNT(*) FROM {0} WHERE {1}", tableName, queryCondition));
+            return ExecuteNonSelectionSqlQuery(db, $"SELECT COUNT(*) FROM {tableName} WHERE {whereClause};");
         }
 
-        public Task<int> CountAsync(string tableName, Dictionary<string, object> scheme, string pred)
+        public Task<int> CountAsync(string tableName, string whereClause)
         {
-            return ExecuteCountSqlQuery(_db, tableName, scheme, pred);
+            return ExecuteCountSqlQuery(_db, tableName, whereClause);
         }
 
-        private int SQLInsert(sqlite3 db, string tableName, Dictionary<string, object> scheme)
+       
+        private int SQLInsert(sqlite3 db, string tableName, string columnsClause, string valuesClause)
         {
-            var queryCondition = string.Join(",", scheme.Select(x => x.Key + " IN " + x.Value).ToList());
-            return ExecuteNonSelectionSqlQuery(db, String.Format("INSERT INTO \"{0}\" (\"{1}\")", tableName, queryCondition));
+            return ExecuteNonSelectionSqlQuery(db, $"INSERT INTO {tableName}{columnsClause} VALUES {valuesClause};");
         }
 
-        public Task<int> InsertAsync(string tableName, Dictionary<string, object> scheme)
+        public Task<int> InsertAsync(string tableName, List<List<ColumnValue>> valueMaps)
         {
-
-            return Task.FromResult(SQLInsert(_db, tableName, scheme));
+            List<string> stringValues = new List<string>();
+            HashSet<string> columnsHashSet = new HashSet<string>();
+            foreach (var entry in valueMaps)
+            {
+                var stringValue = string.Join(",", entry.Select(x =>
+                {
+                    columnsHashSet.Add(x.ColumnName);
+                    if (x.ColumnType == raw.SQLITE_TEXT) return $"\"{x.ColumnVal}\"";
+                    return x.ColumnVal;
+                }).ToList());
+                stringValues.Add($"({stringValue})");
+            }
+            var valuesClause = string.Join(",", stringValues);
+            var columnsClause = $"({string.Join(".", columnsHashSet)})";
+            return Task.FromResult(SQLInsert(_db, tableName, columnsClause, valuesClause));
         }
 
         private static StorageException ToStorageException(int erroeCode)
@@ -165,35 +173,20 @@ namespace Microsoft.AppCenter.Storage
             return new StorageException($"SQLite errorCode={ErrorCodeToRawSQLite3ConstName(erroeCode)}");
         }
 
-        private int SQLDelete(sqlite3 db, string tableName, string columnName, List<object> values)
+        private int SQLDelete(sqlite3 db, string tableName, string whereClause)
         {
-            var numDeleted = 0;
-            foreach (var val in values)
+            var numDeleted = ExecuteCountSqlQuery(db, tableName, whereClause).GetAwaiter().GetResult();
+            int result = ExecuteNonSelectionSqlQuery(db, $"DELETE FROM {tableName} WHERE {whereClause};");
+            if (result == raw.SQLITE_DONE)
             {
-                int result = ExecuteNonSelectionSqlQuery(db, String.Format("DELETE FROM \"{0}\" WHERE {1} = {2}", tableName, columnName, val));
-                if (result == raw.SQLITE_DONE)
-                {
-                    numDeleted++;
-                }
+               // todo
             }
             return numDeleted;
         }
-
-
-        public Task<int> DeleteAsync(string tableName, string columnName, List<object> values)
+        
+        public Task<int> DeleteAsync(string tableName, string whereClause)
         {
-            return Task.FromResult(SQLDelete(_db, tableName, columnName, values));
-        }
-
-        private int SQLDeleteWithPredicate(sqlite3 db, string tableName, Dictionary<string, object> values, string pred)
-        {
-            var queryCondition = string.Join($" {pred} ", values.Select(x => x.Key + " IN " + x.Value).ToList());
-            return ExecuteNonSelectionSqlQuery(db, String.Format("DELETE FROM \"{0}\" WHERE {1}", tableName, values));
-        }
-
-        public Task<int> DeleteAsync(string tableName, Dictionary<string, object> values, string pred)
-        {
-            return Task.FromResult(SQLDeleteWithPredicate(_db, tableName, values, pred));
+            return Task.FromResult(SQLDelete(_db, tableName, whereClause));
         }
 
         public Task InitializeStorageAsync()

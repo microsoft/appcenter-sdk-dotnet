@@ -13,11 +13,10 @@ namespace Microsoft.AppCenter.Storage
     {
         Task InitializeStorageAsync();
         Task<List<Dictionary<string, object>>> GetAsync(string tableName, string whereClause, int? limit);
-        Task CreateTableAsync(string tableName, List<ColumnMap> scheme);
-        Task<int> CountAsync(string tableName, Dictionary<string, object> scheme, string pred);
-        Task<int> InsertAsync(string tableName, Dictionary<string, object> scheme);
-        Task<int> DeleteAsync(string tableName, string columnName, List<object> values);
-        Task<int> DeleteAsync(string tableName, Dictionary<string, object> values, string pred);
+        Task CreateTableAsync(string tableName, List<ColumnMap> columnMaps);
+        Task<int> CountAsync(string tableName, string whereClause);
+        Task<int> InsertAsync(string tableName, List<List<ColumnValue>> valueMaps);
+        Task<int> DeleteAsync(string tableName, string whereClause);
         Task DeleteDatabaseFileAsync();
     }
 }
