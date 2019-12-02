@@ -13,6 +13,7 @@ using Microsoft.AppCenter.Utils;
 using Microsoft.AppCenter.Windows.Shared.Storage;
 using Newtonsoft.Json;
 using SQLite;
+using SQLitePCL;
 
 namespace Microsoft.AppCenter.Storage
 {
@@ -99,13 +100,12 @@ namespace Microsoft.AppCenter.Storage
             return AddTaskToQueue(() =>
             {
                 var logJsonString = LogSerializer.Serialize(log);
-                var logEntry = new LogEntry { Channel = channelName, Log = logJsonString };
-                var scheme = new Dictionary<string, object>()
+                var columnsMapList = new List<List<ColumnValue>>(){ new List<ColumnValue>()
                 {
-                    { "Channel" ,channelName },
-                    { "Log", logJsonString }
-                };
-                _storageAdapter.InsertAsync(TableName, scheme).GetAwaiter().GetResult();
+                    new ColumnValue() { ColumnName = ColumnChannelName, ColumnVal = channelName, ColumnType = raw.SQLITE_TEXT }, 
+                    new ColumnValue() { ColumnName = ColumnLogName, ColumnVal = logJsonString, ColumnType = raw.SQLITE_TEXT }
+                } };
+                _storageAdapter.InsertAsync(TableName, columnsMapList).GetAwaiter().GetResult();
             });
         }
 
@@ -132,15 +132,7 @@ namespace Microsoft.AppCenter.Storage
                         _pendingDbIdentifiers.Remove(id);
                     }
                     AppCenterLog.Debug(AppCenterLog.LogTag, deletedIdsMessage);
-                    foreach (var id in identifiers)
-                    {
-                        var values = new Dictionary<string, object>()
-                         {
-                            { ColumnChannelName, channelName},
-                            { ColumnIdName, id }
-                        };
-                        _storageAdapter.DeleteAsync(TableName, values, "AND").GetAwaiter().GetResult();
-                    }
+                    _storageAdapter.DeleteAsync(TableName, $"{ColumnChannelName} = {channelName} AND {ColumnIdName} IN ({string.Join(",", identifiers)})").GetAwaiter().GetResult();
                 }
                 catch (KeyNotFoundException e)
                 {
@@ -164,7 +156,7 @@ namespace Microsoft.AppCenter.Storage
                         $"Deleting all logs from storage for channel '{channelName}'");
                     ClearPendingLogStateWithoutEnqueue(channelName);
                     var values = new List<object>() { channelName };
-                    _storageAdapter.DeleteAsync(TableName, ColumnChannelName, values)
+                    _storageAdapter.DeleteAsync(TableName, $"{ColumnChannelName} = {channelName}")
                         .GetAwaiter().GetResult();
                 }
                 catch (KeyNotFoundException e)
@@ -184,10 +176,8 @@ namespace Microsoft.AppCenter.Storage
         {
             return AddTaskToQueue(() =>
             {
-                var values = new Dictionary<string, object>() {
-                    { ColumnChannelName, channelName }
-                };
-                return _storageAdapter.CountAsync(TableName, values, "AND").GetAwaiter().GetResult();
+                string whereClause = $"{ColumnChannelName} = {channelName}";
+                return _storageAdapter.CountAsync(TableName, whereClause).GetAwaiter().GetResult();
             });
         }
 
@@ -270,7 +260,7 @@ namespace Microsoft.AppCenter.Storage
                         AppCenterLog.Error(AppCenterLog.LogTag, "Cannot deserialize a log in storage", e);
                         failedToDeserializeALog = true;
                         var values = new List<object> { entry.Id };
-                        _storageAdapter.DeleteAsync(TableName, ColumnIdName, values)
+                        _storageAdapter.DeleteAsync(TableName, $"{ColumnIdName} = {entry.Id}")
                             .GetAwaiter().GetResult();
                     }
                 }
@@ -314,9 +304,9 @@ namespace Microsoft.AppCenter.Storage
             {
                 var scheme = new List<ColumnMap>
                 {
-                    new ColumnMap { ColumnName = ColumnIdName, ColumnType = IntegerColumnType, IsAutoIncrement = true, IsPrimarykey = true },
-                    new ColumnMap { ColumnName = ColumnChannelName, ColumnType = TextColumnType, IsAutoIncrement = false, IsPrimarykey = false },
-                    new ColumnMap { ColumnName = ColumnLogName, ColumnType = TextColumnType, IsAutoIncrement = false, IsPrimarykey = false }
+                    new ColumnMap { ColumnName = ColumnIdName, ColumnType = raw.SQLITE_INTEGER, IsAutoIncrement = true, IsPrimarykey = true },
+                    new ColumnMap { ColumnName = ColumnChannelName, ColumnType = raw.SQLITE_TEXT, IsAutoIncrement = false, IsPrimarykey = false },
+                    new ColumnMap { ColumnName = ColumnLogName, ColumnType = raw.SQLITE_TEXT, IsAutoIncrement = false, IsPrimarykey = false }
                 };
                 await _storageAdapter.InitializeStorageAsync().ConfigureAwait(false);
                 await _storageAdapter.CreateTableAsync(TableName, scheme).ConfigureAwait(false);
