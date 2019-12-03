@@ -87,8 +87,7 @@ namespace Microsoft.AppCenter.Storage
             if (result != raw.SQLITE_OK)
             {
                 var errMsg = raw.sqlite3_errmsg(_db);
-                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={result}\t{errMsg}");
-                return result;
+                throw new StorageException($"Failed to prepare SQL query, result={result}\t{errMsg}");
             }
             result = raw.sqlite3_step(stmt);
             raw.sqlite3_finalize(stmt);
@@ -102,8 +101,7 @@ namespace Microsoft.AppCenter.Storage
             if (queryResult != raw.SQLITE_OK)
             {
                 var errMsg = raw.sqlite3_errmsg(_db);
-                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={queryResult}\t{errMsg}");
-                return null;
+                throw new StorageException($"Failed to prepare SQL query, result={queryResult}\t{errMsg}");
             }
             while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
             {
@@ -146,8 +144,7 @@ namespace Microsoft.AppCenter.Storage
             if (queryResult != raw.SQLITE_OK)
             {
                 var errMsg = raw.sqlite3_errmsg(_db);
-                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={queryResult}\t{errMsg}");
-                return countRows;
+                throw new StorageException($"Failed to prepare SQL query, result={queryResult}\t{errMsg}");
             }
             while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
             {
@@ -208,7 +205,7 @@ namespace Microsoft.AppCenter.Storage
             if (result != raw.SQLITE_DONE && result != raw.SQLITE_OK)
             {
                 var errMsg = raw.sqlite3_errmsg(_db);
-                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to delete SQL query, result={result}\t{errMsg}");
+                throw new StorageException($"Failed to delete SQL query, result={result}\t{errMsg}");
             }
             return numDeleted;
         }
