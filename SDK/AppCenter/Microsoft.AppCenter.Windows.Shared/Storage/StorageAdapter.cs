@@ -145,7 +145,8 @@ namespace Microsoft.AppCenter.Storage
             var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (queryResult != raw.SQLITE_OK)
             {
-                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={queryResult}\t{GetErrorMessage(_db)}");
+                var errMsg = GetString(raw.sqlite3_errmsg(_db));
+                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={queryResult}\t{errMsg}");
                 return countRows;
             }
             while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
