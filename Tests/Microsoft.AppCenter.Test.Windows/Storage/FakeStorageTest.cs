@@ -3,23 +3,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion.Models;
 using Microsoft.AppCenter.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.AppCenter.Windows.Shared.Storage;
-using SQLitePCL;
 using Moq;
 
 namespace Microsoft.AppCenter.Test
 {
-    using PredType = Expression<Func<Microsoft.AppCenter.Storage.Storage.LogEntry, bool>>;
-
     [TestClass]
     public class FakeStorageTest
     {
-
         private const string TableName = "LogEntry";
         private const string StorageTestChannelName = "storageTestChannelName";
         
