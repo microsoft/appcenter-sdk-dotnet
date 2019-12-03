@@ -137,23 +137,6 @@ namespace Microsoft.AppCenter.Storage
             return entries;
         }
 
-        private int ExecuteCountSqlQuery(sqlite3 db, string query)
-        {
-            var countRows = 0;
-            var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
-            if (queryResult != raw.SQLITE_OK)
-            {
-                var errMsg = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare SQL query, result={queryResult}\t{errMsg}");
-            }
-            while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
-            {
-                countRows = raw.sqlite3_column_int(stmt, 0);
-            }
-            raw.sqlite3_finalize(stmt);
-            return countRows;
-        }
-
         public Task<List<List<object>>> GetAsync(string tableName, string whereClause, int? limit = null)
         {
             var limitClause = limit != null ? $"LIMIT {limit}" : string.Empty;
@@ -161,14 +144,10 @@ namespace Microsoft.AppCenter.Storage
             return Task.FromResult(ExecuteSelectionSqlQuery(_db, query));
         }
 
-        private Task<int> ExecuteCountSqlQuery(sqlite3 db, string tableName, string whereClause)
-        {
-            return Task.FromResult(ExecuteCountSqlQuery(db, $"SELECT COUNT(*) FROM {tableName} WHERE {whereClause};"));
-        }
-
         public Task<int> CountAsync(string tableName, string whereClause)
         {
-            return ExecuteCountSqlQuery(_db, tableName, whereClause);
+            return Task.FromResult((int)ExecuteSelectionSqlQuery(_db,
+                $"SELECT COUNT(*) FROM {tableName} WHERE {whereClause};")[0][0]);
         }
 
         private int SqlQueryInsert(sqlite3 db, string tableName, string columnsClause, string valuesClause)
@@ -200,7 +179,8 @@ namespace Microsoft.AppCenter.Storage
 
         private int SqlQueryDelete(sqlite3 db, string tableName, string whereClause)
         {
-            var numDeleted = ExecuteCountSqlQuery(db, tableName, whereClause).GetAwaiter().GetResult();
+            var numDeleted = (int)ExecuteSelectionSqlQuery(db,
+                $"SELECT COUNT(*) FROM {tableName} WHERE {whereClause};")[0][0];
             var result = ExecuteNonSelectionSqlQuery(db, $"DELETE FROM {tableName} WHERE {whereClause};");
             if (result != raw.SQLITE_DONE && result != raw.SQLITE_OK)
             {
