@@ -22,7 +22,13 @@ namespace Microsoft.AppCenter.Test.Storage
 
             // Replace the directory with a mock and initialize.
             adapter._databaseDirectory = Mock.Of<Directory>();
-            adapter.InitializeStorageAsync().Wait();
+            try
+            {
+                adapter.InitializeStorageAsync().Wait();
+            } catch
+            {
+                // Handle exception, database is not created with Mock.
+            }
             Mock.Get(adapter._databaseDirectory).Verify(directory => directory.Create());
         }
 

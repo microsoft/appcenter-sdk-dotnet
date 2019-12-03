@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion.Models;
 using Microsoft.AppCenter.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AppCenter.Windows.Shared.Storage;
+using SQLitePCL;
 using Moq;
 
 namespace Microsoft.AppCenter.Test
@@ -17,8 +19,10 @@ namespace Microsoft.AppCenter.Test
     [TestClass]
     public class FakeStorageTest
     {
-        private const string StorageTestChannelName = "storageTestChannelName";
 
+        private const string TableName = "LogEntry";
+        private const string StorageTestChannelName = "storageTestChannelName";
+        
         /// <summary>
         /// Verify that shutdown fails when tasks exceed time limit
         /// </summary>
@@ -26,11 +30,10 @@ namespace Microsoft.AppCenter.Test
         public void ShutdownTimeout()
         {
             var mockConnection = new Mock<IStorageAdapter>();
-            // FIXME
-            //mockConnection.Setup(
-            //        c => c.InsertAsync(It.IsAny<Microsoft.AppCenter.Storage.Storage.LogEntry>()))
-            //    .Callback(() => Task.Delay(TimeSpan.FromDays(1)).Wait())
-            //    .Returns(TaskExtension.GetCompletedTask(1));
+            mockConnection.Setup(
+                    c => c.InsertAsync(TableName, It.IsAny<List<List<ColumnValueMap>>>()))
+                    .Callback(() => Task.Delay(TimeSpan.FromDays(1)).Wait())
+                .Returns(TaskExtension.GetCompletedTask(1));
             var storage = new Microsoft.AppCenter.Storage.Storage(mockConnection.Object);
 
             // Ignore warnings because we just want to "fire and forget"
@@ -50,11 +53,10 @@ namespace Microsoft.AppCenter.Test
         public void ShutdownSucceed()
         {
             var mockConnection = new Mock<IStorageAdapter>();
-            // FIXME
-            //mockConnection.Setup(
-            //        c => c.InsertAsync(It.IsAny<Microsoft.AppCenter.Storage.Storage.LogEntry>()))
-            //    .Callback(() => Task.Delay(TimeSpan.FromSeconds(2)).Wait())
-            //    .Returns(TaskExtension.GetCompletedTask(1));
+            mockConnection.Setup(
+                    c => c.InsertAsync(TableName, It.IsAny<List<List<ColumnValueMap>>>()))
+                .Callback(() => Task.Delay(TimeSpan.FromSeconds(2)).Wait())
+                .Returns(TaskExtension.GetCompletedTask(1));
             var storage = new Microsoft.AppCenter.Storage.Storage(mockConnection.Object);
             
             // Ignore warnings because we just want to "fire and forget"
@@ -88,10 +90,9 @@ namespace Microsoft.AppCenter.Test
         public void GetLogsQueryError()
         {
             var mockAdapter = new Mock<IStorageAdapter>();
-            // FIXME
-            //mockAdapter.Setup(
-            //        a => a.GetAsync(It.IsAny<PredType>(), It.IsAny<int>()))
-            //    .Returns(TaskExtension.GetFaultedTask<List<Microsoft.AppCenter.Storage.Storage.LogEntry>>(new StorageException()));
+            mockAdapter.Setup(
+                    a => a.GetAsync(TableName, It.IsAny<String>(), It.IsAny<int>()))
+                    .Returns(TaskExtension.GetFaultedTask<List<List<object>>>(new StorageException()));
             var fakeStorage = new Microsoft.AppCenter.Storage.Storage(mockAdapter.Object);
             var logs = new List<Log>();
             Assert.ThrowsException<StorageException>(() =>
@@ -101,27 +102,24 @@ namespace Microsoft.AppCenter.Test
         /// <summary>
         /// Verify that storage throws StorageException if something went wrong
         /// </summary>
-        /* FIXME
         [TestMethod]
         public void StorageThrowsStorageException()
         {
             var mockAdapter = new Mock<IStorageAdapter>();
             mockAdapter.Setup(
-                    a => a.GetAsync(It.IsAny<PredType>(), It.IsAny<int>()))
-                .Returns(TaskExtension.GetFaultedTask<List<Microsoft.AppCenter.Storage.Storage.LogEntry>>(new StorageException()));
-            mockAdapter.Setup(c => c.InsertAsync(It.IsAny<Microsoft.AppCenter.Storage.Storage.LogEntry>()))
+                    a => a.GetAsync(TableName, It.IsAny<string>(), It.IsAny<int>()))
+                .Returns(TaskExtension.GetFaultedTask<List<List<object>>>(new StorageException()));
+            mockAdapter.Setup(c => c.InsertAsync(TableName, It.IsAny<List<List<ColumnValueMap>>>()))
                 .Returns(TaskExtension.GetFaultedTask<int>(new StorageException()));
-            mockAdapter.Setup(c => c.DeleteAsync(It.IsAny<Expression<Func<Microsoft.AppCenter.Storage.Storage.LogEntry, bool>>>()))
+            mockAdapter.Setup(c => c.DeleteAsync(TableName, It.IsAny<string>()))
                 .Returns(TaskExtension.GetFaultedTask<int>(new StorageException()));
-            mockAdapter.Setup(c => c.CountAsync(It.IsAny<Expression<Func<Microsoft.AppCenter.Storage.Storage.LogEntry, bool>>>()))
+            mockAdapter.Setup(c => c.CountAsync(TableName, It.IsAny<string>()))
                 .Returns(TaskExtension.GetFaultedTask<int>(new StorageException()));
             var fakeStorage = new Microsoft.AppCenter.Storage.Storage(mockAdapter.Object);
-
-            Assert.ThrowsException<StorageException>(() => fakeStorage.PutLog("channel_name", new TestLog()).RunNotAsync());
-            Assert.ThrowsException<StorageException>(() => fakeStorage.DeleteLogs("channel_name", string.Empty).RunNotAsync());
-            Assert.ThrowsException<StorageException>(() => fakeStorage.CountLogsAsync("channel_name").RunNotAsync());
-            Assert.ThrowsException<StorageException>(() => fakeStorage.GetLogsAsync("channel_name", 1, new List<Log>()).RunNotAsync());
+            Assert.ThrowsException<StorageException>(() => fakeStorage.PutLog(StorageTestChannelName, new TestLog()).RunNotAsync());
+            Assert.ThrowsException<StorageException>(() => fakeStorage.DeleteLogs(StorageTestChannelName, string.Empty).RunNotAsync());
+            Assert.ThrowsException<StorageException>(() => fakeStorage.CountLogsAsync(StorageTestChannelName).RunNotAsync());
+            Assert.ThrowsException<StorageException>(() => fakeStorage.GetLogsAsync(StorageTestChannelName, 1, new List<Log>()).RunNotAsync());
         }
-        */
     }
 }
