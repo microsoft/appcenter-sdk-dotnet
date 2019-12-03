@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "SQLitePCLRaw.bundle_green": "1.1.13"
+    "SQLitePCLRaw.bundle_green": "1.1.14"
   },
   "frameworks": {
     "net45": {}
