@@ -90,13 +90,13 @@ namespace Microsoft.AppCenter.Test
         [TestMethod]
         public async Task UnknownExceptionIsConvertedToStorageException()
         {
+            string whereClause = $"{ColumnChannelName} = \"{StorageTestChannelName}\"";
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
             using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter))
             {
                 var exception = new Exception();
-                // FIXME
-                //Mock.Get(mockStorageAdapter).Setup(adapter => adapter.CountAsync(It.IsAny<Expression<Func<LogEntry, bool>>>())).Throws(exception);
-                //Mock.Get(mockStorageAdapter).Setup(adapter => adapter.InsertAsync(It.IsAny<LogEntry>())).Throws(exception);
+                Mock.Get(mockStorageAdapter).Setup(adapter => adapter.CountAsync(It.IsAny<string>(), It.IsAny<string>())).Throws(exception);
+                Mock.Get(mockStorageAdapter).Setup(adapter => adapter.InsertAsync(It.IsAny<string>(), It.IsAny<List<List<ColumnValueMap>>>())).Throws(exception);
                 await Assert.ThrowsExceptionAsync<StorageException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
                 await Assert.ThrowsExceptionAsync<StorageException>(() => storage.CountLogsAsync(StorageTestChannelName));
             }
@@ -108,21 +108,12 @@ namespace Microsoft.AppCenter.Test
         [TestMethod]
         public async Task KnownExceptionIsThrownAsIs()
         {
-            // Prepare data.
-            var logJsonString = "test-json";
-            var columnsMapList = new List<List<ColumnValueMap>>(){ new List<ColumnValueMap>()
-                {
-                    new ColumnValueMap() { ColumnName = ColumnChannelName, ColumnValue = StorageTestChannelName, ColumnType = raw.SQLITE_TEXT },
-                    new ColumnValueMap() { ColumnName = ColumnLogName, ColumnValue = logJsonString, ColumnType = raw.SQLITE_TEXT }
-                } };
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
+            var exception = new StorageException();
             using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter))
             {
-                var exception = new StorageException();
-                // FIXME
-                string whereClause = $"{ColumnChannelName} = \"{StorageTestChannelName}\"";
-                Mock.Get(mockStorageAdapter).Setup(adapter => adapter.CountAsync(TableName, whereClause)).Throws(exception);
-                Mock.Get(mockStorageAdapter).Setup(adapter => adapter.InsertAsync(TableName, columnsMapList)).Throws(exception);
+                Mock.Get(mockStorageAdapter).Setup(adapter => adapter.CountAsync(It.IsAny<string>(), It.IsAny<string>())).Throws(exception);
+                Mock.Get(mockStorageAdapter).Setup(adapter => adapter.InsertAsync(It.IsAny<string>(), It.IsAny<List<List<ColumnValueMap>>>())).Throws(exception);
                 try
                 {
                     await storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog());
@@ -347,9 +338,8 @@ namespace Microsoft.AppCenter.Test
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
             using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter))
             {
-                // FIXME
-                // var exception = new StorageException(SQLiteException.New(SQLite3.Result.Corrupt, "Corrupt"));
-                // Mock.Get(mockStorageAdapter).Setup(adapter => adapter.InsertAsync(It.IsAny<LogEntry>())).Throws(exception);
+                var exception = new StorageException("Corrupt");
+                Mock.Get(mockStorageAdapter).Setup(adapter => adapter.InsertAsync(It.IsAny<string>(), It.IsAny<List<List<ColumnValueMap>>>())).Throws(exception);
                 await Assert.ThrowsExceptionAsync<StorageException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.DeleteDatabaseFileAsync());
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.InitializeStorageAsync(), Times.Exactly(2));
@@ -366,8 +356,7 @@ namespace Microsoft.AppCenter.Test
             using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter))
             {
                 var exception = new Exception("Corrupt");
-                // FIXME
-                //Mock.Get(mockStorageAdapter).Setup(adapter => adapter.InsertAsync(It.IsAny<LogEntry>())).Throws(exception);
+                Mock.Get(mockStorageAdapter).Setup(adapter => adapter.InsertAsync(It.IsAny<string>(), It.IsAny<List<List<ColumnValueMap>>>())).Throws(exception);
                 await Assert.ThrowsExceptionAsync<StorageException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.DeleteDatabaseFileAsync());
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.InitializeStorageAsync(), Times.Exactly(2));
@@ -385,7 +374,7 @@ namespace Microsoft.AppCenter.Test
             {
                 var exception = new Exception("Something else");
                 // FIXME
-                //Mock.Get(mockStorageAdapter).Setup(adapter => adapter.InsertAsync(It.IsAny<LogEntry>())).Throws(exception);
+                Mock.Get(mockStorageAdapter).Setup(adapter => adapter.InsertAsync(It.IsAny<string>(), It.IsAny<List<List<ColumnValueMap>>>())).Throws(exception);
                 await Assert.ThrowsExceptionAsync<StorageException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.DeleteDatabaseFileAsync(), Times.Never());
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.InitializeStorageAsync(), Times.Once());
