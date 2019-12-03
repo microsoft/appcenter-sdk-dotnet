@@ -74,7 +74,7 @@ namespace Microsoft.AppCenter.Storage
             }
             catch (Exception e)
             {
-                throw new StorageException($"Failed to create StorageAdapter instance.", e);
+                throw new StorageException($"Cannot initialize SQLite library.", e);
             }
         }
 
@@ -93,7 +93,8 @@ namespace Microsoft.AppCenter.Storage
                 {
                     new ColumnValueMap() { ColumnName = ColumnChannelName, ColumnValue = channelName, ColumnType = raw.SQLITE_TEXT },
                     new ColumnValueMap() { ColumnName = ColumnLogName, ColumnValue = logJsonString, ColumnType = raw.SQLITE_TEXT }
-                } };
+                }
+            };
                 _storageAdapter.InsertAsync(TableName, columnsMapList).GetAwaiter().GetResult();
             });
         }

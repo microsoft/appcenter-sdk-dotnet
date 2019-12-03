@@ -86,7 +86,7 @@ namespace Microsoft.AppCenter.Storage
             var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (result != raw.SQLITE_OK)
             {
-                var errMsg = GetString(raw.sqlite3_errmsg(_db));
+                var errMsg = raw.sqlite3_errmsg(_db);
                 AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={result}\t{errMsg}");
                 return result;
             }
@@ -101,7 +101,7 @@ namespace Microsoft.AppCenter.Storage
             var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (queryResult != raw.SQLITE_OK)
             {
-                var errMsg = GetString(raw.sqlite3_errmsg(_db));
+                var errMsg = raw.sqlite3_errmsg(_db);
                 AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={queryResult}\t{errMsg}");
                 return null;
             }
@@ -122,7 +122,7 @@ namespace Microsoft.AppCenter.Storage
                             valCol = raw.sqlite3_column_int(stmt, i);
                             break;
                         case raw.SQLITE_TEXT:
-                            valCol = GetString(raw.sqlite3_column_text(stmt, i));
+                            valCol = raw.sqlite3_column_text(stmt, i);
                             break;
                         default:
                             valCol = null;
@@ -145,7 +145,7 @@ namespace Microsoft.AppCenter.Storage
             var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (queryResult != raw.SQLITE_OK)
             {
-                var errMsg = GetString(raw.sqlite3_errmsg(_db));
+                var errMsg = raw.sqlite3_errmsg(_db);
                 AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={queryResult}\t{errMsg}");
                 return countRows;
             }
@@ -164,17 +164,6 @@ namespace Microsoft.AppCenter.Storage
             return Task.FromResult(ExecuteSelectionSqlQuery(_db, query));
         }
 
-        private static string GetString(object obj)
-        {
-            if (obj is string)
-            {
-                return (string)obj;
-            }
-            return (string)obj.GetType()
-                .GetMethod("utf8_to_string")?
-                .Invoke(obj, null);
-        }
-
         private Task<int> ExecuteCountSqlQuery(sqlite3 db, string tableName, string whereClause)
         {
             return Task.FromResult(ExecuteCountSqlQuery(db, $"SELECT COUNT(*) FROM {tableName} WHERE {whereClause};"));
@@ -184,7 +173,6 @@ namespace Microsoft.AppCenter.Storage
         {
             return ExecuteCountSqlQuery(_db, tableName, whereClause);
         }
-
 
         private int SqlQueryInsert(sqlite3 db, string tableName, string columnsClause, string valuesClause)
         {
@@ -200,7 +188,10 @@ namespace Microsoft.AppCenter.Storage
                 var stringValue = string.Join(",", entry.Select(x =>
                 {
                     columnsHashSet.Add(x.ColumnName);
-                    if (x.ColumnType == raw.SQLITE_TEXT) return $"\'{x.ColumnValue}\'";
+                    if (x.ColumnType == raw.SQLITE_TEXT)
+                    {
+                        return $"\'{x.ColumnValue}\'";
+                    }
                     return x.ColumnValue;
                 }));
                 stringValues.Add($"({stringValue})");
@@ -216,7 +207,7 @@ namespace Microsoft.AppCenter.Storage
             var result = ExecuteNonSelectionSqlQuery(db, $"DELETE FROM {tableName} WHERE {whereClause};");
             if (result != raw.SQLITE_DONE && result != raw.SQLITE_OK)
             {
-                var errMsg = GetString(raw.sqlite3_errmsg(_db));
+                var errMsg = raw.sqlite3_errmsg(_db);
                 AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to delete SQL query, result={result}\t{errMsg}");
             }
             return numDeleted;
@@ -236,16 +227,18 @@ namespace Microsoft.AppCenter.Storage
                     try
                     {
                         _databaseDirectory.Create();
+                        raw.SetProvider(new SQLite3Provider_e_sqlite3());
+                        var result = raw.sqlite3_open(_databasePath, out _db);
+                        if (result != raw.SQLITE_OK)
+                        {
+                            var errMsg = raw.sqlite3_errmsg(_db);
+                            throw new StorageException($"Failed to open database connection, result={result}\t{errMsg}");
+                        }
                     }
                     catch (Exception e)
                     {
-                        throw new StorageException("Cannot initialize SQLite library.", e);
+                        throw new StorageException("Failed to open database connection.", e);
                     }
-                }
-                raw.SetProvider(new SQLite3Provider_e_sqlite3());
-                if (raw.sqlite3_open(_databasePath, out _db) != raw.SQLITE_OK)
-                {
-                    throw new StorageException("Failed to open database connection");
                 }
             });
         }
