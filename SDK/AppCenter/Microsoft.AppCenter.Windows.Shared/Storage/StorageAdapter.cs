@@ -227,18 +227,25 @@ namespace Microsoft.AppCenter.Storage
                     try
                     {
                         _databaseDirectory.Create();
-                        raw.SetProvider(new SQLite3Provider_e_sqlite3());
-                        var result = raw.sqlite3_open(_databasePath, out _db);
-                        if (result != raw.SQLITE_OK)
-                        {
-                            var errMsg = raw.sqlite3_errmsg(_db);
-                            throw new StorageException($"Failed to open database connection, result={result}\t{errMsg}");
-                        }
                     }
                     catch (Exception e)
                     {
                         throw new StorageException("Failed to open database connection.", e);
                     }
+                }
+                try
+                {
+                    raw.SetProvider(new SQLite3Provider_e_sqlite3());
+                    var result = raw.sqlite3_open(_databasePath, out _db);
+                    if (result != raw.SQLITE_OK)
+                    {
+                        var errMsg = raw.sqlite3_errmsg(_db);
+                        throw new StorageException($"Failed to open database connection, result={result}\t{errMsg}");
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new StorageException("Failed to open database connection.", e);
                 }
             });
         }
