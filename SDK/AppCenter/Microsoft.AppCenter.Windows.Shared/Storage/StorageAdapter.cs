@@ -128,10 +128,30 @@ namespace Microsoft.AppCenter.Storage
                     }
                     entry.Add(valCol);
                 }
-                entries.Add(entry);
+                if (entry.Count > 0)
+                {
+                    entries.Add(entry);
+                }
             }
             raw.sqlite3_finalize(stmt);
             return entries;
+        }
+
+        private int ExecuteCountSqlQuery(sqlite3 db, string query)
+        {
+            var countRows = 0;
+            var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
+            if (queryResult != raw.SQLITE_OK)
+            {
+                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to prepare SQL query, result={queryResult}\t{GetErrorMessage(_db)}");
+                return countRows;
+            }
+            while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
+            {
+                countRows = raw.sqlite3_column_int(stmt, 0);
+            }
+            raw.sqlite3_finalize(stmt);
+            return countRows;
         }
 
         public Task<List<List<object>>> GetAsync(string tableName, string whereClause, int? limit = null)
@@ -175,7 +195,7 @@ namespace Microsoft.AppCenter.Storage
 
         private Task<int> ExecuteCountSqlQuery(sqlite3 db, string tableName, string whereClause)
         {
-            return Task.FromResult(ExecuteNonSelectionSqlQuery(db, $"SELECT COUNT(*) FROM {tableName} WHERE {whereClause};"));
+            return Task.FromResult(ExecuteCountSqlQuery(db, $"SELECT COUNT(*) FROM {tableName} WHERE {whereClause};"));
         }
 
         public Task<int> CountAsync(string tableName, string whereClause)
@@ -206,11 +226,6 @@ namespace Microsoft.AppCenter.Storage
             var valuesClause = string.Join(",", stringValues);
             var columnsClause = $"({string.Join(",", columnsHashSet)})";
             return Task.FromResult(SqlQueryInsert(_db, tableName, columnsClause, valuesClause));
-        }
-
-        private static StorageException ToStorageException(int errorCode)
-        {
-            return new StorageException($"SQLitePCLRaw errorCode={errorCode}");
         }
 
         private int SqlQueryDelete(sqlite3 db, string tableName, string whereClause)
