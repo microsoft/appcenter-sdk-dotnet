@@ -83,6 +83,10 @@ namespace Microsoft.AppCenter.Storage
 
         private int ExecuteNonSelectionSqlQuery(sqlite3 db, string query)
         {
+            if (db == null)
+            {
+                throw new StorageException("The database wasn't initialized.");
+            }
             var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (result != raw.SQLITE_OK)
             {
@@ -96,6 +100,10 @@ namespace Microsoft.AppCenter.Storage
 
         private List<List<object>> ExecuteSelectionSqlQuery(sqlite3 db, string query)
         {
+            if (db == null)
+            {
+                throw new StorageException("The database wasn't initialized.");
+            }
             var entries = new List<List<object>>();
             var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (queryResult != raw.SQLITE_OK)
