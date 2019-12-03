@@ -3,8 +3,10 @@
 
 using Microsoft.AppCenter.Ingestion.Models;
 using Microsoft.AppCenter.Storage;
+using Microsoft.AppCenter.Windows.Shared.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -18,6 +20,12 @@ namespace Microsoft.AppCenter.Test
     {
         private const string StorageTestChannelName = "storageTestChannelName";
         private readonly Microsoft.AppCenter.Storage.Storage _storage = new Microsoft.AppCenter.Storage.Storage();
+
+        // Const for storage data.
+        private const string TableName = "LogEntry";
+        private const string ColumnChannelName = "Channel";
+        private const string ColumnLogName = "Log";
+        private const string ColumnIdName = "Id";
 
         [TestInitialize]
         public void InitializeStorageTest()
@@ -100,13 +108,21 @@ namespace Microsoft.AppCenter.Test
         [TestMethod]
         public async Task KnownExceptionIsThrownAsIs()
         {
+            // Prepare data.
+            var logJsonString = "test-json";
+            var columnsMapList = new List<List<ColumnValueMap>>(){ new List<ColumnValueMap>()
+                {
+                    new ColumnValueMap() { ColumnName = ColumnChannelName, ColumnValue = StorageTestChannelName, ColumnType = raw.SQLITE_TEXT },
+                    new ColumnValueMap() { ColumnName = ColumnLogName, ColumnValue = logJsonString, ColumnType = raw.SQLITE_TEXT }
+                } };
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
             using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter))
             {
                 var exception = new StorageException();
                 // FIXME
-                //Mock.Get(mockStorageAdapter).Setup(adapter => adapter.CountAsync(It.IsAny<Expression<Func<LogEntry, bool>>>())).Throws(exception);
-                //Mock.Get(mockStorageAdapter).Setup(adapter => adapter.InsertAsync(It.IsAny<LogEntry>())).Throws(exception);
+                string whereClause = $"{ColumnChannelName} = \"{StorageTestChannelName}\"";
+                Mock.Get(mockStorageAdapter).Setup(adapter => adapter.CountAsync(TableName, whereClause)).Throws(exception);
+                Mock.Get(mockStorageAdapter).Setup(adapter => adapter.InsertAsync(TableName, columnsMapList)).Throws(exception);
                 try
                 {
                     await storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog());
