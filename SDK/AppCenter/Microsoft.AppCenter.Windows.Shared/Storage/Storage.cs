@@ -5,6 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion.Models;
@@ -12,7 +13,6 @@ using Microsoft.AppCenter.Ingestion.Models.Serialization;
 using Microsoft.AppCenter.Utils;
 using Microsoft.AppCenter.Windows.Shared.Storage;
 using Newtonsoft.Json;
-using SQLitePCL;
 
 namespace Microsoft.AppCenter.Storage
 {
@@ -62,7 +62,7 @@ namespace Microsoft.AppCenter.Storage
         internal Storage(IStorageAdapter adapter)
         {
             _storageAdapter = adapter;
-            _queue.Add(new Task(() => InitializeDatabaseAsync().GetAwaiter().GetResult()));
+            _queue.Add(new Task(InitializeDatabase));
             _queueFlushTask = Task.Run(FlushQueueAsync);
         }
 
@@ -89,13 +89,11 @@ namespace Microsoft.AppCenter.Storage
             return AddTaskToQueue(() =>
             {
                 var logJsonString = LogSerializer.Serialize(log);
-                var columnsMapList = new List<List<ColumnValueMap>>(){ new List<ColumnValueMap>()
-                {
-                    new ColumnValueMap() { ColumnName = ColumnChannelName, ColumnValue = channelName, ColumnType = raw.SQLITE_TEXT },
-                    new ColumnValueMap() { ColumnName = ColumnLogName, ColumnValue = logJsonString, ColumnType = raw.SQLITE_TEXT }
-                }
-            };
-                _storageAdapter.InsertAsync(TableName, columnsMapList).GetAwaiter().GetResult();
+                _storageAdapter.Insert(TableName,
+                    new [] {ColumnChannelName, ColumnLogName},
+                    new List<object[]> {
+                        new object[] {channelName, logJsonString}
+                    });
             });
         }
 
@@ -114,15 +112,8 @@ namespace Microsoft.AppCenter.Storage
                     AppCenterLog.Debug(AppCenterLog.LogTag,
                         $"Deleting logs from storage for channel '{channelName}' with batch id '{batchId}'");
                     var identifiers = _pendingDbIdentifierGroups[GetFullIdentifier(channelName, batchId)];
-                    _pendingDbIdentifierGroups.Remove(GetFullIdentifier(channelName, batchId));
-                    var deletedIdsMessage = "The IDs for deleting log(s) is/ are:";
-                    foreach (var id in identifiers)
-                    {
-                        deletedIdsMessage += "\n\t" + id;
-                        _pendingDbIdentifiers.Remove(id);
-                    }
-                    AppCenterLog.Debug(AppCenterLog.LogTag, deletedIdsMessage);
-                    _storageAdapter.DeleteAsync(TableName, $"{ColumnChannelName} = \'{channelName}\' AND {ColumnIdName} IN ({string.Join(",", identifiers)})").GetAwaiter().GetResult();
+                    AppCenterLog.Debug(AppCenterLog.LogTag, "The IDs for deleting log(s) is/ are:\n\t" + string.Join("\n\t", identifiers));
+                    _storageAdapter.Delete(TableName, ColumnIdName, identifiers);
                 }
                 catch (KeyNotFoundException e)
                 {
@@ -146,8 +137,7 @@ namespace Microsoft.AppCenter.Storage
                         $"Deleting all logs from storage for channel '{channelName}'");
                     ClearPendingLogStateWithoutEnqueue(channelName);
                     var values = new List<object>() { channelName };
-                    _storageAdapter.DeleteAsync(TableName, $"{ColumnChannelName} = \'{channelName}\'")
-                        .GetAwaiter().GetResult();
+                    _storageAdapter.Delete(TableName, $"{ColumnChannelName} = \'?\'", channelName);
                 }
                 catch (KeyNotFoundException e)
                 {
@@ -164,11 +154,7 @@ namespace Microsoft.AppCenter.Storage
         /// <exception cref="StorageException"/>
         public Task<int> CountLogsAsync(string channelName)
         {
-            return AddTaskToQueue(() =>
-            {
-                string whereClause = $"{ColumnChannelName} = \"{channelName}\"";
-                return _storageAdapter.CountAsync(TableName, whereClause).GetAwaiter().GetResult();
-            });
+            return AddTaskToQueue(() => _storageAdapter.Count(TableName, ColumnChannelName, channelName));
         }
 
         /// <summary>
@@ -224,13 +210,14 @@ namespace Microsoft.AppCenter.Storage
                     $"Trying to get up to {limit} logs from storage for {channelName}");
                 var idPairs = new List<Tuple<Guid?, long>>();
                 var failedToDeserializeALog = false;
-                var pendingExcludeClause = string.Empty;
+                var pendingExcludeMask = string.Empty;
                 if (_pendingDbIdentifiers != null && _pendingDbIdentifiers.Count > 0)
                 {
-                    pendingExcludeClause = $" AND {ColumnIdName} NOT IN ({string.Join(",", _pendingDbIdentifiers)})";
+                    var pendingIdsMask = string.Join(",", Enumerable.Repeat("?", _pendingDbIdentifiers.Count));
+                    pendingExcludeMask = $" AND {ColumnIdName} NOT IN ({pendingIdsMask})";
                 }
-                var whereClause = $"{ColumnChannelName} = \'{channelName}\' {pendingExcludeClause}";
-                var objectEntries = _storageAdapter.GetAsync(TableName, whereClause, limit).GetAwaiter().GetResult();
+                var whereMask = $"{ColumnChannelName} = \'?\' {pendingExcludeMask}";
+                var objectEntries = _storageAdapter.Select(TableName, whereMask, limit, channelName, _pendingDbIdentifiers?.ToArray());
                 var retrievedEntries = objectEntries.Select(entries =>
                     new LogEntry()
                     {
@@ -252,8 +239,7 @@ namespace Microsoft.AppCenter.Storage
                         AppCenterLog.Error(AppCenterLog.LogTag, "Cannot deserialize a log in storage", e);
                         failedToDeserializeALog = true;
                         var values = new List<object> { entry.Id };
-                        _storageAdapter.DeleteAsync(TableName, $"{ColumnIdName} = {entry.Id}")
-                            .GetAwaiter().GetResult();
+                        _storageAdapter.Delete(TableName, $"{ColumnIdName} = ?", entry.Id);
                     }
                 }
                 if (failedToDeserializeALog)
@@ -290,7 +276,7 @@ namespace Microsoft.AppCenter.Storage
             AppCenterLog.Debug(AppCenterLog.LogTag, message);
         }
 
-        private async Task InitializeDatabaseAsync()
+        private void InitializeDatabase()
         {
             try
             {
@@ -300,8 +286,11 @@ namespace Microsoft.AppCenter.Storage
                     new ColumnMap { ColumnName = ColumnChannelName, ColumnType = raw.SQLITE_TEXT, IsAutoIncrement = false, IsPrimaryKey = false },
                     new ColumnMap { ColumnName = ColumnLogName, ColumnType = raw.SQLITE_TEXT, IsAutoIncrement = false, IsPrimaryKey = false }
                 };
-                await _storageAdapter.InitializeStorageAsync().ConfigureAwait(false);
-                await _storageAdapter.CreateTableAsync(TableName, scheme).ConfigureAwait(false);
+                // TODO create dir.
+                _storageAdapter.Initialize();
+                _storageAdapter.CreateTable(TableName, 
+                    new[] {ColumnIdName, ColumnChannelName, ColumnLogName},
+                    new[] {"INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL"});
             }
             catch (Exception e)
             {
@@ -406,12 +395,10 @@ namespace Microsoft.AppCenter.Storage
             if (e.Message == "Corrupt" || e.InnerException?.Message == "Corrupt")
             {
                 AppCenterLog.Error(AppCenterLog.LogTag, "Database corruption detected, deleting the file and starting fresh...", e);
-                await _storageAdapter.DeleteDatabaseFileAsync().ConfigureAwait(false);
-                await InitializeDatabaseAsync().ConfigureAwait(false);
-            }
+                _storageAdapter.Dispose();
 
-            // Return exception to re-throw.
-            if (e is StorageException)
+                // TODO delete file
+
             {
                 // This is the expected case, storage adapter already wraps exception as StorageException, so return as is.
                 return e;
