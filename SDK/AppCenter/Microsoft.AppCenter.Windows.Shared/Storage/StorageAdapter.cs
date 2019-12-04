@@ -6,7 +6,7 @@ using Microsoft.AppCenter.Utils.Files;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using SQLitePCL;
 using Microsoft.AppCenter.Windows.Shared.Storage;
@@ -40,39 +40,34 @@ namespace Microsoft.AppCenter.Storage
             var columnsList = new List<string>();
             foreach (var column in scheme)
             {
-                var columnData = $"{column.ColumnName} ";
+                var stringBuilder = new StringBuilder($"{column.ColumnName} ");
                 switch (column.ColumnType)
                 {
                     case raw.SQLITE_TEXT:
-                        BuildString(columnData, RawTextTypeName);
+                        stringBuilder.Append(RawTextTypeName);
                         break;
                     case raw.SQLITE_INTEGER:
-                        BuildString(columnData, RawIntegerTypeName);
+                        stringBuilder.Append(RawIntegerTypeName);
                         break;
                     case raw.SQLITE_FLOAT:
-                        BuildString(columnData, RawFloatTypeName);
+                        stringBuilder.Append(RawFloatTypeName);
                         break;
                 }
                 if (column.IsPrimaryKey)
                 {
-                    BuildString(columnData, RawPrimaryKeySuffix);
+                    stringBuilder.Append(RawPrimaryKeySuffix);
                 }
                 if (column.IsAutoIncrement)
                 {
-                    BuildString(columnData, RawAutoincrementSuffix);
+                    stringBuilder.Append(RawAutoincrementSuffix);
                 }
-                columnsList.Add(columnData);
+                columnsList.Add(stringBuilder.ToString());
             }
             var tableClause = string.Join(",", columnsList.ToArray());
             var queryString = $"CREATE TABLE IF NOT EXISTS {tableName} ({tableClause});";
             return ExecuteNonSelectionSqlQuery(db, queryString);
         }
-
-        private string BuildString(string primaryStr, string prefStr)
-        {
-            return primaryStr += prefStr + " ";
-        }
-
+        
         public Task CreateTableAsync(string tableName, List<ColumnMap> columnMaps)
         {
             return Task.Run(() =>
@@ -81,7 +76,7 @@ namespace Microsoft.AppCenter.Storage
                 if (result != raw.SQLITE_DONE)
                 {
                     var errMsg = raw.sqlite3_errmsg(_db);
-                    throw new StorageException($"Failed to create table, result={result}\t{errMsg}");
+                    throw new StorageException($"Failed to create table, result={result}\n\t{errMsg}");
                 }
             });
 
@@ -97,7 +92,7 @@ namespace Microsoft.AppCenter.Storage
             if (result != raw.SQLITE_OK)
             {
                 var errMsg = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare SQL query, result={result}\t{errMsg}");
+                throw new StorageException($"Failed to prepare SQL query, result={result}\n\t{errMsg}");
             }
             result = raw.sqlite3_step(stmt);
             raw.sqlite3_finalize(stmt);
@@ -115,7 +110,7 @@ namespace Microsoft.AppCenter.Storage
             if (queryResult != raw.SQLITE_OK)
             {
                 var errMsg = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare SQL query, result={queryResult}\t{errMsg}");
+                throw new StorageException($"Failed to prepare SQL query, result={queryResult}\n\t{errMsg}");
             }
             while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
             {
@@ -151,10 +146,10 @@ namespace Microsoft.AppCenter.Storage
             return entries;
         }
 
-        public Task<List<List<object>>> GetAsync(string tableName, string whereClause, int limit)
+        public Task<List<List<object>>> GetAsync(string tableName, string whereClause, int? limit = null)
         {
-            var limitClause = $"LIMIT {limit}";
-            var query = $"SELECT * FROM {tableName} WHERE {whereClause} {limitClause};";
+            var limitClause = limit != null ? $" LIMIT {limit}" : string.Empty;
+            var query = $"SELECT * FROM {tableName} WHERE {whereClause}{limitClause};";
             return Task.FromResult(ExecuteSelectionSqlQuery(_db, query));
         }
 
@@ -199,7 +194,7 @@ namespace Microsoft.AppCenter.Storage
             if (result != raw.SQLITE_DONE && result != raw.SQLITE_OK)
             {
                 var errMsg = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to delete SQL query, result={result}\t{errMsg}");
+                throw new StorageException($"Failed to delete SQL query, result={result}\n\t{errMsg}");
             }
             return numDeleted;
         }
@@ -237,7 +232,7 @@ namespace Microsoft.AppCenter.Storage
                 if (result != raw.SQLITE_OK)
                 {
                     var errMsg = raw.sqlite3_errmsg(_db);
-                    throw new StorageException($"Failed to open database connection, result={result}\t{errMsg}");
+                    throw new StorageException($"Failed to open database connection, result={result}\n\t{errMsg}");
                 }
             });
         }

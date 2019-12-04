@@ -12,7 +12,7 @@ namespace Microsoft.AppCenter.Storage
     public interface IStorageAdapter
     {
         Task InitializeStorageAsync();
-        Task<List<List<object>>> GetAsync(string tableName, string whereClause, int limit);
+        Task<List<List<object>>> GetAsync(string tableName, string whereClause, int? limit = null);
         Task CreateTableAsync(string tableName, List<ColumnMap> columnMaps);
         Task<int> CountAsync(string tableName, string whereClause);
         Task<int> InsertAsync(string tableName, List<List<ColumnValueMap>> valueMaps);
