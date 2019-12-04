@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.AppCenter.Utils;
 using Microsoft.AppCenter.Utils.Files;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Microsoft.AppCenter.Windows.Shared.Storage;
 using SQLitePCL;
 
 namespace Microsoft.AppCenter.Storage
@@ -28,23 +25,43 @@ namespace Microsoft.AppCenter.Storage
             }
         }
 
-        private void BindSqlParams(sqlite3_stmt stmt, params object[] args)
+        private void BindParameter(sqlite3_stmt stmt, int index, object value)
         {
-            for (int i = 0; i < args.Length; i++)
-            {
-                switch (args[i])
-                {
-                    case string stringValue:
-                        raw.sqlite3_bind_text(stmt, i + 1, stringValue);
-                        break;
-                    case int intVal:
-                        raw.sqlite3_bind_int(stmt, i + 1, intVal);
-                        break;
-                    default:
-                        // TODO log
-                        break;
-                }
+            int result;
+            if (value is string) {
+                result = raw.sqlite3_bind_text(stmt, index, (string)value);
+            } else if (value is int) {
+                result = raw.sqlite3_bind_int(stmt, index, (int)value);
+            } else {
+                throw new NotSupportedException($"Type {value.GetType().FullName} not supported.");
             }
+            if (result != raw.SQLITE_OK)
+            {
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to bind {index} parameter, result={result}\n\t{errorMessage}");
+            }
+        }
+
+        private void BindParameters(sqlite3_stmt stmt, object[] values)
+        {
+            for (int i = 0; i < values.Length; i++)
+            {
+                BindParameter(stmt, i + 1, values[i]);
+            }
+        }
+
+        private object GetColumnValue(sqlite3_stmt stmt, int index)
+        {
+            var columnType = raw.sqlite3_column_type(stmt, index);
+            switch (columnType)
+            {
+                case raw.SQLITE_INTEGER:
+                    return raw.sqlite3_column_int(stmt, index);
+                case raw.SQLITE_TEXT:
+                    return raw.sqlite3_column_text(stmt, index);
+            }
+            // TODO log
+            return null;
         }
 
         private int ExecuteNonSelectionSqlQuery(sqlite3 db, string query, params object[] args)
@@ -54,7 +71,7 @@ namespace Microsoft.AppCenter.Storage
                 throw new StorageException("The database wasn't initialized.");
             }
             var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
-            BindSqlParams(stmt, args);
+            BindParameters(stmt, args);
             if (result != raw.SQLITE_OK)
             {
                 var errorMessage = raw.sqlite3_errmsg(_db);
@@ -73,7 +90,7 @@ namespace Microsoft.AppCenter.Storage
             }
             var entries = new List<object[]>();
             var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
-            BindSqlParams(stmt, args);
+            BindParameters(stmt, args);
             if (queryResult != raw.SQLITE_OK)
             {
                 var errorMessage = raw.sqlite3_errmsg(_db);
@@ -81,31 +98,8 @@ namespace Microsoft.AppCenter.Storage
             }
             while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
             {
-                var entry = new List<object>();
                 var count = raw.sqlite3_column_count(stmt);
-                for (var i = 0; i < count; i++)
-                {
-                    var typeCol = raw.sqlite3_column_type(stmt, i);
-                    object valCol;
-                    switch (typeCol)
-                    {
-                        case raw.SQLITE_INTEGER:
-                            valCol = raw.sqlite3_column_int(stmt, i);
-                            break;
-                        case raw.SQLITE_TEXT:
-                            valCol = raw.sqlite3_column_text(stmt, i);
-                            break;
-                        default:
-                            // TODO log
-                            valCol = null;
-                            break;
-                    }
-                    entry.Add(valCol);
-                }
-                if (entry.Count > 0)
-                {
-                    entries.Add(entry.ToArray<object>());
-                }
+                entries.Add(Enumerable.Range(0, count).Select(i => GetColumnValue(stmt, i)).ToArray());
             }
             raw.sqlite3_finalize(stmt);
             return entries;

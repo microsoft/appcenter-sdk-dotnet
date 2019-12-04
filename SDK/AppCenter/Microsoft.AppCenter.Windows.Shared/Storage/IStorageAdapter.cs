@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AppCenter.Windows.Shared.Storage;
 
 namespace Microsoft.AppCenter.Storage
 {

@@ -5,13 +5,11 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion.Models;
 using Microsoft.AppCenter.Ingestion.Models.Serialization;
 using Microsoft.AppCenter.Utils;
-using Microsoft.AppCenter.Windows.Shared.Storage;
 using Newtonsoft.Json;
 
 namespace Microsoft.AppCenter.Storage
@@ -70,7 +68,7 @@ namespace Microsoft.AppCenter.Storage
         {
             try
             {
-                return new StorageAdapter(Constants.AppCenterDatabasePath);
+                return new StorageAdapter();
             }
             catch (Exception e)
             {
@@ -278,19 +276,7 @@ namespace Microsoft.AppCenter.Storage
 
         private void InitializeDatabase()
         {
-            try
-            {
-                var scheme = new List<ColumnMap>
-                {
-                    new ColumnMap { ColumnName = ColumnIdName, ColumnType = raw.SQLITE_INTEGER, IsAutoIncrement = true, IsPrimaryKey = true },
-                    new ColumnMap { ColumnName = ColumnChannelName, ColumnType = raw.SQLITE_TEXT, IsAutoIncrement = false, IsPrimaryKey = false },
-                    new ColumnMap { ColumnName = ColumnLogName, ColumnType = raw.SQLITE_TEXT, IsAutoIncrement = false, IsPrimaryKey = false }
-                };
-                // TODO create dir.
-                _storageAdapter.Initialize();
-                _storageAdapter.CreateTable(TableName, 
-                    new[] {ColumnIdName, ColumnChannelName, ColumnLogName},
-                    new[] {"INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL"});
+                  new[] {"INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL"});
             }
             catch (Exception e)
             {
@@ -399,26 +385,6 @@ namespace Microsoft.AppCenter.Storage
 
                 // TODO delete file
 
-            {
-                // This is the expected case, storage adapter already wraps exception as StorageException, so return as is.
-                return e;
-            }
-
-            // Tasks should already be throwing only storage exceptions, but in case any are missed, 
-            // which has happened (the Corrupt exception mentioned previously), catch them here and wrap in a storage exception. This will prevent 
-            // the exception from being unobserved.
-            return new StorageException(e);
-        }
-
-        private void AddTaskToQueue(Task task)
-        {
-            try
-            {
-                _queue.Add(task);
-            }
-            catch (InvalidOperationException)
-            {
-                throw new StorageException("The operation has been canceled");
             }
             _flushSemaphore.Release();
         }
