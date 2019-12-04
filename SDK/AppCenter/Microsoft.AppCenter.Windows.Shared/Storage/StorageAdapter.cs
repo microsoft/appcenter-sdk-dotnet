@@ -44,28 +44,33 @@ namespace Microsoft.AppCenter.Storage
                 switch (column.ColumnType)
                 {
                     case raw.SQLITE_TEXT:
-                        columnData += RawTextTypeName + " ";
+                        BuildString(columnData, RawTextTypeName);
                         break;
                     case raw.SQLITE_INTEGER:
-                        columnData += RawIntegerTypeName + " ";
+                        BuildString(columnData, RawIntegerTypeName);
                         break;
                     case raw.SQLITE_FLOAT:
-                        columnData += RawFloatTypeName + " ";
+                        BuildString(columnData, RawFloatTypeName);
                         break;
                 }
-                if (column.IsPrimarykey)
+                if (column.IsPrimaryKey)
                 {
-                    columnData += RawPrimaryKeySuffix + " ";
+                    BuildString(columnData, RawPrimaryKeySuffix);
                 }
                 if (column.IsAutoIncrement)
                 {
-                    columnData += RawAutoincrementSuffix;
+                    BuildString(columnData, RawAutoincrementSuffix);
                 }
                 columnsList.Add(columnData);
             }
             var tableClause = string.Join(",", columnsList.ToArray());
             var queryString = $"CREATE TABLE IF NOT EXISTS {tableName} ({tableClause});";
             return ExecuteNonSelectionSqlQuery(db, queryString);
+        }
+
+        private string BuildString(string primaryStr, string prefStr)
+        {
+            return primaryStr += prefStr + " ";
         }
 
         public Task CreateTableAsync(string tableName, List<ColumnMap> columnMaps)
@@ -75,7 +80,8 @@ namespace Microsoft.AppCenter.Storage
                 var result = SqlQueryCreateTable(_db, tableName, columnMaps);
                 if (result != raw.SQLITE_DONE)
                 {
-                    throw new StorageException($"Failed to create table: {result}");
+                    var errMsg = raw.sqlite3_errmsg(_db);
+                    throw new StorageException($"Failed to create table, result={result}\t{errMsg}");
                 }
             });
 
@@ -145,9 +151,9 @@ namespace Microsoft.AppCenter.Storage
             return entries;
         }
 
-        public Task<List<List<object>>> GetAsync(string tableName, string whereClause, int? limit = null)
+        public Task<List<List<object>>> GetAsync(string tableName, string whereClause, int limit)
         {
-            var limitClause = limit != null ? $"LIMIT {limit}" : string.Empty;
+            var limitClause = $"LIMIT {limit}";
             var query = $"SELECT * FROM {tableName} WHERE {whereClause} {limitClause};";
             return Task.FromResult(ExecuteSelectionSqlQuery(_db, query));
         }
@@ -218,19 +224,20 @@ namespace Microsoft.AppCenter.Storage
                         throw new StorageException("Failed to open database connection.", e);
                     }
                 }
+                var result = raw.SQLITE_ERROR;
                 try
                 {
                     raw.SetProvider(new SQLite3Provider_e_sqlite3());
-                    var result = raw.sqlite3_open(_databasePath, out _db);
-                    if (result != raw.SQLITE_OK)
-                    {
-                        var errMsg = raw.sqlite3_errmsg(_db);
-                        throw new StorageException($"Failed to open database connection, result={result}\t{errMsg}");
-                    }
+                    result = raw.sqlite3_open(_databasePath, out _db);
                 }
                 catch (Exception e)
                 {
                     throw new StorageException("Failed to open database connection.", e);
+                }
+                if (result != raw.SQLITE_OK)
+                {
+                    var errMsg = raw.sqlite3_errmsg(_db);
+                    throw new StorageException($"Failed to open database connection, result={result}\t{errMsg}");
                 }
             });
         }

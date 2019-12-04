@@ -5,7 +5,7 @@ namespace Microsoft.AppCenter.Windows.Shared.Storage
 {
     public class ColumnMap : ColumnBase
     {
-        public bool IsPrimarykey { get; set; }
+        public bool IsPrimaryKey { get; set; }
         public bool IsAutoIncrement { get; set; }
     }
 }
