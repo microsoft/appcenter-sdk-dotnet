@@ -76,7 +76,7 @@ namespace Microsoft.AppCenter.Storage
                 if (result != raw.SQLITE_DONE)
                 {
                     var errMsg = raw.sqlite3_errmsg(_db);
-                    throw new StorageException($"Failed to create table, result={result}\t{errMsg}");
+                    throw new StorageException($"Failed to create table, result={result}\n\t{errMsg}");
                 }
             });
 
@@ -92,7 +92,7 @@ namespace Microsoft.AppCenter.Storage
             if (result != raw.SQLITE_OK)
             {
                 var errMsg = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare SQL query, result={result}\t{errMsg}");
+                throw new StorageException($"Failed to prepare SQL query, result={result}\n\t{errMsg}");
             }
             result = raw.sqlite3_step(stmt);
             raw.sqlite3_finalize(stmt);
@@ -110,7 +110,7 @@ namespace Microsoft.AppCenter.Storage
             if (queryResult != raw.SQLITE_OK)
             {
                 var errMsg = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare SQL query, result={queryResult}\t{errMsg}");
+                throw new StorageException($"Failed to prepare SQL query, result={queryResult}\n\t{errMsg}");
             }
             while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
             {
@@ -149,6 +149,7 @@ namespace Microsoft.AppCenter.Storage
         public Task<List<List<object>>> GetAsync(string tableName, string whereClause, int? limit = null)
         {
             var limitClause = limit != null ? $" LIMIT {limit}" : string.Empty;
+            var query = $"SELECT * FROM {tableName} WHERE {whereClause}{limitClause};";
             return Task.FromResult(ExecuteSelectionSqlQuery(_db, query));
         }
 
@@ -193,7 +194,7 @@ namespace Microsoft.AppCenter.Storage
             if (result != raw.SQLITE_DONE && result != raw.SQLITE_OK)
             {
                 var errMsg = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to delete SQL query, result={result}\t{errMsg}");
+                throw new StorageException($"Failed to delete SQL query, result={result}\n\t{errMsg}");
             }
             return numDeleted;
         }
@@ -231,7 +232,7 @@ namespace Microsoft.AppCenter.Storage
                 if (result != raw.SQLITE_OK)
                 {
                     var errMsg = raw.sqlite3_errmsg(_db);
-                    throw new StorageException($"Failed to open database connection, result={result}\t{errMsg}");
+                    throw new StorageException($"Failed to open database connection, result={result}\n\t{errMsg}");
                 }
             });
         }
