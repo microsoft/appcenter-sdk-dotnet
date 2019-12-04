@@ -77,7 +77,7 @@ namespace Microsoft.AppCenter.Test
         public void PutOneLog()
         {
             var addedLog = TestLog.CreateTestLog();
-            _storage.PutLog(StorageTestChannelName, addedLog);
+            _storage.PutLog(StorageTestChannelName, addedLog).Wait();
             var retrievedLogs = new List<Log>();
             _storage.GetLogsAsync(StorageTestChannelName, 1, retrievedLogs).RunNotAsync();
             var retrievedLog = retrievedLogs[0];
@@ -280,7 +280,7 @@ namespace Microsoft.AppCenter.Test
         public void GetLogsFromChannelWithSimilarNames()
         {
             var fakeChannelName = StorageTestChannelName.Substring(0, StorageTestChannelName.Length - 1);
-            _storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog());
+            _storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()).Wait();
             var retrievedLogs = new List<Log>();
             var batchId = _storage.GetLogsAsync(fakeChannelName, 1, retrievedLogs).RunNotAsync();
             Assert.IsNull(batchId);
@@ -402,6 +402,7 @@ namespace Microsoft.AppCenter.Test
                 var testLog = TestLog.CreateTestLog();
                 addedLogs.Add(testLog);
                 putLogTasks[i] = _storage.PutLog(StorageTestChannelName, testLog);
+                putLogTasks[i].GetAwaiter().GetResult();
             }
             return addedLogs;
         }
