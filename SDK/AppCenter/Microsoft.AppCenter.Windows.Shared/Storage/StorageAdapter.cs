@@ -6,7 +6,6 @@ using Microsoft.AppCenter.Utils.Files;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using SQLitePCL;
 using Microsoft.AppCenter.Windows.Shared.Storage;
