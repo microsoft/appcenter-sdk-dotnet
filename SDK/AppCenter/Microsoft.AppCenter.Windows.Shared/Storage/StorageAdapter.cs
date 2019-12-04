@@ -150,10 +150,9 @@ namespace Microsoft.AppCenter.Storage
             return entries;
         }
 
-        public Task<List<List<object>>> GetAsync(string tableName, string whereClause, int limit)
+        public Task<List<List<object>>> GetAsync(string tableName, string whereClause, int? limit = null)
         {
-            var limitClause = $"LIMIT {limit}";
-            var query = $"SELECT * FROM {tableName} WHERE {whereClause} {limitClause};";
+            var limitClause = limit != null ? $" LIMIT {limit}" : string.Empty;
             return Task.FromResult(ExecuteSelectionSqlQuery(_db, query));
         }
 
