@@ -44,28 +44,33 @@ namespace Microsoft.AppCenter.Storage
                 switch (column.ColumnType)
                 {
                     case raw.SQLITE_TEXT:
-                        columnData += RawTextTypeName + " ";
+                        BuildString(columnData, RawTextTypeName);
                         break;
                     case raw.SQLITE_INTEGER:
-                        columnData += RawIntegerTypeName + " ";
+                        BuildString(columnData, RawIntegerTypeName);
                         break;
                     case raw.SQLITE_FLOAT:
-                        columnData += RawFloatTypeName + " ";
+                        BuildString(columnData, RawFloatTypeName);
                         break;
                 }
-                if (column.IsPrimarykey)
+                if (column.IsPrimaryKey)
                 {
-                    columnData += RawPrimaryKeySuffix + " ";
+                    BuildString(columnData, RawPrimaryKeySuffix);
                 }
                 if (column.IsAutoIncrement)
                 {
-                    columnData += RawAutoincrementSuffix;
+                    BuildString(columnData, RawAutoincrementSuffix);
                 }
                 columnsList.Add(columnData);
             }
             var tableClause = string.Join(",", columnsList.ToArray());
             var queryString = $"CREATE TABLE IF NOT EXISTS {tableName} ({tableClause});";
             return ExecuteNonSelectionSqlQuery(db, queryString);
+        }
+
+        private string BuildString(string primaryStr, string prefStr)
+        {
+            return primaryStr += prefStr + " ";
         }
 
         public Task CreateTableAsync(string tableName, List<ColumnMap> columnMaps)
@@ -75,7 +80,8 @@ namespace Microsoft.AppCenter.Storage
                 var result = SqlQueryCreateTable(_db, tableName, columnMaps);
                 if (result != raw.SQLITE_DONE)
                 {
-                    throw new StorageException($"Failed to create table: {result}");
+                    var errMsg = raw.sqlite3_errmsg(_db);
+                    throw new StorageException($"Failed to create table, result={result}\t{errMsg}");
                 }
             });
 
@@ -83,6 +89,10 @@ namespace Microsoft.AppCenter.Storage
 
         private int ExecuteNonSelectionSqlQuery(sqlite3 db, string query)
         {
+            if (db == null)
+            {
+                throw new StorageException("The database wasn't initialized.");
+            }
             var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (result != raw.SQLITE_OK)
             {
@@ -96,6 +106,10 @@ namespace Microsoft.AppCenter.Storage
 
         private List<List<object>> ExecuteSelectionSqlQuery(sqlite3 db, string query)
         {
+            if (db == null)
+            {
+                throw new StorageException("The database wasn't initialized.");
+            }
             var entries = new List<List<object>>();
             var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (queryResult != raw.SQLITE_OK)
@@ -137,38 +151,17 @@ namespace Microsoft.AppCenter.Storage
             return entries;
         }
 
-        private int ExecuteCountSqlQuery(sqlite3 db, string query)
+        public Task<List<List<object>>> GetAsync(string tableName, string whereClause, int limit)
         {
-            var countRows = 0;
-            var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
-            if (queryResult != raw.SQLITE_OK)
-            {
-                var errMsg = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare SQL query, result={queryResult}\t{errMsg}");
-            }
-            while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
-            {
-                countRows = raw.sqlite3_column_int(stmt, 0);
-            }
-            raw.sqlite3_finalize(stmt);
-            return countRows;
-        }
-
-        public Task<List<List<object>>> GetAsync(string tableName, string whereClause, int? limit = null)
-        {
-            var limitClause = limit != null ? $"LIMIT {limit}" : string.Empty;
+            var limitClause = $"LIMIT {limit}";
             var query = $"SELECT * FROM {tableName} WHERE {whereClause} {limitClause};";
             return Task.FromResult(ExecuteSelectionSqlQuery(_db, query));
         }
 
-        private Task<int> ExecuteCountSqlQuery(sqlite3 db, string tableName, string whereClause)
-        {
-            return Task.FromResult(ExecuteCountSqlQuery(db, $"SELECT COUNT(*) FROM {tableName} WHERE {whereClause};"));
-        }
-
         public Task<int> CountAsync(string tableName, string whereClause)
         {
-            return ExecuteCountSqlQuery(_db, tableName, whereClause);
+            return Task.FromResult((int)ExecuteSelectionSqlQuery(_db,
+                $"SELECT COUNT(*) FROM {tableName} WHERE {whereClause};")[0][0]);
         }
 
         private int SqlQueryInsert(sqlite3 db, string tableName, string columnsClause, string valuesClause)
@@ -200,7 +193,8 @@ namespace Microsoft.AppCenter.Storage
 
         private int SqlQueryDelete(sqlite3 db, string tableName, string whereClause)
         {
-            var numDeleted = ExecuteCountSqlQuery(db, tableName, whereClause).GetAwaiter().GetResult();
+            var numDeleted = (int)ExecuteSelectionSqlQuery(db,
+                $"SELECT COUNT(*) FROM {tableName} WHERE {whereClause};")[0][0];
             var result = ExecuteNonSelectionSqlQuery(db, $"DELETE FROM {tableName} WHERE {whereClause};");
             if (result != raw.SQLITE_DONE && result != raw.SQLITE_OK)
             {
@@ -230,19 +224,20 @@ namespace Microsoft.AppCenter.Storage
                         throw new StorageException("Failed to open database connection.", e);
                     }
                 }
+                var result = raw.SQLITE_ERROR;
                 try
                 {
                     raw.SetProvider(new SQLite3Provider_e_sqlite3());
-                    var result = raw.sqlite3_open(_databasePath, out _db);
-                    if (result != raw.SQLITE_OK)
-                    {
-                        var errMsg = raw.sqlite3_errmsg(_db);
-                        throw new StorageException($"Failed to open database connection, result={result}\t{errMsg}");
-                    }
+                    result = raw.sqlite3_open(_databasePath, out _db);
                 }
                 catch (Exception e)
                 {
                     throw new StorageException("Failed to open database connection.", e);
+                }
+                if (result != raw.SQLITE_OK)
+                {
+                    var errMsg = raw.sqlite3_errmsg(_db);
+                    throw new StorageException($"Failed to open database connection, result={result}\t{errMsg}");
                 }
             });
         }

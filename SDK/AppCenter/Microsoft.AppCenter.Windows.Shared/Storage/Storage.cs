@@ -230,8 +230,8 @@ namespace Microsoft.AppCenter.Storage
                     pendingExcludeClause = $" AND {ColumnIdName} NOT IN ({string.Join(",", _pendingDbIdentifiers)})";
                 }
                 var whereClause = $"{ColumnChannelName} = \'{channelName}\' {pendingExcludeClause}";
-                var objectdEntries = _storageAdapter.GetAsync(TableName, whereClause, limit).GetAwaiter().GetResult();
-                var retrievedEntries = objectdEntries.Select(entries =>
+                var objectEntries = _storageAdapter.GetAsync(TableName, whereClause, limit).GetAwaiter().GetResult();
+                var retrievedEntries = objectEntries.Select(entries =>
                     new LogEntry()
                     {
                         Id = (int)entries[0],
@@ -296,9 +296,9 @@ namespace Microsoft.AppCenter.Storage
             {
                 var scheme = new List<ColumnMap>
                 {
-                    new ColumnMap { ColumnName = ColumnIdName, ColumnType = raw.SQLITE_INTEGER, IsAutoIncrement = true, IsPrimarykey = true },
-                    new ColumnMap { ColumnName = ColumnChannelName, ColumnType = raw.SQLITE_TEXT, IsAutoIncrement = false, IsPrimarykey = false },
-                    new ColumnMap { ColumnName = ColumnLogName, ColumnType = raw.SQLITE_TEXT, IsAutoIncrement = false, IsPrimarykey = false }
+                    new ColumnMap { ColumnName = ColumnIdName, ColumnType = raw.SQLITE_INTEGER, IsAutoIncrement = true, IsPrimaryKey = true },
+                    new ColumnMap { ColumnName = ColumnChannelName, ColumnType = raw.SQLITE_TEXT, IsAutoIncrement = false, IsPrimaryKey = false },
+                    new ColumnMap { ColumnName = ColumnLogName, ColumnType = raw.SQLITE_TEXT, IsAutoIncrement = false, IsPrimaryKey = false }
                 };
                 await _storageAdapter.InitializeStorageAsync().ConfigureAwait(false);
                 await _storageAdapter.CreateTableAsync(TableName, scheme).ConfigureAwait(false);
