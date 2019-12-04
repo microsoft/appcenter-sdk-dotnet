@@ -6,6 +6,7 @@ using Microsoft.AppCenter.Utils.Files;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using SQLitePCL;
 using Microsoft.AppCenter.Windows.Shared.Storage;
@@ -39,39 +40,34 @@ namespace Microsoft.AppCenter.Storage
             var columnsList = new List<string>();
             foreach (var column in scheme)
             {
-                var columnData = $"{column.ColumnName} ";
+                var stringBuilder = new StringBuilder($"{column.ColumnName} ");
                 switch (column.ColumnType)
                 {
                     case raw.SQLITE_TEXT:
-                        BuildString(columnData, RawTextTypeName);
+                        stringBuilder.Append(RawTextTypeName);
                         break;
                     case raw.SQLITE_INTEGER:
-                        BuildString(columnData, RawIntegerTypeName);
+                        stringBuilder.Append(RawIntegerTypeName);
                         break;
                     case raw.SQLITE_FLOAT:
-                        BuildString(columnData, RawFloatTypeName);
+                        stringBuilder.Append(RawFloatTypeName);
                         break;
                 }
                 if (column.IsPrimaryKey)
                 {
-                    BuildString(columnData, RawPrimaryKeySuffix);
+                    stringBuilder.Append(RawPrimaryKeySuffix);
                 }
                 if (column.IsAutoIncrement)
                 {
-                    BuildString(columnData, RawAutoincrementSuffix);
+                    stringBuilder.Append(RawAutoincrementSuffix);
                 }
-                columnsList.Add(columnData);
+                columnsList.Add(stringBuilder.ToString());
             }
             var tableClause = string.Join(",", columnsList.ToArray());
             var queryString = $"CREATE TABLE IF NOT EXISTS {tableName} ({tableClause});";
             return ExecuteNonSelectionSqlQuery(db, queryString);
         }
-
-        private string BuildString(string primaryStr, string prefStr)
-        {
-            return primaryStr += prefStr + " ";
-        }
-
+        
         public Task CreateTableAsync(string tableName, List<ColumnMap> columnMaps)
         {
             return Task.Run(() =>
