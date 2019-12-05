@@ -36,7 +36,7 @@ namespace Microsoft.AppCenter.Storage
         private const string ColumnLogName = "Log";
         private const string ColumnIdName = "Id";
 
-        private readonly IStorageAdapter _storageAdapter;
+        private IStorageAdapter _storageAdapter;
         private const string DbIdentifierDelimiter = "@";
 
         private readonly Dictionary<string, List<long>> _pendingDbIdentifierGroups = new Dictionary<string, List<long>>();
@@ -276,6 +276,7 @@ namespace Microsoft.AppCenter.Storage
 
         private void InitializeDatabase()
         {
+            System.IO.Directory.CreateDirectory(Constants.AppCenterFilesDirectoryPath);
             try {
                 _storageAdapter.Initialize(Constants.AppCenterDatabasePath);
                 _storageAdapter.CreateTable(TableName, 
@@ -387,7 +388,10 @@ namespace Microsoft.AppCenter.Storage
                 AppCenterLog.Error(AppCenterLog.LogTag,
                     "Database corruption detected, deleting the file and starting fresh...", e);
                 _storageAdapter.Dispose();
-                // TODO delete file
+                _storageAdapter = null;
+                System.IO.File.Delete(Constants.AppCenterDatabasePath);
+                _storageAdapter = DefaultAdapter();
+                InitializeDatabase();
             }
             if (e is StorageException)
             {
