@@ -136,7 +136,7 @@ namespace Microsoft.AppCenter.Storage
                 throw new StorageException($"Failed to create table, result={result}\n\t{errorMessage}");
             }
         }
-        
+
         public int Count(string tableName, string columnName, object value)
         {
             var result = ExecuteSelectionSqlQuery(_db, $"SELECT COUNT(*) FROM {tableName} WHERE {columnName} = ?;", new[] { value });
@@ -155,8 +155,8 @@ namespace Microsoft.AppCenter.Storage
             var limitClause = limit != null ? $" LIMIT {limit}" : string.Empty;
             var query = $"SELECT * FROM {tableName} WHERE {whereClause}{limitClause};";
             return ExecuteSelectionSqlQuery(_db, query, args);
-        } 
-        
+        }
+
         public void Insert(string tableName, string[] columnNames, ICollection<object[]> values)
         {
             var columnsClause = string.Join(",", columnNames);
