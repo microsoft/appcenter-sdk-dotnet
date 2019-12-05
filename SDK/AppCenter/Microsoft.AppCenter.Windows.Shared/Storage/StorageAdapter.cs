@@ -11,7 +11,7 @@ namespace Microsoft.AppCenter.Storage
     internal class StorageAdapter : IStorageAdapter
     {
         private sqlite3 _db;
-        
+
         public void CreateTable(string tableName, string[] columnNames, string[] columnTypes)
         {
             var tableClause = string.Join(",", Enumerable.Range(0, columnNames.Length).Select(i => $"{columnNames[i]} {columnTypes[i]}"));
@@ -26,11 +26,16 @@ namespace Microsoft.AppCenter.Storage
         private void BindParameter(sqlite3_stmt stmt, int index, object value)
         {
             int result;
-            if (value is string) {
+            if (value is string)
+            {
                 result = raw.sqlite3_bind_text(stmt, index, (string)value);
-            } else if (value is int) {
+            }
+            else if (value is int)
+            {
                 result = raw.sqlite3_bind_int(stmt, index, (int)value);
-            } else {
+            }
+            else
+            {
                 throw new NotSupportedException($"Type {value.GetType().FullName} not supported.");
             }
             if (result != raw.SQLITE_OK)
