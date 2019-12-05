@@ -12,7 +12,6 @@ namespace Microsoft.AppCenter.Storage
     internal class StorageAdapter : IStorageAdapter
     {
         private sqlite3 _db;
-        internal Directory _databaseDirectory;
         
         public void CreateTable(string tableName, string[] columnNames, string[] columnTypes)
         {

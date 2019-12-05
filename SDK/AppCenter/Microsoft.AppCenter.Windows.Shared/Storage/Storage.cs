@@ -276,7 +276,11 @@ namespace Microsoft.AppCenter.Storage
 
         private void InitializeDatabase()
         {
-                  new[] {"INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL"});
+            try {
+                _storageAdapter.Initialize(Constants.AppCenterDatabasePath);
+                _storageAdapter.CreateTable(TableName, 
+                    new[] {ColumnIdName, ColumnChannelName, ColumnLogName},
+                    new[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL" });
             }
             catch (Exception e)
             {
@@ -347,7 +351,7 @@ namespace Microsoft.AppCenter.Storage
                 catch (Exception e)
                 {
                     // If we use await on a task that returns an exception, it makes the app crash, however, using the awaiter works...
-                    throw HandleStorageRelatedExceptionAsync(e).GetAwaiter().GetResult();
+                    throw HandleStorageRelatedExceptionAsync(e);
                 }
             });
             AddTaskToQueue(task);
@@ -365,14 +369,14 @@ namespace Microsoft.AppCenter.Storage
                 catch (Exception e)
                 {
                     // And regarding the comment in other variant of this function, async lambda + await cannot work with a Func anyway.
-                    throw HandleStorageRelatedExceptionAsync(e).GetAwaiter().GetResult();
+                    throw HandleStorageRelatedExceptionAsync(e);
                 }
             });
             AddTaskToQueue(task);
             return task;
         }
 
-        private async Task<Exception> HandleStorageRelatedExceptionAsync(Exception e)
+        private Exception HandleStorageRelatedExceptionAsync(Exception e)
         {
             // Check if database is corrupted, we have evidence (https://github.com/microsoft/appcenter-sdk-dotnet/issues/1184)
             // that it's not always originated by a proper SQLiteException (which would then be converted to StorageException in StorageAdapter).
@@ -380,12 +384,29 @@ namespace Microsoft.AppCenter.Storage
             // But the message is definitely "Corrupt" and thus unfortunately that is the only check we seem to be able to do as opposed to type/property checking.
             if (e.Message == "Corrupt" || e.InnerException?.Message == "Corrupt")
             {
-                AppCenterLog.Error(AppCenterLog.LogTag, "Database corruption detected, deleting the file and starting fresh...", e);
+                AppCenterLog.Error(AppCenterLog.LogTag,
+                    "Database corruption detected, deleting the file and starting fresh...", e);
                 _storageAdapter.Dispose();
-
                 // TODO delete file
-
             }
+            if (e is StorageException)
+            {
+                return e;
+            }
+            return new StorageException(e);
+        }
+
+        private void AddTaskToQueue(Task task)
+        {
+            try
+            {
+                _queue.Add(task);
+            }
+            catch (InvalidOperationException)
+            {
+                throw new StorageException("The operation has been canceled");
+            }
+
             _flushSemaphore.Release();
         }
 
