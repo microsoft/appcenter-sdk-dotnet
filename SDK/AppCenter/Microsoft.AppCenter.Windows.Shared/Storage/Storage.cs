@@ -22,7 +22,7 @@ namespace Microsoft.AppCenter.Storage
     {
         internal class LogEntry
         {
-            public int Id { get; set; }
+            public long Id { get; set; }
 
             // The name of the channel that emitted the log
             public string Channel { get; set; }
@@ -40,7 +40,7 @@ namespace Microsoft.AppCenter.Storage
         private IStorageAdapter _storageAdapter;
         private const string DbIdentifierDelimiter = "@";
 
-        private readonly Dictionary<string, List<long>> _pendingDbIdentifierGroups = new Dictionary<string, List<long>>();
+        private readonly Dictionary<string, IList<long>> _pendingDbIdentifierGroups = new Dictionary<string, IList<long>>();
         private readonly HashSet<long> _pendingDbIdentifiers = new HashSet<long>();
 
         // Blocking collection is thread safe
@@ -112,7 +112,7 @@ namespace Microsoft.AppCenter.Storage
                         $"Deleting logs from storage for channel '{channelName}' with batch id '{batchId}'");
                     var identifiers = _pendingDbIdentifierGroups[GetFullIdentifier(channelName, batchId)];
                     AppCenterLog.Debug(AppCenterLog.LogTag, "The IDs for deleting log(s) is/ are:\n\t" + string.Join("\n\t", identifiers));
-                    _storageAdapter.Delete(TableName, ColumnIdName, identifiers);
+                    _storageAdapter.Delete(TableName, ColumnIdName, identifiers.Cast<object>().ToArray());
                 }
                 catch (KeyNotFoundException e)
                 {
@@ -135,8 +135,7 @@ namespace Microsoft.AppCenter.Storage
                     AppCenterLog.Debug(AppCenterLog.LogTag,
                         $"Deleting all logs from storage for channel '{channelName}'");
                     ClearPendingLogStateWithoutEnqueue(channelName);
-                    var values = new List<object>() { channelName };
-                    _storageAdapter.Delete(TableName, $"{ColumnChannelName} = ?", channelName);
+                    _storageAdapter.Delete(TableName, ColumnChannelName, channelName);
                 }
                 catch (KeyNotFoundException e)
                 {
@@ -209,18 +208,11 @@ namespace Microsoft.AppCenter.Storage
                     $"Trying to get up to {limit} logs from storage for {channelName}");
                 var idPairs = new List<Tuple<Guid?, long>>();
                 var failedToDeserializeALog = false;
-                var pendingExcludeMask = string.Empty;
-                if (_pendingDbIdentifiers != null && _pendingDbIdentifiers.Count > 0)
-                {
-                    var pendingIdsMask = string.Join(",", Enumerable.Repeat("?", _pendingDbIdentifiers.Count));
-                    pendingExcludeMask = $" AND {ColumnIdName} NOT IN ({pendingIdsMask})";
-                }
-                var whereMask = $"{ColumnChannelName} = ? {pendingExcludeMask}";
-                var objectEntries = _storageAdapter.Select(TableName, whereMask, limit, channelName, _pendingDbIdentifiers?.ToArray());
+                var objectEntries = _storageAdapter.Select(TableName, ColumnChannelName, channelName, ColumnIdName, _pendingDbIdentifiers.Cast<object>().ToArray(), limit);
                 var retrievedEntries = objectEntries.Select(entries =>
                     new LogEntry()
                     {
-                        Id = (int)entries[0],
+                        Id = (long)entries[0],
                         Channel = (string)entries[1],
                         Log = (string)entries[2]
                     }
@@ -238,7 +230,7 @@ namespace Microsoft.AppCenter.Storage
                         AppCenterLog.Error(AppCenterLog.LogTag, "Cannot deserialize a log in storage", e);
                         failedToDeserializeALog = true;
                         var values = new List<object> { entry.Id };
-                        _storageAdapter.Delete(TableName, $"{ColumnIdName} = ?", entry.Id);
+                        _storageAdapter.Delete(TableName, ColumnIdName, entry.Id);
                     }
                 }
                 if (failedToDeserializeALog)
