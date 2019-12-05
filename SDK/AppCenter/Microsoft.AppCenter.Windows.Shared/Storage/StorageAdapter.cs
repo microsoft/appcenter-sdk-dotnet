@@ -33,6 +33,7 @@ namespace Microsoft.AppCenter.Storage
 
         public void Dispose()
         {
+            if (_db == null) return;
             raw.sqlite3_close(_db);
             _db.Dispose();
         }

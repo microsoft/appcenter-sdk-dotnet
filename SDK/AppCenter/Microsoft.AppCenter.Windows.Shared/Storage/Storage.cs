@@ -67,14 +67,7 @@ namespace Microsoft.AppCenter.Storage
 
         private static IStorageAdapter DefaultAdapter()
         {
-            try
-            {
-                return new StorageAdapter();
-            }
-            catch (Exception e)
-            {
-                throw new StorageException($"Cannot initialize SQLite library.", e);
-            }
+            return new StorageAdapter();
         }
 
         /// <summary>
@@ -382,8 +375,8 @@ namespace Microsoft.AppCenter.Storage
                 AppCenterLog.Error(AppCenterLog.LogTag,
                     "Database corruption detected, deleting the file and starting fresh...", e);
                 _storageAdapter.Dispose();
-                _storageAdapter = null;
                 File.Delete(Constants.AppCenterDatabasePath);
+                InitializeDatabase();
             }
             if (e is StorageException)
             {
