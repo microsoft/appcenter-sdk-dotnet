@@ -33,7 +33,11 @@ namespace Microsoft.AppCenter.Storage
 
         public void Dispose()
         {
-            if (_db == null) return;
+            if (_db == null)
+            {
+                AppCenterLog.Error(AppCenterLog.LogTag, "Trying to dispose storage adapter while database is null.");
+                return;
+            }
             raw.sqlite3_close(_db);
             _db.Dispose();
         }
@@ -90,12 +94,12 @@ namespace Microsoft.AppCenter.Storage
         {
             var db = _db ?? throw new StorageException("The database wasn't initialized.");
             var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
-            BindParameters(stmt, args);
             if (result != raw.SQLITE_OK)
             {
                 var errorMessage = raw.sqlite3_errmsg(_db);
                 throw new StorageException($"Failed to prepare SQL query, result={result}\n\t{errorMessage}");
             }
+            BindParameters(stmt, args);
             result = raw.sqlite3_step(stmt);
             if (result != raw.SQLITE_DONE)
             {
@@ -110,12 +114,12 @@ namespace Microsoft.AppCenter.Storage
             var db = _db ?? throw new StorageException("The database wasn't initialized.");
             var entries = new List<object[]>();
             var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
-            BindParameters(stmt, args);
             if (queryResult != raw.SQLITE_OK)
             {
                 var errorMessage = raw.sqlite3_errmsg(_db);
                 throw new StorageException($"Failed to prepare SQL query, result={queryResult}\n\t{errorMessage}");
             }
+            BindParameters(stmt, args);
             while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
             {
                 var count = raw.sqlite3_column_count(stmt);
