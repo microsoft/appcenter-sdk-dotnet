@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -88,7 +89,7 @@ namespace Microsoft.AppCenter.Storage
             {
                 var logJsonString = LogSerializer.Serialize(log);
                 _storageAdapter.Insert(TableName,
-                    new [] {ColumnChannelName, ColumnLogName},
+                    new[] { ColumnChannelName, ColumnLogName },
                     new List<object[]> {
                         new object[] {channelName, logJsonString}
                     });
@@ -276,11 +277,12 @@ namespace Microsoft.AppCenter.Storage
 
         private void InitializeDatabase()
         {
-            System.IO.Directory.CreateDirectory(Constants.AppCenterFilesDirectoryPath);
-            try {
+            Directory.CreateDirectory(Constants.AppCenterFilesDirectoryPath);
+            try
+            {
                 _storageAdapter.Initialize(Constants.AppCenterDatabasePath);
-                _storageAdapter.CreateTable(TableName, 
-                    new[] {ColumnIdName, ColumnChannelName, ColumnLogName},
+                _storageAdapter.CreateTable(TableName,
+                    new[] { ColumnIdName, ColumnChannelName, ColumnLogName },
                     new[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL" });
             }
             catch (Exception e)
@@ -389,9 +391,7 @@ namespace Microsoft.AppCenter.Storage
                     "Database corruption detected, deleting the file and starting fresh...", e);
                 _storageAdapter.Dispose();
                 _storageAdapter = null;
-                System.IO.File.Delete(Constants.AppCenterDatabasePath);
-                _storageAdapter = DefaultAdapter();
-                InitializeDatabase();
+                File.Delete(Constants.AppCenterDatabasePath);
             }
             if (e is StorageException)
             {
