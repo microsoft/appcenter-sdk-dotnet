@@ -12,140 +12,6 @@ namespace Microsoft.AppCenter.Storage
     {
         private sqlite3 _db;
 
-        public void CreateTable(string tableName, string[] columnNames, string[] columnTypes)
-        {
-            var tableClause = string.Join(",", Enumerable.Range(0, columnNames.Length).Select(i => $"{columnNames[i]} {columnTypes[i]}"));
-            var result = ExecuteNonSelectionSqlQuery(_db, $"CREATE TABLE IF NOT EXISTS {tableName} ({tableClause});");
-            if (result != raw.SQLITE_DONE)
-            {
-                var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to create table, result={result}\n\t{errorMessage}");
-            }
-        }
-
-        private void BindParameter(sqlite3_stmt stmt, int index, object value)
-        {
-            int result;
-            if (value is string)
-            {
-                result = raw.sqlite3_bind_text(stmt, index, (string)value);
-            }
-            else if (value is int)
-            {
-                result = raw.sqlite3_bind_int(stmt, index, (int)value);
-            }
-            else
-            {
-                throw new NotSupportedException($"Type {value.GetType().FullName} not supported.");
-            }
-            if (result != raw.SQLITE_OK)
-            {
-                var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to bind {index} parameter, result={result}\n\t{errorMessage}");
-            }
-        }
-
-        private void BindParameters(sqlite3_stmt stmt, object[] values)
-        {
-            for (int i = 0; i < values.Length; i++)
-            {
-                BindParameter(stmt, i + 1, values[i]);
-            }
-        }
-
-        private object GetColumnValue(sqlite3_stmt stmt, int index)
-        {
-            var columnType = raw.sqlite3_column_type(stmt, index);
-            switch (columnType)
-            {
-                case raw.SQLITE_INTEGER:
-                    return raw.sqlite3_column_int(stmt, index);
-                case raw.SQLITE_TEXT:
-                    return raw.sqlite3_column_text(stmt, index);
-            }
-            AppCenterLog.Error(AppCenterLog.LogTag, $"Attempt to get unsupported column value {columnType}.");
-            return null;
-        }
-
-        private int ExecuteNonSelectionSqlQuery(sqlite3 db, string query, params object[] args)
-        {
-            if (db == null)
-            {
-                throw new StorageException("The database wasn't initialized.");
-            }
-            var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
-            BindParameters(stmt, args);
-            if (result != raw.SQLITE_OK)
-            {
-                var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare SQL query, result={result}\n\t{errorMessage}");
-            }
-            result = raw.sqlite3_step(stmt);
-            raw.sqlite3_finalize(stmt);
-            return result;
-        }
-
-        private List<object[]> ExecuteSelectionSqlQuery(sqlite3 db, string query, params object[] args)
-        {
-            if (db == null)
-            {
-                throw new StorageException("The database wasn't initialized.");
-            }
-            var entries = new List<object[]>();
-            var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
-            BindParameters(stmt, args);
-            if (queryResult != raw.SQLITE_OK)
-            {
-                var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare SQL query, result={queryResult}\n\t{errorMessage}");
-            }
-            while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
-            {
-                var count = raw.sqlite3_column_count(stmt);
-                entries.Add(Enumerable.Range(0, count).Select(i => GetColumnValue(stmt, i)).ToArray());
-            }
-            raw.sqlite3_finalize(stmt);
-            return entries;
-        }
-
-        public IList<object[]> Select(string tableName, string whereClause, int? limit = null, params object[] args)
-        {
-            var limitClause = limit != null ? $" LIMIT {limit}" : string.Empty;
-            var query = $"SELECT * FROM {tableName} WHERE {whereClause}{limitClause};";
-            return ExecuteSelectionSqlQuery(_db, query, args);
-        }
-
-        public int Count(string tableName, string columnName, object value)
-        {
-            var result = ExecuteSelectionSqlQuery(_db, $"SELECT COUNT(*) FROM {tableName} WHERE {columnName} = ?;", value);
-            return (int)result[0][0];
-        }
-
-        public void Insert(string tableName, string[] columnNames, IList<object[]> values)
-        {
-            var columnsClause = string.Join(",", columnNames);
-            var valueClause = string.Join(",", Enumerable.Repeat("?", values[0].Length));
-            var valuesClause = string.Join(",", Enumerable.Repeat($"({valueClause})", values.Count));
-            var valuesArray = values.SelectMany(i => i).ToArray();
-            var result = ExecuteNonSelectionSqlQuery(_db, $"INSERT INTO {tableName}({columnsClause}) VALUES {valuesClause};", valuesArray);
-            if (result != raw.SQLITE_DONE)
-            {
-                var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare insert SQL query, result={result}\n\t{errorMessage}");
-            }
-        }
-
-        public void Delete(string tableName, string columnName, params object[] values)
-        {
-            var whereMask = $"{columnName} IN ({string.Join(",", Enumerable.Repeat("?", values.Length))})";
-            var result = ExecuteNonSelectionSqlQuery(_db, $"DELETE FROM {tableName} WHERE {whereMask};", values);
-            if (result != raw.SQLITE_DONE)
-            {
-                var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare delete SQL query, result={result}\n\t{errorMessage}");
-            }
-        }
-
         public void Initialize(string databasePath)
         {
             int result;
@@ -169,6 +35,151 @@ namespace Microsoft.AppCenter.Storage
         {
             raw.sqlite3_close(_db);
             _db.Dispose();
+        }
+
+        private void BindParameter(sqlite3_stmt stmt, int index, object value)
+        {
+            int result;
+            if (value is string)
+            {
+                result = raw.sqlite3_bind_text(stmt, index, (string)value);
+            }
+            else if (value is int)
+            {
+                result = raw.sqlite3_bind_int(stmt, index, (int)value);
+            }
+            else if (value is long)
+            {
+                result = raw.sqlite3_bind_int64(stmt, index, (long)value);
+            }
+            else
+            {
+                throw new NotSupportedException($"Type {value.GetType().FullName} not supported.");
+            }
+            if (result != raw.SQLITE_OK)
+            {
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to bind {index} parameter, result={result}\n\t{errorMessage}");
+            }
+        }
+
+        private void BindParameters(sqlite3_stmt stmt, IList<object> values)
+        {
+            for (int i = 0; i < values?.Count; i++)
+            {
+                BindParameter(stmt, i + 1, values[i]);
+            }
+        }
+
+        private object GetColumnValue(sqlite3_stmt stmt, int index)
+        {
+            var columnType = raw.sqlite3_column_type(stmt, index);
+            switch (columnType)
+            {
+                case raw.SQLITE_INTEGER:
+                    return raw.sqlite3_column_int64(stmt, index);
+                case raw.SQLITE_TEXT:
+                    return raw.sqlite3_column_text(stmt, index);
+            }
+            AppCenterLog.Error(AppCenterLog.LogTag, $"Attempt to get unsupported column value {columnType}.");
+            return null;
+        }
+
+        private int ExecuteNonSelectionSqlQuery(sqlite3 db, string query, IList<object> args = null)
+        {
+            if (db == null)
+            {
+                throw new StorageException("The database wasn't initialized.");
+            }
+            var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
+            BindParameters(stmt, args);
+            if (result != raw.SQLITE_OK)
+            {
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to prepare SQL query, result={result}\n\t{errorMessage}");
+            }
+            result = raw.sqlite3_step(stmt);
+            raw.sqlite3_finalize(stmt);
+            return result;
+        }
+
+        private List<object[]> ExecuteSelectionSqlQuery(sqlite3 db, string query, IList<object> args = null)
+        {
+            if (db == null)
+            {
+                throw new StorageException("The database wasn't initialized.");
+            }
+            var entries = new List<object[]>();
+            var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
+            BindParameters(stmt, args);
+            if (queryResult != raw.SQLITE_OK)
+            {
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to prepare SQL query, result={queryResult}\n\t{errorMessage}");
+            }
+            while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
+            {
+                var count = raw.sqlite3_column_count(stmt);
+                entries.Add(Enumerable.Range(0, count).Select(i => GetColumnValue(stmt, i)).ToArray());
+            }
+            raw.sqlite3_finalize(stmt);
+            return entries;
+        }
+
+        public void CreateTable(string tableName, string[] columnNames, string[] columnTypes)
+        {
+            var tableClause = string.Join(",", Enumerable.Range(0, columnNames.Length).Select(i => $"{columnNames[i]} {columnTypes[i]}"));
+            var result = ExecuteNonSelectionSqlQuery(_db, $"CREATE TABLE IF NOT EXISTS {tableName} ({tableClause});");
+            if (result != raw.SQLITE_DONE)
+            {
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to create table, result={result}\n\t{errorMessage}");
+            }
+        }
+        
+        public int Count(string tableName, string columnName, object value)
+        {
+            var result = ExecuteSelectionSqlQuery(_db, $"SELECT COUNT(*) FROM {tableName} WHERE {columnName} = ?;", new[] { value });
+            return (int)(long)(result.FirstOrDefault()?.FirstOrDefault() ?? 0L);
+        }
+
+        public IList<object[]> Select(string tableName, string columnName, object value, string excludeColumnName, object[] excludeValues, int? limit = null)
+        {
+            var whereClause = $"{columnName} = ?";
+            var args = new List<object> { value };
+            if (excludeValues?.Length > 0)
+            {
+                whereClause += $" AND {excludeColumnName} NOT IN ({string.Join(",", Enumerable.Repeat("?", excludeValues.Length))})";
+                args.AddRange(excludeValues);
+            }
+            var limitClause = limit != null ? $" LIMIT {limit}" : string.Empty;
+            var query = $"SELECT * FROM {tableName} WHERE {whereClause}{limitClause};";
+            return ExecuteSelectionSqlQuery(_db, query, args);
+        } 
+        
+        public void Insert(string tableName, string[] columnNames, ICollection<object[]> values)
+        {
+            var columnsClause = string.Join(",", columnNames);
+            var valueClause = string.Join(",", Enumerable.Repeat("?", values.First().Length));
+            var valuesClause = string.Join(",", Enumerable.Repeat($"({valueClause})", values.Count));
+            var valuesArray = values.SelectMany(i => i).ToArray();
+            var result = ExecuteNonSelectionSqlQuery(_db, $"INSERT INTO {tableName}({columnsClause}) VALUES {valuesClause};", valuesArray);
+            if (result != raw.SQLITE_DONE)
+            {
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to prepare insert SQL query, result={result}\n\t{errorMessage}");
+            }
+        }
+
+        public void Delete(string tableName, string columnName, params object[] values)
+        {
+            var whereMask = $"{columnName} IN ({string.Join(",", Enumerable.Repeat("?", values.Length))})";
+            var result = ExecuteNonSelectionSqlQuery(_db, $"DELETE FROM {tableName} WHERE {whereMask};", values);
+            if (result != raw.SQLITE_DONE)
+            {
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to prepare delete SQL query, result={result}\n\t{errorMessage}");
+            }
         }
     }
 }

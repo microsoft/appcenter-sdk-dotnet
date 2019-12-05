@@ -38,7 +38,7 @@ namespace Microsoft.AppCenter.Storage
         /// <param name="limit">Parameters' mask.</param>
         /// <param name="args">Arguments to be bound to the mask.</param>
         /// <returns>IList of columns with values matching given criteria</returns>
-        IList<object[]> Select(string tableName, string whereMask, int? limit = null, params object[] args);
+        IList<object[]> Select(string tableName, string columnName, object value, string excludeColumnName, object[] excludeValues, int? limit = null);
 
         /// <summary>
         /// Inserts data to table.
@@ -46,7 +46,7 @@ namespace Microsoft.AppCenter.Storage
         /// <param name="tableName">Name of a table to run query on.</param>
         /// <param name="columnNames">Array of columns used to insert data.</param>
         /// <param name="values">IList of columns with values.</param>
-        void Insert(string tableName, string[] columnNames, IList<object[]> values);
+        void Insert(string tableName, string[] columnNames, ICollection<object[]> values);
 
         /// <summary>
         /// Deletes rows matching given criteria.
