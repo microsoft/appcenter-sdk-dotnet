@@ -136,7 +136,7 @@ namespace Microsoft.AppCenter.Storage
                         $"Deleting all logs from storage for channel '{channelName}'");
                     ClearPendingLogStateWithoutEnqueue(channelName);
                     var values = new List<object>() { channelName };
-                    _storageAdapter.Delete(TableName, $"{ColumnChannelName} = \'?\'", channelName);
+                    _storageAdapter.Delete(TableName, $"{ColumnChannelName} = ?", channelName);
                 }
                 catch (KeyNotFoundException e)
                 {
@@ -215,7 +215,7 @@ namespace Microsoft.AppCenter.Storage
                     var pendingIdsMask = string.Join(",", Enumerable.Repeat("?", _pendingDbIdentifiers.Count));
                     pendingExcludeMask = $" AND {ColumnIdName} NOT IN ({pendingIdsMask})";
                 }
-                var whereMask = $"{ColumnChannelName} = \'?\' {pendingExcludeMask}";
+                var whereMask = $"{ColumnChannelName} = ? {pendingExcludeMask}";
                 var objectEntries = _storageAdapter.Select(TableName, whereMask, limit, channelName, _pendingDbIdentifiers?.ToArray());
                 var retrievedEntries = objectEntries.Select(entries =>
                     new LogEntry()

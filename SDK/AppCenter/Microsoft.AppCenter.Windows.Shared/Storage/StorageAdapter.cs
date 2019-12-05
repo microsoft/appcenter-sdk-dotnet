@@ -128,10 +128,10 @@ namespace Microsoft.AppCenter.Storage
             var valuesClause = string.Join(",", Enumerable.Repeat($"({valueClause})", values.Count));
             var valuesArray = values.SelectMany(i => i).ToArray();
             var result = ExecuteNonSelectionSqlQuery(_db, $"INSERT INTO {tableName}({columnsClause}) VALUES {valuesClause};", valuesArray);
-            if (result != raw.SQLITE_OK)
+            if (result != raw.SQLITE_DONE)
             {
                 var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to delete SQL query, result={result}\n\t{errorMessage}");
+                throw new StorageException($"Failed to prepare insert SQL query, result={result}\n\t{errorMessage}");
             }
         }
 
@@ -139,10 +139,10 @@ namespace Microsoft.AppCenter.Storage
         {
             var whereMask = $"{columnName} IN ({string.Join(",", Enumerable.Repeat("?", values.Length))})";
             var result = ExecuteNonSelectionSqlQuery(_db, $"DELETE FROM {tableName} WHERE {whereMask};", values);
-            if (result != raw.SQLITE_OK)
+            if (result != raw.SQLITE_DONE)
             {
                 var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to delete SQL query, result={result}\n\t{errorMessage}");
+                throw new StorageException($"Failed to prepare delete SQL query, result={result}\n\t{errorMessage}");
             }
         }
 
