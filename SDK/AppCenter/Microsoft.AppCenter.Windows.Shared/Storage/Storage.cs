@@ -104,7 +104,7 @@ namespace Microsoft.AppCenter.Storage
                     AppCenterLog.Debug(AppCenterLog.LogTag,
                         $"Deleting logs from storage for channel '{channelName}' with batch id '{batchId}'");
                     var identifiers = _pendingDbIdentifierGroups[GetFullIdentifier(channelName, batchId)];
-                    AppCenterLog.Debug(AppCenterLog.LogTag, "The IDs for deleting log(s) is/ are:\n\t" + string.Join("\n\t", identifiers));
+                    AppCenterLog.Debug(AppCenterLog.LogTag, "The IDs for deleting log(s) is/are:\n\t" + string.Join("\n\t", identifiers));
                     _storageAdapter.Delete(TableName, ColumnIdName, identifiers.Cast<object>().ToArray());
                 }
                 catch (KeyNotFoundException e)
