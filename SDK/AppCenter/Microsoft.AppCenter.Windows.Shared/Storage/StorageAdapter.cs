@@ -1,158 +1,193 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.AppCenter.Utils;
-using Microsoft.AppCenter.Utils.Files;
-using SQLite;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Threading.Tasks;
+using System.Linq;
+using SQLitePCL;
 
 namespace Microsoft.AppCenter.Storage
 {
     internal class StorageAdapter : IStorageAdapter
     {
-        private SQLiteAsyncConnection _dbConnection;
-        internal Directory _databaseDirectory;
-        private readonly string _databasePath;
+        private sqlite3 _db;
 
-        public StorageAdapter(string databasePath)
+        public void Initialize(string databasePath)
         {
-            _databasePath = databasePath;
-            var databaseDirectoryPath = System.IO.Path.GetDirectoryName(databasePath);
-            if (databaseDirectoryPath != string.Empty)
-            {
-                _databaseDirectory = new Directory(databaseDirectoryPath);
-            }
-        }
-
-        public async Task CreateTableAsync<T>() where T : new()
-        {
+            int result;
             try
             {
-                // In SQLite-net 1.5 return type was changed.
-                // Using reflection to accept newer library version.
-                var task = (Task)_dbConnection.GetType()
-                    .GetMethod("CreateTableAsync", new[] { typeof(CreateFlags) })
-                    .MakeGenericMethod(typeof(T))
-                    .Invoke(_dbConnection, new object[] { CreateFlags.None });
-                await task.ConfigureAwait(false);
+                raw.SetProvider(new SQLite3Provider_e_sqlite3());
+                result = raw.sqlite3_open(databasePath, out _db);
             }
-            catch (SQLiteException e)
+            catch (Exception e)
             {
-                throw ToStorageException(e);
+                throw new StorageException("Failed to open database connection.", e);
             }
-        }
-
-        public async Task<List<T>> GetAsync<T>(Expression<Func<T, bool>> pred, int limit) where T : new()
-        {
-            try
+            if (result != raw.SQLITE_OK)
             {
-                var table = _dbConnection.Table<T>();
-                return await table.Where(pred).Take(limit).ToListAsync().ConfigureAwait(false);
-            }
-            catch (SQLiteException e)
-            {
-                throw ToStorageException(e);
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to open database connection, result={result}\n\t{errorMessage}");
             }
         }
 
-        public Task<int> CountAsync<T>(Expression<Func<T, bool>> pred) where T : new()
+        public void Dispose()
         {
-            var table = _dbConnection.Table<T>();
-            return table.Where(pred).CountAsync();
+            if (_db == null)
+            {
+                AppCenterLog.Error(AppCenterLog.LogTag, "Trying to dispose storage adapter while database is null.");
+                return;
+            }
+            raw.sqlite3_close(_db);
+            _db.Dispose();
         }
 
-        public Task<int> InsertAsync<T>(T val) where T : new()
+        private void BindParameter(sqlite3_stmt stmt, int index, object value)
         {
-            try
+            int result;
+            if (value is string)
             {
-                return _dbConnection.InsertAsync(val);
+                result = raw.sqlite3_bind_text(stmt, index, (string)value);
             }
-            catch (SQLiteException e)
+            else if (value is int)
             {
-                throw ToStorageException(e);
+                result = raw.sqlite3_bind_int(stmt, index, (int)value);
             }
-        }
-
-        private static StorageException ToStorageException(SQLiteException e)
-        {
-            return new StorageException($"SQLite errorCode={e.Result}", e);
-        }
-
-        public async Task<int> DeleteAsync<T>(Expression<Func<T, bool>> pred) where T : new()
-        {
-            try
+            else if (value is long)
             {
-                var numDeleted = 0;
-                var table = _dbConnection.Table<T>();
-                var entries = await table.Where(pred).ToListAsync().ConfigureAwait(false);
-                foreach (var entry in entries)
-                {
-                    numDeleted += await _dbConnection.DeleteAsync(entry).ConfigureAwait(false);
-                }
-                return numDeleted;
+                result = raw.sqlite3_bind_int64(stmt, index, (long)value);
             }
-            catch (SQLiteException e)
+            else
             {
-                throw ToStorageException(e);
+                throw new NotSupportedException($"Type {value.GetType().FullName} not supported.");
+            }
+            if (result != raw.SQLITE_OK)
+            {
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to bind {index} parameter, result={result}\n\t{errorMessage}");
             }
         }
 
-        public Task InitializeStorageAsync()
+        private void BindParameters(sqlite3_stmt stmt, IList<object> values)
         {
-            return Task.Run(() =>
+            for (int i = 0; i < values?.Count; i++)
             {
-                // Create the directory in case it does not exist.
-                if (_databaseDirectory != null)
-                {
-                    try
-                    {
-                        _databaseDirectory.Create();
-                    }
-                    catch (Exception e)
-                    {
-                        throw new StorageException("Cannot initialize SQLite library.", e);
-                    }
-                }
-
-                // In SQLite-net 1.5.231 constructor parameters were changed.
-                // Using reflection to accept newer library version.
-                _dbConnection = (SQLiteAsyncConnection)typeof(SQLiteAsyncConnection)
-                    .GetConstructor(new[] { typeof(string), typeof(bool) })
-                    ?.Invoke(new object[] { _databasePath, true });
-                if (_dbConnection == null)
-                {
-                    _dbConnection = (SQLiteAsyncConnection)typeof(SQLiteAsyncConnection)
-                        .GetConstructor(new[] { typeof(string), typeof(bool), typeof(object) })
-                        ?.Invoke(new object[] { _databasePath, true, null });
-                }
-                if (_dbConnection == null)
-                {
-                    throw new StorageException("Cannot initialize SQLite library.");
-                }
-            });
+                BindParameter(stmt, i + 1, values[i]);
+            }
         }
 
-        public Task DeleteDatabaseFileAsync()
+        private object GetColumnValue(sqlite3_stmt stmt, int index)
         {
-            return Task.Run(() =>
+            var columnType = raw.sqlite3_column_type(stmt, index);
+            switch (columnType)
             {
-                try
-                {
-                    // We can't delete the file and recreate without invalidating the connection pool.
-                    // This is explained in details at https://chrisriesgo.com/sqlite-net-async-connections-keep-it-clean/.
-                    SQLiteAsyncConnection.ResetPool();
-                    var prefix = _databaseDirectory == null ? Constants.LocalAppData : "";
-                    new File(System.IO.Path.Combine(prefix, _databasePath)).Delete();
-                }
-                catch (Exception e)
-                {
-                    throw new StorageException(e);
-                }
-            });
+                case raw.SQLITE_INTEGER:
+                    return raw.sqlite3_column_int64(stmt, index);
+                case raw.SQLITE_TEXT:
+                    return raw.sqlite3_column_text(stmt, index);
+            }
+            AppCenterLog.Error(AppCenterLog.LogTag, $"Attempt to get unsupported column value {columnType}.");
+            return null;
+        }
+
+        private int ExecuteNonSelectionSqlQuery(string query, IList<object> args = null)
+        {
+            var db = _db ?? throw new StorageException("The database wasn't initialized.");
+            var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
+            if (result != raw.SQLITE_OK)
+            {
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to prepare SQL query, result={result}\n\t{errorMessage}");
+            }
+            BindParameters(stmt, args);
+            result = raw.sqlite3_step(stmt);
+            if (result != raw.SQLITE_DONE)
+            {
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to run query, result={result}\n\t{errorMessage}");
+            }
+            return raw.sqlite3_finalize(stmt);
+        }
+
+        private List<object[]> ExecuteSelectionSqlQuery(string query, IList<object> args = null)
+        {
+            var db = _db ?? throw new StorageException("The database wasn't initialized.");
+            var entries = new List<object[]>();
+            var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
+            if (queryResult != raw.SQLITE_OK)
+            {
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to prepare SQL query, result={queryResult}\n\t{errorMessage}");
+            }
+            BindParameters(stmt, args);
+            while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
+            {
+                var count = raw.sqlite3_column_count(stmt);
+                entries.Add(Enumerable.Range(0, count).Select(i => GetColumnValue(stmt, i)).ToArray());
+            }
+            var result = raw.sqlite3_finalize(stmt);
+            if (result != raw.SQLITE_OK)
+            {
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to finalize SQL query, result={result}\n\t{errorMessage}");
+            }
+            return entries;
+        }
+
+        public void CreateTable(string tableName, string[] columnNames, string[] columnTypes)
+        {
+            var tableClause = string.Join(",", Enumerable.Range(0, columnNames.Length).Select(i => $"{columnNames[i]} {columnTypes[i]}"));
+            var result = ExecuteNonSelectionSqlQuery($"CREATE TABLE IF NOT EXISTS {tableName} ({tableClause});");
+            if (result != raw.SQLITE_OK)
+            {
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to create table, result={result}\n\t{errorMessage}");
+            }
+        }
+
+        public int Count(string tableName, string columnName, object value)
+        {
+            var result = ExecuteSelectionSqlQuery($"SELECT COUNT(*) FROM {tableName} WHERE {columnName} = ?;", new[] { value });
+            return (int)(long)(result.FirstOrDefault()?.FirstOrDefault() ?? 0L);
+        }
+
+        public IList<object[]> Select(string tableName, string columnName, object value, string excludeColumnName, object[] excludeValues, int? limit = null)
+        {
+            var whereClause = $"{columnName} = ?";
+            var args = new List<object> { value };
+            if (excludeValues?.Length > 0)
+            {
+                whereClause += $" AND {excludeColumnName} NOT IN ({string.Join(",", Enumerable.Repeat("?", excludeValues.Length))})";
+                args.AddRange(excludeValues);
+            }
+            var limitClause = limit != null ? $" LIMIT {limit}" : string.Empty;
+            var query = $"SELECT * FROM {tableName} WHERE {whereClause}{limitClause};";
+            return ExecuteSelectionSqlQuery(query, args);
+        }
+
+        public void Insert(string tableName, string[] columnNames, ICollection<object[]> values)
+        {
+            var columnsClause = string.Join(",", columnNames);
+            var valueClause = string.Join(",", Enumerable.Repeat("?", values.First().Length));
+            var valuesClause = string.Join(",", Enumerable.Repeat($"({valueClause})", values.Count));
+            var valuesArray = values.SelectMany(i => i).ToArray();
+            var result = ExecuteNonSelectionSqlQuery($"INSERT INTO {tableName}({columnsClause}) VALUES {valuesClause};", valuesArray);
+            if (result != raw.SQLITE_OK)
+            {
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to prepare insert SQL query, result={result}\n\t{errorMessage}");
+            }
+        }
+
+        public void Delete(string tableName, string columnName, params object[] values)
+        {
+            var whereMask = $"{columnName} IN ({string.Join(",", Enumerable.Repeat("?", values.Length))})";
+            var result = ExecuteNonSelectionSqlQuery($"DELETE FROM {tableName} WHERE {whereMask};", values);
+            if (result != raw.SQLITE_OK)
+            {
+                var errorMessage = raw.sqlite3_errmsg(_db);
+                throw new StorageException($"Failed to prepare delete SQL query, result={result}\n\t{errorMessage}");
+            }
         }
     }
 }
