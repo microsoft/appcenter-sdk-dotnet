@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.AppCenter.Utils.Files;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +58,7 @@ namespace Microsoft.AppCenter.Storage
                 case raw.SQLITE_TEXT:
                     return raw.sqlite3_column_text(stmt, index);
             }
-            // TODO log
+            AppCenterLog.Error(AppCenterLog.LogTag, $"Attempt to get unsupported column value {columnType}.");
             return null;
         }
 
