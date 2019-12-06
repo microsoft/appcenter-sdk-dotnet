@@ -32,7 +32,6 @@ namespace Microsoft.AppCenter.Test
             Microsoft.AppCenter.Utils.Constants.AppCenterFilesDirectoryPath = Environment.CurrentDirectory;
             Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath = DatabasePath;
             _storage = new Microsoft.AppCenter.Storage.Storage();
-
             _storage.DeleteLogs(StorageTestChannelName);
         }
 
@@ -342,16 +341,15 @@ namespace Microsoft.AppCenter.Test
         [TestMethod]
         public async Task RecreateCorruptedDatabaseOnInnerCorruptException()
         {
-            // fixme
-            //var mockStorageAdapter = Mock.Of<IStorageAdapter>();
-            //using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter))
-            //{
-            //    var exception = new StorageException("Corrupt");
-            //    Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(It.IsAny<string>(), It.IsAny<string[]>(), It.IsAny<List<object[]>>())).Throws(exception);
-            //    await Assert.ThrowsExceptionAsync<StorageException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
-            //    Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Dispose());
-            //    Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Initialize(It.IsAny<string>()), Times.Exactly(2));
-            //}
+            var mockStorageAdapter = Mock.Of<IStorageAdapter>();
+            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter))
+            {
+                var exception = new StorageException("Corrupt");
+                Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(It.IsAny<string>(), It.IsAny<string[]>(), It.IsAny<List<object[]>>())).Throws(exception);
+                await Assert.ThrowsExceptionAsync<StorageException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
+                Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Dispose());
+                Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Initialize(It.IsAny<string>()), Times.Exactly(2));
+            }
         }
 
         /// <summary>
@@ -361,15 +359,15 @@ namespace Microsoft.AppCenter.Test
         public async Task RecreateCorruptedDatabaseOnUnknownCorruptException()
         {
             // fixme
-            //var mockStorageAdapter = Mock.Of<IStorageAdapter>();
-            //using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter))
-            //{
-            //    var exception = new Exception("Corrupt");
-            //    Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(It.IsAny<string>(), It.IsAny<string[]>(), It.IsAny<List<object[]>>())).Throws(exception);
-            //    await Assert.ThrowsExceptionAsync<StorageException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
-            //    Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Dispose());
-            //    Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Initialize(It.IsAny<string>()), Times.Exactly(2));
-            //}
+            var mockStorageAdapter = Mock.Of<IStorageAdapter>();
+            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter))
+            {
+                var exception = new Exception("Corrupt");
+                Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(It.IsAny<string>(), It.IsAny<string[]>(), It.IsAny<List<object[]>>())).Throws(exception);
+                await Assert.ThrowsExceptionAsync<StorageException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
+                Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Dispose());
+                Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Initialize(It.IsAny<string>()), Times.Exactly(2));
+            }
         }
 
         /// <summary>
@@ -395,9 +393,6 @@ namespace Microsoft.AppCenter.Test
             _storage.DeleteLogs(StorageTestChannelName);
             _storage.Dispose();
             _storage = null;
-            //var pathToDatabase = System.IO.Path.Combine(Microsoft.AppCenter.Utils.Constants.AppCenterFilesDirectoryPath
-            //    , Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath);
-            //System.IO.File.Delete(pathToDatabase);
         }
 
         #region Helper methods

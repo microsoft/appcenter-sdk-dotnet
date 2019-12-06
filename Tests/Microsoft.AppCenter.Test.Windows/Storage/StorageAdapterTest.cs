@@ -23,8 +23,6 @@ namespace Microsoft.AppCenter.Test.Storage
         private const string ColumnChannelName = "Channel";
         private const string ColumnLogName = "Log";
         private const string ColumnIdName = "Id";
-        private const string ColumnFakeName1 = "ColumnFakeName1";
-        private const string ColumnFakeName2 = "ColumnFakeName2";
         private const string DatabasePath = "databaseAtRoot.db";
 
         [TestInitialize]
@@ -37,62 +35,68 @@ namespace Microsoft.AppCenter.Test.Storage
         public void InitializeStorageCreatesStorageDirectory()
         {
             // fixme
-            //var adapter = new StorageAdapter();
-
-            //// Verify that a directory object was created.
-            //Assert.IsNotNull(adapter._databaseDirectory);
-
-            //// Replace the directory with a mock and initialize.
-            //adapter._databaseDirectory = Mock.Of<Directory>();
-            //try
-            //{
-            //    adapter.Initialize(DatabasePath);
-            //}
-            //catch
-            //{
-            //    // Handle exception, database is not created with Mock.
-            //}
-            //Mock.Get(adapter._databaseDirectory).Verify(directory => directory.Create());
+            var adapter = new StorageAdapter();
+            Microsoft.AppCenter.Utils.Constants.AppCenterFilesDirectoryPath = Environment.CurrentDirectory;
+            Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath = DatabasePath;
+            try
+            {
+                adapter.Initialize(DatabasePath);
+            }
+            catch
+            {
+                // Handle exception, database is not created with Mock.
+            }
+            Assert.IsTrue(System.IO.File.Exists(DatabasePath));
         }
 
         [TestMethod]
-        public void CreateStorageAdapterDoesNotCreateDirectoryWhenNull()
+        public void FaildToOpenDatabaseWhenNameWrong()
         {
-            // fixme
-            //var adapter = new StorageAdapter();
-
-            //// Verify that a directory object was not created.
-            //Assert.IsNull(adapter._databaseDirectory);
-
-            //// Should not crash even if directory is null.
-            //adapter.Initialize(DatabasePath);
+            var adapter = new StorageAdapter();
+            try
+            {
+                adapter.Initialize("test://test.txt");
+                Assert.Fail("Should have thrown exception");
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message.Contains("Failed to open database connection"));
+            }
         }
 
         [TestMethod]
-        public void CreateStorageAdapterExceptionIsWrapped()
+        public void DatabaseDisposed()
         {
-            // fixme
-            //var adapter = new StorageAdapter()
-            //{
-            //    _databaseDirectory = Mock.Of<Directory>()
-            //};
-            //var sourceException = new System.IO.PathTooLongException();
-
-            //// Mock the directory to throw when created.
-            //Mock.Get(adapter._databaseDirectory).Setup(directory => directory.Create()).Throws(sourceException);
-            //const string databaseDirectory = "databaseDirectory";
-            //var databasePath = System.IO.Path.Combine(databaseDirectory, "database.db");
-            //Exception actualException = null;
-            //try
-            //{
-            //    adapter.Initialize(DatabasePath);
-            //}
-            //catch (AggregateException ex)
-            //{
-            //    actualException = ex.InnerException;
-            //}
-            //Assert.IsInstanceOfType(actualException, typeof(StorageException));
-            //Assert.IsInstanceOfType(actualException?.InnerException, typeof(System.IO.PathTooLongException));
+            // Prepare data.
+            var adapter = new StorageAdapter();
+            try
+            {
+                adapter.Initialize(DatabasePath);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Shouldn't have thrown exception");
+            }
+            try
+            {
+                // Try get data before database initialize.
+                adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Should have thrown exception");
+            }
+            adapter.Dispose();
+            try
+            {
+                // Try get data before database initialize.
+                adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
+                Assert.Fail("Should have thrown exception");
+            }
+            catch (Exception e)
+            {
+                Assert.IsFalse(e.Message.Contains("Should have thrown exception"));
+            }
         }
 
         /// <summary>
