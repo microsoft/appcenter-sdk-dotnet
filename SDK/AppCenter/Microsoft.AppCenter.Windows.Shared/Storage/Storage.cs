@@ -222,7 +222,6 @@ namespace Microsoft.AppCenter.Storage
                     {
                         AppCenterLog.Error(AppCenterLog.LogTag, "Cannot deserialize a log in storage", e);
                         failedToDeserializeALog = true;
-                        var values = new List<object> { entry.Id };
                         _storageAdapter.Delete(TableName, ColumnIdName, entry.Id);
                     }
                 }
@@ -262,9 +261,9 @@ namespace Microsoft.AppCenter.Storage
 
         private void InitializeDatabase()
         {
-            Directory.CreateDirectory(Constants.AppCenterFilesDirectoryPath);
             try
             {
+                Directory.CreateDirectory(Constants.AppCenterFilesDirectoryPath);
                 _storageAdapter.Initialize(Constants.AppCenterDatabasePath);
                 _storageAdapter.CreateTable(TableName,
                     new[] { ColumnIdName, ColumnChannelName, ColumnLogName },
@@ -375,7 +374,14 @@ namespace Microsoft.AppCenter.Storage
                 AppCenterLog.Error(AppCenterLog.LogTag,
                     "Database corruption detected, deleting the file and starting fresh...", e);
                 _storageAdapter.Dispose();
-                File.Delete(Constants.AppCenterDatabasePath);
+                try
+                {
+                    File.Delete(Constants.AppCenterDatabasePath);
+                }
+                catch (IOException fileException)
+                {
+                    AppCenterLog.Error(AppCenterLog.LogTag, "Failed to delete database file.", fileException);
+                }
                 InitializeDatabase();
             }
             if (e is StorageException)

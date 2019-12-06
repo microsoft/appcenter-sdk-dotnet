@@ -33,13 +33,16 @@ namespace Microsoft.AppCenter.Storage
 
         public void Dispose()
         {
-            if (_db == null)
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_db != null)
             {
-                AppCenterLog.Error(AppCenterLog.LogTag, "Trying to dispose storage adapter while database is null.");
-                return;
+                _db.Dispose();
+                _db = null;
             }
-            raw.sqlite3_close(_db);
-            _db.Dispose();
         }
 
         private void BindParameter(sqlite3_stmt stmt, int index, object value)
@@ -72,6 +75,7 @@ namespace Microsoft.AppCenter.Storage
         {
             for (int i = 0; i < values?.Count; i++)
             {
+                // Parameters in statement are 1-based. See https://www.sqlite.org/c3ref/bind_blob.html
                 BindParameter(stmt, i + 1, values[i]);
             }
         }
@@ -148,7 +152,8 @@ namespace Microsoft.AppCenter.Storage
         public int Count(string tableName, string columnName, object value)
         {
             var result = ExecuteSelectionSqlQuery($"SELECT COUNT(*) FROM {tableName} WHERE {columnName} = ?;", new[] { value });
-            return (int)(long)(result.FirstOrDefault()?.FirstOrDefault() ?? 0L);
+            var count = (long)(result.FirstOrDefault()?.FirstOrDefault() ?? 0L);
+            return (int)count;
         }
 
         public IList<object[]> Select(string tableName, string columnName, object value, string excludeColumnName, object[] excludeValues, int? limit = null)
@@ -157,7 +162,7 @@ namespace Microsoft.AppCenter.Storage
             var args = new List<object> { value };
             if (excludeValues?.Length > 0)
             {
-                whereClause += $" AND {excludeColumnName} NOT IN ({string.Join(",", Enumerable.Repeat("?", excludeValues.Length))})";
+                whereClause += $" AND {excludeColumnName} NOT IN ({BuildBindingMask(excludeValues.Length)})";
                 args.AddRange(excludeValues);
             }
             var limitClause = limit != null ? $" LIMIT {limit}" : string.Empty;
@@ -168,8 +173,8 @@ namespace Microsoft.AppCenter.Storage
         public void Insert(string tableName, string[] columnNames, ICollection<object[]> values)
         {
             var columnsClause = string.Join(",", columnNames);
-            var valueClause = string.Join(",", Enumerable.Repeat("?", values.First().Length));
-            var valuesClause = string.Join(",", Enumerable.Repeat($"({valueClause})", values.Count));
+            var valueClause = $"({BuildBindingMask(values.First().Length)})";
+            var valuesClause = string.Join(",", Enumerable.Repeat(valueClause, values.Count));
             var valuesArray = values.SelectMany(i => i).ToArray();
             var result = ExecuteNonSelectionSqlQuery($"INSERT INTO {tableName}({columnsClause}) VALUES {valuesClause};", valuesArray);
             if (result != raw.SQLITE_OK)
@@ -181,13 +186,18 @@ namespace Microsoft.AppCenter.Storage
 
         public void Delete(string tableName, string columnName, params object[] values)
         {
-            var whereMask = $"{columnName} IN ({string.Join(",", Enumerable.Repeat("?", values.Length))})";
+            var whereMask = $"{columnName} IN ({BuildBindingMask(values.Length)})";
             var result = ExecuteNonSelectionSqlQuery($"DELETE FROM {tableName} WHERE {whereMask};", values);
             if (result != raw.SQLITE_OK)
             {
                 var errorMessage = raw.sqlite3_errmsg(_db);
                 throw new StorageException($"Failed to prepare delete SQL query, result={result}\n\t{errorMessage}");
             }
+        }
+
+        private static string BuildBindingMask(int amount)
+        {
+            return string.Join(",", Enumerable.Repeat("?", amount));
         }
     }
 }
