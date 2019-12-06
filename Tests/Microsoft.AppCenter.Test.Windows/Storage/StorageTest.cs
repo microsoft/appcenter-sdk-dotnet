@@ -43,7 +43,7 @@ namespace Microsoft.AppCenter.Test
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
             using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
             {
-                new Task(() => { }).Wait((TimeSpan.FromSeconds(10)));
+                storage.WaitOperationsAsync(TimeSpan.FromSeconds(10)).Wait();
 
                 // Verify database is initialized as a result of calling constructor.
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.CreateTable(TableName, It.IsAny<string[]>(), It.IsAny<string[]>()));
