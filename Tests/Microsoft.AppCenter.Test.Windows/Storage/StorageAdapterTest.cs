@@ -34,7 +34,6 @@ namespace Microsoft.AppCenter.Test.Storage
         [TestMethod]
         public void InitializeStorageCreatesStorageDirectory()
         {
-            // fixme
             var adapter = new StorageAdapter();
             Microsoft.AppCenter.Utils.Constants.AppCenterFilesDirectoryPath = Environment.CurrentDirectory;
             Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath = DatabasePath;
@@ -160,29 +159,6 @@ namespace Microsoft.AppCenter.Test.Storage
                 Assert.IsTrue(e.Message.Contains("not supported"));
             }
             
-        }
-
-        [TestMethod]
-        public void FaildToBindDatabaseWhenCount()
-        {
-            // Prepare data.
-            try
-            {
-                adapter.Initialize(DatabasePath);
-            }
-            catch
-            {
-                // Handle exception, database is not created with Mock.
-            }
-            try
-            {
-                adapter.Count(TableName, "faild-table", $"{StorageTestChannelName}-faild-value;.");
-                Assert.Fail("Should have thrown exception");
-            }
-            catch (Exception e)
-            {
-                Assert.IsTrue(e.Message.Contains("Failed to bind"));
-            }
         }
 
         [TestMethod]

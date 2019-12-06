@@ -30,8 +30,9 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
         public void InitializeTest()
         {
             _mockNetworkAdapter = Mock.Of<IHttpNetworkAdapter>();
-            _storagePath = $"{Guid.NewGuid()}.db";
-            var storage = new Storage.Storage(new StorageAdapter(_storagePath));
+            _storagePath = Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath;
+            var storageAdapter = new StorageAdapter();
+            var storage = new Storage.Storage(storageAdapter);
             var ingestion = new IngestionHttp(_mockNetworkAdapter);
             var channelGroup = new ChannelGroup(ingestion, storage, "app secret");
             Crashes.Instance = new Crashes();
