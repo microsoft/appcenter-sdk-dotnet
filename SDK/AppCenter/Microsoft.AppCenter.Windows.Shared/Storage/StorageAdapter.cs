@@ -34,15 +34,14 @@ namespace Microsoft.AppCenter.Storage
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
         {
             if (_db != null)
             {
-                raw.sqlite3_close(_db);
                 _db.Dispose();
+                _db = null;
             }
         }
 
