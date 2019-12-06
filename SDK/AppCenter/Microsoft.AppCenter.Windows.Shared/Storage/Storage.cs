@@ -386,10 +386,17 @@ namespace Microsoft.AppCenter.Storage
                 }
                 InitializeDatabase();
             }
+
+            // Return exception to re-throw.
             if (e is StorageException)
             {
+                // This is the expected case, storage adapter already wraps exception as StorageException, so return as is.
                 return e;
             }
+
+            // Tasks should already be throwing only storage exceptions, but in case any are missed, 
+            // which has happened (the Corrupt exception mentioned previously), catch them here and wrap in a storage exception. This will prevent 
+            // the exception from being unobserved.
             return new StorageException(e);
         }
 
@@ -403,7 +410,6 @@ namespace Microsoft.AppCenter.Storage
             {
                 throw new StorageException("The operation has been canceled");
             }
-
             _flushSemaphore.Release();
         }
 
