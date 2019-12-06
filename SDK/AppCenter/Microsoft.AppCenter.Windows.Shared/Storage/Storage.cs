@@ -36,10 +36,10 @@ namespace Microsoft.AppCenter.Storage
         private const string ColumnChannelName = "Channel";
         private const string ColumnLogName = "Log";
         private const string ColumnIdName = "Id";
-
-        private IStorageAdapter _storageAdapter;
         private const string DbIdentifierDelimiter = "@";
 
+        private readonly IStorageAdapter _storageAdapter;
+        private readonly string _databasePath;
         private readonly Dictionary<string, IList<long>> _pendingDbIdentifierGroups = new Dictionary<string, IList<long>>();
         private readonly HashSet<long> _pendingDbIdentifiers = new HashSet<long>();
 
@@ -47,8 +47,7 @@ namespace Microsoft.AppCenter.Storage
         private readonly BlockingCollection<Task> _queue = new BlockingCollection<Task>();
         private readonly SemaphoreSlim _flushSemaphore = new SemaphoreSlim(0);
         private readonly Task _queueFlushTask;
-        private readonly string _databasePath;
-
+        
         /// <summary>
         /// Creates an instance of Storage.
         /// </summary>
