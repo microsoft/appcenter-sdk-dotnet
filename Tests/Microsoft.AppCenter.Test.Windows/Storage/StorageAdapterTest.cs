@@ -15,7 +15,7 @@ namespace Microsoft.AppCenter.Test.Storage
     [TestClass]
     public class StorageAdapterTest
     {
-        private StorageAdapter adapter;
+        private StorageAdapter _adapter;
 
         // Const for storage data.
         private const string StorageTestChannelName = "storageTestChannelName";
@@ -28,7 +28,7 @@ namespace Microsoft.AppCenter.Test.Storage
         [TestInitialize]
         public void InitializeStorageTest()
         {
-            adapter = new StorageAdapter();
+            _adapter = new StorageAdapter();
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace Microsoft.AppCenter.Test.Storage
             try
             {
                 // Try get data before database initialize.
-                adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
+                CreateTableHelper(adapter);
             }
             catch (Exception e)
             {
@@ -89,7 +89,7 @@ namespace Microsoft.AppCenter.Test.Storage
             try
             {
                 // Try get data before database initialize.
-                adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
+                CreateTableHelper(_adapter);
                 Assert.Fail("Should have thrown exception");
             }
             catch (Exception e)
@@ -109,7 +109,7 @@ namespace Microsoft.AppCenter.Test.Storage
             try
             {
                 // Try get data before database initialize.
-                adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
+                _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
                 Assert.Fail("Should have thrown exception");
             }
             catch (Exception e)
@@ -119,17 +119,17 @@ namespace Microsoft.AppCenter.Test.Storage
             try
             {
                 // Initialize database.
-                adapter.Initialize(DatabasePath);
+                _adapter.Initialize(DatabasePath);
             }
             catch
             {
                 // Handle exception, database is not created with Mock.
             }
-            CreateTableHelper();
+            CreateTableHelper(_adapter);
             try
             {
                 // Try get data after database initialize.
-                adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
+                _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
             }
             catch (Exception e)
             {
@@ -143,7 +143,7 @@ namespace Microsoft.AppCenter.Test.Storage
             // Prepare data.
             try
             {
-                adapter.Initialize(DatabasePath);
+                _adapter.Initialize(DatabasePath);
             }
             catch
             {
@@ -151,7 +151,7 @@ namespace Microsoft.AppCenter.Test.Storage
             }
             try
             {
-                adapter.Count(TableName, $"{ColumnChannelName}", true);
+                _adapter.Count(TableName, $"{ColumnChannelName}", true);
                 Assert.Fail("Should have thrown exception");
             }
             catch (Exception e)
@@ -167,7 +167,7 @@ namespace Microsoft.AppCenter.Test.Storage
             string whereClause = $"{ColumnChannelName} = 'faild-value'.";
             try
             {
-                adapter.Initialize(DatabasePath);
+                _adapter.Initialize(DatabasePath);
             }
             catch
             {
@@ -175,7 +175,7 @@ namespace Microsoft.AppCenter.Test.Storage
             }
             try
             {
-                adapter.Delete(TableName, whereClause);
+                _adapter.Delete(TableName, whereClause);
                 Assert.Fail("Should have thrown exception");
             }
             catch (Exception e)
@@ -192,7 +192,7 @@ namespace Microsoft.AppCenter.Test.Storage
             try
             {
                 // Try get data before database initialize.
-                adapter.Delete(TableName, ColumnChannelName, new object[] { StorageTestChannelName });
+                _adapter.Delete(TableName, ColumnChannelName, new object[] { StorageTestChannelName });
                 Assert.Fail("Should have thrown exception");
             }
             catch (Exception e)
@@ -202,17 +202,17 @@ namespace Microsoft.AppCenter.Test.Storage
             try
             {
                 // Initialize database.
-                adapter.Initialize(DatabasePath);
+                _adapter.Initialize(DatabasePath);
             }
             catch
             {
                 // Handle exception, database is not created with Mock.
             }
-            CreateTableHelper();
+            CreateTableHelper(_adapter);
             try
             {
                 // Try get data after database initialize.
-                adapter.Delete(TableName, ColumnChannelName, new object[] { StorageTestChannelName });
+                _adapter.Delete(TableName, ColumnChannelName, new object[] { StorageTestChannelName });
             }
             catch (Exception e)
             {
@@ -226,7 +226,7 @@ namespace Microsoft.AppCenter.Test.Storage
             // Prepare data.
             try
             {
-                adapter.Initialize(DatabasePath);
+                _adapter.Initialize(DatabasePath);
             }
             catch
             {
@@ -234,15 +234,15 @@ namespace Microsoft.AppCenter.Test.Storage
             }
 
             // Create test table.
-            CreateTableHelper();
+            CreateTableHelper(_adapter);
 
             // Insert test data.
-            InsertToTableHelper();
-            var count = adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
+            InsertToTableHelper(_adapter);
+            var count = _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
             Assert.AreEqual(1, count);
 
             // Verify.
-            var testEntries = adapter.Select(TableName, ColumnChannelName, StorageTestChannelName, null, null).ToList();
+            var testEntries = _adapter.Select(TableName, ColumnChannelName, StorageTestChannelName, null, null).ToList();
             Assert.AreEqual(1, testEntries.Count);
             var entryId = 0L;
             testEntries.ForEach(entry =>
@@ -251,19 +251,19 @@ namespace Microsoft.AppCenter.Test.Storage
                 Assert.AreEqual(entry[1], StorageTestChannelName);
                 Assert.AreEqual(entry[2], "");
             });
-            adapter.Delete(TableName, ColumnIdName, new object[] { entryId });
-            count = adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
+            _adapter.Delete(TableName, ColumnIdName, new object[] { entryId });
+            count = _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
             Assert.AreEqual(count, 0);
         }
 
-        private void CreateTableHelper()
+        private void CreateTableHelper(IStorageAdapter adapter)
         {
             string[] tables = new string[] { ColumnIdName, ColumnChannelName, ColumnLogName };
             string[] types = new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL" };
             adapter.CreateTable(TableName, tables, types);
         }
 
-        private void InsertToTableHelper()
+        private void InsertToTableHelper(IStorageAdapter adapter)
         {
             adapter.Insert(TableName,
             new[] { ColumnChannelName, ColumnLogName },
@@ -277,9 +277,9 @@ namespace Microsoft.AppCenter.Test.Storage
         {
             try
             {
-                adapter.Delete(TableName, ColumnChannelName, new object[] { StorageTestChannelName });
-                adapter.Dispose();
-                adapter = null;
+                _adapter.Delete(TableName, ColumnChannelName, new object[] { StorageTestChannelName });
+                _adapter.Dispose();
+                _adapter = null;
             }
             catch (Exception ignore)
             {
