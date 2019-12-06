@@ -390,6 +390,10 @@ namespace Microsoft.AppCenter.Storage
             {
                 return e;
             }
+
+            // Tasks should already be throwing only storage exceptions, but in case any are missed, 
+            // which has happened (the Corrupt exception mentioned previously), catch them here and wrap in a storage exception. This will prevent 
+            // the exception from being unobserved.
             return new StorageException(e);
         }
 
@@ -403,7 +407,6 @@ namespace Microsoft.AppCenter.Storage
             {
                 throw new StorageException("The operation has been canceled");
             }
-
             _flushSemaphore.Release();
         }
 
