@@ -43,11 +43,10 @@ namespace Microsoft.AppCenter.Test
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
             using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
             {
-                //storage.WaitOperationsAsync(TimeSpan.FromSeconds(10)).Wait();
                 new Task(() => { }).Wait((TimeSpan.FromSeconds(10)));
 
                 // Verify database is initialized as a result of calling constructor.
-                Mock.Get(mockStorageAdapter).Verify(adapter => adapter.CreateTable(TableName, It.IsAny<string[]>() , It.IsAny<string[]>()));
+                Mock.Get(mockStorageAdapter).Verify(adapter => adapter.CreateTable(TableName, It.IsAny<string[]>(), It.IsAny<string[]>()));
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Initialize(It.IsAny<string>()));
             }
         }
@@ -94,7 +93,6 @@ namespace Microsoft.AppCenter.Test
         [TestMethod]
         public async Task UnknownExceptionIsConvertedToStorageException()
         {
-            var whereClause = $"{ColumnChannelName} = \"{StorageTestChannelName}\"";
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
             using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
             {
@@ -216,13 +214,13 @@ namespace Microsoft.AppCenter.Test
         [TestMethod]
         public void GetLogsExcludesPendingLogsWithoutAffectingLimit()
         {
-            var numLogsToAdd = 1;
+            var numLogsToAdd = 5;
             var limit = 5;
 
             // Add some logs and then retrieve them so they are marked as pending.
             PutNLogs(numLogsToAdd);
             _storage.GetLogsAsync(StorageTestChannelName, limit, new List<Log>()).RunNotAsync();
-            
+
             // Add some new logs.
             var addedLogs = PutNLogs(numLogsToAdd);
             var retrievedLogs = new List<Log>();
@@ -318,11 +316,12 @@ namespace Microsoft.AppCenter.Test
             StorageAdapter adapter = new StorageAdapter();
             var database = "test.db";
             adapter.Initialize(database);
-            string[] tables = new string[] { ColumnIdName, ColumnChannelName, ColumnLogName };
-            string[] types = new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL" };
+            var tables = new string[] { ColumnIdName, ColumnChannelName, ColumnLogName };
+            var types = new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL" };
             adapter.CreateTable(TableName, tables, types);
             adapter.Insert(TableName, tables,
-            new List<object[]> {
+            new List<object[]>
+            {
                 new object[] {100, StorageTestChannelName, "good luck deserializing me!" }
             });
             adapter.Dispose();
@@ -408,7 +407,7 @@ namespace Microsoft.AppCenter.Test
                 _storage.DeleteLogs(StorageTestChannelName);
                 _storage.Dispose();
                 _storage = null;
-            } 
+            }
             catch
             {
                 // No-op
@@ -419,13 +418,13 @@ namespace Microsoft.AppCenter.Test
 
         private List<TestLog> PutNLogs(int n)
         {
-            //var putLogTasks = new Task[n];
+            var putLogTasks = new Task[n];
             var addedLogs = new List<TestLog>();
             for (var i = 0; i < n; ++i)
             {
                 var testLog = TestLog.CreateTestLog();
                 addedLogs.Add(testLog);
-                _storage.PutLog(StorageTestChannelName, testLog).Wait();
+                putLogTasks[i] = _storage.PutLog(StorageTestChannelName, testLog);
             }
             return addedLogs;
         }
