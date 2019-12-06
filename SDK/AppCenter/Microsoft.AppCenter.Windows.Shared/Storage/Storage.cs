@@ -62,9 +62,9 @@ namespace Microsoft.AppCenter.Storage
         internal Storage(IStorageAdapter adapter, string databasePath)
         {
             _storageAdapter = adapter;
+            _databasePath = databasePath;
             _queue.Add(new Task(InitializeDatabase));
             _queueFlushTask = Task.Run(FlushQueueAsync);
-            _databasePath = databasePath;
         }
 
         private static IStorageAdapter DefaultAdapter()

@@ -35,6 +35,7 @@ namespace Microsoft.AppCenter.Test
             Microsoft.AppCenter.Utils.Constants.AppCenterFilesDirectoryPath = Environment.CurrentDirectory;
             _storage = new Microsoft.AppCenter.Storage.Storage();
             _storage.DeleteLogs(StorageTestChannelName);
+            _storage.WaitOperationsAsync(TimeSpan.FromSeconds(10)).Wait();
         }
 
         [TestMethod]
