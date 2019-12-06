@@ -23,7 +23,6 @@ namespace Microsoft.AppCenter.Test
         [TestMethod]
         public void ShutdownTimeout()
         {
-
             var mockConnection = new Mock<IStorageAdapter>();
             mockConnection.Setup(
                     c => c.Insert(TableName, It.IsAny<string[]>(), It.IsAny<List<object[]>>()))
