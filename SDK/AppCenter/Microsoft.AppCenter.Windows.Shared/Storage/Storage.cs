@@ -43,26 +43,28 @@ namespace Microsoft.AppCenter.Storage
         private readonly Dictionary<string, IList<long>> _pendingDbIdentifierGroups = new Dictionary<string, IList<long>>();
         private readonly HashSet<long> _pendingDbIdentifiers = new HashSet<long>();
 
-        // Blocking collection is thread safe
+        // Blocking collection is thread safe.
         private readonly BlockingCollection<Task> _queue = new BlockingCollection<Task>();
         private readonly SemaphoreSlim _flushSemaphore = new SemaphoreSlim(0);
         private readonly Task _queueFlushTask;
+        private readonly string _databasePath;
 
         /// <summary>
-        /// Creates an instance of Storage
+        /// Creates an instance of Storage.
         /// </summary>
-        public Storage() : this(DefaultAdapter())
+        public Storage() : this(DefaultAdapter(), Constants.AppCenterDatabasePath)
         {
         }
 
         /// <summary>
-        /// Creates an instance of Storage given a connection object
+        /// Creates an instance of Storage given a connection object.
         /// </summary>
-        internal Storage(IStorageAdapter adapter)
+        internal Storage(IStorageAdapter adapter, string databasePath)
         {
             _storageAdapter = adapter;
             _queue.Add(new Task(InitializeDatabase));
             _queueFlushTask = Task.Run(FlushQueueAsync);
+            _databasePath = databasePath;
         }
 
         private static IStorageAdapter DefaultAdapter()
@@ -263,8 +265,8 @@ namespace Microsoft.AppCenter.Storage
         {
             try
             {
-                Directory.CreateDirectory(Constants.AppCenterFilesDirectoryPath);
-                _storageAdapter.Initialize(Constants.AppCenterDatabasePath);
+                new FileInfo(_databasePath).Directory.Create();
+                _storageAdapter.Initialize(_databasePath);
                 _storageAdapter.CreateTable(TableName,
                     new[] { ColumnIdName, ColumnChannelName, ColumnLogName },
                     new[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL" });
@@ -376,7 +378,7 @@ namespace Microsoft.AppCenter.Storage
                 _storageAdapter.Dispose();
                 try
                 {
-                    File.Delete(Constants.AppCenterDatabasePath);
+                    File.Delete(_databasePath);
                 }
                 catch (IOException fileException)
                 {
