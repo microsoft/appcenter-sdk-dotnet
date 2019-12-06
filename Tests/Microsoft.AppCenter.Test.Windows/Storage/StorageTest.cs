@@ -18,19 +18,21 @@ namespace Microsoft.AppCenter.Test
     public class StorageTest
     {
         private const string StorageTestChannelName = "storageTestChannelName";
-        private Microsoft.AppCenter.Storage.IStorage _storage;
+        private IStorage _storage;
+
         // Const for storage data.
         private const string TableName = "LogEntry";
         private const string ColumnChannelName = "Channel";
         private const string ColumnLogName = "Log";
         private const string ColumnIdName = "Id";
-        private const string DatabasePath = "databaseAtRoot.db";
+        private string DatabasePath;
 
         [TestInitialize]
         public void InitializeStorageTest()
         {
-            Microsoft.AppCenter.Utils.Constants.AppCenterFilesDirectoryPath = Environment.CurrentDirectory;
+            DatabasePath = $"{Guid.NewGuid()}.db";
             Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath = DatabasePath;
+            Microsoft.AppCenter.Utils.Constants.AppCenterFilesDirectoryPath = Environment.CurrentDirectory;
             _storage = new Microsoft.AppCenter.Storage.Storage();
             _storage.DeleteLogs(StorageTestChannelName);
         }
@@ -39,7 +41,7 @@ namespace Microsoft.AppCenter.Test
         public void TestDatabaseIsInitialized()
         {
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
-            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter))
+            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
             {
                 //storage.WaitOperationsAsync(TimeSpan.FromSeconds(10)).Wait();
                 new Task(() => { }).Wait((TimeSpan.FromSeconds(10)));
@@ -94,7 +96,7 @@ namespace Microsoft.AppCenter.Test
         {
             var whereClause = $"{ColumnChannelName} = \"{StorageTestChannelName}\"";
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
-            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter))
+            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
             {
                 var exception = new Exception();
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Count(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<object>())).Throws(exception);
@@ -112,7 +114,7 @@ namespace Microsoft.AppCenter.Test
         {
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
             var exception = new StorageException();
-            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter))
+            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
             {
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Count(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<object>())).Throws(exception);
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(It.IsAny<string>(), It.IsAny<string[]>(), It.IsAny<IList<object[]>>())).Throws(exception);
@@ -314,25 +316,35 @@ namespace Microsoft.AppCenter.Test
         {
             // Prepare data.
             StorageAdapter adapter = new StorageAdapter();
-            adapter.Initialize(DatabasePath);
+            var database = "test.db";
+            adapter.Initialize(database);
             string[] tables = new string[] { ColumnIdName, ColumnChannelName, ColumnLogName };
             string[] types = new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL" };
             adapter.CreateTable(TableName, tables, types);
-
-            // Perform an arbitrary operation and wait on it to complete so that database is free when invalid log
-            // is inserted.
-            _storage.CountLogsAsync(StorageTestChannelName).RunNotAsync();
             adapter.Insert(TableName, tables,
             new List<object[]> {
                 new object[] {100, StorageTestChannelName, "good luck deserializing me!" }
             });
+            adapter.Dispose();
+            var storage = new Microsoft.AppCenter.Storage.Storage(adapter, database);
             var logs = new List<Log>();
-            var batchId = _storage.GetLogsAsync(StorageTestChannelName, 4, logs).RunNotAsync();
-            var count = _storage.CountLogsAsync(StorageTestChannelName).RunNotAsync();
+            var batchId = storage.GetLogsAsync(StorageTestChannelName, 4, logs).RunNotAsync();
+            var count = storage.CountLogsAsync(StorageTestChannelName).RunNotAsync();
             Assert.IsNull(batchId);
             Assert.AreEqual(0, logs.Count);
             Assert.AreEqual(0, count);
-            adapter.Dispose();
+
+            // Clear.
+            try
+            {
+                adapter.Dispose();
+                storage.Dispose();
+                System.IO.File.Delete(database);
+            }
+            catch (Exception exc)
+            {
+                // No-op.
+            }
         }
 
         /// <summary>
@@ -342,13 +354,13 @@ namespace Microsoft.AppCenter.Test
         public async Task RecreateCorruptedDatabaseOnInnerCorruptException()
         {
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
-            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter))
+            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
             {
                 var exception = new StorageException("Corrupt");
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(TableName, It.IsAny<string[]>(), It.IsAny<List<object[]>>())).Throws(exception);
-                await Assert.ThrowsExceptionAsync<System.IO.IOException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
+                await Assert.ThrowsExceptionAsync<StorageException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Dispose());
-                Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Initialize(It.IsAny<string>()), Times.Exactly(1));
+                Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Initialize(It.IsAny<string>()), Times.Exactly(2));
             }
         }
 
@@ -359,13 +371,13 @@ namespace Microsoft.AppCenter.Test
         public async Task RecreateCorruptedDatabaseOnUnknownCorruptException()
         {
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
-            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter))
+            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
             {
                 var exception = new Exception("Corrupt");
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(TableName, It.IsAny<string[]>(), It.IsAny<List<object[]>>())).Throws(exception);
-                await Assert.ThrowsExceptionAsync<System.IO.IOException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
+                await Assert.ThrowsExceptionAsync<StorageException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Dispose());
-                Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Initialize(It.IsAny<string>()), Times.Exactly(1));
+                Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Initialize(It.IsAny<string>()), Times.Exactly(2));
             }
         }
 
@@ -376,7 +388,7 @@ namespace Microsoft.AppCenter.Test
         public async Task DontRecreateCorruptedDatabaseOnNotCorruptException()
         {
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
-            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter))
+            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
             {
                 var exception = new Exception("Something else");
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(It.IsAny<string>(), It.IsAny<string[]>(), It.IsAny<List<object[]>>())).Throws(exception);
@@ -389,9 +401,18 @@ namespace Microsoft.AppCenter.Test
         [TestCleanup]
         public void Dispose()
         {
-            _storage.DeleteLogs(StorageTestChannelName);
-            _storage.Dispose();
-            _storage = null;
+            try
+            {
+                Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath = "";
+                Microsoft.AppCenter.Utils.Constants.AppCenterFilesDirectoryPath = "";
+                _storage.DeleteLogs(StorageTestChannelName);
+                _storage.Dispose();
+                _storage = null;
+            } 
+            catch
+            {
+                // No-op
+            }
         }
 
         #region Helper methods

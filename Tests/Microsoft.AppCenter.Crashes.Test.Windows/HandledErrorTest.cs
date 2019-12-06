@@ -26,13 +26,15 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
 
         private IHttpNetworkAdapter _mockNetworkAdapter;
 
+        private StorageAdapter _storageAdapter;
+
         [TestInitialize]
         public void InitializeTest()
         {
             _mockNetworkAdapter = Mock.Of<IHttpNetworkAdapter>();
-            _storagePath = Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath;
-            var storageAdapter = new StorageAdapter();
-            var storage = new Storage.Storage(storageAdapter);
+            _storageAdapter = new StorageAdapter();
+            _storagePath = $"{Guid.NewGuid()}.db";
+            var storage = new Storage.Storage(_storageAdapter, _storagePath);
             var ingestion = new IngestionHttp(_mockNetworkAdapter);
             var channelGroup = new ChannelGroup(ingestion, storage, "app secret");
             Crashes.Instance = new Crashes();
@@ -46,8 +48,7 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
             try
             {
                 // Try to clean up resources but don't fail the test if that throws an error.
-                // FIXME
-                //SQLite.SQLiteAsyncConnection.ResetPool();
+                _storageAdapter.Dispose();
                 File.Delete(_storagePath);
             }
             catch
