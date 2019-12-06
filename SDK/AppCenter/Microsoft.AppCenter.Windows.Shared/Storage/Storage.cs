@@ -386,8 +386,11 @@ namespace Microsoft.AppCenter.Storage
                 }
                 InitializeDatabase();
             }
+
+            // Return exception to re-throw.
             if (e is StorageException)
             {
+                // This is the expected case, storage adapter already wraps exception as StorageException, so return as is.
                 return e;
             }
 
