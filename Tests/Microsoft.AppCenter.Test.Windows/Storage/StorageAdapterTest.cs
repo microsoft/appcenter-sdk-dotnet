@@ -83,7 +83,7 @@ namespace Microsoft.AppCenter.Test.Storage
             }
             catch (Exception e)
             {
-                Assert.Fail("Should have thrown exception");
+                Assert.Fail("Shouldn't have thrown exception");
             }
             adapter.Dispose();
             try
