@@ -47,7 +47,7 @@ namespace Microsoft.AppCenter.Storage
         private readonly BlockingCollection<Task> _queue = new BlockingCollection<Task>();
         private readonly SemaphoreSlim _flushSemaphore = new SemaphoreSlim(0);
         private readonly Task _queueFlushTask;
-        
+
         /// <summary>
         /// Creates an instance of Storage.
         /// </summary>
@@ -105,6 +105,8 @@ namespace Microsoft.AppCenter.Storage
                     AppCenterLog.Debug(AppCenterLog.LogTag,
                         $"Deleting logs from storage for channel '{channelName}' with batch id '{batchId}'");
                     var identifiers = _pendingDbIdentifierGroups[GetFullIdentifier(channelName, batchId)];
+                    _pendingDbIdentifierGroups.Remove(GetFullIdentifier(channelName, batchId));
+                    _pendingDbIdentifiers.RemoveWhere(entry => identifiers.Contains(entry));
                     AppCenterLog.Debug(AppCenterLog.LogTag, "The IDs for deleting log(s) is/are:\n\t" + string.Join("\n\t", identifiers));
                     _storageAdapter.Delete(TableName, ColumnIdName, identifiers.Cast<object>().ToArray());
                 }
@@ -338,8 +340,7 @@ namespace Microsoft.AppCenter.Storage
                 }
                 catch (Exception e)
                 {
-                    // If we use await on a task that returns an exception, it makes the app crash, however, using the awaiter works...
-                    throw HandleStorageRelatedExceptionAsync(e);
+                    throw HandleStorageRelatedException(e);
                 }
             });
             AddTaskToQueue(task);
@@ -357,14 +358,14 @@ namespace Microsoft.AppCenter.Storage
                 catch (Exception e)
                 {
                     // And regarding the comment in other variant of this function, async lambda + await cannot work with a Func anyway.
-                    throw HandleStorageRelatedExceptionAsync(e);
+                    throw HandleStorageRelatedException(e);
                 }
             });
             AddTaskToQueue(task);
             return task;
         }
 
-        private Exception HandleStorageRelatedExceptionAsync(Exception e)
+        private Exception HandleStorageRelatedException(Exception e)
         {
             // Check if database is corrupted, we have evidence (https://github.com/microsoft/appcenter-sdk-dotnet/issues/1184)
             // that it's not always originated by a proper SQLiteException (which would then be converted to StorageException in StorageAdapter).
