@@ -356,9 +356,9 @@ namespace Microsoft.AppCenter.Test
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
             using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
             {
-                var exception = new StorageException("Corrupt");
+                var exception = new StorageCorruptedException("Mock exception");
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(TableName, It.IsAny<string[]>(), It.IsAny<List<object[]>>())).Throws(exception);
-                await Assert.ThrowsExceptionAsync<StorageException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
+                await Assert.ThrowsExceptionAsync<StorageCorruptedException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Dispose());
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Initialize(It.IsAny<string>()), Times.Exactly(2));
             }
@@ -373,9 +373,9 @@ namespace Microsoft.AppCenter.Test
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
             using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
             {
-                var exception = new Exception("Corrupt");
+                var exception = new Exception("Mock exception");
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(TableName, It.IsAny<string[]>(), It.IsAny<List<object[]>>())).Throws(exception);
-                await Assert.ThrowsExceptionAsync<StorageException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
+                await Assert.ThrowsExceptionAsync<StorageCorruptedException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Dispose());
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Initialize(It.IsAny<string>()), Times.Exactly(2));
             }
