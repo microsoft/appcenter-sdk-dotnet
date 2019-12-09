@@ -106,8 +106,13 @@ namespace Microsoft.AppCenter.Storage
                         $"Deleting logs from storage for channel '{channelName}' with batch id '{batchId}'");
                     var identifiers = _pendingDbIdentifierGroups[GetFullIdentifier(channelName, batchId)];
                     _pendingDbIdentifierGroups.Remove(GetFullIdentifier(channelName, batchId));
-                    _pendingDbIdentifiers.RemoveWhere(entry => identifiers.Contains(entry));
-                    AppCenterLog.Debug(AppCenterLog.LogTag, "The IDs for deleting log(s) is/are:\n\t" + string.Join("\n\t", identifiers));
+                    var deletedIdsMessage = "The IDs for deleting log(s) is/are:";
+                    foreach (var identifier in identifiers)
+                    {
+                        deletedIdsMessage += "\n\t" + identifier;
+                        _pendingDbIdentifiers.Remove(identifier);
+                    }
+                    AppCenterLog.Debug(AppCenterLog.LogTag, deletedIdsMessage);
                     _storageAdapter.Delete(TableName, ColumnIdName, identifiers.Cast<object>().ToArray());
                 }
                 catch (KeyNotFoundException e)
@@ -357,7 +362,6 @@ namespace Microsoft.AppCenter.Storage
                 }
                 catch (Exception e)
                 {
-                    // And regarding the comment in other variant of this function, async lambda + await cannot work with a Func anyway.
                     throw HandleStorageRelatedException(e);
                 }
             });
@@ -367,11 +371,8 @@ namespace Microsoft.AppCenter.Storage
 
         private Exception HandleStorageRelatedException(Exception e)
         {
-            // Check if database is corrupted, we have evidence (https://github.com/microsoft/appcenter-sdk-dotnet/issues/1184)
-            // that it's not always originated by a proper SQLiteException (which would then be converted to StorageException in StorageAdapter).
-            // If it was always the right type then the exception would not have been unobserved in that application before we changed the re-throw logic here.
-            // But the message is definitely "Corrupt" and thus unfortunately that is the only check we seem to be able to do as opposed to type/property checking.
-            if (e.Message == "Corrupt" || e.InnerException?.Message == "Corrupt")
+            // Re-initialize db file if database is corrupted
+            if (e is StorageCorruptException)
             {
                 AppCenterLog.Error(AppCenterLog.LogTag,
                     "Database corruption detected, deleting the file and starting fresh...", e);
@@ -385,6 +386,7 @@ namespace Microsoft.AppCenter.Storage
                     AppCenterLog.Error(AppCenterLog.LogTag, "Failed to delete database file.", fileException);
                 }
                 InitializeDatabase();
+                return e;
             }
 
             // Return exception to re-throw.

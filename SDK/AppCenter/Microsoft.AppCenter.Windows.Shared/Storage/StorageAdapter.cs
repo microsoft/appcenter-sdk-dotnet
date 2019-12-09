@@ -97,14 +97,18 @@ namespace Microsoft.AppCenter.Storage
         private int ExecuteNonSelectionSqlQuery(string query, IList<object> args = null)
         {
             var db = _db ?? throw new StorageException("The database wasn't initialized.");
-            var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
-            if (result != raw.SQLITE_OK)
+            var prepareResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
+            if (prepareResult == raw.SQLITE_CORRUPT || prepareResult == raw.SQLITE_NOTADB)
+            {
+                throw new StorageCorruptException();
+            }
+            if (prepareResult != raw.SQLITE_OK)
             {
                 var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare SQL query, result={result}\n\t{errorMessage}");
+                throw new StorageException($"Failed to prepare SQL query, result={prepareResult}\n\t{errorMessage}");
             }
             BindParameters(stmt, args);
-            result = raw.sqlite3_step(stmt);
+            var result = raw.sqlite3_step(stmt);
             if (result != raw.SQLITE_DONE)
             {
                 var errorMessage = raw.sqlite3_errmsg(_db);
@@ -117,11 +121,15 @@ namespace Microsoft.AppCenter.Storage
         {
             var db = _db ?? throw new StorageException("The database wasn't initialized.");
             var entries = new List<object[]>();
-            var queryResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
-            if (queryResult != raw.SQLITE_OK)
+            var prepareResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
+            if (prepareResult == raw.SQLITE_CORRUPT || prepareResult == raw.SQLITE_NOTADB)
+            {
+                throw new StorageCorruptException();
+            }
+            if (prepareResult != raw.SQLITE_OK)
             {
                 var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare SQL query, result={queryResult}\n\t{errorMessage}");
+                throw new StorageException($"Failed to prepare SQL query, result={prepareResult}\n\t{errorMessage}");
             }
             BindParameters(stmt, args);
             while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
