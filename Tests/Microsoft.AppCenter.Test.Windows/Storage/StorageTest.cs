@@ -365,23 +365,6 @@ namespace Microsoft.AppCenter.Test
         }
 
         /// <summary>
-        /// Verify that we recreated corrupted database even if the exception type does not look right.
-        /// </summary>
-        [TestMethod]
-        public async Task RecreateCorruptedDatabaseOnUnknownCorruptException()
-        {
-            var mockStorageAdapter = Mock.Of<IStorageAdapter>();
-            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
-            {
-                var exception = new Exception("Mock exception");
-                Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(TableName, It.IsAny<string[]>(), It.IsAny<List<object[]>>())).Throws(exception);
-                await Assert.ThrowsExceptionAsync<StorageCorruptedException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
-                Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Dispose());
-                Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Initialize(It.IsAny<string>()), Times.Exactly(2));
-            }
-        }
-
-        /// <summary>
         /// Verify that we don't delete database if the error is not related to corruption.
         /// </summary>
         [TestMethod]
