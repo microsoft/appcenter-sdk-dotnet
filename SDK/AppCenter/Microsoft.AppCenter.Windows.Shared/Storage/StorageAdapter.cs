@@ -185,13 +185,14 @@ namespace Microsoft.AppCenter.Storage
                 throw CreateStorageException(result, "Failed to prepare delete SQL query");
             }
         }
+
         private StorageException CreateStorageException(int result, string message)
         {
             var errorMessage = raw.sqlite3_errmsg(_db);
             var exceptionMessage = $"{message}, result={result}\n\t{errorMessage}";
             if (result == raw.SQLITE_CORRUPT || result == raw.SQLITE_NOTADB)
             {
-                throw new StorageCorruptedException(exceptionMessage);
+                return new StorageCorruptedException(exceptionMessage);
             }
             return new StorageException(exceptionMessage);
         }

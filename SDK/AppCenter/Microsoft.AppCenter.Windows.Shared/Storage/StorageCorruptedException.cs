@@ -8,6 +8,7 @@ namespace Microsoft.AppCenter.Storage
         private const string DefaultMessage = "The database disk image is malformed.";
 
         public StorageCorruptedException() : base(DefaultMessage) { }
+
         public StorageCorruptedException(string message) : base(message) { }
     }
 }
