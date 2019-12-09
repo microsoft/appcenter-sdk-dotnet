@@ -26,7 +26,7 @@ namespace Microsoft.AppCenter.Storage
             result = raw.sqlite3_open(databasePath, out _db);
             if (result != raw.SQLITE_OK)
             {
-                throw CreateStorageException(result, "Failed to open database connection");
+                throw ToStorageException(result, "Failed to open database connection");
             }
         }
 
@@ -65,7 +65,7 @@ namespace Microsoft.AppCenter.Storage
             }
             if (result != raw.SQLITE_OK)
             {
-                throw CreateStorageException(result, $"Failed to bind {index} parameter");
+                throw ToStorageException(result, $"Failed to bind {index} parameter");
             }
         }
 
@@ -98,13 +98,13 @@ namespace Microsoft.AppCenter.Storage
             var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (result != raw.SQLITE_OK)
             {
-                throw CreateStorageException(result, "Failed to prepare SQL query");
+                throw ToStorageException(result, "Failed to prepare SQL query");
             }
             BindParameters(stmt, args);
             result = raw.sqlite3_step(stmt);
             if (result != raw.SQLITE_DONE)
             {
-                throw CreateStorageException(result, "Failed to run query");
+                throw ToStorageException(result, "Failed to run query");
             }
             return raw.sqlite3_finalize(stmt);
         }
@@ -116,7 +116,7 @@ namespace Microsoft.AppCenter.Storage
             var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
             if (result != raw.SQLITE_OK)
             {
-                throw CreateStorageException(result, "Failed to prepare SQL query");
+                throw ToStorageException(result, "Failed to prepare SQL query");
             }
             BindParameters(stmt, args);
             while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
@@ -127,7 +127,7 @@ namespace Microsoft.AppCenter.Storage
             result = raw.sqlite3_finalize(stmt);
             if (result != raw.SQLITE_OK)
             {
-                throw CreateStorageException(result, "Failed to finalize SQL query");
+                throw ToStorageException(result, "Failed to finalize SQL query");
             }
             return entries;
         }
@@ -138,7 +138,7 @@ namespace Microsoft.AppCenter.Storage
             var result = ExecuteNonSelectionSqlQuery($"CREATE TABLE IF NOT EXISTS {tableName} ({tableClause});");
             if (result != raw.SQLITE_OK)
             {
-                throw CreateStorageException(result, "Failed to create table");
+                throw ToStorageException(result, "Failed to create table");
             }
         }
 
@@ -172,7 +172,7 @@ namespace Microsoft.AppCenter.Storage
             var result = ExecuteNonSelectionSqlQuery($"INSERT INTO {tableName}({columnsClause}) VALUES {valuesClause};", valuesArray);
             if (result != raw.SQLITE_OK)
             {
-                throw CreateStorageException(result, "Failed to prepare insert SQL query");
+                throw ToStorageException(result, "Failed to prepare insert SQL query");
             }
         }
 
@@ -182,11 +182,11 @@ namespace Microsoft.AppCenter.Storage
             var result = ExecuteNonSelectionSqlQuery($"DELETE FROM {tableName} WHERE {whereMask};", values);
             if (result != raw.SQLITE_OK)
             {
-                throw CreateStorageException(result, "Failed to prepare delete SQL query");
+                throw ToStorageException(result, "Failed to prepare delete SQL query");
             }
         }
 
-        private StorageException CreateStorageException(int result, string message)
+        private StorageException ToStorageException(int result, string message)
         {
             var errorMessage = raw.sqlite3_errmsg(_db);
             var exceptionMessage = $"{message}, result={result}\n\t{errorMessage}";
