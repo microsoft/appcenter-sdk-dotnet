@@ -38,8 +38,8 @@ namespace Microsoft.AppCenter
             }
 
             // Grouping by the name of the key.
-            var secretsGroup = secrets.Split(SecretDelimiter.ToCharArray()[0])
-                                           .Select(value => value.Split(PlatformKeyValueDelimiter.ToCharArray()[0]))
+            var secretsGroup = secrets.Split(SecretDelimiter[0])
+                                           .Select(value => value.Split(PlatformKeyValueDelimiter[0]))
                                            .GroupBy(p => p[0] ?? "");
 
             // Create a dictionary choosing the last secret value for each key. If the key has more than one secret value then select the last of them.
