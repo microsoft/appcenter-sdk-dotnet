@@ -372,7 +372,7 @@ namespace Microsoft.AppCenter.Storage
         private Exception HandleStorageRelatedException(Exception e)
         {
             // Re-initialize db file if database is corrupted
-            if (e is StorageCorruptException)
+            if (e is StorageCorruptedException)
             {
                 AppCenterLog.Error(AppCenterLog.LogTag,
                     "Database corruption detected, deleting the file and starting fresh...", e);
@@ -386,20 +386,12 @@ namespace Microsoft.AppCenter.Storage
                     AppCenterLog.Error(AppCenterLog.LogTag, "Failed to delete database file.", fileException);
                 }
                 InitializeDatabase();
-                return e;
-            }
-
-            // Return exception to re-throw.
-            if (e is StorageException)
-            {
-                // This is the expected case, storage adapter already wraps exception as StorageException, so return as is.
-                return e;
             }
 
             // Tasks should already be throwing only storage exceptions, but in case any are missed, 
-            // which has happened (the Corrupt exception mentioned previously), catch them here and wrap in a storage exception. This will prevent 
+            // which has happened, catch them here and wrap in a storage exception. This will prevent 
             // the exception from being unobserved.
-            return new StorageException(e);
+            return e is StorageException ? e : new StorageException(e);
         }
 
         private void AddTaskToQueue(Task task)

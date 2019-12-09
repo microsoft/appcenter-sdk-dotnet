@@ -18,16 +18,15 @@ namespace Microsoft.AppCenter.Storage
             try
             {
                 raw.SetProvider(new SQLite3Provider_e_sqlite3());
-                result = raw.sqlite3_open(databasePath, out _db);
             }
             catch (Exception e)
             {
-                throw new StorageException("Failed to open database connection.", e);
+                throw new StorageException("Failed to initialize sqlite3 provider.", e);
             }
+            result = raw.sqlite3_open(databasePath, out _db);
             if (result != raw.SQLITE_OK)
             {
-                var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to open database connection, result={result}\n\t{errorMessage}");
+                throw CreateStorageException(result, "Failed to open database connection");
             }
         }
 
@@ -66,8 +65,7 @@ namespace Microsoft.AppCenter.Storage
             }
             if (result != raw.SQLITE_OK)
             {
-                var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to bind {index} parameter, result={result}\n\t{errorMessage}");
+                throw CreateStorageException(result, $"Failed to bind {index} parameter");
             }
         }
 
@@ -97,22 +95,16 @@ namespace Microsoft.AppCenter.Storage
         private int ExecuteNonSelectionSqlQuery(string query, IList<object> args = null)
         {
             var db = _db ?? throw new StorageException("The database wasn't initialized.");
-            var prepareResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
-            if (prepareResult == raw.SQLITE_CORRUPT || prepareResult == raw.SQLITE_NOTADB)
+            var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
+            if (result != raw.SQLITE_OK)
             {
-                throw new StorageCorruptException();
-            }
-            if (prepareResult != raw.SQLITE_OK)
-            {
-                var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare SQL query, result={prepareResult}\n\t{errorMessage}");
+                throw CreateStorageException(result, "Failed to prepare SQL query");
             }
             BindParameters(stmt, args);
-            var result = raw.sqlite3_step(stmt);
+            result = raw.sqlite3_step(stmt);
             if (result != raw.SQLITE_DONE)
             {
-                var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to run query, result={result}\n\t{errorMessage}");
+                throw CreateStorageException(result, "Failed to run query");
             }
             return raw.sqlite3_finalize(stmt);
         }
@@ -121,15 +113,10 @@ namespace Microsoft.AppCenter.Storage
         {
             var db = _db ?? throw new StorageException("The database wasn't initialized.");
             var entries = new List<object[]>();
-            var prepareResult = raw.sqlite3_prepare_v2(db, query, out var stmt);
-            if (prepareResult == raw.SQLITE_CORRUPT || prepareResult == raw.SQLITE_NOTADB)
+            var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
+            if (result != raw.SQLITE_OK)
             {
-                throw new StorageCorruptException();
-            }
-            if (prepareResult != raw.SQLITE_OK)
-            {
-                var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare SQL query, result={prepareResult}\n\t{errorMessage}");
+                throw CreateStorageException(result, "Failed to prepare SQL query");
             }
             BindParameters(stmt, args);
             while (raw.sqlite3_step(stmt) == raw.SQLITE_ROW)
@@ -137,11 +124,10 @@ namespace Microsoft.AppCenter.Storage
                 var count = raw.sqlite3_column_count(stmt);
                 entries.Add(Enumerable.Range(0, count).Select(i => GetColumnValue(stmt, i)).ToArray());
             }
-            var result = raw.sqlite3_finalize(stmt);
+            result = raw.sqlite3_finalize(stmt);
             if (result != raw.SQLITE_OK)
             {
-                var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to finalize SQL query, result={result}\n\t{errorMessage}");
+                throw CreateStorageException(result, "Failed to finalize SQL query");
             }
             return entries;
         }
@@ -152,8 +138,7 @@ namespace Microsoft.AppCenter.Storage
             var result = ExecuteNonSelectionSqlQuery($"CREATE TABLE IF NOT EXISTS {tableName} ({tableClause});");
             if (result != raw.SQLITE_OK)
             {
-                var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to create table, result={result}\n\t{errorMessage}");
+                throw CreateStorageException(result, "Failed to create table");
             }
         }
 
@@ -187,8 +172,7 @@ namespace Microsoft.AppCenter.Storage
             var result = ExecuteNonSelectionSqlQuery($"INSERT INTO {tableName}({columnsClause}) VALUES {valuesClause};", valuesArray);
             if (result != raw.SQLITE_OK)
             {
-                var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare insert SQL query, result={result}\n\t{errorMessage}");
+                throw CreateStorageException(result, "Failed to prepare insert SQL query");
             }
         }
 
@@ -198,9 +182,18 @@ namespace Microsoft.AppCenter.Storage
             var result = ExecuteNonSelectionSqlQuery($"DELETE FROM {tableName} WHERE {whereMask};", values);
             if (result != raw.SQLITE_OK)
             {
-                var errorMessage = raw.sqlite3_errmsg(_db);
-                throw new StorageException($"Failed to prepare delete SQL query, result={result}\n\t{errorMessage}");
+                throw CreateStorageException(result, "Failed to prepare delete SQL query");
             }
+        }
+        private StorageException CreateStorageException(int result, string message)
+        {
+            var errorMessage = raw.sqlite3_errmsg(_db);
+            var exceptionMessage = $"{message}, result={result}\n\t{errorMessage}";
+            if (result == raw.SQLITE_CORRUPT || result == raw.SQLITE_NOTADB)
+            {
+                throw new StorageCorruptedException(exceptionMessage);
+            }
+            return new StorageException(exceptionMessage);
         }
 
         private static string BuildBindingMask(int amount)
