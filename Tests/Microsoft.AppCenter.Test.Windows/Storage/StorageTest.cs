@@ -335,12 +335,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             var tables = new string[] { ColumnIdName, ColumnChannelName, ColumnLogName };
             var types = new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL" };
             adapter.CreateTable(TableName, tables, types);
-            adapter.Insert(TableName, tables,
-            new List<object[]>
-            {
-                new object[] {100, StorageTestChannelName, "good luck deserializing me!" }
-            });
-            var storage = new Microsoft.AppCenter.Storage.Storage(adapter, database);
+            adapter.Insert(TableName, tables, new List<object[]> { new object[] { 100, StorageTestChannelName, "good luck deserializing me!" } });
             var logs = new List<Log>();
             var batchId = storage.GetLogsAsync(StorageTestChannelName, 4, logs).RunNotAsync();
             var count = storage.CountLogsAsync(StorageTestChannelName).RunNotAsync();
