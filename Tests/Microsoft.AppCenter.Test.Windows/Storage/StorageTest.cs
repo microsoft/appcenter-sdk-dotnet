@@ -15,6 +15,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
     public class StorageTest
     {
         private IStorage _storage;
+        private string _databasePath;
 
         // Const for storage data.
         private const string StorageTestChannelName = "storageTestChannelName";
@@ -22,13 +23,13 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         private const string ColumnChannelName = "Channel";
         private const string ColumnLogName = "Log";
         private const string ColumnIdName = "Id";
-        private string DatabasePath;
+
 
         [TestInitialize]
         public void TestInitialize()
         {
-            DatabasePath = $"{Guid.NewGuid()}.db";
-            Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath = DatabasePath;
+            _databasePath = $"{Guid.NewGuid()}.db";
+            Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath = _databasePath;
             Microsoft.AppCenter.Utils.Constants.AppCenterFilesDirectoryPath = Environment.CurrentDirectory;
             _storage = new Microsoft.AppCenter.Storage.Storage();
             _storage.DeleteLogs(StorageTestChannelName);
@@ -56,7 +57,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         public void TestDatabaseIsInitialized()
         {
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
-            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
+            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, _databasePath))
             {
                 storage.WaitOperationsAsync(TimeSpan.FromSeconds(10)).Wait();
 
@@ -109,7 +110,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         public async Task UnknownExceptionIsConvertedToStorageException()
         {
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
-            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
+            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, _databasePath))
             {
                 var exception = new Exception();
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Count(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<object>())).Throws(exception);
@@ -127,7 +128,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         {
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
             var exception = new StorageException();
-            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
+            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, _databasePath))
             {
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Count(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<object>())).Throws(exception);
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(It.IsAny<string>(), It.IsAny<string[]>(), It.IsAny<IList<object[]>>())).Throws(exception);
@@ -368,7 +369,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         public async Task RecreateCorruptedDatabaseOnInnerCorruptException()
         {
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
-            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
+            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, _databasePath))
             {
                 var exception = new StorageCorruptedException("Mock exception");
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(TableName, It.IsAny<string[]>(), It.IsAny<List<object[]>>())).Throws(exception);
@@ -385,7 +386,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         public async Task DontRecreateCorruptedDatabaseOnNotCorruptException()
         {
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
-            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, DatabasePath))
+            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, _databasePath))
             {
                 var exception = new Exception("Something else");
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(It.IsAny<string>(), It.IsAny<string[]>(), It.IsAny<List<object[]>>())).Throws(exception);
