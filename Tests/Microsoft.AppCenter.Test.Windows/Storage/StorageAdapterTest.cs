@@ -2,22 +2,19 @@
 // Licensed under the MIT License.
 
 using Microsoft.AppCenter.Storage;
-using Microsoft.AppCenter.Utils.Files;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Microsoft.AppCenter.Test.Storage
+namespace Microsoft.AppCenter.Test.Windows.Storage
 {
     [TestClass]
     public class StorageAdapterTest
     {
         private StorageAdapter _adapter;
 
-        // Const for storage data.
+        // Constants data mocks.
         private const string StorageTestChannelName = "storageTestChannelName";
         private const string TableName = "LogEntry";
         private const string ColumnChannelName = "Channel";
@@ -26,36 +23,60 @@ namespace Microsoft.AppCenter.Test.Storage
         private const string DatabasePath = "databaseAtRoot.db";
 
         [TestInitialize]
-        public void InitializeStorageTest()
+        public void TestInitialize()
         {
-            _adapter = new StorageAdapter();
-        }
-
-        [TestMethod]
-        public void InitializeStorageCreatesStorageDirectory()
-        {
-            var adapter = new StorageAdapter();
-            Microsoft.AppCenter.Utils.Constants.AppCenterFilesDirectoryPath = Environment.CurrentDirectory;
             Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath = DatabasePath;
             try
             {
-                adapter.Initialize(DatabasePath);
+                System.IO.File.Delete(DatabasePath);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Fail! {0}", e.Message);
+            }
+            _adapter = new StorageAdapter();
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            try
+            {
+                _adapter.Dispose();
+                _adapter = null;
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Failed to dispose storage adapter: {0}", e.Message);
+            }
+            try
+            {
+                System.IO.File.Delete(DatabasePath);
             }
             catch
             {
-                // Handle exception, database is not created with Mock.
+                // Db file might not exist or might fail to be deleted.
             }
-            Assert.IsTrue(System.IO.File.Exists(DatabasePath));
         }
 
+        /// <summary>
+        /// Verify that database file is created when Initialize() is called.
+        /// </summary>
         [TestMethod]
-        public void FaildToOpenDatabaseWhenNameWrong()
+        public void CreateDbDiskImageOnInitialization()
         {
-            var adapter = new StorageAdapter();
+            InitializeStorageAdapter();
+        }
+
+        /// <summary>
+        /// Verify that Initialize would fail with incorrect db path passed.
+        /// </summary>
+        [TestMethod]
+        public void FailOnOpenDatabaseWithWrongName()
+        {
             try
             {
-                adapter.Initialize("test://test.txt");
-                Assert.Fail("Should have thrown exception");
+                _adapter.Initialize("test://test.txt");
             }
             catch (Exception e)
             {
@@ -63,181 +84,150 @@ namespace Microsoft.AppCenter.Test.Storage
             }
         }
 
+        /// <summary>
+        /// Verify that storage adapter is disposed when calling Dispose().
+        /// </summary>
         [TestMethod]
-        public void DatabaseDisposed()
+        public void StorageAdapterDisposedOnDisposeCall()
+        {
+            InitializeStorageAdapter();
+            _adapter.Dispose();
+            var exceptionThrown = false;
+            try
+            {
+                CreateTable();
+            }
+            catch
+            {
+                exceptionThrown = true;
+            }
+            Assert.IsTrue(exceptionThrown);
+        }
+
+        /// <summary>
+        /// Verify that database is not initialized.
+        /// </summary>
+        [TestMethod]
+        public void DatabaseIsNotInitializedWhenCallCount()
         {
             // Prepare data.
-            var adapter = new StorageAdapter();
+            var exceptionThrown = false;
             try
             {
-                adapter.Initialize(DatabasePath);
+                // Try to get data before database initialization.
+                _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
             }
             catch (Exception e)
             {
-                Assert.Fail("Shouldn't have thrown exception");
+                exceptionThrown = true;
+                Assert.AreEqual("The database wasn't initialized.", e.Message);
             }
+            Assert.IsTrue(exceptionThrown);
+            InitializeStorageAdapter();
+            CreateTable();
             try
             {
-                // Try get data before database initialize.
-                CreateTableHelper(adapter);
+                // Try to get data after database initialization.
+                _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
             }
-            catch (Exception e)
+            catch
             {
-                Assert.Fail("Shouldn't have thrown exception");
-            }
-            adapter.Dispose();
-            try
-            {
-                // Try get data before database initialize.
-                CreateTableHelper(_adapter);
-                Assert.Fail("Should have thrown exception");
-            }
-            catch (Exception e)
-            {
-                Assert.IsFalse(e.Message.Contains("Should have thrown exception"));
+                Assert.Fail("Unexpected exception thrown on count.");
             }
         }
 
         /// <summary>
-        /// Verify that database is not initilaze.
+        /// Verify that we throw NotSupportedException when passing unsupported value for binding.
         /// </summary>
-        [TestMethod]
-        public void DatabaseIsNotInitilazeWhenCallCount()
-        {
-            // Prepare data.
-            var exception = new StorageException("The database wasn't initialized.");
-            try
-            {
-                // Try get data before database initialize.
-                _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
-                Assert.Fail("Should have thrown exception");
-            }
-            catch (Exception e)
-            {
-                Assert.AreEqual(exception.Message, e.Message);
-            }
-            try
-            {
-                // Initialize database.
-                _adapter.Initialize(DatabasePath);
-            }
-            catch
-            {
-                // Handle exception, database is not created with Mock.
-            }
-            CreateTableHelper(_adapter);
-            try
-            {
-                // Try get data after database initialize.
-                _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
-            }
-            catch (Exception e)
-            {
-                Assert.Fail("Shouldn't have thrown exception");
-            }
-        }
-
         [TestMethod]
         public void NotSupportedTypeException()
         {
             // Prepare data.
-            try
-            {
-                _adapter.Initialize(DatabasePath);
-            }
-            catch
-            {
-                // Handle exception, database is not created with Mock.
-            }
+            InitializeStorageAdapter();
+            CreateTable();
+            InsertMockDataToTable();
+            var exceptionThrown = false;
             try
             {
                 _adapter.Count(TableName, $"{ColumnChannelName}", true);
-                Assert.Fail("Should have thrown exception");
             }
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Contains("not supported"));
+                exceptionThrown = true;
+                Assert.IsInstanceOfType(e, typeof(NotSupportedException));
+                Assert.AreEqual("Type System.Boolean not supported.", e.Message);
             }
-            
+            Assert.IsTrue(exceptionThrown);
         }
 
+        /// <summary>
+        /// Verify that exception is thrown on trying to prepare incorrect delete SQL query.
+        /// </summary>
         [TestMethod]
-        public void FaildToPrepareDatabaseWhenDelete()
+        public void FailToPrepareIncorrectDeleteQuery()
         {
-            string whereClause = $"{ColumnChannelName} = 'faild-value'.";
-            try
-            {
-                _adapter.Initialize(DatabasePath);
-            }
-            catch
-            {
-                // Handle exception, database is not created with Mock.
-            }
+            var exceptionThrown = false;
+            string whereClause = $"{ColumnChannelName} = 'field-value'.";
+            InitializeStorageAdapter();
             try
             {
                 _adapter.Delete(TableName, whereClause);
-                Assert.Fail("Should have thrown exception");
             }
             catch (Exception e)
             {
+                exceptionThrown = true;
                 Assert.IsTrue(e.Message.Contains("Failed to prepare SQL query"));
             }
+            Assert.IsTrue(exceptionThrown);
         }
 
+        /// <summary>
+        /// Verify that Delete query only works after storage adapter initialization and table creation, and not before.
+        /// </summary>
         [TestMethod]
-        public void DatabaseIsNotInitilazeWhenCallDelete()
+        public void DeleteFailsBeforeStorageAdapterInitAndTablePrepare()
         {
             // Prepare data.
-            var exception = new StorageException("The database wasn't initialized.");
+            var exceptionThrown = false;
+            const string exceptionMessage = "The database wasn't initialized.";
             try
             {
                 // Try get data before database initialize.
-                _adapter.Delete(TableName, ColumnChannelName, new object[] { StorageTestChannelName });
-                Assert.Fail("Should have thrown exception");
+                _adapter.Delete(TableName, ColumnChannelName, StorageTestChannelName);
             }
             catch (Exception e)
             {
-                Assert.AreEqual(exception.Message, e.Message);
+                exceptionThrown = true;
+                Assert.AreEqual(exceptionMessage, e.Message);
             }
+            Assert.IsTrue(exceptionThrown);
+            InitializeStorageAdapter();
+            CreateTable();
             try
             {
-                // Initialize database.
-                _adapter.Initialize(DatabasePath);
+                // Try delete data after database initialize.
+                _adapter.Delete(TableName, ColumnChannelName, StorageTestChannelName);
             }
             catch
             {
-                // Handle exception, database is not created with Mock.
-            }
-            CreateTableHelper(_adapter);
-            try
-            {
-                // Try get data after database initialize.
-                _adapter.Delete(TableName, ColumnChannelName, new object[] { StorageTestChannelName });
-            }
-            catch (Exception e)
-            {
-                Assert.Fail("Shouldn't have thrown exception");
+                Assert.Fail("Unexpected exception thrown on delete.");
             }
         }
 
+        /// <summary>
+        /// Verify that table is creating and inserting to table work.
+        /// </summary>
         [TestMethod]
-        public void CreateTable()
+        public void CreateTableAndInsertWorking()
         {
             // Prepare data.
-            try
-            {
-                _adapter.Initialize(DatabasePath);
-            }
-            catch
-            {
-                // Handle exception, database is not created with Mock.
-            }
+            InitializeStorageAdapter();
 
             // Create test table.
-            CreateTableHelper(_adapter);
+            CreateTable();
 
             // Insert test data.
-            InsertToTableHelper(_adapter);
+            InsertMockDataToTable();
             var count = _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
             Assert.AreEqual(1, count);
 
@@ -251,40 +241,39 @@ namespace Microsoft.AppCenter.Test.Storage
                 Assert.AreEqual(entry[1], StorageTestChannelName);
                 Assert.AreEqual(entry[2], "");
             });
-            _adapter.Delete(TableName, ColumnIdName, new object[] { entryId });
+            _adapter.Delete(TableName, ColumnIdName, entryId);
             count = _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
-            Assert.AreEqual(count, 0);
+            Assert.AreEqual(0, count);
         }
 
-        private void CreateTableHelper(IStorageAdapter adapter)
+        private void CreateTable()
         {
-            string[] tables = new string[] { ColumnIdName, ColumnChannelName, ColumnLogName };
-            string[] types = new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL" };
-            adapter.CreateTable(TableName, tables, types);
+            var tables = new[] { ColumnIdName, ColumnChannelName, ColumnLogName };
+            var types = new[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL" };
+            _adapter.CreateTable(TableName, tables, types);
         }
 
-        private void InsertToTableHelper(IStorageAdapter adapter)
+        private void InsertMockDataToTable()
         {
-            adapter.Insert(TableName,
+            _adapter.Insert(TableName,
             new[] { ColumnChannelName, ColumnLogName },
             new List<object[]> {
                 new object[] {StorageTestChannelName, ""}
             });
         }
 
-        [TestCleanup]
-        public void Despose()
+        private void InitializeStorageAdapter()
         {
+            Assert.IsFalse(System.IO.File.Exists(DatabasePath));
             try
             {
-                _adapter.Delete(TableName, ColumnChannelName, new object[] { StorageTestChannelName });
-                _adapter.Dispose();
-                _adapter = null;
+                _adapter.Initialize(DatabasePath);
             }
-            catch (Exception ignore)
+            catch (Exception e)
             {
-                // Handle exception, database is not created with Mock.
+                Assert.Fail("Failed to initialize storage adapter: {0}", e.Message);
             }
+            Assert.IsTrue(System.IO.File.Exists(DatabasePath));
         }
     }
 }
