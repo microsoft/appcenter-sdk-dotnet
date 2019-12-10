@@ -14,7 +14,6 @@ namespace Microsoft.AppCenter.Storage
 
         public void Initialize(string databasePath)
         {
-            int result;
             try
             {
                 raw.SetProvider(new SQLite3Provider_e_sqlite3());
@@ -23,7 +22,7 @@ namespace Microsoft.AppCenter.Storage
             {
                 throw new StorageException("Failed to initialize sqlite3 provider.", e);
             }
-            result = raw.sqlite3_open(databasePath, out _db);
+            var result = raw.sqlite3_open(databasePath, out _db);
             if (result != raw.SQLITE_OK)
             {
                 throw ToStorageException(result, "Failed to open database connection");
@@ -37,11 +36,9 @@ namespace Microsoft.AppCenter.Storage
 
         protected virtual void Dispose(bool disposing)
         {
-            if (_db != null)
-            {
-                _db.Dispose();
-                _db = null;
-            }
+            if (_db == null) return;
+            _db.Dispose();
+            _db = null;
         }
 
         private void BindParameter(sqlite3_stmt stmt, int index, object value)
@@ -73,7 +70,7 @@ namespace Microsoft.AppCenter.Storage
 
         private void BindParameters(sqlite3_stmt stmt, IList<object> values)
         {
-            for (int i = 0; i < values?.Count; i++)
+            for (var i = 0; i < values?.Count; i++)
             {
                 // Parameters in statement are 1-based. See https://www.sqlite.org/c3ref/bind_blob.html
                 BindParameter(stmt, i + 1, values[i]);
