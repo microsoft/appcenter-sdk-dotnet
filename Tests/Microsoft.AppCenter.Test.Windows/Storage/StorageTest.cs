@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Microsoft.AppCenter.Test
+namespace Microsoft.AppCenter.Test.Windows.Storage
 {
     [TestClass]
     public class StorageTest
