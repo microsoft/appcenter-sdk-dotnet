@@ -246,6 +246,8 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             Assert.AreEqual(0, count);
         }
 
+        #region Helper methods
+
         private void CreateTable()
         {
             var tables = new[] { ColumnIdName, ColumnChannelName, ColumnLogName };
@@ -256,10 +258,12 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         private void InsertMockDataToTable()
         {
             _adapter.Insert(TableName,
-            new[] { ColumnChannelName, ColumnLogName },
-            new List<object[]> {
-                new object[] {StorageTestChannelName, ""}
-            });
+                new[] {ColumnChannelName, ColumnLogName},
+                new List<object[]>
+                {
+                    new object[] {StorageTestChannelName, ""}
+                }
+            );
         }
 
         private void InitializeStorageAdapter()
@@ -275,5 +279,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             }
             Assert.IsTrue(System.IO.File.Exists(DatabasePath));
         }
+
+        #endregion
     }
 }
