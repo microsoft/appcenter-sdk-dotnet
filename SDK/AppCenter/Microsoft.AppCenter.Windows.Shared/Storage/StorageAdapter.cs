@@ -36,7 +36,10 @@ namespace Microsoft.AppCenter.Storage
 
         protected virtual void Dispose(bool disposing)
         {
-            if (_db == null) return;
+            if (_db == null)
+            {
+                return;
+            }
             _db.Dispose();
             _db = null;
         }
