@@ -38,6 +38,23 @@ namespace Microsoft.AppCenter.Test
             _storage.WaitOperationsAsync(TimeSpan.FromSeconds(10)).Wait();
         }
 
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            try
+            {
+                Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath = "";
+                Microsoft.AppCenter.Utils.Constants.AppCenterFilesDirectoryPath = "";
+                _storage.DeleteLogs(StorageTestChannelName);
+                _storage.Dispose();
+                _storage = null;
+            }
+            catch
+            {
+                // No-op
+            }
+        }
+
         [TestMethod]
         public void TestDatabaseIsInitialized()
         {
@@ -378,23 +395,6 @@ namespace Microsoft.AppCenter.Test
                 await Assert.ThrowsExceptionAsync<StorageException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Dispose(), Times.Never());
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Initialize(It.IsAny<string>()), Times.Once());
-            }
-        }
-
-        [TestCleanup]
-        public void Dispose()
-        {
-            try
-            {
-                Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath = "";
-                Microsoft.AppCenter.Utils.Constants.AppCenterFilesDirectoryPath = "";
-                _storage.DeleteLogs(StorageTestChannelName);
-                _storage.Dispose();
-                _storage = null;
-            }
-            catch
-            {
-                // No-op
             }
         }
 
