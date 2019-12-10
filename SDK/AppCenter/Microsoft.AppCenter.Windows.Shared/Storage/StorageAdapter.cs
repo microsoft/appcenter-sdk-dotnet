@@ -61,10 +61,12 @@ namespace Microsoft.AppCenter.Storage
             }
             else
             {
+                raw.sqlite3_finalize(stmt);
                 throw new NotSupportedException($"Type {value.GetType().FullName} not supported.");
             }
             if (result != raw.SQLITE_OK)
             {
+                raw.sqlite3_finalize(stmt);
                 throw ToStorageException(result, $"Failed to bind {index} parameter");
             }
         }
