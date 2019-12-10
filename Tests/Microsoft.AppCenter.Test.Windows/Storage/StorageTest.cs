@@ -39,17 +39,18 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         [TestCleanup]
         public void TestCleanup()
         {
+            Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath = "";
+            Microsoft.AppCenter.Utils.Constants.AppCenterFilesDirectoryPath = "";
             try
             {
-                Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath = "";
-                Microsoft.AppCenter.Utils.Constants.AppCenterFilesDirectoryPath = "";
                 _storage.DeleteLogs(StorageTestChannelName);
+                _storage.WaitOperationsAsync(TimeSpan.FromSeconds(10)).Wait();
                 _storage.Dispose();
                 _storage = null;
             }
             catch
             {
-                // No-op
+                // ignored
             }
         }
 
