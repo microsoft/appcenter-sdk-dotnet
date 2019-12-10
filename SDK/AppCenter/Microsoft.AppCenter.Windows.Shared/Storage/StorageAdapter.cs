@@ -113,7 +113,7 @@ namespace Microsoft.AppCenter.Storage
                 result = raw.sqlite3_finalize(stmt);
                 if (result != raw.SQLITE_OK)
                 {
-                    throw ToStorageException(result, $"Failed to finalize query");
+                    AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to finalize statement, result={result}");
                 }
             }
         }
@@ -142,7 +142,7 @@ namespace Microsoft.AppCenter.Storage
                 result = raw.sqlite3_finalize(stmt);
                 if (result != raw.SQLITE_OK)
                 {
-                    throw ToStorageException(result, "Failed to finalize SQL query");
+                    AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to finalize statement, result={result}");
                 }
             }
         }
