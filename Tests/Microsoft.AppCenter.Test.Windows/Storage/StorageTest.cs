@@ -3,13 +3,10 @@
 
 using Microsoft.AppCenter.Ingestion.Models;
 using Microsoft.AppCenter.Storage;
-using Microsoft.AppCenter.Utils.Files;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SQLitePCL;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Microsoft.AppCenter.Test
