@@ -340,7 +340,6 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             {
                 new object[] {100, StorageTestChannelName, "good luck deserializing me!" }
             });
-            adapter.Dispose();
             var storage = new Microsoft.AppCenter.Storage.Storage(adapter, database);
             var logs = new List<Log>();
             var batchId = storage.GetLogsAsync(StorageTestChannelName, 4, logs).RunNotAsync();
@@ -348,18 +347,6 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             Assert.IsNull(batchId);
             Assert.AreEqual(0, logs.Count);
             Assert.AreEqual(0, count);
-
-            // Clear.
-            try
-            {
-                adapter.Dispose();
-                storage.Dispose();
-                System.IO.File.Delete(database);
-            }
-            catch (Exception exc)
-            {
-                // No-op.
-            }
         }
 
         /// <summary>
