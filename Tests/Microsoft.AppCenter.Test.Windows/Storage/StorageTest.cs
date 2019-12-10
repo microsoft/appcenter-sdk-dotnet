@@ -14,10 +14,10 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
     [TestClass]
     public class StorageTest
     {
-        private const string StorageTestChannelName = "storageTestChannelName";
         private IStorage _storage;
 
         // Const for storage data.
+        private const string StorageTestChannelName = "storageTestChannelName";
         private const string TableName = "LogEntry";
         private const string ColumnChannelName = "Channel";
         private const string ColumnLogName = "Log";
@@ -25,7 +25,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         private string DatabasePath;
 
         [TestInitialize]
-        public void InitializeStorageTest()
+        public void TestInitialize()
         {
             DatabasePath = $"{Guid.NewGuid()}.db";
             Microsoft.AppCenter.Utils.Constants.AppCenterDatabasePath = DatabasePath;
