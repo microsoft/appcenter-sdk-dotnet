@@ -365,7 +365,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         /// Verify that we don't delete database if the error is not related to corruption.
         /// </summary>
         [TestMethod]
-        public async Task DontRecreateCorruptedDatabaseOnNotCorruptException()
+        public async Task DoNotRecreateCorruptedDatabaseOnNotCorruptException()
         {
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
             using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, _databasePath))
