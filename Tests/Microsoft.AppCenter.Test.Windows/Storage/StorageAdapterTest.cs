@@ -74,6 +74,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         [TestMethod]
         public void FailOnOpenDatabaseWithWrongName()
         {
+            var exceptionThrown = false;
             try
             {
                 _adapter.Initialize("test://test.txt");
@@ -81,7 +82,9 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             catch (Exception e)
             {
                 Assert.IsTrue(e.Message.Contains("Failed to open database connection"));
+                exceptionThrown = true;
             }
+            Assert.IsTrue(exceptionThrown);
         }
 
         /// <summary>
@@ -148,6 +151,18 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
                 exceptionThrown = true;
                 Assert.IsInstanceOfType(e, typeof(NotSupportedException));
                 Assert.AreEqual("Type System.Boolean not supported.", e.Message);
+            }
+            Assert.IsTrue(exceptionThrown);
+            exceptionThrown = false;
+            try
+            {
+                _adapter.Count(TableName, $"{ColumnChannelName}", 0.42d);
+            }
+            catch (Exception e)
+            {
+                exceptionThrown = true;
+                Assert.IsInstanceOfType(e, typeof(NotSupportedException));
+                Assert.AreEqual("Type System.Double not supported.", e.Message);
             }
             Assert.IsTrue(exceptionThrown);
         }
