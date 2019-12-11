@@ -56,6 +56,18 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Models
         [TestMethod]
         public void SaveStartServiceLog()
         {
+            Constants.AppCenterDatabasePath = "temp.db";
+            if (System.IO.File.Exists(Constants.AppCenterDatabasePath))
+            {
+                try
+                {
+                    System.IO.File.Delete(Constants.AppCenterDatabasePath);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
             var addedLog = new StartServiceLog
             {
                 Device = new DeviceInformationHelper().GetDeviceInformationAsync().RunNotAsync(),
