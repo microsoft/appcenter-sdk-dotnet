@@ -30,9 +30,9 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             {
                 System.IO.File.Delete(DatabasePath);
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine("Fail! {0}", e.Message);
+                // Db file might not exist or might fail to be deleted.
             }
             _adapter = new StorageAdapter();
         }
