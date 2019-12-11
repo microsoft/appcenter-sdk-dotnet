@@ -441,6 +441,7 @@ namespace Microsoft.AppCenter.Storage
         public void Dispose()
         {
             _queue.CompleteAdding();
+            _storageAdapter.Dispose();
         }
     }
 }
