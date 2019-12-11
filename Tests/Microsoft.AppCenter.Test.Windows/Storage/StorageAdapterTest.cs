@@ -242,7 +242,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         private void InsertMockDataToTable()
         {
             _adapter.Insert(TableName,
-                new[] {ColumnChannelName, ColumnLogName},
+                new[] { ColumnChannelName, ColumnLogName },
                 new List<object[]>
                 {
                     new object[] {StorageTestChannelName, ""}
