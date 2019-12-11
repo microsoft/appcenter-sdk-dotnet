@@ -125,15 +125,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             Assert.IsTrue(exceptionThrown);
             InitializeStorageAdapter();
             CreateTable();
-            try
-            {
-                // Try to get data after database initialization.
-                _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
-            }
-            catch
-            {
-                Assert.Fail("Unexpected exception thrown on count.");
-            }
+            _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
         }
 
         /// <summary>
@@ -203,15 +195,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             Assert.IsTrue(exceptionThrown);
             InitializeStorageAdapter();
             CreateTable();
-            try
-            {
-                // Try delete data after database initialize.
-                _adapter.Delete(TableName, ColumnChannelName, StorageTestChannelName);
-            }
-            catch
-            {
-                Assert.Fail("Unexpected exception thrown on delete.");
-            }
+            _adapter.Delete(TableName, ColumnChannelName, StorageTestChannelName);
         }
 
         /// <summary>
