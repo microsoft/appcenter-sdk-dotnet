@@ -108,7 +108,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         /// Verify that any exception thrown by a task is converted to a storage exception.
         /// </summary>
         [TestMethod]
-        public async Task UnknownExceptionIsConvertedToStorageException()
+        public void UnknownExceptionIsConvertedToStorageException()
         {
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
             using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, _databasePath))
@@ -116,16 +116,16 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
                 var exception = new Exception();
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Count(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<object>())).Throws(exception);
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(It.IsAny<string>(), It.IsAny<string[]>(), It.IsAny<IList<object[]>>())).Throws(exception);
-                await Assert.ThrowsExceptionAsync<StorageException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
-                await Assert.ThrowsExceptionAsync<StorageException>(() => storage.CountLogsAsync(StorageTestChannelName));
+                Assert.ThrowsException<StorageException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()).RunNotAsync());
+                Assert.ThrowsException<StorageException>(() => storage.CountLogsAsync(StorageTestChannelName).RunNotAsync());
             }
         }
 
         /// <summary>
-        /// Verify that any exception thrown by a task is returned as is if already storage exceptipn.
+        /// Verify that any exception thrown by a task is returned as is if already storage exception.
         /// </summary>
         [TestMethod]
-        public async Task KnownExceptionIsThrownAsIs()
+        public void KnownExceptionIsThrownAsIs()
         {
             var mockStorageAdapter = Mock.Of<IStorageAdapter>();
             var exception = new StorageException();
@@ -133,24 +133,10 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             {
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Count(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<object>())).Throws(exception);
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(It.IsAny<string>(), It.IsAny<string[]>(), It.IsAny<IList<object[]>>())).Throws(exception);
-                try
-                {
-                    await storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog());
-                    Assert.Fail("Should have thrown exception");
-                }
-                catch (Exception e)
-                {
-                    Assert.AreSame(exception, e);
-                }
-                try
-                {
-                    await storage.CountLogsAsync(StorageTestChannelName);
-                    Assert.Fail("Should have thrown exception");
-                }
-                catch (Exception e)
-                {
-                    Assert.AreSame(exception, e);
-                }
+                Assert.ThrowsException<StorageException>(() =>
+                    storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()).RunNotAsync());
+                Assert.ThrowsException<StorageException>(() =>
+                   storage.CountLogsAsync(StorageTestChannelName).RunNotAsync());
             }
         }
 

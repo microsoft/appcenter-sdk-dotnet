@@ -74,17 +74,8 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         [TestMethod]
         public void FailOnOpenDatabaseWithWrongName()
         {
-            var exceptionThrown = false;
-            try
-            {
-                _adapter.Initialize("test://test.txt");
-            }
-            catch (Exception e)
-            {
-                Assert.IsTrue(e.Message.Contains("Failed to open database connection"));
-                exceptionThrown = true;
-            }
-            Assert.IsTrue(exceptionThrown);
+            var exception = Assert.ThrowsException<StorageException>(() => _adapter.Initialize("test://test.txt"));
+            Assert.IsTrue(exception.Message.Contains("Failed to open database connection"));
         }
 
         /// <summary>
@@ -95,16 +86,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         {
             InitializeStorageAdapter();
             _adapter.Dispose();
-            var exceptionThrown = false;
-            try
-            {
-                CreateTable();
-            }
-            catch
-            {
-                exceptionThrown = true;
-            }
-            Assert.IsTrue(exceptionThrown);
+            Assert.ThrowsException<StorageException>(CreateTable);
         }
 
         /// <summary>
@@ -114,18 +96,8 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         public void DatabaseIsNotInitializedWhenCallCount()
         {
             // Prepare data.
-            var exceptionThrown = false;
-            try
-            {
-                // Try to get data before database initialization.
-                _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
-            }
-            catch (Exception e)
-            {
-                exceptionThrown = true;
-                Assert.AreEqual("The database wasn't initialized.", e.Message);
-            }
-            Assert.IsTrue(exceptionThrown);
+            var exception = Assert.ThrowsException<StorageException>(() => _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName));
+            Assert.AreEqual("The database wasn't initialized.", exception.Message);
             InitializeStorageAdapter();
             CreateTable();
             _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
@@ -141,30 +113,10 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             InitializeStorageAdapter();
             CreateTable();
             InsertMockDataToTable();
-            var exceptionThrown = false;
-            try
-            {
-                _adapter.Count(TableName, $"{ColumnChannelName}", true);
-            }
-            catch (Exception e)
-            {
-                exceptionThrown = true;
-                Assert.IsInstanceOfType(e, typeof(NotSupportedException));
-                Assert.AreEqual("Type System.Boolean not supported.", e.Message);
-            }
-            Assert.IsTrue(exceptionThrown);
-            exceptionThrown = false;
-            try
-            {
-                _adapter.Count(TableName, $"{ColumnChannelName}", 0.42d);
-            }
-            catch (Exception e)
-            {
-                exceptionThrown = true;
-                Assert.IsInstanceOfType(e, typeof(NotSupportedException));
-                Assert.AreEqual("Type System.Double not supported.", e.Message);
-            }
-            Assert.IsTrue(exceptionThrown);
+            var exception = Assert.ThrowsException<NotSupportedException>(() => _adapter.Count(TableName, $"{ColumnChannelName}", true));
+            Assert.IsTrue(exception.Message.Contains("System.Boolean"));
+            exception = Assert.ThrowsException<NotSupportedException>(() => _adapter.Count(TableName, $"{ColumnChannelName}", 0.42d));
+            Assert.IsTrue(exception.Message.Contains("System.Double"));
         }
 
         /// <summary>
@@ -173,19 +125,10 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         [TestMethod]
         public void FailToPrepareIncorrectDeleteQuery()
         {
-            var exceptionThrown = false;
-            string whereClause = $"{ColumnChannelName} = 'field-value'.";
+            var whereClause = $"{ColumnChannelName} = 'field-value'.";
             InitializeStorageAdapter();
-            try
-            {
-                _adapter.Delete(TableName, whereClause);
-            }
-            catch (Exception e)
-            {
-                exceptionThrown = true;
-                Assert.IsTrue(e.Message.Contains("Failed to prepare SQL query"));
-            }
-            Assert.IsTrue(exceptionThrown);
+            var exception = Assert.ThrowsException<StorageException>(() => _adapter.Delete(TableName, whereClause));
+            Assert.IsTrue(exception.Message.Contains("Failed to prepare SQL query"));
         }
 
         /// <summary>
@@ -195,19 +138,9 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         public void DeleteFailsBeforeStorageAdapterInitAndTablePrepare()
         {
             // Prepare data.
-            var exceptionThrown = false;
             const string exceptionMessage = "The database wasn't initialized.";
-            try
-            {
-                // Try get data before database initialize.
-                _adapter.Delete(TableName, ColumnChannelName, StorageTestChannelName);
-            }
-            catch (Exception e)
-            {
-                exceptionThrown = true;
-                Assert.AreEqual(exceptionMessage, e.Message);
-            }
-            Assert.IsTrue(exceptionThrown);
+            var exception = Assert.ThrowsException<StorageException>(() => _adapter.Delete(TableName, ColumnChannelName, StorageTestChannelName));
+            Assert.AreEqual(exceptionMessage, exception.Message);
             InitializeStorageAdapter();
             CreateTable();
             _adapter.Delete(TableName, ColumnChannelName, StorageTestChannelName);
@@ -268,14 +201,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         private void InitializeStorageAdapter()
         {
             Assert.IsFalse(System.IO.File.Exists(DatabasePath));
-            try
-            {
-                _adapter.Initialize(DatabasePath);
-            }
-            catch (Exception e)
-            {
-                Assert.Fail("Failed to initialize storage adapter: {0}", e.Message);
-            }
+            _adapter.Initialize(DatabasePath);
             Assert.IsTrue(System.IO.File.Exists(DatabasePath));
         }
 
