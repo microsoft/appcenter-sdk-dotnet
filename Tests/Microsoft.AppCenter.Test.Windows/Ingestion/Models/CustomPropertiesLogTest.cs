@@ -55,7 +55,18 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Models
                 },
                 Sid = Guid.NewGuid()
             };
-
+            Constants.AppCenterDatabasePath = "temp.db";
+            if (System.IO.File.Exists(Constants.AppCenterDatabasePath))
+            {
+                try
+                {
+                    System.IO.File.Delete(Constants.AppCenterDatabasePath);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
             var storage = new Microsoft.AppCenter.Storage.Storage();
             storage.DeleteLogs(StorageTestChannelName);
             storage.PutLog(StorageTestChannelName, addedLog);
