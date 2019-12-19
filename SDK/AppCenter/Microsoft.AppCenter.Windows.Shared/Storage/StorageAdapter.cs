@@ -85,7 +85,7 @@ namespace Microsoft.AppCenter.Storage
                 case raw.SQLITE_INTEGER:
                     return raw.sqlite3_column_int64(stmt, index);
                 case raw.SQLITE_TEXT:
-                    return raw.sqlite3_column_text(stmt, index);
+                    return raw.sqlite3_column_text(stmt, index).utf8_to_string();
             }
             AppCenterLog.Error(AppCenterLog.LogTag, $"Attempt to get unsupported column value {columnType}.");
             return null;
@@ -191,7 +191,7 @@ namespace Microsoft.AppCenter.Storage
 
         private StorageException ToStorageException(int result, string message)
         {
-            var errorMessage = raw.sqlite3_errmsg(_db);
+            var errorMessage = raw.sqlite3_errmsg(_db).utf8_to_string();
             var exceptionMessage = $"{message}, result={result}\n\t{errorMessage}";
             if (result == raw.SQLITE_CORRUPT || result == raw.SQLITE_NOTADB)
             {
