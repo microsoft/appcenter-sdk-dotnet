@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.6",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "6.2.8",
     "System.Reflection.Metadata": "1.7.0"
   },
   "frameworks": {

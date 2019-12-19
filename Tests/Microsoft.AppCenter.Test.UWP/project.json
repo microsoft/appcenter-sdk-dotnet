@@ -1,7 +1,7 @@
 ﻿{
   "dependencies": {
     "Microsoft.NET.Test.Sdk": "16.1.1",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.6",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "6.2.8",
     "Moq": "4.7.12",
     "MSTest.TestAdapter": "1.1.18",
     "MSTest.TestFramework": "1.1.18"
