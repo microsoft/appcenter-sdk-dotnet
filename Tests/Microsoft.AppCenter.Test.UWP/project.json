@@ -7,10 +7,11 @@
     "MSTest.TestFramework": "1.1.18"
   },
   "frameworks": {
-    "uap10.0.10240": {}
+    "uap10.0.16299": {}
   },
   "runtimes": {
     "win10-arm": {},
+    "win10-arm64": {},
     "win10-x86": {},
     "win10-x64": {}
   }
