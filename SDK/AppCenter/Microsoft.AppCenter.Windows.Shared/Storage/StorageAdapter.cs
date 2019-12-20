@@ -12,16 +12,20 @@ namespace Microsoft.AppCenter.Storage
     {
         private sqlite3 _db;
 
-        public void Initialize(string databasePath)
+        static StorageAdapter()
         {
             try
             {
-                raw.SetProvider(new SQLite3Provider_e_sqlite3());
+                Batteries_V2.Init();
             }
             catch (Exception e)
             {
-                throw new StorageException("Failed to initialize sqlite3 provider.", e);
+                AppCenterLog.Error(AppCenterLog.LogTag, "Failed to initialize sqlite3 provider.", e);
             }
+        }
+
+        public void Initialize(string databasePath)
+        {
             var result = raw.sqlite3_open(databasePath, out _db);
             if (result != raw.SQLITE_OK)
             {
