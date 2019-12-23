@@ -57,7 +57,7 @@
       <Project>{1e9ec0aa-3e32-4551-80c4-e4f3e53d7590}</Project>
       <Name>Microsoft.AppCenter.WindowsDesktop</Name>
     </ProjectReference>
-  </ItemGroup
+  </ItemGroup>
   <Import Project="..\Microsoft.AppCenter.Test.WindowsDesktop.Shared\Microsoft.AppCenter.Test.WindowsDesktop.Shared.projitems" Label="Shared" />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
