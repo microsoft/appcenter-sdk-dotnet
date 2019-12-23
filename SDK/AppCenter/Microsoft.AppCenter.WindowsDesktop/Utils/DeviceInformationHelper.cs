@@ -95,7 +95,7 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetAppVersion()
         {
-#if NET45
+#if NET461
             // Get ClickOnce version or fall back to assembly file version. ClickOnce does not exist on .NET Core.
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {
