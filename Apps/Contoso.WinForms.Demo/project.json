@@ -4,7 +4,7 @@
     "Microsoft.AppCenter.Crashes": "2.6.4"
   },
   "frameworks": {
-    "net45": {}
+    "net461": {}
   },
   "runtimes": {
     "win": {}
