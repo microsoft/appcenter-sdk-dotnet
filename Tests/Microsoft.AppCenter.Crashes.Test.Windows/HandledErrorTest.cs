@@ -49,6 +49,7 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
             {
                 // Try to clean up resources but don't fail the test if that throws an error.
                 _storageAdapter.Dispose();
+                _storageAdapter = null;
                 File.Delete(_storagePath);
             }
             catch

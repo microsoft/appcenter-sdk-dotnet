@@ -3,8 +3,11 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.AppCenter.Channel;
+using Microsoft.AppCenter.Ingestion.Http;
 using Microsoft.AppCenter.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Windows.ApplicationModel.Core;
 
 namespace Microsoft.AppCenter.Test.UWP
@@ -17,6 +20,18 @@ namespace Microsoft.AppCenter.Test.UWP
         [TestInitialize]
         public void InitializeAppCenterTest()
         {
+            // Mock the channel and group channel.
+            Mock<IChannelUnit> mockChannel = new Mock<IChannelUnit>();
+            Mock<IChannelGroup> mockGroup = new Mock<IChannelGroup>();
+            mockGroup.Setup(mock => mock.AddChannel(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<int>())).Returns(mockChannel.Object);
+
+            // Mock the channel group factory.
+            Mock<IChannelGroupFactory> mockGroupFactory = new Mock<IChannelGroupFactory>();
+            mockGroupFactory.Setup(mock => mock.CreateChannelGroup(It.IsAny<string>(), It.IsAny<INetworkStateAdapter>())).Returns(mockGroup.Object);
+            
+            // Replace the channel group factory on mock.
+            AppCenter.SetChannelGroupFactory(mockGroupFactory.Object);
+
             _unobservedTaskException = null;
             AppCenter.Instance = null;
             TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;

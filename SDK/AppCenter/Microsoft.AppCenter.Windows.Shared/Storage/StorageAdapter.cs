@@ -12,16 +12,20 @@ namespace Microsoft.AppCenter.Storage
     {
         private sqlite3 _db;
 
-        public void Initialize(string databasePath)
+        static StorageAdapter()
         {
             try
             {
-                raw.SetProvider(new SQLite3Provider_e_sqlite3());
+                Batteries_V2.Init();
             }
             catch (Exception e)
             {
-                throw new StorageException("Failed to initialize sqlite3 provider.", e);
+                AppCenterLog.Error(AppCenterLog.LogTag, "Failed to initialize sqlite3 provider.", e);
             }
+        }
+
+        public void Initialize(string databasePath)
+        {
             var result = raw.sqlite3_open(databasePath, out _db);
             if (result != raw.SQLITE_OK)
             {
@@ -85,7 +89,7 @@ namespace Microsoft.AppCenter.Storage
                 case raw.SQLITE_INTEGER:
                     return raw.sqlite3_column_int64(stmt, index);
                 case raw.SQLITE_TEXT:
-                    return raw.sqlite3_column_text(stmt, index);
+                    return raw.sqlite3_column_text(stmt, index).utf8_to_string();
             }
             AppCenterLog.Error(AppCenterLog.LogTag, $"Attempt to get unsupported column value {columnType}.");
             return null;
@@ -191,7 +195,7 @@ namespace Microsoft.AppCenter.Storage
 
         private StorageException ToStorageException(int result, string message)
         {
-            var errorMessage = raw.sqlite3_errmsg(_db);
+            var errorMessage = raw.sqlite3_errmsg(_db).utf8_to_string();
             var exceptionMessage = $"{message}, result={result}\n\t{errorMessage}";
             if (result == raw.SQLITE_CORRUPT || result == raw.SQLITE_NOTADB)
             {
