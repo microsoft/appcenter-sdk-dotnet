@@ -51,7 +51,7 @@ namespace Microsoft.AppCenter.Storage
         /// <summary>
         /// Creates an instance of Storage.
         /// </summary>
-        public Storage() : this(DefaultAdapter(), Path.Combine(Constants.AppCenterFilesDirectoryPath, Constants.AppCenterDatabasePath))
+        public Storage() : this(DefaultAdapter(), Path.Combine(Constants.LocalAppData, Constants.AppCenterDatabasePath))
         {
         }
 
