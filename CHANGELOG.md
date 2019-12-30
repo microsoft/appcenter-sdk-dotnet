@@ -2,6 +2,10 @@
 
 ## Version 2.6.5 （Under development）
 
+### App Center
+
+* **[Feature]** Support ARM64 architecture.
+
 ___
 
 ## Version 2.6.4
