@@ -7,12 +7,20 @@
   <ItemGroup>
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991265" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SDK\AppCenter\Microsoft.AppCenter\Microsoft.AppCenter.csproj" />
     <ProjectReference Include="..\..\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics\Microsoft.AppCenter.Analytics.csproj" />
+    <ProjectReference Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute\Microsoft.AppCenter.Distribute.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Analytics\" />
+    <Folder Include="Distribute\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Android">
+      <HintPath>..\..\..\..\..\..\Library\Frameworks\Xamarin.Android.framework\Versions\10.0.6.2\lib\xamarin.android\xbuild-frameworks\MonoAndroid\v8.0\Mono.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
