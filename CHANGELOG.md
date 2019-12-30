@@ -4,7 +4,7 @@
 
 ### App Center
 
-* **[Feature]** Support ARM64 architecture.
+* **[Feature]** Support ARM64 architecture. .Net Framework updated to 4.6.1. Microsoft.NETCore.UniversalWindowsPlatform updated to 6.2.8. UWP min version updated to 10.0.16299.0.
 
 ___
 
