@@ -90,6 +90,18 @@ namespace Microsoft.AppCenter.Test.UWP
             // No exceptions are thrown.
         }
 
+        [TestMethod]
+        public void TestCorrectDatabasePathPassedFromStorageInitialization()
+        {
+            using (var storageMock = new Storage.Storage())
+            {
+                storageMock.WaitOperationsAsync(TimeSpan.FromSeconds(10)).Wait();
+                var actual = typeof(Storage.Storage).GetField("_databasePath", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(storageMock);
+                var expected = Constants.AppCenterDatabasePath;
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
         /// <summary>
         /// Start service after unhandled exception
         /// </summary>
