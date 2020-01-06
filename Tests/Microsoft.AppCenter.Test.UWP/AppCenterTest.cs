@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Channel;
 using Microsoft.AppCenter.Ingestion.Http;
@@ -28,7 +29,7 @@ namespace Microsoft.AppCenter.Test.UWP
             // Mock the channel group factory.
             Mock<IChannelGroupFactory> mockGroupFactory = new Mock<IChannelGroupFactory>();
             mockGroupFactory.Setup(mock => mock.CreateChannelGroup(It.IsAny<string>(), It.IsAny<INetworkStateAdapter>())).Returns(mockGroup.Object);
-            
+
             // Replace the channel group factory on mock.
             AppCenter.SetChannelGroupFactory(mockGroupFactory.Object);
 
@@ -88,6 +89,23 @@ namespace Microsoft.AppCenter.Test.UWP
             Task.Delay(100).Wait();
 
             // No exceptions are thrown.
+        }
+
+        [TestMethod]
+        public void TestCorrectDatabasePathPassedFromStorageInitialization()
+        {
+            // Make sure database does not exist before test.
+            if (File.Exists(Constants.AppCenterDatabasePath))
+            {
+                File.Delete(Constants.AppCenterDatabasePath);
+            }
+            using (var storageMock = new Storage.Storage())
+            {
+                storageMock.WaitOperationsAsync(TimeSpan.FromSeconds(10)).Wait();
+
+                // Verify that database is created inside local app data folder, and not locally.
+                Assert.IsTrue(File.Exists(Path.Combine(Constants.LocalAppData, Constants.AppCenterDatabaseFilename)));
+            }
         }
 
         /// <summary>
