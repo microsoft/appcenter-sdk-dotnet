@@ -4,7 +4,8 @@
 
 ### App Center
 
-* **[Feature]** Support ARM64 architecture. .Net Framework updated to 4.6.1. Microsoft.NETCore.UniversalWindowsPlatform updated to 6.2.8. UWP min version updated to 10.0.16299.0.
+* **[Feature]** Support ARM64 architecture for UWP platform.
+* **[Breaking change]** Bump minimal versions: .NET Framework to 4.6.1 for WPF projects and minimal OS version to 16299 for UWP projects.
 
 ___
 
