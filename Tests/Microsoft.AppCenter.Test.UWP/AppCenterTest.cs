@@ -94,7 +94,7 @@ namespace Microsoft.AppCenter.Test.UWP
         [TestMethod]
         public void TestCorrectDatabasePathPassedFromStorageInitialization()
         {
-            // Make sure database does not exist before test
+            // Make sure database does not exist before test.
             if (File.Exists(Constants.AppCenterDatabasePath))
             {
                 File.Delete(Constants.AppCenterDatabasePath);
@@ -103,7 +103,7 @@ namespace Microsoft.AppCenter.Test.UWP
             {
                 storageMock.WaitOperationsAsync(TimeSpan.FromSeconds(10)).Wait();
 
-                // Verify that database is created inside local app data folder, and not locally
+                // Verify that database is created inside local app data folder, and not locally.
                 Assert.IsTrue(File.Exists(Path.Combine(Constants.LocalAppData, Constants.AppCenterDatabaseFilename)));
             }
         }
