@@ -5,7 +5,7 @@
 ### App Center
 
 * **[Feature]** Support ARM64 architecture for UWP platform.
-* **[Breaking change]** Bump minimal versions: .NET Framework to 4.6.1 for WPF projects and minimal OS version to 16299 for UWP projects.
+* **[Breaking change]** Bump minimal versions: .NET Framework to 4.6.1 for WPF/WinForms projects and minimal OS version to 16299 for UWP projects.
 
 ___
 
