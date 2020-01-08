@@ -108,6 +108,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.UWP.Demo", "Apps\Contoso.UWP.Demo\Contoso.UWP.Demo.csproj", "{612D30FE-E1F1-4CEE-8256-911C03A16890}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.UWP.Puppet", "Apps\Contoso.UWP.Puppet\Contoso.UWP.Puppet.csproj", "{2F81AF7B-06FC-4163-859A-979F375330FF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6} = {A42BE92C-616D-4333-9F6A-D05BA547BFC6}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.WinForms.Demo", "Apps\Contoso.WinForms.Demo\Contoso.WinForms.Demo.csproj", "{9C1FB3A1-383A-49F4-8DB1-07B495B3136A}"
 EndProject
@@ -128,6 +131,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Test.WindowsDesktop.NetCore", "Tests\Microsoft.AppCenter.Test.WindowsDesktop.NetCore\Microsoft.AppCenter.Test.WindowsDesktop.NetCore.csproj", "{2FFFF8C2-E190-4B83-9AD8-19F0E2AC6088}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Test.WindowsDesktop.Shared", "Tests\Microsoft.AppCenter.Test.WindowsDesktop.Shared\Microsoft.AppCenter.Test.WindowsDesktop.Shared.shproj", "{09F38506-8DEF-431D-A749-DF7E73A719F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.UtilClassLibrary", "Apps\Contoso.UtilClassLibrary\Contoso.UtilClassLibrary.csproj", "{A42BE92C-616D-4333-9F6A-D05BA547BFC6}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -970,6 +975,26 @@ Global
 		{2FFFF8C2-E190-4B83-9AD8-19F0E2AC6088}.Release|x64.Build.0 = Release|Any CPU
 		{2FFFF8C2-E190-4B83-9AD8-19F0E2AC6088}.Release|x86.ActiveCfg = Release|Any CPU
 		{2FFFF8C2-E190-4B83-9AD8-19F0E2AC6088}.Release|x86.Build.0 = Release|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|ARM.Build.0 = Debug|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|x64.Build.0 = Debug|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|x86.Build.0 = Debug|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|ARM.ActiveCfg = Release|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|ARM.Build.0 = Release|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|ARM64.Build.0 = Release|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|x64.ActiveCfg = Release|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|x64.Build.0 = Release|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|x86.ActiveCfg = Release|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1035,6 +1060,7 @@ Global
 		{C795494B-561C-4668-93CC-6BB4CA78A70F} = {AA6821F3-930A-49E4-BA3F-D68255F39F1E}
 		{2FFFF8C2-E190-4B83-9AD8-19F0E2AC6088} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
 		{09F38506-8DEF-431D-A749-DF7E73A719F0} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6} = {AA6821F3-930A-49E4-BA3F-D68255F39F1E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {328868E2-F749-412D-B82F-84A683A1719C}

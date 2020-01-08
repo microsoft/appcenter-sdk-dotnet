@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using Contoso.UtilClassLibrary;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using System;
@@ -75,6 +76,11 @@ namespace Contoso.UWP.Puppet
                 await Task.Run(() => { });
                 await GenerateComplexException(loop - 1);
             }
+        }
+
+        private void ClassLibraryException_Click(object sender, RoutedEventArgs e)
+        {
+            CrashUtils.BackgroundExceptionTask().RunSynchronously();
         }
     }
 }
