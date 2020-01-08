@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using Contoso.UtilClassLibrary;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using System;
@@ -41,6 +42,10 @@ namespace Contoso.UWP.Demo
             // Also this app uses min SDK version to 10240, which changes the .NET native generated code to have missing symbols for handled errors.
             // Handled errors in the forms app never hit that case because we need to use v16299 there.
             await GenerateComplexException(2);
+        }
+        private void ClassLibraryException_Click(object sender, RoutedEventArgs e)
+        {
+            CrashUtils.BackgroundExceptionTask().RunSynchronously();
         }
 
         private async Task GenerateComplexException(int loop)

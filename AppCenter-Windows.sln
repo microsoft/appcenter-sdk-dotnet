@@ -117,8 +117,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.WinForms.Puppet", "Apps\Contoso.WinForms.Puppet\Contoso.WinForms.Puppet.csproj", "{44E1971C-3399-4C88-AFE5-54EB53737D31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.WPF.Demo", "Apps\Contoso.WPF.Demo\Contoso.WPF.Demo.csproj", "{AA7C64B6-2E77-4DA5-95ED-AA367D004A8F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6} = {A42BE92C-616D-4333-9F6A-D05BA547BFC6}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.WPF.Puppet", "Apps\Contoso.WPF.Puppet\Contoso.WPF.Puppet.csproj", "{951ABE8D-7AF6-4162-8639-E78B022B1048}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6} = {A42BE92C-616D-4333-9F6A-D05BA547BFC6}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contoso.WPF.Puppet.DotNetCore", "Apps\Contoso.WPF.Puppet.DotNetCore\Contoso.WPF.Puppet.DotNetCore.csproj", "{2A33F9A9-0E74-4CA3-B930-A7E153D54252}"
 EndProject
@@ -132,7 +138,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Test.Wi
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Test.WindowsDesktop.Shared", "Tests\Microsoft.AppCenter.Test.WindowsDesktop.Shared\Microsoft.AppCenter.Test.WindowsDesktop.Shared.shproj", "{09F38506-8DEF-431D-A749-DF7E73A719F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.UtilClassLibrary", "Apps\Contoso.UtilClassLibrary\Contoso.UtilClassLibrary.csproj", "{A42BE92C-616D-4333-9F6A-D05BA547BFC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contoso.UtilClassLibrary", "Apps\Contoso.UtilClassLibrary\Contoso.UtilClassLibrary.csproj", "{A42BE92C-616D-4333-9F6A-D05BA547BFC6}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -981,6 +987,10 @@ Global
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|ARM.Build.0 = Debug|Any CPU
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|ARM64.ActiveCfg = Debug|Any CPU
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|x64.Build.0 = Debug|Any CPU
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -991,6 +1001,10 @@ Global
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|ARM.Build.0 = Release|Any CPU
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|ARM64.ActiveCfg = Release|Any CPU
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|ARM64.Build.0 = Release|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|iPhone.Build.0 = Release|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|x64.ActiveCfg = Release|Any CPU
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|x64.Build.0 = Release|Any CPU
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|x86.ActiveCfg = Release|Any CPU

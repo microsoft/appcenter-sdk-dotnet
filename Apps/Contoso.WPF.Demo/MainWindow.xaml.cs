@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
@@ -11,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Contoso.UtilClassLibrary;
 using Contoso.WPF.Demo.Properties;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
@@ -242,6 +242,11 @@ namespace Contoso.WPF.Demo
             {
                 TrackException(ex);
             }
+        }
+
+        private void ClassLibraryException_Click(object sender, RoutedEventArgs e)
+        {
+            CrashUtils.BackgroundExceptionTask().RunSynchronously();
         }
 
         private static class FakeService

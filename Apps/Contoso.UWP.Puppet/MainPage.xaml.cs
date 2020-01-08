@@ -44,6 +44,11 @@ namespace Contoso.UWP.Puppet
             await GenerateComplexException(2);
         }
 
+        private void ClassLibraryException_Click(object sender, RoutedEventArgs e)
+        {
+            CrashUtils.BackgroundExceptionTask().RunSynchronously();
+        }
+
         private async Task GenerateComplexException(int loop)
         {
             if (loop == 0)
@@ -76,11 +81,6 @@ namespace Contoso.UWP.Puppet
                 await Task.Run(() => { });
                 await GenerateComplexException(loop - 1);
             }
-        }
-
-        private void ClassLibraryException_Click(object sender, RoutedEventArgs e)
-        {
-            CrashUtils.BackgroundExceptionTask().RunSynchronously();
         }
     }
 }
