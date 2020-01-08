@@ -22,7 +22,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Distribute.UnsetInstance();
 
             // Prepare data.
-            var url = $"appcenter://updates/?request_id={"test"}?distribution_group_id={DistributionGroupId}?update_token={"test"}?update_setup_failed={"test"}?tester_app_update_setup_failed={"test"}";
+            var url = $"appcenter://updates?request_id=test&distribution_group_id=test123&update_token=test";//&update_setup_failed=\"false\"&tester_app_update_setup_failed={"false"}";
 
             // Start App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
@@ -32,9 +32,11 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             await Distribute.IsEnabledAsync();
 
             // Open deep link uri.
-            Task.Run(() => { Xamarin.Forms.Device.OpenUri(new Uri(url)); }).Wait(1000);
+            Task.Run(() => { Xamarin.Forms.Device.OpenUri(new Uri(url)); }).Wait();
+            Task.Delay(1000).Wait();
+
             // Wait for processing event.
-            await httpNetworkAdapter.HttpResponseTask;
+            httpNetworkAdapter.HttpResponseTask.Wait(1000);
 
             // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
             Assert.Equal("GET", httpNetworkAdapter.Method);
