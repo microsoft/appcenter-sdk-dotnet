@@ -165,6 +165,10 @@
       <Project>{15e3fc9b-7714-4468-a296-81627a5b8f01}</Project>
       <Name>Microsoft.AppCenter.UWP</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Contoso.UtilClassLibrary\Contoso.UtilClassLibrary.csproj">
+      <Project>{A42BE92C-616D-4333-9F6A-D05BA547BFC6}</Project>
+      <Name>Contoso.UtilClassLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">

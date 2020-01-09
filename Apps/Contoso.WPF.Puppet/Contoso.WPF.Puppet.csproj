@@ -122,6 +122,10 @@
       <Project>{1e9ec0aa-3e32-4551-80c4-e4f3e53d7590}</Project>
       <Name>Microsoft.AppCenter.WindowsDesktop</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Contoso.UtilClassLibrary\Contoso.UtilClassLibrary.csproj">
+      <Project>{A42BE92C-616D-4333-9F6A-D05BA547BFC6}</Project>
+      <Name>Contoso.UtilClassLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
