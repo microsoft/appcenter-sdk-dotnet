@@ -48,6 +48,9 @@
             <ViewCell Tapped="AsyncException">
                 <Button Text="Exception Inside Async Task" InputTransparent="true" Clicked="AsyncException" />
             </ViewCell>
+            <ViewCell Tapped="ClassLibException">
+                <Button Text="Exception Inside Another Lib" InputTransparent="true" Clicked="ClassLibException" />
+            </ViewCell>
         </TableSection>
         <TableSection Title="Memory warning">
             <ViewCell>

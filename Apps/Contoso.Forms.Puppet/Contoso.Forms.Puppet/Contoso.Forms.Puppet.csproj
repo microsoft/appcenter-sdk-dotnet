@@ -53,6 +53,7 @@
       <Project>{7FE5A0E2-B042-40CA-87FF-FA0CB10A6910}</Project>
       <Name>Microsoft.AppCenter.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Contoso.UtilClassLibrary\Contoso.UtilClassLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="AddPropertyContentPage.xaml">

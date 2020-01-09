@@ -43,9 +43,17 @@ namespace Contoso.UWP.Demo
             // Handled errors in the forms app never hit that case because we need to use v16299 there.
             await GenerateComplexException(2);
         }
-        private void ClassLibraryException_Click(object sender, RoutedEventArgs e)
+
+        private void ClassLibraryException(object sender, RoutedEventArgs e)
         {
-            CrashUtils.BackgroundExceptionTask().RunSynchronously();
+            try
+            {
+                CrashUtils.BackgroundExceptionTask().RunSynchronously();
+            }
+            catch (Exception ex) when (HandleExceptions.IsOn)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async Task GenerateComplexException(int loop)
