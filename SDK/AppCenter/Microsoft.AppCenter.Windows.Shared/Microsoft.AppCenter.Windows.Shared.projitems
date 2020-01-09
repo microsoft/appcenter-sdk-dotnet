@@ -61,6 +61,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Storage\IStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\Storage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\StorageException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\StorageCorruptedException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\AbstractDeviceInformationHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\CultureInfoHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Files\Directory.cs" />
