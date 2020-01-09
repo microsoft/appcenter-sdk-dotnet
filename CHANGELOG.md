@@ -6,6 +6,7 @@
 
 * **[Feature]** Support ARM64 architecture for UWP platform.
 * **[Breaking change]** Bump minimal versions: .NET Framework to 4.6.1 for WPF/WinForms projects and minimal OS version to 16299 for UWP projects.
+* **[Dependency changes]** Update `SQLitePCLRaw.bundle_green` dependency to version `2.0.2` and remove dependency from `sqlite-net-pcl`.
 
 ___
 
