@@ -4,14 +4,17 @@
 
 ### App Center
 
-
 #### UWP
 
 * **[Feature]** Support ARM64 architecture.
+* **[Breaking change]** The target platform minimum version is now `10.0.16299.0`. 
+
+#### WPF/WinForms
+
+* **[Breaking change]** The minimum supported version of .NET Framework is now `4.6.1`.
 
 #### UWP/WPF/WinForms
 
-* **[Breaking change]** Bump minimal versions: .NET Framework to 4.6.1 for WPF/WinForms projects and minimal OS version to 16299 for UWP projects.
 * **[Dependency changes]** Update `SQLitePCLRaw.bundle_green` dependency to version `2.0.2` and remove dependency from `sqlite-net-pcl`.
 
 ___
