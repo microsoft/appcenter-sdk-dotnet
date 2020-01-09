@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
-using Windows.ApplicationModel;
+using System.Runtime.InteropServices;
 using Windows.System.Diagnostics;
 
 namespace Microsoft.AppCenter.Crashes.Utils
@@ -19,6 +19,10 @@ namespace Microsoft.AppCenter.Crashes.Utils
 
         public string ParentProcessName => ProcessDiagnosticInfo.GetForCurrentProcess().Parent?.ExecutableFileName;
 
-        public string ProcessArchitecture => Package.Current.Id.Architecture.ToString();
+        /// <remarks>
+        /// ARM64 was added to ProcessorArchitecture enum (that can be received by Package.Current.Id.Architecture call) only in SDK version 18362, 
+        /// so casting to string is incorrect on lower versions.
+        /// </remarks>
+        public string ProcessArchitecture => RuntimeInformation.ProcessArchitecture.ToString();
     }
 }

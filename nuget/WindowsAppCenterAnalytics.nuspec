@@ -25,8 +25,8 @@
     <file src="$uwp_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/uap10.0" />
 
     <!-- WindowsDesktop (WPF and WinForms) for .NET Framework -->
-    <file src="$windows_desktop_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net45" />
-    <file src="$windows_desktop_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net45" />
+    <file src="$windows_desktop_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net461" />
+    <file src="$windows_desktop_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net461" />
 
     <!-- WindowsDesktop (WPF and WinForms) for .NET Core -->
     <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/netcoreapp3.0" />

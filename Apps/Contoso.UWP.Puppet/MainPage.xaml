@@ -10,7 +10,8 @@
     <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="50">
         <Button Content="Track event" Click="TrackEvent" />
         <StackPanel Orientation="Horizontal">
-            <Button Content="Throw exception" Click="ThrowException" />
+            <Button Content="Throw exception" Click="ThrowException"/>
+            <Button Content="Class library exception" Click="ClassLibraryException" Margin="20,0,0,0" />
             <ToggleSwitch Header="Handle all exceptions" x:Name="HandleExceptions" Margin="20,0,0,0" />
         </StackPanel>
     </StackPanel>

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Contoso.UtilClassLibrary;
 using Contoso.WPF.Puppet.Properties;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
@@ -242,6 +243,11 @@ namespace Contoso.WPF.Puppet
             {
                 TrackException(ex);
             }
+        }
+
+        private void ClassLibraryException_Click(object sender, RoutedEventArgs e)
+        {
+            CrashUtils.BackgroundExceptionTask().RunSynchronously();
         }
 
         private static class FakeService

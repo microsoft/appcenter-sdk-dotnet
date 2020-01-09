@@ -2,9 +2,13 @@
 // Licensed under the MIT License.
 
 using System;
+using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AppCenter.Channel;
+using Microsoft.AppCenter.Ingestion.Http;
 using Microsoft.AppCenter.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Windows.ApplicationModel.Core;
 
 namespace Microsoft.AppCenter.Test.UWP
@@ -17,6 +21,18 @@ namespace Microsoft.AppCenter.Test.UWP
         [TestInitialize]
         public void InitializeAppCenterTest()
         {
+            // Mock the channel and group channel.
+            var mockChannel = new Mock<IChannelUnit>();
+            var mockGroup = new Mock<IChannelGroup>();
+            mockGroup.Setup(mock => mock.AddChannel(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<int>())).Returns(mockChannel.Object);
+
+            // Mock the channel group factory.
+            var mockGroupFactory = new Mock<IChannelGroupFactory>();
+            mockGroupFactory.Setup(mock => mock.CreateChannelGroup(It.IsAny<string>(), It.IsAny<INetworkStateAdapter>())).Returns(mockGroup.Object);
+
+            // Replace the channel group factory on mock.
+            AppCenter.SetChannelGroupFactory(mockGroupFactory.Object);
+
             _unobservedTaskException = null;
             AppCenter.Instance = null;
             TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
@@ -73,6 +89,23 @@ namespace Microsoft.AppCenter.Test.UWP
             Task.Delay(100).Wait();
 
             // No exceptions are thrown.
+        }
+
+        [TestMethod]
+        public void TestCorrectDatabasePathPassedFromStorageInitialization()
+        {
+            // Make sure database does not exist before test.
+            if (File.Exists(Constants.AppCenterDatabasePath))
+            {
+                File.Delete(Constants.AppCenterDatabasePath);
+            }
+            using (var storageMock = new Storage.Storage())
+            {
+                storageMock.WaitOperationsAsync(TimeSpan.FromSeconds(10)).Wait();
+
+                // Verify that database is created inside local app data folder, and not locally.
+                Assert.IsTrue(File.Exists(Path.Combine(Constants.LocalAppData, Constants.AppCenterDatabaseFilename)));
+            }
         }
 
         /// <summary>
