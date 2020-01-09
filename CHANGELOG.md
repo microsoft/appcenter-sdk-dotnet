@@ -7,7 +7,7 @@
 #### UWP
 
 * **[Feature]** Support ARM64 architecture.
-* **[Breaking change]** The target platform minimum version is now `10.0.16299.0`. 
+* **[Breaking change]** The minimum supported Window 10 version is now `10.0.16299.0`.
 
 #### WPF/WinForms
 
