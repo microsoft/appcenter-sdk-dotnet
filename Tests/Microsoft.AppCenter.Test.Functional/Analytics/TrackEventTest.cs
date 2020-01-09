@@ -10,6 +10,7 @@ using Xunit;
 namespace Microsoft.AppCenter.Test.Functional.Analytics
 {
     using Analytics = Microsoft.AppCenter.Analytics.Analytics;
+    using AppCenter = Microsoft.AppCenter.AppCenter;
 
     public class TrackEventTest
     {
