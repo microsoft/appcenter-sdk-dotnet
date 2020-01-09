@@ -22,12 +22,12 @@ namespace Microsoft.AppCenter.Test.UWP
         public void InitializeAppCenterTest()
         {
             // Mock the channel and group channel.
-            Mock<IChannelUnit> mockChannel = new Mock<IChannelUnit>();
-            Mock<IChannelGroup> mockGroup = new Mock<IChannelGroup>();
+            var mockChannel = new Mock<IChannelUnit>();
+            var mockGroup = new Mock<IChannelGroup>();
             mockGroup.Setup(mock => mock.AddChannel(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<int>())).Returns(mockChannel.Object);
 
             // Mock the channel group factory.
-            Mock<IChannelGroupFactory> mockGroupFactory = new Mock<IChannelGroupFactory>();
+            var mockGroupFactory = new Mock<IChannelGroupFactory>();
             mockGroupFactory.Setup(mock => mock.CreateChannelGroup(It.IsAny<string>(), It.IsAny<INetworkStateAdapter>())).Returns(mockGroup.Object);
 
             // Replace the channel group factory on mock.
