@@ -11,8 +11,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\SDK\AppCenter\Microsoft.AppCenter\Microsoft.AppCenter.csproj" />
     <ProjectReference Include="..\..\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics\Microsoft.AppCenter.Analytics.csproj" />
+    <ProjectReference Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes\Microsoft.AppCenter.Crashes.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Analytics\" />
+    <Folder Include="Crashes\" />
   </ItemGroup>
 </Project>
