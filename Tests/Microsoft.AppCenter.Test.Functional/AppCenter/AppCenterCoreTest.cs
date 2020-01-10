@@ -126,5 +126,65 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             }
             Assert.Equal(1, httpNetworkAdapter.CallCount);
         }
+
+        [Fact]
+        public async Task CustomPropertiesClearTest()
+        {
+
+            // Set up HttpNetworkAdapter.
+            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "customProperties");
+            DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+
+            // Start App Center.
+            AppCenter.UnsetInstance();
+            Analytics.UnsetInstance();
+            AppCenter.LogLevel = LogLevel.Verbose;
+            AppCenter.Start(_appSecret, typeof(Analytics));
+
+            // Enable Appcenter.
+            await AppCenter.SetEnabledAsync(true);
+
+            // Verify enabled.
+            var isEnabled = await AppCenter.IsEnabledAsync();
+            var isEnabledAnalytics = await Analytics.IsEnabledAsync();
+            Assert.True(isEnabled);
+            Assert.True(isEnabledAnalytics);
+
+            // Set custom properties.
+            var propertiesDictionary = new Dictionary<string, object>
+            {
+                { "keyBoolean", true },
+                { "keyString", "value" },
+                { "keyInt", 42 },
+                { "keyDateTime", new DateTime() },
+            };
+
+            // Clear custom properties.
+            var customPropertiesClear = new CustomProperties();
+            foreach (var item in propertiesDictionary)
+            {
+                customPropertiesClear.Clear(item.Key);
+            }
+            AppCenter.SetCustomProperties(customPropertiesClear);
+
+            // Wait for processing event.
+            await httpNetworkAdapter.HttpResponseTask;
+            Assert.Equal("POST", httpNetworkAdapter.Method);
+            var eventLogsClear = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'customProperties')]").ToList();
+
+            // Verify the log sctructure.
+            Assert.Equal(1, eventLogsClear.Count());
+            var eventLogClear = eventLogsClear[0];
+            var propertiesClear = eventLogClear["properties"];
+            Assert.NotNull(propertiesClear);
+            Assert.Equal(4, propertiesClear.Count());
+
+            // Verify initial dictionary has the values.
+            foreach (var item in propertiesClear)
+            {
+                Assert.Equal((string)item.SelectToken("type"), "clear");
+            }
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
+        }
     }
 }
