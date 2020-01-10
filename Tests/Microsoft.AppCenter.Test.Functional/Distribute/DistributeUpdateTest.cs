@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 using Xunit;
 
 namespace Microsoft.AppCenter.Test.Functional.Distribute
@@ -15,15 +17,20 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         [Fact]
         public async Task FreshInstallAsync()
         {
-            // Reset instance.
-            AppCenter.UnsetInstance();
-            var httpNetworkAdapter = new HttpNetworkAdapter();
-            DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            // Distribute.UnsetInstance();
-
             // Prepare data.
-            var url = $"appcenter://updates?request_id=test&distribution_group_id=test123&update_token=test";//&update_setup_failed=\"false\"&tester_app_update_setup_failed={"false"}";
+            // TODO add url for iOS.
+            var url = "";
 
+            // Setup network adapter.
+            // distributionStartSession
+            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "startSession");
+            DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+
+            // Reset instance.
+            // TODO add UnsetInstance to Distribute.
+            // Distribute.UnsetInstance();
+            AppCenter.UnsetInstance();
+            
             // Start App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(_appSecret, typeof(Distribute));
@@ -33,17 +40,15 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
             // Open deep link uri.
             Task.Run(() => { Xamarin.Forms.Device.OpenUri(new Uri(url)); }).Wait();
-            Task.Delay(1000).Wait();
+            Task.Delay(5000).Wait();
 
             // Wait for processing event.
-            httpNetworkAdapter.HttpResponseTask.Wait(1000);
+            await httpNetworkAdapter.HttpResponseTask;
 
             // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
-            Assert.Equal("GET", httpNetworkAdapter.Method);
-            Assert.Contains(DistributionGroupId, httpNetworkAdapter.Uri);
-            // Verify distribution group id value.
-            //   Assert.True(Xamarin.Forms.Application.Current.Properties.ContainsKey(PrefKeyDistributionGroupId));
-            // Assert.Equal(Xamarin.Forms.Application.Current.Properties[PrefKeyDistributionGroupId] as string, "test");
+            Assert.Equal("POST", httpNetworkAdapter.Method);
+            var eventLogs = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'distributionStartSession')]").ToList();
+            Assert.Equal(1, eventLogs.Count());
         }
     }
 }
