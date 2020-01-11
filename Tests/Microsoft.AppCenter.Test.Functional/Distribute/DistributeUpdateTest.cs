@@ -14,7 +14,11 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
         private readonly string _installId = Guid.NewGuid().ToString();
 
+        private readonly string _distributionGroupId = Guid.NewGuid().ToString();
+
         private static string _requestId = "b627efb5-dbf7-4350-92e4-b6ac4dbd09b0";
+
+        private static string _package = "com.contoso.test.functional";
 
         [Fact]
         public async Task FreshInstallAsync()
@@ -22,8 +26,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Prepare data.
             var prefs = Application.Current.Properties["Distribute.request_id"] = _requestId;
 
-            // TODO add url for iOS.
-            var androidUrl = $"https://install.portal-server-core-integration.dev.avalanch.es/apps/{_appSecret}/update-setup/?release_hash=adce58cd69799c982a19d427dadc9142772e62ca3462d11a6237493b4d0456ca&redirect_id=com.contoso.test.functional&redirect_scheme=appcenter-{_appSecret}&request_id={_requestId}&platform=android&enable_failure_redirect=true&install_id={_installId}";
+            var androidUrl = $"intent://updates/#Intent;scheme=appcenter;package={_package};S.distribution_group_id={_distributionGroupId};S.request_id={_requestId};end";
             var iosUrl = $"appcenter-{_appSecret}://?request_id=${_requestId}&distribution_group_id={Guid.NewGuid().ToString()}";
 
             // Setup network adapter.
@@ -44,7 +47,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             await Distribute.IsEnabledAsync();
 
             Xamarin.Forms.Device.BeginInvokeOnMainThread(() => {
-                Xamarin.Forms.Device.OpenUri(new Uri(url));
+                Xamarin.Forms.Device.OpenUri(new Uri(Xamarin.Forms.Device.RuntimePlatform == "iOS" ? iosUrl : androidUrl));
             });
 
             // Open deep link uri.
