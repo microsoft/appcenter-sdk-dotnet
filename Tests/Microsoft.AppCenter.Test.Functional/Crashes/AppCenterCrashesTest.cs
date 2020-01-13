@@ -21,6 +21,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
 
             // Start App Center.
             AppCenter.UnsetInstance();
+            Crashes.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(_appSecret, typeof(Crashes));
 
@@ -35,6 +36,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
 
             // Restart SDK.
             AppCenter.UnsetInstance();
+            Crashes.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(_appSecret, typeof(Crashes));
 
@@ -55,6 +57,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
 
             // Restart SDK.
             AppCenter.UnsetInstance();
+            Crashes.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(_appSecret, typeof(Crashes));
 
