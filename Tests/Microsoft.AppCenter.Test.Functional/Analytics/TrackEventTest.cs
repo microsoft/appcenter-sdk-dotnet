@@ -92,7 +92,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
         }
 
 
-        [Fact]
+        //[Fact]
         public async Task TrackEventCheckSession()
         {
             // Set up HttpNetworkAdapter.
@@ -243,7 +243,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Assert.Equal(3, httpNetworkAdapter.CallCount);
         }
 
-        
+        //[Fact]
         public async Task TrackEventWithoutInternetConnectionAsync()
         {
             // Set up HttpNetworkAdapter.
