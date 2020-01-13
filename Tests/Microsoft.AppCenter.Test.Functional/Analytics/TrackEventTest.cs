@@ -151,8 +151,8 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(_appSecret, typeof(Analytics));
 
-            // Stop Analytics module.
-            await Analytics.SetEnabledAsync(false);
+            // Pause Analytics module.
+            Analytics.Pause();
 
             // Test TrackEvent.
             Analytics.TrackEvent("TrackEvent 1");
@@ -162,8 +162,8 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
 
             Assert.Equal(0, httpNetworkAdapter.CallCount);
 
-            // Stop Analytics module.
-            await Analytics.SetEnabledAsync(true);
+            // Resume Analytics module.
+            Analytics.Resume();
 
             // Test TrackEvent.
             Analytics.TrackEvent("TrackEvent 2");
@@ -174,11 +174,21 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
             Assert.Equal("POST", httpNetworkAdapter.Method);
             var eventLogs = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
-            Assert.Equal(1, eventLogs.Count());
+            Assert.Equal(2, eventLogs.Count());
+
+            // Check that the first event was sent.
             var actualEventName = (string)eventLogs[0]["name"];
-            Assert.Equal("TrackEvent 2", actualEventName);
+            Assert.Equal("TrackEvent 1", actualEventName);
             var typedProperties = eventLogs[0]["typedProperties"];
             Assert.Null(typedProperties);
+
+            // Check that the second event was sent.
+            actualEventName = (string)eventLogs[1]["name"];
+            Assert.Equal("TrackEvent 2", actualEventName);
+            typedProperties = eventLogs[1]["typedProperties"];
+            Assert.Null(typedProperties);
+
+            // Check count calls.
             Assert.Equal(1, httpNetworkAdapter.CallCount);
         }
 
@@ -194,16 +204,16 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(_appSecret, typeof(Analytics));
 
-            // Stop Analytics module.
-            await Analytics.SetEnabledAsync(false);
+            // Pause Analytics module.
+            Analytics.Pause();
 
             // Test TrackEvents.
             Analytics.TrackEvent("TrackEvent 1");
             Analytics.TrackEvent("TrackEvent 2");
             Analytics.TrackEvent("TrackEvent 3");
 
-            // Stop Analytics module again.
-            await Analytics.SetEnabledAsync(false);
+            // Pause Analytics module again.
+            Analytics.Pause();
 
             // Wait for processing event.
             httpNetworkAdapter.HttpResponseTask.Wait(5000);
@@ -211,8 +221,8 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             // Check that TrackEvent was never called.
             Assert.Equal(0, httpNetworkAdapter.CallCount);
 
-            // Stop Analytics module.
-            await Analytics.SetEnabledAsync(true);
+            // Resume Analytics module.
+            Analytics.Resume();
 
             // Wait for processing event.
             await httpNetworkAdapter.HttpResponseTask;
@@ -240,7 +250,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Assert.Null(typedProperties);
 
             // Check count calls.
-            Assert.Equal(3, httpNetworkAdapter.CallCount);
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
         }
 
         //[Fact]

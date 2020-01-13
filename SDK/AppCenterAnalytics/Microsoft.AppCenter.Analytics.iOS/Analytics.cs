@@ -50,6 +50,22 @@ namespace Microsoft.AppCenter.Analytics
         }
 
         /// <summary>
+        /// Pause the Analytics service.
+        /// </summary>
+        public static void Pause()
+        {
+            iOSAnalytics.Pause();
+        }
+
+        /// <summary>
+        /// Resume the Analytics service.
+        /// </summary>
+        public static void Resume()
+        {
+            iOSAnalytics.Resume();
+        }
+
+        /// <summary>
         /// Enable or disable automatic page tracking.
         /// Set this to false to if you plan to call <see cref="TrackPage"/> manually.
         /// </summary>
