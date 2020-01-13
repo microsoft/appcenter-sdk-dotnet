@@ -258,6 +258,10 @@
       <Project>{C3B5BA33-DA39-400D-B5B3-85C68354FD74}</Project>
       <Name>Microsoft.AppCenter.Android.Bindings</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute\Microsoft.AppCenter.Distribute.csproj">
+      <Project>{2E2927E8-2C9A-4E38-80A7-71FC2212EDAA}</Project>
+      <Name>Microsoft.AppCenter.Distribute</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\xunit.runner.devices.2.5.25\build\monoandroid81\xunit.runner.devices.targets" Condition="Exists('..\..\packages\xunit.runner.devices.2.5.25\build\monoandroid81\xunit.runner.devices.targets')" />

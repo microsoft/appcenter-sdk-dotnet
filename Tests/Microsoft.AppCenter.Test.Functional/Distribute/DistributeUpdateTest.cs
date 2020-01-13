@@ -25,12 +25,11 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         {
             // Prepare data.
             var prefs = Application.Current.Properties["Distribute.request_id"] = _requestId;
-
-            var androidUrl = $"intent://updates/#Intent;scheme=appcenter;package={_package};S.distribution_group_id={_distributionGroupId};S.request_id={_requestId};end";
-            var iosUrl = $"appcenter-{_appSecret}://?request_id=${_requestId}&distribution_group_id={Guid.NewGuid().ToString()}";
+            //var androidUrl = $"intent://updates/#Intent;scheme=appcenter;package={_package};S.distribution_group_id={_distributionGroupId};S.request_id={_requestId};end";
+            var androidUrl = $"appcenter://updates?request_id={_requestId}&distribution_group_id={_distributionGroupId}";
+            var iosUrl = $"appcenter-{_appSecret}://?request_id=${_requestId}&distribution_group_id={_distributionGroupId}";
 
             // Setup network adapter.
-            // distributionStartSession
             var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "distributionStartSession");
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
 
@@ -41,7 +40,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             
             // Start App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Distribute));
+            //AppCenter.Start(_appSecret, typeof(Distribute));
 
             // Wait when Distribute wil be start.
             await Distribute.IsEnabledAsync();

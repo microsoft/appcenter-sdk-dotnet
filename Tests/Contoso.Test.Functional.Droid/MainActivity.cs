@@ -5,16 +5,21 @@ using System;
 using Android.App;
 using Android.OS;
 using Android.Util;
+using Microsoft.AppCenter;
 using Xunit.Runners.ResultChannels;
 using Xunit.Runners.UI;
 using Config = Microsoft.AppCenter.Test.Functional.Config;
 
 namespace Contoso.Test.Functional.Droid
 {
+    using Distribute = Microsoft.AppCenter.Distribute.Distribute;
+
     [Activity(Label = "xUnit Android Runner", MainLauncher = true, Theme = "@android:style/Theme.Material.Light")]
     public class MainActivity : RunnerActivity
     {
         private const string ResultChannelHost = "10.0.2.2";
+
+        private readonly string _appSecret = "e94aaff4-e80d-4fee-9a5f-a84eb6e688fc";
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -39,6 +44,8 @@ namespace Contoso.Test.Functional.Droid
             TerminateAfterExecution = true;
 #endif
 
+
+            AppCenter.Start(_appSecret, typeof(Distribute));
             // you cannot add more assemblies once calling base
             base.OnCreate(bundle);
         }
