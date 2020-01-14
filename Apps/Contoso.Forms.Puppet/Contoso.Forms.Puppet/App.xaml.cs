@@ -88,7 +88,9 @@ namespace Contoso.Forms.Puppet
                 Auth.SetConfigUrl("https://config-integration.dev.avalanch.es");
                 Data.SetTokenExchangeUrl("https://token-exchange-mbaas-integration.dev.avalanch.es/v0.1");
 
-                AppCenter.Start(GetTokensString(), typeof(Analytics), typeof(Crashes), typeof(Distribute), typeof(Auth), typeof(Data));
+                AppCenter.Start(@"ios=b889c4f2-9ac2-4e2e-ae16-dae54f2c5899;
+                           android=bff0949b-7970-439d-9745-92cdc59b10fe",
+                      typeof(Analytics), typeof(Crashes), typeof(Distribute), typeof(Auth), typeof(Data));
                 if (Current.Properties.ContainsKey(Constants.UserId) && Current.Properties[Constants.UserId] is string id)
                 {
                     AppCenter.SetUserId(id);

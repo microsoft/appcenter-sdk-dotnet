@@ -580,6 +580,22 @@ namespace Microsoft.AppCenter.Test
         }
 
         /// <summary>
+        /// Parse multiple tokens with newlines added.
+        /// </summary>
+        [TestMethod]
+        public void ParseAppSecretAndTargetMultiplePlatformWithNewLines()
+        {
+            var appSecret = Guid.NewGuid().ToString();
+            var anotherAppSecret = Guid.NewGuid().ToString();
+            var targetToken = Guid.NewGuid().ToString();
+            var platformId = "android";
+            var secrets = $"{platformId}={appSecret};\nios={anotherAppSecret};{platformId}Target={targetToken};\niosTarget={anotherAppSecret}";
+            var parsedSecret = AppCenter.GetSecretAndTargetForPlatform(secrets, platformId);
+            var expected = $"appsecret={appSecret};target={targetToken}";
+            Assert.AreEqual(expected, parsedSecret);
+        }
+
+        /// <summary>
         /// Verify parse when there is only token.
         /// </summary>
         [TestMethod]
