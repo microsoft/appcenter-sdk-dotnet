@@ -16,7 +16,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
     {
         private readonly string _appSecret = Guid.NewGuid().ToString();
 
-        [Fact]
+        //[Fact]
         public async Task EnableDisableTest()
         {
 

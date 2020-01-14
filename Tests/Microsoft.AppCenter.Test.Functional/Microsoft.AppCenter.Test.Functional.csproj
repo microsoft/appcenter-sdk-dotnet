@@ -16,7 +16,4 @@
     <Folder Include="Analytics\" />
     <Folder Include="AppCenter\" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="AppCenter\AppCenterCoreTest.cs" />
-  </ItemGroup>
 </Project>
