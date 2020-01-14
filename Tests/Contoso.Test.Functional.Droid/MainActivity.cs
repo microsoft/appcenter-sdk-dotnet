@@ -7,6 +7,7 @@ using Android.Content;
 using Android.OS;
 using Android.Util;
 using Microsoft.AppCenter;
+using Microsoft.AppCenter.Test.Functional.Distribute;
 using Xunit.Runners.ResultChannels;
 using Xunit.Runners.UI;
 using Config = Microsoft.AppCenter.Test.Functional.Config;
@@ -18,11 +19,7 @@ namespace Contoso.Test.Functional.Droid
     [Activity(Label = "xUnit Android Runner", MainLauncher = true, Theme = "@android:style/Theme.Material.Light")]
     public class MainActivity : RunnerActivity
     {
-        private const string ResultChannelHost = "10.0.2.2";
-
-        private readonly string _appSecret = "e94aaff4-e80d-4fee-9a5f-a84eb6e688fc";
-
-        private static string _requestId = "b627efb5-dbf7-4350-92e4-b6ac4dbd09b0";
+        public static string ResultChannelHost = "10.0.2.2";
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -46,15 +43,39 @@ namespace Contoso.Test.Functional.Droid
             // crash the application (to ensure it's ended) and return to springboard
             TerminateAfterExecution = true;
 #endif
-
-            var prefs = GetSharedPreferences("AppCenter", FileCreationMode.Private);
-            var prefEditor = prefs.Edit();
-            prefEditor.PutString("Distribute.request_id", _requestId);
-            prefEditor.Commit();
-            AppCenter.Start(_appSecret, typeof(Distribute));
+            Distribute.SetEnabledForDebuggableBuild(true);
+            DistributeUpdateTest.DistributeEvent += ConfigureDataForDistribute;
 
             // you cannot add more assemblies once calling base
             base.OnCreate(bundle);
+        }
+
+        private void ConfigureDataForDistribute(object sender, DistributeTestType distributeTestType)
+        {
+            var prefs = GetSharedPreferences("AppCenter", FileCreationMode.Private);
+            var prefEditor = prefs.Edit();
+            switch (distributeTestType)
+            {
+                case DistributeTestType.FreshInstallAsync:
+                    prefEditor.PutString("Distribute.request_id", Config._requestId);
+                    break;
+                case DistributeTestType.CheckUpdateAsync:
+                    prefEditor.PutString("Distribute.request_id", Config._requestId);
+                    prefEditor.PutString("Distribute.update_token", "token");
+                    prefEditor.PutString("Distribute.distribution_group_id", Config._distributionGroupId);
+                    prefEditor.PutString("Distribute.downloaded_release_hash", "hash");
+                    break;
+                case DistributeTestType.Clear:
+                    prefEditor.Remove("Distribute.request_id");
+                    prefEditor.Remove("Distribute.update_token");
+                    prefEditor.Remove("Distribute.distribution_group_id");
+                    prefEditor.Remove("Distribute.downloaded_release_hash");
+                    break;
+                case DistributeTestType.OnResumeActivity:
+                    OnResume();
+                    break;
+            }
+            prefEditor.Commit();
         }
     }
 }

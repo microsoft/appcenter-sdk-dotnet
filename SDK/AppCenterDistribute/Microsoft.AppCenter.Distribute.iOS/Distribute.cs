@@ -100,6 +100,11 @@ namespace Microsoft.AppCenter.Distribute
             }
         }
 
+        public static void UnsetInstance()
+        {
+            //MSDistribute.ResetSharedInstance();
+        }
+
         public class Delegate : MSDistributeDelegate
         {
             public override bool OnReleaseAvailable(MSDistribute distribute, MSReleaseDetails details)

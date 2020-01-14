@@ -32,5 +32,9 @@ namespace Microsoft.AppCenter.Distribute
         static void HandleUpdateAction(UpdateAction updateAction)
         {
         }
+
+        public static void UnsetInstance()
+        {
+        }
     }
 }
