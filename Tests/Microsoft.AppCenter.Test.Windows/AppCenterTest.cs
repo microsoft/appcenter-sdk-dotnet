@@ -636,6 +636,19 @@ namespace Microsoft.AppCenter.Test
         }
 
         /// <summary>
+        /// Verify parse fails when space added before secret.
+        /// </summary>
+        [TestMethod]
+        public void ParsingFailIfWhiteSpaceBeforeFirstSecret()
+        {
+            var appSecret = Guid.NewGuid().ToString();
+            var platformId = "uwp";
+            var secrets = $" {platformId}={appSecret};ios=anotherstring";
+            var parsedSecret = AppCenter.GetSecretAndTargetForPlatform(secrets, platformId);
+            Assert.AreNotEqual(appSecret, parsedSecret);
+        }
+
+        /// <summary>
         /// Verify parse when the platform is second of two
         /// </summary>
         [TestMethod]
@@ -649,14 +662,27 @@ namespace Microsoft.AppCenter.Test
         }
 
         /// <summary>
-        /// Verify parse when the string has extra semicolons
+        /// Verify parse fails if adding newlines without `;`
         /// </summary>
         [TestMethod]
-        public void ParseAppSecretExtraSemicolons()
+        public void ParseAppSecretSecondOfTwo()
         {
             var appSecret = Guid.NewGuid().ToString();
             var platformId = "uwp";
-            var secrets = $"ios=anotherstring;;;;{platformId}={appSecret};;;;";
+            var secrets = $"ios=anotherstring;{platformId}={appSecret}\n";
+            var parsedSecret = AppCenter.GetSecretAndTargetForPlatform(secrets, platformId);
+            Assert.AreEqual(appSecret, parsedSecret);
+        }
+
+        /// <summary>
+        /// Verify parse ok when the string has extra semicolons (followed by whitespaces or not).
+        /// </summary>
+        [TestMethod]
+        public void ParseAppSecretExtraSemicolonsOrWhiteSpaces()
+        {
+            var appSecret = Guid.NewGuid().ToString();
+            var platformId = "uwp";
+            var secrets = $"ios=anotherstring;;;;{platformId}={appSecret};\n ;;;";
             var parsedSecret = AppCenter.GetSecretAndTargetForPlatform(secrets, platformId);
             Assert.AreEqual(appSecret, parsedSecret);
         }
