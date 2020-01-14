@@ -671,7 +671,7 @@ namespace Microsoft.AppCenter.Test
             var platformId = "uwp";
             var secrets = $"ios=anotherstring;{platformId}={appSecret}\n";
             var parsedSecret = AppCenter.GetSecretAndTargetForPlatform(secrets, platformId);
-            Assert.AreEqual(appSecret, parsedSecret);
+            Assert.AreNotEqual(appSecret, parsedSecret);
         }
 
         /// <summary>
