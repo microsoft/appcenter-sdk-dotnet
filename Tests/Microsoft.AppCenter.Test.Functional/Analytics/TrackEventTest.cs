@@ -16,6 +16,15 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
         private readonly string _appSecret = Guid.NewGuid().ToString();
 
         [Fact]
+        public void ParseWithEqualInSecret()
+        {
+            var platformId = "uwp";
+            var secrets = $"ios=anotherstring;{platformId}=123=456";
+            var parsedSecret = AppCenter.GetSecretAndTargetForPlatform(secrets, platformId);
+            Assert.Equal("123=456", parsedSecret);
+        }
+
+        [Fact]
         public async Task TrackEventWithoutPropertiesAsync()
         {
             // Set up HttpNetworkAdapter.
