@@ -665,7 +665,7 @@ namespace Microsoft.AppCenter.Test
         /// Verify parse fails if adding newlines without `;`
         /// </summary>
         [TestMethod]
-        public void ParseAppSecretSecondOfTwo()
+        public void ParseAppSecretSecondOfTwoWithoutDelimiterButWhiteSpace()
         {
             var appSecret = Guid.NewGuid().ToString();
             var platformId = "uwp";
