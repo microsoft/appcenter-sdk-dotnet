@@ -739,6 +739,18 @@ namespace Microsoft.AppCenter.Test
         }
 
         /// <summary>
+        /// Verify equal separator is only the first one.
+        /// </summary>
+        [TestMethod]
+        public void ParseWithEqualInSecret()
+        {
+            var platformId = "uwp";
+            var secrets = $"ios=anotherstring;{platformId}=123=456";
+            var parsedSecret = AppCenter.GetSecretAndTargetForPlatform(secrets, platformId);
+            Assert.Equal("123=456", parsedSecret);
+        }
+
+        /// <summary>
         /// Verify setting custom properties.
         /// </summary>
         [TestMethod]
