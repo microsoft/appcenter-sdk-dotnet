@@ -11,6 +11,9 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
 {
     using Analytics = Microsoft.AppCenter.Analytics.Analytics;
 
+    // TODO: Move to AppCenterCrashesTest.cs after resolving problem with tests
+    using Crashes = Microsoft.AppCenter.Crashes.Crashes;
+
     public class TrackEventTest
     {
         private readonly string _appSecret = Guid.NewGuid().ToString();
@@ -88,6 +91,81 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
                 Assert.NotNull(typedProperties.SelectToken($"[?(@.name == 'Key{i}' && @.value == 'Value{i}')]"));
             }
             Assert.Equal(1, httpNetworkAdapter.CallCount);
+        }
+
+        
+        // TODO: Move following methods to AppCenterCrashesTest.cs after resolving issues with tests
+        [Fact]
+        public async Task EnableDisableTest()
+        {
+
+            // Start App Center.
+            AppCenter.UnsetInstance();
+            Crashes.UnsetInstance();
+            AppCenter.LogLevel = LogLevel.Verbose;
+            AppCenter.Start(_appSecret, typeof(Crashes));
+
+            // Disable Appcenter.
+            await AppCenter.SetEnabledAsync(false);
+
+            // Verify disabled.
+            var isEnabled = await AppCenter.IsEnabledAsync();
+            var isEnabledCrashes = await Crashes.IsEnabledAsync();
+            Assert.False(isEnabled);
+            Assert.False(isEnabledCrashes);
+
+            // Restart SDK.
+            AppCenter.UnsetInstance();
+            Crashes.UnsetInstance();
+            AppCenter.LogLevel = LogLevel.Verbose;
+            AppCenter.Start(_appSecret, typeof(Crashes));
+
+            // Verify disabled.
+            var isEnabled2 = await AppCenter.IsEnabledAsync();
+            var isEnabledCrashes2 = await Crashes.IsEnabledAsync();
+            Assert.False(isEnabled2);
+            Assert.False(isEnabledCrashes2);
+
+            // Enable SDK.
+            await AppCenter.SetEnabledAsync(true);
+
+            // Verify enabled.
+            var isEnabled3 = await AppCenter.IsEnabledAsync();
+            var isEnabledCrashes3 = await Crashes.IsEnabledAsync();
+            Assert.True(isEnabled3);
+            Assert.True(isEnabledCrashes3);
+
+            // Restart SDK.
+            AppCenter.UnsetInstance();
+            Crashes.UnsetInstance();
+            AppCenter.LogLevel = LogLevel.Verbose;
+            AppCenter.Start(_appSecret, typeof(Crashes));
+
+            // Verify enabled.
+            var isEnabled4 = await AppCenter.IsEnabledAsync();
+            var isEnabledCrashes4 = await Crashes.IsEnabledAsync();
+            Assert.True(isEnabled4);
+            Assert.True(isEnabledCrashes4);
+        }
+
+        [Fact]
+        public async Task SetUserIdTest()
+        {
+
+            // Set up HttpNetworkAdapter.
+            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
+            DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+
+            // Start App Center.
+            AppCenter.UnsetInstance();
+            Crashes.UnsetInstance();
+            AppCenter.LogLevel = LogLevel.Verbose;
+            AppCenter.Start(_appSecret, typeof(Crashes));
+
+            Crashes.TrackError(new Exception("The answert is 42"));
+            await httpNetworkAdapter.HttpResponseTask;
+            var events = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
+            Assert.Equal(1, events.Count());
         }
     }
 }
