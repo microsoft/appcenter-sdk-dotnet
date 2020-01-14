@@ -4,6 +4,8 @@
 
 ### App Center
 
+* **[Feature]** Allow whitespaces such as newlines between 2 application secrets as long as the previous secret ends with `;`.
+
 #### UWP
 
 * **[Feature]** Support ARM64 architecture.
