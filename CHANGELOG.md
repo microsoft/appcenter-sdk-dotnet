@@ -4,7 +4,7 @@
 
 ### App Center
 
-* **[Feature]** Allow whitespaces such as newlines between 2 application secrets as long as the previous secret ends with `;`.
+* **[Improvement]** Allow whitespaces such as newlines between 2 application secrets as long as the previous secret ends with `;`.
 
 #### UWP
 
