@@ -8,7 +8,6 @@
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:host="updates" android:path="/" android:scheme="appcenter" />
 			</intent-filter>
 		</activity>
 	</application>

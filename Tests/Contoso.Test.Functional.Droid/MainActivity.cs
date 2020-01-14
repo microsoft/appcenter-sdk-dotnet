@@ -3,6 +3,7 @@
 
 using System;
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Util;
 using Microsoft.AppCenter;
@@ -20,6 +21,8 @@ namespace Contoso.Test.Functional.Droid
         private const string ResultChannelHost = "10.0.2.2";
 
         private readonly string _appSecret = "e94aaff4-e80d-4fee-9a5f-a84eb6e688fc";
+
+        private static string _requestId = "b627efb5-dbf7-4350-92e4-b6ac4dbd09b0";
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -44,8 +47,12 @@ namespace Contoso.Test.Functional.Droid
             TerminateAfterExecution = true;
 #endif
 
-
+            var prefs = GetSharedPreferences("AppCenter", FileCreationMode.Private);
+            var prefEditor = prefs.Edit();
+            prefEditor.PutString("Distribute.request_id", _requestId);
+            prefEditor.Commit();
             AppCenter.Start(_appSecret, typeof(Distribute));
+
             // you cannot add more assemblies once calling base
             base.OnCreate(bundle);
         }

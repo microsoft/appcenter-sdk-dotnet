@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AppCenter.Distribute;
 using Xamarin.Forms;
 using Xunit;
 
@@ -11,8 +12,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
     public class DistributeUpdateTest
     {
         private readonly string _appSecret = "e94aaff4-e80d-4fee-9a5f-a84eb6e688fc";
-
-        private readonly string _installId = Guid.NewGuid().ToString();
 
         private readonly string _distributionGroupId = Guid.NewGuid().ToString();
 
@@ -25,8 +24,9 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         {
             // Prepare data.
             var prefs = Application.Current.Properties["Distribute.request_id"] = _requestId;
+            var androidUrl = $"appcenter://updates/?#Intent;scheme=appcenter;package={_package};distribution_group_id={_distributionGroupId};request_id={_requestId};end";
             //var androidUrl = $"intent://updates/#Intent;scheme=appcenter;package={_package};S.distribution_group_id={_distributionGroupId};S.request_id={_requestId};end";
-            var androidUrl = $"appcenter://updates?request_id={_requestId}&distribution_group_id={_distributionGroupId}";
+            //var androidUrl = $"appcenter://updates?request_id={_requestId}&distribution_group_id={_distributionGroupId}";
             var iosUrl = $"appcenter-{_appSecret}://?request_id=${_requestId}&distribution_group_id={_distributionGroupId}";
 
             // Setup network adapter.
@@ -37,21 +37,17 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // TODO add UnsetInstance to Distribute.
             // Distribute.UnsetInstance();
             AppCenter.UnsetInstance();
-            
+
             // Start App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
-            //AppCenter.Start(_appSecret, typeof(Distribute));
 
             // Wait when Distribute wil be start.
             await Distribute.IsEnabledAsync();
 
-            Xamarin.Forms.Device.BeginInvokeOnMainThread(() => {
-                Xamarin.Forms.Device.OpenUri(new Uri(Xamarin.Forms.Device.RuntimePlatform == "iOS" ? iosUrl : androidUrl));
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            {
+                Xamarin.Essentials.Browser.OpenAsync(new Uri(Xamarin.Forms.Device.RuntimePlatform == "iOS" ? iosUrl : androidUrl));
             });
-
-            // Open deep link uri.
-            // Task.Run(() => { Xamarin.Forms.Device.OpenUri(new Uri(url)); }).Wait();
-            // Task.Delay(5000).Wait();
 
             // Wait for processing event.
             await httpNetworkAdapter.HttpResponseTask;
