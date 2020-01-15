@@ -16,6 +16,37 @@ using System.Xml.XPath;
 var TARGET = Argument("target", Argument("t", "Default"));
 Task("Default").IsDependentOn("GitRelease");
 
+
+
+Task("GitCreateBranchAndCommit")
+    .Does(() =>
+{
+    var username = "user";
+    var email = "todo";
+    var password = Argument<string>("GithubToken");
+    var sdkVersion = Argument<string>("sdkVersion");
+    if (sdkVersion == null) 
+    {
+        Information("No sdkVersion provided. Exiting...");
+    }
+    var owner = "Microsoft";
+    var repo = "appcenter-sdk-dotnet";
+    var repositoryPath = ".";
+    var repoFile = File(repositoryPath);
+    var configPath = "scripts/configuration/ac-build-config.xml";
+    var configFile = File(configPath);
+    var branchName = $"release/{sdkVersion}";
+    Information($"Creating {branchName} branch...");
+    GitCreateBranch(repoFile.Path.FullPath, branchName, true);
+    Information($"Adding config file to index...");
+    GitAdd(repoFile.Path.FullPath, configFile);
+    Information($"Commiting to {branchName}...");
+    GitCommit(repoFile.Path.FullPath, username, email, $"Start {sdkVersion} release.");
+    Information($"Pushing {branchName}...");
+    //GitPushRef(repoFile.Path.FullPath, username, password, "origin", branchName);
+    GitPush(repoFile.Path.FullPath, username, password, branchName);
+});
+
 // Create a tag and release on GitHub
 Task("GitRelease")
     .Does(() =>
