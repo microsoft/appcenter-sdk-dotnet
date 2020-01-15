@@ -4,7 +4,7 @@
 
 ### App Center
 
-* **[Fix]** Allow whitespaces between secrets like in versions before `2.6.0`.
+* **[Fix]** Allow whitespace characters between secrets like in versions before `2.6.0`.
 
 #### UWP
 
