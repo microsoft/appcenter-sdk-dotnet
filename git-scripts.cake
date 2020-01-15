@@ -16,8 +16,6 @@ using System.Xml.XPath;
 var TARGET = Argument("target", Argument("t", "Default"));
 Task("Default").IsDependentOn("GitRelease");
 
-
-
 Task("GitCreateBranchAndCommit")
     .Does(() =>
 {
