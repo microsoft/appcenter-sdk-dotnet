@@ -12,9 +12,19 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
 {
     using Analytics = Microsoft.AppCenter.Analytics.Analytics;
 
+    public enum TrackEventTestType
+    {
+        OnResumeActivity,
+        OnPauseActivity
+    }
+
     public class TrackEventTest
     {
         private readonly string _appSecret = Guid.NewGuid().ToString();
+
+        public delegate void TrackEventHandler(object sender, TrackEventTestType e);
+
+        public static event TrackEventHandler TrackEvent;
 
         [Fact]
         public async Task TrackEventWithoutPropertiesAsync()
@@ -92,50 +102,37 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
         }
 
 
-        //[Fact]
+        [Fact]
         public async Task TrackEventCheckSession()
         {
             // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "startSession");
+            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
 
             // Start App Center.
-            AppCenter.UnsetInstance();
-            Analytics.UnsetInstance();
-            AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Analytics));
+            StartAppCenter();
+            
+            // Stop mosule.
+            Analytics.SetEnabledAsync(false).Wait();
 
-            // Stop Analytics module.
-            await Analytics.SetEnabledAsync(false);
-
-            // TODO go to background
+            // Go to background.
+            TrackEvent?.Invoke(this, TrackEventTestType.OnPauseActivity);
 
             //Wait 20 sec.
-            Task.Delay(20000).Wait();
+            Task.Delay(25000).Wait();
 
-            // TODO go to foreground.
+            // Go to foreground.
+            TrackEvent?.Invoke(this, TrackEventTestType.OnResumeActivity);
 
-            // Wait for processing event.
-            await httpNetworkAdapter.HttpResponseTask;
-
-            // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
-            Assert.Equal("POST", httpNetworkAdapter.Method);
-            var eventLogs = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'startSession')]").ToList();
-            Assert.Equal(1, eventLogs.Count());
-            var eventLog = eventLogs[0];
-            var actualEventName = (string)eventLog["name"];
-            Assert.Equal("Hello World", actualEventName);
-            var typedProperties = eventLog["typedProperties"];
-            Assert.Null(typedProperties);
-
-            // Test TrackEvent.
+            // Track events.
             Analytics.TrackEvent("TrackEvent 1");
             Analytics.TrackEvent("TrackEvent 2");
             Analytics.TrackEvent("TrackEvent 3");
 
-            // Wait for processing event.
-            await httpNetworkAdapter.HttpResponseTask;
+            // Wait for processing any event.
+            httpNetworkAdapter.HttpResponseTask.Wait(5000);
 
+            // Verify.
             Assert.Equal(0, httpNetworkAdapter.CallCount);
         }
 
@@ -254,41 +251,59 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
         }
 
         //[Fact]
-        public async Task TrackEventWithoutInternetConnectionAsync()
-        {
-            // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
-            DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+        //public async Task TrackEventWithoutInternetConnectionAsync()
+        //{
+        //    // Set up HttpNetworkAdapter.
+        //    var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
+        //    DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
 
-            // Start App Center.
+        //    // Start App Center.
+        //    AppCenter.UnsetInstance();
+        //    Analytics.UnsetInstance();
+        //    AppCenter.LogLevel = LogLevel.Verbose;
+        //    AppCenter.Start(_appSecret, typeof(Analytics));
+
+        //    // Disable internet connection TODO
+
+
+        //    // Test TrackEvent.
+        //    Analytics.TrackEvent("TrackEvent");
+
+        //    // Wait for processing event.
+        //    httpNetworkAdapter.HttpResponseTask.Wait(10000);
+
+        //    Assert.Equal(0, httpNetworkAdapter.CallCount);
+
+        //    // Enable internet connection TODO
+
+        //    // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
+        //    Assert.Equal("POST", httpNetworkAdapter.Method);
+        //    var eventLogs = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
+        //    Assert.Equal(1, eventLogs.Count());
+        //    var eventLog = eventLogs[0];
+        //    var actualEventName = (string)eventLog["name"];
+        //    Assert.Equal("TrackEvent", actualEventName);
+        //    var typedProperties = eventLog["typedProperties"];
+        //    Assert.Null(typedProperties);
+        //    Assert.Equal(1, httpNetworkAdapter.CallCount);
+        //}
+
+        private void StartAppCenter()
+        {
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(_appSecret, typeof(Analytics));
 
-            // Disable internet connection TODO
+            // Resume Activity.
+            TrackEvent?.Invoke(this, TrackEventTestType.OnResumeActivity);
 
+            // Wait start Analytics module.
+            Analytics.IsEnabledAsync().Wait();
 
-            // Test TrackEvent.
-            Analytics.TrackEvent("TrackEvent");
-
-            // Wait for processing event.
-            httpNetworkAdapter.HttpResponseTask.Wait(10000);
-
-            Assert.Equal(0, httpNetworkAdapter.CallCount);
-
-            // Enable internet connection TODO
-
-            // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
-            Assert.Equal("POST", httpNetworkAdapter.Method);
-            var eventLogs = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
-            Assert.Equal(1, eventLogs.Count());
-            var eventLog = eventLogs[0];
-            var actualEventName = (string)eventLog["name"];
-            Assert.Equal("TrackEvent", actualEventName);
-            var typedProperties = eventLog["typedProperties"];
-            Assert.Null(typedProperties);
-            Assert.Equal(1, httpNetworkAdapter.CallCount);
+            // Restart module for correct work.
+            Analytics.SetEnabledAsync(false).Wait();
+            Analytics.SetEnabledAsync(true).Wait();
         }
     }
 }
