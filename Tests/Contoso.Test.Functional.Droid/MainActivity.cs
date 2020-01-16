@@ -5,7 +5,6 @@ using System;
 using Android.App;
 using Android.OS;
 using Android.Util;
-using Microsoft.AppCenter.Test.Functional.Analytics;
 using Xunit.Runners.ResultChannels;
 using Xunit.Runners.UI;
 using Config = Microsoft.AppCenter.Test.Functional.Config;
@@ -39,23 +38,9 @@ namespace Contoso.Test.Functional.Droid
             // crash the application (to ensure it's ended) and return to springboard
             TerminateAfterExecution = true;
 #endif
-            TrackEventTest.TrackEvent += ConfigureDataForAnalytics;
 
             // you cannot add more assemblies once calling base
             base.OnCreate(bundle);
-        }
-
-        private void ConfigureDataForAnalytics(object sender, TrackEventTestType distributeTestType)
-        {
-            switch (distributeTestType)
-            {
-                case TrackEventTestType.OnPauseActivity:
-                    OnPause();
-                    break;
-                case TrackEventTestType.OnResumeActivity:
-                    OnResume();
-                    break;
-            }
         }
     }
 }

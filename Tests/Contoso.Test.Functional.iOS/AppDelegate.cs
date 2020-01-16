@@ -4,7 +4,6 @@
 using System;
 using Foundation;
 using Microsoft.AppCenter.Test.Functional;
-using Microsoft.AppCenter.Test.Functional.Analytics;
 using UIKit;
 using Xunit.Runner;
 using Xunit.Runners.ResultChannels;
@@ -52,23 +51,8 @@ namespace Contoso.Test.Functional.iOS
             // crash the application (to ensure it's ended) and return to springboard
             TerminateAfterExecution = true;
 #endif
-            TrackEventTest.TrackEvent += ConfigureDataForAnalytics;
-            UiApplication = uiApplication;
-            LaunchOptions = launchOptions;
-            return base.FinishedLaunching(uiApplication, launchOptions);
-        }
 
-        private void ConfigureDataForAnalytics(object sender, TrackEventTestType distributeTestType)
-        {
-            switch (distributeTestType)
-            {
-                case TrackEventTestType.OnPauseActivity:
-                    DidEnterBackground(UiApplication);
-                    break;
-                case TrackEventTestType.OnResumeActivity:
-                    WillEnterForeground(UiApplication);
-                    break;
-            }
+            return base.FinishedLaunching(uiApplication, launchOptions);
         }
     }
 }

@@ -12,19 +12,9 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
 {
     using Analytics = Microsoft.AppCenter.Analytics.Analytics;
 
-    public enum TrackEventTestType
-    {
-        OnResumeActivity,
-        OnPauseActivity
-    }
-
     public class TrackEventTest
     {
         private readonly string _appSecret = Guid.NewGuid().ToString();
-
-        public delegate void TrackEventHandler(object sender, TrackEventTestType e);
-
-        public static event TrackEventHandler TrackEvent;
 
         [Fact]
         public async Task TrackEventWithoutPropertiesAsync()
@@ -102,40 +92,6 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
         }
 
         [Fact]
-        public void TrackEventAfterBackground()
-        {
-            // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
-            DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-
-            // Start App Center.
-            StartAppCenter();
-
-            // Stop mosule.
-            Analytics.SetEnabledAsync(false).Wait();
-
-            // Go to background.
-            TrackEvent?.Invoke(this, TrackEventTestType.OnPauseActivity);
-
-            //Wait 20 sec.
-            Task.Delay(25000).Wait();
-
-            // Go to foreground.
-            TrackEvent?.Invoke(this, TrackEventTestType.OnResumeActivity);
-
-            // Track events.
-            Analytics.TrackEvent("TrackEvent 1");
-            Analytics.TrackEvent("TrackEvent 2");
-            Analytics.TrackEvent("TrackEvent 3");
-
-            // Wait for processing any event.
-            httpNetworkAdapter.HttpResponseTask.Wait(5000);
-
-            // Verify.
-            Assert.Equal(0, httpNetworkAdapter.CallCount);
-        }
-
-        [Fact]
         public async Task TrackEventNormalFlowAsync()
         {
             var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
@@ -152,11 +108,6 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
 
             // Test TrackEvent.
             Analytics.TrackEvent("TrackEvent 1");
-
-            // Wait for processing event.
-            httpNetworkAdapter.HttpResponseTask.Wait(5000);
-
-            Assert.Equal(0, httpNetworkAdapter.CallCount);
 
             // Resume Analytics module.
             Analytics.Resume();
@@ -211,12 +162,6 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             // Pause Analytics module again.
             Analytics.Pause();
 
-            // Wait for processing event.
-            httpNetworkAdapter.HttpResponseTask.Wait(5000);
-
-            // Check that TrackEvent was never called.
-            Assert.Equal(0, httpNetworkAdapter.CallCount);
-
             // Resume Analytics module.
             Analytics.Resume();
 
@@ -247,20 +192,6 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
 
             // Check count calls.
             Assert.Equal(1, httpNetworkAdapter.CallCount);
-        }
-
-        private void StartAppCenter()
-        {
-            AppCenter.UnsetInstance();
-            Analytics.UnsetInstance();
-            AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Analytics));
-
-            // Resume Activity.
-            TrackEvent?.Invoke(this, TrackEventTestType.OnResumeActivity);
-
-            // Wait start Analytics module.
-            Analytics.IsEnabledAsync().Wait();
         }
     }
 }
