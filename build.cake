@@ -189,7 +189,7 @@ Task("NuGet")
     MoveFiles("Microsoft.AppCenter*.nupkg", "output");
 }).OnError(HandleError);
 
-Task("NugetPackAzDO").Does(()=>
+Task("NuGetPackAzDO").Does(()=>
 {
     var nuspecPathPrefix = EnvironmentVariable("NUSPEC_PATH");
     foreach (var module in AppCenterModules)
