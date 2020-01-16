@@ -1,12 +1,12 @@
 #!/bin/bash
 
-GITHUB_API_URL_TEMPLATE="https://api.github.com/repos/annakocheshkova/appcenter-sdk-dotnet/%s?access_token=%s%s"
+GITHUB_API_URL_TEMPLATE="https://api.github.com/repos/microsoft/appcenter-sdk-dotnet/%s?access_token=%s%s"
 REQUEST_URL_PULL="$(printf $GITHUB_API_URL_TEMPLATE 'pulls' $GithubToken)"
 
 resp="$(curl -s -X POST $REQUEST_URL_PULL -d '{
       "title": "Start new '${SDK_NEW_VERSION}' version",
       "body": "Start new '${SDK_NEW_VERSION}' version",
-      "head": "test-branch",
+      "head": "release/'${SDK_NEW_VERSION}",
       "base": "master"
     }')"
 url="$(echo $resp | jq -r '.url')"
