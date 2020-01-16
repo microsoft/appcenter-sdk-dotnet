@@ -63,7 +63,7 @@ namespace Contoso.Test.Functional.iOS
 
         private void ConfigureDataForDistribute(object sender, DistributeTestType distributeTestType)
         {
-            var plist = new NSUserDefaults("AppCenter", NSUserDefaultsType.SuiteName);
+            var plist = NSUserDefaults.StandardUserDefaults;
             switch (distributeTestType)
             {
                 case DistributeTestType.FreshInstallAsync:
