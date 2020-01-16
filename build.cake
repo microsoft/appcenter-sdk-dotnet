@@ -197,31 +197,16 @@ Task("NuGet")
     MoveFiles("Microsoft.AppCenter*.nupkg", "output");
 }).OnError(HandleError);
 
-// Replace version placeholder in nuspecs
-Task("PrepareNuspecsForVSTS").Does(()=>
-{
-    foreach (var module in AppCenterModules)
-    {
-        ReplaceTextInFiles(System.IO.Path.Combine(NuspecFolder, module.MainNuspecFilename), "$version$", module.NuGetVersion);
-    }
-});
-
-Task("PrepareAssemblyPathsVSTS").Does(()=>
+Task("NugetPackAzDO").Does(()=>
 {
     var nuspecPathPrefix = EnvironmentVariable("NUSPEC_PATH");
     foreach (var module in AppCenterModules)
     {
         var nuspecPath = System.IO.Path.Combine(nuspecPathPrefix, module.MainNuspecFilename);
+        ReplaceTextInFiles(nuspecPath, "$version$", module.NuGetVersion);
         ReplaceAssemblyPathsInNuspecs(nuspecPath);
-    }
-}).OnError(HandleError);
 
-Task("NugetPackVSTS").Does(()=>
-{
-    var nuspecPathPrefix = EnvironmentVariable("NUSPEC_PATH");
-    foreach (var module in AppCenterModules)
-    {
-        var spec = GetFiles(nuspecPathPrefix + module.MainNuspecFilename);
+        var spec = GetFiles(nuspecPath);
 
         // Create the NuGet packages.
         Information("Building a NuGet package for " + module.MainNuspecFilename);
@@ -232,7 +217,7 @@ Task("NugetPackVSTS").Does(()=>
     }
 }).OnError(HandleError);
 
-// In VSTS, the assembly path environment variable names should be in the format
+// In AzDO, the assembly path environment variable names should be in the format
 // "{uppercase group id}_ASSEMBLY_PATH_NUSPEC"
 void ReplaceAssemblyPathsInNuspecs(string nuspecPath)
 {
