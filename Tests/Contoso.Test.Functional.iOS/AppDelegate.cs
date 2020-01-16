@@ -61,7 +61,7 @@ namespace Contoso.Test.Functional.iOS
 
         private void ConfigureDataForDistribute(object sender, DistributeTestType distributeTestType)
         {
-            var plist = NSUserDefaults.StandardUserDefaults;
+            var plist = new NSUserDefaults("AppCenter", NSUserDefaultsType.SuiteName);
             switch (distributeTestType)
             {
                 case DistributeTestType.FreshInstallAsync:
@@ -80,7 +80,7 @@ namespace Contoso.Test.Functional.iOS
                     plist.RemoveObject("MSDownloadedReleaseHash");
                     break;
                 case DistributeTestType.OnResumeActivity:
-                    FinishedLaunching(UiApplication, LaunchOptions);
+                    WillEnterForeground(UiApplication);
                     break;
             }
         }
