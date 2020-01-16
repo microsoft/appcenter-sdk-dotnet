@@ -74,7 +74,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             Crashes.UnsetInstance();
 
             // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "managedError");
+            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "handledError");
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
 
             // Start App Center.
@@ -83,7 +83,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
 
             Crashes.TrackError(new Exception("The answert is 42"));
             await httpNetworkAdapter.HttpResponseTask;
-            var events = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'managedError')]").ToList();
+            var events = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'handledError')]").ToList();
             Assert.Equal(1, events.Count());
         }
 
@@ -94,7 +94,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             Crashes.UnsetInstance();
 
             // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "managedError");
+            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "handledError");
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
 
             // Start App Center.
@@ -105,8 +105,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
 
             Crashes.TrackError(new Exception("The answert is 42"));
             await httpNetworkAdapter.HttpResponseTask;
-            Console.WriteLine(httpNetworkAdapter.JsonContent.ToString());
-            var events = httpNetworkAdapter.JsonContent?.SelectTokens($"$.logs[?(@.type == 'managedError')]").ToList();
+            var events = httpNetworkAdapter.JsonContent?.SelectTokens($"$.logs[?(@.type == 'handledError')]").ToList();
             Assert.Equal(1, events?.Count());
             Assert.Contains(userId, events?[0]);
         }
