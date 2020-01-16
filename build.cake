@@ -15,12 +15,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
-var DownloadedAssembliesFolder = Statics.TemporaryPrefix + "DownloadedAssemblies";
-var MacAssembliesZip = Statics.TemporaryPrefix + "MacAssemblies.zip";
-var WindowsAssembliesZip = Statics.TemporaryPrefix + "WindowsAssemblies.zip";
-
 // Contains all assembly paths and how to use them
-PlatformPaths AssemblyPlatformPaths;
+IList<AssemblyGroup> AssemblyGroups = null;
 
 // Available AppCenter modules.
 IList<AppCenterModule> AppCenterModules = null;
@@ -39,8 +35,6 @@ var AndroidExternals = $"{ExternalsDirectory}/android";
 var IosExternals = $"{ExternalsDirectory}/ios";
 
 var SdkStorageUrl = "https://mobilecentersdkdev.blob.core.windows.net/sdk/";
-var MacAssembliesUrl = SdkStorageUrl + MacAssembliesZip;
-var WindowsAssembliesUrl = SdkStorageUrl + WindowsAssembliesZip;
 
 // Need to read versions before setting url values
 VersionReader.ReadVersions();
@@ -63,11 +57,7 @@ var NuspecFolder = "nuget";
 // Prepare the platform paths for downloading, uploading, and preparing assemblies
 Setup(context =>
 {
-    // Get assembly paths.
-    var uploadAssembliesZip = (IsRunningOnUnix() ? MacAssembliesZip : WindowsAssembliesZip);
-    var downloadUrl = (IsRunningOnUnix() ? WindowsAssembliesUrl : MacAssembliesUrl);
-    var downloadAssembliesZip = (IsRunningOnUnix() ? WindowsAssembliesZip : MacAssembliesZip);
-    AssemblyPlatformPaths = new PlatformPaths(uploadAssembliesZip, downloadAssembliesZip, downloadUrl);
+    AssemblyGroups = AssemblyGroup.ReadAssemblyGroups();
     AppCenterModules = AppCenterModule.ReadAppCenterModules(NuspecFolder, VersionReader.SdkVersion);
 });
 
@@ -80,17 +70,19 @@ Task("Build")
     buildGroup.ExecuteBuilds();
 }).OnError(HandleError);
 
-Task("PrepareAssemblies").IsDependentOn("Build")
-.Does(()=>
+Task("PrepareAssemblies")
+    .IsDependentOn("Build")
+    .Does(() =>
 {
-    // Clean all directories before copying. Doing so before each operation
-    // could cause subdirectories that are created first to be deleted.
-    foreach (var assemblyGroup in AssemblyPlatformPaths.UploadAssemblyGroups)
+    foreach (var assemblyGroup in AssemblyGroups)
     {
+        if (assemblyGroup.Download)
+        {
+            continue;
+        }
+        // Clean all directories before copying. Doing so before each operation
+        // could cause subdirectories that are created first to be deleted.
         CleanDirectory(assemblyGroup.Folder);
-    }
-    foreach (var assemblyGroup in AssemblyPlatformPaths.UploadAssemblyGroups)
-    {
         CopyFiles(assemblyGroup.AssemblyPaths.Where(i => FileExists(i)), assemblyGroup.Folder, false);
     }
 }).OnError(HandleError);
@@ -223,8 +215,7 @@ void ReplaceAssemblyPathsInNuspecs(string nuspecPath)
 {
     // For the Tuples, Item1 is variable name, Item2 is variable value.
     var assemblyPathVars = new List<Tuple<string, string>>();
-    var allAssemblyGroups = AssemblyPlatformPaths.UploadAssemblyGroups.Union(AssemblyPlatformPaths.DownloadAssemblyGroups);
-    foreach (var group in allAssemblyGroups)
+    foreach (var group in AssemblyGroups)
     {
         if (group.NuspecKey == null)
         {

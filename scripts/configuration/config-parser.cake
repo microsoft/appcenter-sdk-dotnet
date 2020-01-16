@@ -15,5 +15,4 @@ public static class ConfigFile
 #load "AppCenterModule.cake"
 #load "AssemblyGroup.cake"
 #load "BuildGroup.cake"
-#load "PlatformPaths.cake"
 #load "VersionReader.cake"
