@@ -40,6 +40,10 @@ namespace Microsoft.AppCenter.Test.Functional
                 StatusCode = _expectedStatusCode,
                 Content = _expectedContent
             };
+            if (jsonContent == null)
+            {
+                jsonContent = "{ }";
+            }
             var jsonLogContainer = JObject.Parse(jsonContent);
             if (string.IsNullOrEmpty(_expectedLogType) || jsonLogContainer.SelectTokens($"$.logs[?(@.type == '{_expectedLogType}')]").ToList().Count > 0)
             {
