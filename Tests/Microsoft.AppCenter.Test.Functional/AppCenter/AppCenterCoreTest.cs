@@ -12,19 +12,30 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
     using Analytics = Microsoft.AppCenter.Analytics.Analytics;
     using AppCenter = Microsoft.AppCenter.AppCenter;
 
-    public class AppCenterCoreTest
+    public class AppCenterCoreTest : IDisposable
     {
-        private readonly string _appSecret = Guid.NewGuid().ToString();
 
-        //[Fact]
+        // Before
+        public AppCenterCoreTest()
+        {
+            Utils.deleteDatabase();
+        }
+
+        // After
+        public void Dispose()
+        {
+            // Let pending SDK calls be completed.
+            Task.Delay(3000).Wait();
+        }
+
+        [Fact]
         public async Task EnableDisableTest()
         {
-
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Analytics));
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
 
             // Disable Appcenter.
             await AppCenter.SetEnabledAsync(false);
@@ -39,7 +50,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Analytics));
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
 
             // Verify disabled.
             var isEnabled2 = await AppCenter.IsEnabledAsync();
@@ -60,19 +71,21 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Analytics));
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
 
             // Verify enabled.
             var isEnabled4 = await AppCenter.IsEnabledAsync();
             var isEnabledAnalytics4 = await Analytics.IsEnabledAsync();
             Assert.True(isEnabled4);
             Assert.True(isEnabledAnalytics4);
+
+            // Let pending SDK calls be completed, we have a lot of "startService" calls.
+            Task.Delay(5000).Wait();
         }
 
         [Fact]
         public async Task CustomPropertiesTest()
         {
-
             // Set up HttpNetworkAdapter.
             var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "customProperties");
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
@@ -81,7 +94,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Analytics));
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
 
             // Enable Appcenter.
             await AppCenter.SetEnabledAsync(true);
@@ -124,13 +137,13 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             {
                 Assert.NotNull(propertiesDictionary[(string)item.SelectToken("name")]);
             }
+
             Assert.Equal(1, httpNetworkAdapter.CallCount);
         }
 
         [Fact]
         public async Task CustomPropertiesClearTest()
         {
-
             // Set up HttpNetworkAdapter.
             var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "customProperties");
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
@@ -139,7 +152,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Analytics));
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
 
             // Enable Appcenter.
             await AppCenter.SetEnabledAsync(true);
