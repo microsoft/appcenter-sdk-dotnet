@@ -3,6 +3,7 @@
 
 using System;
 using Foundation;
+using Microsoft.AppCenter;
 using Microsoft.AppCenter.Test.Functional;
 using Microsoft.AppCenter.Test.Functional.Distribute;
 using UIKit;
@@ -12,8 +13,6 @@ using Xunit.Sdk;
 
 namespace Contoso.Test.Functional.iOS
 {
-    using Distribute = Microsoft.AppCenter.Distribute.Distribute;
-
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
@@ -54,7 +53,6 @@ namespace Contoso.Test.Functional.iOS
             // crash the application (to ensure it's ended) and return to springboard
             TerminateAfterExecution = true;
 #endif
-            Distribute.SetEnabledForDebuggableBuild(true);
             DistributeUpdateTest.DistributeEvent += ConfigureDataForDistribute;
             UiApplication = uiApplication;
             LaunchOptions = launchOptions;

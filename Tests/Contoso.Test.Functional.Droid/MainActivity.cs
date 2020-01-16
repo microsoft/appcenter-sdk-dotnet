@@ -14,8 +14,6 @@ using Config = Microsoft.AppCenter.Test.Functional.Config;
 
 namespace Contoso.Test.Functional.Droid
 {
-    using Distribute = Microsoft.AppCenter.Distribute.Distribute;
-
     [Activity(Label = "xUnit Android Runner", MainLauncher = true, Theme = "@android:style/Theme.Material.Light")]
     public class MainActivity : RunnerActivity
     {
@@ -43,7 +41,6 @@ namespace Contoso.Test.Functional.Droid
             // crash the application (to ensure it's ended) and return to springboard
             TerminateAfterExecution = true;
 #endif
-            Distribute.SetEnabledForDebuggableBuild(true);
             DistributeUpdateTest.DistributeEvent += ConfigureDataForDistribute;
 
             // you cannot add more assemblies once calling base

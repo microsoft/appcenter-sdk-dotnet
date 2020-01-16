@@ -33,6 +33,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             AppCenter.UnsetInstance();
             Distribute.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
+            Distribute.SetEnabledForDebuggableBuild(true);
             AppCenter.Start(Config._appSecret, typeof(Distribute));
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
 
