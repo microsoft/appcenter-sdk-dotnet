@@ -1,7 +1,6 @@
 #! /bin/bash
 
 branch_name="release/$SDK_NEW_VERSION"
-git fetch origin
 git push origin HEAD:$branch_name
 echo "git push origin HEAD:$branch_name"
 git fetch origin
