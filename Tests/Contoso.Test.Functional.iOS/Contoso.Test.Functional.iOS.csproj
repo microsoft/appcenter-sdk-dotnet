@@ -157,5 +157,8 @@
         <Name>Microsoft.AppCenter.iOS</Name>
       </ProjectReference>
     </ItemGroup>
+    <ItemGroup>
+      <BundleResource Include="xunit.runner.json" />
+    </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
