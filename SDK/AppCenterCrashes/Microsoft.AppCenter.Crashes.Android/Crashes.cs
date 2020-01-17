@@ -295,6 +295,7 @@ namespace Microsoft.AppCenter.Crashes
                 return ShouldProcessErrorReport(report);
             }
         }
+
         internal static void PlatformUnsetInstance()
         {
             AndroidCrashes.UnsetInstance();

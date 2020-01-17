@@ -18,7 +18,6 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
         [Fact]
         public async Task TrackEventWithoutPropertiesAsync()
         {
-
             // Set up HttpNetworkAdapter.
             var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
@@ -50,7 +49,6 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
         [Fact]
         public async Task TrackEventWithPropertiesAsync()
         {
-
             // Set up HttpNetworkAdapter.
             var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
