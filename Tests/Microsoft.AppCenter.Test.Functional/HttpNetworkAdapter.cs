@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,23 +18,33 @@ namespace Microsoft.AppCenter.Test.Functional
             public TaskCompletionSource<RequestData> Task;
         }
 
-        private HttpResponse defaultHttpResponse;
+        private HttpResponse defaultHttpResponse = new HttpResponse
+        {
+            StatusCode = 200,
+            Content = ""
+        };
 
         private List<ExpectedData> ExpectedDataList = new List<ExpectedData>();
 
         internal int CallCount { get; private set; }
 
-        internal HttpNetworkAdapter()
+        public Task<RequestData> MockRequest(string logType, HttpResponse response = null)
         {
-            defaultHttpResponse = new HttpResponse
+            Func<RequestData, bool> logTypeRule = (RequestData arg) =>
             {
-                StatusCode = 200,
-                Content = ""
+
+                var result = arg.JsonContent.SelectTokens($"$.logs[?(@.type == '{logType}')]").ToList().Count > 0;
+                return result;
             };
+            return MockRequest(logTypeRule, response);
         }
 
-        public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response)
+        public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response = null)
         {
+            if (response == null)
+            {
+                response = defaultHttpResponse;
+            }
             var ct = new CancellationTokenSource(200000);
             var expectedData = new ExpectedData
             {
@@ -41,6 +52,7 @@ namespace Microsoft.AppCenter.Test.Functional
                 Where = where,
                 Task = new TaskCompletionSource<RequestData>(ct)
             };
+            ExpectedDataList.Add(expectedData);
             return expectedData.Task.Task;
         }
 
@@ -62,7 +74,7 @@ namespace Microsoft.AppCenter.Test.Functional
                 return Task.FromResult(defaultHttpResponse);
             }
         }
-
+        
         public void Dispose()
         {
         }

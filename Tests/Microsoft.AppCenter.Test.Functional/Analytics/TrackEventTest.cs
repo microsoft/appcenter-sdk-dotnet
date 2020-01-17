@@ -20,19 +20,14 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Utils.deleteDatabase();
         }
 
-        // After
-        public void Dispose()
-        {
-            // Let pending SDK calls be completed.
-            Task.Delay(3000).Wait();
-        }
-
         [Fact]
         public async Task TrackEventWithoutPropertiesAsync()
         {
             // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
+            var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequest("startService");
+            var eventTask = httpNetworkAdapter.MockRequest("event");
 
             // Start App Center.
             AppCenter.UnsetInstance();
@@ -40,36 +35,44 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
 
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
+
             // Test TrackEvent.
             Analytics.TrackEvent("Hello World");
 
             // Wait for processing event.
-            await httpNetworkAdapter.HttpResponseTask;
+            RequestData requestData = await eventTask;
 
             // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
-            Assert.Equal("POST", httpNetworkAdapter.Method);
-            var eventLogs = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
+            Assert.Equal("POST", requestData.Method);
+            var eventLogs = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
             Assert.Equal(1, eventLogs.Count());
             var eventLog = eventLogs[0];
             var actualEventName = (string)eventLog["name"];
             Assert.Equal("Hello World", actualEventName);
             var typedProperties = eventLog["typedProperties"];
             Assert.Null(typedProperties);
-            Assert.Equal(1, httpNetworkAdapter.CallCount);
+            Assert.Equal(2, httpNetworkAdapter.CallCount);
         }
 
         [Fact]
         public async Task TrackEventWithPropertiesAsync()
         {
             // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
+            var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequest("startService");
+            var eventTask = httpNetworkAdapter.MockRequest("event");
 
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
 
             // Build event properties.
             var properties = new Dictionary<string, string>
@@ -83,11 +86,11 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Analytics.TrackEvent("Hello World", properties);
 
             // Wait for processing event.
-            await httpNetworkAdapter.HttpResponseTask;
+            RequestData requestData = await eventTask;
 
             // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
-            Assert.Equal("POST", httpNetworkAdapter.Method);
-            var eventLogs = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
+            Assert.Equal("POST", requestData.Method);
+            var eventLogs = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
             Assert.Equal(1, eventLogs.Count());
             var eventLog = eventLogs[0];
             var actualEventName = (string)eventLog["name"];
@@ -99,7 +102,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             {
                 Assert.NotNull(typedProperties.SelectToken($"[?(@.name == 'Key{i}' && @.value == 'Value{i}')]"));
             }
-            Assert.Equal(1, httpNetworkAdapter.CallCount);
+            Assert.Equal(2, httpNetworkAdapter.CallCount);
         }
     }
 }
