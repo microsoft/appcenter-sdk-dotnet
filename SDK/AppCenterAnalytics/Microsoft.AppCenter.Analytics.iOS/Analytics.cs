@@ -52,7 +52,7 @@ namespace Microsoft.AppCenter.Analytics
         /// <summary>
         /// Pause the Analytics service.
         /// </summary>
-        public static void Pause()
+        internal static void Pause()
         {
             iOSAnalytics.Pause();
         }
@@ -60,7 +60,7 @@ namespace Microsoft.AppCenter.Analytics
         /// <summary>
         /// Resume the Analytics service.
         /// </summary>
-        public static void Resume()
+        internal static void Resume()
         {
             iOSAnalytics.Resume();
         }

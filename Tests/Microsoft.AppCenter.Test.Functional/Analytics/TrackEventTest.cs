@@ -108,6 +108,10 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
 
             // Test TrackEvent.
             Analytics.TrackEvent("TrackEvent 1");
+            Task.WaitAny(httpNetworkAdapter.HttpResponseTask, Task.Delay(5000));
+
+            // Verify nothing has been sent.
+            Assert.Equal(0, httpNetworkAdapter.CallCount);
 
             // Resume Analytics module.
             Analytics.Resume();
@@ -161,6 +165,10 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
 
             // Pause Analytics module again.
             Analytics.Pause();
+            Task.WaitAny(httpNetworkAdapter.HttpResponseTask, Task.Delay(5000));
+
+            // Verify nothing has been sent.
+            Assert.Equal(0, httpNetworkAdapter.CallCount);
 
             // Resume Analytics module.
             Analytics.Resume();
