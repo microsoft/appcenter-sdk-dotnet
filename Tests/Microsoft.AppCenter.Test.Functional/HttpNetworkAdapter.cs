@@ -11,18 +11,21 @@ namespace Microsoft.AppCenter.Test.Functional
 {
     internal class HttpNetworkAdapter : IHttpNetworkAdapter
     {
+        //todo expected fields will be replaced with a lambda filter like Func<RequestData, bool>
         private readonly int _expectedStatusCode;
         private readonly string _expectedContent;
         private readonly string _expectedLogType;
 
-        private readonly TaskCompletionSource<HttpResponse> _taskCompletionSource = new TaskCompletionSource<HttpResponse>();
-
+        //todo refactor to use collection of tasks
+        private TaskCompletionSource<HttpResponse> _taskCompletionSource = new TaskCompletionSource<HttpResponse>();
         internal Task<HttpResponse> HttpResponseTask { get; private set; }
 
+        //todo move to RequestData
         internal string Uri { get; private set; }
         internal string Method { get; private set; }
         internal IDictionary<string, string> Headers { get; private set; }
         internal JObject JsonContent { get; private set; }
+
         internal int CallCount { get; private set; }
 
         internal HttpNetworkAdapter(int expectedStatusCode = 200, string expectedContent = "", string expectedLogType = null)
