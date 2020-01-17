@@ -3,7 +3,6 @@
 
 using System;
 using Foundation;
-using Microsoft.AppCenter;
 using Microsoft.AppCenter.Test.Functional;
 using Microsoft.AppCenter.Test.Functional.Distribute;
 using UIKit;
@@ -22,6 +21,7 @@ namespace Contoso.Test.Functional.iOS
         private const string ResultChannelHost = "127.0.0.1";
 
         private static UIApplication UiApplication;
+        private static NSDictionary LaunchOptions;
 
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
@@ -54,22 +54,23 @@ namespace Contoso.Test.Functional.iOS
 #endif
             DistributeUpdateTest.DistributeEvent += ConfigureDataForDistribute;
             UiApplication = uiApplication;
+            LaunchOptions = launchOptions;
             return base.FinishedLaunching(uiApplication, launchOptions);
         }
 
         private void ConfigureDataForDistribute(object sender, DistributeTestType distributeTestType)
         {
-            var plist = new NSUserDefaults("AppCenter", NSUserDefaultsType.SuiteName);
+            var plist = NSUserDefaults.StandardUserDefaults;
             switch (distributeTestType)
             {
                 case DistributeTestType.FreshInstallAsync:
                     plist.SetString("MSDownloadedReleaseId", Config.RequestId);
                     break;
                 case DistributeTestType.CheckUpdateAsync:
-                    plist.SetString("MSDownloadedReleaseId", Config.RequestId);
-                    plist.SetString("MSUpdateTokenRequestId", "token");
-                    plist.SetString("MSDistributionGroupId", Config.DistributionGroupId);
-                    plist.SetString("MSDownloadedReleaseHash", "hash");
+                    plist.SetString(Config.RequestId, "MSDownloadedReleaseId");
+                    plist.SetString("token", "MSUpdateTokenRequestId");
+                    plist.SetString(Config.DistributionGroupId, "MSDistributionGroupId");
+                    plist.SetString("hash", "MSDownloadedReleaseHash");
                     break;
                 case DistributeTestType.Clear:
                     plist.RemoveObject("MSUpdateTokenRequestId");
@@ -78,7 +79,7 @@ namespace Contoso.Test.Functional.iOS
                     plist.RemoveObject("MSDownloadedReleaseHash");
                     break;
                 case DistributeTestType.OnResumeActivity:
-                    WillEnterForeground(UiApplication);
+                    WillFinishLaunching(UiApplication, LaunchOptions);
                     break;
             }
         }
