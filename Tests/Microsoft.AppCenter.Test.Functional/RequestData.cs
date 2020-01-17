@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.AppCenter.Test.Functional
@@ -18,7 +19,14 @@ namespace Microsoft.AppCenter.Test.Functional
             Uri = uri;
             Method = method;
             Headers = headers;
-            JsonContent = JObject.Parse(jsonContent);
+            try
+            {
+                JsonContent = JObject.Parse(jsonContent == null ? "{ }" : jsonContent);
+            }
+            catch (JsonReaderException exc)
+            {
+                JsonContent = new JObject();
+            }
         }
     }
 }

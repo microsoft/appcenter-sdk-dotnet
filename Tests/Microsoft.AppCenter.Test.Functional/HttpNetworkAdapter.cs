@@ -1,63 +1,66 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.AppCenter.Test.Functional
 {
     internal class HttpNetworkAdapter : IHttpNetworkAdapter
     {
-        //todo expected fields will be replaced with a lambda filter like Func<RequestData, bool>
-        private readonly int _expectedStatusCode;
-        private readonly string _expectedContent;
-        private readonly string _expectedLogType;
+        struct ExpectedData
+        {
+            public HttpResponse Response;
+            public Func<RequestData, bool> Where;
+            public TaskCompletionSource<RequestData> Task;
+        }
 
-        //todo refactor to use collection of tasks
-        private TaskCompletionSource<HttpResponse> _taskCompletionSource = new TaskCompletionSource<HttpResponse>();
-        internal Task<HttpResponse> HttpResponseTask { get; private set; }
+        private HttpResponse defaultHttpResponse;
 
-        //todo move to RequestData
-        internal string Uri { get; private set; }
-        internal string Method { get; private set; }
-        internal IDictionary<string, string> Headers { get; private set; }
-        internal JObject JsonContent { get; private set; }
+        private List<ExpectedData> ExpectedDataList = new List<ExpectedData>();
 
         internal int CallCount { get; private set; }
 
-        internal HttpNetworkAdapter(int expectedStatusCode = 200, string expectedContent = "", string expectedLogType = null)
+        internal HttpNetworkAdapter()
         {
-            _expectedStatusCode = expectedStatusCode;
-            _expectedContent = expectedContent;
-            _expectedLogType = expectedLogType;
-            HttpResponseTask = _taskCompletionSource.Task;
+            defaultHttpResponse = new HttpResponse
+            {
+                StatusCode = 200,
+                Content = ""
+            };
+        }
+
+        public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response)
+        {
+            var ct = new CancellationTokenSource(200000);
+            var expectedData = new ExpectedData
+            {
+                Response = response,
+                Where = where,
+                Task = new TaskCompletionSource<RequestData>(ct)
+            };
+            return expectedData.Task.Task;
         }
 
         public Task<HttpResponse> SendAsync(string uri, string method, IDictionary<string, string> headers, string jsonContent, CancellationToken cancellationToken)
         {
-            var response = new HttpResponse
+            lock (this)
             {
-                StatusCode = _expectedStatusCode,
-                Content = _expectedContent
-            };
-            var jsonLogContainer = JObject.Parse(jsonContent);
-            if (string.IsNullOrEmpty(_expectedLogType) || jsonLogContainer.SelectTokens($"$.logs[?(@.type == '{_expectedLogType}')]").ToList().Count > 0)
-            {
-                Uri = uri;
-                Method = method;
-                Headers = headers;
-                JsonContent = jsonLogContainer;
-                lock (this)
+                var requestData = new RequestData(uri, method, headers, jsonContent);
+                foreach (var rule in ExpectedDataList)
                 {
-                    CallCount++;
+                    var result = rule.Where(requestData);
+                    if (result)
+                    {
+                        CallCount++;
+                        rule.Task.TrySetResult(requestData);
+                        return Task.FromResult(rule.Response);
+                    }
                 }
-                _taskCompletionSource.TrySetResult(response);
-                return HttpResponseTask;
+                return Task.FromResult(defaultHttpResponse);
             }
-            return Task.FromResult(response);
         }
 
         public void Dispose()
