@@ -22,7 +22,6 @@ namespace Contoso.Test.Functional.iOS
         private const string ResultChannelHost = "127.0.0.1";
 
         private static UIApplication UiApplication;
-        private static NSDictionary LaunchOptions;
 
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
@@ -55,7 +54,6 @@ namespace Contoso.Test.Functional.iOS
 #endif
             DistributeUpdateTest.DistributeEvent += ConfigureDataForDistribute;
             UiApplication = uiApplication;
-            LaunchOptions = launchOptions;
             return base.FinishedLaunching(uiApplication, launchOptions);
         }
 
@@ -65,12 +63,12 @@ namespace Contoso.Test.Functional.iOS
             switch (distributeTestType)
             {
                 case DistributeTestType.FreshInstallAsync:
-                    plist.SetString("MSDownloadedReleaseId", Config._requestId);
+                    plist.SetString("MSDownloadedReleaseId", Config.RequestId);
                     break;
                 case DistributeTestType.CheckUpdateAsync:
-                    plist.SetString("MSDownloadedReleaseId", Config._requestId);
+                    plist.SetString("MSDownloadedReleaseId", Config.RequestId);
                     plist.SetString("MSUpdateTokenRequestId", "token");
-                    plist.SetString("MSDistributionGroupId", Config._distributionGroupId);
+                    plist.SetString("MSDistributionGroupId", Config.DistributionGroupId);
                     plist.SetString("MSDownloadedReleaseHash", "hash");
                     break;
                 case DistributeTestType.Clear:

@@ -57,12 +57,12 @@ namespace Contoso.Test.Functional.Droid
             switch (distributeTestType)
             {
                 case DistributeTestType.FreshInstallAsync:
-                    prefEditor.PutString("Distribute.request_id", Config._requestId);
+                    prefEditor.PutString("Distribute.request_id", Config.RequestId);
                     break;
                 case DistributeTestType.CheckUpdateAsync:
-                    prefEditor.PutString("Distribute.request_id", Config._requestId);
+                    prefEditor.PutString("Distribute.request_id", Config.RequestId);
                     prefEditor.PutString("Distribute.update_token", "token");
-                    prefEditor.PutString("Distribute.distribution_group_id", Config._distributionGroupId);
+                    prefEditor.PutString("Distribute.distribution_group_id", Config.DistributionGroupId);
                     prefEditor.PutString("Distribute.downloaded_release_hash", "hash");
                     break;
                 case DistributeTestType.Clear:

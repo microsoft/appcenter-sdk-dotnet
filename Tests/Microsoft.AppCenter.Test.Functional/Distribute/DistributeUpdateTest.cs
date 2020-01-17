@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Microsoft.AppCenter.Test.Functional.Distribute
@@ -33,15 +36,11 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             AppCenter.UnsetInstance();
             Distribute.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config._appSecret, typeof(Distribute));
+            AppCenter.Start(Config.AppSecret, typeof(Distribute));
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
 
             // Wait when Distribute will start.
             await Distribute.IsEnabledAsync();
-
-            // Disable and enable distribute.
-            Distribute.SetEnabledAsync(false).Wait();
-            Distribute.SetEnabledAsync(true).Wait();
 
             // Wait for processing event.
             await httpNetworkAdapter.HttpResponseTask;
@@ -49,7 +48,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Verify response.
             Assert.Equal("GET", httpNetworkAdapter.Method);
             Assert.True(httpNetworkAdapter.Uri.Contains("releases/latest?release_hash"));
-            Assert.True(httpNetworkAdapter.Uri.Contains(Config._appSecret));
+            Assert.True(httpNetworkAdapter.Uri.Contains(Config.AppSecret));
 
             // Clear.
             DistributeEvent?.Invoke(this, DistributeTestType.Clear);
