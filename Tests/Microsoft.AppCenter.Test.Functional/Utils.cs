@@ -31,7 +31,7 @@ namespace Microsoft.AppCenter.Test.Functional
                 Directory.Delete(dbFolder, true);
             } catch (DirectoryNotFoundException e)
             {
-                Console.WriteLine($"Android DB not found {e.ToString()}.");
+                AppCenterLog.Error("TestUtils", $"Android DB not found {e.ToString()}.");
             }
         }
 
@@ -44,7 +44,7 @@ namespace Microsoft.AppCenter.Test.Functional
             }
             catch (DirectoryNotFoundException e)
             {
-                Console.WriteLine($"iOS DB not found {e.ToString()}.");
+                AppCenterLog.Error("TestUtils", $"iOS DB not found {e.ToString()}.");
             }
         }
     }

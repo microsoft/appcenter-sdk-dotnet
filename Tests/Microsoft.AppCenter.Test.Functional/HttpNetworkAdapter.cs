@@ -15,16 +15,16 @@ namespace Microsoft.AppCenter.Test.Functional
         {
             public HttpResponse Response;
             public Func<RequestData, bool> Where;
-            public TaskCompletionSource<RequestData> Task;
+            public TaskCompletionSource<RequestData> TaskCompletionSource;
         }
 
-        private HttpResponse defaultHttpResponse = new HttpResponse
+        private static readonly HttpResponse defaultHttpResponse = new HttpResponse
         {
             StatusCode = 200,
             Content = ""
         };
 
-        private List<ExpectedData> ExpectedDataList = new List<ExpectedData>();
+        private readonly IList<ExpectedData> expectedDataList = new List<ExpectedData>();
 
         internal int CallCount { get; private set; }
 
@@ -41,34 +41,30 @@ namespace Microsoft.AppCenter.Test.Functional
 
         public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response = null)
         {
-            if (response == null)
-            {
-                response = defaultHttpResponse;
-            }
-            var ct = new CancellationTokenSource(200000);
+            var ct = new CancellationTokenSource(TimeSpan.FromSeconds(20));
             var expectedData = new ExpectedData
             {
-                Response = response,
+                Response = response ?? defaultHttpResponse,
                 Where = where,
-                Task = new TaskCompletionSource<RequestData>(ct)
+                TaskCompletionSource = new TaskCompletionSource<RequestData>(ct)
             };
-            ExpectedDataList.Add(expectedData);
-            return expectedData.Task.Task;
+            expectedDataList.Add(expectedData);
+            return expectedData.TaskCompletionSource.Task;
         }
 
         public Task<HttpResponse> SendAsync(string uri, string method, IDictionary<string, string> headers, string jsonContent, CancellationToken cancellationToken)
         {
-            lock (this)
+            lock (expectedDataList)
             {
                 var requestData = new RequestData(uri, method, headers, jsonContent);
-                foreach (var rule in ExpectedDataList)
+                foreach (var rule in expectedDataList)
                 {
                     var result = rule.Where(requestData);
                     if (result)
                     {
                         CallCount++;
-                        rule.Task.TrySetResult(requestData);
-                        ExpectedDataList.Remove(rule);
+                        rule.TaskCompletionSource.TrySetResult(requestData);
+                        expectedDataList.Remove(rule);
                         return Task.FromResult(rule.Response);
                     }
                 }
