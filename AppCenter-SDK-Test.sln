@@ -50,6 +50,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Distribute.iOS", "SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.iOS\Microsoft.AppCenter.Distribute.iOS.csproj", "{60241627-33BB-45F9-A1B6-6F1CB2BF2C4A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Distribute.iOS.Bindings", "SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.iOS.Bindings\Microsoft.AppCenter.Distribute.iOS.Bindings.csproj", "{278DFD3C-A0DD-4DD2-97C5-44EC4BEE8462}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppCenterCrashes", "AppCenterCrashes", "{1B225A1D-3B01-4A86-A2DB-E9C631B1CEFA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Crashes", "SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes\Microsoft.AppCenter.Crashes.csproj", "{229C842A-019A-4211-9DD0-3D2BBD4A3DBF}"
