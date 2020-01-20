@@ -69,8 +69,8 @@
         <assembly path="SDK/AppCenterRum/Microsoft.AppCenter.Rum.UWP/bin/Release/Microsoft.AppCenter.Rum.dll"/>
     </group>
     <module dotnetModule="SDK/AppCenter/Microsoft.AppCenter" nuspec="AppCenter.nuspec"/>
-    <module dotnetModule="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes" nuspec="AppCenterAnalytics.nuspec"/>
-    <module dotnetModule="SDK/AppCenter/Microsoft.AppCenter" nuspec="AppCenterCrashes.nuspec"/>
+    <module dotnetModule="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics" nuspec="AppCenterAnalytics.nuspec"/>
+    <module dotnetModule="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes" nuspec="AppCenterCrashes.nuspec"/>
     <module dotnetModule="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute" nuspec="AppCenterDistribute.nuspec"/>
     <module dotnetModule="SDK/AppCenterPush/Microsoft.AppCenter.Push" nuspec="AppCenterPush.nuspec"/>
     <module dotnetModule="SDK/AppCenterRum/Microsoft.AppCenter.Rum" nuspec="AppCenterRum.nuspec"/>

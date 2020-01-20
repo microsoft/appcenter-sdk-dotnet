@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991477" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SDK\AppCenter\Microsoft.AppCenter\Microsoft.AppCenter.csproj" />
@@ -14,6 +15,7 @@
     <ProjectReference Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes\Microsoft.AppCenter.Crashes.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AppCenter\" />
     <Folder Include="Analytics\" />
     <Folder Include="Crashes\" />
   </ItemGroup>

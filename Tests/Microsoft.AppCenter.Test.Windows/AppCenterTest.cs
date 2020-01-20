@@ -580,6 +580,22 @@ namespace Microsoft.AppCenter.Test
         }
 
         /// <summary>
+        /// Parse multiple tokens with newlines added.
+        /// </summary>
+        [TestMethod]
+        public void ParseAppSecretAndTargetMultiplePlatformWithNewLines()
+        {
+            var appSecret = Guid.NewGuid().ToString();
+            var anotherAppSecret = Guid.NewGuid().ToString();
+            var targetToken = Guid.NewGuid().ToString();
+            var platformId = "android";
+            var secrets = $"{platformId}={appSecret};\nios={anotherAppSecret};{platformId}Target={targetToken};\niosTarget={anotherAppSecret}";
+            var parsedSecret = AppCenter.GetSecretAndTargetForPlatform(secrets, platformId);
+            var expected = $"appsecret={appSecret};target={targetToken}";
+            Assert.AreEqual(expected, parsedSecret);
+        }
+
+        /// <summary>
         /// Verify parse when there is only token.
         /// </summary>
         [TestMethod]
@@ -620,6 +636,19 @@ namespace Microsoft.AppCenter.Test
         }
 
         /// <summary>
+        /// Verify parse fails when space added before secret.
+        /// </summary>
+        [TestMethod]
+        public void ParsingFailIfWhiteSpaceBeforeFirstSecret()
+        {
+            var appSecret = Guid.NewGuid().ToString();
+            var platformId = "uwp";
+            var secrets = $" {platformId}={appSecret};ios=anotherstring";
+            var parsedSecret = AppCenter.GetSecretAndTargetForPlatform(secrets, platformId);
+            Assert.AreNotEqual(appSecret, parsedSecret);
+        }
+
+        /// <summary>
         /// Verify parse when the platform is second of two
         /// </summary>
         [TestMethod]
@@ -633,14 +662,27 @@ namespace Microsoft.AppCenter.Test
         }
 
         /// <summary>
-        /// Verify parse when the string has extra semicolons
+        /// Verify parse fails if adding newlines without `;`
         /// </summary>
         [TestMethod]
-        public void ParseAppSecretExtraSemicolons()
+        public void ParseAppSecretSecondOfTwoWithoutDelimiterButWhiteSpace()
         {
             var appSecret = Guid.NewGuid().ToString();
             var platformId = "uwp";
-            var secrets = $"ios=anotherstring;;;;{platformId}={appSecret};;;;";
+            var secrets = $"ios=anotherstring;{platformId}={appSecret}\n";
+            var parsedSecret = AppCenter.GetSecretAndTargetForPlatform(secrets, platformId);
+            Assert.AreNotEqual(appSecret, parsedSecret);
+        }
+
+        /// <summary>
+        /// Verify parse ok when the string has extra semicolons (followed by whitespaces or not).
+        /// </summary>
+        [TestMethod]
+        public void ParseAppSecretExtraSemicolonsOrWhiteSpaces()
+        {
+            var appSecret = Guid.NewGuid().ToString();
+            var platformId = "uwp";
+            var secrets = $"ios=anotherstring;;;;{platformId}={appSecret};\n ;;;";
             var parsedSecret = AppCenter.GetSecretAndTargetForPlatform(secrets, platformId);
             Assert.AreEqual(appSecret, parsedSecret);
         }
@@ -694,6 +736,18 @@ namespace Microsoft.AppCenter.Test
             var secrets = $"ios=anotherstring;{platformId}={appSecret};";
             Assert.ThrowsException<AppCenterException>(
                 () => AppCenter.GetSecretAndTargetForPlatform(secrets, platformId + platformId));
+        }
+
+        /// <summary>
+        /// Verify equal separator is only the first one.
+        /// </summary>
+        [TestMethod]
+        public void ParseWithEqualInSecret()
+        {
+            var platformId = "uwp";
+            var secrets = $"ios=anotherstring;{platformId}=123=456";
+            var parsedSecret = AppCenter.GetSecretAndTargetForPlatform(secrets, platformId);
+            Assert.AreEqual("123=456", parsedSecret);
         }
 
         /// <summary>
