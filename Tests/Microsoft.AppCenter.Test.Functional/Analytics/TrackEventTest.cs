@@ -108,9 +108,9 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
 
             // Test TrackEvent.
             Analytics.TrackEvent("TrackEvent 1");
-            Task.WaitAny(httpNetworkAdapter.HttpResponseTask, Task.Delay(5000));
 
-            // Verify nothing has been sent.
+            // Wait for 5 seconds to allow batching happen (3 seconds), and verify nothing has been sent.
+            Task.WaitAny(httpNetworkAdapter.HttpResponseTask, Task.Delay(5000));
             Assert.Equal(0, httpNetworkAdapter.CallCount);
 
             // Resume Analytics module.
@@ -165,9 +165,9 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
 
             // Pause Analytics module again.
             Analytics.Pause();
-            Task.WaitAny(httpNetworkAdapter.HttpResponseTask, Task.Delay(5000));
 
-            // Verify nothing has been sent.
+            // Wait for 5 seconds to allow batching happen (3 seconds), and verify nothing has been sent.
+            Task.WaitAny(httpNetworkAdapter.HttpResponseTask, Task.Delay(5000));
             Assert.Equal(0, httpNetworkAdapter.CallCount);
 
             // Resume Analytics module.
