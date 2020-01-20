@@ -11,10 +11,22 @@ using Xunit;
 namespace Microsoft.AppCenter.Test.Functional.Analytics
 {
     using Analytics = Microsoft.AppCenter.Analytics.Analytics;
+    using AppCenter = Microsoft.AppCenter.AppCenter;
 
     public class TrackEventTest
     {
-        private readonly string _appSecret = Guid.NewGuid().ToString();
+        // Before
+        public TrackEventTest()
+        {
+            Utils.deleteDatabase();
+        }
+
+        // After
+        public void Dispose()
+        {
+            // Let pending SDK calls be completed.
+            Task.Delay(3000).Wait();
+        }
 
         [Fact]
         public async Task TrackEventWithoutPropertiesAsync()
@@ -27,7 +39,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Analytics));
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
 
             // Test TrackEvent.
             Analytics.TrackEvent("Hello World");
@@ -58,7 +70,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Analytics));
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
 
             // Build event properties.
             var properties = new Dictionary<string, string>
@@ -101,7 +113,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Analytics));
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
 
             // Pause Analytics module.
             Analytics.Pause();
@@ -153,7 +165,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Analytics));
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
 
             // Pause Analytics module.
             Analytics.Pause();

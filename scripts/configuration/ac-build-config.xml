@@ -3,7 +3,7 @@
     <sdkInfo>
         <sdkVersion>2.6.5-SNAPSHOT</sdkVersion>
         <iosVersion>2.5.4-1+ba46963aabcbdf3c1d75b7182ff5895cd2daaad4</iosVersion>
-        <androidVersion>2.5.2-2+2497a76cf</androidVersion>
+        <androidVersion>2.5.2-6+a9ee541dd</androidVersion>
     </sdkInfo>
     <group id="ios" folder="iOSAssemblies" buildGroup="mac">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.iOS/bin/Release/Microsoft.AppCenter.dll"/>
@@ -69,8 +69,8 @@
         <assembly path="SDK/AppCenterRum/Microsoft.AppCenter.Rum.UWP/bin/Release/Microsoft.AppCenter.Rum.dll"/>
     </group>
     <module dotnetModule="SDK/AppCenter/Microsoft.AppCenter" nuspec="AppCenter.nuspec"/>
-    <module dotnetModule="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes" nuspec="AppCenterAnalytics.nuspec"/>
-    <module dotnetModule="SDK/AppCenter/Microsoft.AppCenter" nuspec="AppCenterCrashes.nuspec"/>
+    <module dotnetModule="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics" nuspec="AppCenterAnalytics.nuspec"/>
+    <module dotnetModule="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes" nuspec="AppCenterCrashes.nuspec"/>
     <module dotnetModule="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute" nuspec="AppCenterDistribute.nuspec"/>
     <module dotnetModule="SDK/AppCenterPush/Microsoft.AppCenter.Push" nuspec="AppCenterPush.nuspec"/>
     <module dotnetModule="SDK/AppCenterRum/Microsoft.AppCenter.Rum" nuspec="AppCenterRum.nuspec"/>
