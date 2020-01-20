@@ -114,8 +114,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             var typeEvent = "event";
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            var eventTask1 = httpNetworkAdapter.MockRequestByLogType(typeEvent, delayTimeInSeconds: 5);
-            var eventTask2 = httpNetworkAdapter.MockRequestByLogType(typeEvent);
+            var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
             AppCenter.UnsetInstance();
@@ -130,7 +129,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Analytics.TrackEvent("TrackEvent 1");
 
             // Wait for 5 seconds to allow batching happen (3 seconds), and verify nothing has been sent.
-            RequestData requestData = await eventTask1;
+            Task.WaitAny(eventTask, Task.Delay(5000));
             Assert.Equal(0, httpNetworkAdapter.CallCount);
 
             // Resume Analytics module.
@@ -140,7 +139,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Analytics.TrackEvent("TrackEvent 2");
 
             // Wait for processing event.
-            var result = await eventTask2;
+            var result = await eventTask;
 
             // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
             Assert.Equal("POST", result.Method);
@@ -169,8 +168,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             var typeEvent = "event";
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            var eventTask1 = httpNetworkAdapter.MockRequestByLogType(typeEvent, delayTimeInSeconds: 5);
-            var eventTask2 = httpNetworkAdapter.MockRequestByLogType(typeEvent);
+            var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
             AppCenter.UnsetInstance();
@@ -190,14 +188,14 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Analytics.Pause();
 
             // Wait for 5 seconds to allow batching happen (3 seconds), and verify nothing has been sent.
-            RequestData requestData = await eventTask1;
+            Task.WaitAny(eventTask, Task.Delay(5000));
             Assert.Equal(0, httpNetworkAdapter.CallCount);
 
             // Resume Analytics module.
             Analytics.Resume();
 
             // Wait for processing event.
-            var result = await eventTask2;
+            var result = await eventTask;
 
             // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
             Assert.Equal("POST", result.Method);
