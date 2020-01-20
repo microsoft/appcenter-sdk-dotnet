@@ -15,6 +15,7 @@ public class VersionReader
         SdkVersion = sdkVersion;
         IosVersion = iosVersion;
         AndroidVersion = androidVersion;
+        reader.Close();
     }
 
     private static void ReadVersion(string versionName, XmlReader reader, ref string versionVar)
