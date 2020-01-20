@@ -9,6 +9,7 @@ using Xunit;
 namespace Microsoft.AppCenter.Test.Functional.Crashes
 {
     using Crashes = Microsoft.AppCenter.Crashes.Crashes;
+    using AppCenter = Microsoft.AppCenter.AppCenter;
 
     public class AppCenterCrashesTest
     {
