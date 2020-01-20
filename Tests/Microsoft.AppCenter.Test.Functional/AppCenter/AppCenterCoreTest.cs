@@ -77,6 +77,9 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             var isEnabledAnalytics4 = await Analytics.IsEnabledAsync();
             Assert.True(isEnabled4);
             Assert.True(isEnabledAnalytics4);
+
+            // Let pending SDK calls be completed, we have a lot of "startService" calls.
+            Task.Delay(5000).Wait();
         }
 
         [Fact]
