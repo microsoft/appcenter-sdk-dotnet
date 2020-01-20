@@ -28,7 +28,7 @@ namespace Microsoft.AppCenter.Test.Functional
 
         internal int CallCount { get; private set; }
 
-        public Task<RequestData> MockRequestByLogType(string logType, HttpResponse response = null)
+        public Task<RequestData> MockRequestByLogType(string logType, HttpResponse response = null, double delayTimeInSeconds = 20)
         {
             Func<RequestData, bool> logTypeRule = (RequestData arg) =>
             {
@@ -39,9 +39,9 @@ namespace Microsoft.AppCenter.Test.Functional
             return MockRequest(logTypeRule, response);
         }
 
-        public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response = null)
+        public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response = null, double delayTimeInSeconds = 20)
         {
-            var ct = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+            var ct = new CancellationTokenSource(TimeSpan.FromSeconds(delayTimeInSeconds));
             var expectedData = new ExpectedData
             {
                 Response = response ?? defaultHttpResponse,

@@ -19,6 +19,16 @@ namespace Microsoft.AppCenter.Analytics.iOS.Bindings
         [Export("isEnabled")]
         bool IsEnabled();
 
+        // +(void)pause;
+        [Static]
+        [Export("pause")]
+        void Pause();
+
+        // +(void)resume;
+        [Static]
+        [Export("resume")]
+        void Resume();
+
         // +(void)trackEvent:(NSString *)eventName;
         [Static]
         [Export("trackEvent:")]
