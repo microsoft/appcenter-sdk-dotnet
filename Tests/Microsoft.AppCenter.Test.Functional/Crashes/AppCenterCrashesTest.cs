@@ -13,9 +13,13 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
 
     public class AppCenterCrashesTest
     {
-        private readonly string _appSecret = Guid.NewGuid().ToString();
+        // Before
+        public AppCenterCrashesTest()
+        {
+            Utils.deleteDatabase();
+        }
 
-        [Fact]
+        //[Fact]
         public async Task EnableDisableTest()
         {
             AppCenter.UnsetInstance();
@@ -23,7 +27,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
 
             // Start App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Crashes));
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Crashes));
 
             // Disable Appcenter.
             await AppCenter.SetEnabledAsync(false);
@@ -38,7 +42,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             AppCenter.UnsetInstance();
             Crashes.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Crashes));
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Crashes));
 
             // Verify disabled.
             var isEnabled2 = await AppCenter.IsEnabledAsync();
@@ -59,7 +63,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             AppCenter.UnsetInstance();
             Crashes.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Crashes));
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Crashes));
 
             // Verify enabled.
             var isEnabled4 = await AppCenter.IsEnabledAsync();
@@ -68,7 +72,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             Assert.True(isEnabledCrashes4);
         }
 
-        [Fact]
+        //[Fact]
         public async Task TrackErrorTest()
         {
             AppCenter.UnsetInstance();
@@ -78,11 +82,15 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             var typeEvent = "handledError";
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
             var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Crashes));
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Crashes));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
 
             Crashes.TrackError(new Exception("The answert is 42"));
             RequestData requestData = await eventTask;
@@ -90,7 +98,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             Assert.Equal(1, events.Count());
         }
 
-        [Fact]
+        //[Fact]
         public async Task SetUserIdTest()
         {
             AppCenter.UnsetInstance();
@@ -100,14 +108,18 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             var typeEvent = "handledError";
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
             var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Crashes));
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Crashes));
             var userId = "I-am-test-user-id";
             AppCenter.SetUserId(userId);
             Crashes.TrackError(new Exception("The answert is 42"));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
 
             // Wait for processing event.
             RequestData requestData = await eventTask;

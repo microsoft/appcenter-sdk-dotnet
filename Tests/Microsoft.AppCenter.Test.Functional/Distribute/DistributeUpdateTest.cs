@@ -24,6 +24,12 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
         public static event DistributeEventHandler DistributeEvent;
 
+        // Before
+        public DistributeUpdateTest()
+        {
+            Utils.deleteDatabase();
+        }
+
         [Fact]
         public async Task GetLastReleaseDetailsAsync()
         {
@@ -38,12 +44,17 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
                 return arg.Method == "GET";
             };
             var eventTask = httpNetworkAdapter.MockRequest(logTypeRule);
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
 
             // Start AppCenter.
             AppCenter.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.resolveAppsecret(), typeof(Distribute));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
+
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
 
             // Wait when Distribute will start.

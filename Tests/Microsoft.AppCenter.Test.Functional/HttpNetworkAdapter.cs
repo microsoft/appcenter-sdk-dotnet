@@ -50,13 +50,13 @@ namespace Microsoft.AppCenter.Test.Functional
         {
             lock (expectedDataList)
             {
-                CallCount++;
                 var requestData = new RequestData(uri, method, headers, jsonContent);
                 foreach (var rule in expectedDataList)
                 {
                     var result = rule.Where(requestData);
                     if (result)
                     {
+                        CallCount++;
                         rule.TaskCompletionSource.TrySetResult(requestData);
                         expectedDataList.Remove(rule);
                         return Task.FromResult(rule.Response);
