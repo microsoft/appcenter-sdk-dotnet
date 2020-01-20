@@ -4,6 +4,8 @@
 
 ### App Center
 
+* **[Fix]** Allow whitespace characters between secrets like in versions before `2.6.0`.
+
 #### UWP
 
 * **[Feature]** Support ARM64 architecture.
