@@ -14,7 +14,6 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
 
     public class AppCenterCoreTest : IDisposable
     {
-
         // Before
         public AppCenterCoreTest()
         {

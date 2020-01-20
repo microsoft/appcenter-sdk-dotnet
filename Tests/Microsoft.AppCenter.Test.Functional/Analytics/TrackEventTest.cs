@@ -14,7 +14,6 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
 
     public class TrackEventTest
     {
-
         // Before
         public TrackEventTest()
         {
