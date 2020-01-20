@@ -19,12 +19,6 @@
     <Folder Include="AppCenter\" />
     <Folder Include="Analytics\" />
     <Folder Include="Distribute\" />
-     <Folder Include="Crashes\" />
-  </ItemGroup>
-  <ItemGroup>
-    <!-- <Reference Include="Mono.Android">
-      <HintPath>..\..\..\..\..\..\Library\Frameworks\Xamarin.Android.framework\Versions\10.0.6.2\lib\xamarin.android\xbuild-frameworks\MonoAndroid\v8.0\Mono.Android.dll</HintPath>
-    </Reference> -->
-   
+    <Folder Include="Crashes\" />
   </ItemGroup>
 </Project>

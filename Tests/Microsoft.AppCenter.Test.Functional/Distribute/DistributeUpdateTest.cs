@@ -35,7 +35,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
             // Start AppCenter.
             AppCenter.UnsetInstance();
-            Distribute.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.AppSecret, typeof(Distribute));
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
