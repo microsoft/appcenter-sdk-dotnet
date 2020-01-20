@@ -23,7 +23,7 @@ namespace Microsoft.AppCenter.Test.Functional
             {
                 JsonContent = JObject.Parse(jsonContent == null ? "{ }" : jsonContent);
             }
-            catch (JsonReaderException exc)
+            catch (JsonReaderException)
             {
                 JsonContent = new JObject();
             }

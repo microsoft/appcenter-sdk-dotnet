@@ -8,6 +8,8 @@ namespace Microsoft.AppCenter.Test.Functional
 {
     public static class Utils
     {
+        private const string TAG = "TestUtils";
+
         public static void deleteDatabase()
         {
             switch (Xamarin.Forms.Device.RuntimePlatform)
@@ -31,7 +33,7 @@ namespace Microsoft.AppCenter.Test.Functional
                 Directory.Delete(dbFolder, true);
             } catch (DirectoryNotFoundException e)
             {
-                AppCenterLog.Error("TestUtils", $"Android DB not found {e.ToString()}.");
+                AppCenterLog.Error(TAG, $"Android DB not found {e.ToString()}.");
             }
         }
 
@@ -44,7 +46,7 @@ namespace Microsoft.AppCenter.Test.Functional
             }
             catch (DirectoryNotFoundException e)
             {
-                AppCenterLog.Error("TestUtils", $"iOS DB not found {e.ToString()}.");
+                AppCenterLog.Error(TAG, $"iOS DB not found {e.ToString()}.");
             }
         }
     }

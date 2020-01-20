@@ -114,6 +114,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             var typeEvent = "event";
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
             var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
@@ -121,6 +122,9 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
 
             // Pause Analytics module.
             Analytics.Pause();
@@ -130,7 +134,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
 
             // Wait for 5 seconds to allow batching happen (3 seconds), and verify nothing has been sent.
             Task.WaitAny(eventTask, Task.Delay(5000));
-            Assert.Equal(0, httpNetworkAdapter.CallCount);
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
 
             // Resume Analytics module.
             Analytics.Resume();
@@ -159,7 +163,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Assert.Null(typedProperties);
 
             // Check count calls.
-            Assert.Equal(1, httpNetworkAdapter.CallCount);
+            Assert.Equal(2, httpNetworkAdapter.CallCount);
         }
 
         [Fact]
@@ -168,6 +172,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             var typeEvent = "event";
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
             var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
@@ -175,6 +180,9 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
 
             // Pause Analytics module.
             Analytics.Pause();
@@ -189,7 +197,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
 
             // Wait for 5 seconds to allow batching happen (3 seconds), and verify nothing has been sent.
             Task.WaitAny(eventTask, Task.Delay(5000));
-            Assert.Equal(0, httpNetworkAdapter.CallCount);
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
 
             // Resume Analytics module.
             Analytics.Resume();
@@ -220,7 +228,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Assert.Null(typedProperties);
 
             // Check count calls.
-            Assert.Equal(1, httpNetworkAdapter.CallCount);
+            Assert.Equal(2, httpNetworkAdapter.CallCount);
         }
     }
 }
