@@ -482,5 +482,10 @@ namespace Microsoft.AppCenter.Crashes
             }
             return null;
         }
+
+        internal static void PlatformUnsetInstance()
+        {
+            Instance = null;
+        }
     }
 }
