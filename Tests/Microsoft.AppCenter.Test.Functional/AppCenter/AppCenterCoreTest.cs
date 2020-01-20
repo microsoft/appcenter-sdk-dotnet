@@ -77,17 +77,20 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             var isEnabledAnalytics4 = await Analytics.IsEnabledAsync();
             Assert.True(isEnabled4);
             Assert.True(isEnabledAnalytics4);
-
-            // Let pending SDK calls be completed, we have a lot of "startService" calls.
-            Task.Delay(5000).Wait();
         }
 
         [Fact]
         public async Task CustomPropertiesTest()
         {
             // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "customProperties");
+            var typeProperty = "customProperties";
+            var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            Func<RequestData, bool> logTypeRule = (RequestData arg) =>
+            {
+                return arg.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeProperty}')]").ToList().Count > 0;
+            };
+            var eventTask = httpNetworkAdapter.MockRequest(logTypeRule);
 
             // Start App Center.
             AppCenter.UnsetInstance();
@@ -120,9 +123,9 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.SetCustomProperties(customProperties);
 
             // Wait for processing event.
-            await httpNetworkAdapter.HttpResponseTask;
-            Assert.Equal("POST", httpNetworkAdapter.Method);
-            var eventLogs = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'customProperties')]").ToList();
+            RequestData requestData = await eventTask;
+            Assert.Equal("POST", requestData.Method);
+            var eventLogs = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeProperty}')]").ToList();
 
             // Verify the log sctructure.
             Assert.Equal(1, eventLogs.Count());
@@ -144,8 +147,14 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
         public async Task CustomPropertiesClearTest()
         {
             // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "customProperties");
+            var typeProperty = "customProperties";
+            var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            Func<RequestData, bool> logTypeRule = (RequestData arg) =>
+            {
+                return arg.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeProperty}')]").ToList().Count > 0;
+            };
+            var eventTask = httpNetworkAdapter.MockRequest(logTypeRule);
 
             // Start App Center.
             AppCenter.UnsetInstance();
@@ -180,9 +189,10 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.SetCustomProperties(customPropertiesClear);
 
             // Wait for processing event.
-            await httpNetworkAdapter.HttpResponseTask;
-            Assert.Equal("POST", httpNetworkAdapter.Method);
-            var eventLogsClear = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'customProperties')]").ToList();
+            // Wait for processing event.
+            RequestData requestData = await eventTask;
+            Assert.Equal("POST", requestData.Method);
+            var eventLogsClear = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeProperty}')]").ToList();
 
             // Verify the log sctructure.
             Assert.Equal(1, eventLogsClear.Count());

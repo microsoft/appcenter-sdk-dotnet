@@ -7,6 +7,5 @@ namespace Microsoft.AppCenter
     {
         internal int StatusCode { get; set; }
         internal string Content { get; set; }
-        internal string LogType { get; set; }
     }
 }

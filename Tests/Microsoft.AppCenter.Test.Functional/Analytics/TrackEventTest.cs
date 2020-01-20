@@ -24,19 +24,20 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
         public async Task TrackEventWithoutPropertiesAsync()
         {
             // Set up HttpNetworkAdapter.
+            var typeEvent = "event";
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            var startServiceTask = httpNetworkAdapter.MockRequest("startService");
-            var eventTask = httpNetworkAdapter.MockRequest("event");
+            Func<RequestData, bool> logTypeRule = (RequestData arg) =>
+            {
+                return arg.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList().Count > 0;
+            };
+            var eventTask = httpNetworkAdapter.MockRequest(logTypeRule);
 
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
-
-            // Wait for "startService" log to be sent.
-            await startServiceTask;
 
             // Test TrackEvent.
             Analytics.TrackEvent("Hello World");
@@ -46,33 +47,34 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
 
             // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
             Assert.Equal("POST", requestData.Method);
-            var eventLogs = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
+            var eventLogs = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList();
             Assert.Equal(1, eventLogs.Count());
             var eventLog = eventLogs[0];
             var actualEventName = (string)eventLog["name"];
             Assert.Equal("Hello World", actualEventName);
             var typedProperties = eventLog["typedProperties"];
             Assert.Null(typedProperties);
-            Assert.Equal(2, httpNetworkAdapter.CallCount);
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
         }
 
         [Fact]
         public async Task TrackEventWithPropertiesAsync()
         {
             // Set up HttpNetworkAdapter.
+            var typeEvent = "event";
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            var startServiceTask = httpNetworkAdapter.MockRequest("startService");
-            var eventTask = httpNetworkAdapter.MockRequest("event");
+            Func<RequestData, bool> logTypeRule = (RequestData arg) =>
+            {
+                return arg.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList().Count > 0;
+            };
+            var eventTask = httpNetworkAdapter.MockRequest(logTypeRule);
 
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
-
-            // Wait for "startService" log to be sent.
-            await startServiceTask;
 
             // Build event properties.
             var properties = new Dictionary<string, string>
@@ -90,7 +92,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
 
             // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
             Assert.Equal("POST", requestData.Method);
-            var eventLogs = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
+            var eventLogs = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList();
             Assert.Equal(1, eventLogs.Count());
             var eventLog = eventLogs[0];
             var actualEventName = (string)eventLog["name"];
@@ -102,7 +104,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             {
                 Assert.NotNull(typedProperties.SelectToken($"[?(@.name == 'Key{i}' && @.value == 'Value{i}')]"));
             }
-            Assert.Equal(2, httpNetworkAdapter.CallCount);
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
         }
     }
 }
