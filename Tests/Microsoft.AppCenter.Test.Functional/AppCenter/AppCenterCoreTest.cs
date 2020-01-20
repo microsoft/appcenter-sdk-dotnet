@@ -12,7 +12,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
     using Analytics = Microsoft.AppCenter.Analytics.Analytics;
     using AppCenter = Microsoft.AppCenter.AppCenter;
 
-    public class AppCenterCoreTest : IDisposable
+    public class AppCenterCoreTest
     {
         // Before
         public AppCenterCoreTest()
@@ -20,21 +20,23 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             Utils.deleteDatabase();
         }
 
-        // After
-        public void Dispose()
-        {
-            // Let pending SDK calls be completed.
-            Task.Delay(3000).Wait();
-        }
-
         [Fact]
         public async Task EnableDisableTest()
         {
+            var httpNetworkAdapter = new HttpNetworkAdapter();
+            DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var startServiceTask2 = httpNetworkAdapter.MockRequestByLogType("startService");
+            var startServiceTask3 = httpNetworkAdapter.MockRequestByLogType("startService");
+
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
 
             // Disable Appcenter.
             await AppCenter.SetEnabledAsync(false);
@@ -45,10 +47,11 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             Assert.False(isEnabled);
             Assert.False(isEnabledAnalytics);
 
-            // Restart SDK.
+            //// Restart SDK.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
+
             AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
 
             // Verify disabled.
@@ -59,6 +62,9 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
 
             // Enable SDK.
             await AppCenter.SetEnabledAsync(true);
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask2;
 
             // Verify enabled.
             var isEnabled3 = await AppCenter.IsEnabledAsync();
@@ -72,14 +78,14 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
 
+            // Wait for "startService" log to be sent.
+            await startServiceTask3;
+
             // Verify enabled.
             var isEnabled4 = await AppCenter.IsEnabledAsync();
             var isEnabledAnalytics4 = await Analytics.IsEnabledAsync();
             Assert.True(isEnabled4);
             Assert.True(isEnabledAnalytics4);
-
-            // Let pending SDK calls be completed, we have a lot of "startService" calls.
-            Task.Delay(5000).Wait();
         }
 
         [Fact]
@@ -89,17 +95,17 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             var typeProperty = "customProperties";
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            Func<RequestData, bool> logTypeRule = (RequestData arg) =>
-            {
-                return arg.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeProperty}')]").ToList().Count > 0;
-            };
-            var eventTask = httpNetworkAdapter.MockRequest(logTypeRule);
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var customPropertiesTask = httpNetworkAdapter.MockRequestByLogType(typeProperty);
 
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
 
             // Enable Appcenter.
             await AppCenter.SetEnabledAsync(true);
@@ -126,7 +132,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.SetCustomProperties(customProperties);
 
             // Wait for processing event.
-            RequestData requestData = await eventTask;
+            RequestData requestData = await customPropertiesTask;
             Assert.Equal("POST", requestData.Method);
             var eventLogs = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeProperty}')]").ToList();
 
@@ -143,7 +149,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
                 Assert.NotNull(propertiesDictionary[(string)item.SelectToken("name")]);
             }
 
-            Assert.Equal(1, httpNetworkAdapter.CallCount);
+            Assert.Equal(2, httpNetworkAdapter.CallCount);
         }
 
         [Fact]
@@ -153,17 +159,17 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             var typeProperty = "customProperties";
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            Func<RequestData, bool> logTypeRule = (RequestData arg) =>
-            {
-                return arg.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeProperty}')]").ToList().Count > 0;
-            };
-            var eventTask = httpNetworkAdapter.MockRequest(logTypeRule);
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var customPropertiesTask = httpNetworkAdapter.MockRequestByLogType(typeProperty);
 
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
 
             // Enable Appcenter.
             await AppCenter.SetEnabledAsync(true);
@@ -192,8 +198,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.SetCustomProperties(customPropertiesClear);
 
             // Wait for processing event.
-            // Wait for processing event.
-            RequestData requestData = await eventTask;
+            RequestData requestData = await customPropertiesTask;
             Assert.Equal("POST", requestData.Method);
             var eventLogsClear = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeProperty}')]").ToList();
 
@@ -209,7 +214,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             {
                 Assert.Equal((string)item.SelectToken("type"), "clear");
             }
-            Assert.Equal(1, httpNetworkAdapter.CallCount);
+            Assert.Equal(2, httpNetworkAdapter.CallCount);
         }
     }
 }

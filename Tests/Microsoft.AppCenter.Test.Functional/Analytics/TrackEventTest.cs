@@ -27,17 +27,17 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             var typeEvent = "event";
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            Func<RequestData, bool> logTypeRule = (RequestData arg) =>
-            {
-                return arg.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList().Count > 0;
-            };
-            var eventTask = httpNetworkAdapter.MockRequest(logTypeRule);
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
 
             // Test TrackEvent.
             Analytics.TrackEvent("Hello World");
@@ -54,7 +54,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Assert.Equal("Hello World", actualEventName);
             var typedProperties = eventLog["typedProperties"];
             Assert.Null(typedProperties);
-            Assert.Equal(1, httpNetworkAdapter.CallCount);
+            Assert.Equal(2, httpNetworkAdapter.CallCount);
         }
 
         [Fact]
@@ -64,17 +64,17 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             var typeEvent = "event";
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            Func<RequestData, bool> logTypeRule = (RequestData arg) =>
-            {
-                return arg.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList().Count > 0;
-            };
-            var eventTask = httpNetworkAdapter.MockRequest(logTypeRule);
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
 
             // Build event properties.
             var properties = new Dictionary<string, string>
@@ -104,7 +104,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             {
                 Assert.NotNull(typedProperties.SelectToken($"[?(@.name == 'Key{i}' && @.value == 'Value{i}')]"));
             }
-            Assert.Equal(1, httpNetworkAdapter.CallCount);
+            Assert.Equal(2, httpNetworkAdapter.CallCount);
         }
     }
 }

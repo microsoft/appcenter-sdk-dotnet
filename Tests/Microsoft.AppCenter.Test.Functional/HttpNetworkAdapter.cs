@@ -28,6 +28,17 @@ namespace Microsoft.AppCenter.Test.Functional
 
         internal int CallCount { get; private set; }
 
+        public Task<RequestData> MockRequestByLogType(string logType, HttpResponse response = null)
+        {
+            Func<RequestData, bool> logTypeRule = (RequestData arg) =>
+            {
+
+                var result = arg.JsonContent.SelectTokens($"$.logs[?(@.type == '{logType}')]").ToList().Count > 0;
+                return result;
+            };
+            return MockRequest(logTypeRule, response);
+        }
+
         public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response = null)
         {
             if (response == null)
@@ -57,6 +68,7 @@ namespace Microsoft.AppCenter.Test.Functional
                     {
                         CallCount++;
                         rule.Task.TrySetResult(requestData);
+                        ExpectedDataList.Remove(rule);
                         return Task.FromResult(rule.Response);
                     }
                 }
