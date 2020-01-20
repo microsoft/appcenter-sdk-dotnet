@@ -9,6 +9,7 @@ using Xunit;
 namespace Microsoft.AppCenter.Test.Functional.Crashes
 {
     using Crashes = Microsoft.AppCenter.Crashes.Crashes;
+    using AppCenter = Microsoft.AppCenter.AppCenter;
 
     public class AppCenterCrashesTest
     {
@@ -74,16 +75,18 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             Crashes.UnsetInstance();
 
             // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "handledError");
+            var typeEvent = "handledError";
+            var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(_appSecret, typeof(Crashes));
 
             Crashes.TrackError(new Exception("The answert is 42"));
-            await httpNetworkAdapter.HttpResponseTask;
-            var events = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'handledError')]").ToList();
+            RequestData requestData = await eventTask;
+            var events = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList();
             Assert.Equal(1, events.Count());
         }
 
@@ -94,18 +97,21 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             Crashes.UnsetInstance();
 
             // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "handledError");
+            var typeEvent = "handledError";
+            var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(_appSecret, typeof(Crashes));
             var userId = "I-am-test-user-id";
             AppCenter.SetUserId(userId);
-
             Crashes.TrackError(new Exception("The answert is 42"));
-            await httpNetworkAdapter.HttpResponseTask;
-            var events = httpNetworkAdapter.JsonContent?.SelectTokens($"$.logs[?(@.type == 'handledError')]").ToList();
+
+            // Wait for processing event.
+            RequestData requestData = await eventTask;
+            var events = requestData.JsonContent?.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList();
             Assert.Equal(1, events?.Count());
             Assert.Contains(userId, events?[0]);
         }
