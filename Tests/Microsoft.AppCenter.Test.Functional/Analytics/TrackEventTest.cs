@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -99,6 +100,117 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             {
                 Assert.NotNull(typedProperties.SelectToken($"[?(@.name == 'Key{i}' && @.value == 'Value{i}')]"));
             }
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
+        }
+
+        [Fact]
+        public async Task TrackEventNormalFlowAsync()
+        {
+            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
+            DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+
+            // Start App Center.
+            AppCenter.UnsetInstance();
+            Analytics.UnsetInstance();
+            AppCenter.LogLevel = LogLevel.Verbose;
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+
+            // Pause Analytics module.
+            Analytics.Pause();
+
+            // Test TrackEvent.
+            Analytics.TrackEvent("TrackEvent 1");
+
+            // Wait for 5 seconds to allow batching happen (3 seconds), and verify nothing has been sent.
+            Task.WaitAny(httpNetworkAdapter.HttpResponseTask, Task.Delay(5000));
+            Assert.Equal(0, httpNetworkAdapter.CallCount);
+
+            // Resume Analytics module.
+            Analytics.Resume();
+
+            // Test TrackEvent.
+            Analytics.TrackEvent("TrackEvent 2");
+
+            // Wait for processing event.
+            await httpNetworkAdapter.HttpResponseTask;
+
+            // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
+            Assert.Equal("POST", httpNetworkAdapter.Method);
+            var eventLogs = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
+            Assert.Equal(2, eventLogs.Count());
+
+            // Check that the first event was sent.
+            var actualEventName = (string)eventLogs[0]["name"];
+            Assert.Equal("TrackEvent 1", actualEventName);
+            var typedProperties = eventLogs[0]["typedProperties"];
+            Assert.Null(typedProperties);
+
+            // Check that the second event was sent.
+            actualEventName = (string)eventLogs[1]["name"];
+            Assert.Equal("TrackEvent 2", actualEventName);
+            typedProperties = eventLogs[1]["typedProperties"];
+            Assert.Null(typedProperties);
+
+            // Check count calls.
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
+        }
+
+        [Fact]
+        public async Task TrackEventMulticlickFlowAsync()
+        {
+            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
+            DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+
+            // Start App Center.
+            AppCenter.UnsetInstance();
+            Analytics.UnsetInstance();
+            AppCenter.LogLevel = LogLevel.Verbose;
+            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+
+            // Pause Analytics module.
+            Analytics.Pause();
+
+            // Test TrackEvents.
+            Analytics.TrackEvent("TrackEvent 1");
+            Analytics.TrackEvent("TrackEvent 2");
+            Analytics.TrackEvent("TrackEvent 3");
+
+            // Pause Analytics module again.
+            Analytics.Pause();
+
+            // Wait for 5 seconds to allow batching happen (3 seconds), and verify nothing has been sent.
+            Task.WaitAny(httpNetworkAdapter.HttpResponseTask, Task.Delay(5000));
+            Assert.Equal(0, httpNetworkAdapter.CallCount);
+
+            // Resume Analytics module.
+            Analytics.Resume();
+
+            // Wait for processing event.
+            await httpNetworkAdapter.HttpResponseTask;
+
+            // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
+            Assert.Equal("POST", httpNetworkAdapter.Method);
+            var eventLogs = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
+
+            // Check that the first event was sent.
+            var actualEventName = (string)eventLogs[0]["name"];
+            Assert.Equal("TrackEvent 1", actualEventName);
+            var typedProperties = eventLogs[0]["typedProperties"];
+            Assert.Null(typedProperties);
+
+            // Check that the second event was sent.
+            actualEventName = (string)eventLogs[1]["name"];
+            Assert.Equal("TrackEvent 2", actualEventName);
+            typedProperties = eventLogs[1]["typedProperties"];
+            Assert.Null(typedProperties);
+
+            // Check that the third event was sent.
+            actualEventName = (string)eventLogs[2]["name"];
+            Assert.Equal("TrackEvent 3", actualEventName);
+            typedProperties = eventLogs[2]["typedProperties"];
+            Assert.Null(typedProperties);
+
+            // Check count calls.
             Assert.Equal(1, httpNetworkAdapter.CallCount);
         }
     }
