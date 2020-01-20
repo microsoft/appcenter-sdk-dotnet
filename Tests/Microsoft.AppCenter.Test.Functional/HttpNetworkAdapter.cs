@@ -42,7 +42,7 @@ namespace Microsoft.AppCenter.Test.Functional
             };
             if (jsonContent == null)
             {
-                jsonContent = "{ }";
+                jsonContent = "{}";
             }
             var jsonLogContainer = JObject.Parse(jsonContent);
             if (string.IsNullOrEmpty(_expectedLogType) || jsonLogContainer.SelectTokens($"$.logs[?(@.type == '{_expectedLogType}')]").ToList().Count > 0)

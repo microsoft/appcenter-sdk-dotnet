@@ -244,6 +244,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Microsoft.AppCenter.Test.Functional\Microsoft.AppCenter.Test.Functional.csproj">
       <Project>{115F38E3-5DD5-469E-8A06-AA6BE4B99777}</Project>
       <Name>Microsoft.AppCenter.Test.Functional</Name>

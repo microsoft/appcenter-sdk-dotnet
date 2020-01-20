@@ -3,14 +3,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.AppCenter.Crashes.Ingestion.Models;
 using Microsoft.AppCenter.Ingestion.Models.Serialization;
 using Microsoft.AppCenter.Utils;
 using Microsoft.AppCenter.Utils.Files;
 using Microsoft.AppCenter.Windows.Shared.Utils;
-using ModelException = Microsoft.AppCenter.Crashes.Ingestion.Models.Exception;
 
 namespace Microsoft.AppCenter.Crashes.Utils
 {

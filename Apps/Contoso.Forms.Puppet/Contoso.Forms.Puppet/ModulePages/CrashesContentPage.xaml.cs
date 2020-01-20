@@ -11,6 +11,7 @@ using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 using System.Linq;
 using System.Threading.Tasks;
+using Contoso.UtilClassLibrary;
 
 namespace Contoso.Forms.Puppet
 {
@@ -227,6 +228,18 @@ namespace Contoso.Forms.Puppet
             try
             {
                 await FakeService.DoStuffInBackground();
+            }
+            catch (Exception ex) when (HandleExceptionsSwitchCell.On)
+            {
+                TrackException(ex);
+            }
+        }
+
+        public void ClassLibException(object sender, EventArgs e)
+        {
+            try
+            {
+                CrashUtils.BackgroundExceptionTask().RunSynchronously();
             }
             catch (Exception ex) when (HandleExceptionsSwitchCell.On)
             {

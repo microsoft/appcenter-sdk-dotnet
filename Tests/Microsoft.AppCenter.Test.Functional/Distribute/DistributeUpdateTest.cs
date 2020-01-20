@@ -7,6 +7,7 @@ using Xunit;
 namespace Microsoft.AppCenter.Test.Functional.Distribute
 {
     using Distribute = Microsoft.AppCenter.Distribute.Distribute;
+    using AppCenter = Microsoft.AppCenter.AppCenter;
 
     public enum DistributeTestType
     {

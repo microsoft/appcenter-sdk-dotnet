@@ -2,6 +2,23 @@
 
 ## Version 2.6.5 （Under development）
 
+### App Center
+
+* **[Fix]** Allow whitespace characters between secrets like in versions before `2.6.0`.
+
+#### UWP
+
+* **[Feature]** Support ARM64 architecture.
+* **[Breaking change]** The minimum supported Window 10 version is now `10.0.16299.0`.
+
+#### WPF/WinForms
+
+* **[Breaking change]** The minimum supported version of .NET Framework is now `4.6.1`.
+
+#### UWP/WPF/WinForms
+
+* **[Dependency changes]** Update `SQLitePCLRaw.bundle_green` dependency to version `2.0.2` and remove dependency from `sqlite-net-pcl`.
+
 ___
 
 ## Version 2.6.4

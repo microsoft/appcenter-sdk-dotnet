@@ -16,7 +16,7 @@ namespace Microsoft.AppCenter.Test.WindowsDesktop.Utils
         public void VerifyDeviceOemName()
         {
             var device = Task.Run(() => new DeviceInformationHelper().GetDeviceInformationAsync()).Result;
-            Assert.NotEqual(device.OemName.ToLower(), AbstractDeviceInformationHelper.DefaultSystemManufacturer);
+            Assert.NotEqual(device.OemName, AbstractDeviceInformationHelper.DefaultSystemManufacturer);
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Microsoft.AppCenter.Test.WindowsDesktop.Utils
         public void VerifyDeviceModel()
         {
             var device = Task.Run(() => new DeviceInformationHelper().GetDeviceInformationAsync()).Result;
-            Assert.NotEqual(device.Model.ToLower(), AbstractDeviceInformationHelper.DefaultSystemProductName);
+            Assert.NotEqual(device.Model, AbstractDeviceInformationHelper.DefaultSystemProductName);
         }
     }
 }
