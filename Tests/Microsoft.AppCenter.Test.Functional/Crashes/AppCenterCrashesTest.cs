@@ -20,59 +20,6 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
         }
 
         [Fact]
-        public async Task EnableDisableTest()
-        {
-            AppCenter.UnsetInstance();
-            Crashes.UnsetInstance();
-
-            // Start App Center.
-            AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Crashes));
-
-            // Disable Appcenter.
-            await AppCenter.SetEnabledAsync(false);
-
-            // Verify disabled.
-            var isEnabled = await AppCenter.IsEnabledAsync();
-            var isEnabledCrashes = await Crashes.IsEnabledAsync();
-            Assert.False(isEnabled);
-            Assert.False(isEnabledCrashes);
-
-            // Restart SDK.
-            AppCenter.UnsetInstance();
-            Crashes.UnsetInstance();
-            AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Crashes));
-
-            // Verify disabled.
-            var isEnabled2 = await AppCenter.IsEnabledAsync();
-            var isEnabledCrashes2 = await Crashes.IsEnabledAsync();
-            Assert.False(isEnabled2);
-            Assert.False(isEnabledCrashes2);
-
-            // Enable SDK.
-            await AppCenter.SetEnabledAsync(true);
-
-            // Verify enabled.
-            var isEnabled3 = await AppCenter.IsEnabledAsync();
-            var isEnabledCrashes3 = await Crashes.IsEnabledAsync();
-            Assert.True(isEnabled3);
-            Assert.True(isEnabledCrashes3);
-
-            // Restart SDK.
-            AppCenter.UnsetInstance();
-            Crashes.UnsetInstance();
-            AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Crashes));
-
-            // Verify enabled.
-            var isEnabled4 = await AppCenter.IsEnabledAsync();
-            var isEnabledCrashes4 = await Crashes.IsEnabledAsync();
-            Assert.True(isEnabled4);
-            Assert.True(isEnabledCrashes4);
-        }
-
-        [Fact]
         public async Task TrackErrorTest()
         {
             AppCenter.UnsetInstance();

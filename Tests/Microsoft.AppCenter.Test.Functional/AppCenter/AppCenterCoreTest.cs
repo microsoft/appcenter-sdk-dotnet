@@ -41,6 +41,9 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             // Disable Appcenter.
             await AppCenter.SetEnabledAsync(false);
 
+            // On iOS when set disabled all appcenter logs are removing from DB. We should wait here otherwise there might be a deadlock.
+            Task.Delay(3000).Wait();
+
             // Verify disabled.
             var isEnabled = await AppCenter.IsEnabledAsync();
             var isEnabledAnalytics = await Analytics.IsEnabledAsync();
@@ -51,8 +54,10 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-
             AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+
+            // On iOS when started in disabled mode SDK will try to remove all pending logs. We should wait here otherwise there might be a deadlock.
+            Task.Delay(3000).Wait();
 
             // Verify disabled.
             var isEnabled2 = await AppCenter.IsEnabledAsync();
