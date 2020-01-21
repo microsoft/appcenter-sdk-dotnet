@@ -35,6 +35,10 @@ namespace Microsoft.AppCenter.Test.Functional
             {
                 AppCenterLog.Error(TAG, $"Android DB not found {e.ToString()}.");
             }
+            catch (IOException e)
+            {
+                AppCenterLog.Error(TAG, $"Encountered IOException when tried to delete Android DB: {e.ToString()}.");
+            }
         }
 
         private static void deleteIos()
@@ -47,6 +51,10 @@ namespace Microsoft.AppCenter.Test.Functional
             catch (DirectoryNotFoundException e)
             {
                 AppCenterLog.Error(TAG, $"iOS DB not found {e.ToString()}.");
+            }
+            catch (IOException e)
+            {
+                AppCenterLog.Error(TAG, $"Encountered IOException when tried to delete iOS DB: {e.ToString()}.");
             }
         }
     }
