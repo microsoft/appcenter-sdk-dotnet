@@ -288,7 +288,7 @@ namespace Microsoft.AppCenter.Crashes
             return NSDictionary.FromObjectsAndKeys(dict.Values.ToArray(), dict.Keys.ToArray());
         }
 
-        internal static void PlatformUnsetInstance()
+        public static void PlatformUnsetInstance()
         {
             MSCrashes.ResetSharedInstance();
         }

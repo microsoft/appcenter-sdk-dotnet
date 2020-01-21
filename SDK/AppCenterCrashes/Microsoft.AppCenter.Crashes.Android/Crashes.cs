@@ -296,7 +296,7 @@ namespace Microsoft.AppCenter.Crashes
             }
         }
 
-        internal static void PlatformUnsetInstance()
+        public static void PlatformUnsetInstance()
         {
             AndroidCrashes.UnsetInstance();
         }

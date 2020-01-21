@@ -44,7 +44,7 @@ namespace Microsoft.AppCenter.Crashes
         {
         }
 
-        public static void PlatformUnsetInstance()
+        private static void PlatformUnsetInstance()
         {
         }
     }
