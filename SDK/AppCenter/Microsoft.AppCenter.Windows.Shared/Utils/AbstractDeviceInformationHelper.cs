@@ -3,6 +3,7 @@
 
 using System;
 using System.Reflection;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Windows.Shared.Utils;
 
@@ -25,7 +26,7 @@ namespace Microsoft.AppCenter.Utils
 
         public virtual Task<Ingestion.Models.Device> GetDeviceInformationAsync()
         {
-            return Task.FromResult(GetDeviceInformation());
+            return Task.Factory.StartNew(() => { return GetDeviceInformation(); });
         }
 
         public virtual Ingestion.Models.Device GetDeviceInformation()
