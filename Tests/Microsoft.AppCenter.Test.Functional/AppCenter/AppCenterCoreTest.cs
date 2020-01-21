@@ -50,7 +50,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             Assert.False(isEnabled);
             Assert.False(isEnabledAnalytics);
 
-            //// Restart SDK.
+            // Restart SDK.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;

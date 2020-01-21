@@ -39,11 +39,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            Func<RequestData, bool> logTypeRule = (RequestData arg) =>
-            {
-                return arg.Method == "GET";
-            };
-            var eventTask = httpNetworkAdapter.MockRequest(logTypeRule);
+            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
 

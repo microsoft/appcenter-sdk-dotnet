@@ -8,7 +8,7 @@ namespace Microsoft.AppCenter.Test.Functional
 {
     public static class Utils
     {
-        private const string TAG = "TestUtils";
+        private const string LogTag = "TestUtils";
 
         public static void deleteDatabase()
         {
@@ -33,11 +33,11 @@ namespace Microsoft.AppCenter.Test.Functional
                 Directory.Delete(dbFolder, true);
             } catch (DirectoryNotFoundException e)
             {
-                AppCenterLog.Error(TAG, $"Android DB not found {e.ToString()}.");
+                AppCenterLog.Error(LogTag, $"Android DB not found {e.ToString()}.");
             }
             catch (IOException e)
             {
-                AppCenterLog.Error(TAG, $"Encountered IOException when tried to delete Android DB: {e.ToString()}.");
+                AppCenterLog.Error(LogTag, $"Encountered IOException when tried to delete Android DB: {e.ToString()}.");
             }
         }
 
@@ -50,11 +50,11 @@ namespace Microsoft.AppCenter.Test.Functional
             }
             catch (DirectoryNotFoundException e)
             {
-                AppCenterLog.Error(TAG, $"iOS DB not found {e.ToString()}.");
+                AppCenterLog.Error(LogTag, $"iOS DB not found {e.ToString()}.");
             }
             catch (IOException e)
             {
-                AppCenterLog.Error(TAG, $"Encountered IOException when tried to delete iOS DB: {e.ToString()}.");
+                AppCenterLog.Error(LogTag, $"Encountered IOException when tried to delete iOS DB: {e.ToString()}.");
             }
         }
     }
