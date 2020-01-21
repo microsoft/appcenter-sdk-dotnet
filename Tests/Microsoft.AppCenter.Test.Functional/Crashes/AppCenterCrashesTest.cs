@@ -19,7 +19,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             Utils.deleteDatabase();
         }
 
-        //[Fact]
+        [Fact]
         public async Task EnableDisableTest()
         {
             AppCenter.UnsetInstance();
@@ -72,7 +72,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             Assert.True(isEnabledCrashes4);
         }
 
-        //[Fact]
+        [Fact]
         public async Task TrackErrorTest()
         {
             AppCenter.UnsetInstance();
@@ -98,7 +98,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             Assert.Equal(1, events.Count());
         }
 
-        //[Fact]
+        [Fact]
         public async Task SetUserIdTest()
         {
             AppCenter.UnsetInstance();

@@ -18,7 +18,7 @@
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter\Microsoft.AppCenter.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
   <Target Name="GetPackagingOutputs" />

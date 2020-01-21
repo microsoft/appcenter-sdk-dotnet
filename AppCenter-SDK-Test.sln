@@ -11,10 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK", "SDK", "{79390575-9F0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppCenter", "AppCenter", "{C6395FB6-8473-4A4B-9FA4-2A187F0B0B10}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Shared", "SDK\AppCenter\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.shproj", "{C6C4937C-D5F4-4E00-8B51-8D826AD83C5E}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Shared.Xamarin", "SDK\AppCenter\Microsoft.AppCenter.Shared.Xamarin\Microsoft.AppCenter.Shared.Xamarin.shproj", "{7076E711-FE72-4EC0-8335-045EEFC1100C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter", "SDK\AppCenter\Microsoft.AppCenter\Microsoft.AppCenter.csproj", "{3CDDCE77-074A-48A9-9EE3-AEA1FADDB71D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Android", "SDK\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.csproj", "{119C1730-E109-4BC9-AA89-9DCA2C50BFD5}"

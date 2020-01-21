@@ -16,6 +16,7 @@ namespace Microsoft.AppCenter.Test.Functional
         public const string RequestId = "b627efb5-dbf7-4350-92e4-b6ac4dbd09b0";
 
         public const string Package = "com.contoso.test.functional";
+
         public static string resolveAppsecret()
         {
             switch (Xamarin.Forms.Device.RuntimePlatform)
