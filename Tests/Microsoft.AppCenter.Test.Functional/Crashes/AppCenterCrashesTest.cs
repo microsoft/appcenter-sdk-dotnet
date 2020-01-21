@@ -125,7 +125,8 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             RequestData requestData = await eventTask;
             var events = requestData.JsonContent?.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList();
             Assert.Equal(1, events?.Count());
-            Assert.Contains(userId, events?[0]);
+            var userIdFromLog = events?[0]["userId"];
+            Assert.Equal(userIdFromLog, userId);
         }
     }
 }
