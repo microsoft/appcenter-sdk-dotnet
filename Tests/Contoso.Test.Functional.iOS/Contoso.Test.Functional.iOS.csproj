@@ -156,6 +156,22 @@
         <Project>{B87370CD-AF51-45E0-AA15-3E0ABC0C30A0}</Project>
         <Name>Microsoft.AppCenter.iOS</Name>
       </ProjectReference>
+      <ProjectReference Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.iOS\Microsoft.AppCenter.Crashes.iOS.csproj">
+        <Project>{4936A94C-BE22-4F73-8468-64FA4371FF80}</Project>
+        <Name>Microsoft.AppCenter.Crashes.iOS</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.iOS.Bindings\Microsoft.AppCenter.Crashes.iOS.Bindings.csproj">
+        <Project>{FCEB9729-627A-4964-B853-1649CA1FA76D}</Project>
+        <Name>Microsoft.AppCenter.Crashes.iOS.Bindings</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.iOS\Microsoft.AppCenter.Distribute.iOS.csproj">
+        <Project>{60241627-33BB-45F9-A1B6-6F1CB2BF2C4A}</Project>
+        <Name>Microsoft.AppCenter.Distribute.iOS</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.iOS.Bindings\Microsoft.AppCenter.Distribute.iOS.Bindings.csproj">
+        <Project>{278DFD3C-A0DD-4DD2-97C5-44EC4BEE8462}</Project>
+        <Name>Microsoft.AppCenter.Distribute.iOS.Bindings</Name>
+      </ProjectReference>
     </ItemGroup>
     <ItemGroup>
         <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />

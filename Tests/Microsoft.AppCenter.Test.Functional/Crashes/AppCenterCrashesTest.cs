@@ -13,78 +13,35 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
 
     public class AppCenterCrashesTest
     {
-        private readonly string _appSecret = Guid.NewGuid().ToString();
-
-        [Fact]
-        public async Task EnableDisableTest()
+        // Before
+        public AppCenterCrashesTest()
         {
-            AppCenter.UnsetInstance();
-            Crashes.UnsetInstance();
-
-            // Start App Center.
-            AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Crashes));
-
-            // Disable Appcenter.
-            await AppCenter.SetEnabledAsync(false);
-
-            // Verify disabled.
-            var isEnabled = await AppCenter.IsEnabledAsync();
-            var isEnabledCrashes = await Crashes.IsEnabledAsync();
-            Assert.False(isEnabled);
-            Assert.False(isEnabledCrashes);
-
-            // Restart SDK.
-            AppCenter.UnsetInstance();
-            Crashes.UnsetInstance();
-            AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Crashes));
-
-            // Verify disabled.
-            var isEnabled2 = await AppCenter.IsEnabledAsync();
-            var isEnabledCrashes2 = await Crashes.IsEnabledAsync();
-            Assert.False(isEnabled2);
-            Assert.False(isEnabledCrashes2);
-
-            // Enable SDK.
-            await AppCenter.SetEnabledAsync(true);
-
-            // Verify enabled.
-            var isEnabled3 = await AppCenter.IsEnabledAsync();
-            var isEnabledCrashes3 = await Crashes.IsEnabledAsync();
-            Assert.True(isEnabled3);
-            Assert.True(isEnabledCrashes3);
-
-            // Restart SDK.
-            AppCenter.UnsetInstance();
-            Crashes.UnsetInstance();
-            AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Crashes));
-
-            // Verify enabled.
-            var isEnabled4 = await AppCenter.IsEnabledAsync();
-            var isEnabledCrashes4 = await Crashes.IsEnabledAsync();
-            Assert.True(isEnabled4);
-            Assert.True(isEnabledCrashes4);
+            Utils.DeleteDatabase();
         }
 
         [Fact]
         public async Task TrackErrorTest()
         {
             AppCenter.UnsetInstance();
-            Crashes.UnsetInstance();
+            Crashes.PlatformUnsetInstance();
 
             // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "handledError");
+            var typeEvent = "handledError";
+            var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Crashes));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Crashes));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
 
             Crashes.TrackError(new Exception("The answert is 42"));
-            await httpNetworkAdapter.HttpResponseTask;
-            var events = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'handledError')]").ToList();
+            RequestData requestData = await eventTask;
+            var events = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList();
             Assert.Equal(1, events.Count());
         }
 
@@ -92,23 +49,31 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
         public async Task SetUserIdTest()
         {
             AppCenter.UnsetInstance();
-            Crashes.UnsetInstance();
+            Crashes.PlatformUnsetInstance();
 
             // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "handledError");
+            var typeEvent = "handledError";
+            var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(_appSecret, typeof(Crashes));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Crashes));
             var userId = "I-am-test-user-id";
             AppCenter.SetUserId(userId);
-
             Crashes.TrackError(new Exception("The answert is 42"));
-            await httpNetworkAdapter.HttpResponseTask;
-            var events = httpNetworkAdapter.JsonContent?.SelectTokens($"$.logs[?(@.type == 'handledError')]").ToList();
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
+
+            // Wait for processing event.
+            RequestData requestData = await eventTask;
+            var events = requestData.JsonContent?.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList();
             Assert.Equal(1, events?.Count());
-            Assert.Contains(userId, events?[0]);
+            var userIdFromLog = events?[0]["userId"];
+            Assert.Equal(userIdFromLog, userId);
         }
     }
 }

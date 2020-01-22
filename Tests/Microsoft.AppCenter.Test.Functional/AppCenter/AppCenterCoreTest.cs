@@ -12,32 +12,37 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
     using Analytics = Microsoft.AppCenter.Analytics.Analytics;
     using AppCenter = Microsoft.AppCenter.AppCenter;
 
-    public class AppCenterCoreTest : IDisposable
+    public class AppCenterCoreTest
     {
         // Before
         public AppCenterCoreTest()
         {
-            Utils.deleteDatabase();
-        }
-
-        // After
-        public void Dispose()
-        {
-            // Let pending SDK calls be completed.
-            Task.Delay(3000).Wait();
+            Utils.DeleteDatabase();
         }
 
         [Fact]
         public async Task EnableDisableTest()
         {
+            var httpNetworkAdapter = new HttpNetworkAdapter();
+            DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var startServiceTask2 = httpNetworkAdapter.MockRequestByLogType("startService");
+            var startServiceTask3 = httpNetworkAdapter.MockRequestByLogType("startService");
+
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            Task.WaitAny(startServiceTask, Task.Delay(5000));
 
             // Disable Appcenter.
             await AppCenter.SetEnabledAsync(false);
+
+            // On iOS when set disabled all appcenter logs are removing from DB. We should wait here otherwise there might be a deadlock.
+            Task.Delay(3000).Wait();
 
             // Verify disabled.
             var isEnabled = await AppCenter.IsEnabledAsync();
@@ -49,7 +54,10 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
+
+            // On iOS when started in disabled mode SDK will try to remove all pending logs. We should wait here otherwise there might be a deadlock.
+            Task.Delay(3000).Wait();
 
             // Verify disabled.
             var isEnabled2 = await AppCenter.IsEnabledAsync();
@@ -59,6 +67,9 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
 
             // Enable SDK.
             await AppCenter.SetEnabledAsync(true);
+
+            // Wait for "startService" log to be sent.
+            Task.WaitAny(startServiceTask2, Task.Delay(5000));
 
             // Verify enabled.
             var isEnabled3 = await AppCenter.IsEnabledAsync();
@@ -70,30 +81,36 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            Task.WaitAny(startServiceTask3, Task.Delay(5000));
 
             // Verify enabled.
             var isEnabled4 = await AppCenter.IsEnabledAsync();
             var isEnabledAnalytics4 = await Analytics.IsEnabledAsync();
             Assert.True(isEnabled4);
             Assert.True(isEnabledAnalytics4);
-
-            // Let pending SDK calls be completed, we have a lot of "startService" calls.
-            Task.Delay(5000).Wait();
         }
 
         [Fact]
         public async Task CustomPropertiesTest()
         {
             // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "customProperties");
+            var typeProperty = "customProperties";
+            var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var customPropertiesTask = httpNetworkAdapter.MockRequestByLogType(typeProperty);
 
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
 
             // Enable Appcenter.
             await AppCenter.SetEnabledAsync(true);
@@ -120,9 +137,9 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.SetCustomProperties(customProperties);
 
             // Wait for processing event.
-            await httpNetworkAdapter.HttpResponseTask;
-            Assert.Equal("POST", httpNetworkAdapter.Method);
-            var eventLogs = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'customProperties')]").ToList();
+            RequestData requestData = await customPropertiesTask;
+            Assert.Equal("POST", requestData.Method);
+            var eventLogs = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeProperty}')]").ToList();
 
             // Verify the log sctructure.
             Assert.Equal(1, eventLogs.Count());
@@ -137,21 +154,27 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
                 Assert.NotNull(propertiesDictionary[(string)item.SelectToken("name")]);
             }
 
-            Assert.Equal(1, httpNetworkAdapter.CallCount);
+            Assert.Equal(2, httpNetworkAdapter.CallCount);
         }
 
         [Fact]
         public async Task CustomPropertiesClearTest()
         {
             // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "customProperties");
+            var typeProperty = "customProperties";
+            var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var customPropertiesTask = httpNetworkAdapter.MockRequestByLogType(typeProperty);
 
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
 
             // Enable Appcenter.
             await AppCenter.SetEnabledAsync(true);
@@ -180,9 +203,9 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.SetCustomProperties(customPropertiesClear);
 
             // Wait for processing event.
-            await httpNetworkAdapter.HttpResponseTask;
-            Assert.Equal("POST", httpNetworkAdapter.Method);
-            var eventLogsClear = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'customProperties')]").ToList();
+            RequestData requestData = await customPropertiesTask;
+            Assert.Equal("POST", requestData.Method);
+            var eventLogsClear = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeProperty}')]").ToList();
 
             // Verify the log sctructure.
             Assert.Equal(1, eventLogsClear.Count());
@@ -196,7 +219,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             {
                 Assert.Equal((string)item.SelectToken("type"), "clear");
             }
-            Assert.Equal(1, httpNetworkAdapter.CallCount);
+            Assert.Equal(2, httpNetworkAdapter.CallCount);
         }
     }
 }

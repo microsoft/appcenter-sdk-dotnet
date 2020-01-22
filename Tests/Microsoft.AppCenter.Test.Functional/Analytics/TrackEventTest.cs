@@ -18,59 +18,64 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
         // Before
         public TrackEventTest()
         {
-            Utils.deleteDatabase();
-        }
-
-        // After
-        public void Dispose()
-        {
-            // Let pending SDK calls be completed.
-            Task.Delay(3000).Wait();
+            Utils.DeleteDatabase();
         }
 
         [Fact]
         public async Task TrackEventWithoutPropertiesAsync()
         {
             // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
+            var typeEvent = "event";
+            var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
 
             // Test TrackEvent.
             Analytics.TrackEvent("Hello World");
 
             // Wait for processing event.
-            await httpNetworkAdapter.HttpResponseTask;
+            RequestData requestData = await eventTask;
 
             // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
-            Assert.Equal("POST", httpNetworkAdapter.Method);
-            var eventLogs = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
+            Assert.Equal("POST", requestData.Method);
+            var eventLogs = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList();
             Assert.Equal(1, eventLogs.Count());
             var eventLog = eventLogs[0];
             var actualEventName = (string)eventLog["name"];
             Assert.Equal("Hello World", actualEventName);
             var typedProperties = eventLog["typedProperties"];
             Assert.Null(typedProperties);
-            Assert.Equal(1, httpNetworkAdapter.CallCount);
+            Assert.Equal(2, httpNetworkAdapter.CallCount);
         }
 
         [Fact]
         public async Task TrackEventWithPropertiesAsync()
         {
             // Set up HttpNetworkAdapter.
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
+            var typeEvent = "event";
+            var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
 
             // Build event properties.
             var properties = new Dictionary<string, string>
@@ -84,11 +89,11 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Analytics.TrackEvent("Hello World", properties);
 
             // Wait for processing event.
-            await httpNetworkAdapter.HttpResponseTask;
+            RequestData requestData = await eventTask;
 
             // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
-            Assert.Equal("POST", httpNetworkAdapter.Method);
-            var eventLogs = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
+            Assert.Equal("POST", requestData.Method);
+            var eventLogs = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList();
             Assert.Equal(1, eventLogs.Count());
             var eventLog = eventLogs[0];
             var actualEventName = (string)eventLog["name"];
@@ -100,20 +105,27 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             {
                 Assert.NotNull(typedProperties.SelectToken($"[?(@.name == 'Key{i}' && @.value == 'Value{i}')]"));
             }
-            Assert.Equal(1, httpNetworkAdapter.CallCount);
+            Assert.Equal(2, httpNetworkAdapter.CallCount);
         }
 
         [Fact]
         public async Task TrackEventNormalFlowAsync()
         {
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
+            var typeEvent = "event";
+            var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
 
             // Pause Analytics module.
             Analytics.Pause();
@@ -122,8 +134,8 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Analytics.TrackEvent("TrackEvent 1");
 
             // Wait for 5 seconds to allow batching happen (3 seconds), and verify nothing has been sent.
-            Task.WaitAny(httpNetworkAdapter.HttpResponseTask, Task.Delay(5000));
-            Assert.Equal(0, httpNetworkAdapter.CallCount);
+            Task.WaitAny(eventTask, Task.Delay(5000));
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
 
             // Resume Analytics module.
             Analytics.Resume();
@@ -132,11 +144,11 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Analytics.TrackEvent("TrackEvent 2");
 
             // Wait for processing event.
-            await httpNetworkAdapter.HttpResponseTask;
+            var result = await eventTask;
 
             // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
-            Assert.Equal("POST", httpNetworkAdapter.Method);
-            var eventLogs = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
+            Assert.Equal("POST", result.Method);
+            var eventLogs = result.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
             Assert.Equal(2, eventLogs.Count());
 
             // Check that the first event was sent.
@@ -152,20 +164,27 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Assert.Null(typedProperties);
 
             // Check count calls.
-            Assert.Equal(1, httpNetworkAdapter.CallCount);
+            Assert.Equal(2, httpNetworkAdapter.CallCount);
         }
 
         [Fact]
         public async Task TrackEventMulticlickFlowAsync()
         {
-            var httpNetworkAdapter = new HttpNetworkAdapter(expectedLogType: "event");
+            var typeEvent = "event";
+            var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
 
             // Pause Analytics module.
             Analytics.Pause();
@@ -179,18 +198,18 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Analytics.Pause();
 
             // Wait for 5 seconds to allow batching happen (3 seconds), and verify nothing has been sent.
-            Task.WaitAny(httpNetworkAdapter.HttpResponseTask, Task.Delay(5000));
-            Assert.Equal(0, httpNetworkAdapter.CallCount);
+            Task.WaitAny(eventTask, Task.Delay(5000));
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
 
             // Resume Analytics module.
             Analytics.Resume();
 
             // Wait for processing event.
-            await httpNetworkAdapter.HttpResponseTask;
+            var result = await eventTask;
 
             // Verify. The start session can be in same batch as the event HTTP request so look for it inside.
-            Assert.Equal("POST", httpNetworkAdapter.Method);
-            var eventLogs = httpNetworkAdapter.JsonContent.SelectTokens($"$.logs[?(@.type == 'event')]").ToList();
+            Assert.Equal("POST", result.Method);
+            var eventLogs = result.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList();
 
             // Check that the first event was sent.
             var actualEventName = (string)eventLogs[0]["name"];
@@ -211,7 +230,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             Assert.Null(typedProperties);
 
             // Check count calls.
-            Assert.Equal(1, httpNetworkAdapter.CallCount);
+            Assert.Equal(2, httpNetworkAdapter.CallCount);
         }
     }
 }

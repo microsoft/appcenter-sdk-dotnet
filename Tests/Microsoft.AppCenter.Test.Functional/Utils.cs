@@ -8,22 +8,24 @@ namespace Microsoft.AppCenter.Test.Functional
 {
     public static class Utils
     {
-        public static void deleteDatabase()
+        private const string LogTag = "TestUtils";
+
+        public static void DeleteDatabase()
         {
             switch (Xamarin.Forms.Device.RuntimePlatform)
             {
                 case Xamarin.Forms.Device.iOS:
-                    deleteIos();
+                    DeleteIos();
                     break;
                 case Xamarin.Forms.Device.Android:
-                    deleteAndroid();
+                    DeleteAndroid();
                     break;
                 default:
                     break;
             }
         }
 
-        private static void deleteAndroid()
+        private static void DeleteAndroid()
         {
             try
             {
@@ -31,11 +33,15 @@ namespace Microsoft.AppCenter.Test.Functional
                 Directory.Delete(dbFolder, true);
             } catch (DirectoryNotFoundException e)
             {
-                Console.WriteLine($"Android DB not found {e.ToString()}.");
+                AppCenterLog.Error(LogTag, $"Android DB not found {e.ToString()}.");
+            }
+            catch (IOException e)
+            {
+                AppCenterLog.Error(LogTag, $"Encountered IOException when tried to delete Android DB: {e.ToString()}.");
             }
         }
 
-        private static void deleteIos()
+        private static void DeleteIos()
         {
             try
             {
@@ -44,7 +50,11 @@ namespace Microsoft.AppCenter.Test.Functional
             }
             catch (DirectoryNotFoundException e)
             {
-                Console.WriteLine($"iOS DB not found {e.ToString()}.");
+                AppCenterLog.Error(LogTag, $"iOS DB not found {e.ToString()}.");
+            }
+            catch (IOException e)
+            {
+                AppCenterLog.Error(LogTag, $"Encountered IOException when tried to delete iOS DB: {e.ToString()}.");
             }
         }
     }

@@ -275,6 +275,14 @@
       <Project>{11D31A79-0F09-4708-8097-3D1C5D886547}</Project>
       <Name>Microsoft.AppCenter.Distribute.Android.Bindings</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Android\Microsoft.AppCenter.Crashes.Android.csproj">
+      <Project>{D6DB87CA-B8EC-4A38-805F-AFDC7FEC38EB}</Project>
+      <Name>Microsoft.AppCenter.Crashes.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Android.Bindings\Microsoft.AppCenter.Crashes.Android.Bindings.csproj">
+      <Project>{42D541D7-B7C9-45A7-8D4D-8FB5A00668B3}</Project>
+      <Name>Microsoft.AppCenter.Crashes.Android.Bindings</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\xunit.runner.devices.2.5.25\build\monoandroid81\xunit.runner.devices.targets" Condition="Exists('..\..\packages\xunit.runner.devices.2.5.25\build\monoandroid81\xunit.runner.devices.targets')" />

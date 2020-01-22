@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -23,6 +24,12 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
         public static event DistributeEventHandler DistributeEvent;
 
+        // Before
+        public DistributeUpdateTest()
+        {
+            Utils.DeleteDatabase();
+        }
+
         [Fact]
         public async Task GetLastReleaseDetailsAsync()
         {
@@ -32,23 +39,29 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
             // Start AppCenter.
             AppCenter.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.AppSecret, typeof(Distribute));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
+
+            // Wait for "startService" log to be sent.
+            Task.WaitAny(startServiceTask, Task.Delay(5000));
+
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
 
             // Wait when Distribute will start.
             await Distribute.IsEnabledAsync();
 
             // Wait for processing event.
-            await httpNetworkAdapter.HttpResponseTask;
+            var result = await eventTask;
 
             // Verify response.
-            Assert.Equal("GET", httpNetworkAdapter.Method);
-            Assert.True(httpNetworkAdapter.Uri.Contains("releases/latest?release_hash"));
-            Assert.True(httpNetworkAdapter.Uri.Contains(Config.AppSecret));
+            Assert.Equal("GET", result.Method);
+            Assert.True(result.Uri.Contains("releases/latest?release_hash"));
+            Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
 
             // Clear.
             DistributeEvent?.Invoke(this, DistributeTestType.Clear);
