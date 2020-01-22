@@ -32,6 +32,11 @@ namespace Contoso.Test.Functional.iOS
         //
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
+            // Clear NSUserDefaults before the test.
+            var plist = NSUserDefaults.StandardUserDefaults;
+            var appDomain = NSBundle.MainBundle.BundleIdentifier;
+            plist.RemovePersistentDomain(appDomain);
+            
             // Register tests from shared library.
             AddTestAssembly(typeof(Config).Assembly);
 

@@ -23,6 +23,10 @@ namespace Contoso.Test.Functional.Droid
 
         protected override void OnCreate(Bundle bundle)
         {
+            // Clear shared preferences before the test.
+            var prefs = GetSharedPreferences("AppCenter", FileCreationMode.Private);
+            prefs.Edit().Clear();
+
             // Register tests from shared library.
             AddTestAssembly(typeof(Config).Assembly);
 

@@ -36,7 +36,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
 
             // Wait for "startService" log to be sent.
-            await startServiceTask;
+            Task.WaitAny(startServiceTask, Task.Delay(5000));
 
             // Disable Appcenter.
             await AppCenter.SetEnabledAsync(false);
@@ -69,7 +69,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             await AppCenter.SetEnabledAsync(true);
 
             // Wait for "startService" log to be sent.
-            await startServiceTask2;
+            Task.WaitAny(startServiceTask2, Task.Delay(5000));
 
             // Verify enabled.
             var isEnabled3 = await AppCenter.IsEnabledAsync();
@@ -84,7 +84,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
 
             // Wait for "startService" log to be sent.
-            await startServiceTask3;
+            Task.WaitAny(startServiceTask3, Task.Delay(5000));
 
             // Verify enabled.
             var isEnabled4 = await AppCenter.IsEnabledAsync();
