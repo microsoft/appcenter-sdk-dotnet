@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Crashes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Crashes", "SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes\Microsoft.AppCenter.Crashes.csproj", "{2A90310C-3A9A-4E89-840D-CB4F584B7879}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Shared", "SDK\AppCenter\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.shproj", "{C6C4937C-D5F4-4E00-8B51-8D826AD83C5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -374,5 +376,6 @@ Global
 		{FCEB9729-627A-4964-B853-1649CA1FA76D} = {132CD282-47A0-442A-9F30-A43332C2BEF6}
 		{D6DB87CA-B8EC-4A38-805F-AFDC7FEC38EB} = {132CD282-47A0-442A-9F30-A43332C2BEF6}
 		{2A90310C-3A9A-4E89-840D-CB4F584B7879} = {132CD282-47A0-442A-9F30-A43332C2BEF6}
+		{C6C4937C-D5F4-4E00-8B51-8D826AD83C5E} = {C6395FB6-8473-4A4B-9FA4-2A187F0B0B10}
 	EndGlobalSection
 EndGlobal
