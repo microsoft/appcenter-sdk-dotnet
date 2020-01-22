@@ -18,7 +18,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
         // Before
         public TrackEventTest()
         {
-            Utils.deleteDatabase();
+            Utils.DeleteDatabase();
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
 
             // Wait for "startService" log to be sent.
             await startServiceTask;
@@ -72,7 +72,7 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
 
             // Wait for "startService" log to be sent.
             await startServiceTask;
@@ -121,10 +121,11 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
 
             // Wait for "startService" log to be sent.
             await startServiceTask;
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
 
             // Pause Analytics module.
             Analytics.Pause();
@@ -179,10 +180,11 @@ namespace Microsoft.AppCenter.Test.Functional.Analytics
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
 
             // Wait for "startService" log to be sent.
             await startServiceTask;
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
 
             // Pause Analytics module.
             Analytics.Pause();

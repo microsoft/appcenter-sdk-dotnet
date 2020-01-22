@@ -17,7 +17,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
         // Before
         public AppCenterCoreTest()
         {
-            Utils.deleteDatabase();
+            Utils.DeleteDatabase();
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
 
             // Wait for "startService" log to be sent.
             await startServiceTask;
@@ -54,7 +54,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
 
             // On iOS when started in disabled mode SDK will try to remove all pending logs. We should wait here otherwise there might be a deadlock.
             Task.Delay(3000).Wait();
@@ -81,7 +81,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
 
             // Wait for "startService" log to be sent.
             await startServiceTask3;
@@ -107,7 +107,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
 
             // Wait for "startService" log to be sent.
             await startServiceTask;
@@ -171,7 +171,7 @@ namespace Microsoft.AppCenter.Test.Functional.AppCenter
             AppCenter.UnsetInstance();
             Analytics.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Analytics));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Analytics));
 
             // Wait for "startService" log to be sent.
             await startServiceTask;

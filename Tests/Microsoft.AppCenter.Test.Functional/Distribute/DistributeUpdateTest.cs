@@ -27,7 +27,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         // Before
         public DistributeUpdateTest()
         {
-            Utils.deleteDatabase();
+            Utils.DeleteDatabase();
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Start AppCenter.
             AppCenter.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Distribute));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
 
             // Wait for "startService" log to be sent.
             await startServiceTask;
@@ -62,7 +62,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Verify response.
             Assert.Equal("GET", result.Method);
             Assert.True(result.Uri.Contains("releases/latest?release_hash"));
-            Assert.True(result.Uri.Contains(Config.resolveAppsecret()));
+            Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
 
             // Clear.
             DistributeEvent?.Invoke(this, DistributeTestType.Clear);

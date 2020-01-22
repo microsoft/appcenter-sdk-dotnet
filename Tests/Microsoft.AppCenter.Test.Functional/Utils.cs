@@ -10,22 +10,22 @@ namespace Microsoft.AppCenter.Test.Functional
     {
         private const string LogTag = "TestUtils";
 
-        public static void deleteDatabase()
+        public static void DeleteDatabase()
         {
             switch (Xamarin.Forms.Device.RuntimePlatform)
             {
                 case Xamarin.Forms.Device.iOS:
-                    deleteIos();
+                    DeleteIos();
                     break;
                 case Xamarin.Forms.Device.Android:
-                    deleteAndroid();
+                    DeleteAndroid();
                     break;
                 default:
                     break;
             }
         }
 
-        private static void deleteAndroid()
+        private static void DeleteAndroid()
         {
             try
             {
@@ -41,7 +41,7 @@ namespace Microsoft.AppCenter.Test.Functional
             }
         }
 
-        private static void deleteIos()
+        private static void DeleteIos()
         {
             try
             {

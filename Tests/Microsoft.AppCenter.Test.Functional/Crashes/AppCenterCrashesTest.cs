@@ -16,14 +16,14 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
         // Before
         public AppCenterCrashesTest()
         {
-            Utils.deleteDatabase();
+            Utils.DeleteDatabase();
         }
 
         [Fact]
         public async Task TrackErrorTest()
         {
             AppCenter.UnsetInstance();
-            Crashes.UnsetInstance();
+            Crashes.PlatformUnsetInstance();
 
             // Set up HttpNetworkAdapter.
             var typeEvent = "handledError";
@@ -34,7 +34,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
 
             // Start App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Crashes));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Crashes));
 
             // Wait for "startService" log to be sent.
             await startServiceTask;
@@ -49,7 +49,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
         public async Task SetUserIdTest()
         {
             AppCenter.UnsetInstance();
-            Crashes.UnsetInstance();
+            Crashes.PlatformUnsetInstance();
 
             // Set up HttpNetworkAdapter.
             var typeEvent = "handledError";
@@ -60,7 +60,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
 
             // Start App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start(Config.resolveAppsecret(), typeof(Crashes));
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Crashes));
             var userId = "I-am-test-user-id";
             AppCenter.SetUserId(userId);
             Crashes.TrackError(new Exception("The answert is 42"));
