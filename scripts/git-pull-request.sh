@@ -21,9 +21,11 @@ if [ -z "${GITHUB_REPO_OWNER}" ]; then
     GITHUB_REPO_OWNER="microsoft"
 fi
 GITHUB_REPO_NAME="appcenter-sdk-dotnet"
-REQUEST_URL_PULL="https://api.github.com/repos/$GITHUB_REPO_OWNER/$GITHUB_REPO_NAME/pulls?access_token=$GITHUB_ACCESS_TOKEN"
+GITHUB_API_URL="https://api.github.com/repos/$GITHUB_REPO_OWNER/$GITHUB_REPO_NAME"
 
-resp="$(curl -s -X POST $REQUEST_URL_PULL -d '{
+# Create pull request
+CREATE_PULL_REQUEST_URL="$GITHUB_API_URL/pulls?access_token=$GITHUB_ACCESS_TOKEN"
+resp="$(curl -s -X POST $CREATE_PULL_REQUEST_URL -d '{
       "title": "'${PULL_REQUEST_TITLE}'",
       "head": "'${HEAD_BRANCH_NAME}'",
       "base": "'${BASE_BRANCH_NAME}'"
@@ -32,7 +34,7 @@ url="$(echo $resp | jq -r '.url')"
 
 if [ -z $url ] || [ "$url" == "" ] || [ "$url" == "null" ]; then
     echo "Cannot create a pull request"
-    echo "Response:" $url
+    echo "Response:" $resp
     exit 1
 else
     echo "A pull request has been created at $url"
