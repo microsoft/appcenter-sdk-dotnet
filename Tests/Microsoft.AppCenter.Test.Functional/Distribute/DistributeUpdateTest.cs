@@ -42,14 +42,13 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
-
             // Start AppCenter.
             AppCenter.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
 
             // Wait for "startService" log to be sent.
-            await startServiceTask;
+            Task.WaitAny(startServiceTask, Task.Delay(5000));
 
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
 
