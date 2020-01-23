@@ -19,7 +19,7 @@ namespace Contoso.Test.Functional.Droid
     [Activity(Label = "xUnit Android Runner", MainLauncher = true, Theme = "@android:style/Theme.Material.Light")]
     public class MainActivity : RunnerActivity
     {
-        public static string ResultChannelHost = "10.0.2.2";
+        private const string ResultChannelHost = "10.0.2.2";
 
         protected override void OnCreate(Bundle bundle)
         {

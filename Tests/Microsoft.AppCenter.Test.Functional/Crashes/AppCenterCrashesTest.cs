@@ -23,7 +23,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
         public async Task TrackErrorTest()
         {
             AppCenter.UnsetInstance();
-            Crashes.PlatformUnsetInstance();
+            Crashes.UnsetInstance();
 
             // Set up HttpNetworkAdapter.
             var typeEvent = "handledError";
@@ -49,7 +49,7 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
         public async Task SetUserIdTest()
         {
             AppCenter.UnsetInstance();
-            Crashes.PlatformUnsetInstance();
+            Crashes.UnsetInstance();
 
             // Set up HttpNetworkAdapter.
             var typeEvent = "handledError";

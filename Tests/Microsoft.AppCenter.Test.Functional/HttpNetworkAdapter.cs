@@ -11,13 +11,6 @@ namespace Microsoft.AppCenter.Test.Functional
 {
     internal class HttpNetworkAdapter : IHttpNetworkAdapter
     {
-        struct ExpectedData
-        {
-            public HttpResponse Response;
-            public Func<RequestData, bool> Where;
-            public TaskCompletionSource<RequestData> TaskCompletionSource;
-        }
-
         private static readonly HttpResponse DefaultHttpResponse = new HttpResponse
         {
             StatusCode = 200,
