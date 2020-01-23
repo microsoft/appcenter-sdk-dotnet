@@ -4,6 +4,8 @@
 #addin nuget:?package=Cake.FileHelpers&version=3.0.0
 #addin nuget:?package=Cake.Git&version=0.18.0
 #addin nuget:?package=Cake.Incubator&version=2.0.2
+#addin nuget:?package=Cake.SemVer&version=2.0.0
+#addin nuget:?package=semver&version=2.0.4
 #load "scripts/utility.cake"
 #load "scripts/configuration/config-parser.cake"
 
@@ -13,23 +15,26 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
+var AndroidSdkRepoName = "microsoft/appcenter-sdk-android";
+var AppleSdkRepoName = "microsoft/appcenter-sdk-apple";
+
 // Task TARGET for build
 var TARGET = Argument("target", Argument("t", ""));
 
 // Need to read versions before setting url values
 VersionReader.ReadVersions();
 
-Task("IncrementRevisionNumberWithHash").Does(()=>
+Task("IncrementRevisionNumberWithHash").Does(() =>
 {
     IncrementRevisionNumber(true);
 });
 
-Task("IncrementRevisionNumber").Does(()=>
+Task("IncrementRevisionNumber").Does(() =>
 {
     IncrementRevisionNumber(false);
 });
 
-Task("SetReleaseVersion").Does(()=>
+Task("SetReleaseVersion").Does(() =>
 {
     var prereleaseSuffix = Argument<string>("PrereleaseSuffix", null);
 
@@ -107,9 +112,61 @@ Task("UpdateDemoVersion").Does(()=>
             "<PackageReference Include=\"$1\" Version=\"" + newVersion + "\" />", RegexOptions.ECMAScript);
 });
 
-Task("StartNewVersion").Does(()=>
+Task("StartNewVersion").Does(() =>
 {
     var newVersion = Argument<string>("NewVersion");
+    StartNewVersion(newVersion);
+});
+
+// Fills Android and iOS versions in the build config file with the relevant ones.
+Task("UpdateNativeVersionsToLatest")
+    .IsDependentOn("UpdateAndroidVersionToLatest")
+    .IsDependentOn("UpdateIosVersionToLatest");
+
+Task("UpdateAndroidVersionToLatest").Does(() => 
+{
+    var androidLatestVersion = GetLatestGitHubReleaseVersion(AndroidSdkRepoName);
+    Information($"Received latest android sdk release version {androidLatestVersion}. Verifying if it's a valid semver version...");
+    ParseSemVer(androidLatestVersion);
+    var versionsAreEqual = VersionReader.AndroidVersion.Equals(androidLatestVersion);
+    if (versionsAreEqual) 
+    {
+        Information($"Nothing to replace. Exiting...");
+        return;
+    }
+    Information($"Replacing build config version: androidVersion is {VersionReader.AndroidVersion}.");
+    ReplaceTextInFiles(ConfigFile.Path, VersionReader.AndroidVersion, androidLatestVersion);
+    Information($"Successfully replaced androidVersion with {androidLatestVersion} in {ConfigFile.Name}.");
+}).OnError(HandleError);
+
+Task("UpdateIosVersionToLatest").Does(() => 
+{
+    var appleLatestVersion = GetLatestGitHubReleaseVersion(AppleSdkRepoName);
+    Information($"Received latest apple sdk release version {appleLatestVersion}. Verifying if it's a valid semver version...");
+    ParseSemVer(appleLatestVersion);
+    var versionsAreEqual = VersionReader.IosVersion.Equals(appleLatestVersion);
+    if (versionsAreEqual) 
+    {
+        Information($"Nothing to replace. Exiting...");
+        return;
+    }
+    Information($"Replacing build config versions: iosVersion is {VersionReader.IosVersion}.");
+    ReplaceTextInFiles(ConfigFile.Path, VersionReader.IosVersion, appleLatestVersion);
+    Information($"Successfully replaced iosVersion with {appleLatestVersion} in {ConfigFile.Name}.");
+}).OnError(HandleError);
+
+Task("IncreasePatchVersion").Does(() => 
+{
+    var sdkVersion = ParseSemVer(VersionReader.SdkVersion);
+    var patchVersion = sdkVersion.Patch;
+    patchVersion++;
+    sdkVersion = sdkVersion.Change(patch: patchVersion, prerelease: "", build: "");
+    Information($"Bumping {VersionReader.SdkVersion} SDK version to {sdkVersion.ToString()}...");
+    StartNewVersion(sdkVersion.ToString());
+}).OnError(HandleError);
+
+void StartNewVersion(string newVersion)
+{
     var snapshotVersion = newVersion + "-SNAPSHOT";
     var newFileVersion = newVersion + ".0";
 
@@ -157,7 +214,7 @@ Task("StartNewVersion").Does(()=>
     var bundleShortVersionPattern = @"<key>CFBundleShortVersionString<\/key>\s*<string>[^<]*<\/string>";
     var newBundleShortVersionString = "<key>CFBundleShortVersionString</key>\n\t<string>" + newVersion + "</string>";
     ReplaceRegexInFilesWithExclusion("**/Info.plist", bundleShortVersionPattern, newBundleShortVersionString, "/bin/", "/obj/", "Demo");
-});
+}
 
 void IncrementRevisionNumber(bool useHash)
 {

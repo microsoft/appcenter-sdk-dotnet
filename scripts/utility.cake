@@ -4,6 +4,9 @@
 // This file contains various utilities that are used or can be used by multiple cake scripts.
 
 // Static variables defined outside of a class can cause issues.
+
+using Newtonsoft.Json.Linq;
+
 public class Statics
 {
     // Cake context.
@@ -76,3 +79,32 @@ Task("clean")
     CleanDirectories("./**/bin");
     CleanDirectories("./**/obj");
 });
+
+JObject GetResponseJson(HttpWebRequest request)
+{
+    using (var response = request.GetResponse())
+    using (var reader = new StreamReader(response.GetResponseStream()))
+    {
+        return JObject.Parse(reader.ReadToEnd());
+    }
+}
+
+// Gets the latest repository release version. 
+// repoName is a repository name, including owner: <owner>/<name>.
+string GetLatestGitHubReleaseVersion(string repoName) 
+{
+    var request = CreateGitHubRequest($"repos/{repoName}/releases/latest");
+    var release = GetResponseJson(request);
+    return release["tag_name"].ToString();
+}
+
+// Creates a valid GitHub request and fills the headers needed to make a request to GH.
+// path is a part of the url without the base part, doesn't need to start with "/".
+HttpWebRequest CreateGitHubRequest(string path) 
+{
+    var url = $"https://api.github.com/{path}";
+    var request = (HttpWebRequest)WebRequest.Create (url);
+    request.Accept = "application/vnd.github.v3+json";
+    request.UserAgent = "Microsoft";
+    return request;
+}

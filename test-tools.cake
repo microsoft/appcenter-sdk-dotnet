@@ -87,12 +87,12 @@ ApplicationInfo.Context = Context;
 ApplicationInfo.OutputDirectory = ArchiveDirectory;
 IList<ApplicationInfo> Applications = new List<ApplicationInfo>
 {
-    new ApplicationInfo(Environment.Prod, Platform.iOS, "app-center", "xamarin-demo-ios", "Contoso.Forms.Demo.iOS.csproj", "ipa"),
-    new ApplicationInfo(Environment.Prod, Platform.Android, "app-center", "xamarin-demo-android", "Contoso.Forms.Demo.Droid.csproj", "apk"),
-    new ApplicationInfo(Environment.Prod, Platform.UWP, "app-center", "UWP-Forms-Puppet", "Contoso.Forms.Demo.UWP.csproj", ""),
-    new ApplicationInfo(Environment.Int, Platform.iOS, "app-center-sdk", "xamarin-puppet-ios", "Contoso.Forms.Puppet.iOS.csproj", "ipa"),
-    new ApplicationInfo(Environment.Int, Platform.Android, "app-center-sdk", "xamarin-puppet-android-03", "Contoso.Forms.Puppet.Droid.csproj", "apk"),
-    new ApplicationInfo(Environment.Int, Platform.UWP, "app-center-sdk", "xamarin-forms-puppet-uwp-2", "Contoso.Forms.Puppet.UWP.csproj", "")
+    new ApplicationInfo(Environment.Prod, Platform.iOS, "appcenter", "xamarin-demo-ios", "Contoso.Forms.Demo.iOS.csproj", "ipa"),
+    new ApplicationInfo(Environment.Prod, Platform.Android, "appcenter", "xamarin-demo-android", "Contoso.Forms.Demo.Droid.csproj", "apk"),
+    new ApplicationInfo(Environment.Prod, Platform.UWP, "appcenter-sdk", "UWP-Forms-Puppet", "Contoso.Forms.Demo.UWP.csproj", ""),
+    new ApplicationInfo(Environment.Int, Platform.iOS, "appcenter-sdk", "xamarin-puppet-ios", "Contoso.Forms.Puppet.iOS.csproj", "ipa"),
+    new ApplicationInfo(Environment.Int, Platform.Android, "appcenter-sdk", "xamarin-puppet-android-03", "Contoso.Forms.Puppet.Droid.csproj", "apk"),
+    new ApplicationInfo(Environment.Int, Platform.UWP, "appcenter-sdk", "xamarin-forms-puppet-uwp-2", "Contoso.Forms.Puppet.UWP.csproj", "")
 };
 
 Setup(context =>
@@ -109,7 +109,7 @@ Setup(context =>
     {
         environment = Environment.Int;
         Token = EnvironmentVariable("APP_CENTER_INT_API_TOKEN");
-        BaseUrl = "https://appcenter-int.trafficmanager.net/api";
+        BaseUrl = "https://api-gateway-core-integration.dev.avalanch.es";
     }
     var platformString = Argument<string>("Platform", "ios");
     var platform = Platform.iOS;
@@ -158,7 +158,7 @@ Task("CreateIosArchive").IsDependentOn("IncreaseIosVersion").Does(()=>
 
 Task("CreateAndroidArchive").IsDependentOn("IncreaseAndroidVersion").Does(()=>
 {
-    AndroidPackage(CurrentApp.ProjectPath, true, c => c.Configuration = "Release");
+    BuildAndroidApk(CurrentApp.ProjectPath, true, "Release", c => c.Configuration = "Release");
     var projectLocation = CurrentApp.ProjectDirectory;
     var apks = GetFiles(projectLocation + "/bin/Release/*.apk");
     var unsignedApk = "";
@@ -300,6 +300,40 @@ Task("SendPushNotification")
     var responseJson = GetResponseJson(request);
     Information("Successfully sent push notification and received result:\n" + responseJson.ToString());
 });
+
+Task("BuildAppsInAppCenter").Does(() => 
+{
+    CurrentApp = (  from    app in Applications
+                    where   app.AppPlatform == Platform.iOS &&
+                            app.AppEnvironment == Environment.Prod
+                    select  app
+    ).Single();
+    BuildCurrentAppInAppCenter();
+    BuildCurrentAppInAppCenter();
+    CurrentApp = (  from    app in Applications
+                    where   app.AppPlatform == Platform.Android &&
+                            app.AppEnvironment == Environment.Prod
+                    select  app
+    ).Single();
+    BuildCurrentAppInAppCenter();
+    BuildCurrentAppInAppCenter();
+    CurrentApp = (  from    app in Applications
+                    where   app.AppPlatform == Platform.UWP &&
+                            app.AppEnvironment == Environment.Prod
+                    select  app
+    ).Single();
+    BuildCurrentAppInAppCenter();
+});
+
+void BuildCurrentAppInAppCenter()
+{
+    Information("Triggering build in App Center... ");
+    var appCenterToken = Argument<string>("AppCenterToken");
+    var url = GetApiUrl(BaseUrl, CurrentApp.AppOwner, CurrentApp.AppId, "branches/master/builds");
+    var request = GetWebRequest(url, appCenterToken);
+    var responseJson = GetResponseJson(request);
+    Information("Successfully triggered build in App Center.");
+}
 
 // Helper methods
 
