@@ -4,6 +4,7 @@
 using System;
 using Foundation;
 using Microsoft.AppCenter.Test.Functional;
+using Microsoft.AppCenter.Test.Functional.Distribute;
 using UIKit;
 using Xunit.Runner;
 using Xunit.Runners.ResultChannels;
@@ -19,6 +20,9 @@ namespace Contoso.Test.Functional.iOS
     {
         private const string ResultChannelHost = "127.0.0.1";
 
+        private static UIApplication UiApplication;
+        private static NSDictionary LaunchOptions;
+
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
@@ -28,6 +32,11 @@ namespace Contoso.Test.Functional.iOS
         //
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
+            // Clear NSUserDefaults before the test.
+            var plist = NSUserDefaults.StandardUserDefaults;
+            var appDomain = NSBundle.MainBundle.BundleIdentifier;
+            plist.RemovePersistentDomain(appDomain);
+            
             // Register tests from shared library.
             AddTestAssembly(typeof(Config).Assembly);
 
@@ -48,8 +57,36 @@ namespace Contoso.Test.Functional.iOS
             // crash the application (to ensure it's ended) and return to springboard
             TerminateAfterExecution = true;
 #endif
-
+            DistributeUpdateTest.DistributeEvent += ConfigureDataForDistribute;
+            UiApplication = uiApplication;
+            LaunchOptions = launchOptions;
             return base.FinishedLaunching(uiApplication, launchOptions);
+        }
+
+        private void ConfigureDataForDistribute(object sender, DistributeTestType distributeTestType)
+        {
+            var plist = NSUserDefaults.StandardUserDefaults;
+            switch (distributeTestType)
+            {
+                case DistributeTestType.FreshInstallAsync:
+                    plist.SetString("MSDownloadedReleaseId", Config.RequestId);
+                    break;
+                case DistributeTestType.CheckUpdateAsync:
+                    plist.SetString(Config.RequestId, "MSDownloadedReleaseId");
+                    plist.SetString("token", "MSUpdateTokenRequestId");
+                    plist.SetString(Config.DistributionGroupId, "MSDistributionGroupId");
+                    plist.SetString("hash", "MSDownloadedReleaseHash");
+                    break;
+                case DistributeTestType.Clear:
+                    plist.RemoveObject("MSUpdateTokenRequestId");
+                    plist.RemoveObject("MSUpdateTokenRequestId");
+                    plist.RemoveObject("MSDistributionGroupId");
+                    plist.RemoveObject("MSDownloadedReleaseHash");
+                    break;
+                case DistributeTestType.OnResumeActivity:
+                    WillFinishLaunching(UiApplication, LaunchOptions);
+                    break;
+            }
         }
     }
 }

@@ -47,6 +47,22 @@ namespace Microsoft.AppCenter.Analytics
             return Task.Run(() => future.Get());
         }
 
+        /// <summary>
+        /// Pause the Analytics service.
+        /// </summary>
+        internal static void Pause()
+        {
+            AndroidAnalytics.Pause();
+        }
+
+        /// <summary>
+        /// Resume the Analytics service.
+        /// </summary>
+        internal static void Resume()
+        {
+            AndroidAnalytics.Resume();
+        }
+
         ///// <summary>
         ///// Enable or disable automatic page tracking.
         ///// Set this to false to if you plan to call <see cref="TrackPage"/> manually.

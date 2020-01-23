@@ -1,62 +1,64 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.AppCenter.Test.Functional
 {
     internal class HttpNetworkAdapter : IHttpNetworkAdapter
     {
-        private readonly int _expectedStatusCode;
-        private readonly string _expectedContent;
-        private readonly string _expectedLogType;
+        private static readonly HttpResponse DefaultHttpResponse = new HttpResponse
+        {
+            StatusCode = 200,
+            Content = ""
+        };
 
-        private readonly TaskCompletionSource<HttpResponse> _taskCompletionSource = new TaskCompletionSource<HttpResponse>();
+        private readonly IList<ExpectedData> expectedDataList = new List<ExpectedData>();
 
-        internal Task<HttpResponse> HttpResponseTask { get; private set; }
-
-        internal string Uri { get; private set; }
-        internal string Method { get; private set; }
-        internal IDictionary<string, string> Headers { get; private set; }
-        internal JObject JsonContent { get; private set; }
         internal int CallCount { get; private set; }
 
-        internal HttpNetworkAdapter(int expectedStatusCode = 200, string expectedContent = "", string expectedLogType = null)
+        public Task<RequestData> MockRequestByLogType(string logType, HttpResponse response = null, double delayTimeInSeconds = 20)
         {
-            _expectedStatusCode = expectedStatusCode;
-            _expectedContent = expectedContent;
-            _expectedLogType = expectedLogType;
-            HttpResponseTask = _taskCompletionSource.Task;
+            return MockRequest(request => request.JsonContent.SelectTokens($"$.logs[?(@.type == '{logType}')]").ToList().Count > 0, response, delayTimeInSeconds);
+        }
+
+        public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response = null, double delayTimeInSeconds = 20)
+        {
+            var cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(delayTimeInSeconds));
+            var expectedData = new ExpectedData
+            {
+                Response = response ?? DefaultHttpResponse,
+                Where = where,
+                TaskCompletionSource = new TaskCompletionSource<RequestData>(cancellationToken)
+            };
+            expectedDataList.Add(expectedData);
+            return expectedData.TaskCompletionSource.Task;
         }
 
         public Task<HttpResponse> SendAsync(string uri, string method, IDictionary<string, string> headers, string jsonContent, CancellationToken cancellationToken)
         {
-            var response = new HttpResponse
+            lock (expectedDataList)
             {
-                StatusCode = _expectedStatusCode,
-                Content = _expectedContent
-            };
-            var jsonLogContainer = JObject.Parse(jsonContent);
-            if (string.IsNullOrEmpty(_expectedLogType) || jsonLogContainer.SelectTokens($"$.logs[?(@.type == '{_expectedLogType}')]").ToList().Count > 0)
-            {
-                Uri = uri;
-                Method = method;
-                Headers = headers;
-                JsonContent = jsonLogContainer;
-                lock (this)
+                var requestData = new RequestData(uri, method, headers, jsonContent);
+                foreach (var rule in expectedDataList)
                 {
-                    CallCount++;
+                    var result = rule.Where(requestData);
+                    if (result)
+                    {
+                        CallCount++;
+                        rule.TaskCompletionSource.TrySetResult(requestData);
+                        expectedDataList.Remove(rule);
+                        return Task.FromResult(rule.Response);
+                    }
                 }
-                _taskCompletionSource.TrySetResult(response);
-                return HttpResponseTask;
+                return Task.FromResult(DefaultHttpResponse);
             }
-            return Task.FromResult(response);
         }
-
+        
         public void Dispose()
         {
         }

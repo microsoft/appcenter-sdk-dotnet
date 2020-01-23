@@ -23,11 +23,18 @@ namespace Microsoft.AppCenter
         {
             _httpClientDelegate?.WillSendHTTPRequestToURL(url, headers);
             var managedHeaders = new Dictionary<string, string>();
-            foreach (KeyValuePair<NSObject, NSObject> header in headers)
+            if (headers == null)
             {
-                managedHeaders[header.Key.ToString()] = header.Value.ToString();
+                managedHeaders = new Dictionary<string, string>();
             }
-            _httpNetworkAdapter.SendAsync(url.ToString(), method, managedHeaders, data.ToString(), CancellationToken.None).ContinueWith(t =>
+            else
+            {
+                foreach (KeyValuePair<NSObject, NSObject> header in headers)
+                {
+                    managedHeaders[header.Key.ToString()] = header.Value.ToString();
+                }
+            }
+            _httpNetworkAdapter.SendAsync(url.ToString(), method, managedHeaders, data?.ToString(), CancellationToken.None).ContinueWith(t =>
             {
                 var innerException = t.Exception?.InnerException;
                 if (innerException is HttpException)

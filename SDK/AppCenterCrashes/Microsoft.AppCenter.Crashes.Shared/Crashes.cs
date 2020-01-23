@@ -139,5 +139,10 @@ namespace Microsoft.AppCenter.Crashes
                 PlatformTrackError(exception, properties, attachments);
             }
         }
+
+        internal static void UnsetInstance()
+        {
+            PlatformUnsetInstance();
+        }
     }
 }

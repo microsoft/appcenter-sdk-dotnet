@@ -205,6 +205,11 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.12.0.3\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Essentials">
+      <HintPath>..\..\packages\Xamarin.Essentials.1.3.1\lib\monoandroid90\Xamarin.Essentials.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -214,6 +219,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Properties\AndroidManifest.xml" />
+    <AndroidAsset Include="Assets\xunit.runner.json" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-hdpi\Icon.png">
@@ -238,6 +244,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Microsoft.AppCenter.Test.Functional\Microsoft.AppCenter.Test.Functional.csproj">
       <Project>{115F38E3-5DD5-469E-8A06-AA6BE4B99777}</Project>
       <Name>Microsoft.AppCenter.Test.Functional</Name>
@@ -257,6 +266,22 @@
     <ProjectReference Include="..\..\SDK\AppCenter\Microsoft.AppCenter.Android.Bindings\Microsoft.AppCenter.Android.Bindings.csproj">
       <Project>{C3B5BA33-DA39-400D-B5B3-85C68354FD74}</Project>
       <Name>Microsoft.AppCenter.Android.Bindings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Android\Microsoft.AppCenter.Distribute.Android.csproj">
+      <Project>{AD38DEE9-8A74-4B04-93C3-0831B55E7254}</Project>
+      <Name>Microsoft.AppCenter.Distribute.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Android.Bindings\Microsoft.AppCenter.Distribute.Android.Bindings.csproj">
+      <Project>{11D31A79-0F09-4708-8097-3D1C5D886547}</Project>
+      <Name>Microsoft.AppCenter.Distribute.Android.Bindings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Android\Microsoft.AppCenter.Crashes.Android.csproj">
+      <Project>{D6DB87CA-B8EC-4A38-805F-AFDC7FEC38EB}</Project>
+      <Name>Microsoft.AppCenter.Crashes.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Android.Bindings\Microsoft.AppCenter.Crashes.Android.Bindings.csproj">
+      <Project>{42D541D7-B7C9-45A7-8D4D-8FB5A00668B3}</Project>
+      <Name>Microsoft.AppCenter.Crashes.Android.Bindings</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
