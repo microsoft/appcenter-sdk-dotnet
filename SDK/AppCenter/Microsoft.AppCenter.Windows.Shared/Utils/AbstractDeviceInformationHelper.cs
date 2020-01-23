@@ -26,7 +26,7 @@ namespace Microsoft.AppCenter.Utils
 
         public virtual Task<Ingestion.Models.Device> GetDeviceInformationAsync()
         {
-            return Task.Factory.StartNew(() => { return GetDeviceInformation(); });
+            return Task.Run(() => GetDeviceInformation());
         }
 
         public virtual Ingestion.Models.Device GetDeviceInformation()
