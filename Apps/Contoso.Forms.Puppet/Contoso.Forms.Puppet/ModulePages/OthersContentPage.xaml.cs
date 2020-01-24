@@ -94,11 +94,11 @@ namespace Contoso.Forms.Puppet
             var isUpdateTrackPrivate = DistributePublicSwitchCell.On;
             if (isUpdateTrackPrivate)
             {
-                Distribute.UpdateTrack = UpdateTrack.UpdateTrackPrivate;
+                Distribute.UpdateTrack = UpdateTrack.Private;
             }
             else
             {
-                Distribute.UpdateTrack = UpdateTrack.UpdateTrackPublic;
+                Distribute.UpdateTrack = UpdateTrack.Public;
             }
             Application.Current.Properties[Constants.TrackUpdateKey] = isUpdateTrackPrivate;
             await Application.Current.SavePropertiesAsync();
@@ -128,7 +128,7 @@ namespace Contoso.Forms.Puppet
 
         async void RefreshDistributeTrackUpdate()
         {
-            var isUpdateTrackPrivate = Distribute.UpdateTrack == UpdateTrack.UpdateTrackPrivate;
+            var isUpdateTrackPrivate = Distribute.UpdateTrack == UpdateTrack.Private;
             var isDistributeEnable = await Distribute.IsEnabledAsync();
             if (!isDistributeEnable)
             {

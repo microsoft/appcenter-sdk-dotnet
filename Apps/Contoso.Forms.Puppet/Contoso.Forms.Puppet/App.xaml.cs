@@ -89,7 +89,7 @@ namespace Contoso.Forms.Puppet
                 Data.SetTokenExchangeUrl("https://token-exchange-mbaas-integration.dev.avalanch.es/v0.1");
                 if (Current.Properties.ContainsKey(Constants.TrackUpdateKey) && Current.Properties[Constants.TrackUpdateKey] is bool isTrackUpdate)
                 {
-                    Distribute.UpdateTrack = isTrackUpdate ? UpdateTrack.UpdateTrackPrivate : UpdateTrack.UpdateTrackPublic;
+                    Distribute.UpdateTrack = isTrackUpdate ? UpdateTrack.Private : UpdateTrack.Public;
                 }
 
                 AppCenter.Start(GetTokensString(), typeof(Analytics), typeof(Crashes), typeof(Distribute), typeof(Auth), typeof(Data));
