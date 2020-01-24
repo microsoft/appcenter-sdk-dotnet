@@ -16,7 +16,7 @@ namespace Microsoft.AppCenter.Distribute.iOS.Bindings
 	[Native]
 	public enum MSUpdateTrack : ulong
 	{
-        Public = 1,
-        Private = 2
+		Public = 1,
+		Private = 2
 	}
 }
