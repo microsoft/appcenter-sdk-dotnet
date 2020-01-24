@@ -11,6 +11,10 @@
 * **[Feature]** Support ARM64 architecture.
 * **[Breaking change]** The minimum supported Window 10 version is now `10.0.16299.0`.
 
+#### WPF
+
+* **[Fix]** Fix a deadlock when starting AppCenter that was preventing touch events from being fired.
+
 #### WPF/WinForms
 
 * **[Breaking change]** The minimum supported version of .NET Framework is now `4.6.1`.

@@ -418,7 +418,7 @@ namespace Microsoft.AppCenter.Storage
                     {
                         return;
                     }
-                    await _flushSemaphore.WaitAsync();
+                    await _flushSemaphore.WaitAsync().ConfigureAwait(false);
                 }
                 var t = _queue.Take();
                 t.Start();
