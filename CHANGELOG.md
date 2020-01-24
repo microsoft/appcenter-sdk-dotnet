@@ -13,7 +13,7 @@
 
 #### WPF
 
-* **[Fix]** The possible deadlock on `App Center` start was fixed (touch events were not fired after `App Center` start from `OnStartup`).
+* **[Fix]** Fix a deadlock when starting AppCenter that was preventing touch events from being fired.
 
 #### WPF/WinForms
 
