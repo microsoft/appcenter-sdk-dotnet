@@ -51,6 +51,30 @@ namespace Microsoft.AppCenter.Distribute
             }
         }
 
+        static void SetUpdateTrack(UpdateTrack updateTrack)
+        {
+            switch (updateTrack)
+            {
+                case UpdateTrack.UpdateTrackPublic:
+                    AndroidDistribute.UpdateTrack = 1;
+                    break;
+
+                case UpdateTrack.UpdateTrackPrivate:
+                    AndroidDistribute.UpdateTrack = 2;
+                    break;
+            }
+        }
+
+        static UpdateTrack GetUpdateTrack()
+        {
+            var updateTrackValue = AndroidDistribute.UpdateTrack;
+            if (updateTrackValue == 1)
+            {
+                return UpdateTrack.UpdateTrackPublic;
+            }
+            return UpdateTrack.UpdateTrackPrivate;
+        }
+
         /// <summary>
         /// Set whether the distribute service can be used within a debuggable build.
         /// </summary>
