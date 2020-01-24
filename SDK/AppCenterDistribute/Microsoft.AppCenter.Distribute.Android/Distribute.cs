@@ -68,11 +68,11 @@ namespace Microsoft.AppCenter.Distribute
         static UpdateTrack GetUpdateTrack()
         {
             var updateTrackValue = AndroidDistribute.UpdateTrack;
-            if (updateTrackValue == 1)
+            if (updateTrackValue == 2)
             {
-                return UpdateTrack.UpdateTrackPublic;
+                return UpdateTrack.UpdateTrackPrivate;
             }
-            return UpdateTrack.UpdateTrackPrivate;
+            return UpdateTrack.UpdateTrackPublic;
         }
 
         /// <summary>

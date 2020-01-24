@@ -117,11 +117,11 @@ namespace Microsoft.AppCenter.Distribute
         static UpdateTrack GetUpdateTrack()
         {
             var updateTrackValue = MSDistribute.GetUpdateTrack();
-            if (updateTrackValue == MSUpdateTrack.Public)
+            if (updateTrackValue == MSUpdateTrack.Private)
             {
-                return UpdateTrack.UpdateTrackPublic;
+                return UpdateTrack.UpdateTrackPrivate; 
             }
-            return UpdateTrack.UpdateTrackPrivate;
+            return UpdateTrack.UpdateTrackPublic;
         }
 
         public class Delegate : MSDistributeDelegate
