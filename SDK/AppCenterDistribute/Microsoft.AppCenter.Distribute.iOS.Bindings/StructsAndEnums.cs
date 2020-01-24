@@ -9,14 +9,14 @@ namespace Microsoft.AppCenter.Distribute.iOS.Bindings
 	[Native]
 	public enum MSUpdateAction : ulong
 	{
-		Update = 0,
-		Postpone = 1
+        Update = 0,
+        Postpone = 1
 	}
 
 	[Native]
 	public enum MSUpdateTrack : ulong
 	{
-		Public = 1,
-		Private = 2
+        Public = 1,
+        Private = 2
 	}
 }

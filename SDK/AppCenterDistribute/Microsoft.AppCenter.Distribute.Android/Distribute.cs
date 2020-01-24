@@ -55,11 +55,11 @@ namespace Microsoft.AppCenter.Distribute
         {
             switch (updateTrack)
             {
-                case UpdateTrack.UpdateTrackPublic:
+                case UpdateTrack.Public:
                     AndroidDistribute.UpdateTrack = 1;
                     break;
 
-                case UpdateTrack.UpdateTrackPrivate:
+                case UpdateTrack.Private:
                     AndroidDistribute.UpdateTrack = 2;
                     break;
             }
@@ -70,9 +70,9 @@ namespace Microsoft.AppCenter.Distribute
             var updateTrackValue = AndroidDistribute.UpdateTrack;
             if (updateTrackValue == 2)
             {
-                return UpdateTrack.UpdateTrackPrivate;
+                return UpdateTrack.Private;
             }
-            return UpdateTrack.UpdateTrackPublic;
+            return UpdateTrack.Public;
         }
 
         /// <summary>
