@@ -3,6 +3,7 @@
     <TableView Intent="Form">
         <TableSection Title="Distribute">
             <SwitchCell Text="Distribute Enabled" On="true" x:Name="DistributeEnabledSwitchCell" OnChanged="UpdateDistributeEnabled" />
+            <SwitchCell Text="Distribute uses private track" On="true" x:Name="DistributePublicSwitchCell" OnChanged="UpdateDistributeTrackUpdate" />
         </TableSection>
         <TableSection Title="Push">
             <SwitchCell Text="Push Enabled" On="true" x:Name="PushEnabledSwitchCell" OnChanged="UpdatePushEnabled" />

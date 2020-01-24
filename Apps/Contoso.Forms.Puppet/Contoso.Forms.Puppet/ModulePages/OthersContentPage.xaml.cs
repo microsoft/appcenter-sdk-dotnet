@@ -60,6 +60,7 @@ namespace Contoso.Forms.Puppet
             base.OnAppearing();
             var acEnabled = await AppCenter.IsEnabledAsync();
             RefreshDistributeEnabled(acEnabled);
+            RefreshDistributeTrackUpdate();
             RefreshPushEnabled(acEnabled);
             RefreshAuthEnabled(acEnabled);
             RumEnabledSwitchCell.On = _rumStarted && await RealUserMeasurements.IsEnabledAsync();
@@ -85,6 +86,23 @@ namespace Contoso.Forms.Puppet
             await Distribute.SetEnabledAsync(e.Value);
             var acEnabled = await AppCenter.IsEnabledAsync();
             RefreshDistributeEnabled(acEnabled);
+            RefreshDistributeTrackUpdate();
+        }
+
+        async void UpdateDistributeTrackUpdate(object sender, ToggledEventArgs e)
+        {
+            var isUpdateTrackPrivate = DistributePublicSwitchCell.On;
+            if (isUpdateTrackPrivate)
+            {
+                Distribute.UpdateTrack = UpdateTrack.UpdateTrackPrivate;
+            }
+            else
+            {
+                Distribute.UpdateTrack = UpdateTrack.UpdateTrackPublic;
+            }
+            Application.Current.Properties[Constants.TrackUpdateKey] = isUpdateTrackPrivate;
+            await Application.Current.SavePropertiesAsync();
+            RefreshDistributeTrackUpdate();
         }
 
         async void UpdatePushEnabled(object sender, ToggledEventArgs e)
@@ -105,6 +123,21 @@ namespace Contoso.Forms.Puppet
         {
             DistributeEnabledSwitchCell.On = await Distribute.IsEnabledAsync();
             DistributeEnabledSwitchCell.IsEnabled = _appCenterEnabled;
+            RefreshDistributeTrackUpdate();
+        }
+
+        async void RefreshDistributeTrackUpdate()
+        {
+            var isUpdateTrackPrivate = Distribute.UpdateTrack == UpdateTrack.UpdateTrackPrivate;
+            var isDistributeEnable = await Distribute.IsEnabledAsync();
+            if (!isDistributeEnable)
+            {
+                DistributePublicSwitchCell.On = false;
+                DistributePublicSwitchCell.IsEnabled = false;
+                return;
+            }
+            DistributePublicSwitchCell.IsEnabled = true;
+            DistributePublicSwitchCell.On = isUpdateTrackPrivate;
         }
 
         async void RefreshPushEnabled(bool _appCenterEnabled)
