@@ -39,7 +39,7 @@ namespace Microsoft.AppCenter.Distribute
 
         static UpdateTrack GetUpdateTrack()
         {
-            return UpdateTrack.UpdateTrackPublic;
+            return UpdateTrack.Public;
         }
     }
 }

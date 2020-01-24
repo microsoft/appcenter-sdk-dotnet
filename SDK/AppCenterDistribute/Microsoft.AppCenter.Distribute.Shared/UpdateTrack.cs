@@ -9,11 +9,11 @@ namespace Microsoft.AppCenter.Distribute
         /// <summary>
         /// Releases from the public group that don't require authentication.
         /// </summary>
-        UpdateTrackPublic = 1,
+        Public = 1,
 
         /// <summary>
         /// Releases from private groups that require authentication, also contain public releases.
         /// </summary>
-        UpdateTrackPrivate = 2
+        Private = 2
 	}
 }
