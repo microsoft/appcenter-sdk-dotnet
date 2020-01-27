@@ -6,6 +6,10 @@
 
 * **[Fix]** Allow whitespace characters between secrets like in versions before `2.6.0`.
 
+### App Center Distribute
+
+* **[Breaking change]** Add `UpdateTrack` property to be able to explicitly set either `UpdateTrack.Private` or `UpdateTrack.Public` update track. By default, a public distribution group will be used.
+
 #### UWP
 
 * **[Feature]** Support ARM64 architecture.
