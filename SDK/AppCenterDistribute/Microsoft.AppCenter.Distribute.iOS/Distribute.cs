@@ -100,6 +100,18 @@ namespace Microsoft.AppCenter.Distribute
             }
         }
 
+        static void SetUpdateTrack(UpdateTrack updateTrack)
+        {
+            var updateTrackValue = (int)updateTrack;
+            MSDistribute.SetUpdateTrack((MSUpdateTrack)updateTrackValue);
+        }
+
+        static UpdateTrack GetUpdateTrack()
+        {
+            var updateTrackValue = (int)MSDistribute.GetUpdateTrack();
+            return (UpdateTrack)updateTrackValue;
+        }
+
         public class Delegate : MSDistributeDelegate
         {
             public override bool OnReleaseAvailable(MSDistribute distribute, MSReleaseDetails details)

@@ -43,6 +43,16 @@ namespace Microsoft.AppCenter.Distribute.iOS.Bindings
         [Static]
         [Export("notifyUpdateAction:")]
         void NotifyUpdateAction(MSUpdateAction action);
+
+        // + (void)setUpdateTrack:(MSUpdateTrack)updateTrack
+        [Static]
+        [Export("setUpdateTrack:")]
+        void SetUpdateTrack(MSUpdateTrack updateTrack);
+
+        // + (MSUpdateTrack)updateTrack
+        [Static]
+        [Export("updateTrack")]
+        MSUpdateTrack GetUpdateTrack();
     }
 
     // @protocol MSDistributeDelegate <NSObject>

@@ -51,6 +51,16 @@ namespace Microsoft.AppCenter.Distribute
             }
         }
 
+        static void SetUpdateTrack(UpdateTrack updateTrack)
+        {
+            AndroidDistribute.UpdateTrack = (int)updateTrack;
+        }
+
+        static UpdateTrack GetUpdateTrack()
+        {
+            return (UpdateTrack)AndroidDistribute.UpdateTrack;
+        }
+
         /// <summary>
         /// Set whether the distribute service can be used within a debuggable build.
         /// </summary>
