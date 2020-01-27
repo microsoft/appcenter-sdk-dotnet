@@ -25,6 +25,8 @@ namespace Contoso.Forms.Puppet
     {
         private const string AccountId = "accountId";
 
+        private List<string> TrackUpdateList = new List<string> { "Private", "Public" };
+
         static bool _rumStarted;
 
         static bool _eventFilterStarted;
@@ -53,6 +55,14 @@ namespace Contoso.Forms.Puppet
                 this.AuthTypePicker.Items.Add(authType);
             }
             this.AuthTypePicker.SelectedIndex = (int)(AuthTypeUtils.GetPersistedAuthType());
+
+            // Setup track update dropdown choices.
+            var isUpdateTrackPrivate = Distribute.UpdateTrack == UpdateTrack.Private;
+            foreach (var trackUpdateType in TrackUpdateList)
+            {
+                this.DistributeTrackUpdatePicker.Items.Add(trackUpdateType);
+            }
+            DistributeTrackUpdatePicker.SelectedIndex = isUpdateTrackPrivate ? 1 : 0;
         }
 
         protected override async void OnAppearing()
@@ -89,13 +99,21 @@ namespace Contoso.Forms.Puppet
             RefreshDistributeTrackUpdate();
         }
 
-        async void UpdateDistributeTrackUpdate(object sender, ToggledEventArgs e)
+        async void ChangeUpdateDistributeTrackUpdate(object sender, PropertyChangedEventArgs e)
         {
-            var isUpdateTrackPrivate = DistributePublicSwitchCell.On;
-            Distribute.UpdateTrack = isUpdateTrackPrivate ? UpdateTrack.Private : UpdateTrack.Public;
-            Application.Current.Properties[Constants.TrackUpdateKey] = isUpdateTrackPrivate;
-            await Application.Current.SavePropertiesAsync();
-            RefreshDistributeTrackUpdate();
+            if (e.PropertyName == "IsFocused" && !this.DistributeTrackUpdatePicker.IsFocused)
+            {
+                var newSelectionCandidate = this.DistributeTrackUpdatePicker.SelectedIndex;
+                var persistedStartType = Distribute.UpdateTrack == UpdateTrack.Private ? 0 : 1;
+                if (newSelectionCandidate != (int)persistedStartType)
+                {
+                    var isUpdateTrackPrivate = newSelectionCandidate == 0;
+                    Distribute.UpdateTrack = isUpdateTrackPrivate ? UpdateTrack.Private : UpdateTrack.Public;
+                    Application.Current.Properties[Constants.TrackUpdateKey] = isUpdateTrackPrivate;
+                    await Application.Current.SavePropertiesAsync();
+                    RefreshDistributeTrackUpdate();
+                }
+            }
         }
 
         async void UpdatePushEnabled(object sender, ToggledEventArgs e)
@@ -125,12 +143,11 @@ namespace Contoso.Forms.Puppet
             var isDistributeEnable = await Distribute.IsEnabledAsync();
             if (!isDistributeEnable)
             {
-                DistributePublicSwitchCell.On = false;
-                DistributePublicSwitchCell.IsEnabled = false;
+                DistributeTrackUpdatePicker.IsEnabled = false;
                 return;
             }
-            DistributePublicSwitchCell.IsEnabled = true;
-            DistributePublicSwitchCell.On = isUpdateTrackPrivate;
+            DistributeTrackUpdatePicker.IsEnabled = true;
+            DistributeTrackUpdatePicker.SelectedIndex = isUpdateTrackPrivate ? 0 : 1;
         }
 
         async void RefreshPushEnabled(bool _appCenterEnabled)
