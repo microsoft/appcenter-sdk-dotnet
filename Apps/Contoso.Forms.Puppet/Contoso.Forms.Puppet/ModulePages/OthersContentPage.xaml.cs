@@ -27,6 +27,8 @@ namespace Contoso.Forms.Puppet
 
         private List<string> TrackUpdateList = new List<string> { "Private", "Public" };
 
+        private List<string> WhenUpdateTrackList = new List<string> { "Now", "Before next start" };
+
         static bool _rumStarted;
 
         static bool _eventFilterStarted;
@@ -57,12 +59,28 @@ namespace Contoso.Forms.Puppet
             this.AuthTypePicker.SelectedIndex = (int)(AuthTypeUtils.GetPersistedAuthType());
 
             // Setup track update dropdown choices.
-            var isUpdateTrackPrivate = Distribute.UpdateTrack == UpdateTrack.Private;
+            object isUpdateTrackPrivate;
+            if (!Application.Current.Properties.TryGetValue(Constants.TrackUpdateKey, out isUpdateTrackPrivate))
+            {
+                isUpdateTrackPrivate = 1;
+            }
             foreach (var trackUpdateType in TrackUpdateList)
             {
                 this.DistributeTrackUpdatePicker.Items.Add(trackUpdateType);
             }
-            DistributeTrackUpdatePicker.SelectedIndex = isUpdateTrackPrivate ? 1 : 0;
+            DistributeTrackUpdatePicker.SelectedIndex = (int)isUpdateTrackPrivate;
+
+            // Setup when update dropdown choices.
+            object isUpdateNow;
+            if (!Application.Current.Properties.TryGetValue(Constants.WhenUpdateKey, out isUpdateNow))
+            {
+                isUpdateNow = 1;
+            }
+            foreach (var whenUpdateType in WhenUpdateTrackList)
+            {
+                this.WhenUpdateTrackPicker.Items.Add(whenUpdateType);
+            }
+            WhenUpdateTrackPicker.SelectedIndex = (int)isUpdateNow;
         }
 
         protected override async void OnAppearing()
@@ -107,12 +125,35 @@ namespace Contoso.Forms.Puppet
                 var persistedStartType = Distribute.UpdateTrack == UpdateTrack.Private ? 0 : 1;
                 if (newSelectionCandidate != (int)persistedStartType)
                 {
-                    var isUpdateTrackPrivate = newSelectionCandidate == 0;
-                    Distribute.UpdateTrack = isUpdateTrackPrivate ? UpdateTrack.Private : UpdateTrack.Public;
-                    Application.Current.Properties[Constants.TrackUpdateKey] = isUpdateTrackPrivate;
+                    Application.Current.Properties[Constants.TrackUpdateKey] = newSelectionCandidate;
                     await Application.Current.SavePropertiesAsync();
+                }
+            }
+        }
+
+        async void ChangeSetupDistributeTrackUpdate(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsFocused" && !this.WhenUpdateTrackPicker.IsFocused)
+            {
+                var newSelectionCandidate = this.WhenUpdateTrackPicker.SelectedIndex;
+                var persistedStartType = Distribute.UpdateTrack == UpdateTrack.Private ? 0 : 1;
+                if (newSelectionCandidate != (int)persistedStartType)
+                {
+                    var isUpdateNow = newSelectionCandidate == 0;
+                    if (!isUpdateNow)
+                    {
+                        return;
+                    }
+                    object savedTrackUpdateValue;
+                    if (!Application.Current.Properties.TryGetValue(Constants.TrackUpdateKey, out savedTrackUpdateValue))
+                    {
+                        savedTrackUpdateValue = 1;
+                    }
+                    Distribute.UpdateTrack = (int)savedTrackUpdateValue == 0 ? UpdateTrack.Private : UpdateTrack.Public;
                     RefreshDistributeTrackUpdate();
                 }
+                Application.Current.Properties[Constants.WhenUpdateKey] = newSelectionCandidate;
+                await Application.Current.SavePropertiesAsync();
             }
         }
 

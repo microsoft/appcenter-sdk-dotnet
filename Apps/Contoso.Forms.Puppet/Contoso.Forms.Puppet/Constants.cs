@@ -9,5 +9,6 @@ namespace Contoso.Forms.Puppet
         public const string BingMapsAuthKey = "paste-key-here";
         public const string UserId = "userId";
         public const string TrackUpdateKey = "track-update";
+        public const string WhenUpdateKey = "when-update";
     }
 }
