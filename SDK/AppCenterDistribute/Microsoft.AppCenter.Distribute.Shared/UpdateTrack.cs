@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+
 namespace Microsoft.AppCenter.Distribute
 {
     public enum UpdateTrack
