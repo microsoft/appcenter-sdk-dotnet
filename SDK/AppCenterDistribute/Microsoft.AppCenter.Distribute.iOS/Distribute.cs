@@ -102,26 +102,14 @@ namespace Microsoft.AppCenter.Distribute
 
         static void SetUpdateTrack(UpdateTrack updateTrack)
         {
-            switch (updateTrack)
-            {
-                case UpdateTrack.Public:
-                    MSDistribute.SetUpdateTrack(MSUpdateTrack.Public);
-                    break;
-
-                case UpdateTrack.Private:
-                    MSDistribute.SetUpdateTrack(MSUpdateTrack.Private);
-                    break;
-            }
+            var updateTrackValue = (int)updateTrack;
+            MSDistribute.SetUpdateTrack((MSUpdateTrack)updateTrackValue);
         }
 
         static UpdateTrack GetUpdateTrack()
         {
-            var updateTrackValue = MSDistribute.GetUpdateTrack();
-            if (updateTrackValue == MSUpdateTrack.Private)
-            {
-                return UpdateTrack.Private; 
-            }
-            return UpdateTrack.Public;
+            var updateTrackValue = (int)MSDistribute.GetUpdateTrack();
+            return (UpdateTrack)updateTrackValue;
         }
 
         public class Delegate : MSDistributeDelegate

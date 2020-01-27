@@ -47,7 +47,7 @@ namespace Microsoft.AppCenter.Distribute.iOS.Bindings
         // + (void)setUpdateTrack:(MSUpdateTrack)updateTrack
         [Static]
         [Export("setUpdateTrack:")]
-        void SetUpdateTrack(MSUpdateTrack action);
+        void SetUpdateTrack(MSUpdateTrack updateTrack);
 
         // + (MSUpdateTrack)updateTrack
         [Static]

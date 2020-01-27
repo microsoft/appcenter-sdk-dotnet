@@ -53,26 +53,12 @@ namespace Microsoft.AppCenter.Distribute
 
         static void SetUpdateTrack(UpdateTrack updateTrack)
         {
-            switch (updateTrack)
-            {
-                case UpdateTrack.Public:
-                    AndroidDistribute.UpdateTrack = 1;
-                    break;
-
-                case UpdateTrack.Private:
-                    AndroidDistribute.UpdateTrack = 2;
-                    break;
-            }
+            AndroidDistribute.UpdateTrack = (int)updateTrack;
         }
 
         static UpdateTrack GetUpdateTrack()
         {
-            var updateTrackValue = AndroidDistribute.UpdateTrack;
-            if (updateTrackValue == 2)
-            {
-                return UpdateTrack.Private;
-            }
-            return UpdateTrack.Public;
+            return (UpdateTrack)AndroidDistribute.UpdateTrack;
         }
 
         /// <summary>
