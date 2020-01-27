@@ -27,8 +27,6 @@ namespace Contoso.Forms.Puppet
 
         private List<string> TrackUpdateList = new List<string> { "Private", "Public" };
 
-        private List<string> WhenUpdateTrackList = new List<string> { "Now", "Before next start" };
-
         static bool _rumStarted;
 
         static bool _eventFilterStarted;
@@ -75,7 +73,6 @@ namespace Contoso.Forms.Puppet
                 isUpdateNow = false;
             }
             SetupUpdateTrackSwitch.On = (bool)isUpdateNow;
-            SetupUpdateTrackSwitch.Text = (bool)isUpdateNow ? WhenUpdateTrackList[0] : WhenUpdateTrackList[1];
         }
 
         protected override async void OnAppearing()
@@ -128,11 +125,10 @@ namespace Contoso.Forms.Puppet
 
         async void ChangeSetupTrackUpdate(object sender, ToggledEventArgs e)
         {
-            var changeSetupTrackUpdateValue = SetupUpdateTrackSwitch.On;
-            Application.Current.Properties[Constants.WhenUpdateKey] = changeSetupTrackUpdateValue;
-            SetupUpdateTrackSwitch.Text = changeSetupTrackUpdateValue ? WhenUpdateTrackList[0] : WhenUpdateTrackList[1];
+            var isUpdateTrackPrestart = SetupUpdateTrackSwitch.On;
+            Application.Current.Properties[Constants.WhenUpdateKey] = isUpdateTrackPrestart;
             await Application.Current.SavePropertiesAsync();
-            if (!changeSetupTrackUpdateValue)
+            if (isUpdateTrackPrestart)
             {
                 return;
             }

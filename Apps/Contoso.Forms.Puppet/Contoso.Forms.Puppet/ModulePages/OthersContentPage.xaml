@@ -5,10 +5,10 @@
             <SwitchCell Text="Distribute Enabled" On="true" x:Name="DistributeEnabledSwitchCell" OnChanged="UpdateDistributeEnabled" />
         </TableSection>
         <TableSection Title="Track update type">
+            <SwitchCell x:Name="SetupUpdateTrackSwitch" Text="Pre-start" On="true" OnChanged="ChangeSetupTrackUpdate" />
             <ViewCell>
                 <Picker x:Name="TrackUpdatePicker" Title="Update track" PropertyChanged="ChangeUpdateTrackUpdate" />
             </ViewCell>
-            <SwitchCell x:Name="SetupUpdateTrackSwitch" Text="Distribute Enabled" On="true" OnChanged="ChangeSetupTrackUpdate" />
         </TableSection>
         <TableSection Title="Push">
             <SwitchCell Text="Push Enabled" On="true" x:Name="PushEnabledSwitchCell" OnChanged="UpdatePushEnabled" />
