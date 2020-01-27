@@ -6,11 +6,9 @@
         </TableSection>
         <TableSection Title="Track update type">
             <ViewCell>
-                <Picker x:Name="DistributeTrackUpdatePicker" Title="Distribute track update" PropertyChanged="ChangeUpdateDistributeTrackUpdate" />
+                <Picker x:Name="TrackUpdatePicker" Title="Update track" PropertyChanged="ChangeUpdateTrackUpdate" />
             </ViewCell>
-            <ViewCell>
-                <Picker x:Name="WhenUpdateTrackPicker" Title="When to setup track update" PropertyChanged="ChangeSetupDistributeTrackUpdate" />
-            </ViewCell>
+            <SwitchCell x:Name="SetupUpdateTrackSwitch" Text="Distribute Enabled" On="true" OnChanged="ChangeSetupTrackUpdate" />
         </TableSection>
         <TableSection Title="Push">
             <SwitchCell Text="Push Enabled" On="true" x:Name="PushEnabledSwitchCell" OnChanged="UpdatePushEnabled" />
