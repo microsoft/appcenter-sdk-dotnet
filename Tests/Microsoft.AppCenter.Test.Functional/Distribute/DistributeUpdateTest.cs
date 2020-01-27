@@ -103,6 +103,9 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         [Fact]
         public async Task SetUpdateTrackPrivateTest()
         {
+            // Save data to preference.
+            DistributeEvent?.Invoke(this, DistributeTestType.CheckUpdateAsync);
+
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
@@ -130,6 +133,9 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             Assert.Equal("GET", result.Method);
             Assert.True(result.Uri.Contains("releases/latest?release_hash"));
             Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
+
+            // Clear.
+            DistributeEvent?.Invoke(this, DistributeTestType.Clear);
         }
     }
 }
