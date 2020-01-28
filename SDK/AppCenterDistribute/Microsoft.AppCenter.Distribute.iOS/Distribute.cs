@@ -114,6 +114,7 @@ namespace Microsoft.AppCenter.Distribute
 
         internal static void PlatformUnsetInstance()
         {
+            MSDistribute.ResetSharedInstance();
         }
 
         public class Delegate : MSDistributeDelegate

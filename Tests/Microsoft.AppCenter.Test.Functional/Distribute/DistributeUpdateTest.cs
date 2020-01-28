@@ -44,6 +44,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
             // Start AppCenter.
+            Distribute.UnsetInstance();
             AppCenter.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
@@ -78,6 +79,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
             // Start AppCenter.
+            Distribute.UnsetInstance();
             AppCenter.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             Distribute.UpdateTrack = UpdateTrack.Public;
@@ -98,6 +100,9 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             Assert.Equal("GET", result.Method);
             Assert.True(result.Uri.Contains("releases/latest?release_hash"));
             Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
+
+            // Clear.
+            DistributeEvent?.Invoke(this, DistributeTestType.Clear);
         }
 
         [Fact]
@@ -113,6 +118,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
             // Start AppCenter.
+            Distribute.UnsetInstance();
             AppCenter.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             Distribute.UpdateTrack = UpdateTrack.Private;

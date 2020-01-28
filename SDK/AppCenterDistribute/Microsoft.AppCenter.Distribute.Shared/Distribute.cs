@@ -84,7 +84,7 @@ namespace Microsoft.AppCenter.Distribute
             }
         }
 
-        internal static void UnsetInstance()
+        public static void UnsetInstance()
         {
             PlatformUnsetInstance();
         }

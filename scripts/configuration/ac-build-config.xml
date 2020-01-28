@@ -2,7 +2,7 @@
 <config>
     <sdkInfo>
         <sdkVersion>2.6.5-SNAPSHOT</sdkVersion>
-        <iosVersion>2.5.4-32+d72ceced3bdc85858a0b2061aa686cb6bb9a4ad7</iosVersion>
+        <iosVersion>2.5.4-33+eba1b92a5e8325a5d0c0881af286e9189047f14c</iosVersion>
         <androidVersion>2.5.2-15+e1b81b958</androidVersion>
     </sdkInfo>
     <group id="ios" folder="iOSAssemblies" buildGroup="mac">
