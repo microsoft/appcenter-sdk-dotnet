@@ -112,6 +112,10 @@ namespace Microsoft.AppCenter.Distribute
             return (UpdateTrack)updateTrackValue;
         }
 
+        internal static void PlatformUnsetInstance()
+        {
+        }
+
         public class Delegate : MSDistributeDelegate
         {
             public override bool OnReleaseAvailable(MSDistribute distribute, MSReleaseDetails details)
@@ -135,10 +139,6 @@ namespace Microsoft.AppCenter.Distribute
                     return _releaseAvailableCallback(releaseDetails);
                 }
                 return false;
-            }
-
-            internal static void UnsetInstance()
-            {
             }
         }
     }
