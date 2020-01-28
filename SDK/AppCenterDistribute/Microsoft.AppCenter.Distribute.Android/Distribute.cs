@@ -111,6 +111,11 @@ namespace Microsoft.AppCenter.Distribute
                 }
                 return false;
             }
+
+            internal static void UnsetInstance()
+            {
+                AndroidDistribute.UnsetInstance();
+            }
         }
     }
 }

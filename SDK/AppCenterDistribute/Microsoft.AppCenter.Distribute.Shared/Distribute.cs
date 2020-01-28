@@ -83,5 +83,10 @@ namespace Microsoft.AppCenter.Distribute
                 SetUpdateTrack(value);
             }
         }
+
+        internal static void UnsetInstance()
+        {
+            PlatformUnsetInstance();
+        }
     }
 }
