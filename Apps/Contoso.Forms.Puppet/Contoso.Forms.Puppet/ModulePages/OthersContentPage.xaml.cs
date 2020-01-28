@@ -108,7 +108,7 @@ namespace Contoso.Forms.Puppet
             if (e.PropertyName == "IsFocused" && !this.TrackUpdatePicker.IsFocused)
             {
                 var newSelectionCandidate = this.TrackUpdatePicker.SelectedIndex;
-                var persistedStartType = (int)(Distribute.UpdateTrack - 1);
+                var persistedStartType = (int)(TrackUpdateUtils.GetPersistedUpdateTrackType() - 1);
                 if (newSelectionCandidate != persistedStartType)
                 {
                     await TrackUpdateUtils.SetPersistedUpdateTrackTypeAsync((UpdateTrack)(newSelectionCandidate + 1));
@@ -125,8 +125,8 @@ namespace Contoso.Forms.Puppet
             if (e.PropertyName == "IsFocused" && !this.TimeUpdateTrackPicker.IsFocused)
             {
                 var newSelectionCandidate = this.TimeUpdateTrackPicker.SelectedIndex;
-                var persistedStartType = (int)(Distribute.UpdateTrack - 1);
-                if (newSelectionCandidate != persistedStartType)
+                var persistedTimeTrackUpdate = (int)TrackUpdateUtils.GetPersistedTimeUpdateTrack();
+                if (newSelectionCandidate != persistedTimeTrackUpdate)
                 {
                     await TrackUpdateUtils.SetPersistedTimeUpdateTrackAsync((TimeUpdateTrack)newSelectionCandidate);
                     if ((TimeUpdateTrack)newSelectionCandidate == TimeUpdateTrack.AfterRestart)
