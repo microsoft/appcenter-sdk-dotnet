@@ -11,7 +11,7 @@ namespace Contoso.Forms.Puppet
     public enum TimeUpdateTrack
     {
         Now,
-        AfterRestart
+        BeforeNextStart
     };
 
     public class TrackUpdateUtils

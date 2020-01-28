@@ -87,7 +87,7 @@ namespace Contoso.Forms.Puppet
                 Distribute.SetApiUrl("https://api-gateway-core-integration.dev.avalanch.es/v0.1");
                 Auth.SetConfigUrl("https://config-integration.dev.avalanch.es");
                 Data.SetTokenExchangeUrl("https://token-exchange-mbaas-integration.dev.avalanch.es/v0.1");
-                if (TrackUpdateUtils.GetPersistedTimeUpdateTrack() == TimeUpdateTrack.AfterRestart)
+                if (TrackUpdateUtils.GetPersistedTimeUpdateTrack() == TimeUpdateTrack.BeforeNextStart)
                 {
                     Distribute.UpdateTrack = TrackUpdateUtils.GetPersistedUpdateTrackType();
                 }

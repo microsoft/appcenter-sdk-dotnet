@@ -130,7 +130,7 @@ namespace Contoso.Forms.Puppet
                 if (newSelectionCandidate != persistedTimeTrackUpdate)
                 {
                     await TrackUpdateUtils.SetPersistedTimeUpdateTrackAsync((TimeUpdateTrack)newSelectionCandidate);
-                    if ((TimeUpdateTrack)newSelectionCandidate == TimeUpdateTrack.AfterRestart)
+                    if ((TimeUpdateTrack)newSelectionCandidate == TimeUpdateTrack.BeforeNextStart)
                     {
                         return;
                     }

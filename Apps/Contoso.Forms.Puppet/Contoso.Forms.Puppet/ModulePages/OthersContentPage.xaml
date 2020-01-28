@@ -3,13 +3,11 @@
     <TableView Intent="Form">
         <TableSection Title="Distribute">
             <SwitchCell Text="Distribute Enabled" On="true" x:Name="DistributeEnabledSwitchCell" OnChanged="UpdateDistributeEnabled" />
-        </TableSection>
-        <TableSection Title="Track update type">
             <ViewCell>
                 <Picker x:Name="TrackUpdatePicker" Title="Update track" PropertyChanged="ChangeTrackUpdate" />
             </ViewCell>
              <ViewCell>
-                <Picker x:Name="TimeUpdateTrackPicker" Title="When to setup track update" PropertyChanged="ChangeTimeTrackUpdate" />
+                <Picker x:Name="TimeUpdateTrackPicker" Title="When to update track" PropertyChanged="ChangeTimeTrackUpdate" />
             </ViewCell>
         </TableSection>
         <TableSection Title="Push">
