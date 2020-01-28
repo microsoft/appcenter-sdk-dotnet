@@ -59,7 +59,7 @@ namespace Contoso.Forms.Puppet
             {
                 this.TrackUpdatePicker.Items.Add(trackUpdateType);
             }
-            TrackUpdatePicker.SelectedIndex = (int)(TrackUpdateUtils.GetPersistedUpdateTrackType() - 1);
+            TrackUpdatePicker.SelectedIndex = TrackUpdateUtils.ToPicketUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrackType());
 
             // Setup when update dropdown choices.
             foreach (var setupTimeType in TrackUpdateUtils.GetTimeUpdateTrackChoiceStrings())
@@ -108,10 +108,10 @@ namespace Contoso.Forms.Puppet
             if (e.PropertyName == "IsFocused" && !this.TrackUpdatePicker.IsFocused)
             {
                 var newSelectionCandidate = this.TrackUpdatePicker.SelectedIndex;
-                var persistedStartType = (int)(TrackUpdateUtils.GetPersistedUpdateTrackType() - 1);
+                var persistedStartType = TrackUpdateUtils.ToPicketUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrackType());
                 if (newSelectionCandidate != persistedStartType)
                 {
-                    await TrackUpdateUtils.SetPersistedUpdateTrackTypeAsync((UpdateTrack)(newSelectionCandidate + 1));
+                    await TrackUpdateUtils.SetPersistedUpdateTrackTypeAsync(TrackUpdateUtils.FromPickerUpdateTrackIndex(newSelectionCandidate));
                     if (TrackUpdateUtils.GetPersistedTimeUpdateTrack() == TimeUpdateTrack.Now)
                     {
                         Distribute.UpdateTrack = (UpdateTrack)newSelectionCandidate;
@@ -171,7 +171,7 @@ namespace Contoso.Forms.Puppet
                 return;
             }
             TrackUpdatePicker.IsEnabled = true;
-            TrackUpdatePicker.SelectedIndex = (int)TrackUpdateUtils.GetPersistedUpdateTrackType() - 1;
+            TrackUpdatePicker.SelectedIndex = TrackUpdateUtils.ToPicketUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrackType());
             TimeUpdateTrackPicker.IsEnabled = true;
             TimeUpdateTrackPicker.SelectedIndex = (int)TrackUpdateUtils.GetPersistedTimeUpdateTrack();
         }

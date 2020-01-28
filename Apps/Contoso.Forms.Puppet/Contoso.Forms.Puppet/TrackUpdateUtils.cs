@@ -72,5 +72,15 @@ namespace Contoso.Forms.Puppet
                 yield return updateTypeTypeObject.ToString();
             }
         }
+
+        public static int ToPicketUpdateTrackIndex(UpdateTrack updateTrack)
+        {
+            return (int)(updateTrack - 1);
+        }
+
+        public static UpdateTrack FromPickerUpdateTrackIndex(int index)
+        {
+            return (UpdateTrack)(index + 1);
+        }
     }
 }
