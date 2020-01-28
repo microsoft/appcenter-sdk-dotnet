@@ -111,10 +111,11 @@ namespace Contoso.Forms.Puppet
                 var persistedStartType = TrackUpdateUtils.ToPicketUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrackType());
                 if (newSelectionCandidate != persistedStartType)
                 {
-                    await TrackUpdateUtils.SetPersistedUpdateTrackTypeAsync(TrackUpdateUtils.FromPickerUpdateTrackIndex(newSelectionCandidate));
+                    var newTrackUpdateValue = TrackUpdateUtils.FromPickerUpdateTrackIndex(newSelectionCandidate);
+                    await TrackUpdateUtils.SetPersistedUpdateTrackTypeAsync(newTrackUpdateValue);
                     if (TrackUpdateUtils.GetPersistedTimeUpdateTrack() == TimeUpdateTrack.Now)
                     {
-                        Distribute.UpdateTrack = (UpdateTrack)newSelectionCandidate;
+                        Distribute.UpdateTrack = (UpdateTrack)newTrackUpdateValue;
                     }
                 }
             }
