@@ -6,6 +6,11 @@
 
 * **[Fix]** Allow whitespace characters between secrets like in versions before `2.6.0`.
 
+### App Center Distribute
+
+* **[Feature]** Add `UpdateTrack` property to be able to explicitly set either `Private` or `Public` update track. By default, a public distribution group is used. **Breaking change**: To allow users to access releases of private groups you now need to migrate your application to call `Distribute.UpdateTrack = UpdateTrack.Private`. Please read the documentation for more details.
+* **[Behavior change]** The public distribution is simplified to provide only one public group. If you have existing public groups defined for your application your users will receive the latest version of all public groups.
+
 #### UWP
 
 * **[Feature]** Support ARM64 architecture.
