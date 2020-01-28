@@ -25,8 +25,6 @@ namespace Contoso.Forms.Puppet
     {
         private const string AccountId = "accountId";
 
-        private List<string> TrackUpdateList = new List<string> { "Private", "Public" };
-
         static bool _rumStarted;
 
         static bool _eventFilterStarted;
@@ -57,22 +55,18 @@ namespace Contoso.Forms.Puppet
             this.AuthTypePicker.SelectedIndex = (int)(AuthTypeUtils.GetPersistedAuthType());
 
             // Setup track update dropdown choices.
-            object isUpdateTrackPrivate;
-            if (!Application.Current.Properties.TryGetValue(Constants.TrackUpdateKey, out isUpdateTrackPrivate))
-            {
-                isUpdateTrackPrivate = 1;
-            }
-            foreach (var trackUpdateType in TrackUpdateList)
+            foreach (var trackUpdateType in TrackUpdateUtils.GetUpdateTrackChoiceStrings())
             {
                 this.TrackUpdatePicker.Items.Add(trackUpdateType);
             }
-            TrackUpdatePicker.SelectedIndex = (int)isUpdateTrackPrivate;
-            object isUpdateNow;
-            if (!Application.Current.Properties.TryGetValue(Constants.WhenUpdateKey, out isUpdateNow))
+            TrackUpdatePicker.SelectedIndex = (int)(TrackUpdateUtils.GetPersistedUpdateTrackType() - 1);
+
+            // Setup when update dropdown choices.
+            foreach (var setupTimeType in TrackUpdateUtils.GetTimeUpdateTrackChoiceStrings())
             {
-                isUpdateNow = false;
+                this.TimeUpdateTrackPicker.Items.Add(setupTimeType);
             }
-            SetupUpdateTrackSwitch.On = (bool)isUpdateNow;
+            TimeUpdateTrackPicker.SelectedIndex = (int)(TrackUpdateUtils.GetPersistedTimeUpdateTrack());
         }
 
         protected override async void OnAppearing()
@@ -109,36 +103,41 @@ namespace Contoso.Forms.Puppet
             RefreshDistributeTrackUpdate();
         }
 
-        async void ChangeUpdateTrackUpdate(object sender, PropertyChangedEventArgs e)
+        async void ChangeTrackUpdate(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsFocused" && !this.TrackUpdatePicker.IsFocused)
             {
                 var newSelectionCandidate = this.TrackUpdatePicker.SelectedIndex;
-                var persistedStartType = Distribute.UpdateTrack == UpdateTrack.Private ? 0 : 1;
-                if (newSelectionCandidate != (int)persistedStartType)
+                var persistedStartType = (int)(Distribute.UpdateTrack - 1);
+                if (newSelectionCandidate != persistedStartType)
                 {
-                    Application.Current.Properties[Constants.TrackUpdateKey] = newSelectionCandidate;
-                    await Application.Current.SavePropertiesAsync();
+                    await TrackUpdateUtils.SetPersistedUpdateTrackTypeAsync((UpdateTrack)(newSelectionCandidate + 1));
+                    if (TrackUpdateUtils.GetPersistedTimeUpdateTrack() == TimeUpdateTrack.Now)
+                    {
+                        Distribute.UpdateTrack = (UpdateTrack)newSelectionCandidate;
+                    }
                 }
             }
         }
 
-        async void ChangeSetupTrackUpdate(object sender, ToggledEventArgs e)
+        async void ChangeTimeTrackUpdate(object sender, PropertyChangedEventArgs e)
         {
-            var isUpdateTrackPrestart = SetupUpdateTrackSwitch.On;
-            Application.Current.Properties[Constants.WhenUpdateKey] = isUpdateTrackPrestart;
-            await Application.Current.SavePropertiesAsync();
-            if (isUpdateTrackPrestart)
+            if (e.PropertyName == "IsFocused" && !this.TimeUpdateTrackPicker.IsFocused)
             {
-                return;
+                var newSelectionCandidate = this.TimeUpdateTrackPicker.SelectedIndex;
+                var persistedStartType = (int)(Distribute.UpdateTrack - 1);
+                if (newSelectionCandidate != persistedStartType)
+                {
+                    await TrackUpdateUtils.SetPersistedTimeUpdateTrackAsync((TimeUpdateTrack)newSelectionCandidate);
+                    if ((TimeUpdateTrack)newSelectionCandidate == TimeUpdateTrack.AfterRestart)
+                    {
+                        return;
+                    }
+                    var trackUpdateValue = TrackUpdateUtils.GetPersistedUpdateTrackType();
+                    Distribute.UpdateTrack = trackUpdateValue;
+                    RefreshDistributeTrackUpdate();
+                }
             }
-            object savedTrackUpdateValue;
-            if (!Application.Current.Properties.TryGetValue(Constants.TrackUpdateKey, out savedTrackUpdateValue))
-            {
-                savedTrackUpdateValue = 1;
-            }
-            Distribute.UpdateTrack = (int)savedTrackUpdateValue == 0 ? UpdateTrack.Private : UpdateTrack.Public;
-            RefreshDistributeTrackUpdate();
         }
 
         async void UpdatePushEnabled(object sender, ToggledEventArgs e)
@@ -164,24 +163,17 @@ namespace Contoso.Forms.Puppet
 
         async void RefreshDistributeTrackUpdate()
         {
-            var isUpdateTrackPrivate = Distribute.UpdateTrack == UpdateTrack.Private;
             var isDistributeEnable = await Distribute.IsEnabledAsync();
             if (!isDistributeEnable)
             {
-                SetupUpdateTrackSwitch.IsEnabled = false;
                 TrackUpdatePicker.IsEnabled = false;
-                SetupUpdateTrackSwitch.On = false;
+                TimeUpdateTrackPicker.IsEnabled = false;
                 return;
             }
             TrackUpdatePicker.IsEnabled = true;
-            TrackUpdatePicker.SelectedIndex = isUpdateTrackPrivate ? 0 : 1;
-            SetupUpdateTrackSwitch.IsEnabled = true;
-            object isUpdateNow;
-            if (!Application.Current.Properties.TryGetValue(Constants.WhenUpdateKey, out isUpdateNow))
-            {
-                isUpdateNow = false;
-            }
-            SetupUpdateTrackSwitch.On = (bool)isUpdateNow;
+            TrackUpdatePicker.SelectedIndex = (int)TrackUpdateUtils.GetPersistedUpdateTrackType() - 1;
+            TimeUpdateTrackPicker.IsEnabled = true;
+            TimeUpdateTrackPicker.SelectedIndex = (int)TrackUpdateUtils.GetPersistedTimeUpdateTrack();
         }
 
         async void RefreshPushEnabled(bool _appCenterEnabled)

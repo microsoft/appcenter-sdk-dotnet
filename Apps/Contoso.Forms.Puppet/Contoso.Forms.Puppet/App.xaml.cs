@@ -87,9 +87,9 @@ namespace Contoso.Forms.Puppet
                 Distribute.SetApiUrl("https://api-gateway-core-integration.dev.avalanch.es/v0.1");
                 Auth.SetConfigUrl("https://config-integration.dev.avalanch.es");
                 Data.SetTokenExchangeUrl("https://token-exchange-mbaas-integration.dev.avalanch.es/v0.1");
-                if (Current.Properties.ContainsKey(Constants.TrackUpdateKey) && Current.Properties[Constants.TrackUpdateKey] is int trackUpdate)
+                if (TrackUpdateUtils.GetPersistedTimeUpdateTrack() == TimeUpdateTrack.AfterRestart)
                 {
-                    Distribute.UpdateTrack = trackUpdate == 0 ? UpdateTrack.Private : UpdateTrack.Public;
+                    Distribute.UpdateTrack = TrackUpdateUtils.GetPersistedUpdateTrackType();
                 }
 
                 AppCenter.Start(GetTokensString(), typeof(Analytics), typeof(Crashes), typeof(Distribute), typeof(Auth), typeof(Data));
