@@ -4,10 +4,10 @@
         <TableSection Title="Distribute">
             <SwitchCell Text="Distribute Enabled" On="true" x:Name="DistributeEnabledSwitchCell" OnChanged="UpdateDistributeEnabled" />
             <ViewCell>
-                <Picker x:Name="TrackUpdatePicker" Title="Update track" PropertyChanged="ChangeTrackUpdate" />
+                <Picker x:Name="UpdateTrackPicker" Title="Update track" PropertyChanged="ChangeUpdateTrack" />
             </ViewCell>
              <ViewCell>
-                <Picker x:Name="TimeUpdateTrackPicker" Title="When to update track" PropertyChanged="ChangeTimeTrackUpdate" />
+                <Picker x:Name="UpdateTrackTimePicker" Title="When to update track" PropertyChanged="ChangeUpdateTrackTime" />
             </ViewCell>
         </TableSection>
         <TableSection Title="Push">

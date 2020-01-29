@@ -57,16 +57,16 @@ namespace Contoso.Forms.Puppet
             // Setup track update dropdown choices.
             foreach (var trackUpdateType in TrackUpdateUtils.GetUpdateTrackChoiceStrings())
             {
-                this.TrackUpdatePicker.Items.Add(trackUpdateType);
+                this.UpdateTrackPicker.Items.Add(trackUpdateType);
             }
-            TrackUpdatePicker.SelectedIndex = TrackUpdateUtils.ToPicketUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrackType());
+            UpdateTrackPicker.SelectedIndex = TrackUpdateUtils.ToPicketUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack());
 
             // Setup when update dropdown choices.
-            foreach (var setupTimeType in TrackUpdateUtils.GetTimeUpdateTrackChoiceStrings())
+            foreach (var setupTimeType in TrackUpdateUtils.GetUpdateTrackTimeChoiceStrings())
             {
-                this.TimeUpdateTrackPicker.Items.Add(setupTimeType);
+                this.UpdateTrackTimePicker.Items.Add(setupTimeType);
             }
-            TimeUpdateTrackPicker.SelectedIndex = (int)(TrackUpdateUtils.GetPersistedTimeUpdateTrack());
+            UpdateTrackTimePicker.SelectedIndex = (int)(TrackUpdateUtils.GetPersistedUpdateTrackTime());
         }
 
         protected override async void OnAppearing()
@@ -103,17 +103,17 @@ namespace Contoso.Forms.Puppet
             RefreshDistributeTrackUpdate();
         }
 
-        async void ChangeTrackUpdate(object sender, PropertyChangedEventArgs e)
+        async void ChangeUpdateTrack(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsFocused" && !this.TrackUpdatePicker.IsFocused)
+            if (e.PropertyName == "IsFocused" && !this.UpdateTrackPicker.IsFocused)
             {
-                var newSelectionCandidate = this.TrackUpdatePicker.SelectedIndex;
-                var persistedStartType = TrackUpdateUtils.ToPicketUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrackType());
+                var newSelectionCandidate = this.UpdateTrackPicker.SelectedIndex;
+                var persistedStartType = TrackUpdateUtils.ToPicketUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack());
                 if (newSelectionCandidate != persistedStartType)
                 {
                     var newTrackUpdateValue = TrackUpdateUtils.FromPickerUpdateTrackIndex(newSelectionCandidate);
-                    await TrackUpdateUtils.SetPersistedUpdateTrackTypeAsync(newTrackUpdateValue);
-                    if (TrackUpdateUtils.GetPersistedTimeUpdateTrack() == TimeUpdateTrack.Now)
+                    await TrackUpdateUtils.SetPersistedUpdateTrackAsync(newTrackUpdateValue);
+                    if (TrackUpdateUtils.GetPersistedUpdateTrackTime() == UpdateTrackTime.Now)
                     {
                         Distribute.UpdateTrack = (UpdateTrack)newTrackUpdateValue;
                     }
@@ -121,20 +121,20 @@ namespace Contoso.Forms.Puppet
             }
         }
 
-        async void ChangeTimeTrackUpdate(object sender, PropertyChangedEventArgs e)
+        async void ChangeUpdateTrackTime(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsFocused" && !this.TimeUpdateTrackPicker.IsFocused)
+            if (e.PropertyName == "IsFocused" && !this.UpdateTrackTimePicker.IsFocused)
             {
-                var newSelectionCandidate = this.TimeUpdateTrackPicker.SelectedIndex;
-                var persistedTimeTrackUpdate = (int)TrackUpdateUtils.GetPersistedTimeUpdateTrack();
+                var newSelectionCandidate = this.UpdateTrackTimePicker.SelectedIndex;
+                var persistedTimeTrackUpdate = (int)TrackUpdateUtils.GetPersistedUpdateTrackTime();
                 if (newSelectionCandidate != persistedTimeTrackUpdate)
                 {
-                    await TrackUpdateUtils.SetPersistedTimeUpdateTrackAsync((TimeUpdateTrack)newSelectionCandidate);
-                    if ((TimeUpdateTrack)newSelectionCandidate == TimeUpdateTrack.BeforeNextStart)
+                    await TrackUpdateUtils.SetPersistedUpdateTrackTimeAsync((UpdateTrackTime)newSelectionCandidate);
+                    if ((UpdateTrackTime)newSelectionCandidate == UpdateTrackTime.BeforeNextStart)
                     {
                         return;
                     }
-                    var trackUpdateValue = TrackUpdateUtils.GetPersistedUpdateTrackType();
+                    var trackUpdateValue = TrackUpdateUtils.GetPersistedUpdateTrack();
                     Distribute.UpdateTrack = trackUpdateValue;
                     RefreshDistributeTrackUpdate();
                 }
@@ -167,14 +167,14 @@ namespace Contoso.Forms.Puppet
             var isDistributeEnable = await Distribute.IsEnabledAsync();
             if (!isDistributeEnable)
             {
-                TrackUpdatePicker.IsEnabled = false;
-                TimeUpdateTrackPicker.IsEnabled = false;
+                UpdateTrackPicker.IsEnabled = false;
+                UpdateTrackTimePicker.IsEnabled = false;
                 return;
             }
-            TrackUpdatePicker.IsEnabled = true;
-            TrackUpdatePicker.SelectedIndex = TrackUpdateUtils.ToPicketUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrackType());
-            TimeUpdateTrackPicker.IsEnabled = true;
-            TimeUpdateTrackPicker.SelectedIndex = (int)TrackUpdateUtils.GetPersistedTimeUpdateTrack();
+            UpdateTrackPicker.IsEnabled = true;
+            UpdateTrackPicker.SelectedIndex = TrackUpdateUtils.ToPicketUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack());
+            UpdateTrackTimePicker.IsEnabled = true;
+            UpdateTrackTimePicker.SelectedIndex = (int)TrackUpdateUtils.GetPersistedUpdateTrackTime();
         }
 
         async void RefreshPushEnabled(bool _appCenterEnabled)

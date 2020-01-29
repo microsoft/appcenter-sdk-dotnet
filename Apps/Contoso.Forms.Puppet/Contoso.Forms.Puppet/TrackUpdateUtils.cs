@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace Contoso.Forms.Puppet
 {
-    public enum TimeUpdateTrack
+    public enum UpdateTrackTime
     {
         Now,
         BeforeNextStart
@@ -16,15 +16,16 @@ namespace Contoso.Forms.Puppet
 
     public class TrackUpdateUtils
     {
-        public const TimeUpdateTrack DefaultTimeUpdateTrack = TimeUpdateTrack.Now;
+        public const UpdateTrackTime DefaultTimeUpdateTrack = UpdateTrackTime.Now;
+
         public const UpdateTrack DefaultUpdateTrackType = UpdateTrack.Public;
 
-        public static TimeUpdateTrack GetPersistedTimeUpdateTrack()
+        public static UpdateTrackTime GetPersistedUpdateTrackTime()
         {
-            if (Application.Current.Properties.TryGetValue(Constants.WhenUpdateKey, out object persistedObject))
+            if (Application.Current.Properties.TryGetValue(Constants.UpdateTrackTimeKey, out object persistedObject))
             {
                 string persistedString = (string)persistedObject;
-                if (Enum.TryParse<TimeUpdateTrack>(persistedString, out var persistedEnum))
+                if (Enum.TryParse<UpdateTrackTime>(persistedString, out var persistedEnum))
                 {
                     return persistedEnum;
                 }
@@ -32,9 +33,9 @@ namespace Contoso.Forms.Puppet
             return DefaultTimeUpdateTrack;
         }
 
-        public static UpdateTrack GetPersistedUpdateTrackType()
+        public static UpdateTrack GetPersistedUpdateTrack()
         {
-            if (Application.Current.Properties.TryGetValue(Constants.TrackUpdateKey, out object persistedObject))
+            if (Application.Current.Properties.TryGetValue(Constants.UpdateTrackKey, out object persistedObject))
             {
                 string persistedString = (string)persistedObject;
                 if (Enum.TryParse<UpdateTrack>(persistedString, out var persistedEnum))
@@ -45,21 +46,21 @@ namespace Contoso.Forms.Puppet
             return DefaultUpdateTrackType;
         }
 
-        public static async System.Threading.Tasks.Task SetPersistedUpdateTrackTypeAsync(UpdateTrack choice)
+        public static async System.Threading.Tasks.Task SetPersistedUpdateTrackAsync(UpdateTrack choice)
         {
-            Application.Current.Properties[Constants.TrackUpdateKey] = choice.ToString();
+            Application.Current.Properties[Constants.UpdateTrackKey] = choice.ToString();
             await Application.Current.SavePropertiesAsync();
         }
 
-        public static async System.Threading.Tasks.Task SetPersistedTimeUpdateTrackAsync(TimeUpdateTrack choice)
+        public static async System.Threading.Tasks.Task SetPersistedUpdateTrackTimeAsync(UpdateTrackTime choice)
         {
-            Application.Current.Properties[Constants.WhenUpdateKey] = choice.ToString();
+            Application.Current.Properties[Constants.UpdateTrackTimeKey] = choice.ToString();
             await Application.Current.SavePropertiesAsync();
         }
 
-        public static IEnumerable<string> GetTimeUpdateTrackChoiceStrings()
+        public static IEnumerable<string> GetUpdateTrackTimeChoiceStrings()
         {
-            foreach (var timeUpdateTrackObject in Enum.GetValues(typeof(TimeUpdateTrack)))
+            foreach (var timeUpdateTrackObject in Enum.GetValues(typeof(UpdateTrackTime)))
             {
                 yield return timeUpdateTrackObject.ToString();
             }
