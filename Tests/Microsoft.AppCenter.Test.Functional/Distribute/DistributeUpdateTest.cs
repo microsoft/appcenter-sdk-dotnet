@@ -13,6 +13,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
     public enum DistributeTestType
     {
+        EnableDebuggableBuilds,
         FreshInstallAsync,
         CheckUpdateAsync,
         OnResumeActivity,
@@ -29,11 +30,15 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         public DistributeUpdateTest()
         {
             Utils.DeleteDatabase();
+            Distribute.UnsetInstance();
         }
 
         [Fact]
         public async Task GetLastReleaseDetailsAsync()
         {
+            // Enable Distribute for debuggable builds.
+            DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
+
             // Save data to preference.
             DistributeEvent?.Invoke(this, DistributeTestType.CheckUpdateAsync);
 
@@ -44,7 +49,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
             // Start AppCenter.
-            Distribute.UnsetInstance();
             AppCenter.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
@@ -72,6 +76,9 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         [Fact]
         public async Task SetUpdateTrackPublicTest()
         {
+            // Enable Distribute for debuggable builds.
+            DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
+
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
@@ -79,7 +86,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
             // Start AppCenter.
-            Distribute.UnsetInstance();
             AppCenter.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             Distribute.UpdateTrack = UpdateTrack.Public;
@@ -98,7 +104,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
             // Verify response.
             Assert.Equal("GET", result.Method);
-            Assert.True(result.Uri.Contains("releases/latest?release_hash"));
+            Assert.True(result.Uri.Contains("releases/latest"));
             Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
 
             // Clear.
@@ -108,6 +114,9 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         [Fact]
         public async Task SetUpdateTrackPrivateTest()
         {
+            // Enable Distribute for debuggable builds.
+            DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
+
             // Save data to preference.
             DistributeEvent?.Invoke(this, DistributeTestType.CheckUpdateAsync);
 
@@ -118,7 +127,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
             // Start AppCenter.
-            Distribute.UnsetInstance();
             AppCenter.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             Distribute.UpdateTrack = UpdateTrack.Private;
