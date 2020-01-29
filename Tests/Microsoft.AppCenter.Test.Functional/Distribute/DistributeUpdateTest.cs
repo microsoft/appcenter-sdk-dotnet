@@ -13,6 +13,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
     public enum DistributeTestType
     {
+        SaveMockUpdateToken,
         EnableDebuggableBuilds,
         FreshInstallAsync,
         CheckUpdateAsync,
@@ -114,6 +115,9 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         [Fact]
         public async Task SetUpdateTrackPrivateTest()
         {
+            // MockUpdateToken.
+            DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
+
             // Enable Distribute for debuggable builds.
             DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
 

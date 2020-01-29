@@ -3,6 +3,7 @@
 
 using System;
 using Foundation;
+using Microsoft.AppCenter.iOS.Bindings;
 using Microsoft.AppCenter.Test.Functional;
 using Microsoft.AppCenter.Test.Functional.Distribute;
 using UIKit;
@@ -68,6 +69,12 @@ namespace Contoso.Test.Functional.iOS
             var plist = NSUserDefaults.StandardUserDefaults;
             switch (distributeTestType)
             {
+                case DistributeTestType.SaveMockUpdateToken:
+                    MSKeychainUtil.StoreString(new NSString("xamarinUpdateToken"), new NSString("MSUpdateToken"));
+                    //todo fix error: Failed to retrieve item with key='MSUpdateToken', service='com.contoso.test.functional.AppCenter' from keychain. OS Status code -25300
+                    //var result = MSKeychainUtil.StringForKey(new NSString("MSUpdateToken"), 0).ToString();
+                    //Console.WriteLine($"111keychain result: {result}");
+                    break;
                 case DistributeTestType.FreshInstallAsync:
                     plist.SetString("MSDownloadedReleaseId", Config.RequestId);
                     break;
@@ -82,6 +89,7 @@ namespace Contoso.Test.Functional.iOS
                     plist.RemoveObject("MSUpdateTokenRequestId");
                     plist.RemoveObject("MSDistributionGroupId");
                     plist.RemoveObject("MSDownloadedReleaseHash");
+                    MSKeychainUtil.Clear();
                     break;
                 case DistributeTestType.OnResumeActivity:
                     WillFinishLaunching(UiApplication, LaunchOptions);
