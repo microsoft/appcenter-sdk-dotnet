@@ -83,11 +83,10 @@ namespace Contoso.Test.Functional.iOS
                     plist.SetString("hash", "MSDownloadedReleaseHash");
                     break;
                 case DistributeTestType.Clear:
-                    plist.RemoveObject("MSUpdateTokenRequestId");
-                    plist.RemoveObject("MSUpdateTokenRequestId");
-                    plist.RemoveObject("MSDistributionGroupId");
-                    plist.RemoveObject("MSDownloadedReleaseHash");
-                    plist.RemoveObject("MSDistributionUpdateTrack");
+                    foreach (var i in plist.ToDictionary())
+                    {
+                        plist.RemoveObject(i.Key.ToString());
+                    }
                     iOSKeyChainUtil.Clear();
                     break;
                 case DistributeTestType.OnResumeActivity:
