@@ -47,7 +47,7 @@ namespace Microsoft.AppCenter.Crashes
             if (removeSignalHandlers != null)
             {
                 removeSignalHandlers.Invoke(null, null);
-                AppCenterLog.Info(Crashes.LogTag, "Temporary remove signal handlers while native crash reporter is initialized (Mono 4.8+).");
+                AppCenterLog.Info(Crashes.LogTag, "Temporarily remove signal handlers while native crash reporter is initialized (Mono 4.8+).");
                 return;
             }
 
@@ -62,7 +62,7 @@ namespace Microsoft.AppCenter.Crashes
             sigaction(Signal.SIGBUS, IntPtr.Zero, sigbus);
             sigaction(Signal.SIGSEGV, IntPtr.Zero, sigsegv);
             sigaction(Signal.SIGFPE, IntPtr.Zero, sigfpe);
-            AppCenterLog.Info(Crashes.LogTag, "Temporary remove signal handlers while native crash reporter is initialized (Mono < 4.8).");
+            AppCenterLog.Info(Crashes.LogTag, "Temporarily remove signal handlers while native crash reporter is initialized (Mono < 4.8).");
         }
 
         // In Mono 4.8, it is possible to chain the mono signal handlers to the PLCrashReporter signal handlers, so
