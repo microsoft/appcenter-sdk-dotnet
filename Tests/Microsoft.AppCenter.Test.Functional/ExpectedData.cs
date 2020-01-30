@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.AppCenter.Test.Functional
@@ -11,5 +12,6 @@ namespace Microsoft.AppCenter.Test.Functional
         internal HttpResponse Response { get; set; }
         internal Func<RequestData, bool> Where { get; set; }
         internal TaskCompletionSource<RequestData> TaskCompletionSource { get; set; }
+        internal CancellationTokenSource cancellationTokenSource { get; set; }
     }
 }

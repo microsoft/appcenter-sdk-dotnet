@@ -34,14 +34,15 @@ namespace Microsoft.AppCenter.Test.Functional
                 Where = where,
                 TaskCompletionSource = new TaskCompletionSource<RequestData>()
             };
-            expectedDataList.Add(expectedData);
 
             // Since we can't directly assign token to a Task created with FromResult,
             // and we can't work with token in SendAsync because it may or may not be called after this method,
             // we are registering anonymous cancellation token here.
             // The only weak point can occur if there's a significant delay between actual Task creation time and calling this method,
             // but since we only use that in tests, that can be ignored.
-            new CancellationTokenSource(TimeSpan.FromSeconds(delayTimeInSeconds)).Token.Register(() => expectedData.TaskCompletionSource.TrySetCanceled());
+            expectedData.cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(delayTimeInSeconds));
+            expectedData.cancellationTokenSource.Token.Register(() => expectedData.TaskCompletionSource.TrySetCanceled());
+            expectedDataList.Add(expectedData);
             return expectedData.TaskCompletionSource.Task;
         }
 
@@ -57,6 +58,7 @@ namespace Microsoft.AppCenter.Test.Functional
                     {
                         CallCount++;
                         rule.TaskCompletionSource.TrySetResult(requestData);
+                        rule.cancellationTokenSource.Dispose();
                         expectedDataList.Remove(rule);
                         return Task.FromResult(rule.Response);
                     }
