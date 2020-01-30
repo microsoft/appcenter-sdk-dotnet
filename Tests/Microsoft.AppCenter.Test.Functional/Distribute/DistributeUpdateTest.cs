@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -32,6 +31,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         {
             Utils.DeleteDatabase();
             Distribute.UnsetInstance();
+            DistributeEvent?.Invoke(this, DistributeTestType.Clear);
         }
 
         [Fact]
@@ -39,7 +39,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         {
             // Enable Distribute for debuggable builds.
             DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
-            DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
 
             // Save data to preference.
             DistributeEvent?.Invoke(this, DistributeTestType.CheckUpdateAsync);
@@ -80,7 +79,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         {
             // Enable Distribute for debuggable builds.
             DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
-            DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
 
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
@@ -117,10 +115,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         [Fact]
         public async Task SetUpdateTrackPrivateTest()
         {
-            // MockUpdateToken.
-            DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
-            DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
-
             // Enable Distribute for debuggable builds.
             DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
 
@@ -137,6 +131,10 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             AppCenter.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
             Distribute.UpdateTrack = UpdateTrack.Private;
+
+            // MockUpdateToken.
+            DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
+
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
 
             // Wait for "startService" log to be sent.

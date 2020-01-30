@@ -87,6 +87,7 @@ namespace Contoso.Test.Functional.iOS
                     plist.RemoveObject("MSUpdateTokenRequestId");
                     plist.RemoveObject("MSDistributionGroupId");
                     plist.RemoveObject("MSDownloadedReleaseHash");
+                    plist.RemoveObject("MSDistributionUpdateTrack");
                     iOSKeyChainUtil.Clear();
                     break;
                 case DistributeTestType.OnResumeActivity:
