@@ -67,7 +67,7 @@ namespace Microsoft.AppCenter.iOS.Bindings
         // + (NSString *_Nullable)stringForKey:(NSString *)key statusCode:(OSStatus *_Nullable)statusCode;
         [Static]
         [Export("stringForKey:statusCode:")]
-        NSString StringForKey(NSString key, int errorCode);
+        NSString StringForKey(NSString key, out int errorCode);
 
         // + (BOOL) clear;
         [Static]

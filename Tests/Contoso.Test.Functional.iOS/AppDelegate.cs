@@ -71,12 +71,7 @@ namespace Contoso.Test.Functional.iOS
             switch (distributeTestType)
             {
                 case DistributeTestType.SaveMockUpdateToken:
-                    //MSAppCenter.Start("as", );
                     iOSKeyChainUtil.StoreString(new NSString("xamarinUpdateToken"), new NSString("MSUpdateToken"));
-                    //todo fix error: Failed to retrieve item with key='MSUpdateToken', service='com.contoso.test.functional.AppCenter' from keychain. OS Status code -25300
-                    int a = 0;
-                    var result = iOSKeyChainUtil.StringForKey(new NSString("MSUpdateToken"), a).ToString();
-                    Console.WriteLine($"111keychain result: {result}");
                     break;
                 case DistributeTestType.FreshInstallAsync:
                     plist.SetString("MSDownloadedReleaseId", Config.RequestId);
