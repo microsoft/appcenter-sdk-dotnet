@@ -23,6 +23,12 @@
 
 * **[Dependency changes]** Update `SQLitePCLRaw.bundle_green` dependency to version `2.0.2` and remove dependency from `sqlite-net-pcl`.
 
+### App Center Crashes
+
+#### iOS
+
+* **[Improvement]** Add information logs when signals are removed/restored during initialization.
+
 ___
 
 ## Version 2.6.4
