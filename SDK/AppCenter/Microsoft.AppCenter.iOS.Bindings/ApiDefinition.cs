@@ -55,6 +55,26 @@ namespace Microsoft.AppCenter.iOS.Bindings
         IntPtr Constructor([NullAllowed] string wrapperSdkVersion, [NullAllowed] string wrapperSdkName, [NullAllowed] string wrapperRuntimeVersion, [NullAllowed] string liveUpdateReleaseLabel, [NullAllowed] string liveUpdateDeploymentKey, [NullAllowed] string liveUpdatePackageHash);
     }
 
+    // @interface MSKeychainUtil : NSObject
+    [BaseType(typeof(NSObject))]
+    interface MSKeychainUtil
+    {
+        // + (BOOL)storeString:(NSString *)string forKey:(NSString *)key;
+        [Static]
+        [Export("storeString:forKey:")]
+        void StoreString(NSString value, NSString key);
+
+        // + (NSString *_Nullable)stringForKey:(NSString *)key statusCode:(OSStatus *_Nullable)statusCode;
+        [Static]
+        [Export("stringForKey:statusCode:")]
+        NSString StringForKey(NSString key, int errorCode);
+
+        // + (BOOL) clear;
+        [Static]
+        [Export("clear")]
+        bool Clear();
+    }
+
     // @interface MSDevice : MSWrapperSdk
     [BaseType(typeof(MSWrapperSdk))]
     interface MSDevice
@@ -346,25 +366,5 @@ namespace Microsoft.AppCenter.iOS.Bindings
         [Static]
         [Export("httpClient")]
         MSHttpClientProtocol HttpClient { get; set; }
-    }
-
-    // @interface MSKeychainUtil : NSObject
-    [BaseType(typeof(NSObject))]
-    interface MSKeychainUtil
-    {
-        // + (BOOL)storeString:(NSString *)string forKey:(NSString *)key;
-        [Static]
-        [Export("storeString:forKey:")]
-        void StoreString(NSString sString, NSString key);
-
-        // + (NSString *_Nullable)stringForKey:(NSString *)key statusCode:(OSStatus *_Nullable)statusCode;
-        [Static]
-        [Export("stringForKey:statusCode:")]
-        NSString StringForKey(NSString key, Int32 intPtr);
-
-        // + (BOOL) clear;
-        [Static]
-        [Export("clear")]
-        void Clear();
     }
 }

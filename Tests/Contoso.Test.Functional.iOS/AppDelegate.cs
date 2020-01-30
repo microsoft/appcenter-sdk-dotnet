@@ -3,7 +3,6 @@
 
 using System;
 using Foundation;
-using Microsoft.AppCenter.iOS.Bindings;
 using Microsoft.AppCenter.Test.Functional;
 using Microsoft.AppCenter.Test.Functional.Distribute;
 using UIKit;
@@ -13,6 +12,8 @@ using Xunit.Sdk;
 
 namespace Contoso.Test.Functional.iOS
 {
+
+    using iOSKeyChainUtil = Microsoft.AppCenter.iOS.Bindings.MSKeychainUtil;
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
@@ -23,7 +24,7 @@ namespace Contoso.Test.Functional.iOS
 
         private static UIApplication UiApplication;
         private static NSDictionary LaunchOptions;
-
+        
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
@@ -70,10 +71,12 @@ namespace Contoso.Test.Functional.iOS
             switch (distributeTestType)
             {
                 case DistributeTestType.SaveMockUpdateToken:
-                    MSKeychainUtil.StoreString(new NSString("xamarinUpdateToken"), new NSString("MSUpdateToken"));
+                    //MSAppCenter.Start("as", );
+                    iOSKeyChainUtil.StoreString(new NSString("xamarinUpdateToken"), new NSString("MSUpdateToken"));
                     //todo fix error: Failed to retrieve item with key='MSUpdateToken', service='com.contoso.test.functional.AppCenter' from keychain. OS Status code -25300
-                    //var result = MSKeychainUtil.StringForKey(new NSString("MSUpdateToken"), 0).ToString();
-                    //Console.WriteLine($"111keychain result: {result}");
+                    int a = 0;
+                    var result = iOSKeyChainUtil.StringForKey(new NSString("MSUpdateToken"), a).ToString();
+                    Console.WriteLine($"111keychain result: {result}");
                     break;
                 case DistributeTestType.FreshInstallAsync:
                     plist.SetString("MSDownloadedReleaseId", Config.RequestId);
@@ -89,7 +92,7 @@ namespace Contoso.Test.Functional.iOS
                     plist.RemoveObject("MSUpdateTokenRequestId");
                     plist.RemoveObject("MSDistributionGroupId");
                     plist.RemoveObject("MSDownloadedReleaseHash");
-                    MSKeychainUtil.Clear();
+                    iOSKeyChainUtil.Clear();
                     break;
                 case DistributeTestType.OnResumeActivity:
                     WillFinishLaunching(UiApplication, LaunchOptions);

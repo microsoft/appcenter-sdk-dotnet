@@ -39,6 +39,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         {
             // Enable Distribute for debuggable builds.
             DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
+            DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
 
             // Save data to preference.
             DistributeEvent?.Invoke(this, DistributeTestType.CheckUpdateAsync);
@@ -79,6 +80,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         {
             // Enable Distribute for debuggable builds.
             DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
+            DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
 
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
@@ -116,6 +118,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         public async Task SetUpdateTrackPrivateTest()
         {
             // MockUpdateToken.
+            DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
             DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
 
             // Enable Distribute for debuggable builds.
