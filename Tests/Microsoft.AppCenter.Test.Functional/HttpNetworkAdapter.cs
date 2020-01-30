@@ -21,21 +21,27 @@ namespace Microsoft.AppCenter.Test.Functional
 
         internal int CallCount { get; private set; }
 
-        public Task<RequestData> MockRequestByLogType(string logType, HttpResponse response = null, double delayTimeInSeconds = 20)
+        public Task<RequestData> MockRequestByLogType(string logType, HttpResponse response = null, double delayTimeInSeconds = 5)
         {
             return MockRequest(request => request.JsonContent.SelectTokens($"$.logs[?(@.type == '{logType}')]").ToList().Count > 0, response, delayTimeInSeconds);
         }
 
-        public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response = null, double delayTimeInSeconds = 20)
+        public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response = null, double delayTimeInSeconds = 5)
         {
-            var cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(delayTimeInSeconds));
             var expectedData = new ExpectedData
             {
                 Response = response ?? DefaultHttpResponse,
                 Where = where,
-                TaskCompletionSource = new TaskCompletionSource<RequestData>(cancellationToken)
+                TaskCompletionSource = new TaskCompletionSource<RequestData>()
             };
             expectedDataList.Add(expectedData);
+
+            // Since we can't directly assign token to a Task created with FromResult,
+            // and we can't work with token in SendAsync because it may or may not be called after this method,
+            // we are registering anonymous cancellation token here.
+            // The only weak point can occur if there's a significant delay between actual Task creation time and calling this method,
+            // but since we only use that in tests, that can be ignored.
+            new CancellationTokenSource(TimeSpan.FromSeconds(delayTimeInSeconds)).Token.Register(() => expectedData.TaskCompletionSource.TrySetCanceled());
             return expectedData.TaskCompletionSource.Task;
         }
 

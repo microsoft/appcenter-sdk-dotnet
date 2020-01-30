@@ -46,8 +46,8 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
-            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", delayTimeInSeconds: 5);
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService", delayTimeInSeconds: 5);
 
             // Start AppCenter.
             AppCenter.UnsetInstance();
@@ -55,8 +55,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
 
             // Wait for "startService" log to be sent.
-            Task.WaitAny(startServiceTask, Task.Delay(5000));
-
+            await startServiceTask;
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
 
             // Wait when Distribute will start.
@@ -83,8 +82,8 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
-            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", delayTimeInSeconds: 5);
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService", delayTimeInSeconds: 5);
 
             // Start AppCenter.
             AppCenter.UnsetInstance();
@@ -93,8 +92,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
 
             // Wait for "startService" log to be sent.
-            Task.WaitAny(startServiceTask, Task.Delay(5000));
-
+            await startServiceTask;
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
 
             // Wait when Distribute will start.
@@ -115,17 +113,19 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         [Fact]
         public async Task SetUpdateTrackPrivateTest()
         {
-            // Enable Distribute for debuggable builds.
-            DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
 
             // Save data to preference.
             DistributeEvent?.Invoke(this, DistributeTestType.CheckUpdateAsync);
 
+            // Enable Distribute for debuggable builds.
+            DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
+
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
-            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", delayTimeInSeconds: 5);
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService", delayTimeInSeconds: 5);
+
 
             // Start AppCenter.
             AppCenter.UnsetInstance();
@@ -138,8 +138,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
 
             // Wait for "startService" log to be sent.
-            Task.WaitAny(startServiceTask, Task.Delay(5000));
-
+            await startServiceTask;
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
 
             // Wait when Distribute will start.
