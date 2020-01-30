@@ -60,21 +60,21 @@ namespace Contoso.Forms.Puppet
 
         public static IEnumerable<string> GetUpdateTrackTimeChoiceStrings()
         {
-            foreach (var timeUpdateTrackObject in Enum.GetValues(typeof(UpdateTrackTime)))
+            foreach (var updateTrackTimeObject in Enum.GetValues(typeof(UpdateTrackTime)))
             {
-                yield return timeUpdateTrackObject.ToString();
+                yield return updateTrackTimeObject.ToString();
             }
         }
 
         public static IEnumerable<string> GetUpdateTrackChoiceStrings()
         {
-            foreach (var updateTypeTypeObject in Enum.GetValues(typeof(UpdateTrack)))
+            foreach (var updateTrackObject in Enum.GetValues(typeof(UpdateTrack)))
             {
-                yield return updateTypeTypeObject.ToString();
+                yield return updateTrackObject.ToString();
             }
         }
 
-        public static int ToPicketUpdateTrackIndex(UpdateTrack updateTrack)
+        public static int ToPickerUpdateTrackIndex(UpdateTrack updateTrack)
         {
             return (int)(updateTrack - 1);
         }
