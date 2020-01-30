@@ -46,8 +46,8 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", delayTimeInSeconds: 5);
-            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService", delayTimeInSeconds: 5);
+            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
             // Start AppCenter.
             AppCenter.UnsetInstance();
@@ -82,8 +82,8 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", delayTimeInSeconds: 5);
-            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService", delayTimeInSeconds: 5);
+            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
             // Start AppCenter.
             AppCenter.UnsetInstance();
@@ -123,8 +123,8 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", delayTimeInSeconds: 5);
-            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService", delayTimeInSeconds: 5);
+            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
 
             // Start AppCenter.
