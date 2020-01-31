@@ -125,7 +125,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
-
             // Start AppCenter.
             AppCenter.UnsetInstance();
             AppCenter.LogLevel = LogLevel.Verbose;
