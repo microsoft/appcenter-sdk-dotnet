@@ -87,6 +87,10 @@ namespace Contoso.Forms.Puppet
                 Distribute.SetApiUrl("https://api-gateway-core-integration.dev.avalanch.es/v0.1");
                 Auth.SetConfigUrl("https://config-integration.dev.avalanch.es");
                 Data.SetTokenExchangeUrl("https://token-exchange-mbaas-integration.dev.avalanch.es/v0.1");
+                if (TrackUpdateUtils.GetPersistedUpdateTrackTime() == UpdateTrackTime.BeforeNextStart)
+                {
+                    Distribute.UpdateTrack = TrackUpdateUtils.GetPersistedUpdateTrack();
+                }
 
                 AppCenter.Start(GetTokensString(), typeof(Analytics), typeof(Crashes), typeof(Distribute), typeof(Auth), typeof(Data));
                 if (Current.Properties.ContainsKey(Constants.UserId) && Current.Properties[Constants.UserId] is string id)
