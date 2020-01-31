@@ -21,27 +21,19 @@ namespace Microsoft.AppCenter.Test.Functional
 
         internal int CallCount { get; private set; }
 
-        public Task<RequestData> MockRequestByLogType(string logType, HttpResponse response = null, double delayTimeInSeconds = 20)
+        public Task<RequestData> MockRequestByLogType(string logType, HttpResponse response = null, int delayTimeInSeconds = 20)
         {
             return MockRequest(request => request.JsonContent.SelectTokens($"$.logs[?(@.type == '{logType}')]").ToList().Count > 0, response, delayTimeInSeconds);
         }
 
-        public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response = null, double delayTimeInSeconds = 20)
+        public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response = null, int delayTimeInSeconds = 20)
         {
-            var expectedData = new ExpectedData
+            var expectedData = new ExpectedData(TimeSpan.FromSeconds(delayTimeInSeconds))
             {
                 Response = response ?? DefaultHttpResponse,
                 Where = where,
                 TaskCompletionSource = new TaskCompletionSource<RequestData>()
             };
-
-            // Since we can't directly assign token to a Task created with FromResult,
-            // and we can't work with token in SendAsync because it may or may not be called after this method,
-            // we are registering anonymous cancellation token here.
-            // The only weak point can occur if there's a significant delay between actual Task creation time and calling this method,
-            // but since we only use that in tests, that can be ignored.
-            expectedData.cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(delayTimeInSeconds));
-            expectedData.cancellationTokenSource.Token.Register(() => expectedData.TaskCompletionSource.TrySetCanceled());
             expectedDataList.Add(expectedData);
             return expectedData.TaskCompletionSource.Task;
         }
@@ -58,7 +50,7 @@ namespace Microsoft.AppCenter.Test.Functional
                     {
                         CallCount++;
                         rule.TaskCompletionSource.TrySetResult(requestData);
-                        rule.cancellationTokenSource.Dispose();
+                        rule.UnregisterToken();
                         expectedDataList.Remove(rule);
                         return Task.FromResult(rule.Response);
                     }
