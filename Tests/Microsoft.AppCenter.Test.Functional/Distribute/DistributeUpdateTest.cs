@@ -113,12 +113,11 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         [Fact]
         public async Task SetUpdateTrackPrivateTest()
         {
+            // Enable Distribute for debuggable builds.
+            DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
 
             // Save data to preference.
             DistributeEvent?.Invoke(this, DistributeTestType.CheckUpdateAsync);
-
-            // Enable Distribute for debuggable builds.
-            DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
 
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
