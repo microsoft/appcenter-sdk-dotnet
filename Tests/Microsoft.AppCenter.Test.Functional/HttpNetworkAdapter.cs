@@ -34,7 +34,7 @@ namespace Microsoft.AppCenter.Test.Functional
                 Where = where,
             };
             expectedDataList.Add(expectedData);
-            return expectedData.GetTask();
+            return expectedData.Task;
         }
 
         public Task<HttpResponse> SendAsync(string uri, string method, IDictionary<string, string> headers, string jsonContent, CancellationToken cancellationToken)
@@ -48,8 +48,8 @@ namespace Microsoft.AppCenter.Test.Functional
                     if (result)
                     {
                         CallCount++;
-                        rule.TrySetResult(requestData);
-                        rule.UnregisterToken();
+                        rule.SetResult(requestData);
+                        rule.Dispose();
                         expectedDataList.Remove(rule);
                         return Task.FromResult(rule.Response);
                     }
@@ -60,6 +60,11 @@ namespace Microsoft.AppCenter.Test.Functional
         
         public void Dispose()
         {
+            foreach (var rule in expectedDataList)
+            {
+                rule.Dispose();
+            }
+            expectedDataList.Clear();
         }
     }
 }
