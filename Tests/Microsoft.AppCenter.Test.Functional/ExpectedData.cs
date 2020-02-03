@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.AppCenter.Test.Functional
 {
-    internal class ExpectedData
+     internal class ExpectedData : IDisposable
     {
         private bool _disposed = false;
 
