@@ -8,5 +8,7 @@ namespace Contoso.Forms.Demo
     {
         public const string BingMapsAuthKey = "paste-key-here";
         public const string UserId = "userId";
+        public const string UpdateTrackKey = "update-track";
+        public const string UpdateTrackTimeKey = "update-track-time";
     }
 }

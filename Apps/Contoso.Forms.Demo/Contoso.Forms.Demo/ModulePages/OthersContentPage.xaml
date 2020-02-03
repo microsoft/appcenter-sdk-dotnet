@@ -3,6 +3,12 @@
     <TableView Intent="Form">
         <TableSection Title="Distribute">
             <SwitchCell Text="Distribute Enabled" On="true" x:Name="DistributeEnabledSwitchCell" OnChanged="UpdateDistributeEnabled" OnColor="{StaticResource SwitchCellOnColor}" />
+            <ViewCell>
+                <Picker x:Name="UpdateTrackPicker" Title="Update track" PropertyChanged="ChangeUpdateTrack" />
+            </ViewCell>
+             <ViewCell>
+                <Picker x:Name="UpdateTrackTimePicker" Title="When to update track" PropertyChanged="ChangeUpdateTrackTime" />
+            </ViewCell>
         </TableSection>
         <TableSection Title="Push">
             <SwitchCell Text="Push Enabled" On="true" x:Name="PushEnabledSwitchCell" OnChanged="UpdatePushEnabled" OnColor="{StaticResource SwitchCellOnColor}" />

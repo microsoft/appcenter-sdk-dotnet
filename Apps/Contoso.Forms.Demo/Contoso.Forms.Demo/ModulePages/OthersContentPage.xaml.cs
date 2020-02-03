@@ -50,6 +50,20 @@ namespace Contoso.Forms.Demo
                 this.AuthTypePicker.Items.Add(authType);
             }
             this.AuthTypePicker.SelectedIndex = (int)(AuthTypeUtils.GetPersistedAuthType());
+
+            // Setup track update dropdown choices.
+            foreach (var trackUpdateType in TrackUpdateUtils.GetUpdateTrackChoiceStrings())
+            {
+                this.UpdateTrackPicker.Items.Add(trackUpdateType);
+            }
+            UpdateTrackPicker.SelectedIndex = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack());
+
+            // Setup when update dropdown choices.
+            foreach (var setupTimeType in TrackUpdateUtils.GetUpdateTrackTimeChoiceStrings())
+            {
+                this.UpdateTrackTimePicker.Items.Add(setupTimeType);
+            }
+            UpdateTrackTimePicker.SelectedIndex = (int)(TrackUpdateUtils.GetPersistedUpdateTrackTime());
         }
 
         protected override async void OnAppearing()
@@ -57,6 +71,7 @@ namespace Contoso.Forms.Demo
             base.OnAppearing();
             var acEnabled = await AppCenter.IsEnabledAsync();
             RefreshDistributeEnabled(acEnabled);
+            RefreshDistributeTrackUpdate();
             RefreshPushEnabled(acEnabled);
             RefreshAuthEnabled(acEnabled);
             EventFilterEnabledSwitchCell.On = _eventFilterStarted && await EventFilterHolder.Implementation?.IsEnabledAsync();
@@ -80,6 +95,45 @@ namespace Contoso.Forms.Demo
             await Distribute.SetEnabledAsync(e.Value);
             var acEnabled = await AppCenter.IsEnabledAsync();
             RefreshDistributeEnabled(acEnabled);
+            RefreshDistributeTrackUpdate();
+        }
+
+        async void ChangeUpdateTrack(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsFocused" && !this.UpdateTrackPicker.IsFocused)
+            {
+                var newSelectionCandidate = this.UpdateTrackPicker.SelectedIndex;
+                var persistedStartType = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack());
+                if (newSelectionCandidate != persistedStartType)
+                {
+                    var newTrackUpdateValue = TrackUpdateUtils.FromPickerUpdateTrackIndex(newSelectionCandidate);
+                    await TrackUpdateUtils.SetPersistedUpdateTrackAsync(newTrackUpdateValue);
+                    if (TrackUpdateUtils.GetPersistedUpdateTrackTime() == UpdateTrackTime.Now)
+                    {
+                        Distribute.UpdateTrack = (UpdateTrack)newTrackUpdateValue;
+                    }
+                }
+            }
+        }
+
+        async void ChangeUpdateTrackTime(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsFocused" && !this.UpdateTrackTimePicker.IsFocused)
+            {
+                var newSelectionCandidate = this.UpdateTrackTimePicker.SelectedIndex;
+                var persistedTimeTrackUpdate = (int)TrackUpdateUtils.GetPersistedUpdateTrackTime();
+                if (newSelectionCandidate != persistedTimeTrackUpdate)
+                {
+                    await TrackUpdateUtils.SetPersistedUpdateTrackTimeAsync((UpdateTrackTime)newSelectionCandidate);
+                    if ((UpdateTrackTime)newSelectionCandidate == UpdateTrackTime.BeforeNextStart)
+                    {
+                        return;
+                    }
+                    var trackUpdateValue = TrackUpdateUtils.GetPersistedUpdateTrack();
+                    Distribute.UpdateTrack = trackUpdateValue;
+                    RefreshDistributeTrackUpdate();
+                }
+            }
         }
 
         async void UpdatePushEnabled(object sender, ToggledEventArgs e)
@@ -100,6 +154,22 @@ namespace Contoso.Forms.Demo
         {
             DistributeEnabledSwitchCell.On = await Distribute.IsEnabledAsync();
             DistributeEnabledSwitchCell.IsEnabled = _appCenterEnabled;
+            RefreshDistributeTrackUpdate();
+        }
+
+        async void RefreshDistributeTrackUpdate()
+        {
+            var isDistributeEnable = await Distribute.IsEnabledAsync();
+            if (!isDistributeEnable)
+            {
+                UpdateTrackPicker.IsEnabled = false;
+                UpdateTrackTimePicker.IsEnabled = false;
+                return;
+            }
+            UpdateTrackPicker.IsEnabled = true;
+            UpdateTrackPicker.SelectedIndex = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack());
+            UpdateTrackTimePicker.IsEnabled = true;
+            UpdateTrackTimePicker.SelectedIndex = (int)TrackUpdateUtils.GetPersistedUpdateTrackTime();
         }
 
         async void RefreshPushEnabled(bool _appCenterEnabled)
