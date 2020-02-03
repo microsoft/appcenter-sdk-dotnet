@@ -32,10 +32,9 @@ namespace Microsoft.AppCenter.Test.Functional
             {
                 Response = response ?? DefaultHttpResponse,
                 Where = where,
-                TaskCompletionSource = new TaskCompletionSource<RequestData>()
             };
             expectedDataList.Add(expectedData);
-            return expectedData.TaskCompletionSource.Task;
+            return expectedData.GetTask();
         }
 
         public Task<HttpResponse> SendAsync(string uri, string method, IDictionary<string, string> headers, string jsonContent, CancellationToken cancellationToken)
@@ -49,7 +48,7 @@ namespace Microsoft.AppCenter.Test.Functional
                     if (result)
                     {
                         CallCount++;
-                        rule.TaskCompletionSource.TrySetResult(requestData);
+                        rule.TrySetResult(requestData);
                         rule.UnregisterToken();
                         expectedDataList.Remove(rule);
                         return Task.FromResult(rule.Response);
