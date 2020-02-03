@@ -55,7 +55,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
 
             // Wait for "startService" log to be sent.
-            Task.WaitAny(startServiceTask, Task.Delay(5000));
+            await startServiceTask;
 
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
 
@@ -93,7 +93,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
 
             // Wait for "startService" log to be sent.
-            Task.WaitAny(startServiceTask, Task.Delay(5000));
+            await startServiceTask;
 
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
 
@@ -138,7 +138,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
 
             // Wait for "startService" log to be sent.
-            Task.WaitAny(startServiceTask, Task.Delay(5000));
+            await startServiceTask;
 
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
 
