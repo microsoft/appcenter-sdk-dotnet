@@ -14,6 +14,7 @@ namespace Contoso.Test.Functional.iOS
 {
 
     using iOSKeyChainUtil = Microsoft.AppCenter.iOS.Bindings.MSKeychainUtil;
+    
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
@@ -24,7 +25,6 @@ namespace Contoso.Test.Functional.iOS
 
         private static UIApplication UiApplication;
         private static NSDictionary LaunchOptions;
-        
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
@@ -96,4 +96,3 @@ namespace Contoso.Test.Functional.iOS
         }
     }
 }
-

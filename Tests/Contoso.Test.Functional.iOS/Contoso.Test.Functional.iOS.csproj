@@ -36,6 +36,9 @@
         <WarningLevel>4</WarningLevel>
         <MtouchLink>SdkOnly</MtouchLink>
         <MtouchArch>x86_64</MtouchArch>
+        <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+        <CodesignProvision>iOS Team Provisioning Profile: *</CodesignProvision>
+        <CodesignKey>iPhone Developer</CodesignKey>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
         <DebugSymbols>true</DebugSymbols>
