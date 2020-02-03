@@ -10,6 +10,7 @@ namespace Microsoft.AppCenter.Test.Functional
     internal class ExpectedData : IDisposable
     {
         private readonly TaskCompletionSource<RequestData> _taskCompletionSource = new TaskCompletionSource<RequestData>();
+
         private readonly CancellationTokenSource _cancellationSource;
 
         public HttpResponse Response { get; set; }
