@@ -9,7 +9,7 @@ namespace Microsoft.AppCenter.Test.Functional
 {
     internal class ExpectedData
     {
-        private bool disposed = false;
+        private bool _disposed = false;
 
         internal HttpResponse Response { get; set; }
         internal Func<RequestData, bool> Where { get; set; }
@@ -18,7 +18,6 @@ namespace Microsoft.AppCenter.Test.Functional
 
         internal ExpectedData(TimeSpan tokenTimeout)
         {
-
             // Since we can't directly assign token to a Task created with FromResult,
             // and we can't work with token in SendAsync because it may or may not be called after this method,
             // we are registering anonymous cancellation token here.
@@ -35,17 +34,14 @@ namespace Microsoft.AppCenter.Test.Functional
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!_disposed)
             {
-                if (disposing)
-                {
-                    UnregisterToken();
-                    Response = null;
-                    Where = null;
-                    Response = null;
-                    TaskCompletionSource = null;
-                }
-                disposed = true;
+                UnregisterToken();
+                Response = null;
+                Where = null;
+                Response = null;
+                TaskCompletionSource = null;
+                _disposed = true;
             }
         }
 
