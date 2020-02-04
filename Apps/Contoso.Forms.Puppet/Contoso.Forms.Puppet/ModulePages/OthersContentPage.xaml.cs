@@ -7,12 +7,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Microsoft.AppCenter;
-using Microsoft.AppCenter.Auth;
 using Microsoft.AppCenter.Crashes;
-using Microsoft.AppCenter.Data;
 using Microsoft.AppCenter.Distribute;
 using Microsoft.AppCenter.Push;
-using Microsoft.AppCenter.Rum;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 
@@ -25,20 +22,13 @@ namespace Contoso.Forms.Puppet
     {
         private const string AccountId = "accountId";
 
-        private List<string> TrackUpdateList = new List<string> { "Private", "Public" };
-
         static bool _rumStarted;
 
         static bool _eventFilterStarted;
 
-        private UserInformation userInfo = null;
-
         static OthersContentPage()
         {
-            Data.RemoteOperationCompleted += (sender, eventArgs) =>
-            {
-                AppCenterLog.Info(App.LogTag, "Remote operation completed event=" + JsonConvert.SerializeObject(eventArgs) + " sender=" + sender);
-            };
+
         }
 
         public OthersContentPage()
@@ -49,20 +39,19 @@ namespace Contoso.Forms.Puppet
                 Icon = "handbag.png";
             }
 
-            // Setup auth type dropdown choices
-            foreach (var authType in AuthTypeUtils.GetAuthTypeChoiceStrings())
-            {
-                this.AuthTypePicker.Items.Add(authType);
-            }
-            this.AuthTypePicker.SelectedIndex = (int)(AuthTypeUtils.GetPersistedAuthType());
-
             // Setup track update dropdown choices.
-            var isUpdateTrackPrivate = Distribute.UpdateTrack == UpdateTrack.Private;
-            foreach (var trackUpdateType in TrackUpdateList)
+            foreach (var trackUpdateType in TrackUpdateUtils.GetUpdateTrackChoiceStrings())
             {
-                this.DistributeTrackUpdatePicker.Items.Add(trackUpdateType);
+                this.UpdateTrackPicker.Items.Add(trackUpdateType);
             }
-            DistributeTrackUpdatePicker.SelectedIndex = isUpdateTrackPrivate ? 1 : 0;
+            UpdateTrackPicker.SelectedIndex = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack());
+
+            // Setup when update dropdown choices.
+            foreach (var setupTimeType in TrackUpdateUtils.GetUpdateTrackTimeChoiceStrings())
+            {
+                this.UpdateTrackTimePicker.Items.Add(setupTimeType);
+            }
+            UpdateTrackTimePicker.SelectedIndex = (int)(TrackUpdateUtils.GetPersistedUpdateTrackTime());
         }
 
         protected override async void OnAppearing()
@@ -72,23 +61,8 @@ namespace Contoso.Forms.Puppet
             RefreshDistributeEnabled(acEnabled);
             RefreshDistributeTrackUpdate();
             RefreshPushEnabled(acEnabled);
-            RefreshAuthEnabled(acEnabled);
-            RumEnabledSwitchCell.On = _rumStarted && await RealUserMeasurements.IsEnabledAsync();
-            RumEnabledSwitchCell.IsEnabled = acEnabled;
             EventFilterEnabledSwitchCell.On = _eventFilterStarted && await EventFilterHolder.Implementation?.IsEnabledAsync();
             EventFilterEnabledSwitchCell.IsEnabled = acEnabled && EventFilterHolder.Implementation != null;
-            if (!Application.Current.Properties.ContainsKey(AccountId))
-            {
-                SignInInformationButton.Text = "Authentication status unknown";
-            }
-            else if (Application.Current.Properties[AccountId] is string)
-            {
-                SignInInformationButton.Text = "User is authenticated";
-            }
-            else
-            {
-                SignInInformationButton.Text = "User is not authenticated";
-            }
         }
 
         async void UpdateDistributeEnabled(object sender, ToggledEventArgs e)
@@ -99,18 +73,39 @@ namespace Contoso.Forms.Puppet
             RefreshDistributeTrackUpdate();
         }
 
-        async void ChangeUpdateDistributeTrackUpdate(object sender, PropertyChangedEventArgs e)
+        async void ChangeUpdateTrack(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsFocused" && !this.DistributeTrackUpdatePicker.IsFocused)
+            if (e.PropertyName == "IsFocused" && !this.UpdateTrackPicker.IsFocused)
             {
-                var newSelectionCandidate = this.DistributeTrackUpdatePicker.SelectedIndex;
-                var persistedStartType = Distribute.UpdateTrack == UpdateTrack.Private ? 0 : 1;
-                if (newSelectionCandidate != (int)persistedStartType)
+                var newSelectionCandidate = this.UpdateTrackPicker.SelectedIndex;
+                var persistedStartType = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack());
+                if (newSelectionCandidate != persistedStartType)
                 {
-                    var isUpdateTrackPrivate = newSelectionCandidate == 0;
-                    Distribute.UpdateTrack = isUpdateTrackPrivate ? UpdateTrack.Private : UpdateTrack.Public;
-                    Application.Current.Properties[Constants.TrackUpdateKey] = isUpdateTrackPrivate;
-                    await Application.Current.SavePropertiesAsync();
+                    var newTrackUpdateValue = TrackUpdateUtils.FromPickerUpdateTrackIndex(newSelectionCandidate);
+                    await TrackUpdateUtils.SetPersistedUpdateTrackAsync(newTrackUpdateValue);
+                    if (TrackUpdateUtils.GetPersistedUpdateTrackTime() == UpdateTrackTime.Now)
+                    {
+                        Distribute.UpdateTrack = (UpdateTrack)newTrackUpdateValue;
+                    }
+                }
+            }
+        }
+
+        async void ChangeUpdateTrackTime(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsFocused" && !this.UpdateTrackTimePicker.IsFocused)
+            {
+                var newSelectionCandidate = this.UpdateTrackTimePicker.SelectedIndex;
+                var persistedTimeTrackUpdate = (int)TrackUpdateUtils.GetPersistedUpdateTrackTime();
+                if (newSelectionCandidate != persistedTimeTrackUpdate)
+                {
+                    await TrackUpdateUtils.SetPersistedUpdateTrackTimeAsync((UpdateTrackTime)newSelectionCandidate);
+                    if ((UpdateTrackTime)newSelectionCandidate == UpdateTrackTime.BeforeNextStart)
+                    {
+                        return;
+                    }
+                    var trackUpdateValue = TrackUpdateUtils.GetPersistedUpdateTrack();
+                    Distribute.UpdateTrack = trackUpdateValue;
                     RefreshDistributeTrackUpdate();
                 }
             }
@@ -123,13 +118,6 @@ namespace Contoso.Forms.Puppet
             RefreshPushEnabled(acEnabled);
         }
 
-        async void UpdateAuthEnabled(object sender, ToggledEventArgs e)
-        {
-            await Auth.SetEnabledAsync(e.Value);
-            var acEnabled = await AppCenter.IsEnabledAsync();
-            RefreshAuthEnabled(acEnabled);
-        }
-
         async void RefreshDistributeEnabled(bool _appCenterEnabled)
         {
             DistributeEnabledSwitchCell.On = await Distribute.IsEnabledAsync();
@@ -139,55 +127,23 @@ namespace Contoso.Forms.Puppet
 
         async void RefreshDistributeTrackUpdate()
         {
-            var isUpdateTrackPrivate = Distribute.UpdateTrack == UpdateTrack.Private;
             var isDistributeEnable = await Distribute.IsEnabledAsync();
             if (!isDistributeEnable)
             {
-                DistributeTrackUpdatePicker.IsEnabled = false;
+                UpdateTrackPicker.IsEnabled = false;
+                UpdateTrackTimePicker.IsEnabled = false;
                 return;
             }
-            DistributeTrackUpdatePicker.IsEnabled = true;
-            DistributeTrackUpdatePicker.SelectedIndex = isUpdateTrackPrivate ? 0 : 1;
+            UpdateTrackPicker.IsEnabled = true;
+            UpdateTrackPicker.SelectedIndex = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack());
+            UpdateTrackTimePicker.IsEnabled = true;
+            UpdateTrackTimePicker.SelectedIndex = (int)TrackUpdateUtils.GetPersistedUpdateTrackTime();
         }
 
         async void RefreshPushEnabled(bool _appCenterEnabled)
         {
             PushEnabledSwitchCell.On = await Push.IsEnabledAsync();
             PushEnabledSwitchCell.IsEnabled = _appCenterEnabled;
-        }
-
-        async void RefreshAuthEnabled(bool _appCenterEnabled)
-        {
-            AuthEnabledSwitchCell.On = await Auth.IsEnabledAsync();
-            AuthEnabledSwitchCell.IsEnabled = _appCenterEnabled;
-        }
-
-        async void ChangeAuthType(object sender, PropertyChangedEventArgs e)
-        {
-            // IOS sends an event every time user rests their selection on an item without hitting "done", and the only event they send when hitting "done" is that the control is no longer focused.
-            // So we'll process the change at that time. This works for android as well.
-            if (e.PropertyName == "IsFocused" && !this.AuthTypePicker.IsFocused)
-            {
-                var newSelectionCandidate = this.AuthTypePicker.SelectedIndex;
-                var persistedAuthType = AuthTypeUtils.GetPersistedAuthType();
-                if (newSelectionCandidate != (int)persistedAuthType)
-                {
-                    AuthTypeUtils.SetPersistedAuthType((AuthType)newSelectionCandidate);
-                    await Application.Current.SavePropertiesAsync();
-                    await DisplayAlert("Authorization Type Changed", "Authorization type has changed, which alters the app secret. Please close and re-run the app for the new app secret to take effect.", "OK");
-                }
-            }
-        }
-
-        async void UpdateRumEnabled(object sender, ToggledEventArgs e)
-        {
-            if (!_rumStarted)
-            {
-                RealUserMeasurements.SetRumKey("b1919553367d44d8b0ae72594c74e0ff");
-                AppCenter.Start(typeof(RealUserMeasurements));
-                _rumStarted = true;
-            }
-            await RealUserMeasurements.SetEnabledAsync(e.Value);
         }
 
         async void UpdateEventFilterEnabled(object sender, ToggledEventArgs e)
@@ -203,117 +159,7 @@ namespace Contoso.Forms.Puppet
             }
         }
 
-        async void RunMBaaSAsync(object sender, EventArgs e)
-        {
-            try
-            {
-                userInfo = await Auth.SignInAsync();
-                if (userInfo.AccountId != null)
-                {
-                    Application.Current.Properties[AccountId] = userInfo.AccountId;
-                    SignInInformationButton.Text = "User authenticated";
-                }
-                AppCenterLog.Info(App.LogTag, "Auth.SignInAsync succeeded accountId=" + userInfo.AccountId);
-            }
-            catch (Exception ex)
-            {
-                AppCenterLog.Error(App.LogTag, "Auth scenario failed", ex);
-                Crashes.TrackError(ex);
-            }
-            try
-            {
-                var list = await Data.ListAsync<CustomDocument>(DefaultPartitions.UserDocuments);
-                foreach (var doc in list)
-                {
-                    AppCenterLog.Info(App.LogTag, "List result=" + JsonConvert.SerializeObject(doc));
-                }
-                var document = list.CurrentPage.Items.First();
-                AppCenterLog.Info(App.LogTag, "List first result=" + JsonConvert.SerializeObject(document));
-                document = await Data.DeleteAsync<CustomDocument>(document.Id, DefaultPartitions.UserDocuments);
-                AppCenterLog.Info(App.LogTag, "Delete result=" + JsonConvert.SerializeObject(document));
-            }
-            catch (Exception ex)
-            {
-                AppCenterLog.Error(App.LogTag, "Data list/delete first scenario failed", ex);
-                Crashes.TrackError(ex);
-            }
-            try
-            {
-                var objectCollection = new List<Uri>();
-                objectCollection.Add(new Uri("http://google.com/"));
-                objectCollection.Add(new Uri("http://microsoft.com/"));
-                objectCollection.Add(new Uri("http://facebook.com/"));
-                var primitiveCollection = new List<int>();
-                primitiveCollection.Add(1);
-                primitiveCollection.Add(2);
-                primitiveCollection.Add(3);
-                var dict = new Dictionary<string, Uri>();
-                dict.Add("key1", new Uri("http://google.com/"));
-                dict.Add("key2", new Uri("http://microsoft.com/"));
-                dict.Add("key3", new Uri("http://facebook.com/"));
-                var customDoc = new CustomDocument
-                {
-                    Id = Guid.NewGuid(),
-                    TimeStamp = DateTime.UtcNow,
-                    SomeNumber = 123,
-                    SomeObject = dict,
-                    SomePrimitiveArray = new int[] { 1, 2, 3 },
-                    SomeObjectArray = new CustomDocument[] {
-                        new CustomDocument {
-                            Id = Guid.NewGuid(),
-                            TimeStamp = DateTime.UtcNow,
-                            SomeNumber = 123,
-                            SomeObject = dict,
-                            SomePrimitiveArray = new int[] { 1, 2, 3 },
-                            SomeObjectCollection = objectCollection,
-                            SomePrimitiveCollection = primitiveCollection
-                        }
-                    },
-                    SomeObjectCollection = objectCollection,
-                    SomePrimitiveCollection = primitiveCollection,
-                    Custom = new CustomDocument
-                    {
-                        Id = Guid.NewGuid(),
-                        TimeStamp = DateTime.UtcNow,
-                        SomeNumber = 123,
-                        SomeObject = dict,
-                        SomePrimitiveArray = new int[] { 1, 2, 3 },
-                        SomeObjectCollection = objectCollection,
-                        SomePrimitiveCollection = primitiveCollection
-                    }
-                };
-                var id = customDoc.Id.ToString();
-                var document = await Data.ReplaceAsync(id, customDoc, DefaultPartitions.UserDocuments);
-                AppCenterLog.Info(App.LogTag, "Replace result=" + JsonConvert.SerializeObject(document));
-                document = await Data.ReadAsync<CustomDocument>(id, DefaultPartitions.UserDocuments);
-                AppCenterLog.Info(App.LogTag, "Read result=" + JsonConvert.SerializeObject(document));
-            }
-            catch (Exception ex)
-            {
-                AppCenterLog.Error(App.LogTag, "Data person scenario failed", ex);
-                Crashes.TrackError(ex);
-            }
-        }
-
-        void SignOut(object sender, EventArgs e)
-        {
-            Auth.SignOut();
-            userInfo = null;
-            SignInInformationButton.Text = "User not authenticated";
-            Application.Current.Properties[AccountId] = null;
-        }
-
-        async void SignInInformation(object sender, EventArgs e)
-        {
-            if (userInfo != null)
-            {
-                string accessToken = userInfo.AccessToken?.Length > 0 ? "Set" : "Unset";
-                string idToken = userInfo.IdToken?.Length > 0 ? "Set" : "Unset";
-                await Navigation.PushModalAsync(new SignInInformationContentPage(userInfo.AccountId, accessToken, idToken));
-            }
-        }
-
-        public class CustomDocument
+               public class CustomDocument
         {
             [JsonProperty("id")]
             public Guid? Id { get; set; }

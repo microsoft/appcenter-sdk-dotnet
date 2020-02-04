@@ -1,10 +1,23 @@
 # App Center SDK for .NET Change Log
 
-## Version 2.6.5 （Under development）
+## Version 3.0.0 （Under development）
+
+### App Center Auth
+
+App Center Auth is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
+
+### App Center Data
+
+App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
 
 ### App Center
 
 * **[Fix]** Allow whitespace characters between secrets like in versions before `2.6.0`.
+
+### App Center Distribute
+
+* **[Feature]** Add `UpdateTrack` property to be able to explicitly set either `Private` or `Public` update track. By default, a public distribution group is used. **Breaking change**: To allow users to access releases of private groups you now need to migrate your application to call `Distribute.UpdateTrack = UpdateTrack.Private`. Please read the documentation for more details.
+* **[Behavior change]** The public distribution is simplified to provide only one public group. If you have existing public groups defined for your application your users will receive the latest version of all public groups.
 
 #### UWP
 
@@ -22,6 +35,12 @@
 #### UWP/WPF/WinForms
 
 * **[Dependency changes]** Update `SQLitePCLRaw.bundle_green` dependency to version `2.0.2` and remove dependency from `sqlite-net-pcl`.
+
+### App Center Crashes
+
+#### iOS
+
+* **[Improvement]** Add information logs when signals are removed/restored during initialization.
 
 ___
 
