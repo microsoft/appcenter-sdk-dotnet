@@ -42,13 +42,16 @@ namespace Microsoft.AppCenter.Crashes
         // if the APIs for this are available, it is preferable to use them.
         public override void WillSetUpCrashHandlers()
         {
-            var type = Type.GetType("Mono.Runtime");
-            var removeSignalHandlers = type?.GetMethod("RemoveSignalHandlers", BindingFlags.Public | BindingFlags.Static);
-            if (removeSignalHandlers != null)
+            if (Crashes.UseMonoRuntimeSignalMethods)
             {
-                removeSignalHandlers.Invoke(null, null);
-                AppCenterLog.Info(Crashes.LogTag, "Temporarily remove signal handlers while native crash reporter is initialized (Mono 4.8+).");
-                return;
+                var type = Type.GetType("Mono.Runtime");
+                var removeSignalHandlers = type?.GetMethod("RemoveSignalHandlers", BindingFlags.Public | BindingFlags.Static);
+                if (removeSignalHandlers != null)
+                {
+                    removeSignalHandlers.Invoke(null, null);
+                    AppCenterLog.Info(Crashes.LogTag, "Temporarily remove signal handlers while native crash reporter is initialized (Mono 4.8+).");
+                    return;
+                }
             }
 
             // Mono 4.8+ APIs must be unavailable
@@ -69,13 +72,16 @@ namespace Microsoft.AppCenter.Crashes
         // if the APIs for this are available, it is preferable to use them.
         public override void DidSetUpCrashHandlers()
         {
-            var type = Type.GetType("Mono.Runtime");
-            var installSignalHandlers = type?.GetMethod("InstallSignalHandlers", BindingFlags.Public | BindingFlags.Static);
-            if (installSignalHandlers != null)
+            if (Crashes.UseMonoRuntimeSignalMethods)
             {
-                installSignalHandlers.Invoke(null, null);
-                AppCenterLog.Info(Crashes.LogTag, "Restore signal handlers for Mono 4.8+.");
-                return;
+                var type = Type.GetType("Mono.Runtime");
+                var installSignalHandlers = type?.GetMethod("InstallSignalHandlers", BindingFlags.Public | BindingFlags.Static);
+                if (installSignalHandlers != null)
+                {
+                    installSignalHandlers.Invoke(null, null);
+                    AppCenterLog.Info(Crashes.LogTag, "Restore signal handlers for Mono 4.8+.");
+                    return;
+                }
             }
 
             // Mono 4.8+ APIs must be unavailable
