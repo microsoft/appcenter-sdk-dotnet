@@ -408,7 +408,7 @@ namespace Microsoft.AppCenter
             {
                 if (InstanceEnabled)
                 {
-                    _channel.EnqueueAsync(new StartServiceLog { Services = serviceNames });
+                    _channel.EnqueueAsync(new StartServiceLog { Services = serviceNames }).ConfigureAwait(false);
                 }
                 else
                 {

@@ -1,11 +1,13 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
+using Microsoft.AppCenter.Crashes.iOS.Bindings;
 
-namespace Microsoft.AppCenter.Crashes.iOS.Bindings
+namespace Microsoft.AppCenter.Crashes
 {
     /*
      * This class is required so that Mono can handle the signals SIGSEGV and SIGBUS, which should not always
@@ -45,6 +47,7 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
             if (removeSignalHandlers != null)
             {
                 removeSignalHandlers.Invoke(null, null);
+                AppCenterLog.Info(Crashes.LogTag, "Temporarily remove signal handlers while native crash reporter is initialized (Mono 4.8+).");
                 return;
             }
 
@@ -59,6 +62,7 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
             sigaction(Signal.SIGBUS, IntPtr.Zero, sigbus);
             sigaction(Signal.SIGSEGV, IntPtr.Zero, sigsegv);
             sigaction(Signal.SIGFPE, IntPtr.Zero, sigfpe);
+            AppCenterLog.Info(Crashes.LogTag, "Temporarily remove signal handlers while native crash reporter is initialized (Mono < 4.8).");
         }
 
         // In Mono 4.8, it is possible to chain the mono signal handlers to the PLCrashReporter signal handlers, so
@@ -70,6 +74,7 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
             if (installSignalHandlers != null)
             {
                 installSignalHandlers.Invoke(null, null);
+                AppCenterLog.Info(Crashes.LogTag, "Restore signal handlers for Mono 4.8+.");
                 return;
             }
 
@@ -84,6 +89,7 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
             Marshal.FreeHGlobal(sigbus);
             Marshal.FreeHGlobal(sigsegv);
             Marshal.FreeHGlobal(sigfpe);
+            AppCenterLog.Info(Crashes.LogTag, "Restore signal handlers for Mono < 4.8.");
         }
 
         public override bool ShouldEnableUncaughtExceptionHandler()

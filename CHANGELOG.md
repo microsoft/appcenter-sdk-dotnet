@@ -1,6 +1,14 @@
 # App Center SDK for .NET Change Log
 
-## Version 2.6.5 （Under development）
+## Version 3.0.0 （Under development）
+
+### App Center Auth
+
+App Center Auth is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
+
+### App Center Data
+
+App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
 
 ### App Center
 
@@ -16,6 +24,10 @@
 * **[Feature]** Support ARM64 architecture.
 * **[Breaking change]** The minimum supported Window 10 version is now `10.0.16299.0`.
 
+#### WPF
+
+* **[Fix]** Fix a deadlock when starting AppCenter that was preventing touch events from being fired.
+
 #### WPF/WinForms
 
 * **[Breaking change]** The minimum supported version of .NET Framework is now `4.6.1`.
@@ -23,6 +35,12 @@
 #### UWP/WPF/WinForms
 
 * **[Dependency changes]** Update `SQLitePCLRaw.bundle_green` dependency to version `2.0.2` and remove dependency from `sqlite-net-pcl`.
+
+### App Center Crashes
+
+#### iOS
+
+* **[Improvement]** Add information logs when signals are removed/restored during initialization.
 
 ___
 
