@@ -8,7 +8,6 @@ using Xamarin.Forms;
 
 namespace Contoso.Forms.Puppet
 {
-
     public class TrackUpdateUtils
     {
         public const UpdateTrack DefaultUpdateTrackType = UpdateTrack.Public;

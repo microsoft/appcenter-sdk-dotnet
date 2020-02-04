@@ -76,7 +76,6 @@ namespace Contoso.Forms.Puppet
                 Distribute.SetInstallUrl("https://install.portal-server-core-integration.dev.avalanch.es");
                 Distribute.SetApiUrl("https://api-gateway-core-integration.dev.avalanch.es/v0.1");
                 Distribute.UpdateTrack = TrackUpdateUtils.GetPersistedUpdateTrack();
-                
                 AppCenter.Start(GetTokensString(), typeof(Analytics), typeof(Crashes), typeof(Distribute));
                 if (Current.Properties.ContainsKey(Constants.UserId) && Current.Properties[Constants.UserId] is string id)
                 {
