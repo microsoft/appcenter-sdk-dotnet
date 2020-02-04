@@ -112,6 +112,11 @@ namespace Microsoft.AppCenter.Distribute
             return (UpdateTrack)updateTrackValue;
         }
 
+        private static void PlatformUnsetInstance()
+        {
+            MSDistribute.ResetSharedInstance();
+        }
+
         public class Delegate : MSDistributeDelegate
         {
             public override bool OnReleaseAvailable(MSDistribute distribute, MSReleaseDetails details)

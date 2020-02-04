@@ -53,6 +53,11 @@ namespace Microsoft.AppCenter.Distribute.iOS.Bindings
         [Static]
         [Export("updateTrack")]
         MSUpdateTrack GetUpdateTrack();
+
+        // +(void)resetSharedInstance
+        [Static]
+        [Export("resetSharedInstance")]
+        void ResetSharedInstance();
     }
 
     // @protocol MSDistributeDelegate <NSObject>

@@ -36,6 +36,11 @@ namespace Microsoft.AppCenter.Distribute
             AndroidDistribute.SetApiUrl(apiUrl);
         }
 
+        private static void PlatformUnsetInstance()
+        {
+            AndroidDistribute.UnsetInstance();
+        }
+
         static void HandleUpdateAction(UpdateAction updateAction)
         {
             /* Xamarin does not bind interface integers, cannot use AndroidUpdateAction */

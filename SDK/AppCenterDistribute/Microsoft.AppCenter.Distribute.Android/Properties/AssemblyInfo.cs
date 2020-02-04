@@ -3,6 +3,7 @@
 
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -30,3 +31,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("0.0.0.0")]
 [assembly: AssemblyFileVersion("2.6.5.0")]
 [assembly: AssemblyInformationalVersion("2.6.5-SNAPSHOT")]
+[assembly: InternalsVisibleTo("Microsoft.AppCenter.Test.Functional")]
