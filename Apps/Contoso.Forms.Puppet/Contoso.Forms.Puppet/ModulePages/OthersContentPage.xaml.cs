@@ -44,7 +44,7 @@ namespace Contoso.Forms.Puppet
             {
                 this.UpdateTrackPicker.Items.Add(trackUpdateType);
             }
-            UpdateTrackPicker.SelectedIndex = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack());
+            UpdateTrackPicker.SelectedIndex = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack() ?? UpdateTrack.Public);
         }
 
         protected override async void OnAppearing()
@@ -71,7 +71,7 @@ namespace Contoso.Forms.Puppet
             if (e.PropertyName == "IsFocused" && !this.UpdateTrackPicker.IsFocused)
             {
                 var newSelectionCandidate = this.UpdateTrackPicker.SelectedIndex;
-                var persistedStartType = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack());
+                var persistedStartType = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack() ?? UpdateTrack.Public);
                 if (newSelectionCandidate != persistedStartType)
                 {
                     var newTrackUpdateValue = TrackUpdateUtils.FromPickerUpdateTrackIndex(newSelectionCandidate);
@@ -103,7 +103,7 @@ namespace Contoso.Forms.Puppet
                 return;
             }
             UpdateTrackPicker.IsEnabled = true;
-            UpdateTrackPicker.SelectedIndex = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack());
+            UpdateTrackPicker.SelectedIndex = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack() ?? UpdateTrack.Public);
         }
 
         async void RefreshPushEnabled(bool _appCenterEnabled)

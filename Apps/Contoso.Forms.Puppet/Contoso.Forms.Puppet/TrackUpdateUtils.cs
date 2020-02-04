@@ -12,7 +12,7 @@ namespace Contoso.Forms.Puppet
     {
         public const UpdateTrack DefaultUpdateTrackType = UpdateTrack.Public;
 
-        public static UpdateTrack GetPersistedUpdateTrack()
+        public static UpdateTrack? GetPersistedUpdateTrack()
         {
             if (Application.Current.Properties.TryGetValue(Constants.UpdateTrackKey, out object persistedObject))
             {
@@ -22,7 +22,7 @@ namespace Contoso.Forms.Puppet
                     return persistedEnum;
                 }
             }
-            return DefaultUpdateTrackType;
+            return null;
         }
 
         public static async System.Threading.Tasks.Task SetPersistedUpdateTrackAsync(UpdateTrack choice)
