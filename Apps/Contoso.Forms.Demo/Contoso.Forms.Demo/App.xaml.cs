@@ -34,8 +34,8 @@ namespace Contoso.Forms.Demo
         static readonly IReadOnlyDictionary<string, string> AppSecrets = new Dictionary<string, string>
         {
             { XamarinDevice.UWP, "5bce20c8-f00b-49ca-8580-7a49d5705d4c" },
-            { XamarinDevice.Android, "739eacee-42de-454c-b0d7-c093e765e009" },
-            { XamarinDevice.iOS, "e9f015c6-6c2b-4410-8053-70eaa52d90e0" }
+            { XamarinDevice.Android, "987b5941-4fac-4968-933e-98a7ff29237c" },
+            { XamarinDevice.iOS, "fe2bf05d-f4f9-48a6-83d9-ea8033fbb644" }
         };
 
         public App()
