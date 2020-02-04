@@ -21,22 +21,20 @@ namespace Microsoft.AppCenter.Test.Functional
 
         internal int CallCount { get; private set; }
 
-        public Task<RequestData> MockRequestByLogType(string logType, HttpResponse response = null, double delayTimeInSeconds = 20)
+        public Task<RequestData> MockRequestByLogType(string logType, HttpResponse response = null, int delayTimeInSeconds = 20)
         {
             return MockRequest(request => request.JsonContent.SelectTokens($"$.logs[?(@.type == '{logType}')]").ToList().Count > 0, response, delayTimeInSeconds);
         }
 
-        public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response = null, double delayTimeInSeconds = 20)
+        public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response = null, int delayTimeInSeconds = 20)
         {
-            var cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(delayTimeInSeconds));
-            var expectedData = new ExpectedData
+            var expectedData = new ExpectedData(TimeSpan.FromSeconds(delayTimeInSeconds))
             {
                 Response = response ?? DefaultHttpResponse,
                 Where = where,
-                TaskCompletionSource = new TaskCompletionSource<RequestData>(cancellationToken)
             };
             expectedDataList.Add(expectedData);
-            return expectedData.TaskCompletionSource.Task;
+            return expectedData.Task;
         }
 
         public Task<HttpResponse> SendAsync(string uri, string method, IDictionary<string, string> headers, string jsonContent, CancellationToken cancellationToken)
@@ -50,7 +48,8 @@ namespace Microsoft.AppCenter.Test.Functional
                     if (result)
                     {
                         CallCount++;
-                        rule.TaskCompletionSource.TrySetResult(requestData);
+                        rule.SetResult(requestData);
+                        rule.Dispose();
                         expectedDataList.Remove(rule);
                         return Task.FromResult(rule.Response);
                     }
@@ -61,6 +60,11 @@ namespace Microsoft.AppCenter.Test.Functional
         
         public void Dispose()
         {
+            foreach (var rule in expectedDataList)
+            {
+                rule.Dispose();
+            }
+            expectedDataList.Clear();
         }
     }
 }

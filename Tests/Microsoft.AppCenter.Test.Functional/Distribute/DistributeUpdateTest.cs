@@ -56,7 +56,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
             // Wait for "startService" log to be sent.
             await startServiceTask;
-
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
 
             // Wait when Distribute will start.
@@ -94,7 +93,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
             // Wait for "startService" log to be sent.
             await startServiceTask;
-
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
 
             // Wait when Distribute will start.
@@ -139,7 +137,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
             // Wait for "startService" log to be sent.
             await startServiceTask;
-
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
 
             // Wait when Distribute will start.
