@@ -31,12 +31,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\SDK\AppCenterPush\Microsoft.AppCenter.Push\Microsoft.AppCenter.Push.csproj">
     </ProjectReference>
-    <ProjectReference Include="..\..\..\SDK\AppCenterRum\Microsoft.AppCenter.Rum\Microsoft.AppCenter.Rum.csproj">
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\SDK\AppCenterAuth\Microsoft.AppCenter.Auth\Microsoft.AppCenter.Auth.csproj">
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\SDK\AppCenterData\Microsoft.AppCenter.Data\Microsoft.AppCenter.Data.csproj">
-    </ProjectReference>
     <ProjectReference Include="..\..\Contoso.UtilClassLibrary\Contoso.UtilClassLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
