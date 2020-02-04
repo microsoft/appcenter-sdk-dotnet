@@ -36,7 +36,7 @@ namespace Microsoft.AppCenter.Distribute
             AndroidDistribute.SetApiUrl(apiUrl);
         }
 
-        internal static void PlatformUnsetInstance()
+        private static void PlatformUnsetInstance()
         {
             AndroidDistribute.UnsetInstance();
         }

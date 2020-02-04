@@ -132,7 +132,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
             // MockUpdateToken.
             DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
-
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
 
             // Wait for "startService" log to be sent.

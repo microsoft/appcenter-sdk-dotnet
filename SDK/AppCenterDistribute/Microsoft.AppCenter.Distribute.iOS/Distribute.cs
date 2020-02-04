@@ -112,7 +112,7 @@ namespace Microsoft.AppCenter.Distribute
             return (UpdateTrack)updateTrackValue;
         }
 
-        internal static void PlatformUnsetInstance()
+        private static void PlatformUnsetInstance()
         {
             MSDistribute.ResetSharedInstance();
         }

@@ -42,7 +42,7 @@ namespace Microsoft.AppCenter.Distribute
             return UpdateTrack.Public;
         }
 
-        internal static void PlatformUnsetInstance()
+        private static void PlatformUnsetInstance()
         {
         }
     }
