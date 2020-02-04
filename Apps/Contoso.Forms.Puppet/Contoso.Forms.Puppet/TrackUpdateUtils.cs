@@ -8,30 +8,10 @@ using Xamarin.Forms;
 
 namespace Contoso.Forms.Puppet
 {
-    public enum UpdateTrackTime
-    {
-        Now,
-        BeforeNextStart
-    };
 
     public class TrackUpdateUtils
     {
-        public const UpdateTrackTime DefaultTimeUpdateTrack = UpdateTrackTime.Now;
-
         public const UpdateTrack DefaultUpdateTrackType = UpdateTrack.Public;
-
-        public static UpdateTrackTime GetPersistedUpdateTrackTime()
-        {
-            if (Application.Current.Properties.TryGetValue(Constants.UpdateTrackTimeKey, out object persistedObject))
-            {
-                string persistedString = (string)persistedObject;
-                if (Enum.TryParse<UpdateTrackTime>(persistedString, out var persistedEnum))
-                {
-                    return persistedEnum;
-                }
-            }
-            return DefaultTimeUpdateTrack;
-        }
 
         public static UpdateTrack GetPersistedUpdateTrack()
         {
@@ -50,20 +30,6 @@ namespace Contoso.Forms.Puppet
         {
             Application.Current.Properties[Constants.UpdateTrackKey] = choice.ToString();
             await Application.Current.SavePropertiesAsync();
-        }
-
-        public static async System.Threading.Tasks.Task SetPersistedUpdateTrackTimeAsync(UpdateTrackTime choice)
-        {
-            Application.Current.Properties[Constants.UpdateTrackTimeKey] = choice.ToString();
-            await Application.Current.SavePropertiesAsync();
-        }
-
-        public static IEnumerable<string> GetUpdateTrackTimeChoiceStrings()
-        {
-            foreach (var updateTrackTimeObject in Enum.GetValues(typeof(UpdateTrackTime)))
-            {
-                yield return updateTrackTimeObject.ToString();
-            }
         }
 
         public static IEnumerable<string> GetUpdateTrackChoiceStrings()
