@@ -5,7 +5,6 @@ using Contoso.Forms.Puppet.iOS;
 using Foundation;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics.iOS.Bindings;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Distribute;
 using UIKit;
 using Xamarin.Forms;
@@ -23,7 +22,6 @@ namespace Contoso.Forms.Puppet.iOS
             Xamarin.Forms.Forms.Init();
             Distribute.DontCheckForUpdatesInDebug();
             MSAnalytics.SetDelegate(new AnalyticsDelegate());
-            //Crashes.UseMonoRuntimeSignalMethods = false;
             LoadApplication(new App());
             UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
             return base.FinishedLaunching(uiApplication, launchOptions);
