@@ -23,7 +23,6 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Microsoft.AppCenter.Distribute.xml</DocumentationFile>
     <AndroidLinkMode>None</AndroidLinkMode>
     <DocumentationFile>bin\Debug\Microsoft.AppCenter.Distribute.xml</DocumentationFile>
   </PropertyGroup>
