@@ -2,8 +2,8 @@
 <config>
     <sdkInfo>
         <sdkVersion>2.6.5-SNAPSHOT</sdkVersion>
-        <iosVersion>3.0.0-13+9a7c47949b7051bfc61a0ad156c2ec8ff8246981</iosVersion>
-        <androidVersion>2.5.2-0+a21829057</androidVersion>
+        <iosVersion>3.0.0-19+9c7bee9895b5165a1825132d4a86ca3f6037ea98</iosVersion>
+        <androidVersion>3.0.0-0+594536359</androidVersion>
     </sdkInfo>
     <group id="ios" folder="iOSAssemblies" buildGroup="mac">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.iOS/bin/Release/Microsoft.AppCenter.dll"/>

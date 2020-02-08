@@ -103,6 +103,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
             // Verify response.
             Assert.Equal("GET", result.Method);
+            Assert.True(result.Uri.Contains("public"));
             Assert.True(result.Uri.Contains("releases/latest"));
             Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
 
@@ -146,7 +147,8 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
             // Verify response.
             Assert.Equal("GET", result.Method);
-            Assert.True(result.Uri.Contains("releases/latest?release_hash"));
+            Assert.False(result.Uri.Contains("public"));
+            Assert.True(result.Uri.Contains("releases/private/latest?release_hash"));
             Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
 
             // Clear.
