@@ -1602,6 +1602,8 @@ Global
 		{D8F25BA5-249D-4BB0-A4B1-A3245F2437FF}.Release|x86.Build.0 = Release|Any CPU
 		{6F61EC6B-4236-40E0-8DF4-9033E44E74FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F61EC6B-4236-40E0-8DF4-9033E44E74FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F61EC6B-4236-40E0-8DF4-9033E44E74FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F61EC6B-4236-40E0-8DF4-9033E44E74FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
