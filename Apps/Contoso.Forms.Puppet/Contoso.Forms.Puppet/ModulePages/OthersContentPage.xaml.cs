@@ -22,8 +22,6 @@ namespace Contoso.Forms.Puppet
     {
         private const string AccountId = "accountId";
 
-        static bool _rumStarted;
-
         static bool _eventFilterStarted;
 
         static OthersContentPage()
