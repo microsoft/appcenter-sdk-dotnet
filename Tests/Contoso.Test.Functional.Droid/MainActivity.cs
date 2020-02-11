@@ -60,6 +60,9 @@ namespace Contoso.Test.Functional.Droid
             var prefEditor = prefs.Edit();
             switch (distributeTestType)
             {
+                case DistributeTestType.EnableDebuggableBuilds:
+                    Distribute.SetEnabledForDebuggableBuild(true);
+                    break;
                 case DistributeTestType.FreshInstallAsync:
                     prefEditor.PutString("Distribute.request_id", Config.RequestId);
                     break;

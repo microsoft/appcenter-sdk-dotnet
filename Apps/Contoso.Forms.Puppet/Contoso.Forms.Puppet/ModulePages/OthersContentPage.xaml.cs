@@ -34,6 +34,13 @@ namespace Contoso.Forms.Puppet
             {
                 Icon = "handbag.png";
             }
+
+            // Setup track update dropdown choices.
+            foreach (var trackUpdateType in TrackUpdateUtils.GetUpdateTrackChoiceStrings())
+            {
+                this.UpdateTrackPicker.Items.Add(trackUpdateType);
+            }
+            UpdateTrackPicker.SelectedIndex = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack() ?? UpdateTrack.Public);
         }
 
         protected override async void OnAppearing()
@@ -41,6 +48,7 @@ namespace Contoso.Forms.Puppet
             base.OnAppearing();
             var acEnabled = await AppCenter.IsEnabledAsync();
             RefreshDistributeEnabled(acEnabled);
+            RefreshDistributeTrackUpdate();
             RefreshPushEnabled(acEnabled);
             EventFilterEnabledSwitchCell.On = _eventFilterStarted && await EventFilterHolder.Implementation?.IsEnabledAsync();
             EventFilterEnabledSwitchCell.IsEnabled = acEnabled && EventFilterHolder.Implementation != null;
@@ -51,6 +59,22 @@ namespace Contoso.Forms.Puppet
             await Distribute.SetEnabledAsync(e.Value);
             var acEnabled = await AppCenter.IsEnabledAsync();
             RefreshDistributeEnabled(acEnabled);
+            RefreshDistributeTrackUpdate();
+        }
+
+        async void ChangeUpdateTrack(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsFocused" && !UpdateTrackPicker.IsFocused)
+            {
+                var newSelectionCandidate = UpdateTrackPicker.SelectedIndex;
+                var persistedStartType = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack() ?? UpdateTrack.Public);
+                if (newSelectionCandidate != persistedStartType)
+                {
+                    var newTrackUpdateValue = TrackUpdateUtils.FromPickerUpdateTrackIndex(newSelectionCandidate);
+                    await TrackUpdateUtils.SetPersistedUpdateTrackAsync(newTrackUpdateValue);
+                    await DisplayAlert("Update Track Changed", "Please kill and restart the app for the new update track to take effect.", "OK");
+                }
+            }
         }
 
         async void UpdatePushEnabled(object sender, ToggledEventArgs e)
@@ -64,6 +88,19 @@ namespace Contoso.Forms.Puppet
         {
             DistributeEnabledSwitchCell.On = await Distribute.IsEnabledAsync();
             DistributeEnabledSwitchCell.IsEnabled = _appCenterEnabled;
+            RefreshDistributeTrackUpdate();
+        }
+
+        async void RefreshDistributeTrackUpdate()
+        {
+            var isDistributeEnable = await Distribute.IsEnabledAsync();
+            if (!isDistributeEnable)
+            {
+                UpdateTrackPicker.IsEnabled = false;
+                return;
+            }
+            UpdateTrackPicker.IsEnabled = true;
+            UpdateTrackPicker.SelectedIndex = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack() ?? UpdateTrack.Public);
         }
 
         async void RefreshPushEnabled(bool _appCenterEnabled)
@@ -83,36 +120,6 @@ namespace Contoso.Forms.Puppet
                 }
                 await EventFilterHolder.Implementation.SetEnabledAsync(e.Value);
             }
-        }
-
-               public class CustomDocument
-        {
-            [JsonProperty("id")]
-            public Guid? Id { get; set; }
-
-            [JsonProperty("timestamp")]
-            public DateTime TimeStamp { get; set; }
-
-            [JsonProperty("somenumber")]
-            public int SomeNumber { get; set; }
-
-            [JsonProperty("someprimitivearray")]
-            public int[] SomePrimitiveArray { get; set; }
-
-            [JsonProperty("someobjectarray")]
-            public CustomDocument[] SomeObjectArray { get; set; }
-
-            [JsonProperty("someprimitivecollection")]
-            public IList SomePrimitiveCollection { get; set; }
-
-            [JsonProperty("someobjectcollection")]
-            public IList SomeObjectCollection { get; set; }
-
-            [JsonProperty("someobject")]
-            public Dictionary<string, Uri> SomeObject { get; set; }
-
-            [JsonProperty("customdocument")]
-            public CustomDocument Custom { get; set; }
         }
     }
 }

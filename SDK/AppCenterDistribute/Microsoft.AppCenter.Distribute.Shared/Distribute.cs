@@ -67,5 +67,26 @@ namespace Microsoft.AppCenter.Distribute
         {
             HandleUpdateAction(updateAction);
         }
+
+        /// <summary>
+        /// Sets the update track (public vs private).
+        /// </summary>
+        /// <value>UpdateTrack update track.</value>
+        public static UpdateTrack UpdateTrack
+        {
+            get
+            {
+                return GetUpdateTrack();
+            }
+            set
+            {
+                SetUpdateTrack(value);
+            }
+        }
+
+        internal static void UnsetInstance()
+        {
+            PlatformUnsetInstance();
+        }
     }
 }

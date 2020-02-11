@@ -29,7 +29,6 @@ namespace Contoso.Forms.Puppet
             { XamarinDevice.UWP, "a678b499-1912-4a94-9d97-25b569284d3a" },
             { XamarinDevice.Android, "bff0949b-7970-439d-9745-92cdc59b10fe" },
             { XamarinDevice.iOS, "b889c4f2-9ac2-4e2e-ae16-dae54f2c5899" }
-
         };
 
         // OneCollector secrets
@@ -71,11 +70,15 @@ namespace Contoso.Forms.Puppet
                 if (!StartType.OneCollector.Equals(StartTypeUtils.GetPersistedStartType()))
                 {
                     AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
-                }               
+                }
 
                 Distribute.SetInstallUrl("https://install.portal-server-core-integration.dev.avalanch.es");
                 Distribute.SetApiUrl("https://api-gateway-core-integration.dev.avalanch.es/v0.1");
-
+                var updateTrack = TrackUpdateUtils.GetPersistedUpdateTrack();
+                if (updateTrack != null)
+                {
+                    Distribute.UpdateTrack = updateTrack.Value;
+                }
                 AppCenter.Start(GetTokensString(), typeof(Analytics), typeof(Crashes), typeof(Distribute));
                 if (Current.Properties.ContainsKey(Constants.UserId) && Current.Properties[Constants.UserId] is string id)
                 {
@@ -130,7 +133,7 @@ namespace Contoso.Forms.Puppet
 
         static void PrintNotification(object sender, PushNotificationReceivedEventArgs e)
         {
-            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            XamarinDevice.BeginInvokeOnMainThread(() =>
             {
                 var message = e.Message;
                 if (e.CustomData != null)
@@ -164,7 +167,7 @@ namespace Contoso.Forms.Puppet
 
         bool ConfirmationHandler()
         {
-            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            XamarinDevice.BeginInvokeOnMainThread(() =>
             {
                 Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send").ContinueWith((arg) =>
                 {

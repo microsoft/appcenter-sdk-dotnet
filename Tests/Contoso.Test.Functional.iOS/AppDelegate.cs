@@ -12,6 +12,8 @@ using Xunit.Sdk;
 
 namespace Contoso.Test.Functional.iOS
 {
+    using iOSKeyChainUtil = Microsoft.AppCenter.iOS.Bindings.MSKeychainUtil;
+    
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
@@ -22,7 +24,6 @@ namespace Contoso.Test.Functional.iOS
 
         private static UIApplication UiApplication;
         private static NSDictionary LaunchOptions;
-
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
@@ -68,6 +69,9 @@ namespace Contoso.Test.Functional.iOS
             var plist = NSUserDefaults.StandardUserDefaults;
             switch (distributeTestType)
             {
+                case DistributeTestType.SaveMockUpdateToken:
+                    iOSKeyChainUtil.StoreString(new NSString("xamarinUpdateToken"), new NSString("MSUpdateToken"));
+                    break;
                 case DistributeTestType.FreshInstallAsync:
                     plist.SetString("MSDownloadedReleaseId", Config.RequestId);
                     break;
@@ -78,10 +82,11 @@ namespace Contoso.Test.Functional.iOS
                     plist.SetString("hash", "MSDownloadedReleaseHash");
                     break;
                 case DistributeTestType.Clear:
-                    plist.RemoveObject("MSUpdateTokenRequestId");
-                    plist.RemoveObject("MSUpdateTokenRequestId");
-                    plist.RemoveObject("MSDistributionGroupId");
-                    plist.RemoveObject("MSDownloadedReleaseHash");
+                    foreach (var i in plist.ToDictionary())
+                    {
+                        plist.RemoveObject(i.Key.ToString());
+                    }
+                    iOSKeyChainUtil.Clear();
                     break;
                 case DistributeTestType.OnResumeActivity:
                     WillFinishLaunching(UiApplication, LaunchOptions);
@@ -90,4 +95,3 @@ namespace Contoso.Test.Functional.iOS
         }
     }
 }
-

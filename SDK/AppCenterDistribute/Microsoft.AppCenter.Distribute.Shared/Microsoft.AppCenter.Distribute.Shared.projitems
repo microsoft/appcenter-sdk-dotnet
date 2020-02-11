@@ -16,5 +16,6 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)DistributeDelegates.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UpdateTrack.cs" />
   </ItemGroup>
 </Project>
