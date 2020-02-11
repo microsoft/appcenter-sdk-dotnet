@@ -20,10 +20,6 @@ namespace Contoso.Forms.Puppet
     [Android.Runtime.Preserve(AllMembers = true)]
     public partial class OthersContentPage
     {
-        private const string AccountId = "accountId";
-
-        static bool _rumStarted;
-
         static bool _eventFilterStarted;
 
         static OthersContentPage()
