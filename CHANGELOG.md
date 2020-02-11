@@ -41,7 +41,7 @@ App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has 
 #### iOS
 
 * **[Improvement]** Add information logs when signals are removed/restored during initialization.
-
+* **[Feature]** Add `Crashes.UseMonoRuntimeSignalMethods` boolean property to call before `AppCenter.Start`, if set to `false` it forces the [old signal behavior](https://www.mono-project.com/docs/advanced/signals/#incomplete-solution) even if the runtime Mono version is 4.8 or higher. The default value is `true`, which means using the [current signal behavior](https://www.mono-project.com/docs/advanced/signals/#complete-solution) if the Mono version is 4.8 or higher (and falling back to the old one on older Mono versions). This is introduced in case the current signal behavior causes unexpected segmentation fault crashes.
 ___
 
 ## Version 2.6.4
