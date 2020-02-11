@@ -292,5 +292,7 @@ namespace Microsoft.AppCenter.Crashes
         {
             MSCrashes.ResetSharedInstance();
         }
+
+        public static bool UseMonoRuntimeSignalMethods { get; set; } = true;
     }
 }
