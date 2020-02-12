@@ -6,22 +6,39 @@ using System.ComponentModel;
 using System.Configuration;
 using System.IO;
 using System.Reflection;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace Microsoft.AppCenter.Utils
 {
     public class DefaultApplicationSettings : IApplicationSettings
     {
         private const string FileName = "AppCenter.config";
+        private const string BackupFileName = "AppCenter.config.bak";
         private static readonly object configLock = new object();
         private static Configuration configuration;
 
         internal static string FilePath { get; private set; }
 
+        internal static string BackupFilePath { get; private set; }
+
         public DefaultApplicationSettings()
         {
             lock (configLock)
             {
-                configuration = OpenConfiguration();
+                try
+                {
+                    configuration = OpenConfiguration();
+                    CrateConfigurationFileBackup();
+                }
+                catch (XmlException e)
+                {
+                    AppCenterLog.Error(AppCenterLog.LogTag, "Configuration file could be corrupted", e);
+                    if (!RestoreConfigurationFile())
+                    {
+                        AppCenter.SetEnabledAsync(false).ConfigureAwait(false);
+                    }
+                }
             }
         }
 
@@ -106,6 +123,7 @@ namespace Microsoft.AppCenter.Utils
                 userConfigPath = parentDirectory;
             }
             FilePath = Path.Combine(userConfigPath, FileName);
+            BackupFilePath = Path.Combine(userConfigPath, BackupFileName);
 
             // If old path exists, migrate.
             try
@@ -136,6 +154,39 @@ namespace Microsoft.AppCenter.Utils
             // Open the configuration (with the new file path).
             var executionFileMap = new ExeConfigurationFileMap { ExeConfigFilename = FilePath };
             return ConfigurationManager.OpenMappedExeConfiguration(executionFileMap, ConfigurationUserLevel.None);
+        }
+
+        private void CrateConfigurationFileBackup()
+        {
+            try
+            {
+                XDocument configurationFile = XDocument.Load(FilePath);
+                configurationFile.Save(BackupFilePath);
+            }
+            catch (XmlException e)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not backup config file", e);
+            }
+        }
+
+        private bool RestoreConfigurationFile()
+        {
+            if (!File.Exists(BackupFileName))
+            {
+                AppCenterLog.Info(AppCenterLog.LogTag, "Configuration backup file does not exist");
+                return false;
+            }
+            try
+            {
+                File.WriteAllText(FilePath, File.ReadAllText(BackupFileName));
+                AppCenterLog.Info(AppCenterLog.LogTag, "Configuration file restored from backup");
+                return true;
+            }
+            catch (Exception e)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not restore config file. Trying to disable AppCenter", e);
+                return false;
+            }
         }
     }
 }
