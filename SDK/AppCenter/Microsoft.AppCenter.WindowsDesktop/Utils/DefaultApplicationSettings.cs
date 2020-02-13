@@ -14,7 +14,7 @@ namespace Microsoft.AppCenter.Utils
     {
         private const string FileName = "AppCenter.config";
         private const string BackupFileName = "AppCenter.config.bak";
-        private const string CorruptedConfigurationWarning = "Configuration is corrupted. App Center could work incorrectly";
+        private const string CorruptedConfigurationWarning = "Configuration is corrupted. App Center could work incorrectly.";
         private static readonly object configLock = new object();
         private static Configuration configuration;
 
@@ -31,7 +31,7 @@ namespace Microsoft.AppCenter.Utils
                     configuration = OpenConfiguration();
                     CreateConfigurationFileBackup();
                 }
-                catch (Exception e) when (e is XmlException || e is ConfigurationErrorsException)
+                catch (Exception e)
                 {
                     AppCenterLog.Error(AppCenterLog.LogTag, "Configuration file could be corrupted", e);
                     if (RestoreConfigurationFile())
@@ -56,7 +56,7 @@ namespace Microsoft.AppCenter.Utils
                 }
                 else
                 {
-                    AppCenterLog.Warn(AppCenterLog.LogTag, CorruptedConfigurationWarning);
+                    AppCenterLog.Warn(AppCenterLog.LogTag, $"{CorruptedConfigurationWarning} Method 'GetValue', key:{key}");
                 }
             }
             return defaultValue;
@@ -81,7 +81,7 @@ namespace Microsoft.AppCenter.Utils
                 }
                 else
                 {
-                    AppCenterLog.Warn(AppCenterLog.LogTag, CorruptedConfigurationWarning);
+                    AppCenterLog.Warn(AppCenterLog.LogTag, $"{CorruptedConfigurationWarning} Method 'ContainsKey', key:{key}");
                 }
             }
 
@@ -99,7 +99,7 @@ namespace Microsoft.AppCenter.Utils
                 }
                 else
                 {
-                    AppCenterLog.Warn(AppCenterLog.LogTag, CorruptedConfigurationWarning);
+                    AppCenterLog.Warn(AppCenterLog.LogTag, $"{CorruptedConfigurationWarning} Method 'Remove', key:{key}");
                 }
             }
         }
@@ -123,7 +123,7 @@ namespace Microsoft.AppCenter.Utils
                 }
                 else
                 {
-                    AppCenterLog.Warn(AppCenterLog.LogTag, CorruptedConfigurationWarning);
+                    AppCenterLog.Warn(AppCenterLog.LogTag, $"{CorruptedConfigurationWarning} Method 'SaveValue', key:{key}, value:{value}");
                 }
             }
         }
@@ -207,12 +207,12 @@ namespace Microsoft.AppCenter.Utils
             try
             {
                 File.Copy(BackupFilePath, FilePath, true);
-                AppCenterLog.Info(AppCenterLog.LogTag, "Configuration file restored from backup");
+                AppCenterLog.Info(AppCenterLog.LogTag, "Configuration file is successfully restored from backup.");
                 return true;
             }
             catch (Exception e)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not restore config file", e);
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not restore configuration file.", e);
             }
 
             return false;

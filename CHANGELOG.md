@@ -16,7 +16,7 @@ App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has 
 
 #### WPF
 
-* **[Fix]** Fix application crash when the `App Center` configuration file is corrupted.
+* **[Fix]** Fix application crash when the `AppCenter` configuration file is corrupted.
 
 ### App Center Distribute
 
