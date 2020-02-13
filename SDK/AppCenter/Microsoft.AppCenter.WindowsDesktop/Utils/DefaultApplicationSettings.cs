@@ -31,13 +31,16 @@ namespace Microsoft.AppCenter.Utils
                     configuration = OpenConfiguration();
                     CrateConfigurationFileBackup();
                 }
-                catch (XmlException e)
+                catch (Exception e)
                 {
-                    AppCenterLog.Error(AppCenterLog.LogTag, "Configuration file could be corrupted", e);
-                    if (!RestoreConfigurationFile())
+                    if (e is XmlException || e is ConfigurationErrorsException)
                     {
-                        AppCenter.SetEnabledAsync(false).ConfigureAwait(false);
+                        AppCenterLog.Error(AppCenterLog.LogTag, "Configuration file could be corrupted", e);
+                        RestoreConfigurationFile();
+                        configuration = OpenConfiguration();
+                        return;
                     }
+                    throw;
                 }
             }
         }
@@ -169,23 +172,21 @@ namespace Microsoft.AppCenter.Utils
             }
         }
 
-        private bool RestoreConfigurationFile()
+        private void RestoreConfigurationFile()
         {
-            if (!File.Exists(BackupFileName))
+            if (!File.Exists(BackupFilePath))
             {
                 AppCenterLog.Info(AppCenterLog.LogTag, "Configuration backup file does not exist");
-                return false;
+                return;
             }
             try
             {
-                File.WriteAllText(FilePath, File.ReadAllText(BackupFileName));
+                File.WriteAllText(FilePath, File.ReadAllText(BackupFilePath));
                 AppCenterLog.Info(AppCenterLog.LogTag, "Configuration file restored from backup");
-                return true;
             }
             catch (Exception e)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not restore config file. Trying to disable AppCenter", e);
-                return false;
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not restore config file", e);
             }
         }
     }
