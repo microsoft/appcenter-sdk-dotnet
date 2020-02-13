@@ -4,7 +4,6 @@
 using Microsoft.AppCenter.Utils;
 using System;
 using System.IO;
-using System.Reflection;
 using Xunit;
 
 namespace Microsoft.AppCenter.Test.WindowsDesktop.Utils
@@ -106,6 +105,22 @@ namespace Microsoft.AppCenter.Test.WindowsDesktop.Utils
 
             // Check migration didn't happen.
             Assert.Equal("newValue", _settings.GetValue<string>("key"));
+        }
+
+        [Fact]
+        public void VerifyThatCorruptedConfigRestored()
+        {
+            Assert.True(File.Exists(DefaultApplicationSettings.BackupFilePath));
+            string[] originalLines = File.ReadAllLines(DefaultApplicationSettings.FilePath);
+            string[] backupLines = File.ReadAllLines(DefaultApplicationSettings.BackupFilePath);
+            Assert.Equal(originalLines, backupLines);
+            string[] corruptedLines = new string[originalLines.Length - 2];
+            Array.Copy(originalLines, 0, corruptedLines, 0, corruptedLines.Length);
+            Assert.NotEqual(corruptedLines, backupLines);
+            File.WriteAllLines(DefaultApplicationSettings.FilePath, corruptedLines);
+            _settings = new DefaultApplicationSettings();
+            originalLines = File.ReadAllLines(DefaultApplicationSettings.FilePath);
+            Assert.Equal(originalLines, backupLines);
         }
     }
 }

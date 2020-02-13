@@ -7,7 +7,6 @@ using System.Configuration;
 using System.IO;
 using System.Reflection;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace Microsoft.AppCenter.Utils
 {
@@ -32,19 +31,12 @@ namespace Microsoft.AppCenter.Utils
                     configuration = OpenConfiguration();
                     CreateConfigurationFileBackup();
                 }
-                catch (Exception e)
+                catch (Exception e) when (e is XmlException || e is ConfigurationErrorsException)
                 {
-                    if (e is XmlException || e is ConfigurationErrorsException)
+                    AppCenterLog.Error(AppCenterLog.LogTag, "Configuration file could be corrupted", e);
+                    if (RestoreConfigurationFile())
                     {
-                        AppCenterLog.Error(AppCenterLog.LogTag, "Configuration file could be corrupted", e);
-                        if (RestoreConfigurationFile())
-                        {
-                            configuration = OpenConfiguration();
-                        }
-                    }
-                    else
-                    {
-                        throw;
+                        configuration = OpenConfiguration();
                     }
                 }
             }
@@ -198,7 +190,11 @@ namespace Microsoft.AppCenter.Utils
         {
             try
             {
-                configuration.SaveAs(BackupFilePath);
+                if (!configuration.HasFile)
+                {
+                    configuration.Save(ConfigurationSaveMode.Full, true);
+                }
+                File.Copy(FilePath, BackupFilePath, true);
             }
             catch (ConfigurationErrorsException e)
             {
@@ -210,7 +206,7 @@ namespace Microsoft.AppCenter.Utils
         {
             try
             {
-                File.WriteAllText(FilePath, File.ReadAllText(BackupFilePath));
+                File.Copy(BackupFilePath, FilePath, true);
                 AppCenterLog.Info(AppCenterLog.LogTag, "Configuration file restored from backup");
                 return true;
             }
