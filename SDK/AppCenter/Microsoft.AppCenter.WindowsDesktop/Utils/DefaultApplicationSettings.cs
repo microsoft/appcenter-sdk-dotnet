@@ -198,7 +198,7 @@ namespace Microsoft.AppCenter.Utils
             }
             catch (ConfigurationErrorsException e)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not backup config file", e);
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not back up the configuration file.", e);
             }
         }
 
