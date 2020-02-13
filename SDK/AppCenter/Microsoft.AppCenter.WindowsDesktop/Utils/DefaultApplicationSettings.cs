@@ -76,7 +76,6 @@ namespace Microsoft.AppCenter.Utils
                     AppCenterLog.Warn(AppCenterLog.LogTag, $"{CorruptedConfigurationWarning} Method 'ContainsKey', key:{key}");
                 }
             }
-
             return false;
         }
 
