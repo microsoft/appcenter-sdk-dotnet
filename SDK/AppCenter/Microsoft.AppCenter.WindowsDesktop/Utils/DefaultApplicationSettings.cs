@@ -6,21 +6,17 @@ using System.ComponentModel;
 using System.Configuration;
 using System.IO;
 using System.Reflection;
-using System.Xml;
 
 namespace Microsoft.AppCenter.Utils
 {
     public class DefaultApplicationSettings : IApplicationSettings
     {
         private const string FileName = "AppCenter.config";
-        private const string BackupFileName = "AppCenter.config.bak";
         private const string CorruptedConfigurationWarning = "Configuration is corrupted. App Center could work incorrectly.";
         private static readonly object configLock = new object();
         private static Configuration configuration;
 
         internal static string FilePath { get; private set; }
-
-        internal static string BackupFilePath { get; private set; }
 
         public DefaultApplicationSettings()
         {
@@ -29,15 +25,11 @@ namespace Microsoft.AppCenter.Utils
                 try
                 {
                     configuration = OpenConfiguration();
-                    CreateConfigurationFileBackup();
                 }
                 catch (Exception e)
                 {
                     AppCenterLog.Error(AppCenterLog.LogTag, "Configuration file could be corrupted", e);
-                    if (RestoreConfigurationFile())
-                    {
-                        configuration = OpenConfiguration();
-                    }
+                    RestoreConfigurationFile();
                 }
             }
         }
@@ -153,7 +145,6 @@ namespace Microsoft.AppCenter.Utils
                 userConfigPath = parentDirectory;
             }
             FilePath = Path.Combine(userConfigPath, FileName);
-            BackupFilePath = Path.Combine(userConfigPath, BackupFileName);
 
             // If old path exists, migrate.
             try
@@ -186,36 +177,21 @@ namespace Microsoft.AppCenter.Utils
             return ConfigurationManager.OpenMappedExeConfiguration(executionFileMap, ConfigurationUserLevel.None);
         }
 
-        private void CreateConfigurationFileBackup()
+        private void RestoreConfigurationFile()
         {
             try
             {
-                if (!configuration.HasFile)
+                if (File.Exists(FilePath))
                 {
-                    configuration.Save(ConfigurationSaveMode.Full, true);
+                    File.Delete(FilePath);
+                    configuration = OpenConfiguration();
                 }
-                File.Copy(FilePath, BackupFilePath, true);
-            }
-            catch (ConfigurationErrorsException e)
-            {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not back up the configuration file.", e);
-            }
-        }
-
-        private bool RestoreConfigurationFile()
-        {
-            try
-            {
-                File.Copy(BackupFilePath, FilePath, true);
                 AppCenterLog.Info(AppCenterLog.LogTag, "Configuration file is successfully restored from backup.");
-                return true;
             }
             catch (Exception e)
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, "Could not restore configuration file.", e);
             }
-
-            return false;
         }
     }
 }

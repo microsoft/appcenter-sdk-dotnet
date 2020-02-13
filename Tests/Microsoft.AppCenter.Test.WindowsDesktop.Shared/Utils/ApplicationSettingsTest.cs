@@ -22,7 +22,6 @@ namespace Microsoft.AppCenter.Test.WindowsDesktop.Utils
             try
             {
                 File.Delete(DefaultApplicationSettings.FilePath);
-                File.Delete(DefaultApplicationSettings.BackupFilePath);
             }
             catch (Exception)
             {
@@ -110,17 +109,17 @@ namespace Microsoft.AppCenter.Test.WindowsDesktop.Utils
         [Fact]
         public void VerifyThatCorruptedConfigRestored()
         {
-            Assert.True(File.Exists(DefaultApplicationSettings.BackupFilePath));
-            string[] originalLines = File.ReadAllLines(DefaultApplicationSettings.FilePath);
-            string[] backupLines = File.ReadAllLines(DefaultApplicationSettings.BackupFilePath);
-            Assert.Equal(originalLines, backupLines);
-            string[] corruptedLines = new string[originalLines.Length - 2];
-            Array.Copy(originalLines, 0, corruptedLines, 0, corruptedLines.Length);
-            Assert.NotEqual(corruptedLines, backupLines);
+            _settings.SetValue("old", "value");
+            _settings.Remove("old");
+            var expectedLines = File.ReadAllLines(DefaultApplicationSettings.FilePath);
+            var corruptedLines = new string[expectedLines.Length - 2];
+            Array.Copy(expectedLines, 0, corruptedLines, 0, corruptedLines.Length);
             File.WriteAllLines(DefaultApplicationSettings.FilePath, corruptedLines);
             _settings = new DefaultApplicationSettings();
-            originalLines = File.ReadAllLines(DefaultApplicationSettings.FilePath);
-            Assert.Equal(originalLines, backupLines);
+            _settings.SetValue("old", "value");
+            _settings.Remove("old");
+            var actualLines = File.ReadAllLines(DefaultApplicationSettings.FilePath);
+            Assert.Equal(expectedLines, actualLines);
         }
     }
 }
