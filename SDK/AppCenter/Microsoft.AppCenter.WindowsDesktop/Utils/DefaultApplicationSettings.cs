@@ -15,6 +15,7 @@ namespace Microsoft.AppCenter.Utils
     {
         private const string FileName = "AppCenter.config";
         private const string BackupFileName = "AppCenter.config.bak";
+        private const string CorruptedConfigurationWarning = "Configuration is corrupted. App Center could work incorrectly";
         private static readonly object configLock = new object();
         private static Configuration configuration;
 
@@ -36,11 +37,15 @@ namespace Microsoft.AppCenter.Utils
                     if (e is XmlException || e is ConfigurationErrorsException)
                     {
                         AppCenterLog.Error(AppCenterLog.LogTag, "Configuration file could be corrupted", e);
-                        RestoreConfigurationFile();
-                        configuration = OpenConfiguration();
-                        return;
+                        if (RestoreConfigurationFile())
+                        {
+                            configuration = OpenConfiguration();
+                        }
                     }
-                    throw;
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
         }
@@ -49,10 +54,17 @@ namespace Microsoft.AppCenter.Utils
         {
             lock (configLock)
             {
-                var value = configuration.AppSettings.Settings[key];
-                if (value != null)
+                if (configuration != null)
                 {
-                    return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(value.Value);
+                    var value = configuration.AppSettings.Settings[key];
+                    if (value != null)
+                    {
+                        return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(value.Value);
+                    }
+                }
+                else
+                {
+                    AppCenterLog.Warn(AppCenterLog.LogTag, CorruptedConfigurationWarning);
                 }
             }
             return defaultValue;
@@ -71,16 +83,32 @@ namespace Microsoft.AppCenter.Utils
         {
             lock (configLock)
             {
-                return configuration.AppSettings.Settings[key] != null;
+                if (configuration != null)
+                {
+                    return configuration.AppSettings.Settings[key] != null;
+                }
+                else
+                {
+                    AppCenterLog.Warn(AppCenterLog.LogTag, CorruptedConfigurationWarning);
+                }
             }
+
+            return false;
         }
 
         public void Remove(string key)
         {
             lock (configLock)
             {
-                configuration.AppSettings.Settings.Remove(key);
-                SaveConfiguration();
+                if (configuration != null)
+                {
+                    configuration.AppSettings.Settings.Remove(key);
+                    SaveConfiguration();
+                }
+                else
+                {
+                    AppCenterLog.Warn(AppCenterLog.LogTag, CorruptedConfigurationWarning);
+                }
             }
         }
 
@@ -88,16 +116,23 @@ namespace Microsoft.AppCenter.Utils
         {
             lock (configLock)
             {
-                var element = configuration.AppSettings.Settings[key];
-                if (element == null)
+                if (configuration != null)
                 {
-                    configuration.AppSettings.Settings.Add(key, value);
+                    var element = configuration.AppSettings.Settings[key];
+                    if (element == null)
+                    {
+                        configuration.AppSettings.Settings.Add(key, value);
+                    }
+                    else
+                    {
+                        element.Value = value;
+                    }
+                    SaveConfiguration();
                 }
                 else
                 {
-                    element.Value = value;
+                    AppCenterLog.Warn(AppCenterLog.LogTag, CorruptedConfigurationWarning);
                 }
-                SaveConfiguration();
             }
         }
 
@@ -172,22 +207,20 @@ namespace Microsoft.AppCenter.Utils
             }
         }
 
-        private void RestoreConfigurationFile()
+        private bool RestoreConfigurationFile()
         {
-            if (!File.Exists(BackupFilePath))
-            {
-                AppCenterLog.Info(AppCenterLog.LogTag, "Configuration backup file does not exist");
-                return;
-            }
             try
             {
                 File.WriteAllText(FilePath, File.ReadAllText(BackupFilePath));
                 AppCenterLog.Info(AppCenterLog.LogTag, "Configuration file restored from backup");
+                return true;
             }
             catch (Exception e)
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, "Could not restore config file", e);
             }
+
+            return false;
         }
     }
 }
