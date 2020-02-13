@@ -14,7 +14,7 @@ App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has 
 
 * **[Fix]** Allow whitespace characters between secrets like in versions before `2.6.0`.
 
-#### WPF
+#### WPF / WinForms
 
 * **[Fix]** Fix application crash when the `AppCenter` configuration file is corrupted.
 
