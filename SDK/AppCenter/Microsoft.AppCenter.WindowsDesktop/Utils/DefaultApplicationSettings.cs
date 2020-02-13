@@ -30,7 +30,7 @@ namespace Microsoft.AppCenter.Utils
                 try
                 {
                     configuration = OpenConfiguration();
-                    CrateConfigurationFileBackup();
+                    CreateConfigurationFileBackup();
                 }
                 catch (Exception e)
                 {
@@ -194,14 +194,13 @@ namespace Microsoft.AppCenter.Utils
             return ConfigurationManager.OpenMappedExeConfiguration(executionFileMap, ConfigurationUserLevel.None);
         }
 
-        private void CrateConfigurationFileBackup()
+        private void CreateConfigurationFileBackup()
         {
             try
             {
-                XDocument configurationFile = XDocument.Load(FilePath);
-                configurationFile.Save(BackupFilePath);
+                configuration.SaveAs(BackupFilePath);
             }
-            catch (XmlException e)
+            catch (ConfigurationErrorsException e)
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, "Could not backup config file", e);
             }
