@@ -28,7 +28,7 @@ namespace Microsoft.AppCenter.Utils
                 }
                 catch (Exception e)
                 {
-                    AppCenterLog.Error(AppCenterLog.LogTag, "Configuration file could be corrupted", e);
+                    AppCenterLog.Error(AppCenterLog.LogTag, "Configuration file could be corrupted.", e);
                     RestoreConfigurationFile();
                 }
             }
@@ -185,7 +185,7 @@ namespace Microsoft.AppCenter.Utils
                     File.Delete(FilePath);
                     configuration = OpenConfiguration();
                 }
-                AppCenterLog.Info(AppCenterLog.LogTag, "Configuration file is successfully restored from backup.");
+                AppCenterLog.Info(AppCenterLog.LogTag, "Configuration file is successfully restored.");
             }
             catch (Exception e)
             {
