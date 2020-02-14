@@ -184,8 +184,8 @@ namespace Microsoft.AppCenter.Utils
                 {
                     File.Delete(FilePath);
                     configuration = OpenConfiguration();
+                    AppCenterLog.Info(AppCenterLog.LogTag, "Configuration file is successfully restored.");
                 }
-                AppCenterLog.Info(AppCenterLog.LogTag, "Configuration file is successfully restored.");
             }
             catch (Exception e)
             {
