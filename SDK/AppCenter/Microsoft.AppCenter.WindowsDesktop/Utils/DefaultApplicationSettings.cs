@@ -28,7 +28,7 @@ namespace Microsoft.AppCenter.Utils
                 }
                 catch (Exception e)
                 {
-                    AppCenterLog.Error(AppCenterLog.LogTag, "Configuration file could be corrupted.", e);
+                    AppCenterLog.Error(AppCenterLog.LogTag, "Configuration could be corrupted.", e);
                     RestoreConfigurationFile();
                 }
             }
@@ -40,10 +40,10 @@ namespace Microsoft.AppCenter.Utils
             {
                 if (configuration != null)
                 {
-                    var value = configuration.AppSettings.Settings[key];
-                    if (value != null)
+                    var setting = configuration.AppSettings.Settings[key];
+                    if (setting != null)
                     {
-                        return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(value.Value);
+                        return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(setting.Value);
                     }
                 }
                 else
@@ -184,12 +184,12 @@ namespace Microsoft.AppCenter.Utils
                 {
                     File.Delete(FilePath);
                     configuration = OpenConfiguration();
-                    AppCenterLog.Info(AppCenterLog.LogTag, "Configuration file is successfully restored.");
+                    AppCenterLog.Info(AppCenterLog.LogTag, "Configuration is successfully restored.");
                 }
             }
             catch (Exception e)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not restore configuration file.", e);
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not restore configuration.", e);
             }
         }
     }
