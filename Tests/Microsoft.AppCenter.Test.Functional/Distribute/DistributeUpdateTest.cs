@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -161,25 +162,12 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         [InlineData(new object[] { UpdateTrack.Public, "releases/latest" })]
         public async Task CheckForUpdateTest(UpdateTrack updateTrack, string urlDiff)
         {
-            string json = "{" +
-                "id: 42," +
-                "version: '14'," +
-                "short_version: '2.1.5'," +
-                "release_notes: 'Fix a critical bug, this text was entered in App Center portal.'," +
-                "release_notes_url: 'https://mock/'," +
-                "android_min_api_level: 19," +
-                "download_url: 'http://download.thinkbroadband.com/1GB.zip'," +
-                "size: 4242," +
-                "mandatory_update: false," +
-                "package_hashes: ['9f52199c986d9210842824df695900e1656180946212bd5e8978501a5b732e60']," +
-                "distribution_group_id: 'fd37a4b1-4937-45ef-97fb-b864154371f0'" +
-                "}";
-
             // Enable Distribute for debuggable builds.
             DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
 
+            // Save update token for Android.
             if (updateTrack == UpdateTrack.Private)
-			{
+            {
                 // Save data to preference.
                 DistributeEvent?.Invoke(this, DistributeTestType.CheckUpdateAsync);
             }
@@ -189,7 +177,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
             HttpResponse response = new HttpResponse()
             {
-                Content = json,
+                Content = GetReleaseJson(),
                 StatusCode = 200
             };
             var implicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
@@ -201,6 +189,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             AppCenter.LogLevel = LogLevel.Verbose;
             Distribute.UpdateTrack = updateTrack;
 
+            // Save update token for iOS.
             if (updateTrack == UpdateTrack.Private)
             {
                 // MockUpdateToken.
@@ -233,6 +222,77 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             Assert.Equal("GET", result.Method);
             Assert.True(result.Uri.Contains(urlDiff));
             Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
+        }
+
+        [Fact]
+        public async Task DisableAuthomaticCheckUpdateTest()
+        {
+            // Enable Distribute for debuggable builds.
+            DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
+
+            // Setup network adapter.
+            var httpNetworkAdapter = new HttpNetworkAdapter();
+            DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            HttpResponse response = new HttpResponse()
+            {
+                Content = GetReleaseJson(),
+                StatusCode = 200
+            };
+            var implicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", delayTimeInSeconds: 10);
+            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", response);
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+
+            // Start AppCenter.
+            AppCenter.UnsetInstance();
+            AppCenter.LogLevel = LogLevel.Verbose;
+            Distribute.DisableAutomaticCheckForUpdate();
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
+            DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
+
+            // Wait when Distribute will start.
+            await Distribute.IsEnabledAsync();
+            var messageException = "the task should be cancel";
+            try
+            {
+                // Wait for processing event.
+                await implicitCheckForUpdateTask;
+                throw new Exception(messageException);
+            }
+            catch (Exception e)
+            {
+                Assert.NotEqual(e.Message, messageException);
+            }
+
+            // Check for update.
+            Distribute.CheckForUpdate();
+
+            // Wait for processing event.
+            var result = await explicitCheckForUpdateTask;
+
+            // Verify response.
+            Assert.Equal("GET", result.Method);
+            Assert.True(result.Uri.Contains("releases/latest"));
+            Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
+        }
+
+        private string GetReleaseJson()
+        {
+            return "{" +
+                "id: 42," +
+                "version: '14'," +
+                "short_version: '2.1.5'," +
+                "release_notes: 'Fix a critical bug, this text was entered in App Center portal.'," +
+                "release_notes_url: 'https://mock/'," +
+                "android_min_api_level: 19," +
+                "download_url: 'http://download.thinkbroadband.com/1GB.zip'," +
+                "size: 4242," +
+                "mandatory_update: false," +
+                "package_hashes: ['9f52199c986d9210842824df695900e1656180946212bd5e8978501a5b732e60']," +
+                "distribution_group_id: 'fd37a4b1-4937-45ef-97fb-b864154371f0'" +
+                "}";
         }
     }
 }
