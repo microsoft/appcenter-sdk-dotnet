@@ -177,6 +177,12 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Enable Distribute for debuggable builds.
             DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
 
+            if (updateTrack == UpdateTrack.Private)
+			{
+                // Save data to preference.
+                DistributeEvent?.Invoke(this, DistributeTestType.CheckUpdateAsync);
+            }
+
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
@@ -185,8 +191,8 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
                 Content = json,
                 StatusCode = 200
             };
-            var eventTask1 = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
-            var eventTask2 = httpNetworkAdapter.MockRequest(request => request.Method == "GET", response);
+            var implicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
+            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", response);
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
             // Start AppCenter.
@@ -194,8 +200,11 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             AppCenter.LogLevel = LogLevel.Verbose;
             Distribute.UpdateTrack = updateTrack;
 
-            // MockUpdateToken.
-            DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
+            if (updateTrack == UpdateTrack.Private)
+            {
+                // MockUpdateToken.
+                DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
+            }
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
 
             // Wait for "startService" log to be sent.
@@ -206,7 +215,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             await Distribute.IsEnabledAsync();
 
             // Wait for processing event.
-            var result = await eventTask1;
+            var result = await implicitCheckForUpdateTask;
 
             // Verify response.
             Assert.Equal("GET", result.Method);
@@ -217,7 +226,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             Distribute.CheckForUpdate();
 
             // Wait for processing event.
-            result = await eventTask2;
+            result = await explicitCheckForUpdateTask;
 
             // Verify response.
             Assert.Equal("GET", result.Method);
