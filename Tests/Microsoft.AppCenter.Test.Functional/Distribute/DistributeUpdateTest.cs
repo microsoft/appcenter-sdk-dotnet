@@ -154,5 +154,44 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Clear.
             DistributeEvent?.Invoke(this, DistributeTestType.Clear);
         }
+
+        [Theory]
+        [InlineData(UpdateTrack.Private)]
+        [InlineData(UpdateTrack.Public)]
+        public async Task CheckForUpdateWhenTrackPrivateTest(UpdateTrack updateTrack)
+        {
+            // Enable Distribute for debuggable builds.
+            DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
+
+            // Setup network adapter.
+            var httpNetworkAdapter = new HttpNetworkAdapter();
+            DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
+            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
+            var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+
+            // Start AppCenter.
+            AppCenter.UnsetInstance();
+            AppCenter.LogLevel = LogLevel.Verbose;
+            Distribute.UpdateTrack = updateTrack;
+
+            // MockUpdateToken.
+            AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
+
+            // Wait for "startService" log to be sent.
+            await startServiceTask;
+            DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
+
+            // Wait when Distribute will start.
+            await Distribute.IsEnabledAsync();
+
+            // Check for update.
+            Distribute.CheckForUpdate();
+
+            // Wait for processing event.
+            var result = await eventTask;
+
+            // Verify response.
+            Assert.Equal("GET", result.Method);
+        }
     }
 }
