@@ -84,6 +84,11 @@ namespace Microsoft.AppCenter.Distribute
             }
         }
 
+        public static void CheckForUpdate()
+        {
+            PlatformCheckForUpdate();
+        }
+
         internal static void UnsetInstance()
         {
             PlatformUnsetInstance();

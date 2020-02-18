@@ -58,6 +58,11 @@ namespace Microsoft.AppCenter.Distribute.iOS.Bindings
         [Static]
         [Export("resetSharedInstance")]
         void ResetSharedInstance();
+
+        // TODO uncoment.
+        //[Static]
+        //[Export("checkForUpdate")]
+        //void CheckForUpdate();
     }
 
     // @protocol MSDistributeDelegate <NSObject>

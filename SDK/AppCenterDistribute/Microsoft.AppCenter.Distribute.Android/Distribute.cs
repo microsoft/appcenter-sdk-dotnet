@@ -66,6 +66,11 @@ namespace Microsoft.AppCenter.Distribute
             return (UpdateTrack)AndroidDistribute.UpdateTrack;
         }
 
+        static void PlatformCheckForUpdate()
+        {
+            AndroidDistribute.CheckForUpdate();
+        }
+
         /// <summary>
         /// Set whether the distribute service can be used within a debuggable build.
         /// </summary>
