@@ -71,6 +71,12 @@ namespace Microsoft.AppCenter.Distribute
             AndroidDistribute.CheckForUpdate();
         }
 
+        static void PlatformDisableAutomaticCheckForUpdate()
+        {
+            // TODO uncoment
+            // AndroidDistribute.DisableAutomaticCheckForUpdate(enable);
+        }
+
         /// <summary>
         /// Set whether the distribute service can be used within a debuggable build.
         /// </summary>

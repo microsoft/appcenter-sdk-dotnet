@@ -44,25 +44,32 @@ namespace Microsoft.AppCenter.Distribute.iOS.Bindings
         [Export("notifyUpdateAction:")]
         void NotifyUpdateAction(MSUpdateAction action);
 
-        // + (void)setUpdateTrack:(MSUpdateTrack)updateTrack
+        // + (void)setUpdateTrack:(MSUpdateTrack)updateTrack;
         [Static]
         [Export("setUpdateTrack:")]
         void SetUpdateTrack(MSUpdateTrack updateTrack);
 
-        // + (MSUpdateTrack)updateTrack
+        // + (MSUpdateTrack)updateTrack;
         [Static]
         [Export("updateTrack")]
         MSUpdateTrack GetUpdateTrack();
 
-        // +(void)resetSharedInstance
+        // +(void)resetSharedInstance;
         [Static]
         [Export("resetSharedInstance")]
         void ResetSharedInstance();
 
         // TODO uncoment.
+        // + (void)checkForUpdate;
         //[Static]
         //[Export("checkForUpdate")]
         //void CheckForUpdate();
+
+        // TODO uncoment.
+        // + (void)disableAutomaticCheckForUpdates;
+        //[Static]
+        //[Export("disableAutomaticCheckForUpdate")]
+        //void DisableAutomaticCheckForUpdate();
     }
 
     // @protocol MSDistributeDelegate <NSObject>

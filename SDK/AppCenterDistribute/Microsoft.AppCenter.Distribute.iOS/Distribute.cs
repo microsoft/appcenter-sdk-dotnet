@@ -118,6 +118,12 @@ namespace Microsoft.AppCenter.Distribute
             // MSDistribute.CheckForUpdate();
         }
 
+        static void PlatformDisableAutomaticCheckForUpdate()
+        {
+            // TODO uncoment.
+            // MSDistribute.DisableAutomaticCheckForUpdate();
+        }
+
         private static void PlatformUnsetInstance()
         {
             MSDistribute.ResetSharedInstance();
