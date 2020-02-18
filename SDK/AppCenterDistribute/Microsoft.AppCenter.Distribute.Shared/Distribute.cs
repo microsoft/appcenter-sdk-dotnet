@@ -89,6 +89,11 @@ namespace Microsoft.AppCenter.Distribute
             PlatformCheckForUpdate();
         }
 
+        public static void DisableAutomaticCheckForUpdate()
+        {
+            PlatformDisableAutomaticCheckForUpdate();
+        }
+
         internal static void UnsetInstance()
         {
             PlatformUnsetInstance();
