@@ -156,6 +156,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         }
 
         [Theory]
+        [InlineData(new object[] { null, "releases/latest" })]
         [InlineData(new object[] { UpdateTrack.Private, "releases/private/latest" })]
         [InlineData(new object[] { UpdateTrack.Public, "releases/latest" })]
         public async Task CheckForUpdateTest(UpdateTrack updateTrack, string urlDiff)
