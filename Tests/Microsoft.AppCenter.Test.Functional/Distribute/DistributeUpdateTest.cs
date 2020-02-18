@@ -156,17 +156,37 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         }
 
         [Theory]
-        [InlineData(UpdateTrack.Private)]
-        [InlineData(UpdateTrack.Public)]
-        public async Task CheckForUpdateTest(UpdateTrack updateTrack)
+        [InlineData(new object[] { UpdateTrack.Private, "releases/private/latest" })]
+        [InlineData(new object[] { UpdateTrack.Public, "releases/latest" })]
+        public async Task CheckForUpdateTest(UpdateTrack updateTrack, string urlDiff)
         {
+            string json = "{" +
+                "id: 42," +
+                "version: '14'," +
+                "short_version: '2.1.5'," +
+                "release_notes: 'Fix a critical bug, this text was entered in App Center portal.'," +
+                "release_notes_url: 'https://mock/'," +
+                "android_min_api_level: 19," +
+                "download_url: 'http://download.thinkbroadband.com/1GB.zip'," +
+                "size: 4242," +
+                "mandatory_update: false," +
+                "package_hashes: ['9f52199c986d9210842824df695900e1656180946212bd5e8978501a5b732e60']," +
+                "distribution_group_id: 'fd37a4b1-4937-45ef-97fb-b864154371f0'" +
+                "}";
+
             // Enable Distribute for debuggable builds.
             DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
 
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            var eventTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
+            HttpResponse response = new HttpResponse()
+            {
+                Content = json,
+                StatusCode = 200
+            };
+            var eventTask1 = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
+            var eventTask2 = httpNetworkAdapter.MockRequest(request => request.Method == "GET", response);
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
             // Start AppCenter.
@@ -175,6 +195,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             Distribute.UpdateTrack = updateTrack;
 
             // MockUpdateToken.
+            DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
 
             // Wait for "startService" log to be sent.
@@ -184,14 +205,24 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Wait when Distribute will start.
             await Distribute.IsEnabledAsync();
 
+            // Wait for processing event.
+            var result = await eventTask1;
+
+            // Verify response.
+            Assert.Equal("GET", result.Method);
+            Assert.True(result.Uri.Contains(urlDiff));
+            Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
+
             // Check for update.
             Distribute.CheckForUpdate();
 
             // Wait for processing event.
-            var result = await eventTask;
+            result = await eventTask2;
 
             // Verify response.
             Assert.Equal("GET", result.Method);
+            Assert.True(result.Uri.Contains(urlDiff));
+            Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
         }
     }
 }
