@@ -7,7 +7,7 @@ help() {
   echo "Usage: $0 <title> <head-branch> <base-branch> <github-access-token>"
 }
 
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
   help
   exit 1
 fi
@@ -25,11 +25,14 @@ GITHUB_API_URL="https://api.github.com/repos/$GITHUB_REPO_OWNER/$GITHUB_REPO_NAM
 
 # Create pull request
 CREATE_PULL_REQUEST_URL="$GITHUB_API_URL/pulls?access_token=$GITHUB_ACCESS_TOKEN"
-resp="$(curl -s -X POST $CREATE_PULL_REQUEST_URL -d '{
-      "title": "'${PULL_REQUEST_TITLE}'",
-      "head": "'${HEAD_BRANCH_NAME}'",
-      "base": "'${BASE_BRANCH_NAME}'"
-    }')"
+echo "Creating pull request..."
+echo $CREATE_PULL_REQUEST_URL
+body="$(jq -n --arg title "$PULL_REQUEST_TITLE" --arg head "$HEAD_BRANCH_NAME" --arg base "$BASE_BRANCH_NAME" '{
+    title: $title,
+    head: $head,
+    base: $base
+  }')"
+resp="$(curl -s -X POST $CREATE_PULL_REQUEST_URL -d "$body")"
 url="$(echo $resp | jq -r '.url')"
 
 if [ -z $url ] || [ "$url" == "" ] || [ "$url" == "null" ]; then
@@ -39,4 +42,3 @@ if [ -z $url ] || [ "$url" == "" ] || [ "$url" == "null" ]; then
 else
     echo "A pull request has been created at $url"
 fi
-
