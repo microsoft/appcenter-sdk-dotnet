@@ -158,7 +158,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         [Theory]
         [InlineData(UpdateTrack.Private)]
         [InlineData(UpdateTrack.Public)]
-        public async Task CheckForUpdateWhenTrackPrivateTest(UpdateTrack updateTrack)
+        public async Task CheckForUpdateTest(UpdateTrack updateTrack)
         {
             // Enable Distribute for debuggable builds.
             DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
