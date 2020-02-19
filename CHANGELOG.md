@@ -1,5 +1,11 @@
 # App Center SDK for .NET Change Log
 
+## Version 3.0.1 (Under development)
+
+### App Center Distribute
+
+* **[Feature]** Add `DisableAutomaticCheckForUpdate` API that needs to be called before SDK start in order to turn off automatic check for update and a `CheckForUpdate` API for a manual update check.
+
 ## Version 3.0.0
 
 ### App Center Auth
