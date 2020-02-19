@@ -66,7 +66,7 @@ namespace Microsoft.AppCenter.Distribute.iOS.Bindings
 
         // + (void)disableAutomaticCheckForUpdates;
         [Static]
-        [Export("disableAutomaticCheckForUpdates")]
+        [Export("disableAutomaticCheckForUpdate")]
         void DisableAutomaticCheckForUpdate();
     }
 
