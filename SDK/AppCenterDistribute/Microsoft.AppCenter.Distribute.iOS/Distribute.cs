@@ -114,8 +114,7 @@ namespace Microsoft.AppCenter.Distribute
 
         static void PlatformCheckForUpdate()
         {
-            // TODO uncoment.
-            // MSDistribute.CheckForUpdate();
+            MSDistribute.CheckForUpdate();
         }
 
         static void PlatformDisableAutomaticCheckForUpdate()
