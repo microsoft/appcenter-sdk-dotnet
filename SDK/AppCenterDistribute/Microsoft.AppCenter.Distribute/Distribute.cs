@@ -32,5 +32,18 @@ namespace Microsoft.AppCenter.Distribute
         static void HandleUpdateAction(UpdateAction updateAction)
         {
         }
+
+        static void SetUpdateTrack(UpdateTrack updateTrack)
+        {
+        }
+
+        static UpdateTrack GetUpdateTrack()
+        {
+            return UpdateTrack.Public;
+        }
+
+        private static void PlatformUnsetInstance()
+        {
+        }
     }
 }

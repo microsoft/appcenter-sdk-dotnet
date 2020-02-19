@@ -110,6 +110,10 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         [Static]
         [Export("disableMachExceptionHandler")]
         void DisableMachExceptionHandler();
+
+        [Static]
+        [Export("resetSharedInstance")]
+        void ResetSharedInstance();
     }
 
     // @protocol MSCrashesDelegate <NSObject>

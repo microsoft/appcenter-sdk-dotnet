@@ -18,7 +18,7 @@ namespace Microsoft.AppCenter
         const string TargetKeyName = "target";
         const string TargetKeyNameUpper = "Target";
         const string AppSecretKeyName = "appsecret";
-        const string SecretsPattern = @"([^;=]+)=([^;=]+);?";
+        const string SecretsPattern = @"([^;=]+)=([^;]+)(?:;\s*)?";
 
 #if NETSTANDARD
         static readonly Regex _secretsRegex = new Regex(SecretsPattern);
@@ -196,6 +196,11 @@ namespace Microsoft.AppCenter
         public static void SetCustomProperties(CustomProperties customProperties)
         {
             PlatformSetCustomProperties(customProperties);
+        }
+
+        internal static void UnsetInstance()
+        {
+            PlatformUnsetInstance();
         }
     }
 }

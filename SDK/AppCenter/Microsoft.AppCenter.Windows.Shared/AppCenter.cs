@@ -185,6 +185,11 @@ namespace Microsoft.AppCenter
             }
         }
 
+        internal static void PlatformUnsetInstance()
+        {
+            Instance = null;
+        }
+
         static bool PlatformConfigured
         {
             get
@@ -403,7 +408,7 @@ namespace Microsoft.AppCenter
             {
                 if (InstanceEnabled)
                 {
-                    _channel.EnqueueAsync(new StartServiceLog { Services = serviceNames });
+                    _channel.EnqueueAsync(new StartServiceLog { Services = serviceNames }).ConfigureAwait(false);
                 }
                 else
                 {

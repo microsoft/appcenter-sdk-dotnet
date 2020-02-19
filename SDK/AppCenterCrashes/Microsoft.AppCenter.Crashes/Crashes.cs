@@ -43,5 +43,9 @@ namespace Microsoft.AppCenter.Crashes
         private static void PlatformTrackError(Exception exception, IDictionary<string, string> properties, ErrorAttachmentLog[] attachments)
         {
         }
+
+        private static void PlatformUnsetInstance()
+        {
+        }
     }
 }

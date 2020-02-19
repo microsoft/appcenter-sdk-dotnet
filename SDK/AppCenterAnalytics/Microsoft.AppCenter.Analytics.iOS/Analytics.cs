@@ -50,6 +50,22 @@ namespace Microsoft.AppCenter.Analytics
         }
 
         /// <summary>
+        /// Pause the Analytics service.
+        /// </summary>
+        internal static void Pause()
+        {
+            iOSAnalytics.Pause();
+        }
+
+        /// <summary>
+        /// Resume the Analytics service.
+        /// </summary>
+        internal static void Resume()
+        {
+            iOSAnalytics.Resume();
+        }
+
+        /// <summary>
         /// Enable or disable automatic page tracking.
         /// Set this to false to if you plan to call <see cref="TrackPage"/> manually.
         /// </summary>
@@ -88,6 +104,11 @@ namespace Microsoft.AppCenter.Analytics
         //	}
         //	iOSAnalytics.TrackPage(name);
         //}
+
+        internal static void UnsetInstance()
+        {
+            iOSAnalytics.ResetSharedInstance();
+        }
 
         private static NSDictionary StringDictToNSDict(IDictionary<string, string> dict)
         {

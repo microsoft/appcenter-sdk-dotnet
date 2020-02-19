@@ -1,5 +1,77 @@
 # App Center SDK for .NET Change Log
 
+## Version 3.0.0
+
+### App Center Auth
+
+App Center Auth is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
+
+### App Center Data
+
+App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
+
+### App Center
+
+* **[Fix]** Allow whitespace characters between secrets like in versions before `2.6.0`.
+
+#### iOS
+* **[Fix]** Optimization of release objects from memory during the execution of a large number of operations.
+* **[Fix]** Disable module debugging for release mode in the SDK to fix dSYM warnings.
+* **[Fix]** Fix SDK crash at application launch on iOS 12.0 (`CTTelephonyNetworkInfo.serviceSubscriberCellularProviders` issue).
+* **[Fix]** The SDK was considering 201-299 status code as HTTP errors and is now fixed to accept all 2XX codes as successful.
+* **[Improvement]** Replaced sqlite query concatenation with more secure bindings.
+
+#### Android
+* **[Fix]** Fix infinite recursion when handling encryption errors.
+
+#### WPF / WinForms
+
+* **[Fix]** Fix application crash when the `AppCenter` configuration file is corrupted.
+
+### App Center Distribute
+
+* **[Feature]** Add `UpdateTrack` property to be able to explicitly set either `Private` or `Public` update track. By default, a public distribution group is used. **Breaking change**: To allow users to access releases of private groups you now need to migrate your application to call `Distribute.UpdateTrack = UpdateTrack.Private` before the SDK start. Please read the documentation for more details.
+* **[Behavior change]** The public distribution is simplified to provide only one public group. If you have existing public groups defined for your application your users will receive the latest version of all public groups.
+
+#### iOS
+* **[Fix]** Fix a crash when `SFAuthenticationSession` accesses the controller which is in the process of being released.
+* **[Fix]** Fix sign-in when switching to third-party apps while activating updates.
+
+#### Android
+* **[Fix]** Avoid opening browser to check for sign-in information after receiving an SSL error while checking for app updates (which often happens when using a public WIFI).
+* **[Fix]** When in-app update permissions become invalid and need to open browser again, updates are no longer postponed after sign-in (if user previously selected the action to postpone for a day).
+* **[Fix]** Fix a possible deadlock when activity resumes during background operation for some `Distribute` public APIs like `Distribute.isEnabled()`.
+
+#### UWP
+
+* **[Feature]** Support ARM64 architecture.
+* **[Breaking change]** The minimum supported Window 10 version is now `10.0.16299.0`.
+
+#### WPF
+
+* **[Fix]** Fix a deadlock when starting AppCenter that was preventing touch events from being fired.
+
+#### WPF/WinForms
+
+* **[Breaking change]** The minimum supported version of .NET Framework is now `4.6.1`.
+
+#### UWP/WPF/WinForms
+
+* **[Dependency changes]** Update `SQLitePCLRaw.bundle_green` dependency to version `2.0.2` and remove dependency from `sqlite-net-pcl`.
+
+### App Center Crashes
+
+#### iOS
+
+* **[Improvement]** Add information logs when signals are removed/restored during initialization.
+* **[Improvement]** Update PLCrashReporter to 1.4.0.
+* **[Feature]** Add `Crashes.UseMonoRuntimeSignalMethods` boolean property to call before `AppCenter.Start`, if set to `false` it forces the [old signal behavior](https://www.mono-project.com/docs/advanced/signals/#incomplete-solution) even if the runtime Mono version is 4.8 or higher. The default value is `true`, which means using the [current signal behavior](https://www.mono-project.com/docs/advanced/signals/#complete-solution) if the Mono version is 4.8 or higher (and falling back to the old one on older Mono versions). This is introduced in case the current signal behavior causes unexpected segmentation fault crashes.
+
+#### Android
+* **[Fix]** Fix incorrect app version when an NDK crash is sent after updating the app.
+* **[Behavior change]** Change the path to the minidump directory to use a subfolder in which the current contextual data (device information, etc.) is saved along with the .dmp file.
+___
+
 ## Version 2.6.4
 
 ### App Center
@@ -11,6 +83,7 @@
 #### UWP/WPF/WinForms
 
 * **[Fix]** Fix sending remaining pending logs after sending 3 concurrent HTTP requests.
+* **[Fix]** The SDK was considering 201-299 status code as HTTP errors and is now fixed to accept all 2XX codes as successful.
 
 #### Android
 

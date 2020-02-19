@@ -33,6 +33,20 @@ namespace Microsoft.AppCenter.Analytics
             return Task.FromResult(default(object));
         }
 
+        /// <summary>
+        /// Pause the Analytics service.
+        /// </summary>
+        internal static void Pause()
+        {
+        }
+
+        /// <summary>
+        /// Resume the Analytics service.
+        /// </summary>
+        internal static void Resume()
+        {
+        }
+
         ///// <summary>
         ///// Enable or disable automatic page tracking.
         ///// Set this to false to if you plan to call <see cref="TrackPage"/> manually.
@@ -58,5 +72,9 @@ namespace Microsoft.AppCenter.Analytics
         //{
         //    throw new NotImplementedException();
         //}
+
+        internal static void UnsetInstance()
+        {
+        }
     }
 }

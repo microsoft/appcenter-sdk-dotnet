@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;net45</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0;net461</TargetFrameworks>
     <RootNamespace>Microsoft.AppCenter.Analytics</RootNamespace>
-    <Version>2.6.4-SNAPSHOT</Version>
+    <Version>3.0.0-SNAPSHOT</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>2.6.4.0</FileVersion>
+    <FileVersion>3.0.0.0</FileVersion>
     <AssemblyName>Microsoft.AppCenter.Analytics</AssemblyName>
     <DocumentationFile>bin\Microsoft.AppCenter.Analytics.xml</DocumentationFile>
   </PropertyGroup>

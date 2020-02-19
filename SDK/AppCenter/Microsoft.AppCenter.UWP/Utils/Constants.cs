@@ -16,7 +16,11 @@ namespace Microsoft.AppCenter.Utils
         // File Storage.
         public static readonly string AppCenterFilesDirectoryPath = Path.Combine(LocalAppData, "Microsoft", "AppCenter");
 
-        // The database file does not go in the main App Center files folder because it cannot be changed without migrating.
-        public static readonly string AppCenterDatabasePath = "Microsoft.AppCenter.Storage";
+        // The database filename.
+        public static readonly string AppCenterDatabaseFilename = "Microsoft.AppCenter.Storage";
+
+        // The database file does not go in the main App Center files folder because it cannot be changed without migrating. 
+        public static readonly string AppCenterDatabasePath = Path.Combine(LocalAppData, AppCenterDatabaseFilename);
+
     }
 }

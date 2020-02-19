@@ -5,7 +5,9 @@ using System.Collections.Generic;
 
 public static class ConfigFile
 {
-    public const string Path = "scripts/configuration/ac-build-config.xml";
+    public const string Name = "ac-build-config.xml";
+    public const string Path = "scripts/configuration/" + Name;
+
     public static XmlReader CreateReader()
     {
         return XmlReader.Create(Path);
@@ -15,5 +17,4 @@ public static class ConfigFile
 #load "AppCenterModule.cake"
 #load "AssemblyGroup.cake"
 #load "BuildGroup.cake"
-#load "PlatformPaths.cake"
 #load "VersionReader.cake"

@@ -287,5 +287,12 @@ namespace Microsoft.AppCenter.Crashes
         {
             return NSDictionary.FromObjectsAndKeys(dict.Values.ToArray(), dict.Keys.ToArray());
         }
+
+        private static void PlatformUnsetInstance()
+        {
+            MSCrashes.ResetSharedInstance();
+        }
+
+        public static bool UseMonoRuntimeSignalMethods { get; set; } = true;
     }
 }

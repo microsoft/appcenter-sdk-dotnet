@@ -15,12 +15,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
-var DownloadedAssembliesFolder = Statics.TemporaryPrefix + "DownloadedAssemblies";
-var MacAssembliesZip = Statics.TemporaryPrefix + "MacAssemblies.zip";
-var WindowsAssembliesZip = Statics.TemporaryPrefix + "WindowsAssemblies.zip";
-
 // Contains all assembly paths and how to use them
-PlatformPaths AssemblyPlatformPaths;
+IList<AssemblyGroup> AssemblyGroups = null;
 
 // Available AppCenter modules.
 IList<AppCenterModule> AppCenterModules = null;
@@ -39,21 +35,11 @@ var AndroidExternals = $"{ExternalsDirectory}/android";
 var IosExternals = $"{ExternalsDirectory}/ios";
 
 var SdkStorageUrl = "https://mobilecentersdkdev.blob.core.windows.net/sdk/";
-var MacAssembliesUrl = SdkStorageUrl + MacAssembliesZip;
-var WindowsAssembliesUrl = SdkStorageUrl + WindowsAssembliesZip;
 
 // Need to read versions before setting url values
 VersionReader.ReadVersions();
 var AndroidUrl = $"{SdkStorageUrl}AppCenter-SDK-Android-{VersionReader.AndroidVersion}.zip";
 var IosUrl = $"{SdkStorageUrl}AppCenter-SDK-Apple-{VersionReader.IosVersion}.zip";
-var AndroidMsalDependencies = new string [] {
-    "https://jcenter.bintray.com/com/nimbusds/nimbus-jose-jwt/5.7/nimbus-jose-jwt-5.7.jar",
-    "https://jcenter.bintray.com/net/minidev/json-smart/2.3/json-smart-2.3.jar",
-    "https://jcenter.bintray.com/net/minidev/accessors-smart/1.2/accessors-smart-1.2.jar",
-    "https://jcenter.bintray.com/org/ow2/asm/asm/5.0.4/asm-5.0.4.jar",
-    "https://jcenter.bintray.com/com/microsoft/identity/common/0.0.10-alpha/common-0.0.10-alpha.aar",
-    "https://jcenter.bintray.com/com/microsoft/identity/client/msal/0.3.1-alpha/msal-0.3.1-alpha.aar"
-};
 
 // Task Target for build
 var Target = Argument("Target", Argument("t", "Default"));
@@ -63,11 +49,7 @@ var NuspecFolder = "nuget";
 // Prepare the platform paths for downloading, uploading, and preparing assemblies
 Setup(context =>
 {
-    // Get assembly paths.
-    var uploadAssembliesZip = (IsRunningOnUnix() ? MacAssembliesZip : WindowsAssembliesZip);
-    var downloadUrl = (IsRunningOnUnix() ? WindowsAssembliesUrl : MacAssembliesUrl);
-    var downloadAssembliesZip = (IsRunningOnUnix() ? WindowsAssembliesZip : MacAssembliesZip);
-    AssemblyPlatformPaths = new PlatformPaths(uploadAssembliesZip, downloadAssembliesZip, downloadUrl);
+    AssemblyGroups = AssemblyGroup.ReadAssemblyGroups();
     AppCenterModules = AppCenterModule.ReadAppCenterModules(NuspecFolder, VersionReader.SdkVersion);
 });
 
@@ -80,17 +62,19 @@ Task("Build")
     buildGroup.ExecuteBuilds();
 }).OnError(HandleError);
 
-Task("PrepareAssemblies").IsDependentOn("Build")
-.Does(()=>
+Task("PrepareAssemblies")
+    .IsDependentOn("Build")
+    .Does(() =>
 {
-    // Clean all directories before copying. Doing so before each operation
-    // could cause subdirectories that are created first to be deleted.
-    foreach (var assemblyGroup in AssemblyPlatformPaths.UploadAssemblyGroups)
+    foreach (var assemblyGroup in AssemblyGroups)
     {
+        if (assemblyGroup.Download)
+        {
+            continue;
+        }
+        // Clean all directories before copying. Doing so before each operation
+        // could cause subdirectories that are created first to be deleted.
         CleanDirectory(assemblyGroup.Folder);
-    }
-    foreach (var assemblyGroup in AssemblyPlatformPaths.UploadAssemblyGroups)
-    {
         CopyFiles(assemblyGroup.AssemblyPaths.Where(i => FileExists(i)), assemblyGroup.Folder, false);
     }
 }).OnError(HandleError);
@@ -120,11 +104,6 @@ Task("Externals-Android")
     DeleteFile(pushLibFile);
     CopyFiles(manifestUpdateFile, pushLibUnzippedPath);
     Zip(pushLibUnzippedPath, pushLibFile);
-
-    // Download Msal dependencies
-    foreach (string url in AndroidMsalDependencies) {
-        DownloadFile(url, System.IO.Path.Combine(AndroidExternals, url.Split('/').Last()));
-    }
 }).OnError(HandleError);
 
 // Downloading iOS binaries.
@@ -197,31 +176,16 @@ Task("NuGet")
     MoveFiles("Microsoft.AppCenter*.nupkg", "output");
 }).OnError(HandleError);
 
-// Replace version placeholder in nuspecs
-Task("PrepareNuspecsForVSTS").Does(()=>
-{
-    foreach (var module in AppCenterModules)
-    {
-        ReplaceTextInFiles(System.IO.Path.Combine(NuspecFolder, module.MainNuspecFilename), "$version$", module.NuGetVersion);
-    }
-});
-
-Task("PrepareAssemblyPathsVSTS").Does(()=>
+Task("NuGetPackAzDO").Does(()=>
 {
     var nuspecPathPrefix = EnvironmentVariable("NUSPEC_PATH");
     foreach (var module in AppCenterModules)
     {
         var nuspecPath = System.IO.Path.Combine(nuspecPathPrefix, module.MainNuspecFilename);
+        ReplaceTextInFiles(nuspecPath, "$version$", module.NuGetVersion);
         ReplaceAssemblyPathsInNuspecs(nuspecPath);
-    }
-}).OnError(HandleError);
 
-Task("NugetPackVSTS").Does(()=>
-{
-    var nuspecPathPrefix = EnvironmentVariable("NUSPEC_PATH");
-    foreach (var module in AppCenterModules)
-    {
-        var spec = GetFiles(nuspecPathPrefix + module.MainNuspecFilename);
+        var spec = GetFiles(nuspecPath);
 
         // Create the NuGet packages.
         Information("Building a NuGet package for " + module.MainNuspecFilename);
@@ -232,14 +196,13 @@ Task("NugetPackVSTS").Does(()=>
     }
 }).OnError(HandleError);
 
-// In VSTS, the assembly path environment variable names should be in the format
+// In AzDO, the assembly path environment variable names should be in the format
 // "{uppercase group id}_ASSEMBLY_PATH_NUSPEC"
 void ReplaceAssemblyPathsInNuspecs(string nuspecPath)
 {
     // For the Tuples, Item1 is variable name, Item2 is variable value.
     var assemblyPathVars = new List<Tuple<string, string>>();
-    var allAssemblyGroups = AssemblyPlatformPaths.UploadAssemblyGroups.Union(AssemblyPlatformPaths.DownloadAssemblyGroups);
-    foreach (var group in allAssemblyGroups)
+    foreach (var group in AssemblyGroups)
     {
         if (group.NuspecKey == null)
         {

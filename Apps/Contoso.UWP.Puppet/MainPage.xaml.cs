@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using Contoso.UtilClassLibrary;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using UnhandledExceptionEventArgs = Windows.UI.Xaml.UnhandledExceptionEventArgs;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -40,6 +42,18 @@ namespace Contoso.UWP.Puppet
             // Also this app uses min SDK version to 10240, which changes the .NET native generated code to have missing symbols for handled errors.
             // Handled errors in the forms app never hit that case because we need to use v16299 there.
             await GenerateComplexException(2);
+        }
+
+        private void ClassLibraryException(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                CrashUtils.BackgroundExceptionTask().RunSynchronously();
+            }
+            catch (Exception ex) when (HandleExceptions.IsOn)
+            {
+                Crashes.TrackError(ex);
+            }
         }
 
         private async Task GenerateComplexException(int loop)

@@ -56,21 +56,31 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Models
         [TestMethod]
         public void SaveStartServiceLog()
         {
+            Constants.AppCenterDatabasePath = "temp.db";
+            if (System.IO.File.Exists(Constants.AppCenterDatabasePath))
+            {
+                try
+                {
+                    System.IO.File.Delete(Constants.AppCenterDatabasePath);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
             var addedLog = new StartServiceLog
             {
                 Device = new DeviceInformationHelper().GetDeviceInformationAsync().RunNotAsync(),
                 Timestamp = DateTime.Now,
-                Services = new List<string> {"Service0", "Service1", "Service2"},
+                Services = new List<string> { "Service0", "Service1", "Service2" },
                 Sid = Guid.NewGuid()
             };
-
             var storage = new Microsoft.AppCenter.Storage.Storage();
             storage.DeleteLogs(StorageTestChannelName);
             storage.PutLog(StorageTestChannelName, addedLog);
             var retrievedLogs = new List<Log>();
             storage.GetLogsAsync(StorageTestChannelName, 1, retrievedLogs).RunNotAsync();
             var retrievedLog = retrievedLogs[0] as StartServiceLog;
-
             foreach (var serviceName in addedLog.Services)
             {
                 Assert.IsTrue(retrievedLog.Services.Contains(serviceName));

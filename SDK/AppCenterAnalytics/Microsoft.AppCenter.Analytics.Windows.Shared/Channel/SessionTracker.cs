@@ -123,7 +123,7 @@ namespace Microsoft.AppCenter.Analytics.Channel
             SessionContext.SessionId = Guid.NewGuid();
             _lastQueuedLogTime = TimeHelper.CurrentTimeInMilliseconds();
             var startSessionLog = new StartSessionLog { Sid = SessionContext.SessionId };
-            _channel.EnqueueAsync(startSessionLog);
+            _channel.EnqueueAsync(startSessionLog).ConfigureAwait(false);
         }
 
         private bool HasSessionTimedOut(long now)
