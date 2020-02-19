@@ -48,7 +48,6 @@ namespace Contoso.Forms.Puppet
             base.OnAppearing();
             var acEnabled = await AppCenter.IsEnabledAsync();
             RefreshDistributeEnabled(acEnabled);
-            RefreshDistributeTrackUpdate();
             RefreshPushEnabled(acEnabled);
             EventFilterEnabledSwitchCell.On = _eventFilterStarted && await EventFilterHolder.Implementation?.IsEnabledAsync();
             EventFilterEnabledSwitchCell.IsEnabled = acEnabled && EventFilterHolder.Implementation != null;
@@ -86,14 +85,16 @@ namespace Contoso.Forms.Puppet
 
         async void RefreshDistributeEnabled(bool _appCenterEnabled)
         {
-            DistributeEnabledSwitchCell.On = await Distribute.IsEnabledAsync();
-            DistributeEnabledSwitchCell.IsEnabled = _appCenterEnabled;
-            RefreshDistributeTrackUpdate();
+            var distributeEnabled = await Distribute.IsEnabledAsync();
+            DistributeEnabledSwitchCell.On = distributeEnabled;
+            DistributeEnabledSwitchCell.IsEnabled = _appCenterEnabled && distributeEnabled;
+            RefreshDistributeTrackUpdate(distributeEnabled);
+            RefreshAutomaticUpdateCheck(_appCenterEnabled && distributeEnabled);
         }
 
-        async void RefreshDistributeTrackUpdate()
+        async void RefreshDistributeTrackUpdate(bool? _distributeEnabled = null)
         {
-            var isDistributeEnable = await Distribute.IsEnabledAsync();
+            var isDistributeEnable = _distributeEnabled.HasValue ? _distributeEnabled.Value : await Distribute.IsEnabledAsync();
             if (!isDistributeEnable)
             {
                 UpdateTrackPicker.IsEnabled = false;
@@ -120,6 +121,33 @@ namespace Contoso.Forms.Puppet
                 }
                 await EventFilterHolder.Implementation.SetEnabledAsync(e.Value);
             }
+        }
+
+        async void OnAutomaticUpdateCheckChanged(object sender, ToggledEventArgs e)
+        {
+            var previousValue = Application.Current.Properties.ContainsKey(Constants.AutomaticUpdateCheckKey) ? Application.Current.Properties[Constants.AutomaticUpdateCheckKey] : null;
+            Application.Current.Properties[Constants.AutomaticUpdateCheckKey] = e.Value;
+            await Application.Current.SavePropertiesAsync();
+            if (previousValue != null && (bool)previousValue != e.Value)
+            {
+                await DisplayAlert("Automatic Update Check Changed", "Please kill and restart the app for the new automatic update check setting to take effect.", "OK");
+            }
+        }
+        
+        void RefreshAutomaticUpdateCheck(bool _enabled)
+        {
+            AutomaticUpdateCheckSwitchCell.IsEnabled = _enabled;
+            if (Application.Current.Properties.TryGetValue(Constants.AutomaticUpdateCheckKey, out object persistedObject))
+            {
+                AutomaticUpdateCheckSwitchCell.On = (bool)persistedObject;
+                return;
+            }
+            AutomaticUpdateCheckSwitchCell.On = true;
+        }
+
+        void CheckForUpdateClicked(object sender, EventArgs e)
+        {
+            Distribute.CheckForUpdate();
         }
     }
 }
