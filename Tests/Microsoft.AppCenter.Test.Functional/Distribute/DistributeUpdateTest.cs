@@ -165,13 +165,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Enable Distribute for debuggable builds.
             DistributeEvent?.Invoke(this, DistributeTestType.EnableDebuggableBuilds);
 
-            // Save update token for Android.
-            if (updateTrack == UpdateTrack.Private)
-            {
-                // Save data to preference.
-                DistributeEvent?.Invoke(this, DistributeTestType.CheckUpdateAsync);
-            }
-
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
@@ -189,11 +182,17 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             AppCenter.LogLevel = LogLevel.Verbose;
             Distribute.UpdateTrack = updateTrack;
 
-            // Save update token for iOS.
+            // Save update token.
             if (updateTrack == UpdateTrack.Private)
             {
-                // MockUpdateToken.
-                DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
+                if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.iOS)
+                {
+                    DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
+                }
+                else
+                {
+                    DistributeEvent?.Invoke(this, DistributeTestType.CheckUpdateAsync);
+                }
             }
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
 
@@ -238,8 +237,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
                 Content = GetReleaseJson("3.0.0", "30", false),
                 StatusCode = 200
             };
-            var implicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", delayTimeInSeconds: 10);
-            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", response);
+            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", response, 30);
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
             // Start AppCenter.
@@ -254,17 +252,10 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
             // Wait when Distribute will start.
             await Distribute.IsEnabledAsync();
-            var messageException = "the task should be cancel";
-            try
-            {
-                // Wait for processing event.
-                await implicitCheckForUpdateTask;
-                throw new Exception(messageException);
-            }
-            catch (Exception e)
-            {
-                Assert.NotEqual(e.Message, messageException);
-            }
+
+            // Waitting any calls and verify that httpNetworkAdapter was never called.
+            await Task.Delay(10000);
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
 
             // Check for update.
             Distribute.CheckForUpdate();
@@ -273,6 +264,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             var result = await explicitCheckForUpdateTask;
 
             // Verify response.
+            Assert.Equal(2, httpNetworkAdapter.CallCount);
             Assert.Equal("GET", result.Method);
             Assert.True(result.Uri.Contains("releases/latest"));
             Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
