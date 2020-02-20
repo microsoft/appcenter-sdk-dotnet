@@ -185,14 +185,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Save update token.
             if (updateTrack == UpdateTrack.Private)
             {
-                if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.iOS)
-                {
-                    DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
-                }
-                else
-                {
-                    DistributeEvent?.Invoke(this, DistributeTestType.CheckUpdateAsync);
-                }
+                DistributeEvent?.Invoke(this, DistributeTestType.SaveMockUpdateToken);
             }
             AppCenter.Start(Config.ResolveAppSecret(), typeof(Distribute));
 
@@ -254,7 +247,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             await Distribute.IsEnabledAsync();
 
             // Waitting any calls and verify that httpNetworkAdapter was never called.
-            await Task.Delay(10000);
+            await Task.Delay(5000);
             Assert.Equal(1, httpNetworkAdapter.CallCount);
 
             // Check for update.
@@ -272,20 +265,19 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
         private string GetReleaseJson(string version, string shortVersion, bool isMandatory)
         {
-            var schemeJson = "{{" +
-                "id: 42," +
-                "version: '{0}'," +
-                "short_version: '{1}'," +
-                "release_notes: 'Fix a critical bug, this text was entered in App Center portal.'," +
-                "release_notes_url: 'https://mock/'," +
-                "android_min_api_level: 19," +
-                "download_url: 'http://download.thinkbroadband.com/1GB.zip'," +
-                "size: 4242," +
-                "mandatory_update: {2}," +
-                "package_hashes: ['9f52199c986d9210842824df695900e1656180946212bd5e8978501a5b732e60']," +
-                "distribution_group_id: 'fd37a4b1-4937-45ef-97fb-b864154371f0'" +
-                "}}";
-            return string.Format(schemeJson, version, shortVersion, isMandatory);
+            return $"{{" +
+                $"id: 42," +
+                $"version: '{version}'," +
+                $"short_version: '{shortVersion}'," +
+                $"release_notes: 'Fix a critical bug, this text was entered in App Center portal.'," +
+                $"release_notes_url: 'https://mock/'," +
+                $"android_min_api_level: 19," +
+                $"download_url: 'http://download.thinkbroadband.com/1GB.zip'," +
+                $"size: 4242," +
+                $"mandatory_update: {isMandatory}," +
+                $"package_hashes: ['9f52199c986d9210842824df695900e1656180946212bd5e8978501a5b732e60']," +
+                $"distribution_group_id: 'fd37a4b1-4937-45ef-97fb-b864154371f0'" +
+                $"}}";
         }
     }
 }
