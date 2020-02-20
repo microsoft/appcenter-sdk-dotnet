@@ -15,7 +15,7 @@ App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has 
 * **[Fix]** Allow whitespace characters between secrets like in versions before `2.6.0`.
 
 #### iOS
-* **[Fix]** Fix reference to Security framework which can be missed in release builds with Xamarin.iOS 13.10 or newer.
+* **[Fix]** Fix reference to `Security` framework which can be missing in release builds with Xamarin.iOS 13.10 or newer.
 * **[Fix]** Optimization of release objects from memory during the execution of a large number of operations.
 * **[Fix]** Disable module debugging for release mode in the SDK to fix dSYM warnings.
 * **[Fix]** Fix SDK crash at application launch on iOS 12.0 (`CTTelephonyNetworkInfo.serviceSubscriberCellularProviders` issue).
