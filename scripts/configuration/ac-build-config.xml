@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config>
     <sdkInfo>
-        <sdkVersion>3.0.0-SNAPSHOT</sdkVersion>
+        <sdkVersion>3.0.1-SNAPSHOT</sdkVersion>
         <iosVersion>3.0.0</iosVersion>
         <androidVersion>3.0.0</androidVersion>
     </sdkInfo>
