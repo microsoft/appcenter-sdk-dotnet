@@ -79,7 +79,7 @@ namespace Contoso.Forms.Puppet
                 {
                     Distribute.UpdateTrack = updateTrack.Value;
                 }
-                if (Application.Current.Properties.TryGetValue(Constants.AutomaticUpdateCheckKey, out object persistedObject) && !(bool)persistedObject)
+                if (Current.Properties.TryGetValue(Constants.AutomaticUpdateCheckKey, out object persistedObject) && !(bool)persistedObject)
                 {
                     Distribute.DisableAutomaticCheckForUpdate();
                 }

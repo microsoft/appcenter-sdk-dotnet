@@ -58,7 +58,6 @@ namespace Contoso.Forms.Puppet
             await Distribute.SetEnabledAsync(e.Value);
             var acEnabled = await AppCenter.IsEnabledAsync();
             RefreshDistributeEnabled(acEnabled);
-            RefreshDistributeTrackUpdate();
         }
 
         async void ChangeUpdateTrack(object sender, PropertyChangedEventArgs e)
@@ -85,22 +84,14 @@ namespace Contoso.Forms.Puppet
 
         async void RefreshDistributeEnabled(bool _appCenterEnabled)
         {
-            var distributeEnabled = await Distribute.IsEnabledAsync();
-            DistributeEnabledSwitchCell.On = distributeEnabled;
-            DistributeEnabledSwitchCell.IsEnabled = _appCenterEnabled && distributeEnabled;
-            RefreshDistributeTrackUpdate(distributeEnabled);
-            RefreshAutomaticUpdateCheck(_appCenterEnabled && distributeEnabled);
+            DistributeEnabledSwitchCell.On = await Distribute.IsEnabledAsync();
+            DistributeEnabledSwitchCell.IsEnabled = _appCenterEnabled;
+            RefreshDistributeTrackUpdate();
+            RefreshAutomaticUpdateCheck(_appCenterEnabled);
         }
 
-        async void RefreshDistributeTrackUpdate(bool? _distributeEnabled = null)
+        void RefreshDistributeTrackUpdate()
         {
-            var isDistributeEnable = _distributeEnabled.HasValue ? _distributeEnabled.Value : await Distribute.IsEnabledAsync();
-            if (!isDistributeEnable)
-            {
-                UpdateTrackPicker.IsEnabled = false;
-                return;
-            }
-            UpdateTrackPicker.IsEnabled = true;
             UpdateTrackPicker.SelectedIndex = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack() ?? UpdateTrack.Public);
         }
 
