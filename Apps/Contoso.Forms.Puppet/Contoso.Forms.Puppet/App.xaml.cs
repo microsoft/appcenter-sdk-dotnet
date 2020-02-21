@@ -79,6 +79,10 @@ namespace Contoso.Forms.Puppet
                 {
                     Distribute.UpdateTrack = updateTrack.Value;
                 }
+                if (Current.Properties.TryGetValue(Constants.AutomaticUpdateCheckKey, out object persistedObject) && !(bool)persistedObject)
+                {
+                    Distribute.DisableAutomaticCheckForUpdate();
+                }
                 AppCenter.Start(GetTokensString(), typeof(Analytics), typeof(Crashes), typeof(Distribute));
                 if (Current.Properties.ContainsKey(Constants.UserId) && Current.Properties[Constants.UserId] is string id)
                 {
