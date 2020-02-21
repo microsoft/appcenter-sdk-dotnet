@@ -73,8 +73,7 @@ namespace Microsoft.AppCenter.Distribute
 
         static void PlatformDisableAutomaticCheckForUpdate()
         {
-            // TODO uncoment
-            // AndroidDistribute.DisableAutomaticCheckForUpdate(enable);
+            AndroidDistribute.DisableAutomaticCheckForUpdate();
         }
 
         /// <summary>
