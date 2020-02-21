@@ -241,12 +241,13 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
             // Wait for "startService" log to be sent.
             await startServiceTask;
+            Assert.Equal(1, httpNetworkAdapter.CallCount);
             DistributeEvent?.Invoke(this, DistributeTestType.OnResumeActivity);
 
             // Wait when Distribute will start.
             await Distribute.IsEnabledAsync();
 
-            // Waitting any calls and verify that httpNetworkAdapter was never called.
+            // Wait a 5s and verify that we will not have new calls.
             await Task.Delay(5000);
             Assert.Equal(1, httpNetworkAdapter.CallCount);
 
@@ -266,18 +267,18 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         private string GetReleaseJson(string version, string shortVersion, bool isMandatory)
         {
             return $"{{" +
-                $"id: 42," +
-                $"version: '{version}'," +
-                $"short_version: '{shortVersion}'," +
-                $"release_notes: 'Fix a critical bug, this text was entered in App Center portal.'," +
-                $"release_notes_url: 'https://mock/'," +
-                $"android_min_api_level: 19," +
-                $"download_url: 'http://download.thinkbroadband.com/1GB.zip'," +
-                $"size: 4242," +
-                $"mandatory_update: {isMandatory}," +
-                $"package_hashes: ['9f52199c986d9210842824df695900e1656180946212bd5e8978501a5b732e60']," +
-                $"distribution_group_id: 'fd37a4b1-4937-45ef-97fb-b864154371f0'" +
-                $"}}";
+                    "id: 42," +
+                    "version: '{version}'," +
+                    "short_version: '{shortVersion}'," +
+                    "release_notes: 'Fix a critical bug, this text was entered in App Center portal.'," +
+                    "release_notes_url: 'https://mock/'," +
+                    "android_min_api_level: 19," +
+                    "download_url: 'http://download.thinkbroadband.com/1GB.zip'," +
+                    "size: 4242," +
+                    "mandatory_update: {isMandatory}," +
+                    "package_hashes: ['9f52199c986d9210842824df695900e1656180946212bd5e8978501a5b732e60']," +
+                    "distribution_group_id: 'fd37a4b1-4937-45ef-97fb-b864154371f0'" +
+                    "}}";
         }
     }
 }
