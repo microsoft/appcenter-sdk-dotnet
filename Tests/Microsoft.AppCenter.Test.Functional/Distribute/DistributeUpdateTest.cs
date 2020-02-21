@@ -268,8 +268,8 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
         {
             return $@"{{
                     ""id"": 42,
-                    ""version"": ""{ version}"",
-                    ""short_version"": ""{ shortVersion}"",
+                    ""version"": ""{version}"",
+                    ""short_version"": ""{shortVersion}"",
                     ""release_notes"": ""Fix a critical bug, this text was entered in App Center portal."",
                     ""release_notes_url"": ""https://mock/"",
                     ""{GetMinApiLevelKey()}"": {minApiVersion},
