@@ -7,7 +7,7 @@ help() {
   echo "Usage: $0 <github-access-token>"
 }
 
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
   help
   exit 1
 fi

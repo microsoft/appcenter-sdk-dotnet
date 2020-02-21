@@ -12,6 +12,7 @@ namespace Microsoft.AppCenter.Utils
     public class DefaultApplicationSettings : IApplicationSettings
     {
         private const string FileName = "AppCenter.config";
+        private const string CorruptedConfigurationWarning = "Configuration is corrupted. App Center could work incorrectly.";
         private static readonly object configLock = new object();
         private static Configuration configuration;
 
@@ -21,7 +22,15 @@ namespace Microsoft.AppCenter.Utils
         {
             lock (configLock)
             {
-                configuration = OpenConfiguration();
+                try
+                {
+                    configuration = OpenConfiguration();
+                }
+                catch (Exception e)
+                {
+                    AppCenterLog.Error(AppCenterLog.LogTag, "Configuration could be corrupted.", e);
+                    RestoreConfigurationFile();
+                }
             }
         }
 
@@ -29,10 +38,17 @@ namespace Microsoft.AppCenter.Utils
         {
             lock (configLock)
             {
-                var value = configuration.AppSettings.Settings[key];
-                if (value != null)
+                if (configuration != null)
                 {
-                    return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(value.Value);
+                    var setting = configuration.AppSettings.Settings[key];
+                    if (setting != null)
+                    {
+                        return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(setting.Value);
+                    }
+                }
+                else
+                {
+                    AppCenterLog.Warn(AppCenterLog.LogTag, $"{CorruptedConfigurationWarning} Method 'GetValue', key:{key}");
                 }
             }
             return defaultValue;
@@ -51,16 +67,31 @@ namespace Microsoft.AppCenter.Utils
         {
             lock (configLock)
             {
-                return configuration.AppSettings.Settings[key] != null;
+                if (configuration != null)
+                {
+                    return configuration.AppSettings.Settings[key] != null;
+                }
+                else
+                {
+                    AppCenterLog.Warn(AppCenterLog.LogTag, $"{CorruptedConfigurationWarning} Method 'ContainsKey', key:{key}");
+                }
             }
+            return false;
         }
 
         public void Remove(string key)
         {
             lock (configLock)
             {
-                configuration.AppSettings.Settings.Remove(key);
-                SaveConfiguration();
+                if (configuration != null)
+                {
+                    configuration.AppSettings.Settings.Remove(key);
+                    SaveConfiguration();
+                }
+                else
+                {
+                    AppCenterLog.Warn(AppCenterLog.LogTag, $"{CorruptedConfigurationWarning} Method 'Remove', key:{key}");
+                }
             }
         }
 
@@ -68,16 +99,23 @@ namespace Microsoft.AppCenter.Utils
         {
             lock (configLock)
             {
-                var element = configuration.AppSettings.Settings[key];
-                if (element == null)
+                if (configuration != null)
                 {
-                    configuration.AppSettings.Settings.Add(key, value);
+                    var element = configuration.AppSettings.Settings[key];
+                    if (element == null)
+                    {
+                        configuration.AppSettings.Settings.Add(key, value);
+                    }
+                    else
+                    {
+                        element.Value = value;
+                    }
+                    SaveConfiguration();
                 }
                 else
                 {
-                    element.Value = value;
+                    AppCenterLog.Warn(AppCenterLog.LogTag, $"{CorruptedConfigurationWarning} Method 'SaveValue', key:{key}, value:{value}");
                 }
-                SaveConfiguration();
             }
         }
 
@@ -136,6 +174,23 @@ namespace Microsoft.AppCenter.Utils
             // Open the configuration (with the new file path).
             var executionFileMap = new ExeConfigurationFileMap { ExeConfigFilename = FilePath };
             return ConfigurationManager.OpenMappedExeConfiguration(executionFileMap, ConfigurationUserLevel.None);
+        }
+
+        private void RestoreConfigurationFile()
+        {
+            try
+            {
+                if (File.Exists(FilePath))
+                {
+                    File.Delete(FilePath);
+                    configuration = OpenConfiguration();
+                    AppCenterLog.Info(AppCenterLog.LogTag, "Configuration is successfully restored.");
+                }
+            }
+            catch (Exception e)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not restore configuration.", e);
+            }
         }
     }
 }
