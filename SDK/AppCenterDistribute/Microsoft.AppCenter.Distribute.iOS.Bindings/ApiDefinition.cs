@@ -59,15 +59,14 @@ namespace Microsoft.AppCenter.Distribute.iOS.Bindings
         [Export("resetSharedInstance")]
         void ResetSharedInstance();
 
-        // TODO uncoment.
         // + (void)checkForUpdate;
-        //[Static]
-        //[Export("checkForUpdate")]
-        //void CheckForUpdate();
-
-        // + (void)disableAutomaticCheckForUpdates;
         [Static]
-        [Export("disableAutomaticCheckForUpdates")]
+        [Export("checkForUpdate")]
+        void CheckForUpdate();
+
+        // + (void)disableAutomaticCheckForUpdate;
+        [Static]
+        [Export("disableAutomaticCheckForUpdate")]
         void DisableAutomaticCheckForUpdate();
     }
 
