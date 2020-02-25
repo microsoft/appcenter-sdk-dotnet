@@ -92,6 +92,12 @@ namespace Contoso.Forms.Demo
 
                 AppCenterLog.Assert(LogTag, "AppCenter.Configured=" + AppCenter.Configured);
 
+                var updateTrack = TrackUpdateUtils.GetPersistedUpdateTrack();
+                if (updateTrack != null)
+                {
+                    Distribute.UpdateTrack = updateTrack.Value;
+                }
+
                 AppCenter.Start(GetTokensString(), typeof(Analytics), typeof(Crashes), typeof(Distribute));
                 if (Current.Properties.ContainsKey(Constants.UserId) && Current.Properties[Constants.UserId] is string id)
                 {
@@ -122,7 +128,7 @@ namespace Contoso.Forms.Demo
 
         static void PrintNotification(object sender, PushNotificationReceivedEventArgs e)
         {
-            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            XamarinDevice.BeginInvokeOnMainThread(() =>
             {
                 var message = e.Message;
                 if (e.CustomData != null)
@@ -156,7 +162,7 @@ namespace Contoso.Forms.Demo
 
         bool ConfirmationHandler()
         {
-            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            XamarinDevice.BeginInvokeOnMainThread(() =>
             {
                 Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send").ContinueWith((arg) =>
                 {

@@ -2,10 +2,18 @@
 
 ## Version 3.1.0 (Under development)
 
+### App Center
+
+#### iOS
+
+* **[Fix]** Fix reference to `Security` framework which can be missing in release builds with Xamarin.iOS 13.10 or newer.
+
 ### App Center Distribute
 
 * **[Feature]** Add a `DisableAutomaticCheckForUpdate` API that needs to be called before SDK start in order to turn off automatic check for update. 
 * **[Feature]** Add a `CheckForUpdate` API to manually check for update.
+
+___
 
 ## Version 3.0.0
 
@@ -22,6 +30,7 @@ App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has 
 * **[Fix]** Allow whitespace characters between secrets like in versions before `2.6.0`.
 
 #### iOS
+
 * **[Fix]** Optimization of release objects from memory during the execution of a large number of operations.
 * **[Fix]** Disable module debugging for release mode in the SDK to fix dSYM warnings.
 * **[Fix]** Fix SDK crash at application launch on iOS 12.0 (`CTTelephonyNetworkInfo.serviceSubscriberCellularProviders` issue).
