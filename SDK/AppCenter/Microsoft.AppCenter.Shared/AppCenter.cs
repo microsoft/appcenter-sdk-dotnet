@@ -198,11 +198,6 @@ namespace Microsoft.AppCenter
             PlatformSetCustomProperties(customProperties);
         }
 
-        internal static bool TestMethod()
-        {
-            return true;
-        }
-
         internal static void UnsetInstance()
         {
             PlatformUnsetInstance();
