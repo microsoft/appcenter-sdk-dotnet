@@ -841,6 +841,12 @@ namespace Microsoft.AppCenter.Test
             Assert.AreEqual(updatePackageHash, device.LiveUpdatePackageHash);
             Assert.AreEqual(runtimeVersion, device.WrapperRuntimeVersion);
         }
+
+        [TestMethod]
+        public void TestMethod()
+        {
+            Assert.IsTrue(AppCenter.TestMethod());
+        }
     }
 
     public class NullInstanceAppCenterService : IAppCenterService
