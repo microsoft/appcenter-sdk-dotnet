@@ -1,12 +1,18 @@
 # App Center SDK for .NET Change Log
 
-## Version 3.0.1 (Under development)
+## Version 3.1.0 (Under development)
 
 ### App Center
 
 #### iOS
 
 * **[Fix]** Fix reference to `Security` framework which can be missing in release builds with Xamarin.iOS 13.10 or newer.
+
+### App Center Distribute
+
+* **[Feature]** Add a `DisableAutomaticCheckForUpdate` API that needs to be called before SDK start in order to turn off automatic check for update. 
+* **[Feature]** Add a `CheckForUpdate` API to manually check for update.
+
 ___
 
 ## Version 3.0.0

@@ -84,6 +84,22 @@ namespace Microsoft.AppCenter.Distribute
             }
         }
 
+        /// <summary>
+        ///  Check for the latest release using the selected update track.
+        /// </summary>
+        public static void CheckForUpdate()
+        {
+            PlatformCheckForUpdate();
+        }
+
+        /// <summary>
+        /// Disable automatic check for update before the service starts.
+        /// </summary>
+        public static void DisableAutomaticCheckForUpdate()
+        {
+            PlatformDisableAutomaticCheckForUpdate();
+        }
+
         internal static void UnsetInstance()
         {
             PlatformUnsetInstance();

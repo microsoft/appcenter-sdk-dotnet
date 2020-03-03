@@ -6,6 +6,10 @@
             <ViewCell>
                 <Picker x:Name="UpdateTrackPicker" Title="Update track" PropertyChanged="ChangeUpdateTrack" />
             </ViewCell>
+            <SwitchCell Text="Automatic check for update" x:Name="AutomaticUpdateCheckSwitchCell" OnChanged="OnAutomaticUpdateCheckChanged" />
+            <ViewCell>
+                <Button Text="Check for updates" Clicked="CheckForUpdateClicked"/>
+            </ViewCell>
         </TableSection>
         <TableSection Title="Push">
             <SwitchCell Text="Push Enabled" On="true" x:Name="PushEnabledSwitchCell" OnChanged="UpdatePushEnabled" />
