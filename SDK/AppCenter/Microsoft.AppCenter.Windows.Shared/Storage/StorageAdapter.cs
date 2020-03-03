@@ -70,6 +70,10 @@ namespace Microsoft.AppCenter.Storage
             {
                 throw ToStorageException(result, $"Failed to bind {index} parameter");
             }
+            else
+            {
+                // just for test
+            }
         }
 
         private void BindParameters(sqlite3_stmt stmt, IList<object> values)
