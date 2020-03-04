@@ -644,7 +644,16 @@ namespace Microsoft.AppCenter.Test
             var appSecret = Guid.NewGuid().ToString();
             var platformId = "uwp";
             var secrets = $" {platformId}={appSecret};ios=anotherstring";
-            var parsedSecret = AppCenter.GetSecretAndTargetForPlatform(secrets, platformId);
+            var parsedSecret = "";
+            try
+            {
+                parsedSecret = AppCenter.GetSecretAndTargetForPlatform(secrets, platformId);
+                Assert.Fail("It should be failed.");
+            } 
+            catch (Exception e)
+            {
+                Assert.AreEqual(e.GetType(), typeof(AppCenterException));
+            }
             Assert.AreNotEqual(appSecret, parsedSecret);
         }
 
