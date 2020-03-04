@@ -1,13 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras/2.0.54">
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.16299;netstandard2.0</TargetFrameworks>
-    <RootNamespace>Microsoft.AppCenter</RootNamespace>
+    <ProjectGuid>{15E3FC9B-7714-4468-A296-81627A5B8F01}</ProjectGuid>
+    <TargetFrameworks>uap10.0.16299;net461</TargetFrameworks>
+    <Company>Microsoft Corporation</Company>
+    <Copyright>Microsoft Corp. All rights reserved.</Copyright>
     <Version>3.0.1-SNAPSHOT</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
     <FileVersion>3.0.1.0</FileVersion>
     <AssemblyName>Microsoft.AppCenter</AssemblyName>
-    <DocumentationFile>bin\Microsoft.AppCenter.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.xml</DocumentationFile>
   </PropertyGroup>
     <PropertyGroup Condition=" '$(TargetFramework)' == 'uap10.0.16299' ">
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
@@ -21,19 +23,9 @@
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0.16299'">
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.8" />
     <TransformFile Include="Properties\Microsoft.AppCenter.UWP.rd.xml" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <Reference Include="Windows.Foundation.FoundationContract">
-      <HintPath>C:\Program Files (x86)\Windows Kits\10\References\10.0.17763.0\Windows.Foundation.FoundationContract\3.0.0.0\Windows.Foundation.FoundationContract.winmd</HintPath>
-      <IsWinMDFile>true</IsWinMDFile>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Windows.Foundation.UniversalApiContract">
-      <HintPath>C:\Program Files (x86)\Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
-      <IsWinMDFile>true</IsWinMDFile>
-      <Private>false</Private>
-    </Reference>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.17763.1000" />
   </ItemGroup>
 </Project>
