@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
   <Import Project="..\Microsoft.AppCenter.Push.Shared\Microsoft.AppCenter.Push.Shared.projitems" Label="Shared" />
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
@@ -14,9 +14,5 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Push.xml</DocumentationFile>
     <Description />
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.1.0" PrivateAssets="All" />
-  </ItemGroup>
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
   <Target Name="GetPackagingOutputs" />
 </Project>
