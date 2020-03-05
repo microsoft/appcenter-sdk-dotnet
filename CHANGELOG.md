@@ -38,25 +38,8 @@ App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has 
 * **[Improvement]** Replaced sqlite query concatenation with more secure bindings.
 
 #### Android
+
 * **[Fix]** Fix infinite recursion when handling encryption errors.
-
-#### WPF / WinForms
-
-* **[Fix]** Fix application crash when the `AppCenter` configuration file is corrupted.
-
-### App Center Distribute
-
-* **[Feature]** Add `UpdateTrack` property to be able to explicitly set either `Private` or `Public` update track. By default, a public distribution group is used. **Breaking change**: To allow users to access releases of private groups you now need to migrate your application to call `Distribute.UpdateTrack = UpdateTrack.Private` before the SDK start. Please read the documentation for more details.
-* **[Behavior change]** The public distribution is simplified to provide only one public group. If you have existing public groups defined for your application your users will receive the latest version of all public groups.
-
-#### iOS
-* **[Fix]** Fix a crash when `SFAuthenticationSession` accesses the controller which is in the process of being released.
-* **[Fix]** Fix sign-in when switching to third-party apps while activating updates.
-
-#### Android
-* **[Fix]** Avoid opening browser to check for sign-in information after receiving an SSL error while checking for app updates (which often happens when using a public WIFI).
-* **[Fix]** When in-app update permissions become invalid and need to open browser again, updates are no longer postponed after sign-in (if user previously selected the action to postpone for a day).
-* **[Fix]** Fix a possible deadlock when activity resumes during background operation for some `Distribute` public APIs like `Distribute.isEnabled()`.
 
 #### UWP
 
@@ -70,10 +53,27 @@ App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has 
 #### WPF/WinForms
 
 * **[Breaking change]** The minimum supported version of .NET Framework is now `4.6.1`.
+* **[Fix]** Fix application crash when the `AppCenter` configuration file is corrupted.
 
 #### UWP/WPF/WinForms
 
 * **[Dependency changes]** Update `SQLitePCLRaw.bundle_green` dependency to version `2.0.2` and remove dependency from `sqlite-net-pcl`.
+
+### App Center Distribute
+
+* **[Feature]** Add `UpdateTrack` property to be able to explicitly set either `Private` or `Public` update track. By default, a public distribution group is used. **Breaking change**: To allow users to access releases of private groups you now need to migrate your application to call `Distribute.UpdateTrack = UpdateTrack.Private` before the SDK start. Please read the documentation for more details.
+* **[Behavior change]** The public distribution is simplified to provide only one public group. If you have existing public groups defined for your application your users will receive the latest version of all public groups.
+
+#### iOS
+
+* **[Fix]** Fix a crash when `SFAuthenticationSession` accesses the controller which is in the process of being released.
+* **[Fix]** Fix sign-in when switching to third-party apps while activating updates.
+
+#### Android
+
+* **[Fix]** Avoid opening browser to check for sign-in information after receiving an SSL error while checking for app updates (which often happens when using a public WIFI).
+* **[Fix]** When in-app update permissions become invalid and need to open browser again, updates are no longer postponed after sign-in (if user previously selected the action to postpone for a day).
+* **[Fix]** Fix a possible deadlock when activity resumes during background operation for some `Distribute` public APIs like `Distribute.isEnabled()`.
 
 ### App Center Crashes
 
@@ -84,6 +84,7 @@ App Center Data is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has 
 * **[Feature]** Add `Crashes.UseMonoRuntimeSignalMethods` boolean property to call before `AppCenter.Start`, if set to `false` it forces the [old signal behavior](https://www.mono-project.com/docs/advanced/signals/#incomplete-solution) even if the runtime Mono version is 4.8 or higher. The default value is `true`, which means using the [current signal behavior](https://www.mono-project.com/docs/advanced/signals/#complete-solution) if the Mono version is 4.8 or higher (and falling back to the old one on older Mono versions). This is introduced in case the current signal behavior causes unexpected segmentation fault crashes.
 
 #### Android
+
 * **[Fix]** Fix incorrect app version when an NDK crash is sent after updating the app.
 * **[Behavior change]** Change the path to the minidump directory to use a subfolder in which the current contextual data (device information, etc.) is saved along with the .dmp file.
 ___
