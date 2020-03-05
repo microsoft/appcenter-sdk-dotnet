@@ -47,6 +47,7 @@ namespace Microsoft.AppCenter.Test.Storage
         {
             lock (this)
             {
+                AppCenterLog.Debug(AppCenterLog.LogTag, $"Storage.DeleteLogs for channelName={channelName}");
                 _storage.Remove(channelName);
                 return TaskExtension.GetCompletedTask();
             }
@@ -56,6 +57,7 @@ namespace Microsoft.AppCenter.Test.Storage
         {
             lock (this)
             {
+                AppCenterLog.Debug(AppCenterLog.LogTag, $"Storage.DeleteLogs for channelName={channelName} and batchId={batchId}");
                 var batch = _pending[batchId];
                 this[channelName].RemoveAll(log => batch.Contains(log));
                 return TaskExtension.GetCompletedTask();
@@ -71,9 +73,14 @@ namespace Microsoft.AppCenter.Test.Storage
                 var batch = this[channelName]
                     .Where(log => !pending.Contains(log))
                     .Take(limit).ToList();
+                if (batch.Count == 0)
+                {
+                    return TaskExtension.GetCompletedTask<string>(null);
+                }
                 _pending.Add(batchId, batch);
                 logs?.Clear();
                 logs?.AddRange(batch);
+                AppCenterLog.Debug(AppCenterLog.LogTag, $"Storage.GetLogsAsync for channelName={channelName}: batchId={batchId} with logs={string.Join(",", logs)}");
                 return TaskExtension.GetCompletedTask(batchId);
             }
         }
@@ -82,6 +89,7 @@ namespace Microsoft.AppCenter.Test.Storage
         {
             lock (this)
             {
+                AppCenterLog.Debug(AppCenterLog.LogTag, $"Storage.PutLog for channelName={channelName}: {log}");
                 this[channelName].Add(log);
                 return TaskExtension.GetCompletedTask();
             }
