@@ -52,6 +52,12 @@
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.UWP/bin/Release/uap10.0.16299/Microsoft.AppCenter.Crashes.dll"/>
         <assembly path="SDK/AppCenterPush/Microsoft.AppCenter.Push.UWP/bin/Release/uap10.0.16299/Microsoft.AppCenter.Push.dll"/>
     </group>
+    <group id="unity_uwp" folder="UnityUWPAssemblies" buildGroup="windows">
+        <assembly path="SDK/AppCenter/Microsoft.AppCenter.UWP/bin/Release/net461/Microsoft.AppCenter.dll"/>
+        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.UWP/bin/Release/net461/Microsoft.AppCenter.Analytics.dll"/>
+        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.UWP/bin/Release/net461/Microsoft.AppCenter.Crashes.dll"/>
+        <assembly path="SDK/AppCenterPush/Microsoft.AppCenter.Push.UWP/bin/Release/net461/Microsoft.AppCenter.Push.dll"/>
+    </group>
     <module dotnetModule="SDK/AppCenter/Microsoft.AppCenter" nuspec="AppCenter.nuspec"/>
     <module dotnetModule="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics" nuspec="AppCenterAnalytics.nuspec"/>
     <module dotnetModule="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes" nuspec="AppCenterCrashes.nuspec"/>
