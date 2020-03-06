@@ -9,7 +9,8 @@
             <ModulePaths>
               <Include>
                 <ModulePath>.*Microsoft\.AppCenter\.NET\.dll$</ModulePath>
-                <ModulePath>.*Microsoft\.AppCenter\.Analytics\.NET\.dll$</ModulePath>                       
+                <ModulePath>.*Microsoft\.AppCenter\.Analytics\.NET\.dll$</ModulePath>  
+                <ModulePath>.*Microsoft\.AppCenter\.Push\.NET\.dll$</ModulePath>                       
               </Include>
               <Exclude>
                 <ModulePath>.*Test\.Windows\.dll$</ModulePath>

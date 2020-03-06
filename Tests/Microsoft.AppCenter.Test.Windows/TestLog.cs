@@ -15,6 +15,7 @@ namespace Microsoft.AppCenter.Test
         internal const string JsonIdentifier = "testlog";
 
         private static int DebugId;
+        
         private int _debugId = DebugId++;
 
         static TestLog()
