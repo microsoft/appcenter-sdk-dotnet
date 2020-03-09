@@ -14,6 +14,10 @@ namespace Microsoft.AppCenter.Test
     {
         internal const string JsonIdentifier = "testlog";
 
+        private static int DebugId;
+        
+        private int _debugId = DebugId++;
+
         static TestLog()
         {
             LogSerializer.AddLogType(JsonIdentifier, typeof(TestLog));
@@ -51,6 +55,11 @@ namespace Microsoft.AppCenter.Test
         public override int GetHashCode()
         {
             return LogSerializer.Serialize(this).GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return _debugId.ToString();
         }
     }
 }
