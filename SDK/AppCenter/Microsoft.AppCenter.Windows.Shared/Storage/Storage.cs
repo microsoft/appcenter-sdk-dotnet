@@ -270,9 +270,25 @@ namespace Microsoft.AppCenter.Storage
 
         private void InitializeDatabase()
         {
+            var databaseDirectoryPath = Path.GetDirectoryName(_databasePath);
+            if (databaseDirectoryPath != string.Empty)
+            {
+                var databaseDirectory = new Utils.Files.Directory(databaseDirectoryPath);
+                 if (databaseDirectory != null)
+                {
+                    try
+                    {
+                        databaseDirectory.Create();
+                    }
+                    catch (Exception e)
+                    {
+                        throw new StorageException("Failed to create database directory.", e);
+                    }
+                } 
+            }
+           
             try
             {
-                new FileInfo(_databasePath).Directory.Create();
                 _storageAdapter.Initialize(_databasePath);
                 _storageAdapter.CreateTable(TableName,
                     new[] { ColumnIdName, ColumnChannelName, ColumnLogName },
