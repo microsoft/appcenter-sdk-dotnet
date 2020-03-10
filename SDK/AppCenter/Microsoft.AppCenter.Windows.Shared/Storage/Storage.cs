@@ -60,6 +60,7 @@ namespace Microsoft.AppCenter.Storage
         /// </summary>
         internal Storage(IStorageAdapter adapter, string databasePath)
         {
+            AppCenterLog.Debug(AppCenterLog.LogTag, $"Creating database at: {databasePath}");
             _storageAdapter = adapter;
             _databasePath = databasePath;
             _queue.Add(new Task(InitializeDatabase));
