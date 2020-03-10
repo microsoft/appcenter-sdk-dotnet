@@ -273,18 +273,24 @@ namespace Microsoft.AppCenter.Storage
             var databaseDirectoryPath = Path.GetDirectoryName(_databasePath);
             if (databaseDirectoryPath != string.Empty)
             {
-                var databaseDirectory = new Utils.Files.Directory(databaseDirectoryPath);
-                 if (databaseDirectory != null)
+                using (var databaseDirectory = new Utils.Files.Directory(databaseDirectoryPath))
                 {
-                    try
+                    if (databaseDirectory != null)
                     {
-                        databaseDirectory.Create();
+                        try
+                        {
+                            databaseDirectory.Create();
+                        }
+                        catch (Exception e)
+                        {
+                            throw new StorageException("Failed to create database directory.", e);
+                        }
                     }
-                    catch (Exception e)
+                    else
                     {
-                        throw new StorageException("Failed to create database directory.", e);
+                        AppCenterLog.Warn(AppCenterLog.LogTag, "The database direcory path is empty.");
                     }
-                } 
+                }
             }
            
             try

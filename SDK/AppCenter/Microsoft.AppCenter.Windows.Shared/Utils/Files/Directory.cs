@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Microsoft.AppCenter.Utils.Files
     /// <summary>
     /// This class wraps System.IO.DirectoryInfo for the unit tests.
     /// </summary>
-    public class Directory
+    public class Directory : IDisposable
     {
         private readonly DirectoryInfo _underlyingDirectoryInfo;
 
@@ -57,6 +58,10 @@ namespace Microsoft.AppCenter.Utils.Files
         public virtual void Refresh()
         {
             _underlyingDirectoryInfo.Refresh();
+        }
+
+        public void Dispose()
+        {
         }
     }
 }
