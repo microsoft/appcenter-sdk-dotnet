@@ -12,6 +12,7 @@ using Microsoft.AppCenter.Ingestion.Models;
 using Microsoft.AppCenter.Ingestion.Models.Serialization;
 using Microsoft.AppCenter.Utils;
 using Newtonsoft.Json;
+using FileUtils = Microsoft.AppCenter.Utils.Files;
 
 namespace Microsoft.AppCenter.Storage
 {
@@ -273,26 +274,24 @@ namespace Microsoft.AppCenter.Storage
             var databaseDirectoryPath = Path.GetDirectoryName(_databasePath);
             if (databaseDirectoryPath != string.Empty)
             {
-                using (var databaseDirectory = new Utils.Files.Directory(databaseDirectoryPath))
+                var databaseDirectory = new FileUtils.Directory(databaseDirectoryPath);
+                if (databaseDirectory != null)
                 {
-                    if (databaseDirectory != null)
+                    try
                     {
-                        try
-                        {
-                            databaseDirectory.Create();
-                        }
-                        catch (Exception e)
-                        {
-                            throw new StorageException("Failed to create database directory.", e);
-                        }
+                        databaseDirectory.Create();
                     }
-                    else
+                    catch (Exception e)
                     {
-                        AppCenterLog.Warn(AppCenterLog.LogTag, "The database direcory path is empty.");
+                        AppCenterLog.Error(AppCenterLog.LogTag, "Failed to create database directory.", e);
                     }
                 }
+                else
+                {
+                    AppCenterLog.Warn(AppCenterLog.LogTag, "The database direcory path is empty.");
+                }
             }
-           
+
             try
             {
                 _storageAdapter.Initialize(_databasePath);
@@ -397,16 +396,23 @@ namespace Microsoft.AppCenter.Storage
             // Re-initialize db file if database is corrupted
             if (e is StorageCorruptedException)
             {
-                AppCenterLog.Error(AppCenterLog.LogTag,
-                    "Database corruption detected, deleting the file and starting fresh...", e);
+                AppCenterLog.Error(AppCenterLog.LogTag, "Database corruption detected, deleting the file and starting fresh...", e);
                 _storageAdapter.Dispose();
-                try
+                var databaseFilePath = new FileUtils.File(_databasePath);
+                if (databaseFilePath != null)
                 {
-                    File.Delete(_databasePath);
+                    try
+                    {
+                        File.Delete(databaseFilePath.FullName);
+                    }
+                    catch (IOException fileException)
+                    {
+                        AppCenterLog.Error(AppCenterLog.LogTag, "Failed to delete database file.", fileException);
+                    }
                 }
-                catch (IOException fileException)
+                else
                 {
-                    AppCenterLog.Error(AppCenterLog.LogTag, "Failed to delete database file.", fileException);
+                    AppCenterLog.Warn(AppCenterLog.LogTag, "The database path is empty.");
                 }
                 InitializeDatabase();
             }

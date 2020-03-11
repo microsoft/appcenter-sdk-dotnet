@@ -11,7 +11,7 @@ namespace Microsoft.AppCenter.Utils.Files
     /// <summary>
     /// This class wraps System.IO.DirectoryInfo for the unit tests.
     /// </summary>
-    public class Directory : IDisposable
+    public class Directory
     {
         private readonly DirectoryInfo _underlyingDirectoryInfo;
 
@@ -58,10 +58,6 @@ namespace Microsoft.AppCenter.Utils.Files
         public virtual void Refresh()
         {
             _underlyingDirectoryInfo.Refresh();
-        }
-
-        public void Dispose()
-        {
         }
     }
 }
