@@ -112,10 +112,9 @@ namespace Microsoft.AppCenter.Test.UWP
         public void TestDbInitializationFolderNotExists()
         {
             // Make sure database directory does not exist before test.
-            var databaseDirectory = new DirectoryInfo(Constants.AppCenterDatabasePath);
-            if (databaseDirectory.Exists)
+            if (Directory.Exists(Constants.AppCenterDatabasePath))
             {
-                databaseDirectory.Delete(false);
+                new DirectoryInfo(Constants.AppCenterDatabasePath).Delete(false);
             }
             using (var storageMock = new Storage.Storage())
             {
@@ -130,10 +129,9 @@ namespace Microsoft.AppCenter.Test.UWP
         public void TestDbInitializationFolderExists()
         {
             // Make sure database directory exists before test.
-            var databaseDirectory = new DirectoryInfo(Constants.AppCenterDatabasePath);
-            if (!databaseDirectory.Exists)
+            if (!Directory.Exists(Constants.AppCenterDatabasePath))
             {
-                databaseDirectory.Create();
+                new DirectoryInfo(Constants.AppCenterDatabasePath).Create();
             }
             using (var storageMock = new Storage.Storage())
             {
