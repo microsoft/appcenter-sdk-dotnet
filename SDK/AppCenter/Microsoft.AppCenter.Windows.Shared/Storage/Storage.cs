@@ -386,6 +386,7 @@ namespace Microsoft.AppCenter.Storage
                 }
                 catch (Exception e)
                 {
+                    AppCenterLog.Error(AppCenterLog.LogTag, "The storage operation failed", e);
                     throw HandleStorageRelatedException(e);
                 }
             });
