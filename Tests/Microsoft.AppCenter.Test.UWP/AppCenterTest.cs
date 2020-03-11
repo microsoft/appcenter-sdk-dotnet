@@ -108,6 +108,42 @@ namespace Microsoft.AppCenter.Test.UWP
             }
         }
 
+        [TestMethod]
+        public void TestDbInitializationFolderNotExists()
+        {
+            // Make sure database directory does not exist before test.
+            var databaseDirectory = new Microsoft.AppCenter.Utils.Files.Directory(Constants.AppCenterDatabasePath);
+            if (databaseDirectory.Exists())
+            {
+                databaseDirectory.Delete(false);
+            }
+            using (var storageMock = new Storage.Storage())
+            {
+                storageMock.WaitOperationsAsync(TimeSpan.FromSeconds(10)).Wait();
+
+                // Verify that database is created inside local app data folder, and not locally.
+                Assert.IsTrue(File.Exists(Path.Combine(Constants.LocalAppData, Constants.AppCenterDatabaseFilename)));
+            }
+        }
+
+        [TestMethod]
+        public void TestDbInitializationFolderExists()
+        {
+            // Make sure database directory exists before test.
+            var databaseDirectory = new Microsoft.AppCenter.Utils.Files.Directory(Constants.AppCenterDatabasePath);
+            if (!databaseDirectory.Exists())
+            {
+                databaseDirectory.Create();
+            }
+            using (var storageMock = new Storage.Storage())
+            {
+                storageMock.WaitOperationsAsync(TimeSpan.FromSeconds(10)).Wait();
+
+                // Verify that database is created inside local app data folder, and not locally.
+                Assert.IsTrue(File.Exists(Path.Combine(Constants.LocalAppData, Constants.AppCenterDatabaseFilename)));
+            }
+        }
+
         /// <summary>
         /// Start service after unhandled exception
         /// </summary>
