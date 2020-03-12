@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.PortableExecutable;
+using System.Runtime.InteropServices;
+using System.Text;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 
@@ -7,8 +10,6 @@ namespace Contoso
 {
 	class Program
 	{
-		private static readonly Dictionary<char, Action> MenuItems = new Dictionary<char, Action>();
-
 		private static void TrackEvent()
 		{
 			Console.Clear();
@@ -37,6 +38,7 @@ namespace Contoso
 		{
 			AppCenter.LogLevel = LogLevel.Verbose;
 			AppCenter.Start("66daf822-7957-4e78-8f8f-cdf7b8510a17", typeof(Analytics));
+			
 			while (true)
 			{
 				PrintMenu();

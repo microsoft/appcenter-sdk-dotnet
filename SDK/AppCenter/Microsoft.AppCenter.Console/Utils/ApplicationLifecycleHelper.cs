@@ -2,60 +2,35 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace Microsoft.AppCenter.Utils
 {
-    public class ApplicationLifecycleHelper : IApplicationLifecycleHelper
-    {
-        // Singleton instance of ApplicationLifecycleHelper
-        private static IApplicationLifecycleHelper _instance;
-        public static IApplicationLifecycleHelper Instance
-        {
-            get { return _instance ?? (_instance = new ApplicationLifecycleHelper()); }
+	public class ApplicationLifecycleHelper : IApplicationLifecycleHelper
+	{
+		// Singleton instance of ApplicationLifecycleHelper
+		private static IApplicationLifecycleHelper _instance;
 
-            // Setter for testing
-            internal set { _instance = value; }
-        }
+		public static IApplicationLifecycleHelper Instance
+		{
+			get => _instance ??= new ApplicationLifecycleHelper();
+		}
 
-        static ApplicationLifecycleHelper()
-        {
-          
-          //  AppDomain.CurrentDomain.ProcessExit += delegate { UnhookWinEvent(hook); };
-        }
+		private ApplicationLifecycleHelper()
+		{
+			Enabled = true;
+			AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) => { UnhandledExceptionOccurred?.Invoke(sender, new UnhandledExceptionOccurredEventArgs((Exception) eventArgs.ExceptionObject)); };
+		}
 
-        public ApplicationLifecycleHelper()
-        {
-            Enabled = true;
-            AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) =>
-            {
-                UnhandledExceptionOccurred?.Invoke(sender, new UnhandledExceptionOccurredEventArgs((Exception)eventArgs.ExceptionObject));
-            };
-        }
+		private bool _enabled;
 
+		public bool IsSuspended { get; } = false;
+		public event EventHandler ApplicationSuspended;
+		public event EventHandler ApplicationResuming;
+		public event EventHandler<UnhandledExceptionOccurredEventArgs> UnhandledExceptionOccurred;
 
-        private bool enabled;
-
-        public event EventHandler ApplicationSuspended;
-        public event EventHandler ApplicationResuming;
-        public event EventHandler<UnhandledExceptionOccurredEventArgs> UnhandledExceptionOccurred;
-
-        public bool Enabled
-        {
-            get
-            {
-                return enabled;
-            }
-            set
-            {
-                enabled = value;
-            }
-        }
-
-        public bool IsSuspended => false;
-    }
+		public bool Enabled
+		{
+			set => _enabled = value;
+		}
+	}
 }

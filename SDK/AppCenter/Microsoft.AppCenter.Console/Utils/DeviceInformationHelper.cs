@@ -15,12 +15,13 @@ namespace Microsoft.AppCenter.Utils
     {
         protected override string GetSdkName()
         {
-            return "appcenter.uwp"; // TODO: Get info
+            return "appcenter.uwp";
         }
 
         protected override string GetDeviceModel()
         {
-            return "DeviceModel";
+            // TODO: Hardcoded - quite a plenty of work required to get this field right on .net core
+            return "DeviceModel"; 
         }
 
         protected override string GetAppNamespace()
@@ -30,12 +31,15 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetDeviceOemName()
         {
-            return "DeviceManufacturer"; // TODO: Get info
+            // TODO: Hardcoded - quite a plenty of work required to get this field right on .net core
+            return "DeviceManufacturer"; 
         }
 
         protected override string GetOsName()
         {
-            return Environment.OSVersion.Platform.ToString();
+            
+            // TODO: Hardcoded - for backend compatibility
+            return "WINDOWS"; 
         }
 
         protected override string GetOsBuild()
@@ -45,7 +49,7 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetOsVersion()
         {
-            return Environment.OSVersion.VersionString;
+            return Environment.OSVersion.Version.ToString();
         }
 
         protected override string GetAppVersion()
