@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Microsoft.AppCenter.Utils
 {
@@ -18,7 +20,7 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetDeviceModel()
         {
-            return "Compucter"; // TODO: Get info
+            return "DeviceModel";
         }
 
         protected override string GetAppNamespace()
@@ -28,22 +30,22 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetDeviceOemName()
         {
-            return "ECM"; // TODO: Get info
+            return "DeviceManufacturer"; // TODO: Get info
         }
 
         protected override string GetOsName()
         {
-            return "WINDOWS"; // TODO: Get info
+            return Environment.OSVersion.Platform.ToString();
         }
 
         protected override string GetOsBuild()
         {
-            return "10.0.18363.657"; // TODO: Get info
+            return Environment.OSVersion.Version.Build.ToString();
         }
 
         protected override string GetOsVersion()
         {
-            return "10.0.18363"; // TODO: Get info
+            return Environment.OSVersion.VersionString;
         }
 
         protected override string GetAppVersion()
@@ -58,7 +60,7 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetScreenSize()
         {
-            return $"100x100"; // TODO: Get info
+            return $"{Console.WindowWidth}x{Console.WindowHeight}";
         }
     }
 }
