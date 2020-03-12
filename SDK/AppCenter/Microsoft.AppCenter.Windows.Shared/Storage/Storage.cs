@@ -12,6 +12,8 @@ using Microsoft.AppCenter.Ingestion.Models;
 using Microsoft.AppCenter.Ingestion.Models.Serialization;
 using Microsoft.AppCenter.Utils;
 using Newtonsoft.Json;
+using Directory = Microsoft.AppCenter.Utils.Files.Directory;
+using File = Microsoft.AppCenter.Utils.Files.File;
 
 namespace Microsoft.AppCenter.Storage
 {
@@ -60,6 +62,7 @@ namespace Microsoft.AppCenter.Storage
         /// </summary>
         internal Storage(IStorageAdapter adapter, string databasePath)
         {
+            AppCenterLog.Debug(AppCenterLog.LogTag, $"Creating database at: {databasePath}");
             _storageAdapter = adapter;
             _databasePath = databasePath;
             _queue.Add(new Task(InitializeDatabase));
@@ -269,9 +272,9 @@ namespace Microsoft.AppCenter.Storage
 
         private void InitializeDatabase()
         {
+            EnsureDatabaseDirectoryExists();
             try
             {
-                new FileInfo(_databasePath).Directory.Create();
                 _storageAdapter.Initialize(_databasePath);
                 _storageAdapter.CreateTable(TableName,
                     new[] { ColumnIdName, ColumnChannelName, ColumnLogName },
@@ -280,6 +283,29 @@ namespace Microsoft.AppCenter.Storage
             catch (Exception e)
             {
                 AppCenterLog.Error(AppCenterLog.LogTag, "An error occurred while initializing storage", e);
+            }
+        }
+
+        private void EnsureDatabaseDirectoryExists()
+        {
+            var databaseDirectoryPath = Path.GetDirectoryName(_databasePath);
+            if (string.IsNullOrEmpty(databaseDirectoryPath))
+            {
+                return;
+            }
+            try
+            {
+                var databaseDirectory = new Directory(databaseDirectoryPath);
+                if (!databaseDirectory.Exists())
+                {
+                    databaseDirectory.Create();
+                }
+            }
+            catch (Exception e)
+            {
+                // Not throwing this exception (and not handling it along with DB access error) since there are scenarios when SDK might fail to access database path, but opens database file just fine.
+                // So the logic here is only to make sure that directory to contain db file exists - DB file access handled separately.
+                AppCenterLog.Error(AppCenterLog.LogTag, "Failed to create database directory.", e);
             }
         }
 
@@ -362,6 +388,7 @@ namespace Microsoft.AppCenter.Storage
                 }
                 catch (Exception e)
                 {
+                    AppCenterLog.Error(AppCenterLog.LogTag, "The storage operation failed", e);
                     throw HandleStorageRelatedException(e);
                 }
             });
@@ -374,12 +401,11 @@ namespace Microsoft.AppCenter.Storage
             // Re-initialize db file if database is corrupted
             if (e is StorageCorruptedException)
             {
-                AppCenterLog.Error(AppCenterLog.LogTag,
-                    "Database corruption detected, deleting the file and starting fresh...", e);
+                AppCenterLog.Error(AppCenterLog.LogTag, "Database corruption detected, deleting the file and starting fresh...", e);
                 _storageAdapter.Dispose();
                 try
                 {
-                    File.Delete(_databasePath);
+                    new File(_databasePath).Delete();
                 }
                 catch (IOException fileException)
                 {
