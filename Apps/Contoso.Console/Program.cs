@@ -30,6 +30,7 @@ namespace Contoso
 			PrintStatus();
 			Console.WriteLine($"a:\tChange Analytics state to {(await Analytics.IsEnabledAsync() ? "OFF" : "ON")}");
 			Console.WriteLine("e:\tTrack event");
+			Console.WriteLine("q:\tQuit");
 		}
 
 		static void Main(string[] args)
