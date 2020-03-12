@@ -303,6 +303,8 @@ namespace Microsoft.AppCenter.Storage
             }
             catch (Exception e)
             {
+                // Not throwing this exception (and not handling it along with DB access error) since there are scenarios when SDK might fail to access database path, but opens database file just fine.
+                // So the logic here is only to make sure that directory to contain db file exists - DB file access handled separately.
                 AppCenterLog.Error(AppCenterLog.LogTag, "Failed to create database directory.", e);
             }
         }
