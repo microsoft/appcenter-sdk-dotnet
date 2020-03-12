@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Console\Microsoft.AppCenter.Analytics.Console.csproj" />
+    <ProjectReference Include="..\..\SDK\AppCenter\Microsoft.AppCenter.Console\Microsoft.AppCenter.Console.csproj" />
+  </ItemGroup>
+
+</Project>

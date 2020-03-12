@@ -118,7 +118,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contoso.WinForms.Demo.DotNe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contoso.UtilClassLibrary", "Apps\Contoso.UtilClassLibrary\Contoso.UtilClassLibrary.csproj", "{A42BE92C-616D-4333-9F6A-D05BA547BFC6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contoso.Console", "Contoso.Console\Contoso.Console.csproj", "{9D6CDB63-F612-4EC9-81CD-A9CD04FEA8FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contoso.Console", "Apps\Contoso.Console\Contoso.Console.csproj", "{9D6CDB63-F612-4EC9-81CD-A9CD04FEA8FD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Console", "SDK\AppCenter\Microsoft.AppCenter.Console\Microsoft.AppCenter.Console.csproj", "{64A95DB9-23CF-4AB2-A937-C69A1A6CFB49}"
 EndProject
