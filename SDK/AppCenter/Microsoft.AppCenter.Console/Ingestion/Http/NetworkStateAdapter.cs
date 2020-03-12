@@ -1,0 +1,60 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
+using System.Net.NetworkInformation;
+
+namespace Microsoft.AppCenter.Ingestion.Http
+{
+    /// <summary>
+    /// Network state adapter.
+    /// </summary>
+    public class NetworkStateAdapter : INetworkStateAdapter
+    {
+        internal delegate bool IsNetworkAvailableDelegate();
+
+        internal IsNetworkAvailableDelegate IsNetworkAvailable { private get; set; } = CheckNetworkAvailable;
+
+        /// <summary>
+        /// Init.
+        /// </summary>
+        public NetworkStateAdapter()
+        {
+            NetworkChange.NetworkAvailabilityChanged += (sender, state) => NetworkStatusChanged?.Invoke(sender, state);
+        }
+
+        private void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static bool CheckNetworkAvailable()
+        {
+            return NetworkInterface.GetIsNetworkAvailable();
+        }
+
+        /// <summary>
+        /// Check if network is connected.
+        /// </summary>
+        public bool IsConnected
+        {
+            get
+            {
+                try
+                {
+                    return IsNetworkAvailable();
+                }
+                catch (Exception e)
+                {
+                    AppCenterLog.Error(AppCenterLog.LogTag, "An error occurred while checking network state.", e);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Event to subscribe to network status changes.
+        /// </summary>
+        public event EventHandler NetworkStatusChanged;
+    }
+}

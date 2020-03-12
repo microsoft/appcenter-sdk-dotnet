@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
+  <PropertyGroup>
+    <ProjectGuid>{5AA39963-F669-42EB-AA5A-A423155AD6A2}</ProjectGuid>
+    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+    <Company>Microsoft Corporation</Company>
+    <Copyright>Microsoft Corp. All rights reserved.</Copyright>
+    <Version>3.0.1-SNAPSHOT</Version>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+    <FileVersion>3.0.1.0</FileVersion>
+    <AssemblyName>Microsoft.AppCenter.Analytics</AssemblyName>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Analytics.xml</DocumentationFile>
+  </PropertyGroup>
+  <Import Project="..\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Console\Microsoft.AppCenter.Console.csproj">
+      <Project>{64A95DB9-23CF-4AB2-A937-C69A1A6CFB49}</Project>
+      <Name>Microsoft.AppCenter.Console</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
