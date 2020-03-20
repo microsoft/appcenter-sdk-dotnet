@@ -32,7 +32,7 @@ body="$(jq -n --arg title "$PULL_REQUEST_TITLE" --arg head "$HEAD_BRANCH_NAME" -
     head: $head,
     base: $base
   }')"
-resp="$(curl -s -H "'Authorization: token $GITHUB_ACCESS_TOKEN'" -X POST $CREATE_PULL_REQUEST_URL -d "$body")"
+resp="$(curl -s -H "Authorization: token $GITHUB_ACCESS_TOKEN" -X POST $CREATE_PULL_REQUEST_URL -d "$body")"
 url="$(echo $resp | jq -r '.url')"
 
 if [ -z $url ] || [ "$url" == "" ] || [ "$url" == "null" ]; then
