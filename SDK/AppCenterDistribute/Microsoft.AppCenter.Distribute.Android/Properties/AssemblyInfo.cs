@@ -29,6 +29,6 @@ using System.Runtime.CompilerServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.0.0.0")]
-[assembly: AssemblyFileVersion("3.0.1.0")]
-[assembly: AssemblyInformationalVersion("3.0.1-SNAPSHOT")]
+[assembly: AssemblyFileVersion("3.1.0.0")]
+[assembly: AssemblyInformationalVersion("3.1.0-SNAPSHOT")]
 [assembly: InternalsVisibleTo("Microsoft.AppCenter.Test.Functional")]
