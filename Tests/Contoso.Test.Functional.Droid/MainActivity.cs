@@ -78,6 +78,9 @@ namespace Contoso.Test.Functional.Droid
                     prefEditor.Remove("Distribute.distribution_group_id");
                     prefEditor.Remove("Distribute.downloaded_release_hash");
                     break;
+                case DistributeTestType.SaveMockUpdateToken:
+                    prefEditor.PutString("Distribute.update_token", "token");
+                    break;
                 case DistributeTestType.OnResumeActivity:
                     OnResume();
                     break;

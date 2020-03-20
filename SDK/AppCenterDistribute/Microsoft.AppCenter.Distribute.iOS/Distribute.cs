@@ -112,6 +112,16 @@ namespace Microsoft.AppCenter.Distribute
             return (UpdateTrack)updateTrackValue;
         }
 
+        static void PlatformCheckForUpdate()
+        {
+            MSDistribute.CheckForUpdate();
+        }
+
+        static void PlatformDisableAutomaticCheckForUpdate()
+        {
+            MSDistribute.DisableAutomaticCheckForUpdate();
+        }
+
         private static void PlatformUnsetInstance()
         {
             MSDistribute.ResetSharedInstance();
