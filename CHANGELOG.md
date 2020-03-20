@@ -1,6 +1,6 @@
 # App Center SDK for .NET Change Log
 
-## Version 3.1.0 (Under development)
+## Version 3.1.0
 
 ### App Center
 
@@ -12,6 +12,10 @@
 
 * **[Feature]** Add a `DisableAutomaticCheckForUpdate` API that needs to be called before SDK start in order to turn off automatic check for update. 
 * **[Feature]** Add a `CheckForUpdate` API to manually check for update.
+
+#### Android
+
+* **[Fix]** Fix not checking updates on public track if it was ignored on error while initializing in-app update for private track.
 
 ___
 
