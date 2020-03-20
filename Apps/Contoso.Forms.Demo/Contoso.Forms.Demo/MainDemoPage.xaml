@@ -4,9 +4,9 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:local="clr-namespace:Contoso.Forms.Demo;assembly=Contoso.Forms.Demo"
             x:Class="Contoso.Forms.Demo.MainDemoPage">
-    <local:AppCenterContentPage/>
-    <local:AnalyticsContentPage/>
-    <local:CrashesContentPage/>
-    <local:CustomPropertiesContentPage/>
-    <local:OthersContentPage/>
+    <local:AppCenterContentPage />
+    <local:AnalyticsContentPage />
+    <local:CrashesContentPage />
+    <local:CustomPropertiesContentPage />
+    <local:OthersContentPage />
 </TabbedPage>
