@@ -24,7 +24,7 @@ GITHUB_REPO_NAME="appcenter-sdk-dotnet"
 GITHUB_API_URL="https://api.github.com/repos/$GITHUB_REPO_OWNER/$GITHUB_REPO_NAME"
 
 # Create pull request
-CREATE_PULL_REQUEST_URL="$GITHUB_API_URL/pulls?access_token=$GITHUB_ACCESS_TOKEN"
+CREATE_PULL_REQUEST_URL="$GITHUB_API_URL/pulls"
 echo "Creating pull request..."
 echo $CREATE_PULL_REQUEST_URL
 body="$(jq -n --arg title "$PULL_REQUEST_TITLE" --arg head "$HEAD_BRANCH_NAME" --arg base "$BASE_BRANCH_NAME" '{
@@ -32,7 +32,7 @@ body="$(jq -n --arg title "$PULL_REQUEST_TITLE" --arg head "$HEAD_BRANCH_NAME" -
     head: $head,
     base: $base
   }')"
-resp="$(curl -s -X POST $CREATE_PULL_REQUEST_URL -d "$body")"
+resp="$(curl -s -H "'Authorization: token $GITHUB_ACCESS_TOKEN'" -X POST $CREATE_PULL_REQUEST_URL -d "$body")"
 url="$(echo $resp | jq -r '.url')"
 
 if [ -z $url ] || [ "$url" == "" ] || [ "$url" == "null" ]; then
