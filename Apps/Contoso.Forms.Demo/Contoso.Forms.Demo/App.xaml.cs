@@ -44,31 +44,6 @@ namespace Contoso.Forms.Demo
             MainPage = new NavigationPage(new MainDemoPage());
         }
 
-        private string GetOneCollectorTokenString()
-        {
-            return $"androidTarget={OneCollectorTokens[XamarinDevice.Android]};iosTarget={OneCollectorTokens[XamarinDevice.iOS]}";
-        }
-
-        private string GetAppCenterTokenString()
-        {
-            return $"uwp={AppSecrets[XamarinDevice.UWP]};android={AppSecrets[XamarinDevice.Android]};ios={AppSecrets[XamarinDevice.iOS]}";
-        }
-
-        private string GetTokensString()
-        {
-            var persistedStartType = StartTypeUtils.GetPersistedStartType();
-            switch (persistedStartType)
-            {
-
-                case StartType.OneCollector:
-                    return GetOneCollectorTokenString();
-                case StartType.Both:
-                    return $"{GetAppCenterTokenString()};{GetOneCollectorTokenString()}";
-                default:
-                    return GetAppCenterTokenString();
-            }
-        }
-
         protected override void OnStart()
         {
             if (!AppCenter.Configured)
@@ -97,7 +72,10 @@ namespace Contoso.Forms.Demo
                 {
                     Distribute.UpdateTrack = updateTrack.Value;
                 }
-
+                if (Current.Properties.TryGetValue(Constants.AutomaticUpdateCheckKey, out object persistedObject) && !(bool)persistedObject)
+                {
+                    Distribute.DisableAutomaticCheckForUpdate();
+                }
                 AppCenter.Start(GetTokensString(), typeof(Analytics), typeof(Crashes), typeof(Distribute));
                 if (Current.Properties.ContainsKey(Constants.UserId) && Current.Properties[Constants.UserId] is string id)
                 {
@@ -123,6 +101,30 @@ namespace Contoso.Forms.Demo
                 {
                     AppCenterLog.Info(LogTag, "Crashes.LastSessionCrashReport.StackTrace=" + task.Result?.StackTrace);
                 });
+            }
+        }
+
+        private string GetOneCollectorTokenString()
+        {
+            return $"androidTarget={OneCollectorTokens[XamarinDevice.Android]};iosTarget={OneCollectorTokens[XamarinDevice.iOS]}";
+        }
+
+        private string GetAppCenterTokenString()
+        {
+            return $"uwp={AppSecrets[XamarinDevice.UWP]};android={AppSecrets[XamarinDevice.Android]};ios={AppSecrets[XamarinDevice.iOS]}";
+        }
+
+        private string GetTokensString()
+        {
+            var persistedStartType = StartTypeUtils.GetPersistedStartType();
+            switch (persistedStartType)
+            {
+                case StartType.OneCollector:
+                    return GetOneCollectorTokenString();
+                case StartType.Both:
+                    return $"{GetAppCenterTokenString()};{GetOneCollectorTokenString()}";
+                default:
+                    return GetAppCenterTokenString();
             }
         }
 

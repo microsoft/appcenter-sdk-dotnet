@@ -7,9 +7,9 @@
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
     <Product>Microsoft.AppCenter.Crashes</Product>
     <Company>Microsoft Corporation</Company>
-    <Version>3.0.1-SNAPSHOT</Version>
+    <Version>3.1.1-SNAPSHOT</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>3.0.1.0</FileVersion>
+    <FileVersion>3.1.1.0</FileVersion>
     <AssemblyTitle>Microsoft.AppCenter.Crashes</AssemblyTitle>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Crashes.xml</DocumentationFile>
   </PropertyGroup>

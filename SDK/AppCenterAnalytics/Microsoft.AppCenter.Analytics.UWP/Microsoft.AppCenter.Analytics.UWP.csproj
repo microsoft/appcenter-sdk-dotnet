@@ -5,13 +5,13 @@
     <TargetFrameworks>uap10.0.16299;net461</TargetFrameworks>
     <Company>Microsoft Corporation</Company>
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
-    <Version>3.0.1-SNAPSHOT</Version>
+    <Version>3.1.1-SNAPSHOT</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>3.0.1.0</FileVersion>
+    <FileVersion>3.1.1.0</FileVersion>
     <AssemblyName>Microsoft.AppCenter.Analytics</AssemblyName>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Analytics.xml</DocumentationFile>
   </PropertyGroup>
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'uap10.0.16299' ">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'uap10.0.16299' ">
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
