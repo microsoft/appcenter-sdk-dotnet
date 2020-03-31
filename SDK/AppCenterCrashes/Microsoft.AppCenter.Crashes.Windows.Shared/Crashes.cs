@@ -21,8 +21,6 @@ namespace Microsoft.AppCenter.Crashes
 
         private static Crashes _instanceField;
 
-        private const int MaxAttachmentsPerCrash = 2;
-
         private const int MaxAttachmentSize = 7 * 1024 * 1024;
 
         internal const string PrefKeyAlwaysSend = Constants.KeyPrefix + "CrashesAlwaysSend";
