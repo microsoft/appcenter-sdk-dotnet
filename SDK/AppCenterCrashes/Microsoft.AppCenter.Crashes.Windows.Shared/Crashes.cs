@@ -395,7 +395,6 @@ namespace Microsoft.AppCenter.Crashes
 
         private Task SendErrorAttachmentsAsync(Guid errorId, IEnumerable<ErrorAttachmentLog> attachments)
         {
-            var totalErrorAttachments = 0;
             var tasks = new List<Task>();
             foreach (var attachment in attachments)
             {
@@ -413,7 +412,6 @@ namespace Microsoft.AppCenter.Crashes
                     }
                     else
                     {
-                        ++totalErrorAttachments;
                         tasks.Add(Channel.EnqueueAsync(attachment));
                     }
                 }
@@ -421,10 +419,6 @@ namespace Microsoft.AppCenter.Crashes
                 {
                     AppCenterLog.Warn(LogTag, "Skipping null ErrorAttachmentLog.");
                 }
-            }
-            if (totalErrorAttachments > MaxAttachmentsPerCrash)
-            {
-                AppCenterLog.Warn(LogTag, $"A limit of {MaxAttachmentsPerCrash} attachments per error report might be enforced by server.");
             }
             return Task.WhenAll(tasks);
         }
