@@ -58,9 +58,13 @@ namespace Microsoft.AppCenter
         {
             get
             {
+                if (_instanceField != null)
+                {
+                    return _instanceField;
+                }
                 lock (AppCenterLock)
                 {
-                    return _instanceField ?? (_instanceField = new AppCenter());
+                    return _instanceField = new AppCenter();
                 }
             }
             set
@@ -74,20 +78,8 @@ namespace Microsoft.AppCenter
 
         static LogLevel PlatformLogLevel
         {
-            get
-            {
-                lock (AppCenterLock)
-                {
-                    return AppCenterLog.Level;
-                }
-            }
-            set
-            {
-                lock (AppCenterLock)
-                {
-                    AppCenterLog.Level = value;
-                }
-            }
+            get => AppCenterLog.Level;
+            set => AppCenterLog.Level = value;
         }
 
         /// <summary>
