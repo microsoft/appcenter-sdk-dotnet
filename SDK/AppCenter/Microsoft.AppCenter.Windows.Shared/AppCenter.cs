@@ -48,7 +48,7 @@ namespace Microsoft.AppCenter
         #region static
 
         // The shared instance of AppCenter
-        private static AppCenter _instanceField;
+        private static volatile AppCenter _instanceField;
 
         /// <summary>
         /// Gets or sets the shared instance of App Center. Should never return null.
@@ -64,7 +64,7 @@ namespace Microsoft.AppCenter
                 }
                 lock (AppCenterLock)
                 {
-                    return _instanceField = new AppCenter();
+                    return _instanceField ?? (_instanceField = new AppCenter());
                 }
             }
             set
