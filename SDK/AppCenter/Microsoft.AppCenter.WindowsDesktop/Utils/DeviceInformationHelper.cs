@@ -2,11 +2,16 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+
+#if NET461
+using System.Deployment.Application;
+#endif
 
 namespace Microsoft.AppCenter.Utils
 {
@@ -95,19 +100,26 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetAppVersion()
         {
-#if NET461
-            // Get ClickOnce version or fall back to assembly file version. ClickOnce does not exist on .NET Core.
-            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
-            {
-                return System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
-            }
-#endif
+            /*
+             * If the AssemblyInformationalVersion is not applied to an assembly,
+             * the version number specified by the AssemblyFileVersion attribute is used instead.
+             */
             return Application.ProductVersion;
         }
 
         protected override string GetAppBuild()
         {
-            return GetAppVersion();
+#if NET461
+            // Get ClickOnce version (does not exist on .NET Core). 
+            if (ApplicationDeployment.IsNetworkDeployed)
+            {
+                return ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+            }
+#endif
+            // The AssemblyFileVersion uniquely identifys a build.
+            var entryAssembly = Assembly.GetEntryAssembly();
+            var fileVersionInfo = FileVersionInfo.GetVersionInfo(entryAssembly.Location);
+            return fileVersionInfo.FileVersion;
         }
 
         protected override string GetScreenSize()
