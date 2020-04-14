@@ -118,8 +118,14 @@ namespace Microsoft.AppCenter.Utils
 #endif
             // The AssemblyFileVersion uniquely identifys a build.
             var entryAssembly = Assembly.GetEntryAssembly();
-            var fileVersionInfo = FileVersionInfo.GetVersionInfo(entryAssembly.Location);
-            return fileVersionInfo.FileVersion;
+            if (entryAssembly != null)
+            {
+                var fileVersionInfo = FileVersionInfo.GetVersionInfo(entryAssembly.Location);
+                return fileVersionInfo.FileVersion;
+            }
+
+            // Fallback if entry assembly is not found (in unit tests for example).
+            return GetAppVersion();
         }
 
         protected override string GetScreenSize()
