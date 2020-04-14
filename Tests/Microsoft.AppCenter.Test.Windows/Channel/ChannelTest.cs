@@ -246,7 +246,7 @@ namespace Microsoft.AppCenter.Test.Channel
         public async Task ChannelInvokesFailedWithHttpRequestExceptionToSendLogEvent()
         {
             // Prepare data.
-            Mock<MockHttpClient> mockHttpClient = new Mock<MockHttpClient>();
+            Mock<HttpClient> mockHttpClient = new Mock<HttpClient>();
             mockHttpClient.Setup(setup => setup.SendAsync(It.IsAny<HttpRequestMessage>(), It.IsAny<CancellationToken>())).Throws(new HttpRequestException());
             IIngestion mockIngestion = new NetworkStateIngestion(new RetryableIngestion(new IngestionHttp(new HttpNetworkAdapter(mockHttpClient.Object))), new NetworkStateAdapter());
             SetChannelWithTimeSpanAndIngestion(TimeSpan.FromSeconds(1), mockIngestion);
@@ -590,10 +590,6 @@ namespace Microsoft.AppCenter.Test.Channel
                     return i;
                 }
             }
-        }
-
-        public class MockHttpClient : HttpClient
-        {
         }
     }
 }
