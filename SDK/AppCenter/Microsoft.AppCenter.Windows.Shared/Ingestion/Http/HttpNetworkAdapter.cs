@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -17,6 +16,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
         internal const string ContentTypeValue = "application/json; charset=utf-8";
 
         private HttpClient _httpClient;
+        private static HttpClient _customHttpClient;
         private readonly object _lockObject = new object();
 
         // Exception codes (HResults) involving poor network connectivity:
@@ -27,6 +27,11 @@ namespace Microsoft.AppCenter.Ingestion.Http
             0x80072EFE, // WININET_E_CONNECTION_ABORTED
             0x80072EFF  // WININET_E_CONNECTION_RESET
         };
+
+        internal static void SetCustomHttpClient(HttpClient customHttpClient)
+        {
+            _customHttpClient = customHttpClient;
+        }
 
         private HttpClient HttpClient
         {
@@ -39,7 +44,14 @@ namespace Microsoft.AppCenter.Ingestion.Http
                         return _httpClient;
                     }
 
-                    _httpClient = new HttpClient();
+                    if (_customHttpClient != null)
+                    {
+                        _httpClient = _customHttpClient;
+                    }
+                    else
+                    {
+                        _httpClient = new HttpClient();
+                    }
                     return _httpClient;
                 }
             }
@@ -124,6 +136,10 @@ namespace Microsoft.AppCenter.Ingestion.Http
             try
             {
                 return await HttpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            }
+            catch (HttpRequestException e)
+            {
+                throw new NetworkIngestionException();
             }
             catch (InvalidOperationException e)
             {
