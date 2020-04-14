@@ -2,6 +2,10 @@
 
 ## Version 3.1.1 (Under development)
 
+### App Center
+
+* **[Fix]** Possible deadlock after `AppCenter.Start` fixed.
+
 ### App Center Crashes
 
 * **[Fix]** Remove the multiple attachments warning as that is now supported by the portal.

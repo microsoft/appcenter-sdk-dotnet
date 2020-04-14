@@ -19,7 +19,7 @@ namespace Microsoft.AppCenter.Crashes
     {
         private static readonly object CrashesLock = new object();
 
-        private static Crashes _instanceField;
+        private static volatile Crashes _instanceField;
 
         private const int MaxAttachmentSize = 7 * 1024 * 1024;
 
@@ -39,6 +39,10 @@ namespace Microsoft.AppCenter.Crashes
         {
             get
             {
+                if (_instanceField != null)
+                {
+                    return _instanceField;
+                }
                 lock (CrashesLock)
                 {
                     return _instanceField ?? (_instanceField = new Crashes());
