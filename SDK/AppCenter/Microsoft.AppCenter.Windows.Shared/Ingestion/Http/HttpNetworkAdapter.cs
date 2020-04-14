@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -28,6 +27,15 @@ namespace Microsoft.AppCenter.Ingestion.Http
             0x80072EFF  // WININET_E_CONNECTION_RESET
         };
 
+        public HttpNetworkAdapter()
+        {
+        }
+
+        internal HttpNetworkAdapter(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
         private HttpClient HttpClient
         {
             get
@@ -38,7 +46,6 @@ namespace Microsoft.AppCenter.Ingestion.Http
                     {
                         return _httpClient;
                     }
-
                     _httpClient = new HttpClient();
                     return _httpClient;
                 }
@@ -125,6 +132,10 @@ namespace Microsoft.AppCenter.Ingestion.Http
             {
                 return await HttpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
             }
+            catch (HttpRequestException e)
+            {
+                throw new NetworkIngestionException(e);
+            }
             catch (InvalidOperationException e)
             {
                 throw new IngestionException(e);
@@ -135,7 +146,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
                 // it can be dealt with properly
                 if (Array.Exists(NetworkUnavailableCodes, code => code == (uint)e.HResult))
                 {
-                    throw new NetworkIngestionException();
+                    throw new NetworkIngestionException(e);
                 }
                 throw;
             }

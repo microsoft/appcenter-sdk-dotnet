@@ -8,6 +8,10 @@
 
 * **[Fix]** Fix app build version reporting, the assembly file version is used for this field now.
 
+#### UWP/WPF/WinForms
+
+* **[Fix]** Fix retry sending logs after timeout exception.
+
 ### App Center Crashes
 
 * **[Fix]** Remove the multiple attachments warning as that is now supported by the portal.
