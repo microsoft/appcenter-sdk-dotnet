@@ -4,7 +4,9 @@
 
 ### App Center
 
-* **[Fix]** Possible deadlock after `AppCenter.Start` fixed.
+#### WPF
+
+* **[Fix]** Fix possible deadlock on start if the configuration file was corrupted.
 
 ### App Center Crashes
 
