@@ -134,7 +134,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
             }
             catch (HttpRequestException e)
             {
-                throw new NetworkIngestionException();
+                throw new NetworkIngestionException(e);
             }
             catch (InvalidOperationException e)
             {
@@ -146,7 +146,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
                 // it can be dealt with properly
                 if (Array.Exists(NetworkUnavailableCodes, code => code == (uint)e.HResult))
                 {
-                    throw new NetworkIngestionException();
+                    throw new NetworkIngestionException(e);
                 }
                 throw;
             }
