@@ -3,10 +3,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Channel;
 using Microsoft.AppCenter.Ingestion;
+using Microsoft.AppCenter.Ingestion.Http;
 using Microsoft.AppCenter.Ingestion.Models;
 using Microsoft.AppCenter.Ingestion.Models.Serialization;
 using Microsoft.AppCenter.Storage;
@@ -238,6 +240,30 @@ namespace Microsoft.AppCenter.Test.Channel
         }
 
         /// <summary>
+        /// Verify that after throw HttpRequestException logs will be recoverable. 
+        /// </summary>
+        [TestMethod]
+        public async Task ChannelInvokesFailedWithHttpRequestExceptionToSendLogEvent()
+        {
+            // Prepare data.
+            Mock<HttpClient> mockHttpClient = new Mock<HttpClient>();
+            mockHttpClient.Setup(setup => setup.SendAsync(It.IsAny<HttpRequestMessage>(), It.IsAny<CancellationToken>())).Throws(new HttpRequestException());
+            IIngestion mockIngestion = new NetworkStateIngestion(new RetryableIngestion(new IngestionHttp(new HttpNetworkAdapter(mockHttpClient.Object))), new NetworkStateAdapter());
+            SetChannelWithTimeSpanAndIngestion(TimeSpan.FromSeconds(1), mockIngestion);
+            for (var i = 0; i < MaxLogsPerBatch; ++i)
+            {
+                await _channel.EnqueueAsync(new TestLog());
+            }
+
+            // Verify that SendAsync was called 3 times.
+            mockHttpClient.Verify(setup => setup.SendAsync(It.IsAny<HttpRequestMessage>(), It.IsAny<CancellationToken>()), Times.AtMost(MaxLogsPerBatch));
+
+            // Verify that FailedToSendLog wasn't called.
+            Assert.AreNotEqual(MaxLogsPerBatch, EventWithSemaphoreOccurred(_eventSemaphores[FailedToSendLogSemaphoreIdx]),
+               $"Failed on verify {nameof(Channel.FailedToSendLog)} event call times");
+        }
+
+        /// <summary>
         /// Validate that links are same on an error and a log
         /// </summary>
         [TestMethod]
@@ -457,10 +483,15 @@ namespace Microsoft.AppCenter.Test.Channel
 
         private void SetChannelWithTimeSpan(TimeSpan timeSpan)
         {
+            SetChannelWithTimeSpanAndIngestion(timeSpan, _mockIngestion.Object);
+        }
+
+        private void SetChannelWithTimeSpanAndIngestion(TimeSpan timeSpan, IIngestion ingestion)
+        {
             _storage = new MockStorage();
             var appSecret = Guid.NewGuid().ToString();
             _channel = new Channel(ChannelName, MaxLogsPerBatch, timeSpan, MaxParallelBatches,
-                appSecret, _mockIngestion.Object, _storage);
+                appSecret, ingestion, _storage);
             SetupEventCallbacks();
         }
 

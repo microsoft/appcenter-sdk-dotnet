@@ -453,7 +453,7 @@ namespace Microsoft.AppCenter.Channel
                 }
                 else if (call.IsFaulted)
                 {
-                    AppCenterLog.Error(AppCenterLog.LogTag, $"Sending logs for channel '{Name}', batch '{batchId}' failed: {call.Exception?.Message}");
+                    AppCenterLog.Error(AppCenterLog.LogTag, $"Sending logs for channel '{Name}', batch '{batchId}' failed: {call.Exception?.ToString()}");
                     var isRecoverable = call.Exception is IngestionException ingestionException && ingestionException.IsRecoverable;
                     if (isRecoverable)
                     {

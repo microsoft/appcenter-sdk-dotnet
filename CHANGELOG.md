@@ -2,6 +2,12 @@
 
 ## Version 3.1.1 (Under development)
 
+### App Center
+
+#### UWP/WPF/WinForms
+
+* **[Fix]** Fix retry sending logs after timeout exception.
+
 ### App Center Crashes
 
 * **[Fix]** Remove the multiple attachments warning as that is now supported by the portal.
