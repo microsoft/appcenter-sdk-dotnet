@@ -16,7 +16,6 @@ namespace Microsoft.AppCenter.Ingestion.Http
         internal const string ContentTypeValue = "application/json; charset=utf-8";
 
         private HttpClient _httpClient;
-        private static HttpClient _customHttpClient;
         private readonly object _lockObject = new object();
 
         // Exception codes (HResults) involving poor network connectivity:
@@ -28,9 +27,13 @@ namespace Microsoft.AppCenter.Ingestion.Http
             0x80072EFF  // WININET_E_CONNECTION_RESET
         };
 
-        internal static void SetCustomHttpClient(HttpClient customHttpClient)
+        public HttpNetworkAdapter()
         {
-            _customHttpClient = customHttpClient;
+        }
+
+        internal HttpNetworkAdapter(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
         }
 
         private HttpClient HttpClient
@@ -43,15 +46,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
                     {
                         return _httpClient;
                     }
-
-                    if (_customHttpClient != null)
-                    {
-                        _httpClient = _customHttpClient;
-                    }
-                    else
-                    {
-                        _httpClient = new HttpClient();
-                    }
+                    _httpClient = new HttpClient();
                     return _httpClient;
                 }
             }
