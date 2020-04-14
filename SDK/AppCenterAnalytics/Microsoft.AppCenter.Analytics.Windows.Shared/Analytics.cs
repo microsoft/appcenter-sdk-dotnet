@@ -21,12 +21,16 @@ namespace Microsoft.AppCenter.Analytics
 
         private static readonly object AnalyticsLock = new object();
 
-        private static Analytics _instanceField;
+        private static volatile Analytics _instanceField;
 
         public static Analytics Instance
         {
             get
             {
+                if (_instanceField != null)
+                {
+                    return _instanceField;
+                }
                 lock (AnalyticsLock)
                 {
                     return _instanceField ?? (_instanceField = new Analytics());

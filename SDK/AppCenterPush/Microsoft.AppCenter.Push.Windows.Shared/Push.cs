@@ -14,12 +14,16 @@ namespace Microsoft.AppCenter.Push
         #region static
         private static readonly object PushLock = new object();
 
-        private static Push _instanceField;
+        private static volatile Push _instanceField;
 
         public static Push Instance
         {
             get
             {
+                if (_instanceField != null)
+                {
+                    return _instanceField;
+                }
                 lock (PushLock)
                 {
                     return _instanceField ?? (_instanceField = new Push());

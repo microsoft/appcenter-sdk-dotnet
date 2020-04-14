@@ -4,6 +4,10 @@
 
 ### App Center
 
+#### WPF/WinForms
+
+* **[Fix]** Fix possible deadlock on start if the configuration file was corrupted.
+
 #### UWP/WPF/WinForms
 
 * **[Fix]** Fix retry sending logs after timeout exception.
