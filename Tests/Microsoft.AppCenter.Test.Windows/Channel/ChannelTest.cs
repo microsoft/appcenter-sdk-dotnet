@@ -248,11 +248,8 @@ namespace Microsoft.AppCenter.Test.Channel
             // Prepare data.
             Mock<MockHttpClient> mockHttpClient = new Mock<MockHttpClient>();
             mockHttpClient.Setup(setup => setup.SendAsync(It.IsAny<HttpRequestMessage>(), It.IsAny<CancellationToken>())).Throws(new HttpRequestException());
-            IIngestion mockIngestion = new NetworkStateIngestion(new RetryableIngestion(new IngestionHttp(new HttpNetworkAdapter())), new NetworkStateAdapter());
+            IIngestion mockIngestion = new NetworkStateIngestion(new RetryableIngestion(new IngestionHttp(new HttpNetworkAdapter(mockHttpClient.Object))), new NetworkStateAdapter());
             SetChannelWithTimeSpanAndIngestion(TimeSpan.FromSeconds(1), mockIngestion);
-            
-            // Set the custom http client.
-            HttpNetworkAdapter.SetCustomHttpClient(mockHttpClient.Object);
             for (var i = 0; i < MaxLogsPerBatch; ++i)
             {
                 await _channel.EnqueueAsync(new TestLog());
@@ -264,9 +261,6 @@ namespace Microsoft.AppCenter.Test.Channel
             // Verify that FailedToSendLog wasn't called.
             Assert.AreNotEqual(MaxLogsPerBatch, EventWithSemaphoreOccurred(_eventSemaphores[FailedToSendLogSemaphoreIdx]),
                $"Failed on verify {nameof(Channel.FailedToSendLog)} event call times");
-
-            // Reset the custom http client.
-            HttpNetworkAdapter.SetCustomHttpClient(null);
         }
 
         /// <summary>
