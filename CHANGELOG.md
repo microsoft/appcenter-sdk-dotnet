@@ -4,7 +4,7 @@
 
 ### App Center
 
-#### WPF
+#### WPF/WinForms
 
 * **[Fix]** Fix app build version reporting, the assembly file version is used for this field now.
 
