@@ -2,6 +2,12 @@
 
 ## Version 3.1.1 (Under development)
 
+### App Center
+
+#### WPF
+
+* **[Fix]** Fix app build version reporting, the assembly file version is used for this field now.
+
 ### App Center Crashes
 
 * **[Fix]** Remove the multiple attachments warning as that is now supported by the portal.
