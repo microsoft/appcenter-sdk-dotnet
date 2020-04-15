@@ -831,17 +831,26 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
             var alwaysSendValue = AppCenter.Instance.ApplicationSettings.GetValue(Crashes.PrefKeyAlwaysSend, false);
             Assert.IsFalse(alwaysSendValue);
         }
-        
+
+        /// <summary>
+        /// Test that after corrupted config file restored
+        /// the App Center start could not be locked (for example, locked by call AppCenter.SetEnabledAsync(false)).
+        /// </summary>
         [TestMethod]
         [Timeout(5000)]
         public void BrokenConfigDeadlockTest()
         {
+            // Corrupt config file.
             var settings = new DefaultApplicationSettings();
             var expectedLines = SystemFile.ReadAllLines(DefaultApplicationSettings.FilePath);
             var corruptedLines = new string[expectedLines.Length - 2];
             Array.Copy(expectedLines, 0, corruptedLines, 0, corruptedLines.Length);
             SystemFile.WriteAllLines(DefaultApplicationSettings.FilePath, corruptedLines);
+
+            // Config file restored.
             settings = new DefaultApplicationSettings();
+
+            // Lock situation reproduction.
             AppCenter.Start("appSecret", typeof(Crashes));
             AppCenter.SetEnabledAsync(false);
         }
