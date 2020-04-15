@@ -48,7 +48,7 @@ namespace Microsoft.AppCenter
         #region static
 
         // The shared instance of AppCenter
-        private static AppCenter _instanceField;
+        private static volatile AppCenter _instanceField;
 
         /// <summary>
         /// Gets or sets the shared instance of App Center. Should never return null.
@@ -58,6 +58,10 @@ namespace Microsoft.AppCenter
         {
             get
             {
+                if (_instanceField != null)
+                {
+                    return _instanceField;
+                }
                 lock (AppCenterLock)
                 {
                     return _instanceField ?? (_instanceField = new AppCenter());
@@ -74,20 +78,8 @@ namespace Microsoft.AppCenter
 
         static LogLevel PlatformLogLevel
         {
-            get
-            {
-                lock (AppCenterLock)
-                {
-                    return AppCenterLog.Level;
-                }
-            }
-            set
-            {
-                lock (AppCenterLock)
-                {
-                    AppCenterLog.Level = value;
-                }
-            }
+            get => AppCenterLog.Level;
+            set => AppCenterLog.Level = value;
         }
 
         /// <summary>

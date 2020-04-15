@@ -6,6 +6,7 @@
 
 #### WPF/WinForms
 
+* **[Fix]** Fix possible deadlock on start if the configuration file was corrupted.
 * **[Fix]** Fix app build version reporting, the assembly file version is used for this field now.
 
 #### UWP/WPF/WinForms
