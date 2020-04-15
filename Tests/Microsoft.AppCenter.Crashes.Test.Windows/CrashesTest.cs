@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using SystemFile = System.IO.File;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Channel;
 using Microsoft.AppCenter.Crashes.Ingestion.Models;
@@ -836,10 +837,10 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
         public void BrokenConfigDeadlockTest()
         {
             var settings = new DefaultApplicationSettings();
-            var expectedLines = System.IO.File.ReadAllLines(DefaultApplicationSettings.FilePath);
+            var expectedLines = SystemFile.ReadAllLines(DefaultApplicationSettings.FilePath);
             var corruptedLines = new string[expectedLines.Length - 2];
             Array.Copy(expectedLines, 0, corruptedLines, 0, corruptedLines.Length);
-            System.IO.File.WriteAllLines(DefaultApplicationSettings.FilePath, corruptedLines);
+            SystemFile.WriteAllLines(DefaultApplicationSettings.FilePath, corruptedLines);
             settings = new DefaultApplicationSettings();
             AppCenter.Start("appSecret", typeof(Crashes));
             AppCenter.SetEnabledAsync(false);
