@@ -851,6 +851,7 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
             settings = new DefaultApplicationSettings();
 
             // Lock situation reproduction.
+            // The test should fail due to timeout if lock reproduced.
             AppCenter.Start("appSecret", typeof(Crashes));
             AppCenter.SetEnabledAsync(false);
         }
