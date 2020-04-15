@@ -830,6 +830,20 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
             var alwaysSendValue = AppCenter.Instance.ApplicationSettings.GetValue(Crashes.PrefKeyAlwaysSend, false);
             Assert.IsFalse(alwaysSendValue);
         }
+        
+        [TestMethod]
+        [Timeout(5000)]
+        public void BrokenConfigDeadlockTest()
+        {
+            var settings = new DefaultApplicationSettings();
+            var expectedLines = System.IO.File.ReadAllLines(DefaultApplicationSettings.FilePath);
+            var corruptedLines = new string[expectedLines.Length - 2];
+            Array.Copy(expectedLines, 0, corruptedLines, 0, corruptedLines.Length);
+            System.IO.File.WriteAllLines(DefaultApplicationSettings.FilePath, corruptedLines);
+            settings = new DefaultApplicationSettings();
+            AppCenter.Start("appSecret", typeof(Crashes));
+            AppCenter.SetEnabledAsync(false);
+        }
 
         /// <summary>
         /// Convenience function to create a mock ErrorLogHelper with a file added.
