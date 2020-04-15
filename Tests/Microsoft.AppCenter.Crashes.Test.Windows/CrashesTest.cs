@@ -833,8 +833,8 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
         }
 
         /// <summary>
-        /// Test that after corrupted config file restored
-        /// the App Center start could not be locked (for example, locked by call AppCenter.SetEnabledAsync(false)).
+        /// Test that restoring corrupted config doesn't lock App Center start routine.
+        /// (for example, locked by call AppCenter.SetEnabledAsync(false)).
         /// </summary>
         [TestMethod]
         [Timeout(5000)]
