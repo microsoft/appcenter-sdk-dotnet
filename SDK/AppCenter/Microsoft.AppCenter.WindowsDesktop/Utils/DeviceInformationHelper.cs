@@ -2,11 +2,16 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+
+#if NET461
+using System.Deployment.Application;
+#endif
 
 namespace Microsoft.AppCenter.Utils
 {
@@ -95,19 +100,17 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetAppVersion()
         {
-#if NET461
-            // Get ClickOnce version or fall back to assembly file version. ClickOnce does not exist on .NET Core.
-            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
-            {
-                return System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
-            }
-#endif
-            return Application.ProductVersion;
+            /*
+             * Application.ProductVersion returns the value from AssemblyInformationalVersion.
+             * If the AssemblyInformationalVersion is not applied to an assembly,
+             * the version number specified by the AssemblyFileVersion attribute is used instead.
+             */
+            return DeploymentVersion ?? Application.ProductVersion;
         }
 
         protected override string GetAppBuild()
         {
-            return GetAppVersion();
+            return DeploymentVersion ?? FileVersion;
         }
 
         protected override string GetScreenSize()
@@ -120,6 +123,38 @@ namespace Microsoft.AppCenter.Utils
                 var height = GetDeviceCaps(desktop, DESKTOPVERTRES);
                 var width = GetDeviceCaps(desktop, DESKTOPHORZRES);
                 return $"{width}x{height}";
+            }
+        }
+
+        private static string DeploymentVersion
+        {
+            get
+            {
+#if NET461
+                // Get ClickOnce version (does not exist on .NET Core). 
+                if (ApplicationDeployment.IsNetworkDeployed)
+                {
+                    return ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+                }
+#endif
+                return null;
+            }
+        }
+
+        private static string FileVersion
+        {
+            get
+            {
+                // The AssemblyFileVersion uniquely identifys a build.
+                var entryAssembly = Assembly.GetEntryAssembly();
+                if (entryAssembly != null)
+                {
+                    var fileVersionInfo = FileVersionInfo.GetVersionInfo(entryAssembly.Location);
+                    return fileVersionInfo.FileVersion;
+                }
+
+                // Fallback if entry assembly is not found (in unit tests for example).
+                return Application.ProductVersion;
             }
         }
 
