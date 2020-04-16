@@ -134,9 +134,7 @@ Task("UpdateAndroidVersionToLatest").Does(() =>
         Information($"Nothing to replace. Exiting...");
         return;
     }
-    Information($"Replacing build config version: androidVersion is {VersionReader.AndroidVersion}.");
-    ReplaceTextInFiles(ConfigFile.Path, VersionReader.AndroidVersion, androidLatestVersion);
-    Information($"Successfully replaced androidVersion with {androidLatestVersion} in {ConfigFile.Name}.");
+    VersionReader.WriteAndroidVersion(androidLatestVersion);
 }).OnError(HandleError);
 
 Task("UpdateIosVersionToLatest").Does(() => 
@@ -150,9 +148,7 @@ Task("UpdateIosVersionToLatest").Does(() =>
         Information($"Nothing to replace. Exiting...");
         return;
     }
-    Information($"Replacing build config versions: iosVersion is {VersionReader.IosVersion}.");
-    ReplaceTextInFiles(ConfigFile.Path, VersionReader.IosVersion, appleLatestVersion);
-    Information($"Successfully replaced iosVersion with {appleLatestVersion} in {ConfigFile.Name}.");
+    VersionReader.WriteIosVersion(appleLatestVersion);
 }).OnError(HandleError);
 
 Task("IncreasePatchVersion").Does(() => 
