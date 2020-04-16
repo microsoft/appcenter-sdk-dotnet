@@ -145,7 +145,7 @@ namespace Microsoft.AppCenter.Utils
         {
             get
             {
-                // The AssemblyFileVersion uniquely identifys a build.
+                // The AssemblyFileVersion uniquely identifies a build.
                 var entryAssembly = Assembly.GetEntryAssembly();
                 if (entryAssembly != null)
                 {
