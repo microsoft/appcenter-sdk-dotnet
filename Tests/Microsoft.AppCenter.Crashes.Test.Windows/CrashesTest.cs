@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using SystemFile = System.IO.File;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Channel;
 using Microsoft.AppCenter.Crashes.Ingestion.Models;
@@ -829,6 +830,30 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
             // The alwaysSend value should never set because we are disabled
             var alwaysSendValue = AppCenter.Instance.ApplicationSettings.GetValue(Crashes.PrefKeyAlwaysSend, false);
             Assert.IsFalse(alwaysSendValue);
+        }
+
+        /// <summary>
+        /// Test that restoring corrupted config doesn't lock App Center start routine.
+        /// (for example, locked by call AppCenter.SetEnabledAsync(false)).
+        /// </summary>
+        [TestMethod]
+        [Timeout(5000)]
+        public void BrokenConfigDeadlockTest()
+        {
+            // Corrupt config file.
+            var settings = new DefaultApplicationSettings();
+            var expectedLines = SystemFile.ReadAllLines(DefaultApplicationSettings.FilePath);
+            var corruptedLines = new string[expectedLines.Length - 2];
+            Array.Copy(expectedLines, 0, corruptedLines, 0, corruptedLines.Length);
+            SystemFile.WriteAllLines(DefaultApplicationSettings.FilePath, corruptedLines);
+
+            // Config file restored.
+            settings = new DefaultApplicationSettings();
+
+            // Lock situation reproduction.
+            // The test should fail due to timeout if lock reproduced.
+            AppCenter.Start("appSecret", typeof(Crashes));
+            AppCenter.SetEnabledAsync(false);
         }
 
         /// <summary>

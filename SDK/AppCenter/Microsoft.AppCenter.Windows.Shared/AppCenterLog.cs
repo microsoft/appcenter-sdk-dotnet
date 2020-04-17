@@ -18,7 +18,7 @@ namespace Microsoft.AppCenter
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static string LogTag { get; private set; }
         private static readonly object LogLock = new object();
-        private static LogLevel _level = LogLevel.Assert;
+        private static volatile LogLevel _level = LogLevel.Assert;
 
         /// <summary>
         /// Gets or sets the log verbosity level.

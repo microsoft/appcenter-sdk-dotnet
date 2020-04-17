@@ -1,5 +1,40 @@
 # App Center SDK for .NET Change Log
 
+## Version 3.2.0
+
+### App Center
+
+#### WPF/WinForms
+
+* **[Fix]** Fix possible deadlock on start if the configuration file was corrupted.
+* **[Fix]** Fix app build version reporting, the assembly file version is used for this field now.
+
+#### UWP/WPF/WinForms
+
+* **[Fix]** Fix retry sending logs after timeout exception.
+
+### App Center Crashes
+
+* **[Fix]** Remove the multiple attachments warning as that is now supported by the portal.
+
+#### Android
+
+* **[Fix]** Change minidump filter to use file extension instead of name.
+* **[Fix]** Fix removing minidump files when the sending crash report was discarded.
+
+#### iOS
+
+* **[Improvement]** Update PLCrashReporter to 1.5.1.
+
+### App Center Distribute
+
+#### Android
+
+* **[Feature]** Automatically check for update when application switches from background to foreground (unless automatic checks are disabled).
+* **[Fix]** Fix checking for updates after disabling the Distribute module while downloading the release.
+
+___
+
 ## Version 3.1.0
 
 ### App Center
