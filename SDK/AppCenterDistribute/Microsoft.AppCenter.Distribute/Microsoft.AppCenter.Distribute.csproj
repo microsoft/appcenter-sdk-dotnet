@@ -7,9 +7,9 @@
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
     <Product>Microsoft.AppCenter.Distribute</Product>
     <Company>Microsoft Corporation</Company>
-    <Version>3.1.1-SNAPSHOT</Version>
+    <Version>3.2.0-SNAPSHOT</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>3.1.1.0</FileVersion>
+    <FileVersion>3.2.0.0</FileVersion>
     <AssemblyTitle>Microsoft.AppCenter.Distribute</AssemblyTitle>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Distribute.xml</DocumentationFile>
   </PropertyGroup>
