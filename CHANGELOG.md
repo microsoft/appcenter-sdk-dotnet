@@ -1,6 +1,6 @@
 # App Center SDK for .NET Change Log
 
-## Version 3.2.0
+## Version 3.2.1
 
 ### App Center
 
@@ -32,6 +32,7 @@
 
 * **[Feature]** Automatically check for update when application switches from background to foreground (unless automatic checks are disabled).
 * **[Fix]** Fix checking for updates after disabling the Distribute module while downloading the release.
+* **[Fix]** Fix checking updates when application switches from background to foreground if the SDK was started after `onCreate` callback.
 
 ___
 
