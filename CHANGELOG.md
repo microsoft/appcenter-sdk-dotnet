@@ -2,6 +2,12 @@
 
 ## Version 3.2.2 (Under development)
 
+### App Center
+
+#### Android
+
+* **[Fix]** Fix reporting Xamarin.Android version.
+
 ___
 
 ## Version 3.2.1
@@ -25,7 +31,6 @@ ___
 
 * **[Fix]** Change minidump filter to use file extension instead of name.
 * **[Fix]** Fix removing minidump files when the sending crash report was discarded.
-* **[Fix]** Remove semicolon after wrapperRuntimeVersion value.
 
 #### iOS
 
