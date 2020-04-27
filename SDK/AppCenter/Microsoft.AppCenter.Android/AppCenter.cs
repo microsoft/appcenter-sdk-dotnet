@@ -164,7 +164,7 @@ namespace Microsoft.AppCenter
                 var indexOfVersion = xamarinAndroidVersion?.IndexOf(';') ?? -1;
                 if (indexOfVersion >= 0)
                 {
-                    xamarinAndroidVersion = xamarinAndroidVersion?.Substring(0, indexOfVersion + 1);
+                    xamarinAndroidVersion = xamarinAndroidVersion?.Substring(0, indexOfVersion);
                 }
             }
             var wrapperSdk = new AndroidWrapperSdk
