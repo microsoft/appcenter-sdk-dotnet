@@ -25,6 +25,7 @@ ___
 
 * **[Fix]** Change minidump filter to use file extension instead of name.
 * **[Fix]** Fix removing minidump files when the sending crash report was discarded.
+* **[Fix]** Remove semicolon after wrapperRuntimeVersion value.
 
 #### iOS
 
