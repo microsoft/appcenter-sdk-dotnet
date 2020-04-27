@@ -2,6 +2,12 @@
 
 ## Version 3.2.2 (Under development)
 
+### App Center
+
+#### Android
+
+* **[Fix]** Fix reporting Xamarin.Android version.
+
 ___
 
 ## Version 3.2.1
