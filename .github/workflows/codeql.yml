@@ -64,9 +64,6 @@ jobs:
 
   CodeQL-Build-Windows:
 
-    env:
-      MSBUILD_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin
-
     strategy:
       fail-fast: false
 
@@ -98,12 +95,12 @@ jobs:
     
     - run: |
         echo "Restore App Center Dependencies"
-        $Env:Path += ";${MSBUILD_PATH}"
+        $Env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin"
         MSBuild.exe AppCenter-SDK-Build-Windows.sln -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build; 
         
     - run: |
         echo "Build App Center For Android"
-        $Env:Path += ";${MSBUILD_PATH}"
+        $Env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin"
         MSBuild.exe SDK/AppCenter/Microsoft.AppCenter.Android/Microsoft.AppCenter.Android.csproj -property:Configuration=Release /restore -target:Build; 
         MSBuild.exe SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Android/Microsoft.AppCenter.Analytics.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build;
         MSBuild.exe SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Android/Microsoft.AppCenter.Crashes.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build;
