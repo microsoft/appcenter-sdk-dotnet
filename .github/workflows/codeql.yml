@@ -90,10 +90,6 @@ jobs:
     #    uses a compiled language
 
     - run: |
-        echo "Remove NuGet.config"
-        Remove-Item NuGet.config
-
-    - run: |
         echo "Run Externals-Android"
         .\build.ps1 --target="Externals-Android"
     
@@ -109,7 +105,6 @@ jobs:
         MSBuild.exe SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Android/Microsoft.AppCenter.Analytics.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build;
         MSBuild.exe SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Android/Microsoft.AppCenter.Crashes.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build;
         MSBuild.exe SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/Microsoft.AppCenter.Distribute.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build;
-        MSBuild.exe SDK/AppCenterPush/Microsoft.AppCenter.Push.Android/Microsoft.AppCenter.Push.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build;
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
