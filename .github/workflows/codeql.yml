@@ -90,6 +90,10 @@ jobs:
     #    uses a compiled language
 
     - run: |
+        echo "Remove NuGet.config"
+        Remove-Item NuGet.config
+
+    - run: |
         echo "Run Externals-Android"
         .\build.ps1 --target="Externals-Android"
     
