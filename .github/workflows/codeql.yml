@@ -39,19 +39,19 @@ jobs:
 
     - run: |
         echo "Build App Center"
-        msbuild SDK/AppCenter/Microsoft.AppCenter/Microsoft.AppCenter.csproj /p:Configuration=Release /restore /t:Build ; 
-        msbuild SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics/Microsoft.AppCenter.Analytics.csproj /p:UseSharedCompilation=false /restore /t:Build ;
-        msbuild SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes/Microsoft.AppCenter.Crashes.csproj /p:UseSharedCompilation=false /restore /t:Build ;
-        msbuild SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/Microsoft.AppCenter.Distribute.csproj /p:UseSharedCompilation=false /restore /t:Build ;
-        msbuild SDK/AppCenterPush/Microsoft.AppCenter.Push/Microsoft.AppCenter.Push.csproj /p:UseSharedCompilation=false /restore /t:Build;
+        msbuild SDK/AppCenter/Microsoft.AppCenter/Microsoft.AppCenter.csproj /p:Configuration=Release /restore /t:Build
+        msbuild SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics/Microsoft.AppCenter.Analytics.csproj /p:UseSharedCompilation=false /restore /t:Build
+        msbuild SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes/Microsoft.AppCenter.Crashes.csproj /p:UseSharedCompilation=false /restore /t:Build
+        msbuild SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/Microsoft.AppCenter.Distribute.csproj /p:UseSharedCompilation=false /restore /t:Build
+        msbuild SDK/AppCenterPush/Microsoft.AppCenter.Push/Microsoft.AppCenter.Push.csproj /p:UseSharedCompilation=false /restore /t:Build
 
     - run: |
         echo "Build App Center For iOS"
-        msbuild SDK/AppCenter/Microsoft.AppCenter.iOS/Microsoft.AppCenter.iOS.csproj /p:Configuration=Release /restore /t:Build ; 
-        msbuild SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.iOS/Microsoft.AppCenter.Analytics.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build ;
-        msbuild SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.iOS/Microsoft.AppCenter.Crashes.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build ;
-        msbuild SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.iOS/Microsoft.AppCenter.Distribute.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build ;
-        msbuild SDK/AppCenterPush/Microsoft.AppCenter.Push.iOS/Microsoft.AppCenter.Push.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build;
+        msbuild SDK/AppCenter/Microsoft.AppCenter.iOS/Microsoft.AppCenter.iOS.csproj /p:Configuration=Release /restore /t:Build
+        msbuild SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.iOS/Microsoft.AppCenter.Analytics.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build
+        msbuild SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.iOS/Microsoft.AppCenter.Crashes.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build
+        msbuild SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.iOS/Microsoft.AppCenter.Distribute.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build
+        msbuild SDK/AppCenterPush/Microsoft.AppCenter.Push.iOS/Microsoft.AppCenter.Push.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
@@ -90,15 +90,15 @@ jobs:
     - run: |
         echo "Restore App Center Dependencies"
         $Env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin"
-        MSBuild.exe AppCenter-SDK-Build-Windows.sln -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build; 
+        MSBuild.exe AppCenter-SDK-Build-Windows.sln -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build 
         
     - run: |
         echo "Build App Center For Android"
         $Env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin"
-        MSBuild.exe SDK/AppCenter/Microsoft.AppCenter.Android/Microsoft.AppCenter.Android.csproj -property:Configuration=Release /restore -target:Build; 
-        MSBuild.exe SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Android/Microsoft.AppCenter.Analytics.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build;
-        MSBuild.exe SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Android/Microsoft.AppCenter.Crashes.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build;
-        MSBuild.exe SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/Microsoft.AppCenter.Distribute.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build;
+        MSBuild.exe SDK/AppCenter/Microsoft.AppCenter.Android/Microsoft.AppCenter.Android.csproj -property:Configuration=Release /restore -target:Build
+        MSBuild.exe SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Android/Microsoft.AppCenter.Analytics.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
+        MSBuild.exe SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Android/Microsoft.AppCenter.Crashes.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
+        MSBuild.exe SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/Microsoft.AppCenter.Distribute.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
