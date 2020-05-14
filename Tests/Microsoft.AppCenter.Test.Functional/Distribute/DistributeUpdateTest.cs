@@ -174,7 +174,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
                 StatusCode = 200
             };
             var implicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET" && request.Uri.Contains(urlDiff));
-            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET" && request.Uri.Contains(urlDiff), response);
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
             // Start AppCenter.
@@ -205,6 +204,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             Assert.Contains(Config.ResolveAppSecret(), resultImplicit.Uri);
 
             // Check for update.
+            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET" && request.Uri.Contains(urlDiff), response);
             Distribute.CheckForUpdate();
 
             // Wait for processing event.
@@ -277,7 +277,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
                     ""size"": 4242,
                     ""mandatory_update"": {isMandatory.ToString().ToLower()},
                     ""package_hashes"": [""9f52199c986d9210842824df695900e1656180946212bd5e8978501a5b732e60""],
-                    ""distribution_group_id"": ""fd37a4b1-4937-45ef-97fb-b864154371f0"" }}";
+                    ""distribution_group_id"": ""fd37a4b1-4937-45ef-97fb-b864154371f0""}}";
         }
 
         private string GetMinApiLevelKey()
