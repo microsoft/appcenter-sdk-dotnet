@@ -173,8 +173,9 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
                 Content = GetReleaseJson("30", "3.0.0", false, 19),
                 StatusCode = 200
             };
+            var implicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET" && request.Uri.Contains(urlDiff));
+            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET" && request.Uri.Contains(urlDiff), response);
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
-            var implicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
 
             // Start AppCenter.
             AppCenter.UnsetInstance();
@@ -196,24 +197,23 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             await Distribute.IsEnabledAsync();
 
             // Wait for processing event.
-            var result = await implicitCheckForUpdateTask;
+            var resultImplicit = await implicitCheckForUpdateTask;
 
             // Verify response.
-            Assert.Equal("GET", result.Method);
-            Assert.True(result.Uri.Contains(urlDiff));
-            Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
+            Assert.Equal("GET", resultImplicit.Method);
+            Assert.Contains(urlDiff, resultImplicit.Uri);
+            Assert.Contains(Config.ResolveAppSecret(), resultImplicit.Uri);
 
             // Check for update.
             Distribute.CheckForUpdate();
 
             // Wait for processing event.
-            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", response);
-            result = await explicitCheckForUpdateTask;
+            var resultExplicit = await explicitCheckForUpdateTask;
 
             // Verify response.
-            Assert.Equal("GET", result.Method);
-            Assert.True(result.Uri.Contains(urlDiff));
-            Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
+            Assert.Equal("GET", resultExplicit.Method);
+            Assert.Contains(urlDiff, resultExplicit.Uri);
+            Assert.Contains(Config.ResolveAppSecret(), resultExplicit.Uri);
         }
 
         [Fact]
