@@ -173,9 +173,8 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
                 Content = GetReleaseJson("30", "3.0.0", false, 19),
                 StatusCode = 200
             };
-            var implicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
-            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", response);
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
+            var implicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
 
             // Start AppCenter.
             AppCenter.UnsetInstance();
@@ -208,6 +207,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             Distribute.CheckForUpdate();
 
             // Wait for processing event.
+            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", response);
             result = await explicitCheckForUpdateTask;
 
             // Verify response.
