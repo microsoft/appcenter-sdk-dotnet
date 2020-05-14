@@ -223,12 +223,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            HttpResponse response = new HttpResponse()
-            {
-                Content = GetReleaseJson("30", "3.0.0", false, 19),
-                StatusCode = 200
-            };
-            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", response, 30);
+            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", delayTimeInSeconds: 30);
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
             // Start AppCenter.
@@ -260,22 +255,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             Assert.Equal("GET", result.Method);
             Assert.Contains("releases/latest", result.Uri);
             Assert.Contains(Config.ResolveAppSecret(), result.Uri);
-        }
-
-        private string GetReleaseJson(string version, string shortVersion, bool isMandatory, int minApiVersion)
-        {
-            return $@"{{
-                    ""id"": 42,
-                    ""version"": ""{version}"",
-                    ""short_version"": ""{shortVersion}"",
-                    ""release_notes"": ""Fix a critical bug, this text was entered in App Center portal."",
-                    ""release_notes_url"": ""https://mock/"",
-                    ""{GetMinApiLevelKey()}"": {minApiVersion},
-                    ""download_url"": ""http://download.thinkbroadband.com/1GB.zip"",
-                    ""size"": 4242,
-                    ""mandatory_update"": {isMandatory.ToString().ToLower()},
-                    ""package_hashes"": [""9f52199c986d9210842824df695900e1656180946212bd5e8978501a5b732e60""],
-                    ""distribution_group_id"": ""fd37a4b1-4937-45ef-97fb-b864154371f0""}}";
         }
 
         private string GetMinApiLevelKey()
