@@ -67,8 +67,8 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
             // Verify response.
             Assert.Equal("GET", result.Method);
-            Assert.True(result.Uri.Contains("releases/latest?release_hash"));
-            Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
+            Assert.Contains("releases/latest?release_hash", result.Uri);
+            Assert.Contains(Config.ResolveAppSecret(), result.Uri);
 
             // Clear.
             DistributeEvent?.Invoke(this, DistributeTestType.Clear);
@@ -104,9 +104,9 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
             // Verify response.
             Assert.Equal("GET", result.Method);
-            Assert.True(result.Uri.Contains("public"));
-            Assert.True(result.Uri.Contains("releases/latest"));
-            Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
+            Assert.Contains("public", result.Uri);
+            Assert.Contains("releases/latest", result.Uri);
+            Assert.Contains(Config.ResolveAppSecret(), result.Uri);
 
             // Clear.
             DistributeEvent?.Invoke(this, DistributeTestType.Clear);
@@ -148,9 +148,9 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
             // Verify response.
             Assert.Equal("GET", result.Method);
-            Assert.False(result.Uri.Contains("public"));
-            Assert.True(result.Uri.Contains("releases/private/latest?release_hash"));
-            Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
+            Assert.DoesNotContain("public", result.Uri);
+            Assert.Contains("releases/private/latest?release_hash", result.Uri);
+            Assert.Contains(Config.ResolveAppSecret(), result.Uri);
 
             // Clear.
             DistributeEvent?.Invoke(this, DistributeTestType.Clear);
@@ -168,11 +168,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            HttpResponse response = new HttpResponse()
-            {
-                Content = GetReleaseJson("30", "3.0.0", false, 19),
-                StatusCode = 200
-            };
             var implicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET" && request.Uri.Contains(urlDiff));
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
@@ -204,7 +199,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             Assert.Contains(Config.ResolveAppSecret(), resultImplicit.Uri);
 
             // Check for update.
-            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET" && request.Uri.Contains(urlDiff), response);
+            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET" && request.Uri.Contains(urlDiff));
             Distribute.CheckForUpdate();
 
             // Wait for processing event.
@@ -260,8 +255,8 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Verify response.
             Assert.Equal(2, httpNetworkAdapter.CallCount);
             Assert.Equal("GET", result.Method);
-            Assert.True(result.Uri.Contains("releases/latest"));
-            Assert.True(result.Uri.Contains(Config.ResolveAppSecret()));
+            Assert.Contains("releases/latest", result.Uri);
+            Assert.Contains(Config.ResolveAppSecret(), result.Uri);
         }
 
         private string GetReleaseJson(string version, string shortVersion, bool isMandatory, int minApiVersion)
