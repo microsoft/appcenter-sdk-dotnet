@@ -198,6 +198,9 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             Assert.Contains(urlDiff, resultImplicit.Uri);
             Assert.Contains(Config.ResolveAppSecret(), resultImplicit.Uri);
 
+            // Wait a 5s for give time to complete internal processes.
+            await Task.Delay(5000);
+
             // Check for update.
             var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET" && request.Uri.Contains(urlDiff));
             Distribute.CheckForUpdate();
