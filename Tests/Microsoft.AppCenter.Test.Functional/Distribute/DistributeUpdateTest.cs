@@ -198,7 +198,8 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             Assert.Contains(urlDiff, resultImplicit.Uri);
             Assert.Contains(Config.ResolveAppSecret(), resultImplicit.Uri);
 
-            // Wait a 5s for give time to complete internal processes.
+            // Wait a 5s for give time to complete internal processes
+            // to avoid this case `A check for update is already ongoing.`
             await Task.Delay(5000);
 
             // Check for update.
@@ -255,15 +256,6 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             Assert.Equal("GET", result.Method);
             Assert.Contains("releases/latest", result.Uri);
             Assert.Contains(Config.ResolveAppSecret(), result.Uri);
-        }
-
-        private string GetMinApiLevelKey()
-        {
-            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.iOS)
-            {
-                return "min_os";
-            }
-            return "android_min_api_level";
         }
     }
 }
