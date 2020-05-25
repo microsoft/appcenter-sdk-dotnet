@@ -14,7 +14,7 @@
                 "type": "git",
                 "git": {
                     "repositoryUrl": "https://github.com/microsoft/appcenter-sdk-apple.git",
-                    "commitHash": "9cda019f382e53844f369e168fd02ad457b11c07"
+                    "commitHash": "0daf878bbb2942261eeb54b7af0722f8c1434a2a"
                 }
             }
         }
