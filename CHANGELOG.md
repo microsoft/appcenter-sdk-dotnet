@@ -1,12 +1,22 @@
 # App Center SDK for .NET Change Log
 
-## Version 3.2.2 (Under development)
+## Version 3.2.2
 
 ### App Center
 
 #### Android
 
 * **[Fix]** Fix reporting Xamarin.Android version.
+
+#### iOS
+
+* **[Improvement]** Use namespaced `NSUserDefaults` keys with the **MSAppCenter** prefix for all the keys set by the SDK. Fixed a few keys missing namespace.
+
+### App Center Crashes
+
+#### iOS
+
+* **[Improvement]** Update PLCrashReporter to 1.6.0.
 
 ___
 
