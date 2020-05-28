@@ -1,5 +1,9 @@
 # App Center SDK for .NET Change Log
 
+## Version 3.2.3 (Under development)
+
+___
+
 ## Version 3.2.2
 
 ### App Center
