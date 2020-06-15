@@ -6,7 +6,7 @@
 #addin nuget:?package=Cake.Incubator&version=2.0.2
 #addin nuget:?package=Cake.SemVer&version=2.0.0
 #addin nuget:?package=semver&version=2.0.4
-#addin "Cake.Json"
+#addin nuget:?package=Cake.Json&version=3.0.1
 #load "scripts/utility.cake"
 #load "scripts/configuration/config-parser.cake"
 
@@ -18,12 +18,6 @@ using System.Xml.XPath;
 
 const string AndroidSdkRepoName = "microsoft/appcenter-sdk-android";
 const string AppleSdkRepoName = "microsoft/appcenter-sdk-apple";
-
-var ReposToUpdate = new List<string>()
-{ 
-    AndroidSdkRepoName,
-    AppleSdkRepoName
-};
 
 // Task TARGET for build
 var TARGET = Argument("target", Argument("t", ""));
@@ -454,13 +448,7 @@ void UpdateCommitHash(JToken component)
 {
     var gitData = component["git"];
     var repoUrl = gitData["repositoryUrl"].Value<string>();
-    var currentRepoName = ReposToUpdate.FirstOrDefault(repo => repoUrl.Contains(repo));
-    if (string.IsNullOrEmpty(currentRepoName))
-    {
-        Warning($"Repository url: {repoUrl}. Current component should not be updated.");
-        return;
-    }
-
+    var currentRepoName = repoUrl.Contains(AndroidSdkRepoName) ? AndroidSdkRepoName : AppleSdkRepoName;
     var releaseTag = GetReleaseTag(currentRepoName);
     if (string.IsNullOrEmpty(releaseTag))
     {
