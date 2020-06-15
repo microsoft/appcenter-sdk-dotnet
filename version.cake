@@ -6,6 +6,7 @@
 #addin nuget:?package=Cake.Incubator&version=2.0.2
 #addin nuget:?package=Cake.SemVer&version=2.0.0
 #addin nuget:?package=semver&version=2.0.4
+#addin "Cake.Json"
 #load "scripts/utility.cake"
 #load "scripts/configuration/config-parser.cake"
 
@@ -15,8 +16,14 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-var AndroidSdkRepoName = "microsoft/appcenter-sdk-android";
-var AppleSdkRepoName = "microsoft/appcenter-sdk-apple";
+const string AndroidSdkRepoName = "microsoft/appcenter-sdk-android";
+const string AppleSdkRepoName = "microsoft/appcenter-sdk-apple";
+
+var ReposToUpdate = new List<string>()
+{ 
+    AndroidSdkRepoName,
+    AppleSdkRepoName
+};
 
 // Task TARGET for build
 var TARGET = Argument("target", Argument("t", ""));
@@ -402,6 +409,88 @@ void ReplaceRegexInFilesWithExclusion(string globberPattern, string regEx, strin
 public void UpdateConfigFileSdkVersion(string newVersion)
 {
     ReplaceRegexInFiles(ConfigFile.Path, @"<sdkVersion>[\.|A-z|0-9|-]*<\/sdkVersion>", $"<sdkVersion>{newVersion}</sdkVersion>");
+}
+
+Task("UpdateCgManifest").Does(()=>
+{
+    try
+    {
+        var manifestFilePath = "cgmanifest.json";
+        var content = ParseJsonFromFile(manifestFilePath);
+        var registrations = (JArray)content["Registrations"];
+        foreach (var registration in registrations.Children())
+        {
+            HanldeRegistration(registration);
+        }
+
+        SerializeJsonToPrettyFile(manifestFilePath, content);
+    }
+    catch (Exception e)
+    {
+        Warning($"Can't update 'cgmanifest.json'. Error message: {e.Message}");
+    }
+});
+
+void HanldeRegistration(JToken registration)
+{
+    var component = registration["component"];
+    if (component == null) 
+    {
+        Warning("Current registration has no 'component' property.");
+        return;
+    }
+
+    var typeObject = component["type"];
+    if (typeObject == null || typeObject.Value<string>() != "git")
+    {
+        Warning("Current component has no field 'type' or 'type' is not 'git'.");
+        return;
+    }
+
+    UpdateCommitHash(component);
+}
+
+void UpdateCommitHash(JToken component)
+{
+    var gitData = component["git"];
+    var repoUrl = gitData["repositoryUrl"].Value<string>();
+    var currentRepoName = ReposToUpdate.FirstOrDefault(repo => repoUrl.Contains(repo));
+    if (string.IsNullOrEmpty(currentRepoName))
+    {
+        Warning($"Repository url: {repoUrl}. Current component should not be updated.");
+        return;
+    }
+
+    var releaseTag = GetReleaseTag(currentRepoName);
+    if (string.IsNullOrEmpty(releaseTag))
+    {
+        Warning($"Repository url: {repoUrl}. Release tag '{releaseTag}' was not found.");
+        return;
+    }
+
+    var tagsRequest = CreateGitHubRequest($"repos/{currentRepoName}/tags");
+    var tagsListJson = GetResponseJsonArray(tagsRequest);
+    var tag = tagsListJson.Children().FirstOrDefault(t => t["name"].Value<string>() == releaseTag);
+    if (tag == null)
+    {
+        Warning($"Repository url: {repoUrl}. Tag '{tag}' was not found.");
+        return;
+    }
+
+    gitData["commitHash"] = tag["commit"]["sha"].Value<string>();
+}
+
+string GetReleaseTag(string currentRepoName)
+{
+    switch (currentRepoName)
+    {
+        case AndroidSdkRepoName:
+            return VersionReader.AndroidVersion;
+        case AppleSdkRepoName:
+            return VersionReader.IosVersion;
+        default:
+            return null;
+    }
 }
 
 RunTarget(TARGET);
