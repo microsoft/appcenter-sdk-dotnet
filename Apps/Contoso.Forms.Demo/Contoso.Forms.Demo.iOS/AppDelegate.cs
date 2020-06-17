@@ -15,7 +15,7 @@ namespace Contoso.Forms.Demo.iOS
     [Register("AppDelegate")]
     public class AppDelegate : Xamarin.Forms.Platform.iOS.FormsApplicationDelegate, IClearCrashClick
     {
-        private const string CrashesUserConfirmationStorageKey = "MSUserConfirmation";
+        private const string CrashesUserConfirmationStorageKey = "MSAppCenterCrashesUserConfirmation";
 
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
