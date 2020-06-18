@@ -18,6 +18,7 @@ using System.Xml.XPath;
 
 const string AndroidSdkRepoName = "microsoft/appcenter-sdk-android";
 const string AppleSdkRepoName = "microsoft/appcenter-sdk-apple";
+const string GitHubTagsUrlFormat = "repos/{0}/tags";
 
 // Task TARGET for build
 var TARGET = Argument("target", Argument("t", ""));
@@ -456,7 +457,7 @@ void UpdateCommitHash(JToken component)
         return;
     }
 
-    var tagsRequest = CreateGitHubRequest($"repos/{currentRepoName}/tags");
+    var tagsRequest = CreateGitHubRequest(string.Format(GitHubTagsUrlFormat, currentRepoName));
     var tagsListJson = GetResponseJsonArray(tagsRequest);
     var tag = tagsListJson.Children().FirstOrDefault(t => t["name"].Value<string>() == releaseTag);
     if (tag == null)
