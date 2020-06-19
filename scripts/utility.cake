@@ -82,11 +82,12 @@ Task("clean")
 
 JObject GetResponseJson(HttpWebRequest request)
 {
-    using (var response = request.GetResponse())
-    using (var reader = new StreamReader(response.GetResponseStream()))
-    {
-        return JObject.Parse(reader.ReadToEnd());
-    }
+    return GetHandledResponseJson(JObject.Parse, request);
+}
+
+JArray GetResponseJsonArray(HttpWebRequest request)
+{
+    return GetHandledResponseJson(JArray.Parse, request);
 }
 
 // Gets the latest repository release version. 
@@ -107,4 +108,13 @@ HttpWebRequest CreateGitHubRequest(string path)
     request.Accept = "application/vnd.github.v3+json";
     request.UserAgent = "Microsoft";
     return request;
+}
+
+private T GetHandledResponseJson<T>(Func<string, T> responseHandler, HttpWebRequest request) where T : JContainer
+{
+    using (var response = request.GetResponse())
+    using (var reader = new StreamReader(response.GetResponseStream()))
+    {
+        return responseHandler(reader.ReadToEnd());
+    }
 }
