@@ -363,6 +363,9 @@ namespace Microsoft.AppCenter.Crashes
                     // Get error report (will be in cache).
                     var errorReport = BuildErrorReport(log);
 
+                    //set ErrorReportID
+                    ErrorReportID = errorReport.Id;
+
                     // This must never be called while a lock is held.
                     var attachments = GetErrorAttachments?.Invoke(errorReport);
                     if (attachments == null)
@@ -483,5 +486,7 @@ namespace Microsoft.AppCenter.Crashes
         {
             Instance = null;
         }
+
+        public string ErrorReportID { get; set; }
     }
 }
