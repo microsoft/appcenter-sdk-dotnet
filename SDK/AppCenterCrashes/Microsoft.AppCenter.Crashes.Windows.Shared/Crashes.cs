@@ -100,9 +100,9 @@ namespace Microsoft.AppCenter.Crashes
             Instance.InstanceHandlerUserConfirmation(userConfirmation);
         }
 
-        private static void PlatformTrackError(System.Exception exception, IDictionary<string, string> properties, ErrorAttachmentLog[] attachments)
+        private static Guid PlatformTrackError(System.Exception exception, IDictionary<string, string> properties, ErrorAttachmentLog[] attachments)
         {
-            Instance.InstanceTrackError(exception, properties, attachments);
+            return Instance.InstanceTrackError(exception, properties, attachments);
         }
 
         /// <summary>
@@ -363,9 +363,6 @@ namespace Microsoft.AppCenter.Crashes
                     // Get error report (will be in cache).
                     var errorReport = BuildErrorReport(log);
 
-                    //set ErrorReportID
-                    ErrorReportID = errorReport.Id;
-
                     // This must never be called while a lock is held.
                     var attachments = GetErrorAttachments?.Invoke(errorReport);
                     if (attachments == null)
@@ -381,13 +378,13 @@ namespace Microsoft.AppCenter.Crashes
             return Task.WhenAll(tasks);
         }
 
-        private void InstanceTrackError(System.Exception exception, IDictionary<string, string> properties, ErrorAttachmentLog[] attachments)
+        private Guid InstanceTrackError(System.Exception exception, IDictionary<string, string> properties, ErrorAttachmentLog[] attachments)
         {
             lock (_serviceLock)
             {
                 if (IsInactive)
                 {
-                    return;
+                    return Guid.Empty;
                 }
                 properties = PropertyValidator.ValidateProperties(properties, "HandledError");
                 var exceptionAndBinaries = ErrorLogHelper.CreateModelExceptionAndBinaries(exception);
@@ -395,6 +392,7 @@ namespace Microsoft.AppCenter.Crashes
                 var log = new HandledErrorLog(exception: exceptionAndBinaries.Exception, binaries: exceptionAndBinaries.Binaries, properties: properties, id: errorId, device: null, userId: UserIdContext.Instance.UserId);
                 Channel.EnqueueAsync(log);
                 SendErrorAttachmentsAsync(errorId, attachments);
+                return errorId;
             }
         }
 
@@ -487,6 +485,5 @@ namespace Microsoft.AppCenter.Crashes
             Instance = null;
         }
 
-        public string ErrorReportID { get; set; }
     }
 }
