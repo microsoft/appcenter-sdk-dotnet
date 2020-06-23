@@ -59,7 +59,7 @@
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.2.3" />
     <PackageReference Include="Microsoft.AppCenter.Distribute" Version="3.2.3" />
     <PackageReference Include="Microsoft.AppCenter.Push" Version="3.2.3" />
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.800" />
+    <PackageReference Include="Xamarin.Forms" Version="4.7.0.968" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
