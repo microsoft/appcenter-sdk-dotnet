@@ -1,6 +1,23 @@
 # App Center SDK for .NET Change Log
 
-## Version 3.2.3 (Under development)
+## Version 3.2.3
+
+### App Center
+
+#### Android
+
+* **[Fix]** Fix possible delays in UI thread when queueing a large number of events.
+
+#### iOS
+
+* **[Fix]** Fix crash when local binary data (where unsent logs or unprocessed crashed are stored) is corrupted.
+* **[Fix]** When carrier name is retrieved incorrectly by iOS, show `nil` as expected instead of "carrier" string.
+
+### App Center Crashes
+
+#### iOS
+
+* **[Improvement]** Update PLCrashReporter to 1.7.0.
 
 ___
 
