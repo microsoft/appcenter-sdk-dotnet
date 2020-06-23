@@ -4,9 +4,9 @@
     <TargetFrameworks>netcoreapp3.0;net461</TargetFrameworks>
     <RootNamespace>Microsoft.AppCenter</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>3.2.2-SNAPSHOT</Version>
+    <Version>3.2.3-SNAPSHOT</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>3.2.2.0</FileVersion>
+    <FileVersion>3.2.3.0</FileVersion>
     <AssemblyName>Microsoft.AppCenter</AssemblyName>
     <DocumentationFile>bin\Microsoft.AppCenter.xml</DocumentationFile>
   </PropertyGroup>
