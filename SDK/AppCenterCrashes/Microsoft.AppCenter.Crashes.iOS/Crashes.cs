@@ -77,15 +77,18 @@ namespace Microsoft.AppCenter.Crashes
         {
             NSDictionary propertyDictionary = properties != null ? StringDictToNSDict(properties) : new NSDictionary();
             NSMutableArray attachmentArray = new NSMutableArray();
-            foreach (var attachment in attachments)
+            if (attachments != null)
             {
-                if (attachment?.internalAttachment != null)
+                foreach (var attachment in attachments)
                 {
-                    attachmentArray.Add(attachment.internalAttachment);
-                }
-                else
-                {
-                    AppCenterLog.Warn(LogTag, "Skipping null ErrorAttachmentLog in Crashes.TrackError.");
+                    if (attachment?.internalAttachment != null)
+                    {
+                        attachmentArray.Add(attachment.internalAttachment);
+                    }
+                    else
+                    {
+                        AppCenterLog.Warn(LogTag, "Skipping null ErrorAttachmentLog in Crashes.TrackError.");
+                    }
                 }
             }
             MSWrapperCrashesHelper.TrackModelException(GenerateiOSException(exception, false), propertyDictionary, attachmentArray);
