@@ -18,6 +18,7 @@
 #### iOS
 
 * **[Improvement]** Update PLCrashReporter to 1.7.0.
+* **[Fix]** Fix TrackError when attachments are null.
 
 ___
 
