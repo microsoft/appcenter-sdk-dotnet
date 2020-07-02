@@ -1,6 +1,6 @@
 # App Center SDK for .NET Change Log
 
-## Version 3.2.3
+## Version 3.2.4
 
 ### App Center
 
@@ -17,7 +17,8 @@
 
 #### iOS
 
-* **[Improvement]** Update PLCrashReporter to 1.7.0.
+* **[Improvement]** Update PLCrashReporter to 1.7.1.
+* **[Fix]** Fix reporting stacktraces on iOS and tvOS simulators.
 * **[Fix]** Add attachments verification in `TrackError` function to handle explicitly passed `null` array to variable arguments parameter.
 
 ___
