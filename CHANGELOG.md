@@ -18,6 +18,7 @@
 #### iOS
 
 * **[Improvement]** Update PLCrashReporter to 1.7.0.
+* **[Fix]** Add attachments verification in `TrackError` function to handle explicitly passed `null` array to variable arguments parameter.
 
 ___
 
