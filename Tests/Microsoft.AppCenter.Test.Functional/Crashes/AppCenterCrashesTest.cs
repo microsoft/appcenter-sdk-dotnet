@@ -30,7 +30,8 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
-            var eventTask = httpNetworkAdapter.MockRequestByLogType(typeEvent);
+            var eventTask1 = httpNetworkAdapter.MockRequestByLogType(typeEvent);
+            var eventTask2 = httpNetworkAdapter.MockRequestByLogType(typeEvent);
 
             // Start App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
@@ -39,10 +40,17 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             // Wait for "startService" log to be sent.
             await startServiceTask;
 
-            Crashes.TrackError(new Exception("The answert is 42"));
-            RequestData requestData = await eventTask;
-            var events = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList();
-            Assert.Equal(1, events.Count());
+            // Check track error without attachments.
+            Crashes.TrackError(new Exception("The answert is 1"));
+            RequestData requestData1 = await eventTask1;
+            var events1 = requestData1.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList();
+            Assert.Single(events1);
+
+            // Check track error when attachments are null.
+            Crashes.TrackError(new Exception("The answert is 2"), null, null);
+            RequestData requestData2 = await eventTask2;
+            var events2 = requestData2.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList();
+            Assert.Single(events2);
         }
 
         [Fact]
