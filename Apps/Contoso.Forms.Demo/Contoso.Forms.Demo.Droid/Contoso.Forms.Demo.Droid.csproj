@@ -47,6 +47,7 @@
     <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
     <EnableProguard>true</EnableProguard>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AndroidLinkTool>r8</AndroidLinkTool>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -55,11 +56,11 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.2.2" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.2.2" />
-    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="3.2.2" />
-    <PackageReference Include="Microsoft.AppCenter.Push" Version="3.2.2" />
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.800" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.2.3" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.2.3" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="3.2.3" />
+    <PackageReference Include="Microsoft.AppCenter.Push" Version="3.2.3" />
+    <PackageReference Include="Xamarin.Forms" Version="4.7.0.968" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
