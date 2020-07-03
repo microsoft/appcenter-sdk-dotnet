@@ -39,10 +39,11 @@ namespace Microsoft.AppCenter.Test.Functional.Crashes
             // Wait for "startService" log to be sent.
             await startServiceTask;
 
-            Crashes.TrackError(new Exception("The answert is 42"));
+            // Check track error without attachments.
+            Crashes.TrackError(new Exception("The answert is 1"));
             RequestData requestData = await eventTask;
             var events = requestData.JsonContent.SelectTokens($"$.logs[?(@.type == '{typeEvent}')]").ToList();
-            Assert.Equal(1, events.Count());
+            Assert.Single(events);
         }
 
         [Fact]
