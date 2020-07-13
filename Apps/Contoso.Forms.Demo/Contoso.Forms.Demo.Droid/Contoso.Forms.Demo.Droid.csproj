@@ -49,16 +49,35 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidLinkTool>r8</AndroidLinkTool>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GooglePlay|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\GooglePlay</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <AndroidUseAapt2>true</AndroidUseAapt2>
+    <AndroidDexTool>d8</AndroidDexTool>
+    <AndroidLinkTool>r8</AndroidLinkTool>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AndroidSupportedAbis>armeabi-v7a</AndroidSupportedAbis>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
   </ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)'=='GooglePlay' ">
+    <PackageReference Include="Microsoft.AppCenter.DistributePlay" Version="3.3.0" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)'!='GooglePlay' ">
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="3.3.0" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.3.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.3.0" />
-    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="3.3.0" />
     <PackageReference Include="Microsoft.AppCenter.Push" Version="3.3.0" />
     <PackageReference Include="Xamarin.Forms" Version="4.7.0.1080" />
   </ItemGroup>
