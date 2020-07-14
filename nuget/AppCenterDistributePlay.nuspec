@@ -21,6 +21,7 @@
   <files>
 
     <!-- Android -->
+    <file src="$android_dir$/Microsoft.AppCenter.DistributePlay.dll" target="lib/MonoAndroid403" />
     <file src="$android_dir$/Microsoft.AppCenter.DistributePlay.xml" target="lib/MonoAndroid403" />
 
   </files>
