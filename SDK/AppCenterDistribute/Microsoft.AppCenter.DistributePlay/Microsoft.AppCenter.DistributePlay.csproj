@@ -5,13 +5,12 @@
     <TargetFramework>monoandroid70</TargetFramework>
     <Optimize>true</Optimize>
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
-    <Product>Microsoft.AppCenter.Distribute</Product>
+    <Product>Microsoft.AppCenter.DistributePlay</Product>
     <Company>Microsoft Corporation</Company>
     <Version>3.2.2-SNAPSHOT</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
     <FileVersion>3.2.2.0</FileVersion>
-    <AssemblyTitle>Microsoft.AppCenter.Distribute</AssemblyTitle>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Distribute.xml</DocumentationFile>
+    <AssemblyTitle>Microsoft.AppCenter.DistributePlay</AssemblyTitle>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
