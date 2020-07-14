@@ -7,8 +7,7 @@
     <owners>microsoft,appcenter</owners>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <summary>Microsoft App Center Distribute package provides in-app update capabilities for your mobile applications.</summary>
-    <description>This package stubs Distribute APIs not to violate Google's guidelines on application lifecycle. Only to for the use in assemblies which are to  be published on Google Play Store.</description>
-    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <description>This package stubs Distribute APIs not to violate Google's guidelines on application lifecycle. Only to for the use in assemblies which are to  be published on Google Play Store.</description>    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <tags>app center appcenter distribute mobilecenter</tags>
     <language>en-US</language>
     <projectUrl>https://aka.ms/telgml</projectUrl>
@@ -17,6 +16,7 @@
     <dependencies>
       <dependency id="Microsoft.AppCenter" version="$version$" />
     </dependencies>
+    <version>$version$</version>
   </metadata>
   <files>
 
