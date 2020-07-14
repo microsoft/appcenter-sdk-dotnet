@@ -55,15 +55,13 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\GooglePlay</OutputPath>
     <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <AndroidPackageFormat>apk</AndroidPackageFormat>
-    <AndroidUseAapt2>true</AndroidUseAapt2>
-    <AndroidDexTool>d8</AndroidDexTool>
-    <AndroidLinkTool>proguard</AndroidLinkTool>
-    <JavaMaximumHeapSize></JavaMaximumHeapSize>
-    <AndroidManifest></AndroidManifest>
+    <AndroidManagedSymbols>true</AndroidManagedSymbols>
+    <AndroidLinkMode>Full</AndroidLinkMode>
+    <AndroidLinkSkip>Xamarin.Android.Support.v7.AppCompat;Xamarin.Android.Support.Core.UI;Microsoft.AppCenter.Crashes</AndroidLinkSkip>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
-    <AndroidSupportedAbis>armeabi-v7a</AndroidSupportedAbis>
+    <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
+    <EnableProguard>true</EnableProguard>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -310,13 +308,13 @@
       <Project>{DF7C7C03-E335-4C23-83BA-8E490AC5B61D}</Project>
       <Name>Microsoft.AppCenter.Push.Android</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\SDK\AppCenterPush\Microsoft.AppCenter.Push.Android.Bindings\Microsoft.AppCenter.Push.Android.Bindings.csproj">
-      <Project>{80B9A47A-7A97-4E5A-9706-43ACB25A7240}</Project>
-      <Name>Microsoft.AppCenter.Push.Android.Bindings</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Android.Bindings\Microsoft.AppCenter.Distribute.Android.Bindings.csproj">
       <Project>{11D31A79-0F09-4708-8097-3D1C5D886547}</Project>
       <Name>Microsoft.AppCenter.Distribute.Android.Bindings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SDK\AppCenterPush\Microsoft.AppCenter.Push.Android.Bindings\Microsoft.AppCenter.Push.Android.Bindings.csproj">
+      <Project>{80B9A47A-7A97-4E5A-9706-43ACB25A7240}</Project>
+      <Name>Microsoft.AppCenter.Push.Android.Bindings</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
