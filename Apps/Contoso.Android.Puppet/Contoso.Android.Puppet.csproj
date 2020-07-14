@@ -177,16 +177,15 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'=='GooglePlay' ">
-    <!--TODO-->
+    <ProjectReference Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.DistributePlay\Microsoft.AppCenter.DistributePlay.csproj">
+      <Project>{12FF287D-BC25-4680-9077-4E8C271B543B}</Project>
+      <Name>Microsoft.AppCenter.DistributePlay</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'!='GooglePlay' ">
     <ProjectReference Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Android\Microsoft.AppCenter.Distribute.Android.csproj">
       <Project>{AD38DEE9-8A74-4B04-93C3-0831B55E7254}</Project>
       <Name>Microsoft.AppCenter.Distribute.Android</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Android.Bindings\Microsoft.AppCenter.Distribute.Android.Bindings.csproj">
-      <Project>{11D31A79-0F09-4708-8097-3D1C5D886547}</Project>
-      <Name>Microsoft.AppCenter.Distribute.Android.Bindings</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +220,10 @@
     <ProjectReference Include="..\..\SDK\AppCenterPush\Microsoft.AppCenter.Push.Android.Bindings\Microsoft.AppCenter.Push.Android.Bindings.csproj">
       <Project>{80B9A47A-7A97-4E5A-9706-43ACB25A7240}</Project>
       <Name>Microsoft.AppCenter.Push.Android.Bindings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Android.Bindings\Microsoft.AppCenter.Distribute.Android.Bindings.csproj">
+      <Project>{11D31A79-0F09-4708-8097-3D1C5D886547}</Project>
+      <Name>Microsoft.AppCenter.Distribute.Android.Bindings</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
