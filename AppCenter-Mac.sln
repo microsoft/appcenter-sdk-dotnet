@@ -93,8 +93,6 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Shared.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.UtilClassLibrary", "Apps\Contoso.UtilClassLibrary\Contoso.UtilClassLibrary.csproj", "{D0FC73E2-AE97-495B-B41B-61CD422A8AE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.DistributePlay", "SDK\AppCenterDistribute\Microsoft.AppCenter.DistributePlay\Microsoft.AppCenter.DistributePlay.csproj", "{EBCEE3A8-35B0-4D87-8457-D2029B9E56A5}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		SDK\AppCenter\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems*{119c1730-e109-4bc9-aa89-9dca2c50bfd5}*SharedItemsImports = 4
@@ -1877,7 +1875,6 @@ Global
 		{CAE55C79-1601-400D-86BF-03AB8CC5B8B9} = {7FAAA086-4453-4B62-AD9A-2E2ED216E3C4}
 		{7076E711-FE72-4EC0-8335-045EEFC1100C} = {13744327-9529-490B-A970-06A1D3144117}
 		{D0FC73E2-AE97-495B-B41B-61CD422A8AE9} = {274AB35C-68B4-4EFA-803B-8A7CFEC25EFC}
-		{EBCEE3A8-35B0-4D87-8457-D2029B9E56A5} = {B0562DBB-3784-4F1C-A355-61CFD44ED963}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

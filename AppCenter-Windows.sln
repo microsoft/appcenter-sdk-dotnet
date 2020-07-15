@@ -118,8 +118,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contoso.WinForms.Demo.DotNe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contoso.UtilClassLibrary", "Apps\Contoso.UtilClassLibrary\Contoso.UtilClassLibrary.csproj", "{A42BE92C-616D-4333-9F6A-D05BA547BFC6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.DistributePlay", "SDK\AppCenterDistribute\Microsoft.AppCenter.DistributePlay\Microsoft.AppCenter.DistributePlay.csproj", "{332DD742-D454-4C39-9C75-4ACD79BE07E9}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Tests\Microsoft.AppCenter.Test.WindowsDesktop.Shared\Microsoft.AppCenter.Test.WindowsDesktop.Shared.projitems*{09f38506-8def-431d-a749-df7e73a719f0}*SharedItemsImports = 13
@@ -133,7 +131,6 @@ Global
 		SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.projitems*{2f715d51-643c-4f7f-9ea4-6554d4eeccb2}*SharedItemsImports = 5
 		Tests\Microsoft.AppCenter.Test.WindowsDesktop.Shared\Microsoft.AppCenter.Test.WindowsDesktop.Shared.projitems*{2ffff8c2-e190-4b83-9ad8-19f0e2ac6088}*SharedItemsImports = 5
 		SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems*{302f0881-77ae-4cce-acf4-930ad5d4fb08}*SharedItemsImports = 5
-		SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Shared\Microsoft.AppCenter.Distribute.Shared.projitems*{332dd742-d454-4c39-9c75-4acd79be07e9}*SharedItemsImports = 5
 		SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.projitems*{3f190edf-f524-4b8d-9031-cd7b045eb6a5}*SharedItemsImports = 13
 		SDK\AppCenter\Microsoft.AppCenter.Shared.Xamarin\Microsoft.AppCenter.Shared.Xamarin.projitems*{3fe04b97-48de-4895-8612-ecbdfebd917c}*SharedItemsImports = 5
 		SDK\AppCenter\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems*{3fe04b97-48de-4895-8612-ecbdfebd917c}*SharedItemsImports = 5
@@ -899,26 +896,6 @@ Global
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|x64.Build.0 = Release|Any CPU
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|x86.ActiveCfg = Release|Any CPU
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6}.Release|x86.Build.0 = Release|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Debug|ARM.Build.0 = Debug|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Debug|x64.Build.0 = Debug|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Debug|x86.Build.0 = Debug|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Release|ARM.ActiveCfg = Release|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Release|ARM.Build.0 = Release|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Release|ARM64.Build.0 = Release|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Release|x64.ActiveCfg = Release|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Release|x64.Build.0 = Release|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Release|x86.ActiveCfg = Release|Any CPU
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -974,7 +951,6 @@ Global
 		{5BFC9B9D-FD5B-4BFB-8079-DD7A686B1FEE} = {AA6821F3-930A-49E4-BA3F-D68255F39F1E}
 		{C795494B-561C-4668-93CC-6BB4CA78A70F} = {AA6821F3-930A-49E4-BA3F-D68255F39F1E}
 		{A42BE92C-616D-4333-9F6A-D05BA547BFC6} = {AA6821F3-930A-49E4-BA3F-D68255F39F1E}
-		{332DD742-D454-4C39-9C75-4ACD79BE07E9} = {44E43AB9-E48B-4162-BEAA-2D59651DB6FA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {328868E2-F749-412D-B82F-84A683A1719C}
