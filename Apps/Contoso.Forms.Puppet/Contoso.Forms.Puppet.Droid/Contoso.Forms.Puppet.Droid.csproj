@@ -263,12 +263,6 @@
     <AndroidResource Include="Resources\drawable\ic_appcenter_logo.xml" />
     <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(Configuration)'=='GooglePlay' ">
-    <ProjectReference Include="..\..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.DistributePlay\Microsoft.AppCenter.DistributePlay.csproj">
-      <Project>{EBCEE3A8-35B0-4D87-8457-D2029B9E56A5}</Project>
-      <Name>Microsoft.AppCenter.DistributePlay</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'!='GooglePlay' ">
     <ProjectReference Include="..\..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Android.Bindings\Microsoft.AppCenter.Distribute.Android.Bindings.csproj">
       <Project>{11D31A79-0F09-4708-8097-3D1C5D886547}</Project>

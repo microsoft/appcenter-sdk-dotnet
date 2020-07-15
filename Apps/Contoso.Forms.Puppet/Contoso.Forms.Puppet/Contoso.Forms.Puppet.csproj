@@ -15,34 +15,14 @@
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
   </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType></DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GooglePlay|AnyCPU' ">
-    <IntermediateOutputPath>obj\GooglePlay</IntermediateOutputPath>
-    <DebugType></DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\GooglePlay</OutputPath>
-    <DefineConstants>TRACE;RELEASE;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="Xamarin.Forms" Version="4.1.0.581479" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(Configuration)'=='GooglePlay' ">
-    <!--TODO-->
-  </ItemGroup>
-  <ItemGroup Condition=" '$(Configuration)'!='GooglePlay' ">
-    <ProjectReference Include="..\..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute\Microsoft.AppCenter.Distribute.csproj">
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\SDK\AppCenter\Microsoft.AppCenter\Microsoft.AppCenter.csproj">
     </ProjectReference>
     <ProjectReference Include="..\..\..\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics\Microsoft.AppCenter.Analytics.csproj">
     </ProjectReference>
     <ProjectReference Include="..\..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes\Microsoft.AppCenter.Crashes.csproj">
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute\Microsoft.AppCenter.Distribute.csproj">
     </ProjectReference>
     <ProjectReference Include="..\..\..\SDK\AppCenterPush\Microsoft.AppCenter.Push\Microsoft.AppCenter.Push.csproj">
     </ProjectReference>

@@ -69,9 +69,6 @@
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(Configuration)'=='GooglePlay' ">
-    <PackageReference Include="Microsoft.AppCenter.DistributePlay" Version="3.3.0" />
-  </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'!='GooglePlay' ">
     <PackageReference Include="Microsoft.AppCenter.Distribute" Version="3.3.0" />
   </ItemGroup>
