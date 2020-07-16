@@ -8,11 +8,6 @@
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
     <FileVersion>3.3.0.0</FileVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GooglePlay|AnyCPU' ">
-    <IntermediateOutputPath>obj\GooglePlay</IntermediateOutputPath>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\GooglePlay</OutputPath>
-  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.3.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.3.0" />
