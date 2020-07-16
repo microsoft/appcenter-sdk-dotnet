@@ -13,6 +13,9 @@
     <AssemblyTitle>Microsoft.AppCenter.Distribute</AssemblyTitle>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Distribute.xml</DocumentationFile>
   </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'MonoAndroid70'">
+    <AndroidResource Include="Resources\values\Strings.xml" />
+  </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>

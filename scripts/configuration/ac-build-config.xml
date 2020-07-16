@@ -28,7 +28,6 @@
         <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/bin/Release/Microsoft.AppCenter.Distribute.Android.Bindings.dll"/>
         <assembly path="SDK/AppCenterPush/Microsoft.AppCenter.Push.Android/bin/Release/Microsoft.AppCenter.Push.dll"/>
         <assembly path="SDK/AppCenterPush/Microsoft.AppCenter.Push.Android.Bindings/bin/Release/Microsoft.AppCenter.Push.Android.Bindings.dll"/>
-        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/bin/Release/MonoAndroid70/Microsoft.AppCenter.DistributePlay.dll"/>
     </group>
     <group id="netstandard" folder="NETStandardAssemblies" buildGroup="mac">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter/bin/Release/netstandard1.0/Microsoft.AppCenter.dll"/>
@@ -63,7 +62,6 @@
     <module dotnetModule="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics" nuspec="AppCenterAnalytics.nuspec"/>
     <module dotnetModule="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes" nuspec="AppCenterCrashes.nuspec"/>
     <module dotnetModule="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute" nuspec="AppCenterDistribute.nuspec"/>
-    <module dotnetModule="SDK/AppCenterDistribute/Microsoft.AppCenter.DistributePlay" nuspec="AppCenterDistributePlay.nuspec"/>
     <module dotnetModule="SDK/AppCenterPush/Microsoft.AppCenter.Push" nuspec="AppCenterPush.nuspec"/>
     <buildGroup platformId="mac" solutionPath="AppCenter-SDK-Build-Mac.sln">
         <build configuration="Release"/>
