@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <AndroidLinkTool>r8</AndroidLinkTool>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType></DebugType>
@@ -43,6 +44,7 @@
     <AndroidLinkMode>Full</AndroidLinkMode>
     <EnableProguard>true</EnableProguard>
     <AndroidLinkSkip>Xamarin.Android.Support.v7.AppCompat;Xamarin.Android.Support.Design</AndroidLinkSkip>
+    <AndroidLinkTool>r8</AndroidLinkTool>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GooglePlay|AnyCPU' ">
     <DebugType></DebugType>
@@ -54,7 +56,7 @@
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidDexTool>d8</AndroidDexTool>
-    <AndroidLinkTool>proguard</AndroidLinkTool>
+    <AndroidLinkTool>r8</AndroidLinkTool>
     <JavaMaximumHeapSize></JavaMaximumHeapSize>
     <AndroidManifest></AndroidManifest>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
