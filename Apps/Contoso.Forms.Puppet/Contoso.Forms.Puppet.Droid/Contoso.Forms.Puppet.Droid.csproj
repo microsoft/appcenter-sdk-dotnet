@@ -48,6 +48,22 @@
     <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
     <EnableProguard>true</EnableProguard>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AndroidLinkTool>r8</AndroidLinkTool>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GooglePlay|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\GooglePlay</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AndroidManagedSymbols>true</AndroidManagedSymbols>
+    <AndroidLinkMode>Full</AndroidLinkMode>
+    <AndroidLinkSkip>Xamarin.Android.Support.v7.AppCompat;Xamarin.Android.Support.Core.UI;Microsoft.AppCenter.Crashes</AndroidLinkSkip>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
+    <EnableProguard>true</EnableProguard>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AndroidLinkTool>r8</AndroidLinkTool>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -249,6 +265,16 @@
     <AndroidResource Include="Resources\drawable\ic_appcenter_logo.xml" />
     <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)'!='GooglePlay' ">
+    <ProjectReference Include="..\..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Android.Bindings\Microsoft.AppCenter.Distribute.Android.Bindings.csproj">
+      <Project>{11D31A79-0F09-4708-8097-3D1C5D886547}</Project>
+      <Name>Microsoft.AppCenter.Distribute.Android.Bindings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Android\Microsoft.AppCenter.Distribute.Android.csproj">
+      <Project>{AD38DEE9-8A74-4B04-93C3-0831B55E7254}</Project>
+      <Name>Microsoft.AppCenter.Distribute.Android</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contoso.Forms.Puppet\Contoso.Forms.Puppet.csproj">
       <Project>{92313C69-3BC4-4276-A1C8-100C86183F12}</Project>
@@ -277,14 +303,6 @@
     <ProjectReference Include="..\..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Android.Bindings\Microsoft.AppCenter.Crashes.Android.Bindings.csproj">
       <Project>{42D541D7-B7C9-45A7-8D4D-8FB5A00668B3}</Project>
       <Name>Microsoft.AppCenter.Crashes.Android.Bindings</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Android\Microsoft.AppCenter.Distribute.Android.csproj">
-      <Project>{AD38DEE9-8A74-4B04-93C3-0831B55E7254}</Project>
-      <Name>Microsoft.AppCenter.Distribute.Android</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Android.Bindings\Microsoft.AppCenter.Distribute.Android.Bindings.csproj">
-      <Project>{11D31A79-0F09-4708-8097-3D1C5D886547}</Project>
-      <Name>Microsoft.AppCenter.Distribute.Android.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\SDK\AppCenterPush\Microsoft.AppCenter.Push.Android\Microsoft.AppCenter.Push.Android.csproj">
       <Project>{DF7C7C03-E335-4C23-83BA-8E490AC5B61D}</Project>
