@@ -485,8 +485,10 @@ namespace Microsoft.AppCenter.Test.Channel
         /// <summary>
         /// Verify that channel will not crash with StatefulMutexException when calling setEnabled(false) method during sending logs.
         /// </summary>
-        [TestMethod]
-        public async Task DisableChannelDuringSendingLogs()
+        [DataTestMethod]
+        [DataRow(1)]
+        [DataRow(4)]
+        public async Task DisableChannelDuringSendingLogs(int countLogs)
         {
             try
             {
@@ -498,7 +500,10 @@ namespace Microsoft.AppCenter.Test.Channel
                 SetupEventCallbacks();
 
                 // Run methods in parallel
-                channel.EnqueueAsync(new TestLog()).RunNotAsync();
+                for (int i = 0; i < countLogs; i++)
+                {
+                    channel.EnqueueAsync(new TestLog()).RunNotAsync();
+                }
                 channel.SetEnabled(false);
 
                 // Wait when tasks will be finalized.
