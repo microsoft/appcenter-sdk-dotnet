@@ -556,7 +556,7 @@ namespace Microsoft.AppCenter.Channel
                         } 
                         catch (StatefulMutexException exc)
                         {
-                            AppCenterLog.Warn(AppCenterLog.LogTag, "The check pending logs operation has been canceled");
+                            AppCenterLog.Warn(AppCenterLog.LogTag, "Sending logs operation has been canceled");
                         }
                     });
                 }
@@ -576,7 +576,7 @@ namespace Microsoft.AppCenter.Channel
                             }
                             catch (StatefulMutexException exc)
                             {
-                                AppCenterLog.Warn(AppCenterLog.LogTag, "The check pending logs operation has been canceled");
+                                AppCenterLog.Warn(AppCenterLog.LogTag, "Sending logs operation has been canceled");
                             }
                         }
                     });

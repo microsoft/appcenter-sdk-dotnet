@@ -507,7 +507,7 @@ namespace Microsoft.AppCenter.Test.Channel
                 channel.SetEnabled(false);
 
                 // Wait when tasks will be finalized.
-                await Task.Delay(1500);
+                await Task.Delay(1000);
             } 
             catch (StatefulMutexException exc)
             {
