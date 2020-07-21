@@ -2,6 +2,11 @@
 
 ## Version 3.3.1 (Under development)
 
+### App Center
+
+#### WPF/WinForms
+
+* **[Fix]** Fix handling of StatefulMutexException error during sending logs.
 ___
 
 ## Version 3.3.0
