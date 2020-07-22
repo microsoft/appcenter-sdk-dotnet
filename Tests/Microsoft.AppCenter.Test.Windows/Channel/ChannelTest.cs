@@ -509,7 +509,7 @@ namespace Microsoft.AppCenter.Test.Channel
                 // Wait when tasks will be finalized.
                 await Task.Delay(1000);
             } 
-            catch (StatefulMutexException exc)
+            catch (StatefulMutexException)
             {
                 // Crash test if was generated StatefulMutexException error.
                 Assert.Fail();

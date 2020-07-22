@@ -554,9 +554,9 @@ namespace Microsoft.AppCenter.Channel
                         {
                             await TriggerIngestionAsync(state).ConfigureAwait(false);
                         } 
-                        catch (StatefulMutexException exc)
+                        catch (StatefulMutexException)
                         {
-                            AppCenterLog.Warn(AppCenterLog.LogTag, "Sending logs operation has been canceled");
+                            AppCenterLog.Warn(AppCenterLog.LogTag, "Sending logs operation has been canceled.");
                         }
                     });
                 }
@@ -574,9 +574,9 @@ namespace Microsoft.AppCenter.Channel
                             {
                                 await TriggerIngestionAsync(_mutex.State).ConfigureAwait(false);
                             }
-                            catch (StatefulMutexException exc)
+                            catch (StatefulMutexException)
                             {
-                                AppCenterLog.Warn(AppCenterLog.LogTag, "Sending logs operation has been canceled");
+                                AppCenterLog.Warn(AppCenterLog.LogTag, "Sending logs operation has been canceled.");
                             }
                         }
                     });
