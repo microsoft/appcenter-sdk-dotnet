@@ -6,7 +6,7 @@
 
 #### WPF/WinForms
 
-* **[Fix]** Fix handling of StatefulMutexException error during sending logs.
+* **[Fix]** Fix exception handling if App Center is disabled during sending logs.
 
 ### App Center Distribute Play
 
