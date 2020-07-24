@@ -1,12 +1,24 @@
 # App Center SDK for .NET Change Log
 
-## Version 3.3.1 (Under development)
+## Version 3.4.0
 
 ### App Center
+
+#### Android
+
+* **[Fix]** Fix an `IncorrectContextUseViolation` warning when calculating screen size on Android 11.
+* **[Fix]** All SQL commands used in SDK are presented as raw strings to avoid any possible static analyzer's SQL injection false alarms.
+* **[Fix]** Fix Distribute can't get updates for Realme devices which use Realme UI.
 
 #### WPF/WinForms
 
 * **[Fix]** Fix exception handling if App Center is disabled during sending logs.
+
+### App Center Distribute
+
+#### iOS
+
+* **[Fix]** Obfuscate app secret value that appears as URI part in verbose logs when getting release updates info.
 
 ### App Center Distribute Play
 
