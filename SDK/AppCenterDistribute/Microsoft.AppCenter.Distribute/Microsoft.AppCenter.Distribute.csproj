@@ -2,17 +2,20 @@
 <Project Sdk="MSBuild.Sdk.Extras/2.0.54">
   <Import Project="..\Microsoft.AppCenter.Distribute.Shared\Microsoft.AppCenter.Distribute.Shared.projitems" Label="Shared" />
   <PropertyGroup>
-    <TargetFramework>netstandard1.0</TargetFramework>
+    <TargetFrameworks>netstandard1.0;MonoAndroid70</TargetFrameworks>
     <Optimize>true</Optimize>
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
     <Product>Microsoft.AppCenter.Distribute</Product>
     <Company>Microsoft Corporation</Company>
-    <Version>3.3.0-SNAPSHOT</Version>
+    <Version>3.4.0-SNAPSHOT</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>3.3.0.0</FileVersion>
+    <FileVersion>3.4.0.0</FileVersion>
     <AssemblyTitle>Microsoft.AppCenter.Distribute</AssemblyTitle>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Distribute.xml</DocumentationFile>
   </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'MonoAndroid70'">
+    <AndroidResource Include="Resources\values\Strings.xml" />
+  </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>

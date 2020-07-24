@@ -1,5 +1,34 @@
 # App Center SDK for .NET Change Log
 
+## Version 3.4.0
+
+### App Center
+
+#### Android
+
+* **[Fix]** Fix an `IncorrectContextUseViolation` warning when calculating screen size on Android 11.
+* **[Fix]** All SQL commands used in SDK are presented as raw strings to avoid any possible static analyzer's SQL injection false alarms.
+
+#### WPF/WinForms
+
+* **[Fix]** Fix exception handling if App Center is disabled during sending logs.
+
+### App Center Distribute
+
+#### Android
+
+* **[Fix]** Fix Distribute can't get updates for Realme devices which use Realme UI.
+
+#### iOS
+
+* **[Fix]** Obfuscate app secret value that appears as URI part in verbose logs when getting release updates info.
+
+### App Center Distribute Play
+
+App Center Distribute Play is a package with stubbed APIs for Distribute module to avoid Google Play flagging the application for malicious behavior. It must be used only for build variants which are going to be published on Google Play. See the [public documentation](https://docs.microsoft.com/en-us/appcenter/sdk/distribute/xamarin) for more details about this change.
+
+___
+
 ## Version 3.3.0
 
 This version has a breaking change on iOS - it drops Xcode 10 support, Xcode 11 is a minimal supported version now.

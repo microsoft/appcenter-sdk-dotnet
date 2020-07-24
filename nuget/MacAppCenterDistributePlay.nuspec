@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Microsoft.AppCenter.DistributePlay</id>
+    <title>App Center Distribute - Google Play</title>
+    <authors>Microsoft</authors>
+    <owners>microsoft,appcenter</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <summary>Microsoft App Center Distribute Google Play package App Center Distribute stubbed module; This package should only be used in assemblies which are going to be published on Google Play.</summary>
+    <description>This package has stubbed App Center Distribute module not to violate Google's guidelines on in-app updates. Only for the use in assemblies which are going to be published on Google Play.</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>app center appcenter distribute mobilecenter</tags>
+    <language>en-US</language>
+    <projectUrl>https://aka.ms/telgml</projectUrl>
+    <license type="expression">MIT</license>
+    <iconUrl>https://aka.ms/k76877</iconUrl>
+    <dependencies>
+      <dependency id="Microsoft.AppCenter" version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+
+    <!-- Android -->
+    <file src="$androidPlay_dir$/Microsoft.AppCenter.Distribute.dll" target="lib/MonoAndroid403" />
+    <file src="$androidPlay_dir$/Microsoft.AppCenter.Distribute.xml" target="lib/MonoAndroid403" />
+
+  </files>
+</package>

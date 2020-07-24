@@ -13,6 +13,7 @@ using Microsoft.AppCenter.Ingestion.Models;
 using Microsoft.AppCenter.Ingestion.Models.Serialization;
 using Microsoft.AppCenter.Storage;
 using Microsoft.AppCenter.Test.Storage;
+using Microsoft.AppCenter.Utils.Synchronization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -479,6 +480,40 @@ namespace Microsoft.AppCenter.Test.Channel
 
             // The first call is canceled
             await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => call.ToTask());
+        }
+
+        /// <summary>
+        /// Verify that channel will not crash with StatefulMutexException when calling setEnabled(false) method during sending logs.
+        /// </summary>
+        [DataTestMethod]
+        [DataRow(1)]
+        [DataRow(4)]
+        public async Task DisableChannelDuringSendingLogs(int countLogs)
+        {
+            try
+            {
+                // Prepare data.
+                MockStorage storage = new MockStorage();
+                var appSecret = Guid.NewGuid().ToString();
+                Channel channel = new Channel(ChannelName, MaxLogsPerBatch, new TimeSpan(), MaxParallelBatches,
+                    appSecret, _mockIngestion.Object, storage);
+                SetupEventCallbacks();
+
+                // Run methods in parallel
+                for (int i = 0; i < countLogs; i++)
+                {
+                    channel.EnqueueAsync(new TestLog()).RunNotAsync();
+                }
+                channel.SetEnabled(false);
+
+                // Wait when tasks will be finalized.
+                await Task.Delay(1000);
+            } 
+            catch (StatefulMutexException)
+            {
+                // Crash test if was generated StatefulMutexException error.
+                Assert.Fail();
+            }
         }
 
         private void SetChannelWithTimeSpan(TimeSpan timeSpan)

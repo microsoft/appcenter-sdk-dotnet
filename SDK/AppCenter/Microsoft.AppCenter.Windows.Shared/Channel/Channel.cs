@@ -550,7 +550,14 @@ namespace Microsoft.AppCenter.Channel
                     _batchScheduled = true;
                     Task.Run(async () =>
                     {
-                        await TriggerIngestionAsync(state).ConfigureAwait(false);
+                        try
+                        {
+                            await TriggerIngestionAsync(state).ConfigureAwait(false);
+                        } 
+                        catch (StatefulMutexException)
+                        {
+                            AppCenterLog.Warn(AppCenterLog.LogTag, "Sending logs operation has been canceled.");
+                        }
                     });
                 }
                 else if (_pendingLogCount > 0 && !_batchScheduled)
@@ -563,7 +570,14 @@ namespace Microsoft.AppCenter.Channel
                         await Task.Delay((int)_batchTimeInterval.TotalMilliseconds).ConfigureAwait(false);
                         if (_batchScheduled)
                         {
-                            await TriggerIngestionAsync(_mutex.State).ConfigureAwait(false);
+                            try
+                            {
+                                await TriggerIngestionAsync(_mutex.State).ConfigureAwait(false);
+                            }
+                            catch (StatefulMutexException)
+                            {
+                                AppCenterLog.Warn(AppCenterLog.LogTag, "Sending logs operation has been canceled.");
+                            }
                         }
                     });
                 }
