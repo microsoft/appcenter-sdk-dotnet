@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.0;net461</TargetFrameworks>
     <RootNamespace>Microsoft.AppCenter.Crashes</RootNamespace>
-    <Version>3.4.0-SNAPSHOT</Version>
+    <Version>3.4.1-SNAPSHOT</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>3.4.0.0</FileVersion>
+    <FileVersion>3.4.1.0</FileVersion>
     <AssemblyName>Microsoft.AppCenter.Crashes</AssemblyName>
     <DocumentationFile>bin\Microsoft.AppCenter.Crashes.xml</DocumentationFile>
   </PropertyGroup>
