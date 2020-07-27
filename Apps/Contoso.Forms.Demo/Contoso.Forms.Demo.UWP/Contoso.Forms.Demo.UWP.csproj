@@ -135,11 +135,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.3.0" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.3.0" />
-    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="3.3.0" />
-    <PackageReference Include="Microsoft.AppCenter.Push" Version="3.3.0" />
-    <PackageReference Include="Xamarin.Forms" Version="4.7.0.1080" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.4.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.4.0" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="3.4.0" />
+    <PackageReference Include="Microsoft.AppCenter.Push" Version="3.4.0" />
+    <PackageReference Include="Xamarin.Forms" Version="4.7.0.1179" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.9" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

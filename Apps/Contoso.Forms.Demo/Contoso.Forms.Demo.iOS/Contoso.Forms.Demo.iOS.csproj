@@ -87,11 +87,11 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.3.0" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.3.0" />
-    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="3.3.0" />
-    <PackageReference Include="Microsoft.AppCenter.Push" Version="3.3.0" />
-    <PackageReference Include="Xamarin.Forms" Version="4.7.0.1080" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.4.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.4.0" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="3.4.0" />
+    <PackageReference Include="Microsoft.AppCenter.Push" Version="3.4.0" />
+    <PackageReference Include="Xamarin.Forms" Version="4.7.0.1179" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
