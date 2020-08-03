@@ -257,15 +257,16 @@ namespace Microsoft.AppCenter.Channel
         public async Task ClearAsync()
         {
             var state = _mutex.State;
-            await _storage.DeleteLogs(Name).ConfigureAwait(false);
             try
             {
+                await _storage.DeleteLogs(Name).ConfigureAwait(false);
+
                 using (await _mutex.GetLockAsync(state).ConfigureAwait(false))
                 {
                     _pendingLogCount = 0;
                 }
             }
-            catch (StatefulMutexException)
+            catch (Exception)
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, "The Clear operation has been canceled");
             }
@@ -335,7 +336,7 @@ namespace Microsoft.AppCenter.Channel
                 }
                 _storage.ClearPendingLogState(Name);
             }
-            catch (StatefulMutexException)
+            catch (Exception)
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, "The suspend operation has been canceled");
             }
