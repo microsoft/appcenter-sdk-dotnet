@@ -41,7 +41,6 @@ jobs:
         msbuild SDK/AppCenter/Microsoft.AppCenter/Microsoft.AppCenter.csproj /p:Configuration=Release /restore /t:Build
         msbuild SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics/Microsoft.AppCenter.Analytics.csproj /p:UseSharedCompilation=false /restore /t:Build
         msbuild SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes/Microsoft.AppCenter.Crashes.csproj /p:UseSharedCompilation=false /restore /t:Build
-        msbuild SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/Microsoft.AppCenter.Distribute.csproj /p:UseSharedCompilation=false /restore /t:Build
         msbuild SDK/AppCenterPush/Microsoft.AppCenter.Push/Microsoft.AppCenter.Push.csproj /p:UseSharedCompilation=false /restore /t:Build
 
     - run: |
@@ -91,10 +90,11 @@ jobs:
         Remove-Item -Path NuGet.config
     
     - run: |
-        echo "Restore App Center Dependencies"
+        echo "Restore App Center Dependencies and Build"
         $Env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin"
         MSBuild.exe AppCenter-SDK-Build-Windows.sln -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build 
-        
+        MSBuild.exe SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/Microsoft.AppCenter.Distribute.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
+
     - run: |
         echo "Build App Center For Android"
         $Env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin"
