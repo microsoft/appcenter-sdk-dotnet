@@ -2,6 +2,12 @@
 
 ## Version 3.4.1 (Under development)
 
+### App Center
+
+#### WPF/WinForms
+
+* **[Fix]** Fix exception handling when the app tries to access a locked database.
+
 ___
 
 ## Version 3.4.0
@@ -16,7 +22,6 @@ ___
 #### WPF/WinForms
 
 * **[Fix]** Fix exception handling if App Center is disabled during sending logs.
-* **[Fix]** Fix exception handling when the app tries to access a locked database.
 
 ### App Center Distribute
 
