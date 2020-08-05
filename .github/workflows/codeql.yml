@@ -83,10 +83,6 @@ jobs:
         Remove-Item -Path NuGet.config
     
     - run: |
-        echo "Restore App Center Dependencies"
-        $Env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin"
-
-    - run: |
         echo "Build App Center"
         $Env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin"
         MSBuild.exe AppCenter-SDK-Build-Windows.sln -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build 
