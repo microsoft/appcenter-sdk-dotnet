@@ -271,7 +271,7 @@ namespace Microsoft.AppCenter.Channel
             }
             catch (StorageException e)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, $"Could not delete logs with error: ", e);
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not delete logs with error: ", e);
             }
         }
 
@@ -362,13 +362,13 @@ namespace Microsoft.AppCenter.Channel
                     }
                     catch (StorageException e)
                     {
-                        AppCenterLog.Warn(AppCenterLog.LogTag, $"Could not delete logs with error: ", e);
+                        AppCenterLog.Warn(AppCenterLog.LogTag, "Could not delete logs with error: ", e);
                     }
                 });
             }
             catch (StorageException e)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, $"Could not delete logs with error: ", e);
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not delete logs with error: ", e);
             }
         }
 
