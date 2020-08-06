@@ -540,7 +540,6 @@ namespace Microsoft.AppCenter.Test.Channel
                     .Callback((string channelName, int limit, List<Log> logs) => logs.Add(log))
                     .Returns(() => Task.FromResult("test-batch-id"));
 
-
                 // Prepare data.
                 var appSecret = Guid.NewGuid().ToString();
                 Channel channel = new Channel(ChannelName, MaxLogsPerBatch, new TimeSpan(), MaxParallelBatches,
@@ -580,7 +579,6 @@ namespace Microsoft.AppCenter.Test.Channel
                 storage.Setup(s => s.GetLogsAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<List<Log>>()))
                     .Callback((string channelName, int limit, List<Log> logs) => logs.Add(log))
                     .Returns(() => Task.FromResult("test-batch-id"));
-
 
                 // Prepare data.
                 var appSecret = Guid.NewGuid().ToString();
@@ -622,7 +620,6 @@ namespace Microsoft.AppCenter.Test.Channel
                 storage.Setup(s => s.GetLogsAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<List<Log>>()))
                     .Callback((string channelName, int limit, List<Log> logs) => logs.Add(log))
                     .Returns(() => Task.FromResult("test-batch-id"));
-
 
                 // Prepare data.
                 var appSecret = Guid.NewGuid().ToString();
