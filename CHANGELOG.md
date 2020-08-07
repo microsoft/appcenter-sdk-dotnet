@@ -2,6 +2,12 @@
 
 ## Version 3.4.1 (Under development)
 
+### App Center
+
+#### WPF/WinForms
+
+* **[Fix]** Fix exception handling when the app tries to access a locked database.
+
 ___
 
 ## Version 3.4.0
