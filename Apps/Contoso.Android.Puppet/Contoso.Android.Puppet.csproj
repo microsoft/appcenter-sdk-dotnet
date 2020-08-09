@@ -59,6 +59,9 @@
     <AndroidLinkSkip>Xamarin.Android.Support.v7.AppCompat;Xamarin.Android.Support.Design</AndroidLinkSkip>
     <AndroidLinkTool>r8</AndroidLinkTool>
   </PropertyGroup>
+  <PropertyGroup>
+    <AndroidResgenExtraArgs>-G aapt_rules.txt $(AndroidResgenExtraArgs)</AndroidResgenExtraArgs>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
