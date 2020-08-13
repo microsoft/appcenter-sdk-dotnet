@@ -63,6 +63,9 @@
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidSupportedAbis>armeabi-v7a</AndroidSupportedAbis>
   </PropertyGroup>
+  <PropertyGroup>
+    <AndroidResgenExtraArgs>-G aapt_rules.txt $(AndroidResgenExtraArgs)</AndroidResgenExtraArgs>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
