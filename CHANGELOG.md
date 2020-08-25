@@ -7,6 +7,7 @@
 #### WPF/WinForms
 
 * **[Fix]** Fix exception handling when the app tries to access a locked database.
+* **[Fix]** Fix get device information when the application has partial trust mode.
 
 ___
 
