@@ -27,8 +27,8 @@ namespace Microsoft.AppCenter.Test.WindowsDesktop.Utils
         [Fact]
         public void VerifyDeviceInfoWhenManagmentClassNotAvailable()
         {
-            DeviceInformationHelper deviceInformation = new DeviceInformationHelper();
-            IManagmentClassFactory factory = new MockManagmentClassFactory();
+            var deviceInformation = new DeviceInformationHelper();
+            var factory = new MockManagmentClassFactory();
             deviceInformation.SetManagmentClassFactory(factory);
             var device = Task.Run(() => deviceInformation.GetDeviceInformationAsync()).Result;
         }

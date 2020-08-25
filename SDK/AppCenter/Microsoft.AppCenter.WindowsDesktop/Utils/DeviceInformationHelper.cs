@@ -50,11 +50,11 @@ namespace Microsoft.AppCenter.Utils
         {
             try
             {
-                ManagementClass managementClass = _managmentClassFactory.GetComputerSystemClass();
+                var managementClass = _managmentClassFactory.GetComputerSystemClass();
                 foreach (var managementObject in managementClass.GetInstances())
                 {
                     var model = (string)managementObject["Model"];
-                    return (string.IsNullOrEmpty(model) || DefaultSystemProductName == model ? null : model);
+                    return string.IsNullOrEmpty(model) || DefaultSystemProductName == model ? null : model;
                 }
             }
             catch (UnauthorizedAccessException exc)
@@ -74,11 +74,11 @@ namespace Microsoft.AppCenter.Utils
         {
             try
             {
-                ManagementClass managementClass = _managmentClassFactory.GetComputerSystemClass();
+                var managementClass = _managmentClassFactory.GetComputerSystemClass();
                 foreach (var managementObject in managementClass.GetInstances())
                 {
                     var manufacturer = (string)managementObject["Manufacturer"];
-                    return (string.IsNullOrEmpty(manufacturer) || DefaultSystemManufacturer == manufacturer ? null : manufacturer);
+                    return string.IsNullOrEmpty(manufacturer) || DefaultSystemManufacturer == manufacturer ? null : manufacturer;
                 }
             } 
             catch (UnauthorizedAccessException exc)
@@ -124,7 +124,7 @@ namespace Microsoft.AppCenter.Utils
         {
             try
             {
-                ManagementClass managementClass = _managmentClassFactory.GetOperatingSystemClass();
+                var managementClass = _managmentClassFactory.GetOperatingSystemClass();
                 foreach (var managementObject in managementClass.GetInstances())
                 {
                     return (string)managementObject["Version"];
