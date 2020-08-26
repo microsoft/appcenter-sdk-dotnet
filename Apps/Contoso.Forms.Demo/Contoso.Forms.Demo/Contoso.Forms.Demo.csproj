@@ -14,7 +14,7 @@
     <PackageReference Include="Microsoft.AppCenter.Distribute" Version="3.4.1" />
     <PackageReference Include="Microsoft.AppCenter.Push" Version="3.4.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Xamarin.Forms" Version="4.7.0.1179" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Contoso.UtilClassLibrary\Contoso.UtilClassLibrary.csproj" />
