@@ -1,6 +1,6 @@
 # App Center SDK for .NET Change Log
 
-## Version 3.4.1 (Under development)
+## Version 3.4.1
 
 ### App Center
 
@@ -8,6 +8,22 @@
 
 * **[Fix]** Fix exception handling when the app tries to access a locked database.
 * **[Fix]** Fix getting device information when the application runs in partial trust mode.
+
+#### iOS
+
+* **[Fix]** Fix compatibility with Xcode 12 beta when integrating SDK from sources.
+
+### App Center Analytics
+
+#### iOS
+
+* **[Fix]** Fix processing logs (e.g., events) emitted from the `applicationWillTerminate` application delegate method.
+
+### App Center Crashes
+
+#### iOS
+
+* **[Improvement]** Update PLCrashReporter to 1.7.2.
 
 ___
 
