@@ -9,10 +9,6 @@
 * **[Fix]** Fix exception handling when the app tries to access a locked database.
 * **[Fix]** Fix getting device information when the application runs in partial trust mode.
 
-#### iOS
-
-* **[Fix]** Fix compatibility with Xcode 12 beta when integrating SDK from sources.
-
 ### App Center Analytics
 
 #### iOS
