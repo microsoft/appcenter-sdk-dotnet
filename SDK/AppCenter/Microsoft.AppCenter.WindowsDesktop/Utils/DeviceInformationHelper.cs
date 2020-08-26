@@ -25,7 +25,7 @@ namespace Microsoft.AppCenter.Utils
 
         public DeviceInformationHelper()
         {
-            _managmentClassFactory = ManagmentClassFactory.GetInstance();
+            _managmentClassFactory = ManagmentClassFactory.Instance;
         }
 
         /// <summary>
@@ -57,9 +57,9 @@ namespace Microsoft.AppCenter.Utils
                     return string.IsNullOrEmpty(model) || DefaultSystemProductName == model ? null : model;
                 }
             }
-            catch (UnauthorizedAccessException exc)
+            catch (UnauthorizedAccessException exception)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device model with error: ", exc);
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device model with error: ", exception);
                 return string.Empty;
             }
             return string.Empty;
@@ -81,9 +81,9 @@ namespace Microsoft.AppCenter.Utils
                     return string.IsNullOrEmpty(manufacturer) || DefaultSystemManufacturer == manufacturer ? null : manufacturer;
                 }
             } 
-            catch (UnauthorizedAccessException exc)
+            catch (UnauthorizedAccessException exception)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device oem name with error: ", exc);
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OEM name with error: ", exception);
                 return string.Empty;
             }
             return string.Empty;
@@ -130,9 +130,9 @@ namespace Microsoft.AppCenter.Utils
                     return (string)managementObject["Version"];
                 }
             }
-            catch (UnauthorizedAccessException exc)
+            catch (UnauthorizedAccessException exception)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device os version with error: ", exc);
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OS version with error: ", exception);
                 return string.Empty;
             }
             return string.Empty;

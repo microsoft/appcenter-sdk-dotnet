@@ -22,19 +22,22 @@ namespace Microsoft.AppCenter
 
     class ManagmentClassFactory : IManagmentClassFactory
     {
-        private static ManagmentClassFactory Instance;
+        // The shared instance of ManagmentClassFactory.
+        private static ManagmentClassFactory _instanceField;
 
-        internal ManagmentClassFactory()
+        /// <summary>
+        /// Gets or sets the shared instance of ManagmentClassFactory. Should never return null.
+        /// </summary>
+        internal static ManagmentClassFactory Instance 
         {
+            get 
+            {
+                return _instanceField ?? (_instanceField = new ManagmentClassFactory());
+            }
         }
 
-        public static ManagmentClassFactory GetInstance()
+        private ManagmentClassFactory()
         {
-            if (Instance == null)
-            {
-                Instance = new ManagmentClassFactory();
-            }
-            return Instance;
         }
 
         public ManagementClass GetComputerSystemClass()
