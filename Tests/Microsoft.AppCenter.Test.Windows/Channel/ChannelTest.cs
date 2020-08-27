@@ -516,6 +516,125 @@ namespace Microsoft.AppCenter.Test.Channel
             }
         }
 
+        [TestMethod]
+        public async Task HandleStorageExceptionWhenSendingLogsWithNullEvents()
+        {
+            try
+            {
+                var log = new TestLog();
+                var storageException = new StorageException();
+
+                // Make sure that the storage exception is "observed" to
+                // avoid the exception propagating to the point where the
+                // test fails.
+                TaskScheduler.UnobservedTaskException += (sender, e) =>
+                {
+                    if (e.Exception.InnerException == storageException)
+                    {
+                        e.SetObserved();
+                    }
+                };
+                var storage = new Mock<IStorage>();
+                storage.Setup(s => s.DeleteLogs(It.IsAny<string>())).Throws(storageException);
+                storage.Setup(s => s.GetLogsAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<List<Log>>()))
+                    .Callback((string channelName, int limit, List<Log> logs) => logs.Add(log))
+                    .Returns(() => Task.FromResult("test-batch-id"));
+
+                // Prepare data.
+                var appSecret = Guid.NewGuid().ToString();
+                Channel channel = new Channel(ChannelName, MaxLogsPerBatch, new TimeSpan(), MaxParallelBatches,
+                    appSecret, _mockIngestion.Object, storage.Object);
+
+                // Disable and enable channel.
+                channel.SetEnabled(false);
+                channel.SetEnabled(true);
+            }
+            catch (StorageException e)
+            {
+                // Crash test if was generated StorageException error.
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public async Task HandleStorageExceptionWhenSendingLogsWithEvents()
+        {
+            try
+            {
+                var log = new TestLog();
+                var storageException = new StorageException();
+
+                // Make sure that the storage exception is "observed" to
+                // avoid the exception propagating to the point where the
+                // test fails.
+                TaskScheduler.UnobservedTaskException += (sender, e) =>
+                {
+                    if (e.Exception.InnerException == storageException)
+                    {
+                        e.SetObserved();
+                    }
+                };
+                var storage = new Mock<IStorage>();
+                storage.Setup(s => s.DeleteLogs(It.IsAny<string>())).Throws(storageException);
+                storage.Setup(s => s.GetLogsAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<List<Log>>()))
+                    .Callback((string channelName, int limit, List<Log> logs) => logs.Add(log))
+                    .Returns(() => Task.FromResult("test-batch-id"));
+
+                // Prepare data.
+                var appSecret = Guid.NewGuid().ToString();
+                Channel channel = new Channel(ChannelName, MaxLogsPerBatch, new TimeSpan(), MaxParallelBatches,
+                    appSecret, _mockIngestion.Object, storage.Object);
+
+                // Disable and enable channel.
+                channel.FailedToSendLog += (sender, args) => { };
+                channel.SetEnabled(false);
+                channel.SetEnabled(true);
+            }
+            catch (StorageException e)
+            {
+                // Crash test if was generated StorageException error.
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public async Task HandleStorageExceptionWhenClearLogs()
+        {
+            try
+            {
+                var log = new TestLog();
+                var storageException = new StorageException();
+
+                // Make sure that the storage exception is "observed" to
+                // avoid the exception propagating to the point where the
+                // test fails.
+                TaskScheduler.UnobservedTaskException += (sender, e) =>
+                {
+                    if (e.Exception.InnerException == storageException)
+                    {
+                        e.SetObserved();
+                    }
+                };
+                var storage = new Mock<IStorage>();
+                storage.Setup(s => s.DeleteLogs(It.IsAny<string>())).Throws(storageException);
+                storage.Setup(s => s.GetLogsAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<List<Log>>()))
+                    .Callback((string channelName, int limit, List<Log> logs) => logs.Add(log))
+                    .Returns(() => Task.FromResult("test-batch-id"));
+
+                // Prepare data.
+                var appSecret = Guid.NewGuid().ToString();
+                Channel channel = new Channel(ChannelName, MaxLogsPerBatch, new TimeSpan(), MaxParallelBatches,
+                    appSecret, _mockIngestion.Object, storage.Object);
+                SetupEventCallbacks();
+                await channel.ClearAsync();
+            }
+            catch (StorageException e)
+            {
+                // Crash test if was generated StorageException error.
+                Assert.Fail();
+            }
+        }
+
         private void SetChannelWithTimeSpan(TimeSpan timeSpan)
         {
             SetChannelWithTimeSpanAndIngestion(timeSpan, _mockIngestion.Object);

@@ -257,9 +257,9 @@ namespace Microsoft.AppCenter.Channel
         public async Task ClearAsync()
         {
             var state = _mutex.State;
-            await _storage.DeleteLogs(Name).ConfigureAwait(false);
             try
             {
+                await _storage.DeleteLogs(Name).ConfigureAwait(false);
                 using (await _mutex.GetLockAsync(state).ConfigureAwait(false))
                 {
                     _pendingLogCount = 0;
@@ -268,6 +268,10 @@ namespace Microsoft.AppCenter.Channel
             catch (StatefulMutexException)
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, "The Clear operation has been canceled");
+            }
+            catch (StorageException e)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not delete logs with error: ", e);
             }
         }
 
@@ -343,12 +347,29 @@ namespace Microsoft.AppCenter.Channel
 
         private void TriggerDeleteLogsOnSuspending(IList<string> sendingBatches)
         {
-            if (SendingLog == null && FailedToSendLog == null)
+            try
             {
-                _storage.DeleteLogs(Name);
-                return;
+                if (SendingLog == null && FailedToSendLog == null)
+                {
+                    _storage.DeleteLogs(Name);
+                    return;
+                }
+                SignalDeletingLogs(sendingBatches).ContinueWith(completedTask =>
+                {
+                    try
+                    {
+                        _storage.DeleteLogs(Name);
+                    }
+                    catch (StorageException e)
+                    {
+                        AppCenterLog.Warn(AppCenterLog.LogTag, "Could not delete logs with error: ", e);
+                    }
+                });
             }
-            SignalDeletingLogs(sendingBatches).ContinueWith(completedTask => _storage.DeleteLogs(Name));
+            catch (StorageException e)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Could not delete logs with error: ", e);
+            }
         }
 
         private async Task SignalDeletingLogs(IList<string> sendingBatches)

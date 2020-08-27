@@ -21,6 +21,22 @@ namespace Microsoft.AppCenter.Utils
     /// </summary>
     public class DeviceInformationHelper : AbstractDeviceInformationHelper
     {
+        private IManagmentClassFactory _managmentClassFactory;
+
+        public DeviceInformationHelper()
+        {
+            _managmentClassFactory = ManagmentClassFactory.Instance;
+        }
+
+        /// <summary>
+        /// Set the specific class factory for the management class.
+        /// </summary>
+        /// <param name="factory">Specific management class factory.</param>
+        internal void SetManagmentClassFactory(IManagmentClassFactory factory)
+        {
+            _managmentClassFactory = factory;
+        }
+
         protected override string GetSdkName()
         {
             var sdkName = WpfHelper.IsRunningOnWpf ? "appcenter.wpf" : "appcenter.winforms";
@@ -32,11 +48,19 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetDeviceModel()
         {
-            var managementClass = new ManagementClass("Win32_ComputerSystem");
-            foreach (var managementObject in managementClass.GetInstances())
+            try
             {
-                var model = (string)managementObject["Model"];
-                return (string.IsNullOrEmpty(model) || DefaultSystemProductName == model ? null : model);
+                var managementClass = _managmentClassFactory.GetComputerSystemClass();
+                foreach (var managementObject in managementClass.GetInstances())
+                {
+                    var model = (string)managementObject["Model"];
+                    return string.IsNullOrEmpty(model) || DefaultSystemProductName == model ? null : model;
+                }
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device model with error: ", exception);
+                return string.Empty;
             }
             return string.Empty;
         }
@@ -48,11 +72,19 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetDeviceOemName()
         {
-            var managementClass = new ManagementClass("Win32_ComputerSystem");
-            foreach (var managementObject in managementClass.GetInstances())
+            try
             {
-                var manufacturer = (string)managementObject["Manufacturer"];
-                return (string.IsNullOrEmpty(manufacturer) || DefaultSystemManufacturer == manufacturer ? null : manufacturer);
+                var managementClass = _managmentClassFactory.GetComputerSystemClass();
+                foreach (var managementObject in managementClass.GetInstances())
+                {
+                    var manufacturer = (string)managementObject["Manufacturer"];
+                    return string.IsNullOrEmpty(manufacturer) || DefaultSystemManufacturer == manufacturer ? null : manufacturer;
+                }
+            } 
+            catch (UnauthorizedAccessException exception)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OEM name with error: ", exception);
+                return string.Empty;
             }
             return string.Empty;
         }
@@ -90,10 +122,18 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetOsVersion()
         {
-            var managementClass = new ManagementClass("Win32_OperatingSystem");
-            foreach (var managementObject in managementClass.GetInstances())
+            try
             {
-                return (string)managementObject["Version"];
+                var managementClass = _managmentClassFactory.GetOperatingSystemClass();
+                foreach (var managementObject in managementClass.GetInstances())
+                {
+                    return (string)managementObject["Version"];
+                }
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OS version with error: ", exception);
+                return string.Empty;
             }
             return string.Empty;
         }
