@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <config>
     <sdkInfo>
-        <sdkVersion>3.4.1-SNAPSHOT</sdkVersion>
-        <iosVersion>3.3.2</iosVersion>
+        <sdkVersion>3.4.2-SNAPSHOT</sdkVersion>
+        <iosVersion>3.3.3</iosVersion>
         <androidVersion>3.3.0</androidVersion>
     </sdkInfo>
     <group id="ios" folder="iOSAssemblies" buildGroup="mac">
