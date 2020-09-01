@@ -2,6 +2,12 @@
 
 ## Version 3.4.2 (Under development)
 
+### App Center Crashes
+
+#### iOS
+
+* **[Fix]** Fix sending attachments with a null text value.
+
 ___
 
 ## Version 3.4.1
