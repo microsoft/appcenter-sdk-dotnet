@@ -381,7 +381,7 @@ ___
 
 ### App Center Data
 
-* **[Fix]** Reduced retries on Data-related operations to fail fast and avoid the perception of calls "hanging".
+* **[Fix]** Reduced retries on Data-related operations to fail fast and avoid the perception of calls stopped responding.
 
 ___
 
@@ -1011,7 +1011,7 @@ This version contains improvements and bug fixes.
 #### Analytics
 
 * **[Fix]** Fix session identifier when renewing session after background or after re-enabling SDK.
-* **[Fix]** Avoid using tasks in background that can hang, use timers instead. Related to #517.
+* **[Fix]** Avoid using tasks in background that can stopped responding, use timers instead. Related to #517.
 * **[Fix]** Fix storage exception catching so that they don't crash the app.
 * **[Fix]** Fix some stability issues in the https sending logic.
 
