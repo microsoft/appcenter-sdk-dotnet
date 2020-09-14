@@ -17,9 +17,9 @@ namespace Microsoft.AppCenter.Utils
         private static string _country;
         private static WrapperSdk _wrapperSdk;
 
-        internal static void SetCountryCode(string country)
+        internal static void SetCountryCode(string countryCode)
         {
-            _country = country;
+            _country = countryCode;
             InvalidateInformation(null, EventArgs.Empty);
         }
 

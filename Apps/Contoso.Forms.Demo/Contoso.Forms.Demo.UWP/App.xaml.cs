@@ -31,7 +31,7 @@ namespace Contoso.Forms.Demo.UWP
         /// </summary>
         public App()
         {
-            // Set the country before initialization occurs so App Center can send the field to the backend.
+            // Set the country/region before initialization occurs so App Center can send the field to the backend.
             // We do not use await here because we don't need to wait for this task to complete,
             // and await would block the UI in App constructor.
             _ = SetCountryCode();
@@ -44,7 +44,7 @@ namespace Contoso.Forms.Demo.UWP
         {
             // The following country code is used only as a fallback for the main implementation.
             // This fallback country code does not reflect the physical device location, but rather the
-            // country that corresponds to the culture it uses.
+            // country/region that corresponds to the culture it uses.
             var countryCode = new GeographicRegion().CodeTwoLetter;
             var accessStatus = await Geolocator.RequestAccessAsync();
             switch (accessStatus)
@@ -77,8 +77,8 @@ namespace Contoso.Forms.Demo.UWP
 
                     // The returned country code is in 3-letter format (ISO 3166-1 alpha-3).
                     // Below we convert it to ISO 3166-1 alpha-2 (two letter).
-                    var country = result.Locations[0].Address.CountryCode;
-                    countryCode = new GeographicRegion(country).CodeTwoLetter;
+                    var alpha3CountryCode = result.Locations[0].Address.CountryCode;
+                    countryCode = new GeographicRegion(alpha3CountryCode).CodeTwoLetter;
                     break;
                 case GeolocationAccessStatus.Denied:
                     AppCenterLog.Info(LogTag, "Geolocation access denied. In order to set country code in App Center, enable location service in Windows 10.");
