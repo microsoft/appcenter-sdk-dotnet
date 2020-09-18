@@ -1,12 +1,18 @@
 # App Center SDK for .NET Change Log
 
-## Version 3.4.2 (Under development)
+## Version 3.4.2
 
 ### App Center Crashes
 
-#### iOS
+#### Xamarin
 
 * **[Fix]** Fix sending attachments with a `null` text value.
+
+### App Center Distribute
+
+#### iOS
+
+* **[Fix]** Fix manually checking for updates before `applicationDidBecomeActive` event.
 
 ___
 
