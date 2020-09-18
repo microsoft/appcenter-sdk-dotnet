@@ -87,7 +87,7 @@ namespace Microsoft.AppCenter
         public string CarrierName { get; }
 
         /// <summary>
-        /// Gets the carrier country.
+        /// Gets the carrier country/region.
         /// </summary>
         /// <value>Carrier country code (for mobile devices).</value>
         public string CarrierCountry { get; }

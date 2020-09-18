@@ -1,5 +1,21 @@
 # App Center SDK for .NET Change Log
 
+## Version 3.4.2
+
+### App Center Crashes
+
+#### Xamarin
+
+* **[Fix]** Fix sending attachments with a `null` text value.
+
+### App Center Distribute
+
+#### iOS
+
+* **[Fix]** Fix manually checking for updates before `applicationDidBecomeActive` event.
+
+___
+
 ## Version 3.4.1
 
 ### App Center
@@ -48,7 +64,7 @@ ___
 
 ### App Center Distribute Play
 
-App Center Distribute Play is a package with stubbed APIs for Distribute module to avoid Google Play flagging the application for malicious behavior. It must be used only for build variants which are going to be published on Google Play. See the [public documentation](https://docs.microsoft.com/en-us/appcenter/sdk/distribute/xamarin) for more details about this change.
+App Center Distribute Play is a package with stubbed APIs for Distribute module to avoid Google Play flagging the application for malicious behavior. It must be used only for build variants which are going to be published on Google Play. See the [public documentation](https://docs.microsoft.com/en-us/appcenter/sdk/distribute/xamarin#remove-in-app-updates-for-google-play-builds) for more details about this change.
 
 ___
 
@@ -371,7 +387,7 @@ ___
 
 ### App Center Data
 
-* **[Fix]** Reduced retries on Data-related operations to fail fast and avoid the perception of calls "hanging".
+* **[Fix]** Reduced retries on Data-related operations to fail fast and avoid the perception of calls stopped responding.
 
 ___
 
@@ -1001,7 +1017,7 @@ This version contains improvements and bug fixes.
 #### Analytics
 
 * **[Fix]** Fix session identifier when renewing session after background or after re-enabling SDK.
-* **[Fix]** Avoid using tasks in background that can hang, use timers instead. Related to #517.
+* **[Fix]** Avoid using tasks in background that can stopped responding, use timers instead. Related to #517.
 * **[Fix]** Fix storage exception catching so that they don't crash the app.
 * **[Fix]** Fix some stability issues in the https sending logic.
 

@@ -149,7 +149,7 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         // + (MSErrorAttachmentLog *)attachmentWithText:(NSString *)text filename:(NSString *)filename;
         [Static]
         [Export("attachmentWithText:filename:")]
-        MSErrorAttachmentLog AttachmentWithText(string text, [NullAllowed] string fileName);
+        MSErrorAttachmentLog AttachmentWithText([NullAllowed] string text, [NullAllowed] string fileName);
 
         // + (MSErrorAttachmentLog *)attachmentWithBinary:(NSData *)data filename:(NSString*)filename contentType:(NSString*)contentType;
         [Static]
