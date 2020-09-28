@@ -4,13 +4,13 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
-    <Version>3.4.2</Version>
+    <Version>3.4.3</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>3.4.2.0</FileVersion>
+    <FileVersion>3.4.3.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.4.2" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.4.2" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.4.3" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.4.3" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>

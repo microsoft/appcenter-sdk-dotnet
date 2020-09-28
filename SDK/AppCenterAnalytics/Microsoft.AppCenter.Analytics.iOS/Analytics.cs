@@ -10,7 +10,7 @@ namespace Microsoft.AppCenter.Analytics
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using iOSAnalytics = iOS.Bindings.MSAnalytics;
+    using iOSAnalytics = iOS.Bindings.MSACAnalytics;
 
     /// <summary>
     /// Analytics feature.

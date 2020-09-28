@@ -1,6 +1,12 @@
 # App Center SDK for .NET Change Log
 
-## Version 3.4.3 (Under development)
+## Version 3.4.3
+
+### App Center Analytics
+
+#### iOS
+
+* **[Fix]** Fix naming conflict with iOS 14 private Apple framework.
 
 ___
 
