@@ -21,7 +21,7 @@ namespace Contoso.Forms.Demo.iOS
         {
             Xamarin.Forms.Forms.Init();
             Distribute.DontCheckForUpdatesInDebug();
-            MSAnalytics.SetDelegate(new AnalyticsDelegate());
+            MSACAnalytics.SetDelegate(new AnalyticsDelegate());
             LoadApplication(new App());
             UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
             return base.FinishedLaunching(uiApplication, launchOptions);
@@ -41,17 +41,17 @@ namespace Contoso.Forms.Demo.iOS
 
     public class AnalyticsDelegate : MSAnalyticsDelegate
     {
-        public override void WillSendEventLog(MSAnalytics analytics, MSEventLog eventLog)
+        public override void WillSendEventLog(MSACAnalytics analytics, MSEventLog eventLog)
         {
             AppCenterLog.Debug(App.LogTag, "Will send event");
         }
 
-        public override void DidSucceedSendingEventLog(MSAnalytics analytics, MSEventLog eventLog)
+        public override void DidSucceedSendingEventLog(MSACAnalytics analytics, MSEventLog eventLog)
         {
             AppCenterLog.Debug(App.LogTag, "Did send event");
         }
 
-        public override void DidFailSendingEventLog(MSAnalytics analytics, MSEventLog eventLog, NSError error)
+        public override void DidFailSendingEventLog(MSACAnalytics analytics, MSEventLog eventLog, NSError error)
         {
             AppCenterLog.Debug(App.LogTag, "Failed to send event with error: " + error);
         }
