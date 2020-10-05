@@ -3,8 +3,9 @@
 
 namespace Microsoft.AppCenter
 {
-	using iOSMessageProvider = Microsoft.AppCenter.iOS.Bindings.MSLogMessageProvider;
-	using iOSLogger = Microsoft.AppCenter.iOS.Bindings.MSWrapperLogger;
+	using iOSMessageProvider = Microsoft.AppCenter.iOS.Bindings.MSACLogMessageProvider;
+	using iOSLogger = Microsoft.AppCenter.iOS.Bindings.MSACWrapperLogger;
+	using iOSLogLevel = Microsoft.AppCenter.iOS.Bindings.MSACLogLevel;
 
 	public static partial class AppCenterLog
 	{
@@ -21,37 +22,37 @@ namespace Microsoft.AppCenter
         public static void Verbose(string tag, string message)
 		{
 			iOSMessageProvider msg_provider = () => { return message; };
-			iOSLogger.MSWrapperLog(msg_provider, tag, Microsoft.AppCenter.iOS.Bindings.MSLogLevel.Verbose);
+			iOSLogger.MSWrapperLog(msg_provider, tag, iOSLogLevel.Verbose);
 		}
 
 		public static void Debug(string tag, string message)
 		{
 			iOSMessageProvider msg_provider = () => { return message; };
-			iOSLogger.MSWrapperLog(msg_provider, tag, Microsoft.AppCenter.iOS.Bindings.MSLogLevel.Debug);
+			iOSLogger.MSWrapperLog(msg_provider, tag, iOSLogLevel.Debug);
 		}
 
 		public static void Info(string tag, string message)
 		{
 			iOSMessageProvider msg_provider = () => { return message; };
-			iOSLogger.MSWrapperLog(msg_provider, tag, Microsoft.AppCenter.iOS.Bindings.MSLogLevel.Info);
+			iOSLogger.MSWrapperLog(msg_provider, tag, iOSLogLevel.Info);
 		}
 
 		public static void Warn(string tag, string message)
 		{
 			iOSMessageProvider msg_provider = () => { return message; };
-			iOSLogger.MSWrapperLog(msg_provider, tag, Microsoft.AppCenter.iOS.Bindings.MSLogLevel.Warning);
+			iOSLogger.MSWrapperLog(msg_provider, tag, iOSLogLevel.Warning);
 		}
 
         public static void Error(string tag, string message)
         {
             iOSMessageProvider msg_provider = () => { return message; };
-            iOSLogger.MSWrapperLog(msg_provider, tag, Microsoft.AppCenter.iOS.Bindings.MSLogLevel.Error);
+            iOSLogger.MSWrapperLog(msg_provider, tag, iOSLogLevel.Error);
         }
 
         public static void Assert(string tag, string message)
         {
             iOSMessageProvider msg_provider = () => { return message; };
-            iOSLogger.MSWrapperLog(msg_provider, tag, Microsoft.AppCenter.iOS.Bindings.MSLogLevel.Assert);
+            iOSLogger.MSWrapperLog(msg_provider, tag, iOSLogLevel.Assert);
         }
 	}
 }

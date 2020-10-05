@@ -13,7 +13,7 @@ namespace Microsoft.AppCenter
             get => _httpNetworkAdapter;
             set
             {
-                MSDependencyConfiguration.HttpClient = new IosHttpClientAdapter(value);
+                MSACDependencyConfiguration.HttpClient = new IosHttpClientAdapter(value);
                 _httpNetworkAdapter = value;
             }
         }
