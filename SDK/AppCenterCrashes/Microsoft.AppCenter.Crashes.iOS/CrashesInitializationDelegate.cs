@@ -13,7 +13,7 @@ namespace Microsoft.AppCenter.Crashes
      * This class is required so that Mono can handle the signals SIGSEGV and SIGBUS, which should not always
      * cause a crash, but do if the native SDK's crash reporting service handles them.
      */
-    public class CrashesInitializationDelegate : MSCrashHandlerSetupDelegate
+    public class CrashesInitializationDelegate : MSACCrashHandlerSetupDelegate
     {
         [DllImport("libc")]
         private static extern int sigaction(Signal sig, IntPtr act, IntPtr oact);
