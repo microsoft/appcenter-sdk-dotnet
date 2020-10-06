@@ -8,9 +8,11 @@ using Microsoft.AppCenter.Distribute.iOS.Bindings;
 
 namespace Microsoft.AppCenter.Distribute
 {
+    using iOSDistribute = iOS.Bindings.MSACDistribute;
+
     public static partial class Distribute
     {
-        static Type _internalBindingType = typeof(MSDistribute);
+        static Type _internalBindingType = typeof(iOSDistribute);
 
         [Preserve]
         public static Type BindingType
@@ -23,23 +25,23 @@ namespace Microsoft.AppCenter.Distribute
 
         static Task<bool> PlatformIsEnabledAsync()
         {
-            return Task.FromResult(MSDistribute.IsEnabled());
+            return Task.FromResult(iOSDistribute.IsEnabled());
         }
 
         static Task PlatformSetEnabledAsync(bool enabled)
         {
-            MSDistribute.SetEnabled(enabled);
+            iOSDistribute.SetEnabled(enabled);
             return Task.FromResult(default(object));
         }
 
         static void PlatformSetInstallUrl(string installUrl)
         {
-            MSDistribute.SetInstallUrl(installUrl);
+            iOSDistribute.SetInstallUrl(installUrl);
         }
 
         static void PlatformSetApiUrl(string apiUrl)
         {
-            MSDistribute.SetApiUrl(apiUrl);
+            iOSDistribute.SetApiUrl(apiUrl);
         }
 
         /// <summary>
@@ -49,7 +51,7 @@ namespace Microsoft.AppCenter.Distribute
         /// <param name="url">The url with parameters.</param>
         public static void OpenUrl(NSUrl url)
         {
-            MSDistribute.OpenUrl(url);
+            iOSDistribute.OpenUrl(url);
         }
 
         /// <summary>
@@ -81,7 +83,7 @@ namespace Microsoft.AppCenter.Distribute
                 if (_delegate == null && _releaseAvailableCallback != null)
                 {
                     _delegate = new Delegate();
-                    MSDistribute.SetDelegate(_delegate);
+                    iOSDistribute.SetDelegate(_delegate);
                 }
             }
         }
@@ -91,11 +93,11 @@ namespace Microsoft.AppCenter.Distribute
             switch (updateAction)
             {
                 case UpdateAction.Update:
-                    MSDistribute.NotifyUpdateAction(MSUpdateAction.Update);
+                    iOSDistribute.NotifyUpdateAction(MSACUpdateAction.Update);
                     break;
 
                 case UpdateAction.Postpone:
-                    MSDistribute.NotifyUpdateAction(MSUpdateAction.Postpone);
+                    iOSDistribute.NotifyUpdateAction(MSACUpdateAction.Postpone);
                     break;
             }
         }
@@ -103,33 +105,33 @@ namespace Microsoft.AppCenter.Distribute
         static void SetUpdateTrack(UpdateTrack updateTrack)
         {
             var updateTrackValue = (int)updateTrack;
-            MSDistribute.SetUpdateTrack((MSUpdateTrack)updateTrackValue);
+            iOSDistribute.SetUpdateTrack((MSACUpdateTrack)updateTrackValue);
         }
 
         static UpdateTrack GetUpdateTrack()
         {
-            var updateTrackValue = (int)MSDistribute.GetUpdateTrack();
+            var updateTrackValue = (int)iOSDistribute.GetUpdateTrack();
             return (UpdateTrack)updateTrackValue;
         }
 
         static void PlatformCheckForUpdate()
         {
-            MSDistribute.CheckForUpdate();
+            iOSDistribute.CheckForUpdate();
         }
 
         static void PlatformDisableAutomaticCheckForUpdate()
         {
-            MSDistribute.DisableAutomaticCheckForUpdate();
+            iOSDistribute.DisableAutomaticCheckForUpdate();
         }
 
         private static void PlatformUnsetInstance()
         {
-            MSDistribute.ResetSharedInstance();
+            iOSDistribute.ResetSharedInstance();
         }
 
-        public class Delegate : MSDistributeDelegate
+        public class Delegate : MSACDistributeDelegate
         {
-            public override bool OnReleaseAvailable(MSDistribute distribute, MSReleaseDetails details)
+            public override bool OnReleaseAvailable(iOSDistribute distribute, MSACReleaseDetails details)
             {
                 if (_releaseAvailableCallback != null)
                 {
