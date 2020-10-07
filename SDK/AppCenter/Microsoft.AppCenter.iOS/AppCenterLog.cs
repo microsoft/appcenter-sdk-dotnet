@@ -22,37 +22,37 @@ namespace Microsoft.AppCenter
         public static void Verbose(string tag, string message)
 		{
 			iOSMessageProvider msg_provider = () => { return message; };
-			iOSLogger.MSWrapperLog(msg_provider, tag, iOSLogLevel.Verbose);
+			iOSLogger.MSACWrapperLog(msg_provider, tag, iOSLogLevel.Verbose);
 		}
 
 		public static void Debug(string tag, string message)
 		{
 			iOSMessageProvider msg_provider = () => { return message; };
-			iOSLogger.MSWrapperLog(msg_provider, tag, iOSLogLevel.Debug);
+			iOSLogger.MSACWrapperLog(msg_provider, tag, iOSLogLevel.Debug);
 		}
 
 		public static void Info(string tag, string message)
 		{
 			iOSMessageProvider msg_provider = () => { return message; };
-			iOSLogger.MSWrapperLog(msg_provider, tag, iOSLogLevel.Info);
+			iOSLogger.MSACWrapperLog(msg_provider, tag, iOSLogLevel.Info);
 		}
 
 		public static void Warn(string tag, string message)
 		{
 			iOSMessageProvider msg_provider = () => { return message; };
-			iOSLogger.MSWrapperLog(msg_provider, tag, iOSLogLevel.Warning);
+			iOSLogger.MSACWrapperLog(msg_provider, tag, iOSLogLevel.Warning);
 		}
 
         public static void Error(string tag, string message)
         {
             iOSMessageProvider msg_provider = () => { return message; };
-            iOSLogger.MSWrapperLog(msg_provider, tag, iOSLogLevel.Error);
+            iOSLogger.MSACWrapperLog(msg_provider, tag, iOSLogLevel.Error);
         }
 
         public static void Assert(string tag, string message)
         {
             iOSMessageProvider msg_provider = () => { return message; };
-            iOSLogger.MSWrapperLog(msg_provider, tag, iOSLogLevel.Assert);
+            iOSLogger.MSACWrapperLog(msg_provider, tag, iOSLogLevel.Assert);
         }
 	}
 }

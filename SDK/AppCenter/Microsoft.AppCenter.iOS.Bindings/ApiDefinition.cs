@@ -12,7 +12,7 @@ namespace Microsoft.AppCenter.iOS.Bindings
     // typedef NSString * (^MSACLogMessageProvider)();
     delegate string MSACLogMessageProvider();
 
-    // typedef void (^MSLogHandler)(MSLogMessageProvider, MSLogLevel, const char *, const char *, uint);
+    // typedef void (^MSACLogHandler)(MSACLogMessageProvider, MSACLogLevel, const char *, const char *, uint);
     unsafe delegate void MSACLogHandler(MSACLogMessageProvider arg0, MSACLogLevel arg1, IntPtr arg2, IntPtr arg3, uint arg4);
     //Note: Objective Sharpie tried to bind the above as:
     //  unsafe delegate void MSACLogHandler(MSACLogMessageProvider arg0, MSACLogLevel arg1, string arg2, sbyte* arg3, sbyte* arg4, uint arg5);
@@ -46,7 +46,7 @@ namespace Microsoft.AppCenter.iOS.Bindings
         [Export("liveUpdatePackageHash")]
         string LiveUpdatePackageHash { get; }
 
-        // -(BOOL)isEqual:(MSWrapperSdk *)wrapperSdk;
+        // -(BOOL)isEqual:(MSACWrapperSdk *)wrapperSdk;
         [Export("isEqual:")]
         bool IsEqual(MSACWrapperSdk wrapperSdk);
 
@@ -75,7 +75,7 @@ namespace Microsoft.AppCenter.iOS.Bindings
         bool Clear();
     }
 
-    // @interface MSDevice : MSWrapperSdk
+    // @interface MSACDevice : MSACWrapperSdk
     [BaseType(typeof(MSACWrapperSdk))]
     interface MSACDevice
     {
@@ -143,7 +143,7 @@ namespace Microsoft.AppCenter.iOS.Bindings
         [Export("appNamespace")]
         string AppNamespace { get; }
 
-        // -(BOOL)isEqual:(MSDevice *)device;
+        // -(BOOL)isEqual:(MSACDevice *)device;
         [Export("isEqual:")]
         bool IsEqual(MSACDevice device);
     }
@@ -222,8 +222,8 @@ namespace Microsoft.AppCenter.iOS.Bindings
         [Export("isEnabled")]
         bool IsEnabled();
 
-        // +(MSLogLevel)logLevel;
-        // +(void)setLogLevel:(MSLogLevel)logLevel;
+        // +(MSACLogLevel)logLevel;
+        // +(void)setLogLevel:(MSACLogLevel)logLevel;
         [Static]
         [Export("logLevel")]
         MSACLogLevel LogLevel();
@@ -237,12 +237,12 @@ namespace Microsoft.AppCenter.iOS.Bindings
         [Export("setUserId:")]
         void SetUserId([NullAllowed] string userId);
 
-        // +(void)setLogHandler:(MSLogHandler)logHandler;
+        // +(void)setLogHandler:(MSACLogHandler)logHandler;
         [Static]
         [Export("setLogHandler:")]
         void SetLogHandler(MSACLogHandler logHandler);
 
-        // +(void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
+        // +(void)setWrapperSdk:(MSACWrapperSdk *)wrapperSdk;
         [Static]
         [Export("setWrapperSdk:")]
         void SetWrapperSdk(MSACWrapperSdk wrapperSdk);
@@ -257,7 +257,7 @@ namespace Microsoft.AppCenter.iOS.Bindings
         [Export("isDebuggerAttached")]
         bool IsDebuggerAttached();
 
-        // + (void)setCustomProperties:(MSCustomProperties *)customProperties;
+        // + (void)setCustomProperties:(MSACCustomProperties *)customProperties;
         [Static]
         [Export("setCustomProperties:")]
         void SetCustomProperties([NullAllowed] MSACCustomProperties properties);
@@ -298,10 +298,10 @@ namespace Microsoft.AppCenter.iOS.Bindings
     [BaseType(typeof(NSObject))]
     interface MSACWrapperLogger
     {
-        // +(void)MSWrapperLog:(MSACLogMessageProvider)message tag:(NSString *)tag level:(MSACLogLevel)level;
+        // +(void)MSACWrapperLog:(MSACLogMessageProvider)message tag:(NSString *)tag level:(MSACLogLevel)level;
         [Static]
-        [Export("MSWrapperLog:tag:level:")]
-        void MSWrapperLog(MSACLogMessageProvider message, string tag, MSACLogLevel level);
+        [Export("MSACWrapperLog:tag:level:")]
+        void MSACWrapperLog(MSACLogMessageProvider message, string tag, MSACLogLevel level);
     }
 
     // typedef void (^MSACHttpRequestCompletionHandler)(NSData *_Nullable responseBody, NSHTTPURLResponse *_Nullable response, NSError* _Nullable error);

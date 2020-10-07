@@ -39,7 +39,7 @@ namespace Microsoft.AppCenter.Analytics.iOS.Bindings
         [Export("trackEvent:withProperties:")]
         void TrackEvent([NullAllowed] string eventName, [NullAllowed] NSDictionary properties);
 
-        // +(void)setDelegate:(id<MSAnalyticsDelegate> _Nullable)delegate;
+        // +(void)setDelegate:(id<MSACAnalyticsDelegate> _Nullable)delegate;
         [Static]
         [Export("setDelegate:")]
         void SetDelegate([NullAllowed] MSACAnalyticsDelegate analyticsDelegate);
