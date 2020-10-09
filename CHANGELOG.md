@@ -1,5 +1,13 @@
 # App Center SDK for .NET Change Log
 
+## Version 3.4.4 (Under development)
+
+#### iOS
+
+* **[Fix]** Fix naming conflict with iOS 14 private Apple framework: native iOS SDK has changed the classes prefix from `MS` to `MSAC`.
+
+___
+
 ## Version 3.4.3
 
 ### App Center Analytics
