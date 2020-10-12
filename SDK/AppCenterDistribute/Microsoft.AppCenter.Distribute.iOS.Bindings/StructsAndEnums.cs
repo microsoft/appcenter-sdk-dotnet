@@ -7,14 +7,14 @@ using ObjCRuntime;
 namespace Microsoft.AppCenter.Distribute.iOS.Bindings
 {
 	[Native]
-	public enum MSUpdateAction : ulong
+	public enum MSACUpdateAction : ulong
 	{
         Update = 0,
         Postpone = 1
 	}
 
 	[Native]
-	public enum MSUpdateTrack : ulong
+	public enum MSACUpdateTrack : ulong
 	{
         Public = 1,
         Private = 2
