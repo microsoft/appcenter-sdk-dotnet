@@ -25,19 +25,9 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Windows
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Analytics.Windows.Shared", "SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.shproj", "{7CE5BF9E-3650-4151-8B54-C1301AA73606}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppCenterPush", "AppCenterPush", "{20870E0A-068E-4016-9B51-53B46696352B}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Push.Shared", "SDK\AppCenterPush\Microsoft.AppCenter.Push.Shared\Microsoft.AppCenter.Push.Shared.shproj", "{A5D2FD20-13EE-4CA4-8278-09520CC376CD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Push.NET", "Tests\Microsoft.AppCenter.Push.NET\Microsoft.AppCenter.Push.NET.csproj", "{8A885E5E-A160-4AD2-BD03-59E3A6366C32}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Push.Test.Windows", "Tests\Microsoft.AppCenter.Push.Test.Windows\Microsoft.AppCenter.Push.Test.Windows.csproj", "{39DFE901-EBE0-4907-871C-D2638FEA2D49}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.UWP", "SDK\AppCenter\Microsoft.AppCenter.UWP\Microsoft.AppCenter.UWP.csproj", "{15E3FC9B-7714-4468-A296-81627A5B8F01}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Analytics.UWP", "SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.UWP\Microsoft.AppCenter.Analytics.UWP.csproj", "{200073BF-FA7E-42AF-8ED5-AA50BE7C0295}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Push.UWP", "SDK\AppCenterPush\Microsoft.AppCenter.Push.UWP\Microsoft.AppCenter.Push.UWP.csproj", "{8072449C-C6A8-4B36-87DC-173F295D161C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Test.UWP", "Tests\Microsoft.AppCenter.Test.UWP\Microsoft.AppCenter.Test.UWP.csproj", "{6D86EE4F-2871-4DC3-BCA4-A692DBEAE59D}"
 EndProject
@@ -72,11 +62,6 @@ Global
 		SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.projitems*{2f715d51-643c-4f7f-9ea4-6554d4eeccb2}*SharedItemsImports = 4
 		SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.projitems*{3f190edf-f524-4b8d-9031-cd7b045eb6a5}*SharedItemsImports = 13
 		SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.projitems*{7ce5bf9e-3650-4151-8b54-c1301aa73606}*SharedItemsImports = 13
-		SDK\AppCenterPush\Microsoft.AppCenter.Push.Shared\Microsoft.AppCenter.Push.Shared.projitems*{8072449c-c6a8-4b36-87dc-173f295d161c}*SharedItemsImports = 4
-		SDK\AppCenterPush\Microsoft.AppCenter.Push.Windows.Shared\Microsoft.AppCenter.Push.Windows.Shared.projitems*{8072449c-c6a8-4b36-87dc-173f295d161c}*SharedItemsImports = 4
-		SDK\AppCenterPush\Microsoft.AppCenter.Push.Shared\Microsoft.AppCenter.Push.Shared.projitems*{8a885e5e-a160-4ad2-bd03-59e3a6366c32}*SharedItemsImports = 4
-		SDK\AppCenterPush\Microsoft.AppCenter.Push.Windows.Shared\Microsoft.AppCenter.Push.Windows.Shared.projitems*{8a885e5e-a160-4ad2-bd03-59e3a6366c32}*SharedItemsImports = 4
-		SDK\AppCenterPush\Microsoft.AppCenter.Push.Shared\Microsoft.AppCenter.Push.Shared.projitems*{a5d2fd20-13ee-4ca4-8278-09520cc376cd}*SharedItemsImports = 13
 		SDK\AppCenter\Microsoft.AppCenter.Windows.Shared\Microsoft.AppCenter.Windows.Shared.projitems*{b4e6ad1c-21a0-43a4-bd73-ed9bfc19be6f}*SharedItemsImports = 13
 		Tests\Microsoft.AppCenter.Test.WindowsDesktop.Shared\Microsoft.AppCenter.Test.WindowsDesktop.Shared.projitems*{c4674357-efba-43aa-9db8-de62a3309eb6}*SharedItemsImports = 4
 		SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.projitems*{c5dac35e-b902-4e24-a8f7-963ad0f85f7a}*SharedItemsImports = 4

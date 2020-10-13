@@ -59,20 +59,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Distrib
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Crashes.Shared.Targets", "SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Shared.Targets\Microsoft.AppCenter.Crashes.Shared.Targets.shproj", "{CAE55C79-1601-400D-86BF-03AB8CC5B8B9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppCenterPush", "AppCenterPush", "{75195C32-F130-4FB1-957E-CCCC7EE50CE6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Push", "SDK\AppCenterPush\Microsoft.AppCenter.Push\Microsoft.AppCenter.Push.csproj", "{8EE6B5DA-6547-43C8-AEB6-8E0EAE3F81C9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Push.Android", "SDK\AppCenterPush\Microsoft.AppCenter.Push.Android\Microsoft.AppCenter.Push.Android.csproj", "{DF7C7C03-E335-4C23-83BA-8E490AC5B61D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Push.Android.Bindings", "SDK\AppCenterPush\Microsoft.AppCenter.Push.Android.Bindings\Microsoft.AppCenter.Push.Android.Bindings.csproj", "{80B9A47A-7A97-4E5A-9706-43ACB25A7240}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Push.iOS", "SDK\AppCenterPush\Microsoft.AppCenter.Push.iOS\Microsoft.AppCenter.Push.iOS.csproj", "{D8F25BA5-249D-4BB0-A4B1-A3245F2437FF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Push.iOS.Bindings", "SDK\AppCenterPush\Microsoft.AppCenter.Push.iOS.Bindings\Microsoft.AppCenter.Push.iOS.Bindings.csproj", "{9417E221-3287-47AC-BD56-5223057DC389}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Push.Shared", "SDK\AppCenterPush\Microsoft.AppCenter.Push.Shared\Microsoft.AppCenter.Push.Shared.shproj", "{A5D2FD20-13EE-4CA4-8278-09520CC376CD}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Shared.Xamarin", "SDK\AppCenter\Microsoft.AppCenter.Shared.Xamarin\Microsoft.AppCenter.Shared.Xamarin.shproj", "{7076E711-FE72-4EC0-8335-045EEFC1100C}"
 EndProject
 Global
