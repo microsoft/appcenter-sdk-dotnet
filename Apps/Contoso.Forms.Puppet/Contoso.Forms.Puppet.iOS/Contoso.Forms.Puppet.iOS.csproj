@@ -166,14 +166,6 @@
       <Project>{60241627-33BB-45F9-A1B6-6F1CB2BF2C4A}</Project>
       <Name>Microsoft.AppCenter.Distribute.iOS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\SDK\AppCenterPush\Microsoft.AppCenter.Push.iOS\Microsoft.AppCenter.Push.iOS.csproj">
-      <Project>{D8F25BA5-249D-4BB0-A4B1-A3245F2437FF}</Project>
-      <Name>Microsoft.AppCenter.Push.iOS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\SDK\AppCenterPush\Microsoft.AppCenter.Push.iOS.Bindings\Microsoft.AppCenter.Push.iOS.Bindings.csproj">
-      <Project>{9417E221-3287-47AC-BD56-5223057DC389}</Project>
-      <Name>Microsoft.AppCenter.Push.iOS.Bindings</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\..\packages\Xamarin.Forms.4.1.0.581479\build\Xamarin.Forms.targets" Condition="Exists('..\..\..\packages\Xamarin.Forms.4.1.0.581479\build\Xamarin.Forms.targets')" />

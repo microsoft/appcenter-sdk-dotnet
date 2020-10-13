@@ -5,7 +5,6 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Distribute;
-using Microsoft.AppCenter.Push;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +62,6 @@ namespace Contoso.Forms.Puppet
                 Crashes.SendingErrorReport += SendingErrorReportHandler;
                 Crashes.SentErrorReport += SentErrorReportHandler;
                 Crashes.FailedToSendErrorReport += FailedToSendErrorReportHandler;
-                Push.PushNotificationReceived += PrintNotification;
 
                 AppCenterLog.Assert(LogTag, "AppCenter.Configured=" + AppCenter.Configured);
 
@@ -88,9 +86,6 @@ namespace Contoso.Forms.Puppet
                 {
                     AppCenter.SetUserId(id);
                 }
-
-                // Work around for SetUserId race condition.
-                AppCenter.Start(typeof(Push));
                 AppCenter.IsEnabledAsync().ContinueWith(enabled =>
                 {
                     AppCenterLog.Info(LogTag, "AppCenter.Enabled=" + enabled.Result);
@@ -133,19 +128,6 @@ namespace Contoso.Forms.Puppet
                 default:
                     return GetAppCenterTokenString();
             }
-        }
-
-        static void PrintNotification(object sender, PushNotificationReceivedEventArgs e)
-        {
-            XamarinDevice.BeginInvokeOnMainThread(() =>
-            {
-                var message = e.Message;
-                if (e.CustomData != null)
-                {
-                    message += "\nCustom data = {" + string.Join(",", e.CustomData.Select(kv => kv.Key + "=" + kv.Value)) + "}";
-                }
-                Current.MainPage.DisplayAlert(e.Title, message, "OK");
-            });
         }
 
         static void SendingErrorReportHandler(object sender, SendingErrorReportEventArgs e)

@@ -10,7 +10,6 @@ using Com.Microsoft.Appcenter.Analytics;
 using Com.Microsoft.Appcenter.Analytics.Channel;
 using Com.Microsoft.Appcenter.Ingestion.Models;
 using Microsoft.AppCenter;
-using Microsoft.AppCenter.Push;
 using Xamarin.Forms;
 using Contoso.Forms.Demo.Droid;
 
@@ -37,12 +36,6 @@ namespace Contoso.Forms.Demo.Droid
 
             AndroidAnalytics.SetListener(new AndroidAnalyticsListener());
             LoadApplication(new App());
-        }
-
-        protected override void OnNewIntent(Intent intent)
-        {
-            base.OnNewIntent(intent);
-            Push.CheckLaunchedFromNotification(this, intent);
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)

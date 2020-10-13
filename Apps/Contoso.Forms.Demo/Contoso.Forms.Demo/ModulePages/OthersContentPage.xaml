@@ -11,9 +11,6 @@
                 <Button Text="Check for updates" Clicked="CheckForUpdateClicked"/>
             </ViewCell>
         </TableSection>
-        <TableSection Title="Push">
-            <SwitchCell Text="Push Enabled" On="true" x:Name="PushEnabledSwitchCell" OnChanged="UpdatePushEnabled" OnColor="{StaticResource SwitchCellOnColor}" />
-        </TableSection>
         <TableSection Title="EventFilter">
             <SwitchCell Text="EventFilter Enabled" x:Name="EventFilterEnabledSwitchCell" OnChanged="UpdateEventFilterEnabled" OnColor="{StaticResource SwitchCellOnColor}" />
         </TableSection>
