@@ -98,7 +98,6 @@
     <Compile Include="Utils\NetworkStateTests.cs" />
     <Compile Include="Utils\DefaultScreenSizeProviderTest.cs" />
     <Compile Include="UWPCrashesTest.cs" />
-    <Compile Include="UWPPushTest.cs" />
     <Compile Include="UnitTestApp.xaml.cs">
       <DependentUpon>UnitTestApp.xaml</DependentUpon>
     </Compile>
@@ -138,10 +137,6 @@
     <ProjectReference Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.UWP\Microsoft.AppCenter.Crashes.UWP.csproj">
       <Project>{2f715d51-643c-4f7f-9ea4-6554d4eeccb2}</Project>
       <Name>Microsoft.AppCenter.Crashes.UWP</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SDK\AppCenterPush\Microsoft.AppCenter.Push.UWP\Microsoft.AppCenter.Push.UWP.csproj">
-      <Project>{8072449c-c6a8-4b36-87dc-173f295d161c}</Project>
-      <Name>Microsoft.AppCenter.Push.UWP</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SDK\AppCenter\Microsoft.AppCenter.UWP\Microsoft.AppCenter.UWP.csproj">
       <Project>{15e3fc9b-7714-4468-a296-81627a5b8f01}</Project>
