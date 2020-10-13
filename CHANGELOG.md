@@ -6,6 +6,10 @@
 
 * **[Fix]** Fix naming conflict with iOS 14 private Apple framework: native iOS SDK has changed the classes prefix from `MS` to `MSAC`.
 
+### App Center Push
+
+App Center Push is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
+
 ___
 
 ## Version 3.4.3
