@@ -483,20 +483,6 @@ definitions:
       - id
       - name
 
-  PushInstallationLog:
-    type: object
-    description: Push installation Information.
-    x-ms-discriminator-value: pushInstallation
-    allOf:
-      - $ref: '#/definitions/Log'
-    properties:
-      pushToken:
-        type: string
-        description: >
-          The PNS handle for this installation.
-    required:
-        - pushToken
-
   AbstractErrorLog:
     type: object
     description: Abstract error log.
