@@ -4,59 +4,29 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
-	<ScrollView
+	<LinearLayout
+		android:focusable="true"
+		android:focusableInTouchMode="true"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:minWidth="25px"
-		android:minHeight="25px">
+		android:orientation="vertical"
+		android:padding="8dp"
+		android:id="@+id/linearLayout1">
 		<LinearLayout
-			android:focusable="true"
-			android:focusableInTouchMode="true"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			android:padding="8dp"
-			android:id="@+id/linearLayout1">
-			<LinearLayout
-				android:layout_width="match_parent"
+			android:id="@+id/linearLayout1"
+			android:orientation="horizontal">
+			<TextView
+				android:text="@string/DistributeEnabled"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:id="@+id/linearLayout1"
-				android:orientation="horizontal">
-				<TextView
-					android:text="@string/DistributeEnabled"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:padding="8dp"
-					android:id="@+id/textView1" />
-				<Switch
-					android:id="@+id/enabled_distribute"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content" />
-			</LinearLayout>
-			<LinearLayout
-				android:focusable="true"
-				android:focusableInTouchMode="true"
-				android:orientation="vertical"
-				android:id="@+id/linearLayout2"
+				android:padding="8dp"
+				android:id="@+id/textView1" />
+			<Switch
+				android:id="@+id/enabled_distribute"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-				<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:id="@+id/linearLayout1"
-					android:orientation="horizontal">
-					<TextView
-						android:text="@string/FirebaseAnalyticsEnabled"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:padding="8dp"
-						android:id="@+id/textView1" />
-					<Switch
-						android:id="@+id/enabled_firebase_analytics"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content" />
-				</LinearLayout>
-			</LinearLayout>
+				android:layout_height="wrap_content" />
 		</LinearLayout>
-	</ScrollView>
+	</LinearLayout>
 </LinearLayout>

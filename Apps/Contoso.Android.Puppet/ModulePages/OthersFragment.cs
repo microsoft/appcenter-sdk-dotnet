@@ -12,7 +12,6 @@ namespace Contoso.Android.Puppet
     public class OthersFragment : PageFragment
     {
         private Switch DistributeEnabledSwitch;
-        private Switch FirebaseAnalyticsEnabledSwitch;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -25,12 +24,9 @@ namespace Contoso.Android.Puppet
 
             // Find views.
             DistributeEnabledSwitch = view.FindViewById(Resource.Id.enabled_distribute) as Switch;
-            FirebaseAnalyticsEnabledSwitch = view.FindViewById(Resource.Id.enabled_firebase_analytics) as Switch;
 
             // Subscribe to events.
             DistributeEnabledSwitch.CheckedChange += UpdateDistributeEnabled;
-            FirebaseAnalyticsEnabledSwitch.CheckedChange += UpdateFirebaseAnalyticsEnabled;
-
             UpdateState();
         }
 
@@ -41,25 +37,12 @@ namespace Contoso.Android.Puppet
             DistributeEnabledSwitch.Checked = await Distribute.IsEnabledAsync();
             DistributeEnabledSwitch.Enabled = await AppCenter.IsEnabledAsync();
             DistributeEnabledSwitch.CheckedChange += UpdateDistributeEnabled;
-
-            FirebaseAnalyticsEnabledSwitch.CheckedChange -= UpdateFirebaseAnalyticsEnabled;
-            var enableAnalytics = Preferences.SharedPreferences.GetBoolean(Constants.FirebaseAnalyticsEnabledKey, false);
-            FirebaseAnalyticsEnabledSwitch.Checked = enableAnalytics;
-            FirebaseAnalyticsEnabledSwitch.CheckedChange += UpdateFirebaseAnalyticsEnabled;
         }
 
         private async void UpdateDistributeEnabled(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             await Distribute.SetEnabledAsync(e.IsChecked);
             DistributeEnabledSwitch.Checked = await Distribute.IsEnabledAsync();
-        }
-
-        private void UpdateFirebaseAnalyticsEnabled(object sender, CompoundButton.CheckedChangeEventArgs e)
-        {
-            var editor = Preferences.SharedPreferences.Edit();
-            editor.PutBoolean(Constants.FirebaseAnalyticsEnabledKey, e.IsChecked);
-            FirebaseAnalyticsEnabledSwitch.Checked = e.IsChecked;
-            editor.Apply();
         }
     }
 }
