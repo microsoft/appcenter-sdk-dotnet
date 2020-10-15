@@ -19,8 +19,6 @@ The App Center SDK uses a modular architecture so you can use any or all of the 
 
 4. **App Center Distribute Play**: App Center Distribute Play is stubbing the Distribute package's APIs to avoid Google Play rejecting the application for malicious behavior. It must be used only for build variants which are going to be published on Google Play.
 
-5. **App Center Push**: App Center Push enables you to send push notifications to users of your app from the App Center portal. We use APNS for iOS apps, FCM for Android and WNS for UWP apps. You can also segment your user base based on a set of properties and send them targeted notifications.
-
 ## 1. Get started
 
 It is super easy to use App Center. Have a look at our [get started documentation](https://docs.microsoft.com/en-us/appcenter/sdk/getting-started/xamarin) and onboard your app within minutes. Our [detailed documentation](https://docs.microsoft.com/en-us/appcenter/sdk/) is available as well.
