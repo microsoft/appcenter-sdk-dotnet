@@ -25,19 +25,9 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Windows
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Analytics.Windows.Shared", "SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.shproj", "{7CE5BF9E-3650-4151-8B54-C1301AA73606}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppCenterPush", "AppCenterPush", "{20870E0A-068E-4016-9B51-53B46696352B}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Push.Shared", "SDK\AppCenterPush\Microsoft.AppCenter.Push.Shared\Microsoft.AppCenter.Push.Shared.shproj", "{A5D2FD20-13EE-4CA4-8278-09520CC376CD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Push.NET", "Tests\Microsoft.AppCenter.Push.NET\Microsoft.AppCenter.Push.NET.csproj", "{8A885E5E-A160-4AD2-BD03-59E3A6366C32}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Push.Test.Windows", "Tests\Microsoft.AppCenter.Push.Test.Windows\Microsoft.AppCenter.Push.Test.Windows.csproj", "{39DFE901-EBE0-4907-871C-D2638FEA2D49}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.UWP", "SDK\AppCenter\Microsoft.AppCenter.UWP\Microsoft.AppCenter.UWP.csproj", "{15E3FC9B-7714-4468-A296-81627A5B8F01}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Analytics.UWP", "SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.UWP\Microsoft.AppCenter.Analytics.UWP.csproj", "{200073BF-FA7E-42AF-8ED5-AA50BE7C0295}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Push.UWP", "SDK\AppCenterPush\Microsoft.AppCenter.Push.UWP\Microsoft.AppCenter.Push.UWP.csproj", "{8072449C-C6A8-4B36-87DC-173F295D161C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Test.UWP", "Tests\Microsoft.AppCenter.Test.UWP\Microsoft.AppCenter.Test.UWP.csproj", "{6D86EE4F-2871-4DC3-BCA4-A692DBEAE59D}"
 EndProject
@@ -72,11 +62,6 @@ Global
 		SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.projitems*{2f715d51-643c-4f7f-9ea4-6554d4eeccb2}*SharedItemsImports = 4
 		SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.projitems*{3f190edf-f524-4b8d-9031-cd7b045eb6a5}*SharedItemsImports = 13
 		SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.projitems*{7ce5bf9e-3650-4151-8b54-c1301aa73606}*SharedItemsImports = 13
-		SDK\AppCenterPush\Microsoft.AppCenter.Push.Shared\Microsoft.AppCenter.Push.Shared.projitems*{8072449c-c6a8-4b36-87dc-173f295d161c}*SharedItemsImports = 4
-		SDK\AppCenterPush\Microsoft.AppCenter.Push.Windows.Shared\Microsoft.AppCenter.Push.Windows.Shared.projitems*{8072449c-c6a8-4b36-87dc-173f295d161c}*SharedItemsImports = 4
-		SDK\AppCenterPush\Microsoft.AppCenter.Push.Shared\Microsoft.AppCenter.Push.Shared.projitems*{8a885e5e-a160-4ad2-bd03-59e3a6366c32}*SharedItemsImports = 4
-		SDK\AppCenterPush\Microsoft.AppCenter.Push.Windows.Shared\Microsoft.AppCenter.Push.Windows.Shared.projitems*{8a885e5e-a160-4ad2-bd03-59e3a6366c32}*SharedItemsImports = 4
-		SDK\AppCenterPush\Microsoft.AppCenter.Push.Shared\Microsoft.AppCenter.Push.Shared.projitems*{a5d2fd20-13ee-4ca4-8278-09520cc376cd}*SharedItemsImports = 13
 		SDK\AppCenter\Microsoft.AppCenter.Windows.Shared\Microsoft.AppCenter.Windows.Shared.projitems*{b4e6ad1c-21a0-43a4-bd73-ed9bfc19be6f}*SharedItemsImports = 13
 		Tests\Microsoft.AppCenter.Test.WindowsDesktop.Shared\Microsoft.AppCenter.Test.WindowsDesktop.Shared.projitems*{c4674357-efba-43aa-9db8-de62a3309eb6}*SharedItemsImports = 4
 		SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.projitems*{c5dac35e-b902-4e24-a8f7-963ad0f85f7a}*SharedItemsImports = 4
@@ -161,38 +146,6 @@ Global
 		{4CFBAE12-D17F-49FF-B41D-C861EEB965C4}.Release|x64.Build.0 = Release|Any CPU
 		{4CFBAE12-D17F-49FF-B41D-C861EEB965C4}.Release|x86.ActiveCfg = Release|Any CPU
 		{4CFBAE12-D17F-49FF-B41D-C861EEB965C4}.Release|x86.Build.0 = Release|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Debug|ARM.Build.0 = Debug|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Debug|x64.Build.0 = Debug|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Debug|x86.Build.0 = Debug|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Release|ARM.ActiveCfg = Release|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Release|ARM.Build.0 = Release|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Release|x64.ActiveCfg = Release|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Release|x64.Build.0 = Release|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Release|x86.ActiveCfg = Release|Any CPU
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32}.Release|x86.Build.0 = Release|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Debug|ARM.Build.0 = Debug|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Debug|x64.Build.0 = Debug|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Debug|x86.Build.0 = Debug|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Release|Any CPU.Build.0 = Release|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Release|ARM.ActiveCfg = Release|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Release|ARM.Build.0 = Release|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Release|x64.ActiveCfg = Release|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Release|x64.Build.0 = Release|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Release|x86.ActiveCfg = Release|Any CPU
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49}.Release|x86.Build.0 = Release|Any CPU
 		{15E3FC9B-7714-4468-A296-81627A5B8F01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{15E3FC9B-7714-4468-A296-81627A5B8F01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15E3FC9B-7714-4468-A296-81627A5B8F01}.Debug|ARM.ActiveCfg = Debug|ARM
@@ -225,22 +178,6 @@ Global
 		{200073BF-FA7E-42AF-8ED5-AA50BE7C0295}.Release|x64.Build.0 = Release|x64
 		{200073BF-FA7E-42AF-8ED5-AA50BE7C0295}.Release|x86.ActiveCfg = Release|x86
 		{200073BF-FA7E-42AF-8ED5-AA50BE7C0295}.Release|x86.Build.0 = Release|x86
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Debug|ARM.ActiveCfg = Debug|ARM
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Debug|ARM.Build.0 = Debug|ARM
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Debug|x64.ActiveCfg = Debug|x64
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Debug|x64.Build.0 = Debug|x64
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Debug|x86.ActiveCfg = Debug|x86
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Debug|x86.Build.0 = Debug|x86
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Release|ARM.ActiveCfg = Release|ARM
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Release|ARM.Build.0 = Release|ARM
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Release|x64.ActiveCfg = Release|x64
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Release|x64.Build.0 = Release|x64
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Release|x86.ActiveCfg = Release|x86
-		{8072449C-C6A8-4B36-87DC-173F295D161C}.Release|x86.Build.0 = Release|x86
 		{6D86EE4F-2871-4DC3-BCA4-A692DBEAE59D}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{6D86EE4F-2871-4DC3-BCA4-A692DBEAE59D}.Debug|ARM.ActiveCfg = Debug|ARM
 		{6D86EE4F-2871-4DC3-BCA4-A692DBEAE59D}.Debug|ARM.Build.0 = Debug|ARM
@@ -371,13 +308,8 @@ Global
 		{C6C4937C-D5F4-4E00-8B51-8D826AD83C5E} = {B699D34F-C961-4E03-89AD-6B00FF643AE8}
 		{B4E6AD1C-21A0-43A4-BD73-ED9BFC19BE6F} = {B699D34F-C961-4E03-89AD-6B00FF643AE8}
 		{7CE5BF9E-3650-4151-8B54-C1301AA73606} = {7D1BE3C5-199E-483C-A62F-D0376346B0D7}
-		{20870E0A-068E-4016-9B51-53B46696352B} = {8E2BC697-ADCD-4395-827D-DDBD0633B145}
-		{A5D2FD20-13EE-4CA4-8278-09520CC376CD} = {20870E0A-068E-4016-9B51-53B46696352B}
-		{8A885E5E-A160-4AD2-BD03-59E3A6366C32} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
-		{39DFE901-EBE0-4907-871C-D2638FEA2D49} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
 		{15E3FC9B-7714-4468-A296-81627A5B8F01} = {B699D34F-C961-4E03-89AD-6B00FF643AE8}
 		{200073BF-FA7E-42AF-8ED5-AA50BE7C0295} = {7D1BE3C5-199E-483C-A62F-D0376346B0D7}
-		{8072449C-C6A8-4B36-87DC-173F295D161C} = {20870E0A-068E-4016-9B51-53B46696352B}
 		{6D86EE4F-2871-4DC3-BCA4-A692DBEAE59D} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
 		{C4674357-EFBA-43AA-9DB8-DE62A3309EB6} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
 		{1E9EC0AA-3E32-4551-80C4-E4F3E53D7590} = {B699D34F-C961-4E03-89AD-6B00FF643AE8}

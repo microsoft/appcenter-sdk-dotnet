@@ -3,7 +3,6 @@
 
 using System;
 using Microsoft.AppCenter;
-using Microsoft.AppCenter.Push;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
@@ -37,9 +36,7 @@ namespace Contoso.UWP.Demo
             InitializeComponent();
             Suspending += OnSuspending;
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start("e8354a9a-001a-4728-be65-a6477e57f2e7", typeof(Analytics), typeof(Crashes), typeof(Push));
-            Push.SetEnabledAsync(true);
-            Push.PushNotificationReceived += PushNotificationReceivedHandler;
+            AppCenter.Start("e8354a9a-001a-4728-be65-a6477e57f2e7", typeof(Analytics), typeof(Crashes));
         }
 
         /// <summary>
@@ -88,29 +85,6 @@ namespace Contoso.UWP.Demo
             }
             // Ensure the current window is active
             Window.Current.Activate();
-            Push.CheckLaunchedFromNotification(e);
-        }
-
-        private void PushNotificationReceivedHandler(object sender, PushNotificationReceivedEventArgs args)
-        {
-            string title = args.Title;
-            string message = args.Message;
-            var customData = args.CustomData;
-
-            string customDataString = string.Empty;
-            foreach (var pair in customData)
-            {
-                customDataString += $"key='{pair.Key}', value='{pair.Value}'";
-            }
-
-            if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(message))
-            {
-                AppCenterLog.Debug(AppCenterLog.LogTag, $"PushNotificationReceivedHandler received title:'{title}', message:'{message}', customData:{customDataString}");
-            }
-            else
-            {
-                AppCenterLog.Debug(AppCenterLog.LogTag, $"PushNotificationReceivedHandler received customData:{customDataString}");
-            }
         }
 
         /// <summary>

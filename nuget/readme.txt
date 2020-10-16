@@ -23,8 +23,3 @@ UWP: https://docs.microsoft.com/en-us/appcenter/sdk/crashes/uwp
 -----------Distribute----------
 
 Xamarin: https://docs.microsoft.com/en-us/appcenter/sdk/distribute/xamarin
-
--------------Push--------------
-
-Xamarin: https://docs.microsoft.com/en-us/appcenter/sdk/crashes/xamarin
-UWP: https://docs.microsoft.com/en-us/appcenter/sdk/crashes/uwp

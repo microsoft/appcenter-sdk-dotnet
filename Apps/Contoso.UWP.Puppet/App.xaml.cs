@@ -3,7 +3,6 @@
 
 using System;
 using Microsoft.AppCenter;
-using Microsoft.AppCenter.Push;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
@@ -38,9 +37,7 @@ namespace Contoso.UWP.Puppet
             Suspending += OnSuspending;
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
-            AppCenter.Start("42f4a839-c54c-44da-8072-a2f2a61751b2", typeof(Analytics), typeof(Crashes), typeof(Push));
-            Push.SetEnabledAsync(true);
-            Push.PushNotificationReceived += PushNotificationReceivedHandler;
+            AppCenter.Start("42f4a839-c54c-44da-8072-a2f2a61751b2", typeof(Analytics), typeof(Crashes));
         }
 
         /// <summary>
@@ -89,29 +86,6 @@ namespace Contoso.UWP.Puppet
             }
             // Ensure the current window is active
             Window.Current.Activate();
-            Push.CheckLaunchedFromNotification(e);
-        }
-
-        private void PushNotificationReceivedHandler(object sender, PushNotificationReceivedEventArgs args)
-        {
-            string title = args.Title;
-            string message = args.Message;
-            var customData = args.CustomData;
-
-            string customDataString = string.Empty;
-            foreach (var pair in customData)
-            {
-                customDataString += $"key='{pair.Key}', value='{pair.Value}'";
-            }
-
-            if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(message))
-            {
-                AppCenterLog.Debug(AppCenterLog.LogTag, $"PushNotificationReceivedHandler received title:'{title}', message:'{message}', customData:{customDataString}");
-            }
-            else
-            {
-                AppCenterLog.Debug(AppCenterLog.LogTag, $"PushNotificationReceivedHandler received customData:{customDataString}");
-            }
         }
 
         /// <summary>

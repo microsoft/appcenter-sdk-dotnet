@@ -14,8 +14,6 @@
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.iOS/bin/Release/Microsoft.AppCenter.Crashes.iOS.Bindings.dll"/>
         <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.iOS/bin/Release/Microsoft.AppCenter.Distribute.dll"/>
         <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.iOS/bin/Release/Microsoft.AppCenter.Distribute.iOS.Bindings.dll"/>
-        <assembly path="SDK/AppCenterPush/Microsoft.AppCenter.Push.iOS/bin/Release/Microsoft.AppCenter.Push.dll"/>
-        <assembly path="SDK/AppCenterPush/Microsoft.AppCenter.Push.iOS.Bindings/bin/Release/Microsoft.AppCenter.Push.iOS.Bindings.dll"/>
     </group>
     <group id="android" folder="AndroidAssemblies" buildGroup="mac">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.Android/bin/Release/Microsoft.AppCenter.dll"/>
@@ -26,8 +24,6 @@
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Android/bin/Release/Microsoft.AppCenter.Crashes.Android.Bindings.dll"/>
         <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/bin/Release/Microsoft.AppCenter.Distribute.dll"/>
         <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/bin/Release/Microsoft.AppCenter.Distribute.Android.Bindings.dll"/>
-        <assembly path="SDK/AppCenterPush/Microsoft.AppCenter.Push.Android/bin/Release/Microsoft.AppCenter.Push.dll"/>
-        <assembly path="SDK/AppCenterPush/Microsoft.AppCenter.Push.Android.Bindings/bin/Release/Microsoft.AppCenter.Push.Android.Bindings.dll"/>
     </group>
     <group id="androidPlay" folder="AndroidPlayAssemblies" buildGroup="mac">
         <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/bin/Release/MonoAndroid70/Microsoft.AppCenter.Distribute.dll"/>
@@ -37,7 +33,6 @@
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics/bin/Release/netstandard1.0/Microsoft.AppCenter.Analytics.dll"/>
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes/bin/Release/netstandard1.0/Microsoft.AppCenter.Crashes.dll"/>
         <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/bin/Release/netstandard1.0/Microsoft.AppCenter.Distribute.dll"/>
-        <assembly path="SDK/AppCenterPush/Microsoft.AppCenter.Push/bin/Release/netstandard1.0/Microsoft.AppCenter.Push.dll"/>
     </group>
     <group id="windows_desktop" folder="WindowsDesktopAssemblies" buildGroup="windows">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/net461/Microsoft.AppCenter.dll"/>
@@ -53,20 +48,17 @@
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.UWP/bin/Release/uap10.0.16299/Microsoft.AppCenter.dll"/>
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.UWP/bin/Release/uap10.0.16299/Microsoft.AppCenter.Analytics.dll"/>
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.UWP/bin/Release/uap10.0.16299/Microsoft.AppCenter.Crashes.dll"/>
-        <assembly path="SDK/AppCenterPush/Microsoft.AppCenter.Push.UWP/bin/Release/uap10.0.16299/Microsoft.AppCenter.Push.dll"/>
     </group>
     <group id="unity_uwp" folder="UnityUWPAssemblies" buildGroup="windows">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.UWP/bin/Release/net461/Microsoft.AppCenter.dll"/>
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.UWP/bin/Release/net461/Microsoft.AppCenter.Analytics.dll"/>
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.UWP/bin/Release/net461/Microsoft.AppCenter.Crashes.dll"/>
-        <assembly path="SDK/AppCenterPush/Microsoft.AppCenter.Push.UWP/bin/Release/net461/Microsoft.AppCenter.Push.dll"/>
     </group>
     <module dotnetModule="SDK/AppCenter/Microsoft.AppCenter" nuspec="AppCenter.nuspec"/>
     <module dotnetModule="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics" nuspec="AppCenterAnalytics.nuspec"/>
     <module dotnetModule="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes" nuspec="AppCenterCrashes.nuspec"/>
     <module dotnetModule="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute" nuspec="AppCenterDistribute.nuspec"/>
     <module dotnetModule="SDK/AppCenterDistribute/Microsoft.AppCenter.DistributePlay" nuspec="AppCenterDistributePlay.nuspec"/>
-    <module dotnetModule="SDK/AppCenterPush/Microsoft.AppCenter.Push" nuspec="AppCenterPush.nuspec"/>
     <buildGroup platformId="mac" solutionPath="AppCenter-SDK-Build-Mac.sln">
         <build configuration="Release"/>
     </buildGroup>
