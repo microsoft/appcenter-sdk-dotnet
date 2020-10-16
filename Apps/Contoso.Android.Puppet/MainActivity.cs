@@ -22,11 +22,6 @@ namespace Contoso.Android.Puppet
     {
         const string LogTag = "AppCenterXamarinPuppet";
 
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-        }
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
