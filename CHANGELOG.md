@@ -2,12 +2,6 @@
 
 ## Version 3.4.4 (Under development)
 
-### AppCenter
-
-#### UWP
-
-* **[Fix]** Fix `Contoso.Forms.UWP.Puppet` crash due to `SQLitePCLRaw.batteries_v2` was not found.
-
 #### iOS
 
 * **[Fix]** Fix naming conflict with iOS 14 private Apple framework: native iOS SDK has changed the classes prefix from `MS` to `MSAC`.
