@@ -3,4 +3,5 @@
 	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="28" />
 	<application android:label="ACFPuppet">
 	</application>
+	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
 </manifest>

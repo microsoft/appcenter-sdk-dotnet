@@ -21,16 +21,8 @@ namespace Contoso.Forms.Demo.Droid
     {
         public Task<string> PickFile()
         {
-            Intent intent;
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat)
-            {
-                intent = new Intent(Intent.ActionOpenDocument);
-                intent.AddCategory(Intent.CategoryOpenable);
-            }
-            else
-            {
-                intent = new Intent(Intent.ActionGetContent);
-            }
+            Intent intent = new Intent(Intent.ActionOpenDocument);
+            intent.AddCategory(Intent.CategoryOpenable);
             intent.SetType("*/*");
             var activity = Xamarin.Forms.Forms.Context as MainActivity;
             activity.StartActivityForResult(Intent.CreateChooser(intent, "Select attachment file"), MainActivity.FileAttachmentId);
