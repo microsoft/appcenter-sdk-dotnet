@@ -2,6 +2,10 @@
 
 ## Version 3.4.4 (Under development)
 
+#### Android
+
+* **[Breaking change]** Bump minimum Android SDK version to 21 API level.
+
 #### iOS
 
 * **[Fix]** Fix naming conflict with iOS 14 private Apple framework: native iOS SDK has changed the classes prefix from `MS` to `MSAC`.
