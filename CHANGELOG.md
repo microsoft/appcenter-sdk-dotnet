@@ -4,7 +4,7 @@
 
 #### Android
 
-* **[Breaking change]** Bump minimum Android SDK version to 21 API level.
+* **[Breaking change]** Bump the minimum Android SDK version to 21 API level.
 
 #### iOS
 
