@@ -4,7 +4,7 @@
 
 #### Android
 
-* **[Breaking change]** Bump the minimum Android SDK version to 21 API level.
+* **[Breaking change]** Bumping the minimum Android SDK version to 21 API level (Android 5.0), because old Android versions do not support root certificate authority used by App Center and would not get CA certificates updates anymore.
 
 #### iOS
 
