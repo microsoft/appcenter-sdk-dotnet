@@ -47,8 +47,8 @@ namespace Contoso.Forms.Demo.Droid
                 if (uri != null)
                 {
                     ContentResolver.TakePersistableUriPermission(uri, data.Flags & ActivityFlags.GrantReadUriPermission);
-                    FileAttachmentTaskCompletionSource.SetResult(uri.ToString());
                 }
+                FileAttachmentTaskCompletionSource.SetResult(uri?.ToString());
             }
         }
 
