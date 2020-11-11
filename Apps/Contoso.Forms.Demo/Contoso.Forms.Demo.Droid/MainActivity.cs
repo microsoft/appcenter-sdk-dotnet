@@ -44,7 +44,7 @@ namespace Contoso.Forms.Demo.Droid
             if (requestCode == FileAttachmentId)
             {
                 var uri = resultCode == Result.Ok && data != null ? data.Data : null;
-                if (Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat && uri != null)
+                if (uri != null)
                 {
                     ContentResolver.TakePersistableUriPermission(uri, data.Flags & ActivityFlags.GrantReadUriPermission);
                 }
