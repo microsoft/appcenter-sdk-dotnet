@@ -30,6 +30,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.0.0.0")]
-[assembly: AssemblyFileVersion("3.4.4.0")]
-[assembly: AssemblyInformationalVersion("3.4.4-SNAPSHOT")]
+[assembly: AssemblyFileVersion("release/start_4.0.0.0")]
+[assembly: AssemblyInformationalVersion("release/start_4.0.0-SNAPSHOT")]
 [assembly: InternalsVisibleTo("Microsoft.AppCenter.Test.Functional")]

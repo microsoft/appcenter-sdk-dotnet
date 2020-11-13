@@ -8,6 +8,6 @@ namespace Microsoft.AppCenter
         public const string Name = "appcenter.xamarin";
 
         /* We can't use reflection for assemblyInformationalVersion on iOS with "Link All" optimization. */
-        internal const string Version = "3.4.4-SNAPSHOT";
+        internal const string Version = "release/start_4.0.0-SNAPSHOT";
     }
 }
