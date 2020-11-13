@@ -1,6 +1,8 @@
 # App Center SDK for .NET Change Log
 
-## Version 3.4.4 (Under development)
+## Version 4.0.0
+
+### App Center
 
 #### Android
 
@@ -8,7 +10,14 @@
 
 #### iOS
 
-* **[Fix]** Fix naming conflict with iOS 14 private Apple framework: native iOS SDK has changed the classes prefix from `MS` to `MSAC`.
+* **[Fix]** Fix `NSInvalidArgumentException` when using non-string object as a key in `NSUserDefaults`.
+* **[Fix]** Fix `NSDateFormatter` initialization in a concurrent environment.
+
+### App Center Crashes
+
+#### iOS
+
+* **[Improvement]** Update PLCrashReporter to 1.8.0.
 
 ### App Center Push
 
