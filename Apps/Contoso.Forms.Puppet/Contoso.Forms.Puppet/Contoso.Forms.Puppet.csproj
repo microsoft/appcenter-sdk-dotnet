@@ -28,8 +28,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute\Microsoft.AppCenter.Distribute.csproj">
     </ProjectReference>
-    <ProjectReference Include="..\..\..\SDK\AppCenterPush\Microsoft.AppCenter.Push\Microsoft.AppCenter.Push.csproj">
-    </ProjectReference>
     <ProjectReference Include="..\..\Contoso.UtilClassLibrary\Contoso.UtilClassLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>

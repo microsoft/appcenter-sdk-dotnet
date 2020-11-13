@@ -11,7 +11,7 @@ namespace Microsoft.AppCenter
     {
         static readonly DateTime _epoch = new DateTime(2001, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        internal MSCustomProperties IOSCustomProperties { get; } = new MSCustomProperties();
+        internal MSACCustomProperties IOSCustomProperties { get; } = new MSACCustomProperties();
 
         CustomProperties PlatformSet(string key, string value)
         {

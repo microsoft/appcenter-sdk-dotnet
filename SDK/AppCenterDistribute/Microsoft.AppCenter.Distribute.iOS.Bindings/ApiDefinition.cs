@@ -5,9 +5,9 @@ using Foundation;
 
 namespace Microsoft.AppCenter.Distribute.iOS.Bindings
 {
-    // @interface MSDistribute : MSService
+    // @interface MSACDistribute : MSACService
     [BaseType(typeof(NSObject))]
-    interface MSDistribute
+    interface MSACDistribute
     {
         // +(void)setEnabled:(BOOL)isEnabled;
         [Static]
@@ -34,25 +34,25 @@ namespace Microsoft.AppCenter.Distribute.iOS.Bindings
         [Export("openURL:")]
         void OpenUrl(NSUrl url);
 
-        // + (void)setDelegate:(id<MSDistributeDelegate>)delegate;
+        // + (void)setDelegate:(id<MSACDistributeDelegate>)delegate;
         [Static]
         [Export("setDelegate:")]
-        void SetDelegate(MSDistributeDelegate distributeDelegate);
+        void SetDelegate(MSACDistributeDelegate distributeDelegate);
 
-        // + (void)notifyUpdateAction:(MSUpdateAction)action;
+        // + (void)notifyUpdateAction:(MSACUpdateAction)action;
         [Static]
         [Export("notifyUpdateAction:")]
-        void NotifyUpdateAction(MSUpdateAction action);
+        void NotifyUpdateAction(MSACUpdateAction action);
 
-        // + (void)setUpdateTrack:(MSUpdateTrack)updateTrack;
+        // + (void)setUpdateTrack:(MSACUpdateTrack)updateTrack;
         [Static]
         [Export("setUpdateTrack:")]
-        void SetUpdateTrack(MSUpdateTrack updateTrack);
+        void SetUpdateTrack(MSACUpdateTrack updateTrack);
 
-        // + (MSUpdateTrack)updateTrack;
+        // + (MSACUpdateTrack)updateTrack;
         [Static]
         [Export("updateTrack")]
-        MSUpdateTrack GetUpdateTrack();
+        MSACUpdateTrack GetUpdateTrack();
 
         // +(void)resetSharedInstance;
         [Static]
@@ -70,19 +70,19 @@ namespace Microsoft.AppCenter.Distribute.iOS.Bindings
         void DisableAutomaticCheckForUpdate();
     }
 
-    // @protocol MSDistributeDelegate <NSObject>
+    // @protocol MSACDistributeDelegate <NSObject>
     [Protocol, Model]
     [BaseType(typeof(NSObject))]
-    interface MSDistributeDelegate
+    interface MSACDistributeDelegate
     {
-        // @optional - (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details;
+        // @optional - (BOOL)distribute:(MSACDistribute *)distribute releaseAvailableWithDetails:(MSACReleaseDetails *)details;
         [Export("distribute:releaseAvailableWithDetails:")]
-        bool OnReleaseAvailable(MSDistribute distribute, MSReleaseDetails details);
+        bool OnReleaseAvailable(MSACDistribute distribute, MSACReleaseDetails details);
     }
 
-    // @interface MSReleaseDetails : NSObject
+    // @interface MSACReleaseDetails : NSObject
     [BaseType(typeof(NSObject))]
-    interface MSReleaseDetails
+    interface MSACReleaseDetails
     {
         // @property(nonatomic, copy) NSNumber *id;
         [Export("id")]

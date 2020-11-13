@@ -1,5 +1,31 @@
 # App Center SDK for .NET Change Log
 
+## Version 4.0.0
+
+### App Center
+
+#### Android
+
+* **[Breaking change]** Bumping the minimum Android SDK version to 21 API level (Android 5.0), because old Android versions do not support root certificate authority used by App Center and would not get CA certificates updates anymore.
+
+#### iOS
+
+* **[Fix]** Fix `NSInvalidArgumentException` when using non-string object as a key in `NSUserDefaults`.
+* **[Fix]** Fix `NSDateFormatter` initialization in a concurrent environment.
+
+### App Center Crashes
+
+#### iOS
+
+* **[Improvement]** Update PLCrashReporter to 1.8.0.
+
+### App Center Push
+
+App Center Push has been removed from the SDK and will be [retired on December 31st, 2020](https://devblogs.microsoft.com/appcenter/migrating-off-app-center-push/). 
+As an alternative to App Center Push, we recommend you migrate to [Azure Notification Hubs](https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-push-notification-overview) by following the [Push Migration Guide](https://docs.microsoft.com/en-us/appcenter/migration/push/).
+
+___
+
 ## Version 3.4.3
 
 ### App Center Analytics

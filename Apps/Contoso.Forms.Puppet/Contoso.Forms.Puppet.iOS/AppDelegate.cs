@@ -21,7 +21,7 @@ namespace Contoso.Forms.Puppet.iOS
         {
             Xamarin.Forms.Forms.Init();
             Distribute.DontCheckForUpdatesInDebug();
-            MSAnalytics.SetDelegate(new AnalyticsDelegate());
+            MSACAnalytics.SetDelegate(new AnalyticsDelegate());
             LoadApplication(new App());
             UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
             return base.FinishedLaunching(uiApplication, launchOptions);
@@ -39,19 +39,19 @@ namespace Contoso.Forms.Puppet.iOS
         }
     }
 
-    public class AnalyticsDelegate : MSAnalyticsDelegate
+    public class AnalyticsDelegate : MSACAnalyticsDelegate
     {
-        public override void WillSendEventLog(MSAnalytics analytics, MSEventLog eventLog)
+        public override void WillSendEventLog(MSACAnalytics analytics, MSACEventLog eventLog)
         {
             AppCenterLog.Debug(App.LogTag, "Will send event");
         }
 
-        public override void DidSucceedSendingEventLog(MSAnalytics analytics, MSEventLog eventLog)
+        public override void DidSucceedSendingEventLog(MSACAnalytics analytics, MSACEventLog eventLog)
         {
             AppCenterLog.Debug(App.LogTag, "Did send event");
         }
 
-        public override void DidFailSendingEventLog(MSAnalytics analytics, MSEventLog eventLog, NSError error)
+        public override void DidFailSendingEventLog(MSACAnalytics analytics, MSACEventLog eventLog, NSError error)
         {
             AppCenterLog.Debug(App.LogTag, "Failed to send event with error: " + error);
         }

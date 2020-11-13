@@ -7,7 +7,7 @@ namespace Microsoft.AppCenter
 {
     public partial class Device
     {
-        public Device(MSDevice device)
+        public Device(MSACDevice device)
         {
             SdkName = device.SdkName;
             SdkVersion = device.SdkVersion;

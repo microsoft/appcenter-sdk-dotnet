@@ -8,9 +8,9 @@ using CoreFoundation;
 
 namespace Microsoft.AppCenter.Crashes.iOS.Bindings
 {
-    // @interface MSErrorReport : NSObject
+    // @interface MSACErrorReport : NSObject
     [BaseType(typeof(NSObject))]
-    interface MSErrorReport
+    interface MSACErrorReport
     {
         // @property (readonly, nonatomic) NSString * incidentIdentifier;
         [Export("incidentIdentifier")]
@@ -40,9 +40,9 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         [Export("appErrorTime", ArgumentSemantic.Strong)]
         NSDate AppErrorTime { get; }
 
-        // @property (readonly, nonatomic) MSDevice * device;
+        // @property (readonly, nonatomic) MSACDevice * device;
         [Export("device")]
-        Microsoft.AppCenter.iOS.Bindings.MSDevice Device { get; }
+        Microsoft.AppCenter.iOS.Bindings.MSACDevice Device { get; }
 
         // @property (readonly, assign, nonatomic) NSUInteger appProcessIdentifier;
         [Export("appProcessIdentifier")]
@@ -54,12 +54,12 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         bool IsAppKill { get; }
     }
 
-    // typedef bool (^MSUserConfirmationHandler)(NSArray<MSErrorReport *> * _Nonnull);
-    delegate bool MSUserConfirmationHandler(MSErrorReport[] reports);
+    // typedef bool (^MSACUserConfirmationHandler)(NSArray<MSACErrorReport *> * _Nonnull);
+    delegate bool MSACUserConfirmationHandler(MSACErrorReport[] reports);
 
-    // @interface MSCrashes
+    // @interface MSACCrashes
     [BaseType(typeof(NSObject))]
-    interface MSCrashes
+    interface MSACCrashes
     {
         // +(void)setEnabled:(BOOL)isEnabled;
         [Static]
@@ -86,25 +86,25 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         [Export("hasReceivedMemoryWarningInLastSession")]
         bool HasReceivedMemoryWarningInLastSession { get; }
 
-        //(MSErrorReport * _Nullable)lastSessionCrashReport;
+        //(MSACErrorReport * _Nullable)lastSessionCrashReport;
         [Static]
         [NullAllowed, Export("lastSessionCrashReport")]
-        MSErrorReport LastSessionCrashReport { get; }
+        MSACErrorReport LastSessionCrashReport { get; }
 
-        //(void)setDelegate:(id<MSCrashesDelegate> _Nullable)delegate;
+        //(void)setDelegate:(id<MSACCrashesDelegate> _Nullable)delegate;
         [Static]
         [Export("setDelegate:")]
-        void SetDelegate([NullAllowed] MSCrashesDelegate crashesDelegate);
+        void SetDelegate([NullAllowed] MSACCrashesDelegate crashesDelegate);
 
-        //(void)setUserConfirmationHandler:(MSUserConfirmationHandler _Nullable)userConfirmationHandler;
+        //(void)setUserConfirmationHandler:(MSACUserConfirmationHandler _Nullable)userConfirmationHandler;
         [Static]
         [Export("setUserConfirmationHandler:")]
-        void SetUserConfirmationHandler([NullAllowed] MSUserConfirmationHandler userConfirmationHandler);
+        void SetUserConfirmationHandler([NullAllowed] MSACUserConfirmationHandler userConfirmationHandler);
 
-        //(void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation;
+        //(void)notifyWithUserConfirmation:(MSACUserConfirmation)userConfirmation;
         [Static]
         [Export("notifyWithUserConfirmation:")]
-        void NotifyWithUserConfirmation(MSUserConfirmation userConfirmation);
+        void NotifyWithUserConfirmation(MSACUserConfirmation userConfirmation);
 
         //+(void)disableMachExceptionHandler;
         [Static]
@@ -116,50 +116,50 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         void ResetSharedInstance();
     }
 
-    // @protocol MSCrashesDelegate <NSObject>
+    // @protocol MSACCrashesDelegate <NSObject>
     [Protocol, Model]
     [BaseType(typeof(NSObject))]
-    interface MSCrashesDelegate
+    interface MSACCrashesDelegate
     {
-        // @optional -(BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport;
+        // @optional -(BOOL)crashes:(MSACCrashes *)crashes shouldProcessErrorReport:(MSACErrorReport *)errorReport;
         [Export("crashes:shouldProcessErrorReport:")]
-        bool CrashesShouldProcessErrorReport(MSCrashes crashes, MSErrorReport msReport);
+        bool CrashesShouldProcessErrorReport(MSACCrashes crashes, MSACErrorReport errorReport);
 
-        // @optional - (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes forErrorReport:(MSErrorReport *)errorReport;
+        // @optional - (NSArray<MSACErrorAttachmentLog *> *)attachmentsWithCrashes:(MSACCrashes *)crashes forErrorReport:(MSACErrorReport *)errorReport;
         [Export("attachmentsWithCrashes:forErrorReport:")]
-        NSArray AttachmentsWithCrashes(MSCrashes crashes, MSErrorReport msReport);
+        NSArray AttachmentsWithCrashes(MSACCrashes crashes, MSACErrorReport errorReport);
 
-        // @optional -(void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport;
+        // @optional -(void)crashes:(MSACCrashes *)crashes willSendErrorReport:(MSACErrorReport *)errorReport;
         [Export("crashes:willSendErrorReport:")]
-        void CrashesWillSendErrorReport(MSCrashes crashes, MSErrorReport msReport);
+        void CrashesWillSendErrorReport(MSACCrashes crashes, MSACErrorReport errorReport);
 
-        // @optional -(void)crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport;
+        // @optional -(void)crashes:(MSACCrashes *)crashes didSucceedSendingErrorReport:(MSACErrorReport *)errorReport;
         [Export("crashes:didSucceedSendingErrorReport:")]
-        void CrashesDidSucceedSendingErrorReport(MSCrashes crashes, MSErrorReport msReport);
+        void CrashesDidSucceedSendingErrorReport(MSACCrashes crashes, MSACErrorReport errorReport);
 
-        // @optional -(void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error;
+        // @optional -(void)crashes:(MSACCrashes *)crashes didFailSendingErrorReport:(MSACErrorReport *)errorReport withError:(NSError *)error;
         [Export("crashes:didFailSendingErrorReport:withError:")]
-        void CrashesDidFailSendingErrorReport(MSCrashes crashes, MSErrorReport msReport, NSError error);
+        void CrashesDidFailSendingErrorReport(MSACCrashes crashes, MSACErrorReport errorReport, NSError error);
     }
 
-    // @interface MSErrorAttachmentLog : NSObject
+    // @interface MSACErrorAttachmentLog : NSObject
     [BaseType(typeof(NSObject))]
-    interface MSErrorAttachmentLog
+    interface MSACErrorAttachmentLog
     {
-        // + (MSErrorAttachmentLog *)attachmentWithText:(NSString *)text filename:(NSString *)filename;
+        // + (MSACErrorAttachmentLog *)attachmentWithText:(NSString *)text filename:(NSString *)filename;
         [Static]
         [Export("attachmentWithText:filename:")]
-        MSErrorAttachmentLog AttachmentWithText([NullAllowed] string text, [NullAllowed] string fileName);
+        MSACErrorAttachmentLog AttachmentWithText([NullAllowed] string text, [NullAllowed] string fileName);
 
-        // + (MSErrorAttachmentLog *)attachmentWithBinary:(NSData *)data filename:(NSString*)filename contentType:(NSString*)contentType;
+        // + (MSACErrorAttachmentLog *)attachmentWithBinary:(NSData *)data filename:(NSString*)filename contentType:(NSString*)contentType;
         [Static]
         [Export("attachmentWithBinary:filename:contentType:")]
-        MSErrorAttachmentLog AttachmentWithBinaryData(NSData data, [NullAllowed] string filename, string contentType);
+        MSACErrorAttachmentLog AttachmentWithBinaryData(NSData data, [NullAllowed] string filename, string contentType);
     }
 
-    // @interface MSException : NSObject
+    // @interface MSACException : NSObject
     [BaseType(typeof(NSObject))]
-    interface MSException
+    interface MSACException
     {
         // @property (nonatomic) NSString * _Nonnull type;
         [Export("type")]
@@ -173,26 +173,26 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         [NullAllowed, Export("stackTrace")]
         string StackTrace { get; set; }
 
-        // @property (nonatomic) NSArray<MSStackFrame *> * _Nullable frames;
+        // @property (nonatomic) NSArray<MSACStackFrame *> * _Nullable frames;
         [NullAllowed, Export("frames", ArgumentSemantic.Assign)]
-        MSStackFrame[] Frames { get; set; }
+        MSACStackFrame[] Frames { get; set; }
 
-        // @property (nonatomic) NSArray<MSException *> * _Nullable innerExceptions;
+        // @property (nonatomic) NSArray<MSACException *> * _Nullable innerExceptions;
         [NullAllowed, Export("innerExceptions", ArgumentSemantic.Assign)]
-        MSException[] InnerExceptions { get; set; }
+        MSACException[] InnerExceptions { get; set; }
 
         // @property (nonatomic) NSString * _Nullable wrapperSdkName;
         [NullAllowed, Export("wrapperSdkName")]
         string WrapperSdkName { get; set; }
 
-        // -(BOOL)isEqual:(MSException * _Nullable)exception;
+        // -(BOOL)isEqual:(MSACException * _Nullable)exception;
         [Export("isEqual:")]
-        bool IsEqual([NullAllowed] MSException exception);
+        bool IsEqual([NullAllowed] MSACException exception);
     }
 
-    // @interface MSStackFrame : NSObject
+    // @interface MSACStackFrame : NSObject
     [BaseType(typeof(NSObject))]
-    interface MSStackFrame
+    interface MSACStackFrame
     {
         // @property (nonatomic) NSString * _Nullable address;
         [NullAllowed, Export("address")]
@@ -218,15 +218,15 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         [NullAllowed, Export("fileName")]
         string FileName { get; set; }
 
-        // -(BOOL)isEqual:(MSStackFrame * _Nullable)frame;
+        // -(BOOL)isEqual:(MSACStackFrame * _Nullable)frame;
         [Export("isEqual:")]
-        bool IsEqual([NullAllowed] MSStackFrame frame);
+        bool IsEqual([NullAllowed] MSACStackFrame frame);
     }
 
 
     [Protocol, Model]
     [BaseType(typeof(NSObject))]
-    interface MSCrashHandlerSetupDelegate
+    interface MSACCrashHandlerSetupDelegate
     {
         //- (void) willSetUpCrashHandlers;
         [Export("willSetUpCrashHandlers")]
@@ -241,27 +241,27 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         bool ShouldEnableUncaughtExceptionHandler();
     }
 
-    // @interface MSWrapperExceptionManager : NSObject
+    // @interface MSACWrapperExceptionManager : NSObject
     [BaseType(typeof(NSObject))]
-    interface MSWrapperExceptionManager
+    interface MSACWrapperExceptionManager
     {
-        //+ (void) saveWrapperException:(MSWrapperException*) wrapperException;
+        //+ (void) saveWrapperException:(MSACWrapperException*) wrapperException;
         [Static]
         [Export("saveWrapperException:")]
-        void SaveWrapperException(MSWrapperException wrapperException);
+        void SaveWrapperException(MSACWrapperException wrapperException);
 
-        //+ (MSWrapperException*) loadWrapperExceptionWithUUID:(NSString*) uuid;
+        //+ (MSACWrapperException*) loadWrapperExceptionWithUUID:(NSString*) uuid;
         [Static]
         [Export("loadWrapperExceptionWithUUIDString:")]
-        MSWrapperException LoadWrapperExceptionWithUUID(string uuidString);
+        MSACWrapperException LoadWrapperExceptionWithUUID(string uuidString);
     }
 
     [BaseType(typeof(NSObject))]
-    interface MSWrapperException
+    interface MSACWrapperException
     {
-        //@property(nonatomic, strong) MSException* exception;
+        //@property(nonatomic, strong) MSACException* exception;
         [Export("modelException")]
-        MSException Exception { get; set; }
+        MSACException Exception { get; set; }
 
         //@property(nonatomic, strong) NSData* exceptionData;
         [Export("exceptionData")]
@@ -272,16 +272,16 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
     }
 
     [BaseType(typeof(NSObject))]
-    interface MSWrapperCrashesHelper
+    interface MSACWrapperCrashesHelper
     {
-        //+ (void) setCrashHandlerSetupDelegate:(id<MSCrashHandlerSetupDelegate>) delegate;
+        //+ (void) setCrashHandlerSetupDelegate:(id<MSACCrashHandlerSetupDelegate>) delegate;
         [Static]
         [Export("setCrashHandlerSetupDelegate:")]
-        void SetCrashHandlerSetupDelegate(MSCrashHandlerSetupDelegate del);
+        void SetCrashHandlerSetupDelegate(MSACCrashHandlerSetupDelegate del);
 
-        //+(void)trackModelException:(MSException *)exception withProperties:(NSDictionary *)properties withAttachments:(nullable NSArray<MSErrorAttachmentLog *> *)attachments;
+        //+(void)trackModelException:(MSACException *)exception withProperties:(NSDictionary *)properties withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments;
         [Static]
         [Export("trackModelException:withProperties:withAttachments:")]
-        void TrackModelException(MSException exception, NSDictionary properties, NSArray attachments);
+        void TrackModelException(MSACException exception, NSDictionary properties, NSArray attachments);
     }
 }

@@ -10,7 +10,6 @@ using Com.Microsoft.Appcenter.Analytics;
 using Com.Microsoft.Appcenter.Analytics.Channel;
 using Com.Microsoft.Appcenter.Ingestion.Models;
 using Microsoft.AppCenter;
-using Microsoft.AppCenter.Push;
 using Xamarin.Forms;
 using Contoso.Forms.Demo.Droid;
 
@@ -39,19 +38,13 @@ namespace Contoso.Forms.Demo.Droid
             LoadApplication(new App());
         }
 
-        protected override void OnNewIntent(Intent intent)
-        {
-            base.OnNewIntent(intent);
-            Push.CheckLaunchedFromNotification(this, intent);
-        }
-
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
             if (requestCode == FileAttachmentId)
             {
                 var uri = resultCode == Result.Ok && data != null ? data.Data : null;
-                if (Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat && uri != null)
+                if (uri != null)
                 {
                     ContentResolver.TakePersistableUriPermission(uri, data.Flags & ActivityFlags.GrantReadUriPermission);
                 }

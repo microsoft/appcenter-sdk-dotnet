@@ -274,33 +274,6 @@ Task("ReleaseApplication")
                     DistributionGroup + mandatorySuffix + ".");
 });
 
-// Push tasks
-Task("SendPushNotification")
-.Does(()=>
-{
-    var name = "Test Notification";
-    var title = "Test Notification";
-    var timeSent = DateTime.Now.ToString();
-    var body = "Notification sent from test script at " + timeSent + ".";
-    var properties = new Dictionary<string, string> {{"time_sent", timeSent}};
-    var notificationJson = new JObject(
-                            new JProperty("notification_content",
-                                new JObject(
-                                    new JProperty("name", name),
-                                    new JProperty("title", title),
-                                    new JProperty("body", body),
-                                    new JProperty("custom_data",
-                                        new JObject(
-                                            from key in properties.Keys
-                                            select new JProperty(key, properties[key]))))));
-    Information("Sending notification:\n" + notificationJson.ToString());
-    var url = GetApiUrl(BaseUrl, CurrentApp.AppOwner, CurrentApp.AppId, "push/notifications");
-    var request = GetWebRequest(url, Token);
-    AttachJsonPayload(request, notificationJson);
-    var responseJson = GetResponseJson(request);
-    Information("Successfully sent push notification and received result:\n" + responseJson.ToString());
-});
-
 Task("BuildAppsInAppCenter").Does(() => 
 {
     CurrentApp = (  from    app in Applications

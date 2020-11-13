@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.AppCenter;
-using Microsoft.AppCenter.Push;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Devices.Geolocation;
@@ -136,8 +135,6 @@ namespace Contoso.Forms.Puppet.UWP
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
-
-            Push.CheckLaunchedFromNotification(e);
         }
 
         /// <summary>

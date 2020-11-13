@@ -2,15 +2,9 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using Microsoft.AppCenter;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Distribute;
-using Microsoft.AppCenter.Push;
-using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace Contoso.Forms.Demo
@@ -48,7 +42,6 @@ namespace Contoso.Forms.Demo
             base.OnAppearing();
             var acEnabled = await AppCenter.IsEnabledAsync();
             RefreshDistributeEnabled(acEnabled);
-            RefreshPushEnabled(acEnabled);
             EventFilterEnabledSwitchCell.On = _eventFilterStarted && await EventFilterHolder.Implementation?.IsEnabledAsync();
             EventFilterEnabledSwitchCell.IsEnabled = acEnabled && EventFilterHolder.Implementation != null;
         }
@@ -75,13 +68,6 @@ namespace Contoso.Forms.Demo
             }
         }
 
-        async void UpdatePushEnabled(object sender, ToggledEventArgs e)
-        {
-            await Push.SetEnabledAsync(e.Value);
-            var acEnabled = await AppCenter.IsEnabledAsync();
-            RefreshPushEnabled(acEnabled);
-        }
-
         async void RefreshDistributeEnabled(bool _appCenterEnabled)
         {
             DistributeEnabledSwitchCell.On = await Distribute.IsEnabledAsync();
@@ -93,12 +79,6 @@ namespace Contoso.Forms.Demo
         void RefreshDistributeTrackUpdate()
         {
             UpdateTrackPicker.SelectedIndex = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack() ?? UpdateTrack.Public);
-        }
-
-        async void RefreshPushEnabled(bool _appCenterEnabled)
-        {
-            PushEnabledSwitchCell.On = await Push.IsEnabledAsync();
-            PushEnabledSwitchCell.IsEnabled = _appCenterEnabled;
         }
 
         async void UpdateEventFilterEnabled(object sender, ToggledEventArgs e)

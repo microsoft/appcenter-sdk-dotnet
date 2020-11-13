@@ -8,18 +8,18 @@ using Microsoft.AppCenter.iOS.Bindings;
 
 namespace Microsoft.AppCenter
 {
-    internal class IosHttpClientAdapter : MSHttpClientProtocol
+    internal class IosHttpClientAdapter : MSACHttpClientProtocol
     {
         private readonly IHttpNetworkAdapter _httpNetworkAdapter;
 
-        private MSHttpClientDelegate _httpClientDelegate;
+        private MSACHttpClientDelegate _httpClientDelegate;
 
         public IosHttpClientAdapter(IHttpNetworkAdapter httpNetworkAdapter)
         {
             _httpNetworkAdapter = httpNetworkAdapter;
         }
 
-        public override void SendAsync(NSUrl url, NSString method, NSDictionary<NSString, NSString> headers, NSData data, MSHttpRequestCompletionHandler completionHandler)
+        public override void SendAsync(NSUrl url, NSString method, NSDictionary<NSString, NSString> headers, NSData data, MSACHttpRequestCompletionHandler completionHandler)
         {
             _httpClientDelegate?.WillSendHTTPRequestToURL(url, headers);
             var managedHeaders = new Dictionary<string, string>();
@@ -55,7 +55,7 @@ namespace Microsoft.AppCenter
             });
         }
 
-        public override void SendAsync(NSUrl url, NSString method, NSDictionary<NSString, NSString> headers, NSData data, NSArray retryIntervals, bool compressionEnabled, MSHttpRequestCompletionHandler completionHandler)
+        public override void SendAsync(NSUrl url, NSString method, NSDictionary<NSString, NSString> headers, NSData data, NSArray retryIntervals, bool compressionEnabled, MSACHttpRequestCompletionHandler completionHandler)
         {
             SendAsync(url, method, headers, data, completionHandler);
         }
@@ -72,7 +72,7 @@ namespace Microsoft.AppCenter
         {
         }
 
-        public override void SetDelegate(MSHttpClientDelegate httpClientDelegate)
+        public override void SetDelegate(MSACHttpClientDelegate httpClientDelegate)
         {
             _httpClientDelegate = httpClientDelegate;
         }

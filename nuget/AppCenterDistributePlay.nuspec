@@ -22,8 +22,8 @@
   <files>
 
     <!-- Android -->
-    <file src="$androidPlay_dir$/Microsoft.AppCenter.Distribute.dll" target="lib/MonoAndroid403" />
-    <file src="$androidPlay_dir$/Microsoft.AppCenter.Distribute.xml" target="lib/MonoAndroid403" />
+    <file src="$androidPlay_dir$/Microsoft.AppCenter.Distribute.dll" target="lib/MonoAndroid50" />
+    <file src="$androidPlay_dir$/Microsoft.AppCenter.Distribute.xml" target="lib/MonoAndroid50" />
 
   </files>
 </package>
