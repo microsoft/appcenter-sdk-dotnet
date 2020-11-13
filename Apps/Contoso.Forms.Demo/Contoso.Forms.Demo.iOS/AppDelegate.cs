@@ -39,19 +39,19 @@ namespace Contoso.Forms.Demo.iOS
         }
     }
 
-    public class AnalyticsDelegate : MSAnalyticsDelegate
+    public class AnalyticsDelegate : MSACAnalyticsDelegate
     {
-        public override void WillSendEventLog(MSACAnalytics analytics, MSEventLog eventLog)
+        public override void WillSendEventLog(MSACAnalytics analytics, MSACEventLog eventLog)
         {
             AppCenterLog.Debug(App.LogTag, "Will send event");
         }
 
-        public override void DidSucceedSendingEventLog(MSACAnalytics analytics, MSEventLog eventLog)
+        public override void DidSucceedSendingEventLog(MSACAnalytics analytics, MSACEventLog eventLog)
         {
             AppCenterLog.Debug(App.LogTag, "Did send event");
         }
 
-        public override void DidFailSendingEventLog(MSACAnalytics analytics, MSEventLog eventLog, NSError error)
+        public override void DidFailSendingEventLog(MSACAnalytics analytics, MSACEventLog eventLog, NSError error)
         {
             AppCenterLog.Debug(App.LogTag, "Failed to send event with error: " + error);
         }
