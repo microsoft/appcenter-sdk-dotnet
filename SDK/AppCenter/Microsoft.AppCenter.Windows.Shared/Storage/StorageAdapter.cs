@@ -95,7 +95,7 @@ namespace Microsoft.AppCenter.Storage
             return null;
         }
 
-        private void ExecuteNonSelectionSqlQuery(string query, IList<object> args = null)
+        private int ExecuteNonSelectionSqlQuery(string query, IList<object> args = null)
         {
             var db = _db ?? throw new StorageException("The database wasn't initialized.");
             var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
@@ -120,6 +120,8 @@ namespace Microsoft.AppCenter.Storage
                     AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to finalize statement, result={result}");
                 }
             }
+
+            return result;
         }
 
         private List<object[]> ExecuteSelectionSqlQuery(string query, IList<object> args = null)
@@ -149,6 +151,83 @@ namespace Microsoft.AppCenter.Storage
                     AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to finalize statement, result={result}");
                 }
             }
+        }
+
+        private long GetMaxPageCount()
+        {
+            return GetPragmaValue("max_page_count");
+        }
+
+        private long GetPageCount()
+        {
+            return GetPragmaValue("page_count");
+        }
+
+        private long GetPageSize()
+        {
+            return GetPragmaValue("page_size");
+        }
+
+        private long GetPragmaValue(string valueName)
+        {
+            var result = ExecuteSelectionSqlQuery($"PRAGMA {valueName};");
+            var count = (long)(result.FirstOrDefault()?.FirstOrDefault() ?? 0L);
+            return count;
+        }
+
+        public bool SetMaxStorageSize(long sizeInBytes)
+        {
+            bool success;
+            var db = _db ?? throw new StorageException("The database wasn't initialized.");
+
+            // Check the current number of pages in the database to determine whether the requested size will shrink the database.
+            long currentPageCount = GetPageCount();
+            long pageSize = GetPageSize();
+            AppCenterLog.Info(AppCenterLog.LogTag, $"Found {currentPageCount} pages in the database.");
+            long requestedMaxPageCount = Convert.ToBoolean(sizeInBytes % pageSize) ? sizeInBytes / pageSize + 1 : sizeInBytes / pageSize;
+
+            if (currentPageCount > requestedMaxPageCount)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, $"Cannot change database size to {sizeInBytes} bytes as it would cause a loss of data. " +
+                    "Maximum database size will not be changed.");
+                success = false;
+            }
+            else
+            {
+
+                // Attempt to set the limit and check the page count to make sure the given limit works.
+                int result = ExecuteNonSelectionSqlQuery($"PRAGMA max_page_count = {requestedMaxPageCount}");
+                if (result != raw.SQLITE_OK)
+                {
+                    AppCenterLog.Error(AppCenterLog.LogTag, $"Could not change maximum database size to {sizeInBytes} bytes. SQLite error code: {result}.");
+                    success = false;
+                }
+                else
+                {
+                    long currentMaxPageCount = GetMaxPageCount();
+                    long actualMaxSize = currentMaxPageCount * pageSize;
+                    if (requestedMaxPageCount != currentMaxPageCount)
+                    {
+                        AppCenterLog.Error(AppCenterLog.LogTag, $"Could not change maximum database size to {sizeInBytes} bytes, current maximum size is {actualMaxSize} bytes.");
+                        success = false;
+                    }
+                    else
+                    {
+                        if (sizeInBytes == actualMaxSize)
+                        {
+                            AppCenterLog.Info(AppCenterLog.LogTag, $"Changed maximum database size to {actualMaxSize} bytes.");
+                        }
+                        else
+                        {
+                            AppCenterLog.Info(AppCenterLog.LogTag, $"Changed maximum database size to {actualMaxSize} bytes (next multiple of 4KiB).");
+                        }
+                    }
+
+                    success = true;
+                }
+            }
+
+            return success;
         }
 
         public void CreateTable(string tableName, string[] columnNames, string[] columnTypes)

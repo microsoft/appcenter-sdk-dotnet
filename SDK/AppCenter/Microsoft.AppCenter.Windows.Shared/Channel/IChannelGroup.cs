@@ -37,5 +37,7 @@ namespace Microsoft.AppCenter.Channel
         /// Waits for any running storage operations to complete.
         /// </summary>
         Task WaitStorageOperationsAsync();
+
+        Task<bool> SetMaxStorageSizeAsync(long sizeInBytes);
     }
 }
