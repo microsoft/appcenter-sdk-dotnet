@@ -196,7 +196,7 @@ namespace Microsoft.AppCenter.Storage
             {
 
                 // Attempt to set the limit and check the page count to make sure the given limit works.
-                int result = ExecuteNonSelectionSqlQuery($"PRAGMA max_page_count = {requestedMaxPageCount}");
+                int result = raw.sqlite3_exec(_db, $"PRAGMA max_page_count = {requestedMaxPageCount};");
                 if (result != raw.SQLITE_OK)
                 {
                     AppCenterLog.Error(AppCenterLog.LogTag, $"Could not change maximum database size to {sizeInBytes} bytes. SQLite error code: {result}.");
