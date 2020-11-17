@@ -111,6 +111,14 @@ namespace Microsoft.AppCenter.Test.Storage
             }
         }
 
+        public Task<bool> SetMaxStorageSizeAsync(long sizeInBytes)
+        {
+            lock (this)
+            {
+                return TaskExtension.GetCompletedTask(true);
+            }
+        }
+
         public void Dispose()
         {
         }

@@ -365,6 +365,23 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             }
         }
 
+        /// <summary>
+        /// Verify that Storage forwards SetMaxStorageSize to its storageAdapter.
+        /// </summary>
+        [TestMethod]
+        public async Task SetMaxStorageSize()
+        {
+            var mockStorageAdapter = Mock.Of<IStorageAdapter>();
+            using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, _databasePath))
+            {
+                var dbSize = 2 * 1024 * 1024;
+                _ = await storage.SetMaxStorageSizeAsync(dbSize);
+
+                Mock.Get(mockStorageAdapter).Verify(adapter => adapter.SetMaxStorageSize(dbSize), Times.Once());
+            }
+
+        }
+
         #region Helper methods
 
         private List<TestLog> PutNLogs(int n)

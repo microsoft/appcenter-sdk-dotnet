@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.AppCenter.Storage;
+using Microsoft.AppCenter.Test.Windows.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
     public class StorageAdapterTest
     {
         private StorageAdapter _adapter;
+
+        private StorageTestUtils _storageUtils;
 
         // Constants data mocks.
         private const string StorageTestChannelName = "storageTestChannelName";
@@ -35,6 +38,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
                 // Db file might not exist or might fail to be deleted.
             }
             _adapter = new StorageAdapter();
+            _storageUtils = new StorageTestUtils(DatabasePath);
         }
 
         [TestCleanup]
@@ -176,6 +180,56 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             _adapter.Delete(TableName, ColumnIdName, entryId);
             count = _adapter.Count(TableName, ColumnChannelName, StorageTestChannelName);
             Assert.AreEqual(0, count);
+        }
+
+        /// <summary>
+        /// Verify SetMaxStorageSize sets db size.
+        /// </summary>
+        [TestMethod]
+        public void SetMaxStorageSize()
+        {
+            InitializeStorageAdapter();
+
+            var dbSize = 2 * 1024 * 1024;
+            var success = _adapter.SetMaxStorageSize(dbSize);
+            Assert.IsTrue(success);
+
+            CreateTable();
+            _adapter.Delete(TableName, ColumnChannelName, StorageTestChannelName);
+        }
+
+        /// <summary>
+        /// Verify that SetMaxStorageSize fails if it was attempted to shrink the database.
+        /// </summary>
+        [TestMethod]
+        public void CannotSetMaxStorageSizeWhenSizeIsBelowTheCurrentDataSize()
+        {
+            var minDataSize = 20 * 1024;
+            _storageUtils.FillStorageWithTestData(minDataSize);
+
+            _adapter.Initialize(DatabasePath);
+
+            var dataSizeInBytes = _storageUtils.GetDataLengthInBytes();
+            var dbSize = dataSizeInBytes - 12 * 1024;
+            var success = _adapter.SetMaxStorageSize(dbSize);
+            Assert.IsFalse(success);
+        }
+
+        /// <summary>
+        /// Verify that SetMaxStorageSize succeeds if the parameter value is greater than current data size.
+        /// </summary>
+        [TestMethod]
+        public void CanSetMaxStorageSizeWhenSizeIsGreaterThanCurrentDataSize()
+        {
+            var minDataSize = 20 * 1024;
+            _storageUtils.FillStorageWithTestData(minDataSize);
+
+            _adapter.Initialize(DatabasePath);
+
+            var dataSizeInBytes = _storageUtils.GetDataLengthInBytes();
+            var dbSize = dataSizeInBytes + 12 * 1024;
+            var success = _adapter.SetMaxStorageSize(dbSize);
+            Assert.IsTrue(success);
         }
 
         #region Helper methods
