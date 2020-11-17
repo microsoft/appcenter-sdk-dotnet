@@ -81,6 +81,10 @@ namespace Contoso.Forms.Puppet
                 {
                     Distribute.DisableAutomaticCheckForUpdate();
                 }
+                if (Current.Properties.ContainsKey(Constants.StorageMaxSize) && Current.Properties[Constants.StorageMaxSize] is long size)
+                {
+                    AppCenter.SetMaxStorageSizeAsync(size);
+                }
                 AppCenter.Start(GetTokensString(), typeof(Analytics), typeof(Crashes), typeof(Distribute));
                 if (Current.Properties.ContainsKey(Constants.UserId) && Current.Properties[Constants.UserId] is string id)
                 {

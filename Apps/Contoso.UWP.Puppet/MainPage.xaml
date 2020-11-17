@@ -14,5 +14,9 @@
             <Button Content="Class library exception" Click="ClassLibraryException" Margin="20,0,0,0" />
             <ToggleSwitch Header="Handle all exceptions" x:Name="HandleExceptions" Margin="20,0,0,0" />
         </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Storage Max Size"/>
+            <TextBox x:Name="StorageMaxSizeTextBox" Width="200" KeyDown="StorageMaxSize_KeyDown" LostFocus="StorageMaxSize_LostFocus" />
+        </StackPanel>
     </StackPanel>
 </Page>

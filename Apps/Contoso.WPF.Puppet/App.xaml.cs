@@ -39,9 +39,15 @@ namespace Contoso.WPF.Puppet
             Crashes.SentErrorReport += (_, args) => Log($"Sent error report for an error ID: {args.Report.Id}");
             Crashes.FailedToSendErrorReport += (_, args) => Log($"Failed to send error report for an error ID: {args.Report.Id}");
 
+            var storageMaxSize = Settings.Default.StorageMaxSize;
+            if (storageMaxSize > 0)
+            {
+                AppCenter.SetMaxStorageSizeAsync(storageMaxSize);
+            }
+
             // Start AppCenter.
             AppCenter.Start("d967daf9-28ed-4899-84e8-17a00c064987", typeof(Analytics), typeof(Crashes));
-
+            var a = AppCenter.Configured;
             var userId = Settings.Default.UserId;
             if (!string.IsNullOrEmpty(userId))
             {
