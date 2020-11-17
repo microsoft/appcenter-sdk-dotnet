@@ -9,6 +9,9 @@ namespace Microsoft.AppCenter.iOS.Bindings
 {
     interface IMSACService { }
 
+    // typedef (void (^)(BOOL))completionHandler();
+    delegate void MSACSetLogLevelCompletionHandlerCallback(bool result);
+
     // typedef NSString * (^MSACLogMessageProvider)();
     delegate string MSACLogMessageProvider();
 
@@ -261,6 +264,11 @@ namespace Microsoft.AppCenter.iOS.Bindings
         [Static]
         [Export("setCustomProperties:")]
         void SetCustomProperties([NullAllowed] MSACCustomProperties properties);
+
+        // +(void)setMaxStorageSize:(long)sizeInBytes completionHandler(void (^)(BOOL))completionHandler;
+        [Static]
+        [Export("setMaxStorageSize:completionHandler:")]
+        bool setMaxStorageSize(long sizeInBytes, MSACSetLogLevelCompletionHandlerCallback callback);
     }
 
     // @protocol MSACService <NSObject>
