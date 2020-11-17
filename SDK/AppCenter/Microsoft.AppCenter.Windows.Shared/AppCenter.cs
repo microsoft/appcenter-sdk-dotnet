@@ -28,6 +28,7 @@ namespace Microsoft.AppCenter
         private const string NotConfiguredMessage = "App Center hasn't been configured. " +
                                                     "You need to call AppCenter.Start with appSecret or AppCenter.Configure first.";
         private const string ChannelName = "core";
+        private const long MinimumStorageSize = 1024 * 24;
 
         // The lock is static. Instance methods are not necessarily thread safe, but static methods are
         private static readonly object AppCenterLock = new object();
@@ -326,6 +327,21 @@ namespace Microsoft.AppCenter
 
         private Task<bool> SetInstanceStorageMaxSize(long storageMaxSize)
         {
+            if (Instance._instanceConfigured)
+            {
+                AppCenterLog.Error(AppCenterLog.LogTag, "SetMaxStorageSize may not be called after App Center has been configured.");
+                return Task.FromResult(false);
+            }
+            if (_storageMaxSize > 0)
+            {
+                AppCenterLog.Error(AppCenterLog.LogTag, "SetMaxStorageSize may only be called once per app launch.");
+                return Task.FromResult(false);
+            }
+            if (storageMaxSize < MinimumStorageSize)
+            {
+                AppCenterLog.Error(AppCenterLog.LogTag, $"Maximum storage size must be at least {MinimumStorageSize} bytes.");
+                return Task.FromResult(false);
+            }
             _storageMaxSize = storageMaxSize;
             return _channelGroup?.SetMaxStorageSizeAsync(storageMaxSize);
         }
