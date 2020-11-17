@@ -44,6 +44,7 @@ namespace Microsoft.AppCenter
         private string _logUrl;
         private bool _instanceConfigured;
         private string _appSecret;
+        private long _storageMaxSize;
 
         #region static
 
@@ -248,7 +249,10 @@ namespace Microsoft.AppCenter
 
         static Task<bool> PlatformSetMaxStorageSizeAsync(long sizeInBytes)
         {
-            return Instance._channelGroup?.SetMaxStorageSizeAsync(sizeInBytes);
+            lock (AppCenterLock)
+            {
+                return Instance.SetInstanceStorageMaxSize(sizeInBytes);
+            }
         }
 
         /// <summary>
@@ -320,6 +324,12 @@ namespace Microsoft.AppCenter
             _channelGroup?.SetLogUrl(logUrl);
         }
 
+        private Task<bool> SetInstanceStorageMaxSize(long storageMaxSize)
+        {
+            _storageMaxSize = storageMaxSize;
+            return _channelGroup?.SetMaxStorageSizeAsync(storageMaxSize);
+        }
+
         private void SetInstanceCustomProperties(CustomProperties customProperties)
         {
             if (!Configured)
@@ -342,7 +352,7 @@ namespace Microsoft.AppCenter
         }
 
         // Internal for testing
-        internal void InstanceConfigure(string appSecretOrSecrets)
+        internal async void InstanceConfigure(string appSecretOrSecrets)
         {
             if (_instanceConfigured)
             {
@@ -360,6 +370,10 @@ namespace Microsoft.AppCenter
             if (_logUrl != null)
             {
                 _channelGroup.SetLogUrl(_logUrl);
+            }
+            if(_storageMaxSize > 0)
+            {
+                await _channelGroup.SetMaxStorageSizeAsync(_storageMaxSize);
             }
             _instanceConfigured = true;
             AppCenterLog.Info(AppCenterLog.LogTag, "App Center SDK configured successfully.");
