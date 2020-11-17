@@ -352,7 +352,7 @@ namespace Microsoft.AppCenter
         }
 
         // Internal for testing
-        internal async void InstanceConfigure(string appSecretOrSecrets)
+        internal void InstanceConfigure(string appSecretOrSecrets)
         {
             if (_instanceConfigured)
             {
@@ -373,7 +373,7 @@ namespace Microsoft.AppCenter
             }
             if(_storageMaxSize > 0)
             {
-                await _channelGroup.SetMaxStorageSizeAsync(_storageMaxSize);
+                _channelGroup.SetMaxStorageSizeAsync(_storageMaxSize).GetAwaiter().GetResult();
             }
             _instanceConfigured = true;
             AppCenterLog.Info(AppCenterLog.LogTag, "App Center SDK configured successfully.");
