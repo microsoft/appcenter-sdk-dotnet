@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,10 +27,6 @@ namespace Contoso.WinForms.Puppet.DotNetCore
             textAttachments = Settings.Default.TextErrorAttachments;
             TextAttachmentTextBox.Text = textAttachments;
             FileAttachmentPathLabel.Text = fileAttachments;
-            if (Settings.Default.StorageMaxSize > 0)
-            {
-                StorageMaxSizeTextBox.Text = Settings.Default.StorageMaxSize.ToString();
-            }
         }
 
         private void UpdateState()
@@ -186,29 +183,6 @@ namespace Contoso.WinForms.Puppet.DotNetCore
                 FileAttachmentPathLabel.Text = "The file isn't selected";
             }
             Settings.Default.FileErrorAttachments = filePath;
-            Settings.Default.Save();
-        }
-
-        private void StorageMaxSize_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                HandleStorageMaxSizeChange();
-            }
-        }
-
-        private void StorageMaxSize_LostFocus(object sender, EventArgs e)
-        {
-            HandleStorageMaxSizeChange();
-        }
-
-        private void HandleStorageMaxSizeChange()
-        {
-            var storageSize = StorageMaxSizeTextBox.Text;
-            var size = (long)10 * 1024 * 1024;
-            long.TryParse(storageSize, out size);
-            AppCenter.SetMaxStorageSizeAsync(size).Wait();
-            Settings.Default.StorageMaxSize = size;
             Settings.Default.Save();
         }
 
