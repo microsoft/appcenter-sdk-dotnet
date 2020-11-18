@@ -194,10 +194,11 @@ namespace Microsoft.AppCenter
             iOSAppCenter.ResetSharedInstance();
         }
 
-        static Task PlatformSetMaxStorageSizeAsync(long sizeInBytes)
+        static Task<bool> PlatformSetMaxStorageSizeAsync(long sizeInBytes)
         {
-            iOSAppCenter.SetMaxStorageSize(sizeInBytes, null);
-            return Task.FromResult(default(object));
+            TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
+            iOSAppCenter.SetMaxStorageSize(sizeInBytes, (result) => taskCompletionSource.SetResult(result));
+            return taskCompletionSource.Task;
         }
     }
 }
