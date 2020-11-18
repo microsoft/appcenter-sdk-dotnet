@@ -396,12 +396,11 @@ namespace Microsoft.AppCenter
             }
             if(_storageMaxSize > 0)
             {
-                var result = _channelGroup.SetMaxStorageSizeAsync(_storageMaxSize).GetAwaiter().GetResult();
-                _storageTaskCompletionSource?.SetResult(result);
+                _channelGroup.SetMaxStorageSizeAsync(_storageMaxSize).ContinueWith((task) => _storageTaskCompletionSource?.SetResult(task.Result));
             }
             else
             {
-                _channelGroup.SetMaxStorageSizeAsync(DefaultStorageMaxSize).GetAwaiter().GetResult();
+                _channelGroup.SetMaxStorageSizeAsync(DefaultStorageMaxSize);
             }
             _instanceConfigured = true;
             AppCenterLog.Info(AppCenterLog.LogTag, "App Center SDK configured successfully.");
