@@ -211,7 +211,7 @@ namespace Microsoft.AppCenter
         /// Values below 20,480 bytes (20 KiB) will be ignored.
         /// </param>
         /// <returns><code>true</code> if changing the size was successful.</returns>
-        public static Task<bool> SetMaxStorageSizeAsync(long sizeInBytes = 1024 * 1024 * 10)
+        public static Task<bool> SetMaxStorageSizeAsync(long sizeInBytes)
         {
             return PlatformSetMaxStorageSizeAsync(sizeInBytes);
         }
