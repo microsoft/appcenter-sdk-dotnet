@@ -10,6 +10,7 @@ using System.Globalization;
 using System.IO;
 using System.Windows;
 using Microsoft.AspNetCore.StaticFiles;
+using System.Threading.Tasks;
 
 namespace Contoso.WPF.Puppet.DotNetCore
 {
@@ -39,13 +40,15 @@ namespace Contoso.WPF.Puppet.DotNetCore
             Crashes.FailedToSendErrorReport += (_, args) => Log($"Failed to send error report for an error ID: {args.Report.Id}");
 
             var storageMaxSize = Settings.Default.StorageMaxSize;
+            Task<bool> storageTask = null;
             if (storageMaxSize > 0)
             {
-                AppCenter.SetMaxStorageSizeAsync(storageMaxSize);
+                storageTask = AppCenter.SetMaxStorageSizeAsync(storageMaxSize);
             }
 
             // Start AppCenter.
             AppCenter.Start("d967daf9-28ed-4899-84e8-17a00c064987", typeof(Analytics), typeof(Crashes));
+            storageTask?.Wait();
 
             var userId = Settings.Default.UserId;
             if (!string.IsNullOrEmpty(userId))

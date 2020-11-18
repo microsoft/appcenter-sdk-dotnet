@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Contoso.WinForms.Puppet.DotNetCore
@@ -27,12 +28,14 @@ namespace Contoso.WinForms.Puppet.DotNetCore
             Crashes.GetErrorAttachments = GetErrorAttachmentsHandler;
 
             var storageMaxSize = Settings.Default.StorageMaxSize;
+            Task<bool> storageTask = null;
             if (storageMaxSize > 0)
             {
-                AppCenter.SetMaxStorageSizeAsync(storageMaxSize);
+                storageTask = AppCenter.SetMaxStorageSizeAsync(storageMaxSize);
             }
 
             AppCenter.Start("7136db69-7f8d-4a14-90bd-12c9588ae0b9", typeof(Analytics), typeof(Crashes));
+            storageTask?.Wait();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
