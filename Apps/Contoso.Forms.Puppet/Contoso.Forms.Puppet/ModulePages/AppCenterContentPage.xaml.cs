@@ -34,6 +34,10 @@ namespace Contoso.Forms.Puppet
             {
                 UserIdEntry.Text = id;
             }
+            if (Application.Current.Properties.ContainsKey(Constants.StorageMaxSize) && Application.Current.Properties[Constants.StorageMaxSize] is long size)
+            {
+                StorageMaxSize.Text = size.ToString();
+            }
             UserIdEntry.Unfocused += async (sender, args) =>
             {
                 var inputText = UserIdEntry.Text;
@@ -42,6 +46,26 @@ namespace Contoso.Forms.Puppet
                 Application.Current.Properties[Constants.UserId] = text;
                 await Application.Current.SavePropertiesAsync();
             };
+
+            StorageMaxSize.Completed += async (sender, args) =>
+            {
+                HandleStorageMaxSizeChanged();
+                await Application.Current.SavePropertiesAsync();
+            };
+
+            StorageMaxSize.Unfocused += async (sender, args) => 
+            {
+                HandleStorageMaxSizeChanged();
+                await Application.Current.SavePropertiesAsync();
+            };
+        }
+
+        private void HandleStorageMaxSizeChanged()
+        {
+            var inputText = StorageMaxSize.Text;
+            var size = string.IsNullOrEmpty(inputText) ? 0 : long.Parse(inputText);
+            AppCenter.SetMaxStorageSizeAsync(size).Wait();
+            Application.Current.Properties[Constants.StorageMaxSize] = size;
         }
 
         async void ChangeStartType(object sender, PropertyChangedEventArgs e)

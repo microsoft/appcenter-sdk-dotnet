@@ -37,6 +37,11 @@ namespace Contoso.UWP.Puppet
             Suspending += OnSuspending;
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
+            object storageSize;
+            if (Windows.Storage.ApplicationData.Current.LocalSettings.Values.TryGetValue("StorageMaxSize", out storageSize))
+            {
+                AppCenter.SetMaxStorageSizeAsync((long)storageSize);
+            }
             AppCenter.Start("42f4a839-c54c-44da-8072-a2f2a61751b2", typeof(Analytics), typeof(Crashes));
         }
 
