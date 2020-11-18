@@ -10,6 +10,5 @@ namespace Contoso.Forms.Puppet
         public const string UserId = "userId";
         public const string UpdateTrackKey = "update-track";
         public const string AutomaticUpdateCheckKey = "automatic-update-check";
-        public const string StorageMaxSize = "storage-max-size";
     }
 }

@@ -16,12 +16,6 @@
                     <Entry x:Name="UserIdEntry" HorizontalOptions="FillAndExpand" VerticalOptions="Center" HorizontalTextAlignment="End" />
                 </StackLayout>
             </ViewCell>
-            <ViewCell>
-                <StackLayout Orientation="Horizontal" Margin="15,0,15,0">
-                    <Label Text="Storage Max Size" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-                    <Entry x:Name="StorageMaxSize" HorizontalOptions="FillAndExpand" VerticalOptions="Center" HorizontalTextAlignment="End" />
-                </StackLayout>
-            </ViewCell>
         </TableSection>
     </TableView>
 </ContentPage>
