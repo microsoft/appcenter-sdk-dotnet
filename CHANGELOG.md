@@ -1,5 +1,13 @@
 # App Center SDK for .NET Change Log
 
+## Version 4.1.0 (under development)
+
+### AppCenter
+
+* **[Feature]** Add a `SetMaxStorageSize` API which allows setting a maximum size limit on the local SQLite storage. The default value is 10MB.
+
+___
+
 ## Version 4.0.0
 
 ### App Center
