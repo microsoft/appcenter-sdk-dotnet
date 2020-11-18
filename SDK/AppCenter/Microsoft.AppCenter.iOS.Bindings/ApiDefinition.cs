@@ -268,7 +268,7 @@ namespace Microsoft.AppCenter.iOS.Bindings
         // +(void)setMaxStorageSize:(long)sizeInBytes completionHandler(void (^)(BOOL))completionHandler;
         [Static]
         [Export("setMaxStorageSize:completionHandler:")]
-        bool setMaxStorageSize(long sizeInBytes, MSACSetLogLevelCompletionHandlerCallback callback);
+        void SetMaxStorageSize(long sizeInBytes, MSACSetLogLevelCompletionHandlerCallback callback);
     }
 
     // @protocol MSACService <NSObject>
