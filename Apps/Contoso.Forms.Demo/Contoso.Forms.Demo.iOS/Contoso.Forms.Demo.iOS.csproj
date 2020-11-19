@@ -90,7 +90,7 @@
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.0.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.0.0" />
     <PackageReference Include="Microsoft.AppCenter.Distribute" Version="4.0.0" />
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1687" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
