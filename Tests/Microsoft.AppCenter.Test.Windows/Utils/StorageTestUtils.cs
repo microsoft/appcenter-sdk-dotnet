@@ -23,7 +23,7 @@ namespace Microsoft.AppCenter.Test.Windows.Utils
 
         public long GetDataLengthInBytes()
         {
-            var db = OpenDatabase();
+            raw.sqlite3_open_v2(dbPath, out sqlite3 db, raw.SQLITE_OPEN_READONLY, null);
             raw.sqlite3_prepare_v2(db, "PRAGMA page_count;", out var stmt);
             raw.sqlite3_step(stmt);
             var pageCount = raw.sqlite3_column_int(stmt, 0);
@@ -37,26 +37,35 @@ namespace Microsoft.AppCenter.Test.Windows.Utils
             return (long)pageCount * pageSize;
         }
 
-        public void CreateTable()
-        {
-            var db = OpenDatabase();
-
-            var tables = new[] { ColumnIdName, Column1Name, Column2Name };
-            var types = new[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL" };
-            var createResult = raw.sqlite3_exec(db, $"CREATE TABLE IF NOT EXISTS {TableName}");
-            raw.sqlite3_close(db);
-        }
-
 
         public void FillStorageWithTestData(long dataSize)
         {
+            var db = OpenDatabaseAndCreateTable();
+
             while (GetDataLengthInBytes() < dataSize)
             {
-                AddTestDataToStorage(1000);
+                AddTestDataToStorage(1000, db);
+            }
+
+            raw.sqlite3_close(db);
+        }
+
+        private void AddTestDataToStorage(int count, sqlite3 db)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                var query = $"INSERT INTO {TableName} ({ColumnIdName}, {Column1Name}, {Column2Name}) VALUES ({i}, 'col1-{i}', 'col2-{i}')";
+                var insertResult = raw.sqlite3_exec(db, query);
             }
         }
 
-        private void AddTestDataToStorage(int count)
+        private sqlite3 OpenDatabase()
+        {
+            raw.sqlite3_open(dbPath, out sqlite3 db);
+            return db;
+        }
+
+        private sqlite3 OpenDatabaseAndCreateTable()
         {
             var db = OpenDatabase();
 
@@ -67,18 +76,6 @@ namespace Microsoft.AppCenter.Test.Windows.Utils
 
             Console.WriteLine($"created : {createResult == raw.SQLITE_OK}");
 
-            for (int i = 0; i < count; i++)
-            {
-                var query = $"INSERT INTO {TableName} ({ColumnIdName}, {Column1Name}, {Column2Name}) VALUES ({i}, 'col1-{i}', 'col2-{i}')";
-                var insertResult = raw.sqlite3_exec(db, query);
-            }
-
-            raw.sqlite3_close(db);
-        }
-
-        private sqlite3 OpenDatabase()
-        {
-            raw.sqlite3_open(dbPath, out sqlite3 db);
             return db;
         }
     }
