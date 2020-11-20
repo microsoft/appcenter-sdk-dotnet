@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Microsoft.AppCenter;
 using Xamarin.Forms;
 
@@ -46,26 +47,6 @@ namespace Contoso.Forms.Puppet
                 Application.Current.Properties[Constants.UserId] = text;
                 await Application.Current.SavePropertiesAsync();
             };
-
-            StorageMaxSize.Completed += async (sender, args) =>
-            {
-                HandleStorageMaxSizeChanged();
-                await Application.Current.SavePropertiesAsync();
-            };
-
-            StorageMaxSize.Unfocused += async (sender, args) => 
-            {
-                HandleStorageMaxSizeChanged();
-                await Application.Current.SavePropertiesAsync();
-            };
-        }
-
-        private void HandleStorageMaxSizeChanged()
-        {
-            var inputText = StorageMaxSize.Text;
-            var size = string.IsNullOrEmpty(inputText) ? 0 : long.Parse(inputText);
-            AppCenter.SetMaxStorageSizeAsync(size);
-            Application.Current.Properties[Constants.StorageMaxSize] = size;
         }
 
         async void ChangeStartType(object sender, PropertyChangedEventArgs e)
@@ -88,6 +69,15 @@ namespace Contoso.Forms.Puppet
         async void UpdateEnabled(object sender, ToggledEventArgs e)
         {
             await AppCenter.SetEnabledAsync(e.Value);
+        }
+
+        private void SaveStorageSize_Clicked(object sender, System.EventArgs e)
+        {
+            var inputText = StorageMaxSize.Text;
+            var size = string.IsNullOrEmpty(inputText) ? 0 : long.Parse(inputText);
+            _ = AppCenter.SetMaxStorageSizeAsync(size);
+            Application.Current.Properties[Constants.StorageMaxSize] = size;
+            _ = Application.Current.SavePropertiesAsync();
         }
     }
 }

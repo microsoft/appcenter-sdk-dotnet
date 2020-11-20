@@ -189,29 +189,6 @@ namespace Contoso.WinForms.Puppet.DotNetCore
             Settings.Default.Save();
         }
 
-        private void StorageMaxSize_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Return)
-            {
-                HandleStorageMaxSizeChange();
-            }
-        }
-
-        private void StorageMaxSize_LostFocus(object sender, EventArgs e)
-        {
-            HandleStorageMaxSizeChange();
-        }
-
-        private void HandleStorageMaxSizeChange()
-        {
-            var storageSize = StorageMaxSizeTextBox.Text;
-            var size = (long)10 * 1024 * 1024;
-            long.TryParse(storageSize, out size);
-            AppCenter.SetMaxStorageSizeAsync(size).Wait();
-            Settings.Default.StorageMaxSize = size;
-            Settings.Default.Save();
-        }
-
         private void TextAttachmentTextBox_TextChanged(object sender, EventArgs e)
         {
             textAttachments = TextAttachmentTextBox.Text;
@@ -235,6 +212,16 @@ namespace Contoso.WinForms.Puppet.DotNetCore
             {
                 TrackException(e);
             }
+        }
+
+        private void SaveStorageSize_Click(object sender, EventArgs e)
+        {
+            var storageSize = StorageMaxSizeTextBox.Text;
+            var size = (long)10 * 1024 * 1024;
+            long.TryParse(storageSize, out size);
+            AppCenter.SetMaxStorageSizeAsync(size);
+            Settings.Default.StorageMaxSize = size;
+            Settings.Default.Save();
         }
     }
 }

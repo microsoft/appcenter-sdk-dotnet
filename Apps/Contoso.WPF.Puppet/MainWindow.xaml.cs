@@ -308,20 +308,7 @@ namespace Contoso.WPF.Puppet
             Settings.Default.Save();
         }
 
-        private void StorageMaxSize_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == Key.Return)
-            {
-                HandleStorageMaxSizeChange();
-            }
-        }
-
-        private void StorageMaxSize_LostFocus(object sender, RoutedEventArgs e)
-        {
-            HandleStorageMaxSizeChange();
-        }
-
-        private void HandleStorageMaxSizeChange()
+        private void SaveStorageSize_Click(object sender, EventArgs e)
         {
             var storageSize = StorageMaxSize.Text;
             var size = (long)10 * 1024 * 1024;

@@ -34,6 +34,8 @@ namespace Contoso.WinForms.Puppet
             this.Tabs = new System.Windows.Forms.TabControl();
             this.AppCenterTab = new System.Windows.Forms.TabPage();
             this.MiscGroupBox = new System.Windows.Forms.GroupBox();
+            this.SaveSizeStorageButton = new System.Windows.Forms.Button();
+            this.StorageMaxSizeTextBox = new System.Windows.Forms.TextBox();
             this.StorageMaxSizeLabel = new System.Windows.Forms.Label();
             this.AppCenterEnabled = new System.Windows.Forms.CheckBox();
             this.AnalyticsTab = new System.Windows.Forms.TabPage();
@@ -61,7 +63,6 @@ namespace Contoso.WinForms.Puppet
             this.CrashWithNonSerializableException = new System.Windows.Forms.Button();
             this.CrashWithTestException = new System.Windows.Forms.Button();
             this.CrashesEnabled = new System.Windows.Forms.CheckBox();
-            this.StorageMaxSizeTextBox = new System.Windows.Forms.TextBox();
             this.Tabs.SuspendLayout();
             this.AppCenterTab.SuspendLayout();
             this.MiscGroupBox.SuspendLayout();
@@ -102,6 +103,7 @@ namespace Contoso.WinForms.Puppet
             // 
             // MiscGroupBox
             // 
+            this.MiscGroupBox.Controls.Add(this.SaveSizeStorageButton);
             this.MiscGroupBox.Controls.Add(this.StorageMaxSizeTextBox);
             this.MiscGroupBox.Controls.Add(this.StorageMaxSizeLabel);
             this.MiscGroupBox.Location = new System.Drawing.Point(8, 36);
@@ -111,11 +113,31 @@ namespace Contoso.WinForms.Puppet
             this.MiscGroupBox.TabStop = false;
             this.MiscGroupBox.Text = "Misc";
             // 
-            // StorageMaxLabel
+            // SaveSizeStorageButton
+            // 
+            this.SaveSizeStorageButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SaveSizeStorageButton.Location = new System.Drawing.Point(10, 61);
+            this.SaveSizeStorageButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.SaveSizeStorageButton.Name = "SaveSizeStorageButton";
+            this.SaveSizeStorageButton.Size = new System.Drawing.Size(342, 23);
+            this.SaveSizeStorageButton.TabIndex = 15;
+            this.SaveSizeStorageButton.Text = "Save";
+            this.SaveSizeStorageButton.UseVisualStyleBackColor = true;
+            this.SaveSizeStorageButton.Click += new System.EventHandler(this.SaveStorageSize_Click);
+            // 
+            // StorageMaxSizeTextBox
+            // 
+            this.StorageMaxSizeTextBox.Location = new System.Drawing.Point(103, 17);
+            this.StorageMaxSizeTextBox.Name = "StorageMaxSizeTextBox";
+            this.StorageMaxSizeTextBox.Size = new System.Drawing.Size(249, 20);
+            this.StorageMaxSizeTextBox.TabIndex = 1;
+            // 
+            // StorageMaxSizeLabel
             // 
             this.StorageMaxSizeLabel.AutoSize = true;
             this.StorageMaxSizeLabel.Location = new System.Drawing.Point(7, 20);
-            this.StorageMaxSizeLabel.Name = "StorageMaxLabel";
+            this.StorageMaxSizeLabel.Name = "StorageMaxSizeLabel";
             this.StorageMaxSizeLabel.Size = new System.Drawing.Size(90, 13);
             this.StorageMaxSizeLabel.TabIndex = 0;
             this.StorageMaxSizeLabel.Text = "Storage Max Size";
@@ -436,15 +458,6 @@ namespace Contoso.WinForms.Puppet
             this.CrashesEnabled.UseVisualStyleBackColor = true;
             this.CrashesEnabled.CheckedChanged += new System.EventHandler(this.CrashesEnabled_CheckedChanged);
             // 
-            // textBox1
-            // 
-            this.StorageMaxSizeTextBox.Location = new System.Drawing.Point(103, 17);
-            this.StorageMaxSizeTextBox.Name = "StorageMaxSizeTextBox";
-            this.StorageMaxSizeTextBox.Size = new System.Drawing.Size(100, 20);
-            this.StorageMaxSizeTextBox.TabIndex = 1;
-            this.StorageMaxSizeTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.StorageMaxSize_KeyDown);
-            this.StorageMaxSizeTextBox.LostFocus += new System.EventHandler(this.StorageMaxSize_LostFocus);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -505,6 +518,7 @@ namespace Contoso.WinForms.Puppet
         private System.Windows.Forms.GroupBox MiscGroupBox;
         private System.Windows.Forms.Label StorageMaxSizeLabel;
         private System.Windows.Forms.TextBox StorageMaxSizeTextBox;
+        private System.Windows.Forms.Button SaveSizeStorageButton;
     }
 }
 
