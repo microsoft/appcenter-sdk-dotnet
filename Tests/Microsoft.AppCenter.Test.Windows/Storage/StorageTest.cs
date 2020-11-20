@@ -2,12 +2,14 @@
 // Licensed under the MIT License.
 
 using Microsoft.AppCenter.Ingestion.Models;
+using Microsoft.AppCenter.Ingestion.Models.Serialization;
 using Microsoft.AppCenter.Storage;
 using Microsoft.AppCenter.Test.Windows.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Microsoft.AppCenter.Test.Windows.Storage
@@ -397,7 +399,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             var setMaxStorageSizeResult = await _storage.SetMaxStorageSizeAsync(logsDataSize);
             Assert.IsTrue(setMaxStorageSizeResult);
 
-            await FillDatabaseWithLogs();
+            await FillDatabaseWithLogs(logsDataSize);
 
             setMaxStorageSizeResult = await _storage.SetMaxStorageSizeAsync(capacity);
             Assert.IsTrue(setMaxStorageSizeResult);
@@ -420,16 +422,13 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         public async Task AddLogsDoesNotExceedCapacity()
         {
             var capacity = 12 * 1024;
-
             var setMaxStorageSizeResult = await _storage.SetMaxStorageSizeAsync(capacity);
             Assert.IsTrue(setMaxStorageSizeResult);
 
-            await FillDatabaseWithLogs();
-
+            await FillDatabaseWithLogs(capacity);
             var numLogsToAdd = 10;
             var limit = numLogsToAdd;
             var addedLogs = PutNLogs(numLogsToAdd);
-
             var dataSizeInBytes = _storageUtils.GetDataLengthInBytes();
             Assert.IsTrue(dataSizeInBytes <= capacity);
 
@@ -445,19 +444,14 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         public async Task SaveLogPurgesOldestLogsWhenStorageIsFull()
         {
             var capacity = 12 * 1024;
-
             var setMaxStorageSizeResult = await _storage.SetMaxStorageSizeAsync(capacity);
             Assert.IsTrue(setMaxStorageSizeResult);
 
-            var initialLogs = await FillDatabaseWithLogs();
+            var initialLogs = await FillDatabaseWithLogs(capacity);
             var firstLog = initialLogs[0];
-
-            var newLog = await PutLogWithSize(100);
-            var dataSizeInBytes = _storageUtils.GetDataLengthInBytes();
-            Assert.IsTrue(dataSizeInBytes <= capacity);
-
+            var newLog = TestLog.CreateTestLog();
+            await _storage.PutLog(StorageTestChannelName, newLog);
             var retrievedLogs = new List<Log>();
-
             await _storage.GetLogsAsync(StorageTestChannelName, int.MaxValue, retrievedLogs);
             CollectionAssert.Contains(retrievedLogs, newLog);
             CollectionAssert.DoesNotContain(retrievedLogs, firstLog);
@@ -470,22 +464,27 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         public async Task SaveLargeLogDoesNotPurgeOtherLogsWhenStorageIsFull()
         {
             var capacity = 12 * 1024;
-
             var setMaxStorageSizeResult = await _storage.SetMaxStorageSizeAsync(capacity);
             Assert.IsTrue(setMaxStorageSizeResult);
 
-            var initialLogs = await FillDatabaseWithLogs();
-            var firstLog = initialLogs[0];
-
-            var newLog = await PutLogWithSize(capacity + 1);
-            var dataSizeInBytes = _storageUtils.GetDataLengthInBytes();
-            Assert.IsTrue(dataSizeInBytes <= capacity);
-
+            var logs = PutNLogs(2);
+            var largeLogSize = capacity + 1;
+            var largeLog = CreateLogWithSize(largeLogSize);
+            try 
+            {
+               await _storage.PutLog(StorageTestChannelName, largeLog);
+            }
+            catch (StorageException e)
+            {
+                var logJsonString = LogSerializer.Serialize(largeLog);
+                var logSize = Encoding.UTF8.GetBytes(logJsonString).Length;
+                Assert.AreEqual(e.Message, $"Log is too large ({logSize} bytes) to store in database. Current maximum database size is {capacity} bytes.");
+            }
             var retrievedLogs = new List<Log>();
-
             await _storage.GetLogsAsync(StorageTestChannelName, int.MaxValue, retrievedLogs);
-            CollectionAssert.DoesNotContain(retrievedLogs, newLog);
-            CollectionAssert.Contains(retrievedLogs, firstLog);
+            CollectionAssert.Contains(retrievedLogs, logs[0]);
+            CollectionAssert.Contains(retrievedLogs, logs[1]);
+            CollectionAssert.DoesNotContain(retrievedLogs, largeLog);
         }
 
         #region Helper methods
@@ -497,14 +496,13 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             for (var i = 0; i < n; ++i)
             {
                 var testLog = TestLog.CreateTestLog();
-                
                 addedLogs.Add(testLog);
                 putLogTasks[i] = _storage.PutLog(StorageTestChannelName, testLog);
             }
             return addedLogs;
         }
 
-        private async Task<TestLog> PutLogWithSize(int size)
+        private TestLog CreateLogWithSize(int size)
         {
             var testLog = TestLog.CreateTestLog();
             var propsNum = size / 1000 + 1; // there is a limitation for string size, so we tear into pieces
@@ -512,28 +510,18 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             {
                 testLog.Properties.Add($"largeProp{i}", new string('.', size));
             }
-
-            await _storage.PutLog(StorageTestChannelName, testLog);
-
             return testLog;
         }
 
-        private async Task<List<TestLog>> FillDatabaseWithLogs()
+        private async Task<List<TestLog>> FillDatabaseWithLogs(int storageCapacity)
         {
-            var logs = new List<TestLog>();
-            try
-            {
-                while (true)
-                {
-                    var log = await PutLogWithSize(512);
-                    logs.Add(log);
-                }
-            }
-            catch (StorageException)
-            {
-                // storage is full
-            }
-
+            var log = TestLog.CreateTestLog();
+            var logJsonString = LogSerializer.Serialize(log);
+            var logSize = Encoding.UTF8.GetBytes(logJsonString).Length;
+            var logsCount = storageCapacity / logSize;
+            var logs = PutNLogs(logsCount - 1);
+            logs.Add(log);
+            await _storage.PutLog(StorageTestChannelName, log);
             return logs;
         }
 
