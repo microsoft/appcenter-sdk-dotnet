@@ -177,10 +177,7 @@ namespace Microsoft.AppCenter.Storage
         public bool SetMaxStorageSize(long sizeInBytes)
         {
             bool success;
-            if (_db == null)
-            {
-                throw new StorageException("The database wasn't initialized.");
-            }
+            var db = _db ?? throw new StorageException("The database wasn't initialized.");
 
             // Check the current number of pages in the database to determine whether the requested size will shrink the database.
             var currentPageCount = GetPageCount();
@@ -197,7 +194,7 @@ namespace Microsoft.AppCenter.Storage
             else
             {
                 // Attempt to set the limit and check the page count to make sure the given limit works.
-                var result = raw.sqlite3_exec(_db, $"PRAGMA max_page_count = {requestedMaxPageCount};");
+                var result = raw.sqlite3_exec(db, $"PRAGMA max_page_count = {requestedMaxPageCount};");
                 if (result != raw.SQLITE_OK)
                 {
                     AppCenterLog.Error(AppCenterLog.LogTag, $"Could not change maximum database size to {sizeInBytes} bytes. SQLite error code: {result}.");
