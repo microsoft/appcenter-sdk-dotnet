@@ -177,7 +177,10 @@ namespace Microsoft.AppCenter.Storage
         public bool SetMaxStorageSize(long sizeInBytes)
         {
             bool success;
-            var db = _db ?? throw new StorageException("The database wasn't initialized.");
+            if (_db == null)
+            {
+                throw new StorageException("The database wasn't initialized.");
+            }
 
             // Check the current number of pages in the database to determine whether the requested size will shrink the database.
             var currentPageCount = GetPageCount();
@@ -219,12 +222,10 @@ namespace Microsoft.AppCenter.Storage
                         {
                             AppCenterLog.Info(AppCenterLog.LogTag, $"Changed maximum database size to {actualMaxSize} bytes (next multiple of 4KiB).");
                         }
+                        success = true;
                     }
-
-                    success = true;
                 }
             }
-
             return success;
         }
 

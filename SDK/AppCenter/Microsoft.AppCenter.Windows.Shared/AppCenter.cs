@@ -394,7 +394,7 @@ namespace Microsoft.AppCenter
             {
                 _channelGroup.SetLogUrl(_logUrl);
             }
-            if(_storageMaxSize > 0)
+            if (_storageMaxSize > 0)
             {
                 _channelGroup.SetMaxStorageSizeAsync(_storageMaxSize).ContinueWith((task) => _storageTaskCompletionSource?.SetResult(task.Result));
             }
