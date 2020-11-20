@@ -64,7 +64,7 @@ namespace Contoso.Forms.Puppet
         {
             var inputText = StorageMaxSize.Text;
             var size = string.IsNullOrEmpty(inputText) ? 0 : long.Parse(inputText);
-            AppCenter.SetMaxStorageSizeAsync(size).Wait();
+            AppCenter.SetMaxStorageSizeAsync(size);
             Application.Current.Properties[Constants.StorageMaxSize] = size;
         }
 

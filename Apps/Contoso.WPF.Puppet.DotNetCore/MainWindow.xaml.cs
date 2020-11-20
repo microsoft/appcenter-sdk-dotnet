@@ -197,7 +197,7 @@ namespace Contoso.WPF.Puppet.DotNetCore
             var storageSize = StorageMaxSize.Text;
             var size = (long)10 * 1024 * 1024;
             long.TryParse(storageSize, out size);
-            AppCenter.SetMaxStorageSizeAsync(size).Wait();
+            AppCenter.SetMaxStorageSizeAsync(size);
             Settings.Default.StorageMaxSize = size;
             Settings.Default.Save();
         }
