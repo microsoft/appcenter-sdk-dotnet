@@ -7,7 +7,6 @@ using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Distribute;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using XamarinDevice = Xamarin.Forms.Device;
@@ -81,13 +80,11 @@ namespace Contoso.Forms.Puppet
                 {
                     Distribute.DisableAutomaticCheckForUpdate();
                 }
-                Task<bool> storageTask = null;
                 if (Current.Properties.ContainsKey(Constants.StorageMaxSize) && Current.Properties[Constants.StorageMaxSize] is long size)
                 {
-                    storageTask = AppCenter.SetMaxStorageSizeAsync(size);
+                    AppCenter.SetMaxStorageSizeAsync(size);
                 }
                 AppCenter.Start(GetTokensString(), typeof(Analytics), typeof(Crashes), typeof(Distribute));
-                storageTask?.Wait();
                 if (Current.Properties.ContainsKey(Constants.UserId) && Current.Properties[Constants.UserId] is string id)
                 {
                     AppCenter.SetUserId(id);
