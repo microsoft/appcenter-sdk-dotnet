@@ -208,5 +208,11 @@ namespace Microsoft.AppCenter
         {
             AndroidAppCenter.UnsetInstance();
         }
+
+        static Task<bool> PlatformSetMaxStorageSizeAsync(long sizeInBytes)
+        {
+            var future = AndroidAppCenter.SetMaxStorageSize(sizeInBytes);
+            return Task.Run(() => (bool)future.Get());
+        }
     }
 }
