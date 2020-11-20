@@ -38,6 +38,8 @@ namespace Contoso.Android.Puppet
         private TextView LogWriteLevelLabel;
         private Button LogWriteButton;
         private EditText UserIdText;
+        private Button SaveStorageSizeButton;
+        private EditText StorageSizeText;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -56,14 +58,24 @@ namespace Contoso.Android.Puppet
             LogWriteLevelLabel = view.FindViewById(Resource.Id.write_log_level) as TextView;
             LogWriteButton = view.FindViewById(Resource.Id.write_log) as Button;
             UserIdText = view.FindViewById(Resource.Id.write_user_id) as EditText;
+            SaveStorageSizeButton = view.FindViewById(Resource.Id.save_storage_size) as Button;
+            StorageSizeText = view.FindViewById(Resource.Id.write_storage_size) as EditText;
 
             // Subscribe to events.
             AppCenterEnabledSwitch.CheckedChange += UpdateEnabled;
             ((View)LogLevelLabel.Parent).Click += LogLevelClicked;
             ((View)LogWriteLevelLabel.Parent).Click += LogWriteLevelClicked;
             LogWriteButton.Click += WriteLog;
+            SaveStorageSizeButton.Click += SaveStorageSize;
             UserIdText.KeyPress += UserIdTextKeyPressedHandler;
 
+            // Set max storage size value.
+            var prefs = Context.GetSharedPreferences("AppCenter", FileCreationMode.Private);
+            var storageSizeValue = prefs.GetLong(Constants.StorageSizeKey, 0);
+            if (storageSizeValue > 0)
+            {
+                StorageSizeText.Text = storageSizeValue.ToString();
+            }
             UpdateState();
         }
 
@@ -129,6 +141,17 @@ namespace Contoso.Android.Puppet
             string message = LogWriteMessageText.Text;
             string tag = LogWriteTagText.Text;
             LogFunctions[mLogWriteLevel](tag, message);
+        }
+
+        private void SaveStorageSize(object sender, EventArgs e)
+        {
+            var inputText = StorageSizeText.Text;
+            var size = string.IsNullOrEmpty(inputText) ? 0 : long.Parse(inputText);
+            AppCenter.SetMaxStorageSizeAsync(size);
+            var prefs = Context.GetSharedPreferences("AppCenter", FileCreationMode.Private);
+            var prefEditor = prefs.Edit();
+            prefEditor.PutLong(Constants.StorageSizeKey, size);
+            prefEditor.Commit();
         }
     }
 }

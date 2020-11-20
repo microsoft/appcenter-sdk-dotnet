@@ -37,6 +37,14 @@ namespace Contoso.iOS.Puppet
             AppCenterEnabledSwitch.On = AppCenter.IsEnabledAsync().Result;
             LogLevelLabel.Text = LogLevelNames[AppCenter.LogLevel];
             LogWriteLevelLabel.Text = LogLevelNames[mLogWriteLevel];
+
+            // Set max storage size value.
+            var plist = NSUserDefaults.StandardUserDefaults;
+            var storageSizeValue = plist.IntForKey(Constants.StorageSizeKey);
+            if (storageSizeValue > 0)
+            {
+                StorageSizeText.Text = storageSizeValue.ToString();
+            }
         }
 
         partial void UpdateUserId(UITextField sender)
@@ -82,6 +90,15 @@ namespace Contoso.iOS.Puppet
             string message = LogWriteMessage.Text;
             string tag = LogWriteTag.Text;
             LogFunctions[mLogWriteLevel](tag, message);
+        }
+
+        partial void SaveStorageSize(NSObject sender)
+        {
+            var inputText = StorageSizeText.Text;
+            var size = string.IsNullOrEmpty(inputText) ? 0 : int.Parse(inputText);
+            AppCenter.SetMaxStorageSizeAsync(size);
+            var plist = NSUserDefaults.StandardUserDefaults;
+            plist.SetInt(size, Constants.StorageSizeKey);
         }
     }
 }

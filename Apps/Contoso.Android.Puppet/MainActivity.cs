@@ -3,6 +3,7 @@
 
 using System.Linq;
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.Design.Widget;
@@ -55,6 +56,12 @@ namespace Contoso.Android.Puppet
             Distribute.ReleaseAvailable = OnReleaseAvailable;
             AppCenterLog.Assert(LogTag, "AppCenter.Configured=" + AppCenter.Configured);
             AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
+            var prefs = GetSharedPreferences("AppCenter", FileCreationMode.Private);
+            var storageSizeValue = prefs.GetLong(Constants.StorageSizeKey, 0);
+            if (storageSizeValue > 0)
+            {
+                AppCenter.SetMaxStorageSizeAsync(storageSizeValue);
+            }
             Distribute.SetInstallUrl("https://install.portal-server-core-integration.dev.avalanch.es");
             Distribute.SetApiUrl("https://asgard-int.trafficmanager.net/api/v0.1");
             AppCenter.Start("bff0949b-7970-439d-9745-92cdc59b10fe", typeof(Analytics), typeof(Crashes), typeof(Distribute));
