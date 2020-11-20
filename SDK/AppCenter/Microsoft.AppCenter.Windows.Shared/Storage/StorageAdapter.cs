@@ -120,7 +120,6 @@ namespace Microsoft.AppCenter.Storage
                     AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to finalize statement, result={result}");
                 }
             }
-
             return result;
         }
 
@@ -181,10 +180,10 @@ namespace Microsoft.AppCenter.Storage
             var db = _db ?? throw new StorageException("The database wasn't initialized.");
 
             // Check the current number of pages in the database to determine whether the requested size will shrink the database.
-            long currentPageCount = GetPageCount();
-            long pageSize = GetPageSize();
+            var currentPageCount = GetPageCount();
+            var pageSize = GetPageSize();
             AppCenterLog.Info(AppCenterLog.LogTag, $"Found {currentPageCount} pages in the database.");
-            long requestedMaxPageCount = Convert.ToBoolean(sizeInBytes % pageSize) ? sizeInBytes / pageSize + 1 : sizeInBytes / pageSize;
+            var requestedMaxPageCount = Convert.ToBoolean(sizeInBytes % pageSize) ? sizeInBytes / pageSize + 1 : sizeInBytes / pageSize;
 
             if (currentPageCount > requestedMaxPageCount)
             {
@@ -194,9 +193,8 @@ namespace Microsoft.AppCenter.Storage
             }
             else
             {
-
                 // Attempt to set the limit and check the page count to make sure the given limit works.
-                int result = raw.sqlite3_exec(_db, $"PRAGMA max_page_count = {requestedMaxPageCount};");
+                var result = raw.sqlite3_exec(_db, $"PRAGMA max_page_count = {requestedMaxPageCount};");
                 if (result != raw.SQLITE_OK)
                 {
                     AppCenterLog.Error(AppCenterLog.LogTag, $"Could not change maximum database size to {sizeInBytes} bytes. SQLite error code: {result}.");
@@ -204,8 +202,8 @@ namespace Microsoft.AppCenter.Storage
                 }
                 else
                 {
-                    long currentMaxPageCount = GetMaxPageCount();
-                    long actualMaxSize = currentMaxPageCount * pageSize;
+                    var currentMaxPageCount = GetMaxPageCount();
+                    var actualMaxSize = currentMaxPageCount * pageSize;
                     if (requestedMaxPageCount != currentMaxPageCount)
                     {
                         AppCenterLog.Error(AppCenterLog.LogTag, $"Could not change maximum database size to {sizeInBytes} bytes, current maximum size is {actualMaxSize} bytes.");
