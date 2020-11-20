@@ -188,12 +188,11 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         [TestMethod]
         public void SetMaxStorageSize()
         {
+            // Prepare data.
             InitializeStorageAdapter();
-
             var dbSize = 2 * 1024 * 1024;
             var success = _adapter.SetMaxStorageSize(dbSize);
             Assert.IsTrue(success);
-
             CreateTable();
             _adapter.Delete(TableName, ColumnChannelName, StorageTestChannelName);
         }
@@ -206,9 +205,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         {
             var minDataSize = 20 * 1024;
             _storageUtils.FillStorageWithTestData(minDataSize);
-
             _adapter.Initialize(DatabasePath);
-
             var dataSizeInBytes = _storageUtils.GetDataLengthInBytes();
             var dbSize = dataSizeInBytes - 12 * 1024;
             var success = _adapter.SetMaxStorageSize(dbSize);
@@ -223,9 +220,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         {
             var minDataSize = 20 * 1024;
             _storageUtils.FillStorageWithTestData(minDataSize);
-
             _adapter.Initialize(DatabasePath);
-
             var dataSizeInBytes = _storageUtils.GetDataLengthInBytes();
             var dbSize = dataSizeInBytes + 12 * 1024;
             var success = _adapter.SetMaxStorageSize(dbSize);
