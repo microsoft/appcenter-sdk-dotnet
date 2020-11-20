@@ -276,7 +276,7 @@ namespace Microsoft.AppCenter.Storage
                     AppCenterLog.Debug(AppCenterLog.LogTag, $"Set max storage size.");
                     return _storageAdapter.SetMaxStorageSize(sizeInBytes);
                 }
-                catch (KeyNotFoundException e)
+                catch (Exception e)
                 {
                     throw new StorageException(e);
                 }
