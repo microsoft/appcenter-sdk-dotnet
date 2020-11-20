@@ -97,28 +97,44 @@ namespace Microsoft.AppCenter.Storage
                     throw new StorageException($"Log is too large ({logSize} bytes) to store in database. " +
                             $"Current maximum database size is {maxSize} bytes.");
                 }
-                var tryInsert = true;
-                while (tryInsert)
+                while (true)
                 {
                     try
                     {
                         _storageAdapter.Insert(TableName,
                             new[] { ColumnChannelName, ColumnLogName },
                             new List<object[]> {
-                            new object[] {channelName, logJsonString}
+                                new object[] {channelName, logJsonString}
                             });
-                        tryInsert = false;
+                        return;
                     }
                     catch (StorageFullException e)
                     {
-                        var oldestLog = _storageAdapter.Select(TableName, ColumnChannelName, channelName, string.Empty, null, 1, new string[] { ColumnIdName });
-                        if (oldestLog != null && oldestLog.Count > 0)
-                        {
-                            _storageAdapter.Delete(TableName, ColumnIdName, oldestLog[0][0]);
-                        }
+                        FreeSpaceForNewLog(logSize, channelName);
                     }
                 }
             });
+        }
+
+        private void FreeSpaceForNewLog(long newLogSize, string channelName)
+        {
+            var deletedLogsSize = 0L;
+            var currentFreeSpace = _storageAdapter.GetMaxStorageSize() - _storageAdapter.GetCurrentStorageSize();
+            while (true)
+            {
+                var oldestLog = _storageAdapter.Select(TableName, ColumnChannelName, channelName, string.Empty, null, 1, new string[] { ColumnIdName });
+                if (oldestLog != null && oldestLog.Count > 0)
+                {
+                    var logData = oldestLog[0];
+                    var logSize = Encoding.UTF8.GetBytes((string)logData[2]).Length;
+                    _storageAdapter.Delete(TableName, ColumnIdName, logData[0]);
+                    deletedLogsSize += logSize;
+                }
+                if (currentFreeSpace + deletedLogsSize > newLogSize)
+                {
+                    return;
+                }
+            }
         }
 
         /// <summary>

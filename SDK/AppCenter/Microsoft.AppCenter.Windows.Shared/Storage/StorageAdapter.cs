@@ -176,6 +176,11 @@ namespace Microsoft.AppCenter.Storage
             return count;
         }
 
+        public long GetCurrentStorageSize()
+        {
+            return GetPageCount() * GetPageSize();
+        }
+
         public long GetMaxStorageSize()
         {
             try
@@ -271,7 +276,7 @@ namespace Microsoft.AppCenter.Storage
             if (orderList != null && orderList.Length > 0)
             {
                 orderClause = " ORDER BY";
-                StringBuilder orderBuilder = new StringBuilder(orderClause);
+                var orderBuilder = new StringBuilder(orderClause);
                 foreach (var orderItem in orderList)
                 {
                     orderBuilder.Append($" {orderItem},");
