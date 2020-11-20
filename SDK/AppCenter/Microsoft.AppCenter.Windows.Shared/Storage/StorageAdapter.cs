@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using SQLitePCL;
 
 namespace Microsoft.AppCenter.Storage
@@ -175,6 +176,19 @@ namespace Microsoft.AppCenter.Storage
             return count;
         }
 
+        public long GetMaxStorageSize()
+        {
+            try
+            {
+                return GetMaxPageCount() * GetPageSize();
+            }
+            catch (Exception e)
+            {
+                AppCenterLog.Error(AppCenterLog.LogTag, $"Could not get max storage size.");
+                return -1;
+            }
+        }
+
         public bool SetMaxStorageSize(long sizeInBytes)
         {
             bool success;
@@ -243,7 +257,7 @@ namespace Microsoft.AppCenter.Storage
             return (int)count;
         }
 
-        public IList<object[]> Select(string tableName, string columnName, object value, string excludeColumnName, object[] excludeValues, int? limit = null)
+        public IList<object[]> Select(string tableName, string columnName, object value, string excludeColumnName, object[] excludeValues, int? limit = null, string[] orderList = null)
         {
             var whereClause = $"{columnName} = ?";
             var args = new List<object> { value };
@@ -253,7 +267,18 @@ namespace Microsoft.AppCenter.Storage
                 args.AddRange(excludeValues);
             }
             var limitClause = limit != null ? $" LIMIT {limit}" : string.Empty;
-            var query = $"SELECT * FROM {tableName} WHERE {whereClause}{limitClause};";
+            var orderClause = string.Empty;
+            if (orderList != null && orderList.Length > 0)
+            {
+                orderClause = " ORDER BY";
+                StringBuilder orderBuilder = new StringBuilder(orderClause);
+                foreach (var orderItem in orderList)
+                {
+                    orderBuilder.Append($" {orderItem},");
+                }
+                orderClause = $"{orderBuilder.ToString().TrimEnd(',')} ASC";
+            }
+            var query = $"SELECT * FROM {tableName} WHERE {whereClause}{orderClause}{limitClause};";
             return ExecuteSelectionSqlQuery(query, args);
         }
 
@@ -276,11 +301,16 @@ namespace Microsoft.AppCenter.Storage
         {
             var errorMessage = raw.sqlite3_errmsg(_db).utf8_to_string();
             var exceptionMessage = $"{message}, result={result}\n\t{errorMessage}";
-            if (result == raw.SQLITE_CORRUPT || result == raw.SQLITE_NOTADB)
+            switch(result)
             {
-                return new StorageCorruptedException(exceptionMessage);
+                case raw.SQLITE_CORRUPT:
+                case raw.SQLITE_NOTADB:
+                    return new StorageCorruptedException(exceptionMessage);
+                case raw.SQLITE_FULL:
+                    return new StorageFullException(exceptionMessage);
+                default:
+                    return new StorageException(exceptionMessage);
             }
-            return new StorageException(exceptionMessage);
         }
 
         private static string BuildBindingMask(int amount)

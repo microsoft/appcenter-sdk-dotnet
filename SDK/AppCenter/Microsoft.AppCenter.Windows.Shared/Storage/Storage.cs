@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion.Models;
@@ -85,11 +86,38 @@ namespace Microsoft.AppCenter.Storage
             return AddTaskToQueue(() =>
             {
                 var logJsonString = LogSerializer.Serialize(log);
-                _storageAdapter.Insert(TableName,
-                    new[] { ColumnChannelName, ColumnLogName },
-                    new List<object[]> {
-                        new object[] {channelName, logJsonString}
-                    });
+                var maxSize = _storageAdapter.GetMaxStorageSize();
+                var logSize = Encoding.UTF8.GetBytes(logJsonString).Length;
+                if (maxSize == -1)
+                {
+                    throw new StorageException("Failed to store a log to the database.");
+                }
+                if (maxSize <= logSize)
+                {
+                    throw new StorageException($"Log is too large ({logSize} bytes) to store in database. " +
+                            $"Current maximum database size is {maxSize} bytes.");
+                }
+                var tryInsert = true;
+                while (tryInsert)
+                {
+                    try
+                    {
+                        _storageAdapter.Insert(TableName,
+                            new[] { ColumnChannelName, ColumnLogName },
+                            new List<object[]> {
+                            new object[] {channelName, logJsonString}
+                            });
+                        tryInsert = false;
+                    }
+                    catch (StorageFullException e)
+                    {
+                        var oldestLog = _storageAdapter.Select(TableName, ColumnChannelName, channelName, string.Empty, null, 1, new string[] { ColumnIdName });
+                        if (oldestLog != null && oldestLog.Count > 0)
+                        {
+                            _storageAdapter.Delete(TableName, ColumnIdName, oldestLog[0][0]);
+                        }
+                    }
+                }
             });
         }
 
