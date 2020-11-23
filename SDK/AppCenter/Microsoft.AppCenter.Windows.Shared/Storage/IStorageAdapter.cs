@@ -43,8 +43,9 @@ namespace Microsoft.AppCenter.Storage
         /// <param name="excludeColumnName">Column name to match excluded values by.</param>
         /// <param name="excludeValues">Excluded values to match in query.</param>
         /// <param name="limit">Maximum amount of items to select.</param>
+        /// <param name="orderList">List of a column names to order selection result ascending.</param>
         /// <returns>Item list with array of objects. Array of objects is object[] representation of columns.</returns>
-        IList<object[]> Select(string tableName, string columnName, object value, string excludeColumnName, object[] excludeValues, int? limit = null);
+        IList<object[]> Select(string tableName, string columnName, object value, string excludeColumnName, object[] excludeValues, int? limit = null, string[] orderList = null);
 
         /// <summary>
         /// Inserts data to table.
@@ -75,5 +76,11 @@ namespace Microsoft.AppCenter.Storage
         /// </param>
         /// <returns><code>true</code> if changing the size was successful.</returns>
         bool SetMaxStorageSize(long sizeInBytes);
+
+        /// <summary>
+        /// Gets the maximum size of the database.
+        /// </summary>
+        /// <returns>The maximum size of database in bytes.</returns>
+        long GetMaxStorageSize();
     }
 }
