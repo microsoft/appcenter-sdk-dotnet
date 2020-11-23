@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Microsoft.AppCenter;
 using Xamarin.Forms;
 
@@ -34,6 +35,10 @@ namespace Contoso.Forms.Puppet
             {
                 UserIdEntry.Text = id;
             }
+            if (Application.Current.Properties.ContainsKey(Constants.StorageMaxSize) && Application.Current.Properties[Constants.StorageMaxSize] is long size)
+            {
+                StorageMaxSize.Text = size.ToString();
+            }
             UserIdEntry.Unfocused += async (sender, args) =>
             {
                 var inputText = UserIdEntry.Text;
@@ -64,6 +69,15 @@ namespace Contoso.Forms.Puppet
         async void UpdateEnabled(object sender, ToggledEventArgs e)
         {
             await AppCenter.SetEnabledAsync(e.Value);
+        }
+
+        private void SaveStorageSize_Clicked(object sender, System.EventArgs e)
+        {
+            var inputText = StorageMaxSize.Text;
+            var size = string.IsNullOrEmpty(inputText) ? 0 : long.Parse(inputText);
+            _ = AppCenter.SetMaxStorageSizeAsync(size);
+            Application.Current.Properties[Constants.StorageMaxSize] = size;
+            _ = Application.Current.SavePropertiesAsync();
         }
     }
 }

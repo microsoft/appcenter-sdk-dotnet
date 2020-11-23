@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,6 +26,10 @@ namespace Contoso.WinForms.Puppet.DotNetCore
             textAttachments = Settings.Default.TextErrorAttachments;
             TextAttachmentTextBox.Text = textAttachments;
             FileAttachmentPathLabel.Text = fileAttachments;
+            if (Settings.Default.StorageMaxSize > 0)
+            {
+                StorageMaxSizeTextBox.Text = Settings.Default.StorageMaxSize.ToString();
+            }
         }
 
         private void UpdateState()
@@ -209,6 +212,16 @@ namespace Contoso.WinForms.Puppet.DotNetCore
             {
                 TrackException(e);
             }
+        }
+
+        private void SaveStorageSize_Click(object sender, EventArgs e)
+        {
+            var storageSize = StorageMaxSizeTextBox.Text;
+            var size = (long)10 * 1024 * 1024;
+            long.TryParse(storageSize, out size);
+            AppCenter.SetMaxStorageSizeAsync(size);
+            Settings.Default.StorageMaxSize = size;
+            Settings.Default.Save();
         }
     }
 }

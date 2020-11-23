@@ -10,12 +10,12 @@
         mc:Ignorable="d"
         Title="App Center WPF Puppet App" Height="505" Width="335">
     <StackPanel>
-        <TabControl SelectionChanged="TabControl_SelectionChanged">
+        <TabControl SelectionChanged="TabControl_SelectionChanged" Height="185">
             <TabItem Header="App Center">
                 <StackPanel>
                     <CheckBox Name="AppCenterEnabled" Content="App Center Enabled" Margin="0,10,0,10" Checked="AppCenterEnabled_Checked" Unchecked="AppCenterEnabled_Checked"/>
                     <StackPanel Orientation ="Horizontal" HorizontalAlignment="Right" />
-                    <GroupBox Header="Misc">
+                    <GroupBox Header="Misc" Height="116">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -23,9 +23,14 @@
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Label Content="User Id" Grid.Column="0" Grid.Row="0"/>
-                            <TextBox Name="UserId" Grid.Column="1" Grid.Row="0" KeyDown="UserId_KeyDown" LostFocus="UserId_LostFocus"/>
+                            <TextBox Name="UserId" Grid.Column="1" Grid.Row="0"  Margin="0, 2, 0, 2" KeyDown="UserId_KeyDown" LostFocus="UserId_LostFocus"/>
+                            <Label Content="Storage Max Size" Grid.Column="0" Grid.Row="1"/>
+                            <TextBox Name="StorageMaxSize" Margin="0, 2, 0, 2" Grid.Column="1" Grid.Row="1"/>
+                            <Button Name="SaveStorageSize" Click="SaveStorageSize_Click" Content="Save Storage Size"  Grid.Column="1" Grid.Row="2" Margin="103,5,0,1"/>
                         </Grid>
                     </GroupBox>
                 </StackPanel>
@@ -104,7 +109,7 @@
                     </GroupBox>
                 </StackPanel>
             </TabItem>
-            
+
         </TabControl>
     </StackPanel>
 </Window>
