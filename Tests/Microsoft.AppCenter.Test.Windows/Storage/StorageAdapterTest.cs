@@ -190,11 +190,11 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         {
             // Prepare data.
             InitializeStorageAdapter();
+
+            // Set storage max size and verify.
             var dbSize = 2 * 1024 * 1024;
             var success = _adapter.SetMaxStorageSize(dbSize);
             Assert.IsTrue(success);
-            CreateTable();
-            _adapter.Delete(TableName, ColumnChannelName, StorageTestChannelName);
         }
 
         /// <summary>
@@ -203,9 +203,12 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         [TestMethod]
         public void CannotSetMaxStorageSizeWhenSizeIsBelowTheCurrentDataSize()
         {
+            // Create test data and fill databse.
             var minDataSize = 20 * 1024;
             _storageUtils.FillStorageWithTestData(minDataSize);
             _adapter.Initialize(DatabasePath);
+
+            // Try to set max storage size and verify.
             var dataSizeInBytes = _storageUtils.GetDataLengthInBytes();
             var dbSize = dataSizeInBytes - 12 * 1024;
             var success = _adapter.SetMaxStorageSize(dbSize);
@@ -218,9 +221,12 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         [TestMethod]
         public void CanSetMaxStorageSizeWhenSizeIsGreaterThanCurrentDataSize()
         {
+            // Create test data and fill databse.
             var minDataSize = 20 * 1024;
             _storageUtils.FillStorageWithTestData(minDataSize);
             _adapter.Initialize(DatabasePath);
+
+            // Try to set max storage size and verify.
             var dataSizeInBytes = _storageUtils.GetDataLengthInBytes();
             var dbSize = dataSizeInBytes + 12 * 1024;
             var success = _adapter.SetMaxStorageSize(dbSize);
@@ -231,9 +237,9 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
 
         private void CreateTable()
         {
-            var tables = new[] { ColumnIdName, ColumnChannelName, ColumnLogName };
+            var columns = new[] { ColumnIdName, ColumnChannelName, ColumnLogName };
             var types = new[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL" };
-            _adapter.CreateTable(TableName, tables, types);
+            _adapter.CreateTable(TableName, columns, types);
         }
 
         private void InsertMockDataToTable()
