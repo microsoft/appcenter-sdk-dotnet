@@ -74,7 +74,6 @@ namespace Microsoft.AppCenter.Test
         public void GetLogLevelBeforeConfigure()
         {
             AppCenterLog.Level = LogLevel.Info;
-
             Assert.AreEqual(LogLevel.Info, AppCenter.LogLevel);
         }
 
@@ -87,7 +86,6 @@ namespace Microsoft.AppCenter.Test
             AppCenterLog.Level = LogLevel.Info;
             AppCenter.LogLevel = LogLevel.Assert;
             AppCenter.Configure("appsecret");
-
             Assert.AreEqual(LogLevel.Assert, AppCenter.LogLevel);
         }
 
@@ -847,6 +845,88 @@ namespace Microsoft.AppCenter.Test
             Assert.AreEqual(updateDevKey, device.LiveUpdateDeploymentKey);
             Assert.AreEqual(updatePackageHash, device.LiveUpdatePackageHash);
             Assert.AreEqual(runtimeVersion, device.WrapperRuntimeVersion);
+        }
+
+        /// <summary>
+        /// Verify that AppCenter forwards SetMaxStorageSize to its channelGroup.
+        /// </summary>
+        [TestMethod]
+        public async Task SetMaxStorageSize()
+        {
+            // Set max storage size.
+            var dbSize = 2 * 1024 * 1024;
+            var storageTask = AppCenter.SetMaxStorageSizeAsync(dbSize);
+            AppCenter.Start("appsecret", typeof(MockAppCenterService));
+            await storageTask;
+
+            // Verify.
+            _channelGroupMock.Verify(channelGroup => channelGroup.SetMaxStorageSizeAsync(dbSize), Times.Once());
+        }
+
+        /// <summary>
+        /// Verify default value for max storage size is not set on AppCenter start.
+        /// </summary>
+        [TestMethod]
+        public void SetDefaultMaxStorageSizeOnStart()
+        {
+            // Set max storage default size.
+            AppCenter.Start("appsecret", typeof(MockAppCenterService));
+
+            // Verify.
+            _channelGroupMock.Verify(channelGroup => channelGroup.SetMaxStorageSizeAsync(10 * 1024 * 1024), Times.Once());
+        }
+
+        /// <summary>
+        /// Verify SetMaxStorageSize can only be called before the AppCenter start.
+        /// </summary>
+        [TestMethod]
+        public async Task CannotSetMaxStorageSizeAfterStart()
+        {
+            // Set max storage default size.
+            AppCenter.Start("appsecret", typeof(MockAppCenterService));
+            var dbSize = 2 * 1024 * 1024;
+
+            // Try to reset max storage size.
+            await AppCenter.SetMaxStorageSizeAsync(dbSize);
+
+            // Verify.
+            _channelGroupMock.Verify(channelGroup => channelGroup.SetMaxStorageSizeAsync(dbSize), Times.Never());
+        }
+
+        /// <summary>
+        /// Verify that SetMaxStorageSize can only be called once.
+        /// </summary>
+        [TestMethod]
+        public async Task CannotSetMaxStorageSizeMultipleTimes()
+        {
+            // Set max storage size first time before AppCenter start.
+            var dbSize = 2 * 1024 * 1024;
+            var taskFirst = AppCenter.SetMaxStorageSizeAsync(dbSize);
+
+            // Try to set max storage size second time before AppCenter start.
+            var taskSecond = AppCenter.SetMaxStorageSizeAsync(dbSize + 1);
+
+            // Start AppCenter and set storage max size.
+            AppCenter.Start("appsecret", typeof(MockAppCenterService));
+            await taskFirst;
+            await taskSecond;
+
+            // Verify.
+            _channelGroupMock.Verify(channelGroup => channelGroup.SetMaxStorageSizeAsync(dbSize), Times.Once());
+        }
+
+        /// <summary>
+        /// Verify that dbSize param in SetMaxStorageSize should be greated than max log size.
+        /// </summary>
+        [TestMethod]
+        public async Task CannotSetMaxStorageSizeBelowMaxLogSize()
+        {
+            // Try to set max storage size without AppCenter start.
+            var dbSize = 10;
+            await AppCenter.SetMaxStorageSizeAsync(dbSize);
+
+            // Verify.
+            _channelGroupMock.Verify(channelGroup => channelGroup.SetMaxStorageSizeAsync(dbSize), Times.Never());
         }
     }
 
