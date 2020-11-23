@@ -347,8 +347,12 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             using (var storage = new Microsoft.AppCenter.Storage.Storage(mockStorageAdapter, _databasePath))
             {
                 var exception = new StorageCorruptedException("Mock exception");
+                var testLog = TestLog.CreateTestLog();
+                var testLogString = LogSerializer.Serialize(testLog);
+                var testLogSize = Encoding.UTF8.GetBytes(testLogString).Length;
+                Mock.Get(mockStorageAdapter).Setup(adapter => adapter.GetMaxStorageSize()).Returns(testLogSize + 1);
                 Mock.Get(mockStorageAdapter).Setup(adapter => adapter.Insert(TableName, It.IsAny<string[]>(), It.IsAny<List<object[]>>())).Throws(exception);
-                await Assert.ThrowsExceptionAsync<StorageCorruptedException>(() => storage.PutLog(StorageTestChannelName, TestLog.CreateTestLog()));
+                await Assert.ThrowsExceptionAsync<StorageCorruptedException>(() => storage.PutLog(StorageTestChannelName, testLog));
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Dispose());
                 Mock.Get(mockStorageAdapter).Verify(adapter => adapter.Initialize(It.IsAny<string>()), Times.Exactly(2));
             }
