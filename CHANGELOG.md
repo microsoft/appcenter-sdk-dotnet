@@ -1,6 +1,6 @@
 # App Center SDK for .NET Change Log
 
-## Version 4.1.0 (under development)
+## Version 4.0.1 (under development)
 
 ### AppCenter
 
