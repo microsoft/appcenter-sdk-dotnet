@@ -176,18 +176,13 @@ namespace Microsoft.AppCenter.Storage
             return count;
         }
 
-        public long GetCurrentStorageSize()
-        {
-            return GetPageCount() * GetPageSize();
-        }
-
         public long GetMaxStorageSize()
         {
             try
             {
                 return GetMaxPageCount() * GetPageSize();
             }
-            catch (Exception e)
+            catch (StorageException)
             {
                 AppCenterLog.Error(AppCenterLog.LogTag, $"Could not get max storage size.");
                 return -1;
@@ -272,17 +267,7 @@ namespace Microsoft.AppCenter.Storage
                 args.AddRange(excludeValues);
             }
             var limitClause = limit != null ? $" LIMIT {limit}" : string.Empty;
-            var orderClause = string.Empty;
-            if (orderList != null && orderList.Length > 0)
-            {
-                orderClause = " ORDER BY";
-                var orderBuilder = new StringBuilder(orderClause);
-                foreach (var orderItem in orderList)
-                {
-                    orderBuilder.Append($" {orderItem},");
-                }
-                orderClause = $"{orderBuilder.ToString().TrimEnd(',')} ASC";
-            }
+            var orderClause = orderList != null && orderList.Length > 0 ? $" ORDER BY {string.Join(",", orderList)} ASC" : string.Empty;
             var query = $"SELECT * FROM {tableName} WHERE {whereClause}{orderClause}{limitClause};";
             return ExecuteSelectionSqlQuery(query, args);
         }

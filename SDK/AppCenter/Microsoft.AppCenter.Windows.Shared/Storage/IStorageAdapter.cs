@@ -82,11 +82,5 @@ namespace Microsoft.AppCenter.Storage
         /// </summary>
         /// <returns>The maximum size of database in bytes.</returns>
         long GetMaxStorageSize();
-
-        /// <summary>
-        /// Gets the current size of the database.
-        /// </summary>
-        /// <returns>The current size of database in bytes.</returns>
-        long GetCurrentStorageSize();
     }
 }
