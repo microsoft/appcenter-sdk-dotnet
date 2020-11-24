@@ -909,10 +909,13 @@ namespace Microsoft.AppCenter.Test
             // Start AppCenter and set storage max size.
             AppCenter.Start("appsecret", typeof(MockAppCenterService));
             await taskFirst;
+
+            // Verify that method was called with expected parameter.
+            _channelGroupMock.Verify(channelGroup => channelGroup.SetMaxStorageSizeAsync(dbSize), Times.Once());
             await taskSecond;
 
-            // Verify.
-            _channelGroupMock.Verify(channelGroup => channelGroup.SetMaxStorageSizeAsync(dbSize), Times.Once());
+            // Verify that method was not called in a second time.
+            _channelGroupMock.Verify(channelGroup => channelGroup.SetMaxStorageSizeAsync(dbSize + 1), Times.Never());
         }
 
         /// <summary>

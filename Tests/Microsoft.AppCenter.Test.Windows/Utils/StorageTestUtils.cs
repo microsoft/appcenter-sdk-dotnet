@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SQLitePCL;
 
 namespace Microsoft.AppCenter.Test.Windows.Utils
@@ -40,7 +37,10 @@ namespace Microsoft.AppCenter.Test.Windows.Utils
             return (long)pageCount * pageSize;
         }
 
-
+        /// <summary>
+        /// Fill storage with a test logs.
+        /// </summary>
+        /// <param name="dataSize">Storage capacity.</param>
         public void FillStorageWithTestData(long dataSize)
         {
             var db = OpenDatabaseAndCreateTable();
