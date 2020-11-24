@@ -198,7 +198,6 @@ namespace Microsoft.AppCenter.Storage
             var pageSize = GetPageSize();
             AppCenterLog.Info(AppCenterLog.LogTag, $"Found {currentPageCount} pages in the database.");
             var requestedMaxPageCount = Convert.ToBoolean(sizeInBytes % pageSize) ? sizeInBytes / pageSize + 1 : sizeInBytes / pageSize;
-
             if (currentPageCount > requestedMaxPageCount)
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, $"Cannot change database size to {sizeInBytes} bytes as it would cause a loss of data. " +

@@ -21,6 +21,10 @@ namespace Microsoft.AppCenter.Test.Windows.Utils
             this.dbPath = dbPath;
         }
 
+        /// <summary>
+        /// Get current storage size in bytes.
+        /// </summary>
+        /// <returns>Current storage size in bytes.</returns>
         public long GetDataLengthInBytes()
         {
             raw.sqlite3_open_v2(dbPath, out sqlite3 db, raw.SQLITE_OPEN_READONLY, null);
@@ -33,7 +37,6 @@ namespace Microsoft.AppCenter.Test.Windows.Utils
             var pageSize = raw.sqlite3_column_int(stmt, 0);
             raw.sqlite3_finalize(stmt);
             raw.sqlite3_close(db);
-
             return (long)pageCount * pageSize;
         }
 
@@ -41,12 +44,10 @@ namespace Microsoft.AppCenter.Test.Windows.Utils
         public void FillStorageWithTestData(long dataSize)
         {
             var db = OpenDatabaseAndCreateTable();
-
             while (GetDataLengthInBytes() < dataSize)
             {
                 AddTestDataToStorage(1000, db);
             }
-
             raw.sqlite3_close(db);
         }
 
@@ -68,14 +69,11 @@ namespace Microsoft.AppCenter.Test.Windows.Utils
         private sqlite3 OpenDatabaseAndCreateTable()
         {
             var db = OpenDatabase();
-
             var columnNames = new[] { ColumnIdName, Column1Name, Column2Name };
             var columnTypes = new[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT NOT NULL", "TEXT NOT NULL" };
             var cols = string.Join(",", Enumerable.Range(0, columnNames.Length).Select(i => $"{columnNames[i]} {columnTypes[i]}"));
             var createResult = raw.sqlite3_exec(db, $"CREATE TABLE IF NOT EXISTS {TableName} ({cols});");
-
             Console.WriteLine($"created : {createResult == raw.SQLITE_OK}");
-
             return db;
         }
     }

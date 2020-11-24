@@ -525,7 +525,9 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         private TestLog CreateLogWithSize(int size)
         {
             var testLog = TestLog.CreateTestLog();
-            var propsNum = size / 1000 + 1; // there is a limitation for string size, so we tear into pieces
+
+            // There is a limitation for string size, so we tear into pieces.
+            var propsNum = size / 1000 + 1; 
             for (var i = 0; i < propsNum; i++)
             {
                 testLog.Properties.Add($"largeProp{i}", new string('.', size));

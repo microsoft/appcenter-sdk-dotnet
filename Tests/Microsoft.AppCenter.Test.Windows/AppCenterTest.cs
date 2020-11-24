@@ -869,7 +869,7 @@ namespace Microsoft.AppCenter.Test
         [TestMethod]
         public void SetDefaultMaxStorageSizeOnStart()
         {
-            // Set max storage default size.
+            // On Start max storage default size should be set.
             AppCenter.Start("appsecret", typeof(MockAppCenterService));
 
             // Verify.
