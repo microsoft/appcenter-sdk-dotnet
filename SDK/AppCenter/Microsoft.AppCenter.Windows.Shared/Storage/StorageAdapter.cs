@@ -190,7 +190,6 @@ namespace Microsoft.AppCenter.Storage
 
         public bool SetMaxStorageSize(long sizeInBytes)
         {
-            bool success;
             var db = _db ?? throw new StorageException("The database wasn't initialized.");
 
             // Check the current number of pages in the database to determine whether the requested size will shrink the database.
@@ -202,7 +201,7 @@ namespace Microsoft.AppCenter.Storage
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, $"Cannot change database size to {sizeInBytes} bytes as it would cause a loss of data. " +
                     "Maximum database size will not be changed.");
-                success = false;
+                return false;
             }
             else
             {
@@ -211,7 +210,7 @@ namespace Microsoft.AppCenter.Storage
                 if (result != raw.SQLITE_OK)
                 {
                     AppCenterLog.Error(AppCenterLog.LogTag, $"Could not change maximum database size to {sizeInBytes} bytes. SQLite error code: {result}.");
-                    success = false;
+                    return false;
                 }
                 else
                 {
@@ -220,7 +219,7 @@ namespace Microsoft.AppCenter.Storage
                     if (requestedMaxPageCount != currentMaxPageCount)
                     {
                         AppCenterLog.Error(AppCenterLog.LogTag, $"Could not change maximum database size to {sizeInBytes} bytes, current maximum size is {actualMaxSize} bytes.");
-                        success = false;
+                        return false;
                     }
                     else
                     {
@@ -232,11 +231,10 @@ namespace Microsoft.AppCenter.Storage
                         {
                             AppCenterLog.Info(AppCenterLog.LogTag, $"Changed maximum database size to {actualMaxSize} bytes (next multiple of 4KiB).");
                         }
-                        success = true;
+                        return true;
                     }
                 }
             }
-            return success;
         }
 
         public void CreateTable(string tableName, string[] columnNames, string[] columnTypes)

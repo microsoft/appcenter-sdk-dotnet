@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
 using Contoso.WPF.Puppet.Properties;

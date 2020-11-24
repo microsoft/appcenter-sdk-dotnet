@@ -217,7 +217,7 @@ namespace Contoso.WinForms.Puppet.DotNetCore
         private void SaveStorageSize_Click(object sender, EventArgs e)
         {
             var storageSize = StorageMaxSizeTextBox.Text;
-            var size = (long)10 * 1024 * 1024;
+            var size = 10L * 1024 * 1024;
             long.TryParse(storageSize, out size);
             AppCenter.SetMaxStorageSizeAsync(size);
             Settings.Default.StorageMaxSize = size;

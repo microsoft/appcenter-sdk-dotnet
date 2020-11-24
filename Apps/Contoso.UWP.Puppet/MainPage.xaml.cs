@@ -104,7 +104,7 @@ namespace Contoso.UWP.Puppet
         private void HandleStorageMaxSizeChange()
         {
             var storageSize = StorageMaxSizeTextBox.Text;
-            var size = (long)10 * 1024 * 1024;
+            var size = 10L * 1024 * 1024;
             long.TryParse(storageSize, out size);
             AppCenter.SetMaxStorageSizeAsync(size);
             Windows.Storage.ApplicationData.Current.LocalSettings.Values["StorageMaxSize"] = size;

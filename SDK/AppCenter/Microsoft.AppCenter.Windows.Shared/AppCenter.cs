@@ -330,7 +330,7 @@ namespace Microsoft.AppCenter
         private Task<bool> SetInstanceStorageMaxSize(long storageMaxSize)
         {
             var resultTaskCompletionSource = new TaskCompletionSource<bool>();
-            if (Instance._instanceConfigured)
+            if (_instanceConfigured)
             {
                 AppCenterLog.Error(AppCenterLog.LogTag, "SetMaxStorageSize may not be called after App Center has been configured.");
                 resultTaskCompletionSource.SetResult(false);

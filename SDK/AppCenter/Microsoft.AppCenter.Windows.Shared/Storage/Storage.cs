@@ -88,7 +88,7 @@ namespace Microsoft.AppCenter.Storage
                 var logJsonString = LogSerializer.Serialize(log);
                 var maxSize = _storageAdapter.GetMaxStorageSize();
                 var logSize = Encoding.UTF8.GetBytes(logJsonString).Length;
-                if (maxSize == -1)
+                if (maxSize < 0)
                 {
                     throw new StorageException("Failed to store a log to the database.");
                 }
@@ -111,7 +111,7 @@ namespace Microsoft.AppCenter.Storage
                     catch (StorageFullException)
                     {
                         var oldestLog = _storageAdapter.Select(TableName, ColumnChannelName, channelName, string.Empty, null, 1, new string[] { ColumnIdName });
-                        if (oldestLog != null && oldestLog.Count > 0)
+                        if (oldestLog != null && oldestLog.Count > 0 && oldestLog[0].Length > 0)
                         {
                             _storageAdapter.Delete(TableName, ColumnIdName, oldestLog[0][0]);
                         }

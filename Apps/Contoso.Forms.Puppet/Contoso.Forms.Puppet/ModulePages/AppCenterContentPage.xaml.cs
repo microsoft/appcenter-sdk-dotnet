@@ -74,7 +74,8 @@ namespace Contoso.Forms.Puppet
         private void SaveStorageSize_Clicked(object sender, System.EventArgs e)
         {
             var inputText = StorageMaxSize.Text;
-            var size = string.IsNullOrEmpty(inputText) ? 0 : long.Parse(inputText);
+            var size = 0L;
+            long.TryParse(inputText, out size);
             _ = AppCenter.SetMaxStorageSizeAsync(size);
             Application.Current.Properties[Constants.StorageMaxSize] = size;
             _ = Application.Current.SavePropertiesAsync();
