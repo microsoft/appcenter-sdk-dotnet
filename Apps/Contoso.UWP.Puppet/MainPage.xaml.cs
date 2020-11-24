@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Contoso.UtilClassLibrary;
+using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using System;
@@ -23,6 +24,11 @@ namespace Contoso.UWP.Puppet
         {
             this.InitializeComponent();
             Application.Current.UnhandledException += OnUnhandledException;
+            object storageSize;
+            if (Windows.Storage.ApplicationData.Current.LocalSettings.Values.TryGetValue("StorageMaxSize", out storageSize))
+            {
+                StorageMaxSizeTextBox.Text = storageSize.ToString();
+            }
         }
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -87,6 +93,28 @@ namespace Contoso.UWP.Puppet
             {
                 await Task.Run(() => { });
                 await GenerateComplexException(loop - 1);
+            }
+        }
+
+        private void StorageMaxSize_LostFocus(object sender, RoutedEventArgs e)
+        {
+            HandleStorageMaxSizeChange();
+        }
+
+        private void HandleStorageMaxSizeChange()
+        {
+            var storageSize = StorageMaxSizeTextBox.Text;
+            var size = 10L * 1024 * 1024;
+            long.TryParse(storageSize, out size);
+            AppCenter.SetMaxStorageSizeAsync(size);
+            Windows.Storage.ApplicationData.Current.LocalSettings.Values["StorageMaxSize"] = size;
+        }
+
+        private void StorageMaxSize_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                HandleStorageMaxSizeChange();
             }
         }
     }

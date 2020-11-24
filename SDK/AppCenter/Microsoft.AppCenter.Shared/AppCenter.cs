@@ -198,6 +198,24 @@ namespace Microsoft.AppCenter
             PlatformSetCustomProperties(customProperties);
         }
 
+        /// <summary>
+        /// Set the maximum size of the internal storage.
+        /// This method must be called before App Center is started. This method is only intended for applications.
+        /// </summary>
+        /// <remarks>
+        /// This only sets the maximum size of the database, but App Center modules might store additional data.
+        /// The value passed to this method is not persisted on disk. The default maximum database size is 10485760 bytes (10 MiB).
+        /// </remarks>
+        /// <param name="sizeInBytes">
+        /// Maximum size of the internal storage in bytes. This will be rounded up to the nearest multiple of a SQLite page size (default is 4096 bytes).
+        /// Values below 20,480 bytes (20 KiB) will be ignored.
+        /// </param>
+        /// <returns><code>true</code> if changing the size was successful.</returns>
+        public static Task<bool> SetMaxStorageSizeAsync(long sizeInBytes)
+        {
+            return PlatformSetMaxStorageSizeAsync(sizeInBytes);
+        }
+
         internal static void UnsetInstance()
         {
             PlatformUnsetInstance();

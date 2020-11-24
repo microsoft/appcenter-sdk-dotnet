@@ -114,6 +114,12 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
+        public Task<bool> SetMaxStorageSizeAsync(long sizeInBytes)
+        {
+            ThrowIfDisposed();
+            return _storage.SetMaxStorageSizeAsync(sizeInBytes);
+        }
+
         public Task WaitStorageOperationsAsync()
         {
             ThrowIfDisposed();

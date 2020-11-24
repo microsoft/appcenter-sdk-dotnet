@@ -13,7 +13,18 @@
             <ViewCell>
                 <StackLayout Orientation="Horizontal" Margin="15,0,15,0">
                     <Label Text="User Id" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-                    <Entry x:Name="UserIdEntry" HorizontalOptions="FillAndExpand" VerticalOptions="Center" HorizontalTextAlignment="End" />
+                    <Entry x:Name="UserIdEntry" Margin="0, 4, 0, 4" HorizontalOptions="FillAndExpand" VerticalOptions="Center" HorizontalTextAlignment="End" />
+                </StackLayout>
+            </ViewCell>
+            <ViewCell>
+                <StackLayout Orientation="Horizontal" Margin="15,0,15,0">
+                    <Label Text="Storage Max Size" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+                    <Entry x:Name="StorageMaxSize" Margin="0, 4, 0, 4" HorizontalOptions="FillAndExpand" VerticalOptions="Center" HorizontalTextAlignment="End" />
+                </StackLayout>
+            </ViewCell>
+            <ViewCell>
+                <StackLayout Orientation="Horizontal" Margin="15,0,15,0">
+                    <Button Text="Save Storage Size" Clicked="SaveStorageSize_Clicked"/>
                 </StackLayout>
             </ViewCell>
         </TableSection>
