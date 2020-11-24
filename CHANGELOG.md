@@ -4,7 +4,7 @@
 
 ### AppCenter
 
-* **[Feature]** Add a `SetMaxStorageSizeAsync` API which allows setting a maximum size limit on the local SQLite storage. The default value is 10MB.
+* **[Feature]** Add a `SetMaxStorageSizeAsync` API which allows setting a maximum size limit on the local SQLite storage. The default value is 10MiB.
 
 ___
 

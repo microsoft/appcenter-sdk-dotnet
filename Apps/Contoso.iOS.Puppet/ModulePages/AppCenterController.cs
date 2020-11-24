@@ -95,10 +95,12 @@ namespace Contoso.iOS.Puppet
         partial void SaveStorageSize(NSObject sender)
         {
             var inputText = StorageSizeText.Text;
-            var size = string.IsNullOrEmpty(inputText) ? 0 : int.Parse(inputText);
-            AppCenter.SetMaxStorageSizeAsync(size);
-            var plist = NSUserDefaults.StandardUserDefaults;
-            plist.SetInt(size, Constants.StorageSizeKey);
+            if (int.TryParse(inputText, out var size))
+            {
+                AppCenter.SetMaxStorageSizeAsync(size);
+                var plist = NSUserDefaults.StandardUserDefaults;
+                plist.SetInt(size, Constants.StorageSizeKey);
+            }
         }
     }
 }
