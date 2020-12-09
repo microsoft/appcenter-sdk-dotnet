@@ -9,12 +9,12 @@ namespace Microsoft.AppCenter.Distribute.iOS.Bindings
     [BaseType(typeof(NSObject))]
     interface MSACDistribute
     {
-        // +(void)setEnabled:(BOOL)isEnabled;
+        // + (void)setEnabled:(BOOL)isEnabled;
         [Static]
         [Export("setEnabled:")]
         void SetEnabled(bool isEnabled);
 
-        // +(BOOL)isEnabled;
+        // + (BOOL)isEnabled;
         [Static]
         [Export("isEnabled")]
         bool IsEnabled();
@@ -78,6 +78,10 @@ namespace Microsoft.AppCenter.Distribute.iOS.Bindings
         // @optional - (BOOL)distribute:(MSACDistribute *)distribute releaseAvailableWithDetails:(MSACReleaseDetails *)details;
         [Export("distribute:releaseAvailableWithDetails:")]
         bool OnReleaseAvailable(MSACDistribute distribute, MSACReleaseDetails details);
+
+        // - (void)noReleaseAvailable;
+        [Export("noReleaseAvailable")]
+        void NoReleaseAvailable();
     }
 
     // @interface MSACReleaseDetails : NSObject
