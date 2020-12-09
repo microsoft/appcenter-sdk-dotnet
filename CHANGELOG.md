@@ -6,6 +6,12 @@
 
 * **[Feature]** Add a `SetMaxStorageSizeAsync` API which allows setting a maximum size limit on the local SQLite storage. The default value is 10MiB.
 
+### App Center Distribute
+
+#### iOS/Android
+
+ * **[Feature]** Add `NoReleaseAvailable` callback to distribute listener.
+
 ___
 
 ## Version 4.0.0
