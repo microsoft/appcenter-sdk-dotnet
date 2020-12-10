@@ -10,7 +10,7 @@
 
 #### iOS/Android
 
- * **[Feature]** Add `NoReleaseAvailable` callback to distribute listener.
+ * **[Feature]** Add `onNoReleaseAvailable` callback to distribute listener.
 
 ___
 
