@@ -171,10 +171,7 @@ namespace Microsoft.AppCenter.Distribute
 
             public override void NoReleaseAvailable()
             {
-                if (_noReleaseAvailableCallback != null)
-                {
-                    _noReleaseAvailableCallback();
-                }
+                _noReleaseAvailableCallback?.Invoke();
             }
         }
     }

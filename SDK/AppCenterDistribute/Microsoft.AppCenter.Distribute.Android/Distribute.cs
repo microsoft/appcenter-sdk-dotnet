@@ -104,6 +104,19 @@ namespace Microsoft.AppCenter.Distribute
             }
         }
 
+        static void SetNoReleaseAvailable(NoReleaseAvailableCallback noReleaseAvailable)
+        {
+            lock (typeof(Distribute))
+            {
+                _noReleaseAvailableCallback = noReleaseAvailable;
+                if (_listener == null && _noReleaseAvailableCallback != null)
+                {
+                    _listener = new Listener();
+                    AndroidDistribute.SetListener(_listener);
+                }
+            }
+        }
+
         class Listener : Java.Lang.Object, IDistributeListener
         {
             public bool OnReleaseAvailable(Activity activity, AndroidReleaseDetails androidReleaseDetails)
@@ -131,23 +144,7 @@ namespace Microsoft.AppCenter.Distribute
 
             public void OnNoReleaseAvailable(Activity activity)
             {
-                if (_noReleaseAvailableCallback != null)
-                {
-                    _noReleaseAvailableCallback();
-                }
-            }
-        }
-
-        static void SetNoReleaseAvailable(NoReleaseAvailableCallback noReleaseAvailable)
-        {
-            lock (typeof(Distribute))
-            {
-                _noReleaseAvailableCallback = noReleaseAvailable;
-                if (_listener == null && _noReleaseAvailableCallback != null)
-                {
-                    _listener = new Listener();
-                    AndroidDistribute.SetListener(_listener);
-                }
+                _noReleaseAvailableCallback?.Invoke();
             }
         }
     }
