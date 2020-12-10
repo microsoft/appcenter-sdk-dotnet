@@ -29,6 +29,10 @@ namespace Microsoft.AppCenter.Distribute
         {
         }
 
+        static void SetWillExitAppCallback(WillExitAppCallback willExitAppCallback)
+        {
+        }
+
         static void HandleUpdateAction(UpdateAction updateAction)
         {
         }

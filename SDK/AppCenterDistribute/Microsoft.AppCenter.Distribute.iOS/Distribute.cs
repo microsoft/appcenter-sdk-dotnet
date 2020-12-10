@@ -75,12 +75,27 @@ namespace Microsoft.AppCenter.Distribute
 
         static ReleaseAvailableCallback _releaseAvailableCallback;
 
+        static WillExitAppCallback _willExitAppCallback;
+
         static void SetReleaseAvailableCallback(ReleaseAvailableCallback releaseAvailableCallback)
         {
             lock (typeof(Distribute))
             {
                 _releaseAvailableCallback = releaseAvailableCallback;
                 if (_delegate == null && _releaseAvailableCallback != null)
+                {
+                    _delegate = new Delegate();
+                    iOSDistribute.SetDelegate(_delegate);
+                }
+            }
+        }
+
+        static void SetWillExitAppCallback(WillExitAppCallback willExitAppCallback)
+        {
+            lock (typeof(Distribute))
+            {
+                _willExitAppCallback = willExitAppCallback;
+                if (_delegate == null && _willExitAppCallback != null)
                 {
                     _delegate = new Delegate();
                     iOSDistribute.SetDelegate(_delegate);
@@ -152,6 +167,11 @@ namespace Microsoft.AppCenter.Distribute
                     return _releaseAvailableCallback(releaseDetails);
                 }
                 return false;
+            }
+
+            public override void WillExitApp(iOSDistribute distribute)
+            {
+                _willExitAppCallback?.Invoke();
             }
         }
     }

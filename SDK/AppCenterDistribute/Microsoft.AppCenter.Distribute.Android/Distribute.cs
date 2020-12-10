@@ -102,6 +102,10 @@ namespace Microsoft.AppCenter.Distribute
             }
         }
 
+        static void SetWillExitAppCallback(WillExitAppCallback willExitAppCallback)
+        {
+        }
+
         class Listener : Java.Lang.Object, IDistributeListener
         {
             public bool OnReleaseAvailable(Activity activity, AndroidReleaseDetails androidReleaseDetails)
