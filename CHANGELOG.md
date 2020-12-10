@@ -10,7 +10,7 @@
 
 #### iOS
 
-* **[Feature]** Add `distributeWillExitApp` callback to distribute listener.
+* **[Feature]** Add `WillExitApp` callback to distribute listener.
 ___
 
 ## Version 4.0.0
