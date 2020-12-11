@@ -2,7 +2,7 @@
 <config>
     <sdkInfo>
         <sdkVersion>4.0.1-SNAPSHOT</sdkVersion>
-        <iosVersion>4.0.1-15+419bb548182c2b6836d128c23682d6e2f7877666</iosVersion>
+        <iosVersion>4.0.1-16+9462f4d52586188a6caabb8a5378124c18cbd3eb</iosVersion>
         <androidVersion>4.0.1-3+1ffc3cac3</androidVersion>
     </sdkInfo>
     <group id="ios" folder="iOSAssemblies" buildGroup="mac">

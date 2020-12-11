@@ -79,8 +79,8 @@ namespace Microsoft.AppCenter.Distribute.iOS.Bindings
         [Export("distribute:releaseAvailableWithDetails:")]
         bool OnReleaseAvailable(MSACDistribute distribute, MSACReleaseDetails details);
 
-        // - (void)onNoReleaseAvailable;
-        [Export("onNoReleaseAvailable:")]
+        // - (void)distributeNoReleaseAvailable:(MSACDistribute *)distribute;
+        [Export("distributeNoReleaseAvailable:")]
         void OnNoReleaseAvailable(MSACDistribute distribute);
     }
 
