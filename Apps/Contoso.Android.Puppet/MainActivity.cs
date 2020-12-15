@@ -48,7 +48,6 @@ namespace Contoso.Android.Puppet
             Crashes.SendingErrorReport += SendingErrorReportHandler;
             Crashes.SentErrorReport += SentErrorReportHandler;
             Crashes.FailedToSendErrorReport += FailedToSendErrorReportHandler;
-            
             // Set callbacks
             Crashes.ShouldProcessErrorReport = ShouldProcess;
             Crashes.ShouldAwaitUserConfirmation = ConfirmationHandler;
