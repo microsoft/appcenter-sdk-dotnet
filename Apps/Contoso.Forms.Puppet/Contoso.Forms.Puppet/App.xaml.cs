@@ -56,7 +56,7 @@ namespace Contoso.Forms.Puppet
                 Crashes.ShouldAwaitUserConfirmation = ConfirmationHandler;
                 Crashes.GetErrorAttachments = GetErrorAttachmentsCallback;
                 Distribute.ReleaseAvailable = OnReleaseAvailable;
-                Distribute.NoReleaseAvailable = NoReleaseAvailable;
+                Distribute.NoReleaseAvailable = OnNoReleaseAvailable;
 
                 // Event handlers
                 Crashes.SendingErrorReport += SendingErrorReportHandler;
@@ -222,7 +222,7 @@ namespace Contoso.Forms.Puppet
             return attachments;
         }
 
-        void NoReleaseAvailable()
+        void OnNoReleaseAvailable()
         {
             AppCenterLog.Info(LogTag, "No release available callback invoked.");
         }

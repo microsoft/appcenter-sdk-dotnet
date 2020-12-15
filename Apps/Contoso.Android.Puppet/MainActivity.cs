@@ -53,7 +53,7 @@ namespace Contoso.Android.Puppet
             Crashes.ShouldAwaitUserConfirmation = ConfirmationHandler;
 
             Distribute.ReleaseAvailable = OnReleaseAvailable;
-            Distribute.NoReleaseAvailable = NoReleaseAvailable;
+            Distribute.NoReleaseAvailable = OnNoReleaseAvailable;
             AppCenterLog.Assert(LogTag, "AppCenter.Configured=" + AppCenter.Configured);
             AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
             var prefs = GetSharedPreferences("AppCenter", FileCreationMode.Private);
@@ -126,7 +126,7 @@ namespace Contoso.Android.Puppet
             return true;
         }
 
-        void NoReleaseAvailable()
+        void OnNoReleaseAvailable()
         {
             AppCenterLog.Info(LogTag, "No release available callback invoked.");
         }

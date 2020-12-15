@@ -31,7 +31,7 @@ namespace Contoso.iOS.Puppet
             Distribute.SetInstallUrl("https://install.portal-server-core-integration.dev.avalanch.es");
             Distribute.SetApiUrl("https://api-gateway-core-integration.dev.avalanch.es/v0.1");
             Distribute.DontCheckForUpdatesInDebug();
-            Distribute.NoReleaseAvailable = NoReleaseAvailable;
+            Distribute.NoReleaseAvailable = OnNoReleaseAvailable;
             var plist = NSUserDefaults.StandardUserDefaults;
             var storageSizeValue = plist.IntForKey(Constants.StorageSizeKey);
             if (storageSizeValue > 0)
@@ -42,7 +42,7 @@ namespace Contoso.iOS.Puppet
             return true;
         }
 
-        void NoReleaseAvailable()
+        void OnNoReleaseAvailable()
         {
             AppCenterLog.Info(LogTag, "No release available callback invoked.");
         }
