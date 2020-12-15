@@ -75,12 +75,27 @@ namespace Microsoft.AppCenter.Distribute
 
         static ReleaseAvailableCallback _releaseAvailableCallback;
 
+        static NoReleaseAvailableCallback _noReleaseAvailableCallback;
+
         static void SetReleaseAvailableCallback(ReleaseAvailableCallback releaseAvailableCallback)
         {
             lock (typeof(Distribute))
             {
                 _releaseAvailableCallback = releaseAvailableCallback;
                 if (_delegate == null && _releaseAvailableCallback != null)
+                {
+                    _delegate = new Delegate();
+                    iOSDistribute.SetDelegate(_delegate);
+                }
+            }
+        }
+
+        static void SetNoReleaseAvailable(NoReleaseAvailableCallback noReleaseAvailable)
+        {
+            lock (typeof(Distribute))
+            {
+                _noReleaseAvailableCallback = noReleaseAvailable;
+                if (_delegate == null && _noReleaseAvailableCallback != null)
                 {
                     _delegate = new Delegate();
                     iOSDistribute.SetDelegate(_delegate);
@@ -152,6 +167,11 @@ namespace Microsoft.AppCenter.Distribute
                     return _releaseAvailableCallback(releaseDetails);
                 }
                 return false;
+            }
+
+            public override void OnNoReleaseAvailable(MSACDistribute distribute)
+            {
+                _noReleaseAvailableCallback?.Invoke();
             }
         }
     }

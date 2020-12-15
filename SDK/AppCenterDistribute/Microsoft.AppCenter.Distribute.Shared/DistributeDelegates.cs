@@ -7,4 +7,9 @@ namespace Microsoft.AppCenter.Distribute
     /// Release available callback.
     /// </summary>
     public delegate bool ReleaseAvailableCallback(ReleaseDetails releaseDetails);
+
+    /// <summary>
+    /// No release available callback.
+    /// </summary>
+    public delegate void NoReleaseAvailableCallback();
 }
