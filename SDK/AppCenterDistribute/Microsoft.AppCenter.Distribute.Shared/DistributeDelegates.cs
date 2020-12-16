@@ -12,4 +12,9 @@ namespace Microsoft.AppCenter.Distribute
     /// App will close callback.
     /// </summary>
     public delegate void WillExitAppCallback();
+
+    /// <summary>
+    /// No release available callback.
+    /// </summary>
+    public delegate void NoReleaseAvailableCallback();
 }

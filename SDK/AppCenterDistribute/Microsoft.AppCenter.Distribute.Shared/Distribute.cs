@@ -71,6 +71,18 @@ namespace Microsoft.AppCenter.Distribute
         }
 
         /// <summary>
+        /// Sets the no release available callback.
+        /// </summary>
+        /// <value>The no release available callback.</value>
+        public static NoReleaseAvailableCallback NoReleaseAvailable
+        {
+            set
+            {
+                SetNoReleaseAvailable(value);
+            }
+        }
+
+        /// <summary>
         /// If update dialog is customized by returning <c>true</c> in <see cref="ReleaseAvailableCallback"/>,
         /// You need to tell the distribute SDK using this function what is the user action.
         /// </summary>

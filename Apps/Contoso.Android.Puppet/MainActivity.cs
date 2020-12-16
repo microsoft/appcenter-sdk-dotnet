@@ -48,12 +48,12 @@ namespace Contoso.Android.Puppet
             Crashes.SendingErrorReport += SendingErrorReportHandler;
             Crashes.SentErrorReport += SentErrorReportHandler;
             Crashes.FailedToSendErrorReport += FailedToSendErrorReportHandler;
-
             // Set callbacks
             Crashes.ShouldProcessErrorReport = ShouldProcess;
             Crashes.ShouldAwaitUserConfirmation = ConfirmationHandler;
 
             Distribute.ReleaseAvailable = OnReleaseAvailable;
+            Distribute.NoReleaseAvailable = OnNoReleaseAvailable;
             AppCenterLog.Assert(LogTag, "AppCenter.Configured=" + AppCenter.Configured);
             AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
             var prefs = GetSharedPreferences("AppCenter", FileCreationMode.Private);
@@ -124,6 +124,11 @@ namespace Contoso.Android.Puppet
             });
             builder.Create().Show();
             return true;
+        }
+
+        void OnNoReleaseAvailable()
+        {
+            AppCenterLog.Info(LogTag, "No release available callback invoked.");
         }
 
         bool OnReleaseAvailable(ReleaseDetails releaseDetails)

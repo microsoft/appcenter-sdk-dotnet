@@ -32,6 +32,7 @@ namespace Contoso.iOS.Puppet
             Distribute.SetApiUrl("https://api-gateway-core-integration.dev.avalanch.es/v0.1");
             Distribute.DontCheckForUpdatesInDebug();
             Distribute.WillExitApp = OnWillExitApp;
+            Distribute.NoReleaseAvailable = OnNoReleaseAvailable;
             var plist = NSUserDefaults.StandardUserDefaults;
             var storageSizeValue = plist.IntForKey(Constants.StorageSizeKey);
             if (storageSizeValue > 0)
@@ -45,6 +46,11 @@ namespace Contoso.iOS.Puppet
         void OnWillExitApp()
         {
             AppCenterLog.Info(LogTag, "App will close callback invoked.");
+        }
+
+        void OnNoReleaseAvailable()
+        {
+            AppCenterLog.Info(LogTag, "No release available callback invoked.");
         }
     }
 }

@@ -57,6 +57,7 @@ namespace Contoso.Forms.Demo
                 Crashes.ShouldAwaitUserConfirmation = ConfirmationHandler;
                 Crashes.GetErrorAttachments = GetErrorAttachmentsCallback;
                 Distribute.ReleaseAvailable = OnReleaseAvailable;
+                Distribute.NoReleaseAvailable = OnNoReleaseAvailable;
 
                 // Event handlers
                 Crashes.SendingErrorReport += SendingErrorReportHandler;
@@ -175,6 +176,11 @@ namespace Contoso.Forms.Demo
         static IEnumerable<ErrorAttachmentLog> GetErrorAttachmentsCallback(ErrorReport report)
         {
             return GetErrorAttachments();
+        }
+
+        void OnNoReleaseAvailable()
+        {
+            AppCenterLog.Info(LogTag, "No release available callback invoked.");
         }
 
         public static IEnumerable<ErrorAttachmentLog> GetErrorAttachments()

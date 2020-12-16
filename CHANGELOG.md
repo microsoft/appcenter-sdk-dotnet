@@ -11,6 +11,11 @@
 #### iOS
 
 * **[Feature]** Add `WillExitApp` callback to distribute listener.
+
+#### iOS/Android
+
+ * **[Feature]** Add `NoReleaseAvailable` callback to distribute listener.
+
 ___
 
 ## Version 4.0.0
