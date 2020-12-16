@@ -59,6 +59,18 @@ namespace Microsoft.AppCenter.Distribute
         }
 
         /// <summary>
+        /// Sets the app will close callback.
+        /// </summary>
+        /// <value>The app will close callback.</value>
+        public static WillExitAppCallback WillExitApp
+        {
+            set
+            {
+                SetWillExitAppCallback(value);
+            }
+        }
+
+        /// <summary>
         /// Sets the no release available callback.
         /// </summary>
         /// <value>The no release available callback.</value>

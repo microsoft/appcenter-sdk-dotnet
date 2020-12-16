@@ -104,6 +104,10 @@ namespace Microsoft.AppCenter.Distribute
             }
         }
 
+        static void SetWillExitAppCallback(WillExitAppCallback willExitAppCallback)
+        {
+        }
+
         static void SetNoReleaseAvailable(NoReleaseAvailableCallback noReleaseAvailable)
         {
             lock (typeof(Distribute))

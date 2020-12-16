@@ -31,6 +31,7 @@ namespace Contoso.iOS.Puppet
             Distribute.SetInstallUrl("https://install.portal-server-core-integration.dev.avalanch.es");
             Distribute.SetApiUrl("https://api-gateway-core-integration.dev.avalanch.es/v0.1");
             Distribute.DontCheckForUpdatesInDebug();
+            Distribute.WillExitApp = OnWillExitApp;
             Distribute.NoReleaseAvailable = OnNoReleaseAvailable;
             var plist = NSUserDefaults.StandardUserDefaults;
             var storageSizeValue = plist.IntForKey(Constants.StorageSizeKey);
@@ -40,6 +41,11 @@ namespace Contoso.iOS.Puppet
             }
             AppCenter.Start("e94aaff4-e80d-4fee-9a5f-a84eb6e688fc", typeof(Analytics), typeof(Crashes), typeof(Distribute));
             return true;
+        }
+
+        void OnWillExitApp()
+        {
+            AppCenterLog.Info(LogTag, "App will close callback invoked.");
         }
 
         void OnNoReleaseAvailable()

@@ -56,6 +56,7 @@ namespace Contoso.Forms.Puppet
                 Crashes.ShouldAwaitUserConfirmation = ConfirmationHandler;
                 Crashes.GetErrorAttachments = GetErrorAttachmentsCallback;
                 Distribute.ReleaseAvailable = OnReleaseAvailable;
+                Distribute.WillExitApp = OnWillExitApp;
                 Distribute.NoReleaseAvailable = OnNoReleaseAvailable;
 
                 // Event handlers
@@ -258,6 +259,11 @@ namespace Contoso.Forms.Puppet
                 });
             }
             return custom;
+        }
+
+        void OnWillExitApp()
+        {
+            AppCenterLog.Info(LogTag, "App will close callback invoked.");
         }
     }
 }

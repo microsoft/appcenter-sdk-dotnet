@@ -8,6 +8,10 @@
 
 ### App Center Distribute
 
+#### iOS
+
+* **[Feature]** Add `WillExitApp` callback to distribute listener.
+
 #### iOS/Android
 
  * **[Feature]** Add `NoReleaseAvailable` callback to distribute listener.
