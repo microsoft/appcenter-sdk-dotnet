@@ -83,7 +83,7 @@ namespace Microsoft.AppCenter.Test
         {
             var mockAdapter = new Mock<IStorageAdapter>();
             mockAdapter.Setup(
-                    a => a.Select(TableName, It.IsAny<string>(), It.IsAny<object>(), It.IsAny<string>(), It.IsAny<object[]>(), It.IsAny<int?>()))
+                    a => a.Select(TableName, It.IsAny<string>(), It.IsAny<object>(), It.IsAny<string>(), It.IsAny<object[]>(), It.IsAny<int?>(), It.IsAny<string[]>()))
                     .Throws(new StorageException());
             var fakeStorage = new Microsoft.AppCenter.Storage.Storage(mockAdapter.Object, It.IsAny<string>());
             var logs = new List<Log>();
@@ -99,7 +99,7 @@ namespace Microsoft.AppCenter.Test
         {
             var mockAdapter = new Mock<IStorageAdapter>();
             mockAdapter.Setup(
-                    a => a.Select(TableName, It.IsAny<string>(), It.IsAny<object>(), It.IsAny<string>(), It.IsAny<object[]>(), It.IsAny<int?>()))
+                    a => a.Select(TableName, It.IsAny<string>(), It.IsAny<object>(), It.IsAny<string>(), It.IsAny<object[]>(), It.IsAny<int?>(), It.IsAny<string[]>()))
                 .Throws(new StorageException());
             mockAdapter.Setup(c => c.Insert(TableName, It.IsAny<string[]>(), It.IsAny<IList<object[]>>()))
                 .Throws(new StorageException());

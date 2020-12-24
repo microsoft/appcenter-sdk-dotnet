@@ -7,7 +7,6 @@ using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Distribute;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using XamarinDevice = Xamarin.Forms.Device;
@@ -57,6 +56,8 @@ namespace Contoso.Forms.Puppet
                 Crashes.ShouldAwaitUserConfirmation = ConfirmationHandler;
                 Crashes.GetErrorAttachments = GetErrorAttachmentsCallback;
                 Distribute.ReleaseAvailable = OnReleaseAvailable;
+                Distribute.WillExitApp = OnWillExitApp;
+                Distribute.NoReleaseAvailable = OnNoReleaseAvailable;
 
                 // Event handlers
                 Crashes.SendingErrorReport += SendingErrorReportHandler;
@@ -80,6 +81,10 @@ namespace Contoso.Forms.Puppet
                 if (Current.Properties.TryGetValue(Constants.AutomaticUpdateCheckKey, out object persistedObject) && !(bool)persistedObject)
                 {
                     Distribute.DisableAutomaticCheckForUpdate();
+                }
+                if (Current.Properties.ContainsKey(Constants.StorageMaxSize) && Current.Properties[Constants.StorageMaxSize] is long size)
+                {
+                    AppCenter.SetMaxStorageSizeAsync(size);
                 }
                 AppCenter.Start(GetTokensString(), typeof(Analytics), typeof(Crashes), typeof(Distribute));
                 if (Current.Properties.ContainsKey(Constants.UserId) && Current.Properties[Constants.UserId] is string id)
@@ -218,6 +223,11 @@ namespace Contoso.Forms.Puppet
             return attachments;
         }
 
+        void OnNoReleaseAvailable()
+        {
+            AppCenterLog.Info(LogTag, "No release available callback invoked.");
+        }
+
         bool OnReleaseAvailable(ReleaseDetails releaseDetails)
         {
             AppCenterLog.Info(LogTag, "OnReleaseAvailable id=" + releaseDetails.Id
@@ -249,6 +259,11 @@ namespace Contoso.Forms.Puppet
                 });
             }
             return custom;
+        }
+
+        void OnWillExitApp()
+        {
+            AppCenterLog.Info(LogTag, "App will close callback invoked.");
         }
     }
 }

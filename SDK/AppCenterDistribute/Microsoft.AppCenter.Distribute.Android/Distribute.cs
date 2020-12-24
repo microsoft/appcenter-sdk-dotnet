@@ -89,12 +89,31 @@ namespace Microsoft.AppCenter.Distribute
 
         static ReleaseAvailableCallback _releaseAvailableCallback;
 
+        static NoReleaseAvailableCallback _noReleaseAvailableCallback;
+
         static void SetReleaseAvailableCallback(ReleaseAvailableCallback releaseAvailableCallback)
         {
             lock (typeof(Distribute))
             {
                 _releaseAvailableCallback = releaseAvailableCallback;
                 if (_listener == null && _releaseAvailableCallback != null)
+                {
+                    _listener = new Listener();
+                    AndroidDistribute.SetListener(_listener);
+                }
+            }
+        }
+
+        static void SetWillExitAppCallback(WillExitAppCallback willExitAppCallback)
+        {
+        }
+
+        static void SetNoReleaseAvailable(NoReleaseAvailableCallback noReleaseAvailable)
+        {
+            lock (typeof(Distribute))
+            {
+                _noReleaseAvailableCallback = noReleaseAvailable;
+                if (_listener == null && _noReleaseAvailableCallback != null)
                 {
                     _listener = new Listener();
                     AndroidDistribute.SetListener(_listener);
@@ -125,6 +144,11 @@ namespace Microsoft.AppCenter.Distribute
                     return _releaseAvailableCallback(releaseDetails);
                 }
                 return false;
+            }
+
+            public void OnNoReleaseAvailable(Activity activity)
+            {
+                _noReleaseAvailableCallback?.Invoke();
             }
         }
     }

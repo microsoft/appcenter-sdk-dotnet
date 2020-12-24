@@ -65,6 +65,11 @@ namespace Microsoft.AppCenter
         {
         }
 
+        static Task<bool> PlatformSetMaxStorageSizeAsync(long sizeInBytes)
+        {
+            return Task.FromResult(false);
+        }
+
         internal static void PlatformUnsetInstance()
         {
         }

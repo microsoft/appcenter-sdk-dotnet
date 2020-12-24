@@ -43,8 +43,9 @@ namespace Microsoft.AppCenter.Storage
         /// <param name="excludeColumnName">Column name to match excluded values by.</param>
         /// <param name="excludeValues">Excluded values to match in query.</param>
         /// <param name="limit">Maximum amount of items to select.</param>
+        /// <param name="orderList">List of a column names to order selection result ascending.</param>
         /// <returns>Item list with array of objects. Array of objects is object[] representation of columns.</returns>
-        IList<object[]> Select(string tableName, string columnName, object value, string excludeColumnName, object[] excludeValues, int? limit = null);
+        IList<object[]> Select(string tableName, string columnName, object value, string excludeColumnName, object[] excludeValues, int? limit = null, string[] orderList = null);
 
         /// <summary>
         /// Inserts data to table.
@@ -61,5 +62,25 @@ namespace Microsoft.AppCenter.Storage
         /// <param name="columnName">Name of column to match value by.</param>
         /// <param name="values">Array of values to match in a query.</param>
         void Delete(string tableName, string columnName, params object[] values);
+
+        /// <summary>
+        /// Set the maximum size of the storage.
+        /// </summary>
+        /// <remarks>
+        /// This only sets the maximum size of the database, but App Center modules might store additional data.
+        /// The value passed to this method is not persisted on disk. The default maximum database size is 10485760 bytes (10 MiB).
+        /// </remarks>
+        /// <param name="sizeInBytes">
+        /// Maximum size of the storage in bytes. This will be rounded up to the nearest multiple of a SQLite page size (default is 4096 bytes).
+        /// Values below 20,480 bytes (20 KiB) will be ignored.
+        /// </param>
+        /// <returns><code>true</code> if changing the size was successful.</returns>
+        bool SetMaxStorageSize(long sizeInBytes);
+
+        /// <summary>
+        /// Gets the maximum size of the database.
+        /// </summary>
+        /// <returns>The maximum size of database in bytes.</returns>
+        long GetMaxStorageSize();
     }
 }

@@ -37,5 +37,15 @@ namespace Microsoft.AppCenter.Channel
         /// Waits for any running storage operations to complete.
         /// </summary>
         Task WaitStorageOperationsAsync();
+
+        /// <summary>
+        /// Set the maximum size of the storage.
+        /// </summary>
+        /// <param name="sizeInBytes">
+        /// Maximum size of the storage in bytes. This will be rounded up to the nearest multiple of a SQLite page size (default is 4096 bytes).
+        /// Values below 20,480 bytes (20 KiB) will be ignored.
+        /// </param>
+        /// <returns><code>true</code> if changing the size was successful.</returns>
+        Task<bool> SetMaxStorageSizeAsync(long sizeInBytes);
     }
 }

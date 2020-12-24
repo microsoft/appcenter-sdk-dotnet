@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion.Models;
@@ -85,11 +86,37 @@ namespace Microsoft.AppCenter.Storage
             return AddTaskToQueue(() =>
             {
                 var logJsonString = LogSerializer.Serialize(log);
-                _storageAdapter.Insert(TableName,
-                    new[] { ColumnChannelName, ColumnLogName },
-                    new List<object[]> {
-                        new object[] {channelName, logJsonString}
-                    });
+                var maxSize = _storageAdapter.GetMaxStorageSize();
+                var logSize = Encoding.UTF8.GetBytes(logJsonString).Length;
+                if (maxSize < 0)
+                {
+                    throw new StorageException("Failed to store a log to the database.");
+                }
+                if (maxSize <= logSize)
+                {
+                    throw new StorageException($"Log is too large ({logSize} bytes) to store in database. " +
+                            $"Current maximum database size is {maxSize} bytes.");
+                }
+                while (true)
+                {
+                    try
+                    {
+                        _storageAdapter.Insert(TableName,
+                            new[] { ColumnChannelName, ColumnLogName },
+                            new List<object[]> {
+                                new object[] {channelName, logJsonString}
+                            });
+                        return;
+                    }
+                    catch (StorageFullException)
+                    {
+                        var oldestLog = _storageAdapter.Select(TableName, ColumnChannelName, channelName, string.Empty, null, 1, new string[] { ColumnIdName });
+                        if (oldestLog != null && oldestLog.Count > 0 && oldestLog[0].Length > 0)
+                        {
+                            _storageAdapter.Delete(TableName, ColumnIdName, oldestLog[0][0]);
+                        }
+                    }
+                }
             });
         }
 
@@ -252,6 +279,34 @@ namespace Microsoft.AppCenter.Storage
                 ProcessLogIds(channelName, batchId, idPairs);
                 logs?.AddRange(retrievedLogs);
                 return batchId;
+            });
+        }
+
+        /// <summary>
+        /// Set the maximum size of the storage.
+        /// </summary>
+        /// <remarks>
+        /// This only sets the maximum size of the database, but App Center modules might store additional data.
+        /// The value passed to this method is not persisted on disk. The default maximum database size is 10485760 bytes (10 MiB).
+        /// </remarks>
+        /// <param name="sizeInBytes">
+        /// Maximum size of the storage in bytes. This will be rounded up to the nearest multiple of a SQLite page size (default is 4096 bytes).
+        /// Values below 20,480 bytes (20 KiB) will be ignored.
+        /// </param>
+        /// <returns><code>true</code> if changing the size was successful.</returns>
+        public Task<bool> SetMaxStorageSizeAsync(long sizeInBytes)
+        {
+            return AddTaskToQueue(() =>
+            {
+                try
+                {
+                    AppCenterLog.Debug(AppCenterLog.LogTag, $"Set max storage size.");
+                    return _storageAdapter.SetMaxStorageSize(sizeInBytes);
+                }
+                catch (Exception e)
+                {
+                    throw new StorageException(e);
+                }
             });
         }
 

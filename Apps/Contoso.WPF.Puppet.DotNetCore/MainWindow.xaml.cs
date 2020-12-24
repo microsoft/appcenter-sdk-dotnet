@@ -49,6 +49,10 @@ namespace Contoso.WPF.Puppet.DotNetCore
             {
                 UserId.Text = Settings.Default.UserId;
             }
+            if(Settings.Default.StorageMaxSize > 0)
+            {
+                StorageMaxSize.Text = Settings.Default.StorageMaxSize.ToString();
+            }
         }
 
         private void UpdateState()
@@ -172,6 +176,16 @@ namespace Contoso.WPF.Puppet.DotNetCore
             var text = string.IsNullOrEmpty(userId) ? null : userId;
             AppCenter.SetUserId(text);
             Settings.Default.UserId = text;
+            Settings.Default.Save();
+        }
+
+        private void SaveStorageSize_Click(object sender, EventArgs e)
+        {
+            var storageSize = StorageMaxSize.Text;
+            var size = 10L * 1024 * 1024;
+            long.TryParse(storageSize, out size);
+            AppCenter.SetMaxStorageSizeAsync(size);
+            Settings.Default.StorageMaxSize = size;
             Settings.Default.Save();
         }
 

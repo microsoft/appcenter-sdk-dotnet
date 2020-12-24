@@ -28,6 +28,8 @@ namespace Microsoft.AppCenter
         private const string NotConfiguredMessage = "App Center hasn't been configured. " +
                                                     "You need to call AppCenter.Start with appSecret or AppCenter.Configure first.";
         private const string ChannelName = "core";
+        private const long MinimumStorageSize = 1024 * 24;
+        private const long DefaultStorageMaxSize = 1024 * 1024 * 10;
 
         // The lock is static. Instance methods are not necessarily thread safe, but static methods are
         private static readonly object AppCenterLock = new object();
@@ -44,6 +46,8 @@ namespace Microsoft.AppCenter
         private string _logUrl;
         private bool _instanceConfigured;
         private string _appSecret;
+        private long _storageMaxSize;
+        private TaskCompletionSource<bool> _storageTaskCompletionSource;
 
         #region static
 
@@ -246,6 +250,14 @@ namespace Microsoft.AppCenter
             }
         }
 
+        static Task<bool> PlatformSetMaxStorageSizeAsync(long sizeInBytes)
+        {
+            lock (AppCenterLock)
+            {
+                return Instance.SetInstanceStorageMaxSize(sizeInBytes);
+            }
+        }
+
         /// <summary>
         /// A wrapper SDK can use this method to pass extra information to device properties.
         /// </summary>
@@ -315,6 +327,32 @@ namespace Microsoft.AppCenter
             _channelGroup?.SetLogUrl(logUrl);
         }
 
+        private Task<bool> SetInstanceStorageMaxSize(long storageMaxSize)
+        {
+            var resultTaskCompletionSource = new TaskCompletionSource<bool>();
+            if (_instanceConfigured)
+            {
+                AppCenterLog.Error(AppCenterLog.LogTag, "SetMaxStorageSize may not be called after App Center has been configured.");
+                resultTaskCompletionSource.SetResult(false);
+                return resultTaskCompletionSource.Task;
+            }
+            if (_storageMaxSize > 0)
+            {
+                AppCenterLog.Error(AppCenterLog.LogTag, "SetMaxStorageSize may only be called once per app launch.");
+                resultTaskCompletionSource.SetResult(false);
+                return resultTaskCompletionSource.Task;
+            }
+            if (storageMaxSize < MinimumStorageSize)
+            {
+                AppCenterLog.Error(AppCenterLog.LogTag, $"Maximum storage size must be at least {MinimumStorageSize} bytes.");
+                resultTaskCompletionSource.SetResult(false);
+                return resultTaskCompletionSource.Task;
+            }
+            _storageMaxSize = storageMaxSize;
+            _storageTaskCompletionSource = resultTaskCompletionSource;
+            return _storageTaskCompletionSource.Task;
+        }
+
         private void SetInstanceCustomProperties(CustomProperties customProperties)
         {
             if (!Configured)
@@ -355,6 +393,14 @@ namespace Microsoft.AppCenter
             if (_logUrl != null)
             {
                 _channelGroup.SetLogUrl(_logUrl);
+            }
+            if (_storageMaxSize > 0)
+            {
+                _channelGroup.SetMaxStorageSizeAsync(_storageMaxSize).ContinueWith((task) => _storageTaskCompletionSource?.SetResult(task.Result));
+            }
+            else
+            {
+                _channelGroup.SetMaxStorageSizeAsync(DefaultStorageMaxSize);
             }
             _instanceConfigured = true;
             AppCenterLog.Info(AppCenterLog.LogTag, "App Center SDK configured successfully.");

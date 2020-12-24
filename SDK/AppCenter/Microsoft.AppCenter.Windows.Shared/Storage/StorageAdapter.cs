@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using SQLitePCL;
 
 namespace Microsoft.AppCenter.Storage
@@ -95,7 +96,7 @@ namespace Microsoft.AppCenter.Storage
             return null;
         }
 
-        private void ExecuteNonSelectionSqlQuery(string query, IList<object> args = null)
+        private int ExecuteNonSelectionSqlQuery(string query, IList<object> args = null)
         {
             var db = _db ?? throw new StorageException("The database wasn't initialized.");
             var result = raw.sqlite3_prepare_v2(db, query, out var stmt);
@@ -120,6 +121,7 @@ namespace Microsoft.AppCenter.Storage
                     AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to finalize statement, result={result}");
                 }
             }
+            return result;
         }
 
         private List<object[]> ExecuteSelectionSqlQuery(string query, IList<object> args = null)
@@ -151,6 +153,90 @@ namespace Microsoft.AppCenter.Storage
             }
         }
 
+        private long GetMaxPageCount()
+        {
+            return GetPragmaValue("max_page_count");
+        }
+
+        private long GetPageCount()
+        {
+            return GetPragmaValue("page_count");
+        }
+
+        private long GetPageSize()
+        {
+            return GetPragmaValue("page_size");
+        }
+
+        private long GetPragmaValue(string valueName)
+        {
+            var result = ExecuteSelectionSqlQuery($"PRAGMA {valueName};");
+            var count = (long)(result.FirstOrDefault()?.FirstOrDefault() ?? 0L);
+            return count;
+        }
+
+        public long GetMaxStorageSize()
+        {
+            try
+            {
+                return GetMaxPageCount() * GetPageSize();
+            }
+            catch (StorageException)
+            {
+                AppCenterLog.Error(AppCenterLog.LogTag, $"Could not get max storage size.");
+                return -1;
+            }
+        }
+
+        public bool SetMaxStorageSize(long sizeInBytes)
+        {
+            var db = _db ?? throw new StorageException("The database wasn't initialized.");
+
+            // Check the current number of pages in the database to determine whether the requested size will shrink the database.
+            var currentPageCount = GetPageCount();
+            var pageSize = GetPageSize();
+            AppCenterLog.Info(AppCenterLog.LogTag, $"Found {currentPageCount} pages in the database.");
+            var requestedMaxPageCount = Convert.ToBoolean(sizeInBytes % pageSize) ? sizeInBytes / pageSize + 1 : sizeInBytes / pageSize;
+            if (currentPageCount > requestedMaxPageCount)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, $"Cannot change database size to {sizeInBytes} bytes as it would cause a loss of data. " +
+                    "Maximum database size will not be changed.");
+                return false;
+            }
+            else
+            {
+                // Attempt to set the limit and check the page count to make sure the given limit works.
+                var result = raw.sqlite3_exec(db, $"PRAGMA max_page_count = {requestedMaxPageCount};");
+                if (result != raw.SQLITE_OK)
+                {
+                    AppCenterLog.Error(AppCenterLog.LogTag, $"Could not change maximum database size to {sizeInBytes} bytes. SQLite error code: {result}.");
+                    return false;
+                }
+                else
+                {
+                    var currentMaxPageCount = GetMaxPageCount();
+                    var actualMaxSize = currentMaxPageCount * pageSize;
+                    if (requestedMaxPageCount != currentMaxPageCount)
+                    {
+                        AppCenterLog.Error(AppCenterLog.LogTag, $"Could not change maximum database size to {sizeInBytes} bytes, current maximum size is {actualMaxSize} bytes.");
+                        return false;
+                    }
+                    else
+                    {
+                        if (sizeInBytes == actualMaxSize)
+                        {
+                            AppCenterLog.Info(AppCenterLog.LogTag, $"Changed maximum database size to {actualMaxSize} bytes.");
+                        }
+                        else
+                        {
+                            AppCenterLog.Info(AppCenterLog.LogTag, $"Changed maximum database size to {actualMaxSize} bytes (next multiple of 4KiB).");
+                        }
+                        return true;
+                    }
+                }
+            }
+        }
+
         public void CreateTable(string tableName, string[] columnNames, string[] columnTypes)
         {
             var tableClause = string.Join(",", Enumerable.Range(0, columnNames.Length).Select(i => $"{columnNames[i]} {columnTypes[i]}"));
@@ -164,7 +250,7 @@ namespace Microsoft.AppCenter.Storage
             return (int)count;
         }
 
-        public IList<object[]> Select(string tableName, string columnName, object value, string excludeColumnName, object[] excludeValues, int? limit = null)
+        public IList<object[]> Select(string tableName, string columnName, object value, string excludeColumnName, object[] excludeValues, int? limit = null, string[] orderList = null)
         {
             var whereClause = $"{columnName} = ?";
             var args = new List<object> { value };
@@ -174,7 +260,8 @@ namespace Microsoft.AppCenter.Storage
                 args.AddRange(excludeValues);
             }
             var limitClause = limit != null ? $" LIMIT {limit}" : string.Empty;
-            var query = $"SELECT * FROM {tableName} WHERE {whereClause}{limitClause};";
+            var orderClause = orderList != null && orderList.Length > 0 ? $" ORDER BY {string.Join(",", orderList)} ASC" : string.Empty;
+            var query = $"SELECT * FROM {tableName} WHERE {whereClause}{orderClause}{limitClause};";
             return ExecuteSelectionSqlQuery(query, args);
         }
 
@@ -197,11 +284,16 @@ namespace Microsoft.AppCenter.Storage
         {
             var errorMessage = raw.sqlite3_errmsg(_db).utf8_to_string();
             var exceptionMessage = $"{message}, result={result}\n\t{errorMessage}";
-            if (result == raw.SQLITE_CORRUPT || result == raw.SQLITE_NOTADB)
+            switch(result)
             {
-                return new StorageCorruptedException(exceptionMessage);
+                case raw.SQLITE_CORRUPT:
+                case raw.SQLITE_NOTADB:
+                    return new StorageCorruptedException(exceptionMessage);
+                case raw.SQLITE_FULL:
+                    return new StorageFullException(exceptionMessage);
+                default:
+                    return new StorageException(exceptionMessage);
             }
-            return new StorageException(exceptionMessage);
         }
 
         private static string BuildBindingMask(int amount)
