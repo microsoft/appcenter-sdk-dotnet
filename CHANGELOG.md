@@ -35,9 +35,6 @@ ___
 
 * **[Fix]** Fix removing throwable files after rewriting error logs due to small database size.
 
-#### iOS
-
-* **[Fix]** Fix nullability for attachments methods in crashes delegate. `nil` is valid return value now (4.0.0 regression).
 ___
 
 ## Version 4.0.0
