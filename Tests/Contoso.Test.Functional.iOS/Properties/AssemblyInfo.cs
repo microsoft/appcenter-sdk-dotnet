@@ -37,5 +37,5 @@ using Xunit;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.0.0.0")]
-[assembly: AssemblyFileVersion("4.0.1.0")]
-[assembly: AssemblyInformationalVersion("4.0.1-SNAPSHOT")]
+[assembly: AssemblyFileVersion("4.1.1.0")]
+[assembly: AssemblyInformationalVersion("4.1.1-SNAPSHOT")]

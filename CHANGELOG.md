@@ -1,5 +1,9 @@
 # App Center SDK for .NET Change Log
 
+## Version 4.1.1 (Under development)
+
+___
+
 ## Version 4.1.0
 
 ### AppCenter
@@ -31,9 +35,6 @@
 
 * **[Fix]** Fix removing throwable files after rewriting error logs due to small database size.
 
-#### iOS
-
-* **[Fix]** Fix nullability for attachments methods in crashes delegate. `nil` is valid return value now (4.0.0 regression).
 ___
 
 ## Version 4.0.0
