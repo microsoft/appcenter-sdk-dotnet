@@ -45,6 +45,15 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>true</DelaySign>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
@@ -87,6 +96,7 @@
     <Compile Include="Utils\UserIdContextTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\appcenter-public-key.snk" />
     <None Include="CodeCoverage.runsettings">
       <SubType>Designer</SubType>
     </None>
