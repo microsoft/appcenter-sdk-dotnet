@@ -13,6 +13,9 @@
     <FileVersion>4.1.1.0</FileVersion>
     <AssemblyTitle>Microsoft.AppCenter.Core</AssemblyTitle>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.xml</DocumentationFile>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>true</DelaySign>
+    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

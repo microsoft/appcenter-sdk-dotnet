@@ -10,6 +10,9 @@
     <FileVersion>4.1.1.0</FileVersion>
     <AssemblyName>Microsoft.AppCenter</AssemblyName>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.xml</DocumentationFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>true</DelaySign>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'uap10.0.16299' ">
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>

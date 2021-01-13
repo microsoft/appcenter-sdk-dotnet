@@ -18,6 +18,9 @@
     <AndroidClassParser>class-parse</AndroidClassParser>
     <AndroidTlsProvider>
     </AndroidTlsProvider>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>true</DelaySign>
+    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
