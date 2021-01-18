@@ -128,4 +128,11 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>powershell.exe $(SolutionDir)scripts\strong-named-sign-delay.ps1 delaySign $(OutDir)Microsoft.AppCenter.dll</PostBuildEvent>
+  </PropertyGroup>
 </Project>

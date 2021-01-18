@@ -214,4 +214,9 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>powershell.exe $(SolutionDir)scripts\strong-named-sign-delay.ps1 delaySign $(OutDir)Microsoft.AppCenter.dll
+powershell.exe $(SolutionDir)scripts\strong-named-sign-delay.ps1 delaySign $(OutDir)Microsoft.AppCenter.Analytics.dll
+powershell.exe $(SolutionDir)scripts\strong-named-sign-delay.ps1 delaySign $(OutDir)Microsoft.AppCenter.Crashes.dll</PostBuildEvent>
+  </PropertyGroup>
 </Project>
