@@ -2,6 +2,10 @@
 
 ## Version 4.1.1 (Under development)
 
+### AppCenter
+
+* **[Fix]** Fix SDK not sending events when application is packed to self-contained single-file executable.
+
 ___
 
 ## Version 4.1.0
