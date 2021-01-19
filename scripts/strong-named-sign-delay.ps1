@@ -14,13 +14,11 @@
 # Usage: run as Admin .\strong-named-sign-delay.ps1 delaySign [outputDir]
 # Where assemblePath - path to assemble (ex. bin\Release\name.dll)
 
-function delaySign 
-{ 
-    param ($assemblePath) 
-    Write-Host Start to signing $assemblePath assemble.
-    cmd "$($Env:VS140COMNTOOLS)VsDevCmd.bat&sn -Vr $assemblePath"
-    if (-not $?)
-    {
-        Write-Host Something went wrong during sign assemble.
-    }
+param ($assemblePath) 
+
+Write-Host Start to signing $assemblePath assemble.
+cmd "$($Env:VS140COMNTOOLS)VsDevCmd.bat&sn -Vr $assemblePath"
+if (-not $?)
+{
+    Write-Host Something went wrong during sign assemble.
 }

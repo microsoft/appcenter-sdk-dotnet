@@ -50,7 +50,4 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="powershell.exe $(SolutionDir)scripts\strong-named-sign-delay.ps1 delaySign $(OutDir)Microsoft.AppCenter.dll&#xD;&#xA;powershell.exe $(SolutionDir)scripts\strong-named-sign-delay.ps1 delaySign $(OutDir)Microsoft.AppCenter.Analytics.dll&#xD;&#xA;powershell.exe $(SolutionDir)scripts\strong-named-sign-delay.ps1 delaySign $(OutDir)Microsoft.AppCenter.Crashes.dll" />
-  </Target>
 </Project>
