@@ -133,8 +133,6 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>powershell.exe $(SolutionDir)scripts\strong-named-sign-delay.ps1 s$(OutDir)Microsoft.AppCenter.dll
-powershell.exe $(SolutionDir)scripts\strong-named-sign-delay.ps1 $(OutDir)Microsoft.AppCenter.Analytics.dll
-powershell.exe $(SolutionDir)scripts\strong-named-sign-delay.ps1 $(OutDir)Microsoft.AppCenter.Crashes.dll</PostBuildEvent>
+    <PostBuildEvent>call $(SolutionDir)scripts\strong-named-sign-delay.cmd Vr $(TargetDir)</PostBuildEvent>
   </PropertyGroup>
 </Project>
