@@ -37,4 +37,3 @@ if exist %~1 (
 ) else (
     echo "File %~1 doesn't exist".
 )
-goto:EOF
