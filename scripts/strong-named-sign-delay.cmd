@@ -6,11 +6,11 @@
 :: This script uses the VS140COMNTOOLS environment variable which contains path 
 :: to the Visual Studio Tools. By default, the path should be like this 
 :: "C:\Program Files (x86)\Microsoft Visual Studio [version]\Common7\Tools\" 
-:: and should contains VsDevCmd.bat file.
+:: and should contain VsDevCmd.bat file.
 
 :: If this VS140COMNTOOLS environment variable doesn't contains this file 
 :: you should replace this path with the right Visual Studio Tools folder 
-:: or some other path where places the VsDevCmd.bat file.  
+:: or some other path containing the VsDevCmd.bat file.  
 
 :: Usage in Admin mode: 
 ::   .\strong-named-sign-delay.cmd [action] [assembliesPath]
@@ -31,7 +31,7 @@ call :registerOrUnregisterFiles %pathToFile%Microsoft.AppCenter.Distribute.dll
 EXIT /B
 
 :registerOrUnregisterFiles
-echo "Start to processing the file: %~1"
+echo "Start processing the file: %~1"
 if exist %~1 (
     sn -%action% "%~1"
 ) else (
