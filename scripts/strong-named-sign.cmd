@@ -1,7 +1,7 @@
 :: Copyright (c) Microsoft Corporation. All rights reserved.
 :: Licensed under the MIT License.
 
-:: This script is used for the strong-name sign of our assemblies.
+:: This script is used for the strong-name signing of our assemblies.
 
 :: This script uses the VS140COMNTOOLS environment variable which contains path 
 :: to the Visual Studio Tools. By default, the path should be like this 

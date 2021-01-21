@@ -1,7 +1,7 @@
 :: Copyright (c) Microsoft Corporation. All rights reserved.
 :: Licensed under the MIT License.
 
-:: Note: This script is used to skip a stong-naming check for Puppet apps.
+:: Note: This script is used to skip a strong-naming check for Puppet apps.
 
 :: This script uses the VS140COMNTOOLS environment variable which contains path 
 :: to the Visual Studio Tools. By default, the path should be like this 

@@ -4,7 +4,7 @@
 
 ### AppCenter
 
-* **[Feature]** In the App Center SDK was added support of strong-named sign assemblies for compatibility with applications that use strong-named sign. Read more about [strong-named assemblies](https://docs.microsoft.com/en-us/dotnet/standard/assembly/strong-named).
+* **[Feature]** In the App Center SDK was added support of strong-named signing assemblies for compatibility with applications that use strong-named signing. Read more about [strong-named assemblies](https://docs.microsoft.com/en-us/dotnet/standard/assembly/strong-named).
 * **[Fix]** Fix SDK not sending events when application is packed to self-contained single-file executable.
 
 ___
