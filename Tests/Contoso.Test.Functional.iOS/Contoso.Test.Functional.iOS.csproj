@@ -27,6 +27,9 @@
         <MtouchDebug>true</MtouchDebug>
         <CodesignKey>iPhone Developer</CodesignKey>
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+        <SignAssembly>true</SignAssembly>
+        <DelaySign>true</DelaySign>
+        <AssemblyOriginatorKeyFile>..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
         <DebugType>none</DebugType>
@@ -39,6 +42,9 @@
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
         <CodesignProvision>iOS Team Provisioning Profile: *</CodesignProvision>
         <CodesignKey>iPhone Developer</CodesignKey>
+        <SignAssembly>true</SignAssembly>
+        <DelaySign>true</DelaySign>
+        <AssemblyOriginatorKeyFile>..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
         <DebugSymbols>true</DebugSymbols>
@@ -52,6 +58,8 @@
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
         <CodesignKey>iPhone Developer</CodesignKey>
         <MtouchDebug>true</MtouchDebug>
+        <MtouchLink>SdkOnly</MtouchLink>
+        <DelaySign>false</DelaySign>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
         <DebugType>none</DebugType>
@@ -62,6 +70,8 @@
         <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
         <MtouchArch>ARM64</MtouchArch>
         <CodesignKey>iPhone Developer</CodesignKey>
+        <MtouchLink>SdkOnly</MtouchLink>
+        <DelaySign>false</DelaySign>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />

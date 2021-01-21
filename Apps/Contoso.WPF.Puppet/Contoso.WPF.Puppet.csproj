@@ -128,4 +128,11 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>call $(SolutionDir)scripts\strong-named-sign-delay.cmd Vr $(TargetDir)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

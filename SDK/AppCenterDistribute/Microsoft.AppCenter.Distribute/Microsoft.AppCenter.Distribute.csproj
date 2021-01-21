@@ -12,6 +12,9 @@
     <FileVersion>4.1.1.0</FileVersion>
     <AssemblyTitle>Microsoft.AppCenter.Distribute</AssemblyTitle>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Distribute.xml</DocumentationFile>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>true</DelaySign>
+    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'MonoAndroid70'">
     <AndroidResource Include="Resources\values\Strings.xml" />
