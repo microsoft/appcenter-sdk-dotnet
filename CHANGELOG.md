@@ -2,6 +2,10 @@
 
 ## Version 4.1.1 (Under development)
 
+### AppCenter
+
+* **[Fix]** Fix SDK not sending events when application is packed to self-contained single-file executable.
+
 * **[Feature]** In the App Center SDK was added support of strong-named sign assemblies for compatibility with applications that use strong-named sign. Read more about [strong-named assemblies](https://docs.microsoft.com/en-us/dotnet/standard/assembly/strong-named).
 
 ___
