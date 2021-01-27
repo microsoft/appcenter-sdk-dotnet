@@ -146,7 +146,8 @@ namespace Contoso.Android.Puppet
         private void SaveStorageSize(object sender, EventArgs e)
         {
             var inputText = StorageSizeText.Text;
-            var size = string.IsNullOrEmpty(inputText) ? 0 : long.Parse(inputText);
+            long.TryParse(inputText, result);
+            var size = string.IsNullOrEmpty(inputText) ? 0 : result
             AppCenter.SetMaxStorageSizeAsync(size);
             var prefs = Context.GetSharedPreferences("AppCenter", FileCreationMode.Private);
             var prefEditor = prefs.Edit();
