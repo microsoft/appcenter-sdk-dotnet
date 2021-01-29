@@ -11,6 +11,8 @@ namespace Contoso.Forms.Puppet
     [Android.Runtime.Preserve(AllMembers = true)]
     public partial class AppCenterContentPage : ContentPage
     {
+        const string LogTag = "AppCenterXamarinPuppet";
+
         public AppCenterContentPage()
         {
             InitializeComponent();
@@ -74,11 +76,16 @@ namespace Contoso.Forms.Puppet
         private void SaveStorageSize_Clicked(object sender, System.EventArgs e)
         {
             var inputText = StorageMaxSize.Text;
-            var size = 0L;
-            long.TryParse(inputText, out size);
-            _ = AppCenter.SetMaxStorageSizeAsync(size);
-            Application.Current.Properties[Constants.StorageMaxSize] = size;
-            _ = Application.Current.SavePropertiesAsync();
+            if (long.TryParse(inputText, out var result))
+            {
+                _ = AppCenter.SetMaxStorageSizeAsync(result);
+                Application.Current.Properties[Constants.StorageMaxSize] = result;
+                _ = Application.Current.SavePropertiesAsync();
+            }
+            else
+            {
+                AppCenterLog.Error(LogTag, "Wrong number value for the max storage size.");
+            }
         }
     }
 }

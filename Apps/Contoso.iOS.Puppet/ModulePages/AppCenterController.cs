@@ -11,6 +11,8 @@ namespace Contoso.iOS.Puppet
 {
     public partial class AppCenterController : UITableViewController
     {
+        const string LogTag = "AppCenterXamarinPuppet";
+
         private static readonly IDictionary<LogLevel, Action<string, string>> LogFunctions = new Dictionary<LogLevel, Action<string, string>> {
             { LogLevel.Verbose, AppCenterLog.Verbose },
             { LogLevel.Debug, AppCenterLog.Debug },
@@ -100,6 +102,10 @@ namespace Contoso.iOS.Puppet
                 AppCenter.SetMaxStorageSizeAsync(size);
                 var plist = NSUserDefaults.StandardUserDefaults;
                 plist.SetInt(size, Constants.StorageSizeKey);
+            }
+            else
+            {
+                AppCenterLog.Error(LogTag, "Wrong number value for the max storage size.");
             }
         }
     }

@@ -15,6 +15,8 @@ namespace Contoso.Android.Puppet
 
     public class AppCenterFragment : PageFragment
     {
+        const string LogTag = "AppCenterXamarinPuppet";
+
         private static readonly IDictionary<LogLevel, Action<string, string>> LogFunctions = new Dictionary<LogLevel, Action<string, string>> {
             { LogLevel.Verbose, AppCenterLog.Verbose },
             { LogLevel.Debug, AppCenterLog.Debug },
@@ -146,12 +148,18 @@ namespace Contoso.Android.Puppet
         private void SaveStorageSize(object sender, EventArgs e)
         {
             var inputText = StorageSizeText.Text;
-            var size = string.IsNullOrEmpty(inputText) ? 0 : long.Parse(inputText);
-            AppCenter.SetMaxStorageSizeAsync(size);
-            var prefs = Context.GetSharedPreferences("AppCenter", FileCreationMode.Private);
-            var prefEditor = prefs.Edit();
-            prefEditor.PutLong(Constants.StorageSizeKey, size);
-            prefEditor.Commit();
+            if (long.TryParse(inputText, out var result))
+            {
+                AppCenter.SetMaxStorageSizeAsync(result);
+                var prefs = Context.GetSharedPreferences("AppCenter", FileCreationMode.Private);
+                var prefEditor = prefs.Edit();
+                prefEditor.PutLong(Constants.StorageSizeKey, result);
+                prefEditor.Commit();
+            }
+            else
+            {
+                AppCenterLog.Error(LogTag, "Wrong number value for the max storage size.");
+            }
         }
     }
 }
