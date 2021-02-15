@@ -98,10 +98,6 @@ jobs:
     - run: |
         echo "Run Externals-Android"
         .\build.ps1 --target="Externals-Android"
-
-    - run: |
-        echo "Remove Nuget.config"
-        Remove-Item -Path NuGet.config
     
     - run: |
         echo "Build App Center"
