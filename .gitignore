@@ -278,3 +278,4 @@ SDK/**/*.nuspec
 SDK/**/*.snk
 Tests/**/*.snk
 *.snk
+NuGet.config
