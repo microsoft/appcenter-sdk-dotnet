@@ -18,7 +18,7 @@ $contentValue = "<?xml version=""1.0"" encoding=""utf-8""?>`n" +
 "  <packageSourceCredentials>`n" +
 "    <VSTSAC>`n" +
 "      <add key=""Username"" value=""mobilecenter"" />`n" +
-"      <add key=""ClearTextPassword"" value=""NUGET_PASSWORD"" />`n" +
+"      <add key=""ClearTextPassword"" value=""$env:NUGET_PASSWORD"" />`n" +
 "    </VSTSAC>`n" +
 "  </packageSourceCredentials>`n" +
 "</configuration>`n"
@@ -27,4 +27,3 @@ if (Test-Path $nugetFileName) {
   Remove-Item $nugetFileName
 }
 New-Item -Path . -Name $nugetFileName -Value $contentValue
-(Get-Content NuGet.config).replace('NUGET_PASSWORD', $env:NUGET_PASSWORD) | Set-Content NuGet.config
