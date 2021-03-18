@@ -189,7 +189,14 @@ namespace Microsoft.AppCenter.Utils
                 var entryAssembly = Assembly.GetEntryAssembly();
                 if (entryAssembly != null)
                 {
-                    var fileVersionInfo = FileVersionInfo.GetVersionInfo(entryAssembly.Location);
+                    var assemblyLocation = entryAssembly.Location;
+                    if (string.IsNullOrWhiteSpace(assemblyLocation))
+                    {
+                        // This is a fix for single file (self-contained publish) api incompatibility in runtime.
+                        // Read at https://docs.microsoft.com/en-us/dotnet/core/deploying/single-file#api-incompatibility
+                        assemblyLocation = Environment.GetCommandLineArgs()[0];
+                    }
+                    var fileVersionInfo = FileVersionInfo.GetVersionInfo(assemblyLocation);
                     return fileVersionInfo.FileVersion;
                 }
 

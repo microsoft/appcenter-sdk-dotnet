@@ -3,11 +3,14 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.0;net461</TargetFrameworks>
     <RootNamespace>Microsoft.AppCenter.Crashes</RootNamespace>
-    <Version>4.1.0-SNAPSHOT</Version>
+    <Version>4.2.0-SNAPSHOT</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>4.1.0.0</FileVersion>
+    <FileVersion>4.2.0.0</FileVersion>
     <AssemblyName>Microsoft.AppCenter.Crashes</AssemblyName>
     <DocumentationFile>bin\Microsoft.AppCenter.Crashes.xml</DocumentationFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>true</DelaySign>
   </PropertyGroup>
   <Import Project="..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems" Label="Shared" />
   <Import Project="..\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.projitems" Label="Shared" />
