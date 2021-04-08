@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.IO;
 
 namespace Microsoft.AppCenter.Utils
@@ -22,5 +23,7 @@ namespace Microsoft.AppCenter.Utils
         // The database file does not go in the main App Center files folder because it cannot be changed without migrating. 
         public static readonly string AppCenterDatabasePath = Path.Combine(LocalAppData, AppCenterDatabaseFilename);
 
+        // The current username.
+        public static string UserName => Environment.UserName;
     }
 }

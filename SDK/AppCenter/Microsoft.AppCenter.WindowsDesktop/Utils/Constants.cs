@@ -15,6 +15,9 @@ namespace Microsoft.AppCenter.Utils
         // These aren't exactly "Constants," per se, but probably not worth moving somewhere else.
         private static string AppCenterFilesDirectoryPathBacking;
 
+        // The current username.
+        private static string CurrentUserName = Environment.UserName;
+
         public static string AppCenterFilesDirectoryPath
         {
             get
@@ -32,5 +35,17 @@ namespace Microsoft.AppCenter.Utils
         public static string AppCenterDatabasePath = Path.Combine(AppCenterFilesDirectoryPath, "Logs.db");
 
         public static string LocalAppData => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+        public static string UserName
+        {
+            get 
+            { 
+                return CurrentUserName; 
+            }
+            internal set 
+            {
+                CurrentUserName = value; 
+            }
+        }
     }
 }
