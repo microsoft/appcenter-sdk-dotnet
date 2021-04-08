@@ -2,6 +2,12 @@
 
 ## Version 4.2.1 (Under development)
 
+### App Center Crashes
+
+#### WPF/WinForms
+
+* **[Fix]** Add obfuscation for username value in the stack trace.
+
 ___
 
 ## Version 4.2.0
