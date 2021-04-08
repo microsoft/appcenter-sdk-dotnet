@@ -280,6 +280,33 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows.Utils
         }
 
         [TestMethod]
+        public void SaveErrorLogFileWithObfuscateUserName()
+        {
+            // Prepared data.
+            Constants.UserName = "test.username";
+            var pathWithUserName = $"C:\\{Constants.UserName}\\some\\path";
+            var errorLog = new ManagedErrorLog
+            {
+                Id = Guid.NewGuid(),
+                ProcessId = 123,
+                Exception = new Ingestion.Models.Exception
+                {
+                    StackTrace = pathWithUserName
+                }
+            };
+            var expectedException = new System.Exception(pathWithUserName);
+           
+            // Call method.
+            ErrorLogHelper.SaveErrorLogFiles(expectedException, errorLog);
+
+            // Verify obfuscated data.
+            var fileExceptionContent = ErrorLogHelper.GetStoredExceptionFile(errorLog.Id).ReadAllText();
+            var fileErrorContant = ErrorLogHelper.GetStoredErrorLogFile(errorLog.Id).ReadAllText();
+            Assert.IsFalse(fileErrorContant.Contains(Constants.UserName));
+            Assert.IsFalse(fileExceptionContent.Contains(Constants.UserName));
+        }
+
+        [TestMethod]
         [DataRow(typeof(ArgumentException))]
         [DataRow(typeof(ArgumentNullException))]
         [DataRow(typeof(System.IO.PathTooLongException))]
@@ -426,6 +453,36 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows.Utils
             Mock.Get(mockDirectory).Setup(d => d.EnumerateFiles($"{id}.exception")).Returns(expectedFiles);
             ErrorLogHelper.RemoveStoredExceptionFile(id);
             Mock.Get(file).Verify(f => f.Delete());
+        }
+
+        [TestMethod]
+        public void ObfuscateUserNameWhenStringNullOrEmpty()
+        {
+            string path = "";
+            string obfuscateResult = ErrorLogHelper.ObfuscateUserName(path);
+            Assert.AreEqual(obfuscateResult, path);
+
+            obfuscateResult = ErrorLogHelper.ObfuscateUserName(null);
+            Assert.IsNull(obfuscateResult);
+        }
+
+        [TestMethod]
+        public void ObfuscateUserNameInStacktrace()
+        {
+            Constants.UserName = "test.username";
+            string pathWithUserName = $"C:\\{Constants.UserName}\\some\\path";
+            string expectedPath = $"C:\\USER\\some\\path";
+            string obfuscateResult = ErrorLogHelper.ObfuscateUserName(pathWithUserName);
+            Assert.AreEqual(obfuscateResult, expectedPath);
+        }
+
+        [TestMethod]
+        public void ObfuscateWithoutUserNameInStacktrace()
+        {
+            Constants.UserName = "test.username";
+            string path = $"C:\\no.user.name\\some\\path";
+            string obfuscateResult = ErrorLogHelper.ObfuscateUserName(path);
+            Assert.AreEqual(obfuscateResult, path);
         }
 
         [TestMethod]
