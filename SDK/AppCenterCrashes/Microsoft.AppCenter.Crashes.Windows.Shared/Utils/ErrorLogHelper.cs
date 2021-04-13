@@ -159,13 +159,6 @@ namespace Microsoft.AppCenter.Crashes.Utils
         /// </summary>
         public static void RemoveAllStoredErrorLogFiles() => Instance.InstanceRemoveAllStoredErrorLogFiles();
 
-        /// <summary>
-        /// Remove the user's name from a crash's process path.
-        /// </summary>
-        /// <param name="errorString">A string containing the username.</param>
-        /// <returns>An anonymized string where the real username is replaced by "USER".</returns>
-        internal static string ObfuscateUserName(string errorString) => Instance.InstanceObfuscateUserName(errorString);
-
         private ManagedErrorLog InstanceCreateErrorLog(System.Exception exception)
         {
             var exceptionAndBinaries = CreateModelExceptionAndBinaries(exception);
@@ -361,7 +354,12 @@ namespace Microsoft.AppCenter.Crashes.Utils
             }
         }
 
-        private string InstanceObfuscateUserName(string errorString)
+        /// <summary>
+        /// Remove the user's name from a crash's process path.
+        /// </summary>
+        /// <param name="errorString">A string containing the username.</param>
+        /// <returns>An anonymized string where the real username is replaced by "USER".</returns>
+        internal static string ObfuscateUserName(string errorString)
         {
             // Obfuscate user name in stack trace.
             if (string.IsNullOrEmpty(errorString))

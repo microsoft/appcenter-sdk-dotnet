@@ -23,7 +23,7 @@ namespace Microsoft.AppCenter.Utils
         // The database file does not go in the main App Center files folder because it cannot be changed without migrating. 
         public static readonly string AppCenterDatabasePath = Path.Combine(LocalAppData, AppCenterDatabaseFilename);
 
-        // The current username.
-        public static string UserName => Environment.UserName;
+        // This value used for the mocking process of obfuscating username only.
+        public static string UserName => null;
     }
 }
