@@ -458,12 +458,30 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows.Utils
         [TestMethod]
         public void ObfuscateUserNameWhenStringNullOrEmpty()
         {
+            // Check obfuscation a username when the path is empty.
             string path = "";
             string obfuscateResult = ErrorLogHelper.ObfuscateUserName(path);
             Assert.AreEqual(obfuscateResult, path);
 
+            // Check obfuscation a username when the path is null.
             obfuscateResult = ErrorLogHelper.ObfuscateUserName(null);
             Assert.IsNull(obfuscateResult);
+        }
+
+        [TestMethod]
+        public void ObfuscateUserNameWhenUserNameNullOrEmpty()
+        {
+            // Check obfuscation a username when the username is null.
+            Constants.UserName = null;
+            string path = $"C:\\{Constants.UserName}\\some\\path";
+            string obfuscateResult = ErrorLogHelper.ObfuscateUserName(path);
+            Assert.AreEqual(obfuscateResult, path);
+
+            // Check obfuscation a username when the username is empty.
+            Constants.UserName = string.Empty;
+            path = $"C:\\{Constants.UserName}\\some\\path";
+            obfuscateResult = ErrorLogHelper.ObfuscateUserName(path);
+            Assert.AreEqual(obfuscateResult, path);
         }
 
         [TestMethod]

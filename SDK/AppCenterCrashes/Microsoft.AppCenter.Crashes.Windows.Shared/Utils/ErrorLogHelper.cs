@@ -362,7 +362,7 @@ namespace Microsoft.AppCenter.Crashes.Utils
         internal static string ObfuscateUserName(string errorString)
         {
             // Obfuscate user name in stack trace.
-            if (string.IsNullOrEmpty(errorString))
+            if (string.IsNullOrEmpty(errorString) || string.IsNullOrEmpty(Constants.UserName))
             {
                 return errorString;
             }
