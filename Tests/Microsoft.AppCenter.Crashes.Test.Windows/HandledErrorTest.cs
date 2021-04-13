@@ -12,6 +12,7 @@ using Microsoft.AppCenter.Ingestion.Http;
 using Microsoft.AppCenter.Ingestion.Models;
 using Microsoft.AppCenter.Ingestion.Models.Serialization;
 using Microsoft.AppCenter.Storage;
+using Microsoft.AppCenter.Utils;
 using Microsoft.AppCenter.Windows.Shared.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -403,6 +404,7 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
             Assert.IsNotNull(actualLog);
             Assert.AreEqual(1, logCount);
             Assert.AreEqual(exception.Message, actualLog.Exception.Message);
+            Assert.IsNull(actualLog.Exception.StackTrace);
             CollectionAssert.AreEquivalent(properties, actualLog.Properties as Dictionary<string, string>);
         }
 
@@ -432,6 +434,40 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
             semaphore.Wait(2000);
             Assert.IsNotNull(actualLog);
             Assert.AreEqual(dummyUser, actualLog.UserId);
+        }
+
+        [TestMethod]
+        public void TrackErrorWithObfuscateUserName()
+        {
+            // Prepared data.
+            Constants.UserName = "test.username";
+            var semaphore = new SemaphoreSlim(0);
+            var stacktraceWithUserName = $"C:\\{Constants.UserName}\\some\\path;\nC:\\test\\{Constants.UserName}\\some\\path;\nC:\\no.username\\some\\path;";
+            var expectedStacktrace = $"C:\\USER\\some\\path;\nC:\\test\\USER\\some\\path;\nC:\\no.username\\some\\path;";
+            var mockException = new Mock<System.Exception>();
+            mockException.Setup(exception => exception.StackTrace).Returns(stacktraceWithUserName);
+            mockException.Setup(exception => exception.Message).Returns("Some error message");
+
+            // Mock method.
+            HandledErrorLog actualLog = null;
+            Mock.Get(_mockNetworkAdapter).Setup(adapter => adapter.SendAsync(
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<IDictionary<string, string>>(),
+                    It.IsAny<string>(),
+                    It.IsAny<CancellationToken>()))
+                .Callback((string uri, string method, IDictionary<string, string> headers, string content, CancellationToken cancellation) =>
+                {
+                    actualLog = JsonConvert.DeserializeObject<LogContainer>(content, LogSerializer.SerializationSettings).Logs.Single() as HandledErrorLog;
+                    semaphore.Release();
+                }).ReturnsAsync("");
+
+            Crashes.TrackError(mockException.Object);
+
+            // Wait until the http layer sends the log.
+            semaphore.Wait(2000);
+            Assert.IsNotNull(actualLog);
+            Assert.AreEqual(expectedStacktrace, actualLog.Exception.StackTrace);
         }
 
         private ErrorAttachmentLog GetValidErrorAttachmentLog()
