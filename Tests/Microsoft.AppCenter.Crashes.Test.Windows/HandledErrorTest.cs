@@ -442,8 +442,8 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
             // Prepared data.
             Constants.UserName = "test.username";
             var semaphore = new SemaphoreSlim(0);
-            var stacktraceWithUserName = $"C:\\{Constants.UserName}\\some\\path";
-            var expectedStacktrace = "C:\\USER\\some\\path";
+            var stacktraceWithUserName = $"C:\\{Constants.UserName}\\some\\path;\nC:\\test\\{Constants.UserName}\\some\\path;\nC:\\no.username\\some\\path;";
+            var expectedStacktrace = $"C:\\USER\\some\\path;\nC:\\test\\USER\\some\\path;\nC:\\no.username\\some\\path;";
             var mockException = new Mock<System.Exception>();
             mockException.Setup(exception => exception.StackTrace).Returns(stacktraceWithUserName);
             mockException.Setup(exception => exception.Message).Returns("Some error message");

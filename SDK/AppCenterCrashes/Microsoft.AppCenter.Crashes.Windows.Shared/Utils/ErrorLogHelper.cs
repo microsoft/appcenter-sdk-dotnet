@@ -368,8 +368,7 @@ namespace Microsoft.AppCenter.Crashes.Utils
             {
                 return errorString;
             }
-            var userName = $"\\{Constants.UserName}\\";
-            return errorString.Replace(userName, "\\USER\\");
+            return errorString.Replace($"\\{Constants.UserName}\\", "\\USER\\");
         }
 
         /// <summary>
