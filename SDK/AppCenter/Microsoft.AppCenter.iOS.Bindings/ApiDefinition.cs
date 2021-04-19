@@ -235,6 +235,16 @@ namespace Microsoft.AppCenter.iOS.Bindings
         [Export("setLogLevel:")]
         void SetLogLevel(MSACLogLevel logLevel);
 
+        // + (void)setAllowNetworkRequests:(BOOL)isAllowed;
+        [Static]
+        [Export("setAllowNetworkRequests:")]
+        void SetAllowNetworkRequests(bool isAllowed);
+
+        // + (BOOL)isNetworkRequestsAllowed;
+        [Static]
+        [Export("isNetworkRequestsAllowed")]
+        bool IsNetworkRequestsAllowed();
+
         // + (void)setUserId:(NSString *)userId;
         [Static]
         [Export("setUserId:")]

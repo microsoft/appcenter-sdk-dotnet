@@ -79,6 +79,18 @@ namespace Microsoft.AppCenter
             }
         }
 
+        static bool PlatformAllowNetworkRequests
+        {
+            get
+            {
+                return iOSAppCenter.IsNetworkRequestsAllowed();
+            }
+            set
+            {
+                iOSAppCenter.SetAllowNetworkRequests(value);
+            }
+        }
+
         static void PlatformSetUserId(string userId)
         {
             iOSAppCenter.SetUserId(userId);
