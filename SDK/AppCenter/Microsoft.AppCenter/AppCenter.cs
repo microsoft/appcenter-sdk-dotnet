@@ -21,7 +21,7 @@ namespace Microsoft.AppCenter
 
         static LogLevel PlatformLogLevel { get; set; }
 
-        static bool PlatformAllowNetworkRequests { get; set; }
+        static bool PlatformNetworkRequestsAllowed { get; set; }
 
         static Task<bool> PlatformIsEnabledAsync()
         {

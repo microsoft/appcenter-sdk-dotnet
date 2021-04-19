@@ -103,10 +103,10 @@ namespace Microsoft.AppCenter
         /// <summary>
         ///     Allow or disallow network requests.
         /// </summary>
-        public static bool AllowNetworkRequests
+        public static bool NetworkRequestsAllowed
         {
-            get => PlatformAllowNetworkRequests;
-            set => PlatformAllowNetworkRequests = value;
+            get => PlatformNetworkRequestsAllowed;
+            set => PlatformNetworkRequestsAllowed = value;
         }
 
         /// <summary>
