@@ -2,6 +2,10 @@
 
 ## Version 4.2.1 (Under development)
 
+### App Center Distribute Play
+
+- **[Fix]** #1515, Xamarin.Forms Android Package built with `Microsoft.AppCenter.DistributePlay` contains `Microsoft.AppCenter.Distribute.Android.Bindings.dll`.
+
 ### App Center Crashes
 
 #### WPF/WinForms
