@@ -46,6 +46,8 @@ namespace Microsoft.AppCenter.Channel
 
         private bool _batchScheduled;
 
+        private bool _isNetworkRequestsAllowed = true;
+
         private TimeSpan _batchTimeInterval;
 
         private readonly StatefulMutex _mutex = new StatefulMutex();
@@ -144,6 +146,27 @@ namespace Microsoft.AppCenter.Channel
             else
             {
                 Suspend(state, true, new CancellationException());
+            }
+        }
+
+        /// <summary>
+        /// Allow or disallow network requests.
+        /// </summary>
+        public bool NetworkRequestsAllowed
+        {
+            get => _isNetworkRequestsAllowed;
+            set
+            {
+                _isNetworkRequestsAllowed = value;
+                State state;
+                using (_mutex.GetLock())
+                {
+                    state = _mutex.State;
+                }
+                if (value && _enabled)
+                {
+                    CheckPendingLogs(state);
+                }
             }
         }
 
@@ -562,7 +585,11 @@ namespace Microsoft.AppCenter.Channel
                 AppCenterLog.Info(AppCenterLog.LogTag, "The service has been disabled. Stop processing logs.");
                 return;
             }
-
+            if (!_isNetworkRequestsAllowed)
+            {
+                AppCenterLog.Debug(AppCenterLog.LogTag, "SDK is in offline mode.");
+                return;
+            }
             AppCenterLog.Debug(AppCenterLog.LogTag, $"CheckPendingLogs({Name}) pending log count: {_pendingLogCount}");
             using (_mutex.GetLock())
             {

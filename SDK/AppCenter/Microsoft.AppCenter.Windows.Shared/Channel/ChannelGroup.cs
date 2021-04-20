@@ -26,6 +26,8 @@ namespace Microsoft.AppCenter.Channel
 
         private bool _isShutdown;
 
+        private bool _isNetworkRequestsAllowed = true;
+
         public string AppSecret { get; internal set; }
 
         public event EventHandler<EnqueuingLogEventArgs> EnqueuingLog;
@@ -110,6 +112,26 @@ namespace Microsoft.AppCenter.Channel
                 foreach (var channel in _channels)
                 {
                     channel.SetEnabled(enabled);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Allow or disallow network requests.
+        /// </summary>
+        public bool NetworkRequestsAllowed
+        {
+            get => _isNetworkRequestsAllowed;
+            set
+            {
+                ThrowIfDisposed();
+                lock (_channelGroupLock)
+                {
+                    _isNetworkRequestsAllowed = value;
+                    foreach (Channel channel in _channels)
+                    {
+                        channel.NetworkRequestsAllowed = value;
+                    }
                 }
             }
         }

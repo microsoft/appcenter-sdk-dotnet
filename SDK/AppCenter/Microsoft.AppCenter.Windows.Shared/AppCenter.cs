@@ -49,6 +49,9 @@ namespace Microsoft.AppCenter
         private long _storageMaxSize;
         private TaskCompletionSource<bool> _storageTaskCompletionSource;
 
+        // Is network requests allowed? True by the default.
+        private bool _isNetworkRequestsAllowed = true;
+
         #region static
 
         // The shared instance of AppCenter
@@ -84,6 +87,25 @@ namespace Microsoft.AppCenter
         {
             get => AppCenterLog.Level;
             set => AppCenterLog.Level = value;
+        }
+
+        /// <summary>
+        /// Is network requests allowed? True by the default.
+        /// </summary>
+        public static bool PlatformNetworkRequestsAllowed
+        {
+            get 
+            {
+                return Instance._isNetworkRequestsAllowed;
+            }
+            set 
+            {
+                Instance._isNetworkRequestsAllowed = value;
+                if (Instance._channelGroup != null)
+                {
+                    Instance._channelGroup.NetworkRequestsAllowed = value;
+                }
+            } 
         }
 
         /// <summary>
@@ -389,6 +411,7 @@ namespace Microsoft.AppCenter
             _channelGroup = _channelGroupFactory?.CreateChannelGroup(_appSecret, _networkStateAdapter) ?? new ChannelGroup(_appSecret, null, _networkStateAdapter);
             _channel = _channelGroup.AddChannel(ChannelName, Constants.DefaultTriggerCount, Constants.DefaultTriggerInterval,
                                                 Constants.DefaultTriggerMaxParallelRequests);
+            _channelGroup.NetworkRequestsAllowed = _isNetworkRequestsAllowed;
             _channel.SetEnabled(InstanceEnabled);
             if (_logUrl != null)
             {

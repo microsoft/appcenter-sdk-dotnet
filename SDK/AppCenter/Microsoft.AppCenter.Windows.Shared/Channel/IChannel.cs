@@ -43,6 +43,11 @@ namespace Microsoft.AppCenter.Channel
         void SetEnabled(bool enabled);
 
         /// <summary>
+        /// Allow or disallow network requests.
+        /// </summary>
+        bool NetworkRequestsAllowed { get; set; }
+
+        /// <summary>
         /// Stop all calls in progress and deactivate this channel
         /// </summary>
         Task ShutdownAsync();

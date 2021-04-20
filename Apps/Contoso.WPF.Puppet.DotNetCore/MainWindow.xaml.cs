@@ -72,6 +72,7 @@ namespace Contoso.WPF.Puppet.DotNetCore
                 AppCenter.SetEnabledAsync(AppCenterEnabled.IsChecked.Value).Wait();
             }
         }
+        
         private void AppCenterAllowNetworkRequests_Checked(object sender, RoutedEventArgs e)
         {
             if (AppCenterAllowNetworkRequests.IsChecked.HasValue)
