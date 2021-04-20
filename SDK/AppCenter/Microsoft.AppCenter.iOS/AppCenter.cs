@@ -87,7 +87,7 @@ namespace Microsoft.AppCenter
             }
             set
             {
-                iOSAppCenter.SetAllowNetworkRequests(value);
+                iOSAppCenter.SetNetworkRequestsAllowed(value);
             }
         }
 
