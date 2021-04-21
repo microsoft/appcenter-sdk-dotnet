@@ -128,7 +128,7 @@ namespace Microsoft.AppCenter.Channel
                 lock (_channelGroupLock)
                 {
                     _networkRequestsAllowed = value;
-                    foreach (Channel channel in _channels)
+                    foreach (IChannel channel in _channels)
                     {
                         channel.IsNetworkRequestsAllowed = value;
                     }
