@@ -45,7 +45,7 @@ namespace Microsoft.AppCenter.Channel
         /// <summary>
         /// Allow or disallow network requests.
         /// </summary>
-        bool NetworkRequestsAllowed { get; set; }
+        bool IsNetworkRequestsAllowed { get; set; }
 
         /// <summary>
         /// Stop all calls in progress and deactivate this channel

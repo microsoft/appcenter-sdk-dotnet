@@ -26,7 +26,7 @@ namespace Microsoft.AppCenter.Channel
 
         private bool _isShutdown;
 
-        private bool _isNetworkRequestsAllowed = true;
+        private bool _networkRequestsAllowed = true;
 
         public string AppSecret { get; internal set; }
 
@@ -119,18 +119,18 @@ namespace Microsoft.AppCenter.Channel
         /// <summary>
         /// Allow or disallow network requests.
         /// </summary>
-        public bool NetworkRequestsAllowed
+        public bool IsNetworkRequestsAllowed
         {
-            get => _isNetworkRequestsAllowed;
+            get => _networkRequestsAllowed;
             set
             {
                 ThrowIfDisposed();
                 lock (_channelGroupLock)
                 {
-                    _isNetworkRequestsAllowed = value;
+                    _networkRequestsAllowed = value;
                     foreach (Channel channel in _channels)
                     {
-                        channel.NetworkRequestsAllowed = value;
+                        channel.IsNetworkRequestsAllowed = value;
                     }
                 }
             }

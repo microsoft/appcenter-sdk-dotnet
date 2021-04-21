@@ -49,8 +49,8 @@ namespace Microsoft.AppCenter
         private long _storageMaxSize;
         private TaskCompletionSource<bool> _storageTaskCompletionSource;
 
-        // Is network requests allowed? True by the default.
-        private bool _isNetworkRequestsAllowed = true;
+        // Allow or disallow network requests. True by the default.
+        private bool _networkRequestsAllowed = true;
 
         #region static
 
@@ -90,20 +90,20 @@ namespace Microsoft.AppCenter
         }
 
         /// <summary>
-        /// Is network requests allowed? True by the default.
+        /// Allow or disallow network requests. True by the default.
         /// </summary>
-        public static bool PlatformNetworkRequestsAllowed
+        public static bool PlatformIsNetworkRequestsAllowed
         {
             get 
             {
-                return Instance._isNetworkRequestsAllowed;
+                return Instance._networkRequestsAllowed;
             }
             set 
             {
-                Instance._isNetworkRequestsAllowed = value;
+                Instance._networkRequestsAllowed = value;
                 if (Instance._channelGroup != null)
                 {
-                    Instance._channelGroup.NetworkRequestsAllowed = value;
+                    Instance._channelGroup.IsNetworkRequestsAllowed = value;
                 }
             } 
         }
@@ -411,7 +411,7 @@ namespace Microsoft.AppCenter
             _channelGroup = _channelGroupFactory?.CreateChannelGroup(_appSecret, _networkStateAdapter) ?? new ChannelGroup(_appSecret, null, _networkStateAdapter);
             _channel = _channelGroup.AddChannel(ChannelName, Constants.DefaultTriggerCount, Constants.DefaultTriggerInterval,
                                                 Constants.DefaultTriggerMaxParallelRequests);
-            _channelGroup.NetworkRequestsAllowed = _isNetworkRequestsAllowed;
+            _channelGroup.IsNetworkRequestsAllowed = _networkRequestsAllowed;
             _channel.SetEnabled(InstanceEnabled);
             if (_logUrl != null)
             {

@@ -46,7 +46,7 @@ namespace Microsoft.AppCenter.Channel
 
         private bool _batchScheduled;
 
-        private bool _isNetworkRequestsAllowed = true;
+        private bool _networkRequestsAllowed = true;
 
         private TimeSpan _batchTimeInterval;
 
@@ -152,12 +152,12 @@ namespace Microsoft.AppCenter.Channel
         /// <summary>
         /// Allow or disallow network requests.
         /// </summary>
-        public bool NetworkRequestsAllowed
+        public bool IsNetworkRequestsAllowed
         {
-            get => _isNetworkRequestsAllowed;
+            get => _networkRequestsAllowed;
             set
             {
-                _isNetworkRequestsAllowed = value;
+                _networkRequestsAllowed = value;
                 State state;
                 using (_mutex.GetLock())
                 {
@@ -585,7 +585,7 @@ namespace Microsoft.AppCenter.Channel
                 AppCenterLog.Info(AppCenterLog.LogTag, "The service has been disabled. Stop processing logs.");
                 return;
             }
-            if (!_isNetworkRequestsAllowed)
+            if (!_networkRequestsAllowed)
             {
                 AppCenterLog.Debug(AppCenterLog.LogTag, "SDK is in offline mode.");
                 return;

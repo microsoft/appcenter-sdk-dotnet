@@ -195,14 +195,14 @@ namespace Microsoft.AppCenter.Test.Channel
             {
                 _channelGroup.AddChannel(mockedChannel);
             }
-            _channelGroup.NetworkRequestsAllowed = true;
-            _channelGroup.NetworkRequestsAllowed = false;
+            _channelGroup.IsNetworkRequestsAllowed = true;
+            _channelGroup.IsNetworkRequestsAllowed = false;
 
-            // Verify that NetworkRequestsAllowed peopery was called for all channels.
+            // Verify that IsNetworkRequestsAllowed property was called for all channels.
             foreach (var channelMock in channelMocks.Select(mock => mock as Mock<IChannelUnit>))
             {
-                channelMock.VerifySet(channel => channel.NetworkRequestsAllowed = true, Times.Once);
-                channelMock.VerifySet(channel => channel.NetworkRequestsAllowed = false, Times.Once);
+                channelMock.VerifySet(channel => channel.IsNetworkRequestsAllowed = true, Times.Once);
+                channelMock.VerifySet(channel => channel.IsNetworkRequestsAllowed = false, Times.Once);
             }
         }
 

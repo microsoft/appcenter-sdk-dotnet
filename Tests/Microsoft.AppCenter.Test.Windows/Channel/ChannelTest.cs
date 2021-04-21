@@ -122,17 +122,17 @@ namespace Microsoft.AppCenter.Test.Channel
         }
 
         /// <summary>
-        /// Verify that setting the NetworkRequestsAllowed propery has the expected effect.
+        /// Verify that setting the IsNetworkRequestsAllowed propery has the expected effect.
         /// </summary>
         [TestMethod]
         public async Task ConfigureNetworkRequestsAllowedAsync()
         {
             // Verify that network requests is allowed by default.
-            Assert.IsTrue(_channel.NetworkRequestsAllowed);
+            Assert.IsTrue(_channel.IsNetworkRequestsAllowed);
 
             // Disallow network requests and verify the value.
-            _channel.NetworkRequestsAllowed = false;
-            Assert.IsFalse(_channel.NetworkRequestsAllowed);
+            _channel.IsNetworkRequestsAllowed = false;
+            Assert.IsFalse(_channel.IsNetworkRequestsAllowed);
 
             // Send logs and verify that logs were not sent.
             for (var i = 0; i < MaxLogsPerBatch; ++i)
@@ -142,8 +142,8 @@ namespace Microsoft.AppCenter.Test.Channel
             VerifySendingLog(0);
 
             // Allow network requests and verify that logs were sent.
-            _channel.NetworkRequestsAllowed = true;
-            Assert.IsTrue(_channel.NetworkRequestsAllowed);
+            _channel.IsNetworkRequestsAllowed = true;
+            Assert.IsTrue(_channel.IsNetworkRequestsAllowed);
             VerifySendingLog(MaxLogsPerBatch);
         }
 
