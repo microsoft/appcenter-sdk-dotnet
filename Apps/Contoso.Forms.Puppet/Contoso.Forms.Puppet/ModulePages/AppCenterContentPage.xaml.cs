@@ -33,7 +33,7 @@ namespace Contoso.Forms.Puppet
         {
             base.OnAppearing();
             AppCenterEnabledSwitchCell.On = await AppCenter.IsEnabledAsync();
-            AllowedNetworkRequestSwitchCell.On = AppCenter.NetworkRequestsAllowed;
+            AllowedNetworkRequestSwitchCell.On = AppCenter.IsNetworkRequestsAllowed;
             if (Application.Current.Properties.ContainsKey(Constants.UserId) && Application.Current.Properties[Constants.UserId] is string id)
             {
                 UserIdEntry.Text = id;
@@ -91,7 +91,7 @@ namespace Contoso.Forms.Puppet
 
         void AllowedNetworkRequestEnabled(System.Object sender, Xamarin.Forms.ToggledEventArgs e)
         {
-            AppCenter.NetworkRequestsAllowed = e.Value;
+            AppCenter.IsNetworkRequestsAllowed = e.Value;
         }
     }
 }

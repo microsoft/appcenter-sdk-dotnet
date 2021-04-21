@@ -83,7 +83,7 @@ namespace Microsoft.AppCenter
             }
         }
 
-        static bool PlatformNetworkRequestsAllowed
+        static bool PlatformIsNetworkRequestsAllowed
         {
             get
             {
