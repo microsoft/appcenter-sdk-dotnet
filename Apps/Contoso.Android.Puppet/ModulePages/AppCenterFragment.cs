@@ -127,6 +127,10 @@ namespace Contoso.Android.Puppet
         private void NetworkRequestAllowedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             AppCenter.IsNetworkRequestsAllowed = e.IsChecked;
+            var prefs = Context.GetSharedPreferences("AppCenter", FileCreationMode.Private);
+            var prefEditor = prefs.Edit();
+            prefEditor.PutBoolean(Constants.AllowNetworkRequests, e.IsChecked);
+            prefEditor.Commit();
         }
 
         private void LogLevelClicked(object sender, EventArgs e)

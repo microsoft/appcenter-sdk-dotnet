@@ -92,6 +92,8 @@ namespace Contoso.Forms.Puppet
         void AllowedNetworkRequestEnabled(System.Object sender, Xamarin.Forms.ToggledEventArgs e)
         {
             AppCenter.IsNetworkRequestsAllowed = e.Value;
+            Application.Current.Properties[Constants.AllowNetworkRequests] = e.Value;
+            _ = Application.Current.SavePropertiesAsync();
         }
     }
 }
