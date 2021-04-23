@@ -26,6 +26,13 @@ namespace Contoso.iOS.Puppet
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
+            // Init user default values.
+            var keys = new object[] { Constants.AllowNetworkRequests };
+            var values = new object[] { true };
+            NSUserDefaults userDefaults = new NSUserDefaults();
+            userDefaults.RegisterDefaults(NSDictionary.FromObjectsAndKeys(values, keys));
+
+            // Configure App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
             Distribute.SetInstallUrl("https://install.portal-server-core-integration.dev.avalanch.es");
