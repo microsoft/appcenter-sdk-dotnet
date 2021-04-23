@@ -30,6 +30,7 @@ namespace Contoso.WinForms.Puppet.DotNetCore
             {
                 StorageMaxSizeTextBox.Text = Settings.Default.StorageMaxSize.ToString();
             }
+            AppCenterAllowNetworkRequests.Checked = Settings.Default.IsNetworkRequestsAllowed;
         }
 
         private void UpdateState()
@@ -50,6 +51,8 @@ namespace Contoso.WinForms.Puppet.DotNetCore
         private void AppCenterAllowNetworkRequest_CheckedChanged(object sender, EventArgs e)
         {
             AppCenter.IsNetworkRequestsAllowed = AppCenterAllowNetworkRequests.Checked;
+            Settings.Default.IsNetworkRequestsAllowed = AppCenterAllowNetworkRequests.Checked;
+            Settings.Default.Save();
         }
 
         private void AnalyticsEnabled_CheckedChanged(object sender, EventArgs e)

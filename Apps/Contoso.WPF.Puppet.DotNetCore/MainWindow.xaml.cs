@@ -53,6 +53,7 @@ namespace Contoso.WPF.Puppet.DotNetCore
             {
                 StorageMaxSize.Text = Settings.Default.StorageMaxSize.ToString();
             }
+            AppCenter.IsNetworkRequestsAllowed = Settings.Default.IsNetworkRequestsAllowed;
         }
 
         private void UpdateState()
@@ -78,6 +79,8 @@ namespace Contoso.WPF.Puppet.DotNetCore
             if (AppCenterAllowNetworkRequests.IsChecked.HasValue)
             {
                 AppCenter.IsNetworkRequestsAllowed = AppCenterAllowNetworkRequests.IsChecked.Value;
+                Settings.Default.IsNetworkRequestsAllowed = AppCenterAllowNetworkRequests.IsChecked.Value;
+                Settings.Default.Save();
             }
         }
 
