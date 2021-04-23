@@ -195,7 +195,6 @@ namespace Microsoft.AppCenter.Test.Channel
             {
                 _channelGroup.AddChannel(mockedChannel);
             }
-            _channelGroup.IsNetworkRequestsAllowed = true;
             _channelGroup.IsNetworkRequestsAllowed = false;
 
             // Verify that IsNetworkRequestsAllowed property was called for all channels.
