@@ -101,7 +101,7 @@ namespace Microsoft.AppCenter
         }
 
         /// <summary>
-        ///     Allow or disallow network requests.
+        /// Allow or disallow network requests.
         /// </summary>
         public static bool IsNetworkRequestsAllowed
         {
