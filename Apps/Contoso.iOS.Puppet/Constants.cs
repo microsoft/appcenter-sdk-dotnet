@@ -11,5 +11,6 @@ namespace Contoso.iOS.Puppet
         public const string Warning = "Warning";
         public const string Error = "Error";
         public const string StorageSizeKey = "AppCenterStorageSizeKey";
+        public const string AllowNetworkRequests = "allow-network-requests";
     }
 }

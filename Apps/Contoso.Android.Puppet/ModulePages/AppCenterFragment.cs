@@ -34,6 +34,7 @@ namespace Contoso.Android.Puppet
         private LogLevel mLogWriteLevel = LogLevel.Verbose;
 
         private Switch AppCenterEnabledSwitch;
+        private Switch AppcenterNetworkRequestsAllowedSwitch;
         private TextView LogLevelLabel;
         private EditText LogWriteMessageText;
         private EditText LogWriteTagText;
@@ -54,6 +55,8 @@ namespace Contoso.Android.Puppet
 
             // Find views.
             AppCenterEnabledSwitch = view.FindViewById(Resource.Id.enabled_app_center) as Switch;
+            AppcenterNetworkRequestsAllowedSwitch = view.FindViewById(Resource.Id.appcenter_network_requests_allowed) as Switch;
+
             LogLevelLabel = view.FindViewById(Resource.Id.log_level) as TextView;
             LogWriteMessageText = view.FindViewById(Resource.Id.write_log_message) as EditText;
             LogWriteTagText = view.FindViewById(Resource.Id.write_log_tag) as EditText;
@@ -65,6 +68,7 @@ namespace Contoso.Android.Puppet
 
             // Subscribe to events.
             AppCenterEnabledSwitch.CheckedChange += UpdateEnabled;
+            AppcenterNetworkRequestsAllowedSwitch.CheckedChange += NetworkRequestAllowedChange;
             ((View)LogLevelLabel.Parent).Click += LogLevelClicked;
             ((View)LogWriteLevelLabel.Parent).Click += LogWriteLevelClicked;
             LogWriteButton.Click += WriteLog;
@@ -86,6 +90,9 @@ namespace Contoso.Android.Puppet
             AppCenterEnabledSwitch.CheckedChange -= UpdateEnabled;
             AppCenterEnabledSwitch.Checked = await AppCenter.IsEnabledAsync();
             AppCenterEnabledSwitch.CheckedChange += UpdateEnabled;
+            AppcenterNetworkRequestsAllowedSwitch.CheckedChange -= NetworkRequestAllowedChange;
+            AppcenterNetworkRequestsAllowedSwitch.Checked = AppCenter.IsNetworkRequestsAllowed;
+            AppcenterNetworkRequestsAllowedSwitch.CheckedChange += NetworkRequestAllowedChange;
             LogLevelLabel.Text = LogLevelNames[AppCenter.LogLevel];
             LogWriteLevelLabel.Text = LogLevelNames[mLogWriteLevel];
         }
@@ -115,6 +122,15 @@ namespace Contoso.Android.Puppet
         {
             await AppCenter.SetEnabledAsync(e.IsChecked);
             AppCenterEnabledSwitch.Checked = await AppCenter.IsEnabledAsync();
+        }
+
+        private void NetworkRequestAllowedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
+        {
+            AppCenter.IsNetworkRequestsAllowed = e.IsChecked;
+            var prefs = Context.GetSharedPreferences("AppCenter", FileCreationMode.Private);
+            var prefEditor = prefs.Edit();
+            prefEditor.PutBoolean(Constants.AllowNetworkRequests, e.IsChecked);
+            prefEditor.Commit();
         }
 
         private void LogLevelClicked(object sender, EventArgs e)

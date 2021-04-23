@@ -48,6 +48,37 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection id="gb1-ZH-m7f">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="i7g-SW-AXZ">
+                                        <rect key="frame" x="0.0" y="98" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i7g-SW-AXZ" id="nRc-cO-p54">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Allow network requests" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eew-Ic-EVg">
+                                                    <rect key="frame" x="20" y="11" width="275" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1ln-HP-oCB">
+                                                    <rect key="frame" x="303" y="6" width="51" height="31"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                                    <connections>
+                                                        <action selector="NetworkRequestAllowedSwitch" destination="c3a-fG-A8R" eventType="valueChanged" id="Orv-tu-BDG"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="accessoryView" destination="1ln-HP-oCB" id="t1d-LR-AcD"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection id="2XA-Oe-FKh">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="Wsm-Ns-D4P" detailTextLabel="7Xz-ki-1AB" style="IBUITableViewCellStyleValue1" id="2qm-NP-Uq6">
@@ -265,6 +296,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="AppCenterEnabledSwitch" destination="KpM-H9-6de" id="Plc-MA-VpY"/>
+                        <outlet property="AppCenterNetworkRequestAllowedSwitch" destination="1ln-HP-oCB" id="hhe-et-LdU"/>
                         <outlet property="LogLevelLabel" destination="7Xz-ki-1AB" id="ZOl-l4-nb4"/>
                         <outlet property="LogWriteLevelLabel" destination="FgX-ls-cfQ" id="egn-LI-ssX"/>
                         <outlet property="LogWriteMessage" destination="0b6-Ix-y3U" id="cps-bH-MLY"/>

@@ -13,6 +13,7 @@
     <string name="AppCenterWriteUserId">Write User Id</string>
     <string name="AppCenterUserId">User Id</string>
     <string name="AnalyticsEnabled">Analytics Enabled</string>
+    <string name="AppcenterNetworkRequestsAllowed">Allow network requests</string>
     <string name="AnalyticsEventName">Event Name</string>
     <string name="AnalyticsProperties">Properties</string>
     <string name="AnalyticsAddProperty">Add Property</string>

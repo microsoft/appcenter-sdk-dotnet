@@ -62,6 +62,7 @@ namespace Contoso.Android.Puppet
             {
                 AppCenter.SetMaxStorageSizeAsync(storageSizeValue);
             }
+            AppCenter.IsNetworkRequestsAllowed = prefs.GetBoolean(Constants.AllowNetworkRequests, true);
             Distribute.SetInstallUrl("https://install.portal-server-core-integration.dev.avalanch.es");
             Distribute.SetApiUrl("https://asgard-int.trafficmanager.net/api/v0.1");
             AppCenter.Start("bff0949b-7970-439d-9745-92cdc59b10fe", typeof(Analytics), typeof(Crashes), typeof(Distribute));

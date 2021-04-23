@@ -16,6 +16,9 @@ namespace Contoso.iOS.Puppet
 		UIKit.UISwitch AppCenterEnabledSwitch { get; set; }
 
 		[Outlet]
+		UIKit.UISwitch AppCenterNetworkRequestAllowedSwitch { get; set; }
+
+		[Outlet]
 		UIKit.UILabel LogLevelLabel { get; set; }
 
 		[Outlet]
@@ -34,6 +37,9 @@ namespace Contoso.iOS.Puppet
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIKit.UITextField UserIdTextField { get; set; }
 
+		[Action ("NetworkRequestAllowedSwitch")]
+		partial void NetworkRequestAllowedSwitch ();
+
 		[Action ("SaveStorageSize:")]
 		partial void SaveStorageSize (Foundation.NSObject sender);
 
@@ -51,6 +57,11 @@ namespace Contoso.iOS.Puppet
 			if (AppCenterEnabledSwitch != null) {
 				AppCenterEnabledSwitch.Dispose ();
 				AppCenterEnabledSwitch = null;
+			}
+
+			if (AppCenterNetworkRequestAllowedSwitch != null) {
+				AppCenterNetworkRequestAllowedSwitch.Dispose ();
+				AppCenterNetworkRequestAllowedSwitch = null;
 			}
 
 			if (LogLevelLabel != null) {
