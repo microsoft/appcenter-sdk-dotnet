@@ -90,6 +90,7 @@ namespace Microsoft.AppCenter.Channel
                 {
                     throw new AppCenterException("Attempted to add null channel to group");
                 }
+                channel.IsNetworkRequestsAllowed = _networkRequestsAllowed;
                 var added = _channels.Add(channel);
                 if (!added)
                 {

@@ -409,9 +409,9 @@ namespace Microsoft.AppCenter
             // If a factory has been supplied, use it to construct the channel group - this is useful for wrapper SDKs and testing.
             _networkStateAdapter = new NetworkStateAdapter();
             _channelGroup = _channelGroupFactory?.CreateChannelGroup(_appSecret, _networkStateAdapter) ?? new ChannelGroup(_appSecret, null, _networkStateAdapter);
+            _channelGroup.IsNetworkRequestsAllowed = _networkRequestsAllowed;
             _channel = _channelGroup.AddChannel(ChannelName, Constants.DefaultTriggerCount, Constants.DefaultTriggerInterval,
                                                 Constants.DefaultTriggerMaxParallelRequests);
-            _channelGroup.IsNetworkRequestsAllowed = _networkRequestsAllowed;
             _channel.SetEnabled(InstanceEnabled);
             if (_logUrl != null)
             {
