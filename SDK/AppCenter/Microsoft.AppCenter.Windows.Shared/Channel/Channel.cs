@@ -46,8 +46,6 @@ namespace Microsoft.AppCenter.Channel
 
         private bool _batchScheduled;
 
-        private bool _networkRequestsAllowed = true;
-
         private TimeSpan _batchTimeInterval;
 
         private readonly StatefulMutex _mutex = new StatefulMutex();
@@ -125,10 +123,11 @@ namespace Microsoft.AppCenter.Channel
         #endregion
 
         /// <summary>
-        /// Enable or disable this channel unit.
+        /// Enable or disable channel with deleting logs.
         /// </summary>
-        /// <param name="enabled">true to enable, false to disable.</param>
-        public void SetEnabled(bool enabled)
+        /// <param name="enabled">Value indicating whether channel should be enabled or disabled</param>
+        /// <param name="deleteLogs">True if logs should be deleted, false otherwise.</param>
+        public void SetEnabled(bool enabled, bool deleteLogs)
         {
             State state;
             using (_mutex.GetLock())
@@ -145,29 +144,17 @@ namespace Microsoft.AppCenter.Channel
             }
             else
             {
-                Suspend(state, true, new CancellationException());
+                Suspend(state, deleteLogs, new CancellationException());
             }
         }
 
         /// <summary>
-        /// Allow or disallow network requests.
+        /// Enable or disable this channel unit.
         /// </summary>
-        public bool IsNetworkRequestsAllowed
+        /// <param name="enabled">true to enable, false to disable.</param>
+        public void SetEnabled(bool enabled)
         {
-            get => _networkRequestsAllowed;
-            set
-            {
-                _networkRequestsAllowed = value;
-                State state;
-                using (_mutex.GetLock())
-                {
-                    state = _mutex.State;
-                }
-                if (value && _enabled)
-                {
-                    CheckPendingLogs(state);
-                }
-            }
+            SetEnabled(enabled, true);
         }
 
         /// <summary>
@@ -583,11 +570,6 @@ namespace Microsoft.AppCenter.Channel
             if (!_enabled)
             {
                 AppCenterLog.Info(AppCenterLog.LogTag, "The service has been disabled. Stop processing logs.");
-                return;
-            }
-            if (!_networkRequestsAllowed)
-            {
-                AppCenterLog.Debug(AppCenterLog.LogTag, "SDK is in offline mode.");
                 return;
             }
             AppCenterLog.Debug(AppCenterLog.LogTag, $"CheckPendingLogs({Name}) pending log count: {_pendingLogCount}");

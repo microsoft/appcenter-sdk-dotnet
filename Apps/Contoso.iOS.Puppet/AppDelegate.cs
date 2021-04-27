@@ -29,7 +29,7 @@ namespace Contoso.iOS.Puppet
             // Init user default values.
             var keys = new object[] { Constants.AllowNetworkRequests };
             var values = new object[] { true };
-            NSUserDefaults userDefaults = new NSUserDefaults();
+            var userDefaults = new NSUserDefaults();
             userDefaults.RegisterDefaults(NSDictionary.FromObjectsAndKeys(values, keys));
 
             // Configure App Center.

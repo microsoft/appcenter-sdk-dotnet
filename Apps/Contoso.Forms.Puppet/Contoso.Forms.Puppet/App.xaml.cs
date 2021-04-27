@@ -50,9 +50,9 @@ namespace Contoso.Forms.Puppet
                 AppCenter.LogLevel = LogLevel.Verbose;
                 AppCenterLog.Info(LogTag, "AppCenter.LogLevel=" + AppCenter.LogLevel);
                 AppCenterLog.Info(LogTag, "AppCenter.Configured=" + AppCenter.Configured);
-                if (Current.Properties.ContainsKey(Constants.AllowNetworkRequests) && Current.Properties[Constants.AllowNetworkRequests] is bool isAllow)
+                if (Current.Properties.ContainsKey(Constants.AllowNetworkRequests) && Current.Properties[Constants.AllowNetworkRequests] is bool isAllowedNetworkRequest)
                 {
-                    AppCenter.IsNetworkRequestsAllowed = isAllow;
+                    AppCenter.IsNetworkRequestsAllowed = isAllowedNetworkRequest;
                 }
 
                 // Set callbacks

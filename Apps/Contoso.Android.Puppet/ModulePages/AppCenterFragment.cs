@@ -56,7 +56,6 @@ namespace Contoso.Android.Puppet
             // Find views.
             AppCenterEnabledSwitch = view.FindViewById(Resource.Id.enabled_app_center) as Switch;
             AppcenterNetworkRequestsAllowedSwitch = view.FindViewById(Resource.Id.appcenter_network_requests_allowed) as Switch;
-
             LogLevelLabel = view.FindViewById(Resource.Id.log_level) as TextView;
             LogWriteMessageText = view.FindViewById(Resource.Id.write_log_message) as EditText;
             LogWriteTagText = view.FindViewById(Resource.Id.write_log_tag) as EditText;

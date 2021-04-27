@@ -43,9 +43,11 @@ namespace Microsoft.AppCenter.Channel
         void SetEnabled(bool enabled);
 
         /// <summary>
-        /// Allow or disallow network requests.
+        /// Enable or disable channel with deleting logs.
         /// </summary>
-        bool IsNetworkRequestsAllowed { get; set; }
+        /// <param name="enabled">Value indicating whether channel should be enabled or disabled</param>
+        /// <param name="deleteLogs">True if logs should be deleted, false otherwise.</param>
+        void SetEnabled(bool enabled, bool deleteLogs);
 
         /// <summary>
         /// Stop all calls in progress and deactivate this channel

@@ -90,7 +90,6 @@ namespace Microsoft.AppCenter.Channel
                 {
                     throw new AppCenterException("Attempted to add null channel to group");
                 }
-                channel.IsNetworkRequestsAllowed = _networkRequestsAllowed;
                 var added = _channels.Add(channel);
                 if (!added)
                 {
@@ -105,36 +104,21 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
-        public void SetEnabled(bool enabled)
+        public void SetEnabled(bool enabled, bool deleteLogs)
         {
             ThrowIfDisposed();
             lock (_channelGroupLock)
             {
                 foreach (var channel in _channels)
                 {
-                    channel.SetEnabled(enabled);
+                    channel.SetEnabled(enabled, deleteLogs);
                 }
             }
         }
 
-        /// <summary>
-        /// Allow or disallow network requests.
-        /// </summary>
-        public bool IsNetworkRequestsAllowed
+        public void SetEnabled(bool enabled)
         {
-            get => _networkRequestsAllowed;
-            set
-            {
-                ThrowIfDisposed();
-                lock (_channelGroupLock)
-                {
-                    _networkRequestsAllowed = value;
-                    foreach (IChannel channel in _channels)
-                    {
-                        channel.IsNetworkRequestsAllowed = value;
-                    }
-                }
-            }
+            SetEnabled(enabled, true);
         }
 
         public Task<bool> SetMaxStorageSizeAsync(long sizeInBytes)
