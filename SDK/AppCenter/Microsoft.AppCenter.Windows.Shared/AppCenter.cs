@@ -94,10 +94,7 @@ namespace Microsoft.AppCenter
         /// </summary>
         public static bool PlatformIsNetworkRequestsAllowed
         {
-            get 
-            {
-                return Instance._networkRequestsAllowed;
-            }
+            get => Instance._networkRequestsAllowed;
             set 
             {
                 if (Instance._networkRequestsAllowed == value)
@@ -414,11 +411,12 @@ namespace Microsoft.AppCenter
 
             // If a factory has been supplied, use it to construct the channel group - this is useful for wrapper SDKs and testing.
             _networkStateAdapter = new NetworkStateAdapter();
+            var instanceEnabled = InstanceEnabled;
             _channelGroup = _channelGroupFactory?.CreateChannelGroup(_appSecret, _networkStateAdapter) ?? new ChannelGroup(_appSecret, null, _networkStateAdapter);
-            _channelGroup?.SetEnabled(InstanceEnabled && _networkRequestsAllowed, !InstanceEnabled);
+            _channelGroup?.SetEnabled(instanceEnabled && _networkRequestsAllowed, !instanceEnabled);
             _channel = _channelGroup.AddChannel(ChannelName, Constants.DefaultTriggerCount, Constants.DefaultTriggerInterval,
                                                 Constants.DefaultTriggerMaxParallelRequests);
-            _channel.SetEnabled(InstanceEnabled && _networkRequestsAllowed, !InstanceEnabled);
+            _channel.SetEnabled(instanceEnabled && _networkRequestsAllowed, !instanceEnabled);
             if (_logUrl != null)
             {
                 _channelGroup.SetLogUrl(_logUrl);

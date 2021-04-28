@@ -119,14 +119,10 @@ namespace Microsoft.AppCenter.Ingestion.Http
             _httpNetwork.Dispose();
         }
 
-        public void SetEnabled(bool enabled, bool deleteLogs)
-        {
-            _isEnabled = enabled;
-        }
-
-        public bool IsEnabled()
-        {
-            return _isEnabled;
+        public bool Enabled 
+        { 
+            get => _isEnabled; 
+            set => _isEnabled = value; 
         }
     }
 }

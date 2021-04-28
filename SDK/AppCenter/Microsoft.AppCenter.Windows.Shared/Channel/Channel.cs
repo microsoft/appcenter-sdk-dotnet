@@ -562,7 +562,7 @@ namespace Microsoft.AppCenter.Channel
                 AppCenterLog.Info(AppCenterLog.LogTag, "The service has been disabled. Stop processing logs.");
                 return;
             }
-            if (!_ingestion.IsEnabled())
+            if (!_ingestion.Enabled)
             {
                 AppCenterLog.Info(AppCenterLog.LogTag, "App Center is in offline mode.");
                 return;

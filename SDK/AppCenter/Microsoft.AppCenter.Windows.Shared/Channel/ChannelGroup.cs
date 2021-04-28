@@ -26,8 +26,6 @@ namespace Microsoft.AppCenter.Channel
 
         private bool _isShutdown;
 
-        private bool _networkRequestsAllowed = true;
-
         public string AppSecret { get; internal set; }
 
         public event EventHandler<EnqueuingLogEventArgs> EnqueuingLog;
@@ -109,7 +107,7 @@ namespace Microsoft.AppCenter.Channel
             ThrowIfDisposed();
             lock (_channelGroupLock)
             {
-                _ingestion.SetEnabled(enabled, deleteLogs);
+                _ingestion.Enabled = enabled;
                 foreach (var channel in _channels)
                 {
                     channel.SetEnabled(enabled, deleteLogs);

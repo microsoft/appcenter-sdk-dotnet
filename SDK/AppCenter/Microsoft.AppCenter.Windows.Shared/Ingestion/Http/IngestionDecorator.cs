@@ -36,14 +36,10 @@ namespace Microsoft.AppCenter.Ingestion.Http
             DecoratedApi.Dispose();
         }
 
-        public void SetEnabled(bool enabled, bool deleteLogs)
+        public bool Enabled
         {
-            DecoratedApi.SetEnabled(enabled, deleteLogs);
-        }
-
-        public bool IsEnabled()
-        {
-            return DecoratedApi.IsEnabled();
+            get => DecoratedApi.Enabled;
+            set => DecoratedApi.Enabled = value;
         }
     }
 }
