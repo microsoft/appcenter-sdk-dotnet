@@ -102,7 +102,29 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
-        public void SetEnabled(bool enabled, bool deleteLogs = true)
+        public void SetEnabled(bool enabled)
+        {
+            ThrowIfDisposed();
+            lock (_channelGroupLock)
+            {
+                foreach (var channel in _channels)
+                {
+                    channel.SetEnabled(enabled);
+                }
+            }
+        }
+
+        public void SendLogs()
+        {
+            // no-op
+        }
+
+        public void SuspendLogs(bool deleteLogs)
+        {
+            // no-op
+        }
+
+        public void EnableIngestion(bool enabled)
         {
             ThrowIfDisposed();
             lock (_channelGroupLock)
@@ -110,7 +132,14 @@ namespace Microsoft.AppCenter.Channel
                 _ingestion.Enabled = enabled;
                 foreach (var channel in _channels)
                 {
-                    channel.SetEnabled(enabled, deleteLogs);
+                    if (enabled)
+                    {
+                        channel.SendLogs();
+                    }
+                    else
+                    {
+                        channel.SuspendLogs(false);
+                    }
                 }
             }
         }

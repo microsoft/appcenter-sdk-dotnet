@@ -47,5 +47,11 @@ namespace Microsoft.AppCenter.Channel
         /// </param>
         /// <returns><code>true</code> if changing the size was successful.</returns>
         Task<bool> SetMaxStorageSizeAsync(long sizeInBytes);
+
+        /// <summary>
+        /// Enable or disable ingestion. If ingestion disabled the logs will not be sent.
+        /// </summary>
+        /// <param name="enabled">True if enabled, false if disabled.</param>
+        void EnableIngestion(bool enabled);
     }
 }

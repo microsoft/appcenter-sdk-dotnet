@@ -40,12 +40,22 @@ namespace Microsoft.AppCenter.Channel
         /// Enable or disable the channel
         /// </summary>
         /// <param name="enabled">Value indicating whether channel should be enabled or disabled</param>
-        /// <param name="deleteLogs">True if logs should be deleted, false otherwise.</param>
-        void SetEnabled(bool enabled, bool deleteLogs = true);
+        void SetEnabled(bool enabled);
 
         /// <summary>
         /// Stop all calls in progress and deactivate this channel
         /// </summary>
         Task ShutdownAsync();
+
+        /// <summary>
+        /// Start sending logs.
+        /// </summary>
+        void SendLogs();
+
+        /// <summary>
+        /// Suspend sending logs.
+        /// </summary>
+        /// <param name="deleteLogs">True if need to remove logs, false otherwise.</param>
+        void SuspendLogs(bool deleteLogs);
     }
 }

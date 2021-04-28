@@ -126,7 +126,7 @@ namespace Microsoft.AppCenter.Channel
         /// Enable or disable this channel unit.
         /// </summary>
         /// <param name="enabled">true to enable, false to disable.</param>
-        public void SetEnabled(bool enabled, bool deleteLogs = true)
+        public void SetEnabled(bool enabled)
         {
             State state;
             using (_mutex.GetLock())
@@ -143,7 +143,7 @@ namespace Microsoft.AppCenter.Channel
             }
             else
             {
-                Suspend(state, deleteLogs, new CancellationException());
+                Suspend(state, true, new CancellationException());
             }
         }
 
@@ -553,6 +553,16 @@ namespace Microsoft.AppCenter.Channel
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, $"Could not delete logs for batch {batchId}", e);
             }
+        }
+
+        public void SendLogs()
+        {
+            Resume(_mutex.State);
+        }
+
+        public void SuspendLogs(bool deleteLogs)
+        {
+            Suspend(_mutex.State, deleteLogs, new CancellationException());
         }
 
         private void CheckPendingLogs(State state)

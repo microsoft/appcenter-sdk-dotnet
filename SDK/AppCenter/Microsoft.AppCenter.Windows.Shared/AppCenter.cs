@@ -99,15 +99,15 @@ namespace Microsoft.AppCenter
             {
                 if (Instance._networkRequestsAllowed == value)
                 {
-                    AppCenterLog.Info(AppCenterLog.LogTag, $"Network request already {(value ? "allowed" : "disallowed")}");
+                    AppCenterLog.Info(AppCenterLog.LogTag, $"Network requests are already {(value ? "allowed" : "disallowed")}");
                     return;
                 }
                 Instance._networkRequestsAllowed = value;
                 if (Instance._channelGroup != null)
                 {
-                    Instance._channelGroup.SetEnabled(Instance.InstanceEnabled && value, false);
+                    Instance._channelGroup.EnableIngestion(value);
                 }
-                AppCenterLog.Info(AppCenterLog.LogTag, $"Set network request allowed {Instance._networkRequestsAllowed}");
+                AppCenterLog.Info(AppCenterLog.LogTag, $"Set network requests {(Instance._networkRequestsAllowed ? "allowed" : "disallowed")}");
             } 
         }
 
@@ -324,7 +324,7 @@ namespace Microsoft.AppCenter
             }
 
             // Update channels state.
-            _channelGroup?.SetEnabled(value && _networkRequestsAllowed, true);
+            _channelGroup?.SetEnabled(value);
 
             // Store state in the application settings.
             _applicationSettings.SetValue(EnabledKey, value);
@@ -413,10 +413,10 @@ namespace Microsoft.AppCenter
             _networkStateAdapter = new NetworkStateAdapter();
             var instanceEnabled = InstanceEnabled;
             _channelGroup = _channelGroupFactory?.CreateChannelGroup(_appSecret, _networkStateAdapter) ?? new ChannelGroup(_appSecret, null, _networkStateAdapter);
-            _channelGroup?.SetEnabled(instanceEnabled && _networkRequestsAllowed, !instanceEnabled);
+            _channelGroup?.EnableIngestion(_networkRequestsAllowed);
             _channel = _channelGroup.AddChannel(ChannelName, Constants.DefaultTriggerCount, Constants.DefaultTriggerInterval,
                                                 Constants.DefaultTriggerMaxParallelRequests);
-            _channel.SetEnabled(instanceEnabled && _networkRequestsAllowed, !instanceEnabled);
+            _channel.SetEnabled(instanceEnabled);
             if (_logUrl != null)
             {
                 _channelGroup.SetLogUrl(_logUrl);
