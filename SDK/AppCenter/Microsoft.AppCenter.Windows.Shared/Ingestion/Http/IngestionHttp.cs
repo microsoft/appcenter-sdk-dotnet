@@ -20,6 +20,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
         private const int MaximumCharactersDisplayedForAppSecret = 8;
 
         private string _baseLogUrl;
+        private bool _isEnabled = true;
 
         private readonly IHttpNetworkAdapter _httpNetwork;
 
@@ -116,6 +117,16 @@ namespace Microsoft.AppCenter.Ingestion.Http
         public void Dispose()
         {
             _httpNetwork.Dispose();
+        }
+
+        public void SetEnabled(bool enabled, bool deleteLogs)
+        {
+            _isEnabled = enabled;
+        }
+
+        public bool IsEnabled()
+        {
+            return _isEnabled;
         }
     }
 }

@@ -16,7 +16,6 @@ namespace Microsoft.AppCenter
         private const string PreferenceKeySeparator = "_";
         private const string KeyEnabled = Constants.KeyPrefix + "ServiceEnabled";
         protected readonly object _serviceLock = new object();
-        private bool _networkRequestsAllowed = true;
 
         /// <summary>
         /// Application settings.
@@ -71,19 +70,6 @@ namespace Microsoft.AppCenter
         protected virtual int TriggerMaxParallelRequests => Constants.DefaultTriggerMaxParallelRequests;
 
         /// <summary>
-        /// Check whether network requests are allowed or disallowed. True by default.
-        /// </summary>
-        public virtual bool IsNetworkRequestsAllowed 
-        {
-            get => _networkRequestsAllowed;
-            set
-            {
-                _networkRequestsAllowed = value;
-                Channel?.SetEnabled(value && InstanceEnabled, false);
-            } 
-        }
-
-        /// <summary>
         /// Gets or sets whether service is enabled
         /// </summary>
         public virtual bool InstanceEnabled
@@ -111,7 +97,7 @@ namespace Microsoft.AppCenter
                         AppCenterLog.Info(LogTag, $"{ServiceName} service has already been {enabledString}.");
                         return;
                     }
-                    Channel?.SetEnabled(value && _networkRequestsAllowed, true);
+                    Channel?.SetEnabled(value);
                     ApplicationSettings.SetValue(EnabledPreferenceKey, value);
                     AppCenterLog.Info(LogTag, $"{ServiceName} service has been {enabledString}");
                 }
@@ -133,7 +119,7 @@ namespace Microsoft.AppCenter
             {
                 ChannelGroup = channelGroup;
                 Channel = channelGroup.AddChannel(ChannelName, TriggerCount, TriggerInterval, TriggerMaxParallelRequests);
-                Channel.SetEnabled(InstanceEnabled && _networkRequestsAllowed, false);
+                Channel.SetEnabled(InstanceEnabled);
             }
         }
 

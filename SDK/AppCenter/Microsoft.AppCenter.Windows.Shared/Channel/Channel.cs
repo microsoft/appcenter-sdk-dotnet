@@ -123,11 +123,10 @@ namespace Microsoft.AppCenter.Channel
         #endregion
 
         /// <summary>
-        /// Enable or disable channel with deleting logs.
+        /// Enable or disable this channel unit.
         /// </summary>
-        /// <param name="enabled">Value indicating whether channel should be enabled or disabled</param>
-        /// <param name="deleteLogs">True if logs should be deleted, false otherwise.</param>
-        public void SetEnabled(bool enabled, bool deleteLogs)
+        /// <param name="enabled">true to enable, false to disable.</param>
+        public void SetEnabled(bool enabled, bool deleteLogs = true)
         {
             State state;
             using (_mutex.GetLock())
@@ -146,15 +145,6 @@ namespace Microsoft.AppCenter.Channel
             {
                 Suspend(state, deleteLogs, new CancellationException());
             }
-        }
-
-        /// <summary>
-        /// Enable or disable this channel unit.
-        /// </summary>
-        /// <param name="enabled">true to enable, false to disable.</param>
-        public void SetEnabled(bool enabled)
-        {
-            SetEnabled(enabled, true);
         }
 
         /// <summary>
@@ -570,6 +560,11 @@ namespace Microsoft.AppCenter.Channel
             if (!_enabled)
             {
                 AppCenterLog.Info(AppCenterLog.LogTag, "The service has been disabled. Stop processing logs.");
+                return;
+            }
+            if (!_ingestion.IsEnabled())
+            {
+                AppCenterLog.Info(AppCenterLog.LogTag, "App Center is in offline mode.");
                 return;
             }
             AppCenterLog.Debug(AppCenterLog.LogTag, $"CheckPendingLogs({Name}) pending log count: {_pendingLogCount}");

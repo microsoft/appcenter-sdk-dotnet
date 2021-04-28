@@ -104,21 +104,17 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
-        public void SetEnabled(bool enabled, bool deleteLogs)
+        public void SetEnabled(bool enabled, bool deleteLogs = true)
         {
             ThrowIfDisposed();
             lock (_channelGroupLock)
             {
+                _ingestion.SetEnabled(enabled, deleteLogs);
                 foreach (var channel in _channels)
                 {
                     channel.SetEnabled(enabled, deleteLogs);
                 }
             }
-        }
-
-        public void SetEnabled(bool enabled)
-        {
-            SetEnabled(enabled, true);
         }
 
         public Task<bool> SetMaxStorageSizeAsync(long sizeInBytes)

@@ -21,11 +21,6 @@ namespace Microsoft.AppCenter
         bool InstanceEnabled { get; set; }
 
         /// <summary>
-        /// Check whether network requests are allowed or disallowed.
-        /// </summary>
-        bool IsNetworkRequestsAllowed { get; set; }
-
-        /// <summary>
         /// Method that is called to signal start of service.
         /// </summary>
         /// <param name="channelGroup">The channel group to which the channel should be added</param>

@@ -110,10 +110,6 @@ namespace Microsoft.AppCenter
                 {
                     Instance._channelGroup.SetEnabled(Instance.InstanceEnabled && value, false);
                 }
-                foreach (var service in Instance._services)
-                {
-                    service.IsNetworkRequestsAllowed = value;
-                }
                 AppCenterLog.Info(AppCenterLog.LogTag, $"Set network request allowed {Instance._networkRequestsAllowed}");
             } 
         }
@@ -419,6 +415,7 @@ namespace Microsoft.AppCenter
             // If a factory has been supplied, use it to construct the channel group - this is useful for wrapper SDKs and testing.
             _networkStateAdapter = new NetworkStateAdapter();
             _channelGroup = _channelGroupFactory?.CreateChannelGroup(_appSecret, _networkStateAdapter) ?? new ChannelGroup(_appSecret, null, _networkStateAdapter);
+            _channelGroup?.SetEnabled(InstanceEnabled && _networkRequestsAllowed, !InstanceEnabled);
             _channel = _channelGroup.AddChannel(ChannelName, Constants.DefaultTriggerCount, Constants.DefaultTriggerInterval,
                                                 Constants.DefaultTriggerMaxParallelRequests);
             _channel.SetEnabled(InstanceEnabled && _networkRequestsAllowed, !InstanceEnabled);
@@ -510,7 +507,6 @@ namespace Microsoft.AppCenter
             {
                 service.InstanceEnabled = false;
             }
-            service.IsNetworkRequestsAllowed = _networkRequestsAllowed;
             service.OnChannelGroupReady(_channelGroup, _appSecret);
             _services.Add(service);
             AppCenterLog.Info(AppCenterLog.LogTag, $"'{service.GetType().Name}' service started.");

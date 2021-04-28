@@ -19,6 +19,19 @@ namespace Microsoft.AppCenter.Ingestion
         void SetLogUrl(string logUrl);
 
         /// <summary>
+        /// Enable or disable channel with deleting logs.
+        /// </summary>
+        /// <param name="enabled">Value indicating whether channel should be enabled or disabled</param>
+        /// <param name="deleteLogs">True if logs should be deleted, false otherwise.</param>
+        void SetEnabled(bool enabled, bool deleteLogs);
+
+        /// <summary>
+        /// Gets value indicating whether the ingestion is enabled.
+        /// </summary>
+        /// <returns>True if enabled, false otherwise.</returns>
+        bool IsEnabled();
+
+        /// <summary>
         /// Send logs to the Ingestion service.
         /// </summary>
         /// <param name="appSecret">A unique and secret key used to identify the application</param>
