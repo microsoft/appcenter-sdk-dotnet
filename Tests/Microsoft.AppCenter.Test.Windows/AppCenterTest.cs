@@ -379,26 +379,11 @@ namespace Microsoft.AppCenter.Test
         public void Configure()
         {
             Assert.IsFalse(AppCenter.Configured);
-
-            // Verify network connection.
-            Assert.IsTrue(AppCenter.IsNetworkRequestsAllowed);
-            _channelGroupMock.VerifySet(channel => channel.IsNetworkRequestsAllowed = It.IsAny<bool>(), Times.Never());
-
-            // Configure App Center.
             AppCenter.Configure("some string");
 
             // Verify configuration settings.
             Assert.IsTrue(AppCenter.Configured);
-            _channelGroupMock.VerifySet(channel => channel.IsNetworkRequestsAllowed = true);
             _channelMock.Verify(channel => channel.SetEnabled(It.IsAny<bool>()));
-
-            // Disallow network connection.
-            AppCenter.IsNetworkRequestsAllowed = false;
-            Assert.IsFalse(AppCenter.IsNetworkRequestsAllowed);
-
-            // Verify network connection.
-            _channelGroupMock.VerifySet(channel => channel.IsNetworkRequestsAllowed = false);
-
         }
 
         /// <summary>
