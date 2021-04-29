@@ -26,11 +26,6 @@ namespace Contoso.iOS.Puppet
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-            // Init user default values.
-            var keys = new object[] { Constants.AllowNetworkRequests };
-            var values = new object[] { true };
-            var userDefaults = new NSUserDefaults();
-            userDefaults.RegisterDefaults(NSDictionary.FromObjectsAndKeys(values, keys));
 
             // Configure App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
@@ -46,7 +41,6 @@ namespace Contoso.iOS.Puppet
             {
                 AppCenter.SetMaxStorageSizeAsync(storageSizeValue);
             }
-            AppCenter.IsNetworkRequestsAllowed = plist.BoolForKey(Constants.AllowNetworkRequests);
             AppCenter.Start("e94aaff4-e80d-4fee-9a5f-a84eb6e688fc", typeof(Analytics), typeof(Crashes), typeof(Distribute));
             return true;
         }

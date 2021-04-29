@@ -92,8 +92,6 @@ namespace Contoso.iOS.Puppet
         partial void NetworkRequestAllowedSwitch()
         {
             AppCenter.IsNetworkRequestsAllowed = AppCenterNetworkRequestAllowedSwitch.On;
-            var plist = NSUserDefaults.StandardUserDefaults;
-            plist.SetBool(AppCenterNetworkRequestAllowedSwitch.On, Constants.AllowNetworkRequests);
         }
 
         partial void WriteLog()

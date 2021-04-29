@@ -82,17 +82,5 @@ namespace Contoso.WPF.Puppet.Properties {
                 this["StorageMaxSize"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool IsNetworkRequestsAllowed {
-            get {
-                return ((bool)(this["IsNetworkRequestsAllowed"]));
-            }
-            set {
-                this["IsNetworkRequestsAllowed"] = value;
-            }
-        }
     }
 }
