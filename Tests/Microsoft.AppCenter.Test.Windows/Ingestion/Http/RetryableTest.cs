@@ -35,6 +35,7 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task RetryableIngestionSuccess()
         {
+            AppCenter.PlatformIsNetworkRequestsAllowed = true;
             SetupAdapterSendResponse(HttpStatusCode.OK);
             var call = _retryableIngestion.Call(AppSecret, InstallId, Logs);
             await call.ToTask();
@@ -49,6 +50,8 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task RetryableIngestionRepeat1()
         {
+            AppCenter.PlatformIsNetworkRequestsAllowed = true;
+
             // RequestTimeout - retryable
             SetupAdapterSendResponse(HttpStatusCode.RequestTimeout, HttpStatusCode.OK);
             var start = DateTime.Now;
@@ -68,6 +71,8 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task RetryableIngestionRepeat3()
         {
+            AppCenter.PlatformIsNetworkRequestsAllowed = true;
+
             // RequestTimeout - retryable
             SetupAdapterSendResponse(HttpStatusCode.RequestTimeout, HttpStatusCode.RequestTimeout, HttpStatusCode.RequestTimeout, HttpStatusCode.OK);
             var start = DateTime.Now;
@@ -95,6 +100,8 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task RetryableIngestionCancel()
         {
+            AppCenter.PlatformIsNetworkRequestsAllowed = true;
+
             // RequestTimeout - retryable
             SetupAdapterSendResponse(HttpStatusCode.RequestTimeout);
             var start = DateTime.Now;
@@ -121,6 +128,7 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task RetryableIngestionException()
         {
+            AppCenter.PlatformIsNetworkRequestsAllowed = true;
             SetupAdapterSendResponse(HttpStatusCode.BadRequest);
             var call = _retryableIngestion.Call(AppSecret, InstallId, Logs);
             await Assert.ThrowsExceptionAsync<HttpIngestionException>(() => call.ToTask());

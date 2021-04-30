@@ -29,6 +29,7 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task HttpIngestionStatusCodeOk()
         {
+            AppCenter.PlatformIsNetworkRequestsAllowed = true;
             SetupAdapterSendResponse(HttpStatusCode.OK);
             var call = _httpIngestion.Call(AppSecret, InstallId, Logs);
             await call.ToTask();
@@ -65,6 +66,7 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task HttpIngestionStatusCodePartialContent()
         {
+            AppCenter.PlatformIsNetworkRequestsAllowed = true;
             SetupAdapterSendResponse(HttpStatusCode.PartialContent);
             var call = _httpIngestion.Call(AppSecret, InstallId, Logs);
             await call.ToTask();
@@ -91,6 +93,7 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task HttpIngestionStatusCodeErrorBelow200()
         {
+            AppCenter.PlatformIsNetworkRequestsAllowed = true;
             SetupAdapterSendResponse(HttpStatusCode.SwitchingProtocols);
             var call = _httpIngestion.Call(AppSecret, InstallId, Logs);
             await Assert.ThrowsExceptionAsync<HttpIngestionException>(() => call.ToTask());
@@ -103,6 +106,7 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task HttpIngestionCancel()
         {
+            AppCenter.PlatformIsNetworkRequestsAllowed = true;
             _adapter
                 .Setup(a => a.SendAsync(
                     It.IsAny<string>(),

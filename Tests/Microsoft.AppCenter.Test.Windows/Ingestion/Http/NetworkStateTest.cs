@@ -35,6 +35,7 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task NetworkStateIngestionOnlineAsync()
         {
+            AppCenter.PlatformIsNetworkRequestsAllowed = true;
             SetupAdapterSendResponse(HttpStatusCode.OK);
             _networkState.IsConnected = true;
             var call = _networkStateIngestion.Call(AppSecret, InstallId, Logs);
@@ -64,6 +65,7 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task NetworkStateIngestionComeBackOnline()
         {
+            AppCenter.PlatformIsNetworkRequestsAllowed = true;
             SetupAdapterSendResponse(HttpStatusCode.OK);
             _networkState.IsConnected = false;
             var call = _networkStateIngestion.Call(AppSecret, InstallId, Logs);
@@ -81,6 +83,7 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task NetworkStateIngestionComeBackOnlineMultipleCalls()
         {
+            AppCenter.PlatformIsNetworkRequestsAllowed = true;
             const int CallsCount = 5;
             SetupAdapterSendResponse(HttpStatusCode.OK);
             _networkState.IsConnected = false;
