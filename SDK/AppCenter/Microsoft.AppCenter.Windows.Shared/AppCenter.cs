@@ -92,27 +92,32 @@ namespace Microsoft.AppCenter
         /// </summary>
         public static bool PlatformIsNetworkRequestsAllowed
         {
-            get => Instance._applicationSettings.GetValue<bool>(AllowedNetworkRequestsKey, true);
+            get
+            {
+                lock (AppCenterLock)
+                {
+                    return Instance._applicationSettings.GetValue<bool>(AllowedNetworkRequestsKey, true);
+                }
+            }
             set 
             {
-                if (PlatformIsNetworkRequestsAllowed == value)
+                lock (AppCenterLock)
                 {
-                    AppCenterLog.Info(AppCenterLog.LogTag, $"Network requests are already {(value ? "allowed" : "disallowed")}");
-                    return;
-                }
-                Instance._applicationSettings.SetValue(AllowedNetworkRequestsKey, value);
-                if (Instance._channelGroup != null)
-                {
-                    if (value)
+                    if (PlatformIsNetworkRequestsAllowed == value)
                     {
-                        Instance._channelGroup.SendLogs();
-                    } 
-                    else
-                    {
-                        Instance._channelGroup.SuspendLogs();
+                        AppCenterLog.Info(AppCenterLog.LogTag, $"Network requests are already {(value ? "allowed" : "disallowed")}");
+                        return;
                     }
+                    Instance._applicationSettings.SetValue(AllowedNetworkRequestsKey, value);
+                    if (Instance._channelGroup != null)
+                    {
+                        if (value)
+                        {
+                            Instance._channelGroup.SetNetworkRequest(value);
+                        }
+                    }
+                    AppCenterLog.Info(AppCenterLog.LogTag, $"Set network requests {(value ? "allowed" : "forbidden")}");
                 }
-                AppCenterLog.Info(AppCenterLog.LogTag, $"Set network requests {(value ? "allowed" : "forbidden")}");
             } 
         }
 

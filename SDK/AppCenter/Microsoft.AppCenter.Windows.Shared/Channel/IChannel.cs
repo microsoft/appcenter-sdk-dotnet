@@ -48,13 +48,9 @@ namespace Microsoft.AppCenter.Channel
         Task ShutdownAsync();
 
         /// <summary>
-        /// Start sending logs.
+        /// Set network request allowed. If true check pending logs, suspend sending logs otherwise.
         /// </summary>
-        void SendLogs();
-
-        /// <summary>
-        /// Suspend sending logs.
-        /// </summary>
-        void SuspendLogs();
+        /// <param name="isAllowed">True if network request allowed, false otherwise.</param>
+        void SetNetworkRequest(bool isAllowed);
     }
 }

@@ -114,19 +114,11 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
-        public void SendLogs()
+        public void SetNetworkRequest(bool isAllowed)
         {
             foreach (var channel in _channels)
             {
-                channel.SendLogs();
-            }
-        }
-
-        public void SuspendLogs()
-        {
-            foreach (var channel in _channels)
-            {
-                channel.SuspendLogs();
+                channel.SetNetworkRequest(isAllowed);
             }
         }
 

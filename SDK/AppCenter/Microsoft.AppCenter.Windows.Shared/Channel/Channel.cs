@@ -555,14 +555,16 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
-        public void SendLogs()
+        public void SetNetworkRequest(bool isAllowed)
         {
-            Resume(_mutex.State);
-        }
-
-        public void SuspendLogs()
-        {
-            Suspend(_mutex.State, false, new CancellationException());
+            if (isAllowed)
+            {
+                Resume(_mutex.State);
+            }
+            else
+            {
+                Suspend(_mutex.State, false, new CancellationException());
+            }
         }
 
         private void CheckPendingLogs(State state)
