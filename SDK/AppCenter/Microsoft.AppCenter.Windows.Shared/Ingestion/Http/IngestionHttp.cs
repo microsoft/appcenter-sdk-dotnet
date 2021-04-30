@@ -20,7 +20,6 @@ namespace Microsoft.AppCenter.Ingestion.Http
         private const int MaximumCharactersDisplayedForAppSecret = 8;
 
         private string _baseLogUrl;
-        private bool _isEnabled = true;
 
         private readonly IHttpNetworkAdapter _httpNetwork;
 
@@ -34,7 +33,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
             var call = new ServiceCall(appSecret, installId, logs);
             if (!IsEnabled)
             {
-                call.SetException(new NetworkIngestionException( new Exception("SDK is in offline mode.")));
+                call.SetException(new NetworkIngestionException(new Exception("SDK is in offline mode.")));
                 return call;
             }
             CallAsync(appSecret, installId, logs, call.CancellationToken).ContinueWith(task =>

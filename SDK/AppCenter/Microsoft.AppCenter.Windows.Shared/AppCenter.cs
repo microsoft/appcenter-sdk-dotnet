@@ -111,10 +111,7 @@ namespace Microsoft.AppCenter
                     Instance._applicationSettings.SetValue(AllowedNetworkRequestsKey, value);
                     if (Instance._channelGroup != null)
                     {
-                        if (value)
-                        {
-                            Instance._channelGroup.SetNetworkRequest(value);
-                        }
+                        Instance._channelGroup.SetNetworkRequest(value);
                     }
                     AppCenterLog.Info(AppCenterLog.LogTag, $"Set network requests {(value ? "allowed" : "forbidden")}");
                 }
@@ -421,11 +418,10 @@ namespace Microsoft.AppCenter
 
             // If a factory has been supplied, use it to construct the channel group - this is useful for wrapper SDKs and testing.
             _networkStateAdapter = new NetworkStateAdapter();
-            var instanceEnabled = InstanceEnabled;
             _channelGroup = _channelGroupFactory?.CreateChannelGroup(_appSecret, _networkStateAdapter) ?? new ChannelGroup(_appSecret, null, _networkStateAdapter);
             _channel = _channelGroup.AddChannel(ChannelName, Constants.DefaultTriggerCount, Constants.DefaultTriggerInterval,
                                                 Constants.DefaultTriggerMaxParallelRequests);
-            _channel.SetEnabled(instanceEnabled);
+            _channel.SetEnabled(InstanceEnabled);
             if (_logUrl != null)
             {
                 _channelGroup.SetLogUrl(_logUrl);

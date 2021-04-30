@@ -423,6 +423,39 @@ namespace Microsoft.AppCenter.Test
         }
 
         /// <summary>
+        /// Verify setting allow network requests. 
+        /// </summary>
+        [TestMethod]
+        public void TestIsNetworkRequestsAllowed()
+        {
+            AppCenter.Configure("appsecret");
+
+            // Verify setting true value when previous value is true.
+            _settingsMock.Setup(settings => settings.GetValue(AppCenter.AllowedNetworkRequestsKey, It.IsAny<bool>()))
+                .Returns(true);
+            AppCenter.IsNetworkRequestsAllowed = true;
+            _channelGroupMock.Verify(groups => groups.SetNetworkRequest(It.IsAny<bool>()), Times.Never());
+
+            // Verify setting false value when previous value is false.
+            _settingsMock.Setup(settings => settings.GetValue(AppCenter.AllowedNetworkRequestsKey, It.IsAny<bool>()))
+                .Returns(false);
+            AppCenter.IsNetworkRequestsAllowed = false;
+            _channelGroupMock.Verify(groups => groups.SetNetworkRequest(It.IsAny<bool>()), Times.Never());
+
+            // Verify setting true value when previous value is false.
+            _settingsMock.Setup(settings => settings.GetValue(AppCenter.AllowedNetworkRequestsKey, It.IsAny<bool>()))
+                .Returns(false);
+            AppCenter.IsNetworkRequestsAllowed = true;
+            _channelGroupMock.Verify(groups => groups.SetNetworkRequest(true));
+
+            // Verify setting false value when previous value is true.
+            _settingsMock.Setup(settings => settings.GetValue(AppCenter.AllowedNetworkRequestsKey, It.IsAny<bool>()))
+                .Returns(true);
+            AppCenter.IsNetworkRequestsAllowed = false;
+            _channelGroupMock.Verify(groups => groups.SetNetworkRequest(false));
+        }
+
+        /// <summary>
         /// Verify that a service will be disabled if App Center is disabled
         /// </summary>
         [TestMethod]

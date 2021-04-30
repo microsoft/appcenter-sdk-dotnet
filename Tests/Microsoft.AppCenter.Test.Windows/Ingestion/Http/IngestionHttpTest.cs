@@ -38,6 +38,28 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         }
 
         /// <summary>
+        /// Verify that the ingestion call fails when ingestion is disabled.
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task HttpIngestionWhenIngestionIsDisabled()
+        {
+            AppCenter.PlatformIsNetworkRequestsAllowed = false;
+            SetupAdapterSendResponse(HttpStatusCode.OK);
+            try
+            {
+                var call = _httpIngestion.Call(AppSecret, InstallId, Logs);
+                await call.ToTask();
+                throw new HttpIngestionException("This test should be failed.");
+            }
+            catch (NetworkIngestionException exc)
+            {
+                Assert.AreEqual(exc.InnerException.Message, "SDK is in offline mode.");
+            }
+            VerifyAdapterSend(Times.Never());
+        }
+
+        /// <summary>
         /// Verify that ingestion call http adapter and not fails on 2xx.
         /// </summary>
         [TestMethod]
