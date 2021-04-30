@@ -1,7 +1,8 @@
-{
+﻿{
   "dependencies": {
     "Microsoft.AppCenter.Analytics": "4.2.0",
-    "Microsoft.AppCenter.Crashes": "4.2.0"
+    "Microsoft.AppCenter.Crashes": "4.2.0",
+    "System.Net.Http": "4.3.4"
   },
   "frameworks": {
     "net461": {}
