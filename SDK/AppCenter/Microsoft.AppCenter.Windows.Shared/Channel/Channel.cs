@@ -560,9 +560,9 @@ namespace Microsoft.AppCenter.Channel
             Resume(_mutex.State);
         }
 
-        public void SuspendLogs(bool deleteLogs)
+        public void SuspendLogs()
         {
-            Suspend(_mutex.State, deleteLogs, new CancellationException());
+            Suspend(_mutex.State, false, new CancellationException());
         }
 
         private void CheckPendingLogs(State state)
@@ -572,7 +572,7 @@ namespace Microsoft.AppCenter.Channel
                 AppCenterLog.Info(AppCenterLog.LogTag, "The service has been disabled. Stop processing logs.");
                 return;
             }
-            if (!_ingestion.Enabled)
+            if (!_ingestion.IsEnabled)
             {
                 AppCenterLog.Info(AppCenterLog.LogTag, "App Center is in offline mode.");
                 return;

@@ -32,6 +32,11 @@ namespace Microsoft.AppCenter.Ingestion.Http
         public IServiceCall Call(string appSecret, Guid installId, IList<Log> logs)
         {
             var call = new ServiceCall(appSecret, installId, logs);
+            if (!IsEnabled)
+            {
+                call.SetException(new NetworkIngestionException( new Exception("SDK is in offline mode.")));
+                return call;
+            }
             CallAsync(appSecret, installId, logs, call.CancellationToken).ContinueWith(task =>
             {
                 // Cancellation token is already shared.
@@ -119,10 +124,9 @@ namespace Microsoft.AppCenter.Ingestion.Http
             _httpNetwork.Dispose();
         }
 
-        public bool Enabled 
+        public bool IsEnabled 
         { 
-            get => _isEnabled; 
-            set => _isEnabled = value; 
+            get => AppCenter.PlatformIsNetworkRequestsAllowed; 
         }
     }
 }

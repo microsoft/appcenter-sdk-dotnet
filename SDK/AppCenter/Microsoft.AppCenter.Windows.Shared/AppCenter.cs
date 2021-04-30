@@ -23,6 +23,7 @@ namespace Microsoft.AppCenter
         // Internals for testing
         internal const string EnabledKey = Constants.KeyPrefix + "Enabled";
         internal const string InstallIdKey = Constants.KeyPrefix + "InstallId";
+        internal const string AllowedNetworkRequestsKey = Constants.KeyPrefix + "AllowedNetworkRequests";
         private const string ConfigurationErrorMessage = "Failed to configure App Center.";
         private const string StartErrorMessage = "Failed to start services.";
         private const string NotConfiguredMessage = "App Center hasn't been configured. " +
@@ -48,9 +49,6 @@ namespace Microsoft.AppCenter
         private string _appSecret;
         private long _storageMaxSize;
         private TaskCompletionSource<bool> _storageTaskCompletionSource;
-
-        // Allow or disallow network requests. True by the default.
-        private bool _networkRequestsAllowed = true;
 
         #region static
 
@@ -94,20 +92,27 @@ namespace Microsoft.AppCenter
         /// </summary>
         public static bool PlatformIsNetworkRequestsAllowed
         {
-            get => Instance._networkRequestsAllowed;
+            get => Instance._applicationSettings.GetValue<bool>(AllowedNetworkRequestsKey, true);
             set 
             {
-                if (Instance._networkRequestsAllowed == value)
+                if (PlatformIsNetworkRequestsAllowed == value)
                 {
                     AppCenterLog.Info(AppCenterLog.LogTag, $"Network requests are already {(value ? "allowed" : "disallowed")}");
                     return;
                 }
-                Instance._networkRequestsAllowed = value;
+                Instance._applicationSettings.SetValue(AllowedNetworkRequestsKey, value);
                 if (Instance._channelGroup != null)
                 {
-                    Instance._channelGroup.EnableIngestion(value);
+                    if (value)
+                    {
+                        Instance._channelGroup.SendLogs();
+                    } 
+                    else
+                    {
+                        Instance._channelGroup.SuspendLogs();
+                    }
                 }
-                AppCenterLog.Info(AppCenterLog.LogTag, $"Set network requests {(Instance._networkRequestsAllowed ? "allowed" : "disallowed")}");
+                AppCenterLog.Info(AppCenterLog.LogTag, $"Set network requests {(value ? "allowed" : "forbidden")}");
             } 
         }
 
@@ -413,7 +418,6 @@ namespace Microsoft.AppCenter
             _networkStateAdapter = new NetworkStateAdapter();
             var instanceEnabled = InstanceEnabled;
             _channelGroup = _channelGroupFactory?.CreateChannelGroup(_appSecret, _networkStateAdapter) ?? new ChannelGroup(_appSecret, null, _networkStateAdapter);
-            _channelGroup?.EnableIngestion(_networkRequestsAllowed);
             _channel = _channelGroup.AddChannel(ChannelName, Constants.DefaultTriggerCount, Constants.DefaultTriggerInterval,
                                                 Constants.DefaultTriggerMaxParallelRequests);
             _channel.SetEnabled(instanceEnabled);

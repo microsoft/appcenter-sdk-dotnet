@@ -21,7 +21,7 @@ namespace Microsoft.AppCenter.Ingestion
         /// <summary>
         /// The value indicating whether the ingestion is enabled.
         /// </summary>
-        bool Enabled { get; set; }
+        bool IsEnabled { get; }
 
         /// <summary>
         /// Send logs to the Ingestion service.

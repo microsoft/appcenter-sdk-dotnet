@@ -55,7 +55,6 @@ namespace Microsoft.AppCenter.Channel
         /// <summary>
         /// Suspend sending logs.
         /// </summary>
-        /// <param name="deleteLogs">True if need to remove logs, false otherwise.</param>
-        void SuspendLogs(bool deleteLogs);
+        void SuspendLogs();
     }
 }

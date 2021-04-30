@@ -116,31 +116,17 @@ namespace Microsoft.AppCenter.Channel
 
         public void SendLogs()
         {
-            // no-op
-        }
-
-        public void SuspendLogs(bool deleteLogs)
-        {
-            // no-op
-        }
-
-        public void EnableIngestion(bool enabled)
-        {
-            ThrowIfDisposed();
-            lock (_channelGroupLock)
+            foreach (var channel in _channels)
             {
-                _ingestion.Enabled = enabled;
-                foreach (var channel in _channels)
-                {
-                    if (enabled)
-                    {
-                        channel.SendLogs();
-                    }
-                    else
-                    {
-                        channel.SuspendLogs(false);
-                    }
-                }
+                channel.SendLogs();
+            }
+        }
+
+        public void SuspendLogs()
+        {
+            foreach (var channel in _channels)
+            {
+                channel.SuspendLogs();
             }
         }
 
