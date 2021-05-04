@@ -2,6 +2,10 @@
 
 ## Version 4.2.1 (Under development)
 
+### AppCenter
+
+* **[Fix]** System.Net.Http version is locked at `4.3.4` in order to mitigate .NET Core Information Disclosure Vulnerability.
+
 ### App Center Crashes
 
 #### WPF/WinForms
