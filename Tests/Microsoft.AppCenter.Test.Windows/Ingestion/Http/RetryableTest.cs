@@ -6,6 +6,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion;
 using Microsoft.AppCenter.Ingestion.Http;
+using Microsoft.AppCenter.Test.Utils;
+using Microsoft.AppCenter.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -21,12 +23,18 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
             TimeSpan.FromSeconds(1) 
         };
         private IIngestion _retryableIngestion;
+        private readonly Mock<IApplicationSettings> _settingsMock = new Mock<IApplicationSettings>();
 
         [TestInitialize]
         public void InitializeRetryableTest()
         {
             _adapter = new Mock<IHttpNetworkAdapter>();
             _retryableIngestion = new RetryableIngestion(new IngestionHttp(_adapter.Object), Intervals);
+            AppCenter.Instance = null;
+#pragma warning disable 612
+            AppCenter.SetApplicationSettingsFactory(new MockApplicationSettingsFactory(_settingsMock));
+            _settingsMock.Setup(settings => settings.GetValue(AppCenter.AllowedNetworkRequestsKey, It.IsAny<bool>())).Returns(true);
+#pragma warning restore 612
         }
 
         /// <summary>
@@ -35,7 +43,6 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task RetryableIngestionSuccess()
         {
-            AppCenter.PlatformIsNetworkRequestsAllowed = true;
             SetupAdapterSendResponse(HttpStatusCode.OK);
             var call = _retryableIngestion.Call(AppSecret, InstallId, Logs);
             await call.ToTask();
@@ -50,7 +57,6 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task RetryableIngestionRepeat1()
         {
-            AppCenter.PlatformIsNetworkRequestsAllowed = true;
 
             // RequestTimeout - retryable
             SetupAdapterSendResponse(HttpStatusCode.RequestTimeout, HttpStatusCode.OK);
@@ -71,7 +77,6 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task RetryableIngestionRepeat3()
         {
-            AppCenter.PlatformIsNetworkRequestsAllowed = true;
 
             // RequestTimeout - retryable
             SetupAdapterSendResponse(HttpStatusCode.RequestTimeout, HttpStatusCode.RequestTimeout, HttpStatusCode.RequestTimeout, HttpStatusCode.OK);
@@ -100,7 +105,6 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task RetryableIngestionCancel()
         {
-            AppCenter.PlatformIsNetworkRequestsAllowed = true;
 
             // RequestTimeout - retryable
             SetupAdapterSendResponse(HttpStatusCode.RequestTimeout);
@@ -128,7 +132,6 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         [TestMethod]
         public async Task RetryableIngestionException()
         {
-            AppCenter.PlatformIsNetworkRequestsAllowed = true;
             SetupAdapterSendResponse(HttpStatusCode.BadRequest);
             var call = _retryableIngestion.Call(AppSecret, InstallId, Logs);
             await Assert.ThrowsExceptionAsync<HttpIngestionException>(() => call.ToTask());
