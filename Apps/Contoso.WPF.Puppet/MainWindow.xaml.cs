@@ -55,7 +55,6 @@ namespace Contoso.WPF.Puppet
             {
                 StorageMaxSize.Text = Settings.Default.StorageMaxSize.ToString();
             }
-            AppCenter.IsNetworkRequestsAllowed = AppCenter.IsNetworkRequestsAllowed;
         }
 
         private void UpdateState()
