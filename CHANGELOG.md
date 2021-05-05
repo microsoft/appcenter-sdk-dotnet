@@ -4,7 +4,7 @@
 
 ### AppCenter
 
-* **[Feature]** Add a `IsNetworkRequestsAllowed` API to block network requests.
+* **[Feature]** Add a `AppCenter.IsNetworkRequestsAllowed` API to block any network requests without disabling the SDK.
 
 ### App Center Crashes
 
