@@ -139,18 +139,10 @@ namespace Microsoft.AppCenter.Channel
             }
             if (enabled)
             {
-                using (_mutex.GetLock())
-                {
-                    _enabled = true;
-                }
                 Resume(state);
             }
             else
             {
-                using (_mutex.GetLock())
-                {
-                    _enabled = false;
-                }
                 Suspend(state, true, new CancellationException());
             }
         }
@@ -283,13 +275,17 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
-        private void Resume(State state)
+        private void Resume(State state, bool needEnableChannel = true)
         {
             AppCenterLog.Debug(AppCenterLog.LogTag, $"Resume channel: '{Name}'");
             try
             {
                 using (_mutex.GetLock(state))
                 {
+                    if (needEnableChannel)
+                    {
+                        _enabled = true;
+                    }
                     _discardLogs = false;
                     state = _mutex.InvalidateState();
                 }
@@ -301,7 +297,7 @@ namespace Microsoft.AppCenter.Channel
             CheckPendingLogs(state);
         }
 
-        private void Suspend(State state, bool deleteLogs, Exception exception)
+        private void Suspend(State state, bool deleteLogs, Exception exception, bool needDisableChannel = true)
         {
             AppCenterLog.Debug(AppCenterLog.LogTag, $"Suspend channel: '{Name}'");
             try
@@ -310,6 +306,10 @@ namespace Microsoft.AppCenter.Channel
                 IList<Log> unsentLogs = null;
                 using (_mutex.GetLock(state))
                 {
+                    if (needDisableChannel)
+                    {
+                        _enabled = false;
+                    }
                     _batchScheduled = false;
                     _discardLogs = deleteLogs;
                     if (deleteLogs)
@@ -495,10 +495,6 @@ namespace Microsoft.AppCenter.Channel
                     {
                         HandleSendingFailure(state, batchId, call.Exception);
                     }
-                    using (_mutex.GetLock())
-                    {
-                        _enabled = false;
-                    }
                     Suspend(state, !isRecoverable, call.Exception);
                 }
                 else
@@ -569,11 +565,11 @@ namespace Microsoft.AppCenter.Channel
         {
             if (isAllowed)
             {
-                Resume(_mutex.State);
+                Resume(_mutex.State, false);
             }
             else
             {
-                Suspend(_mutex.State, false, new CancellationException());
+                Suspend(_mutex.State, false, new CancellationException(), false);
             }
         }
 
@@ -637,10 +633,6 @@ namespace Microsoft.AppCenter.Channel
         /// <returns>The Task to represent this async operation.</returns>
         public Task ShutdownAsync()
         {
-            using (_mutex.GetLock())
-            {
-                _enabled = false;
-            }
             Suspend(_mutex.State, false, new CancellationException());
 
             // Nothing to wait on; just suspend and return a task
