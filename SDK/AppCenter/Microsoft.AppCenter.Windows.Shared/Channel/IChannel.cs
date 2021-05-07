@@ -51,6 +51,6 @@ namespace Microsoft.AppCenter.Channel
         /// Set network request allowed. If true check pending logs, suspend sending logs otherwise.
         /// </summary>
         /// <param name="isAllowed">True if network request allowed, false otherwise.</param>
-        void SetNetworkRequest(bool isAllowed);
+        void SetNetworkRequestAllowed(bool isAllowed);
     }
 }

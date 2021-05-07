@@ -114,11 +114,11 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
-        public void SetNetworkRequest(bool isAllowed)
+        public void SetNetworkRequestAllowed(bool isAllowed)
         {
             foreach (var channel in _channels)
             {
-                channel.SetNetworkRequest(isAllowed);
+                channel.SetNetworkRequestAllowed(isAllowed);
             }
         }
 

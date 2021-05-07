@@ -111,7 +111,7 @@ namespace Microsoft.AppCenter
                     Instance._applicationSettings.SetValue(AllowedNetworkRequestsKey, value);
                     if (Instance._channelGroup != null)
                     {
-                        Instance._channelGroup.SetNetworkRequest(value);
+                        Instance._channelGroup.SetNetworkRequestAllowed(value);
                     }
                     AppCenterLog.Info(AppCenterLog.LogTag, $"Set network requests {(value ? "allowed" : "forbidden")}");
                 }
