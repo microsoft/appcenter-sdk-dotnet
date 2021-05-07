@@ -434,25 +434,25 @@ namespace Microsoft.AppCenter.Test
             _settingsMock.Setup(settings => settings.GetValue(AppCenter.AllowedNetworkRequestsKey, It.IsAny<bool>()))
                 .Returns(true);
             AppCenter.IsNetworkRequestsAllowed = true;
-            _channelGroupMock.Verify(groups => groups.SetNetworkRequest(It.IsAny<bool>()), Times.Never());
+            _channelGroupMock.Verify(groups => groups.SetNetworkRequestAllowed(It.IsAny<bool>()), Times.Never());
 
             // Verify setting false value when previous value is false.
             _settingsMock.Setup(settings => settings.GetValue(AppCenter.AllowedNetworkRequestsKey, It.IsAny<bool>()))
                 .Returns(false);
             AppCenter.IsNetworkRequestsAllowed = false;
-            _channelGroupMock.Verify(groups => groups.SetNetworkRequest(It.IsAny<bool>()), Times.Never());
+            _channelGroupMock.Verify(groups => groups.SetNetworkRequestAllowed(It.IsAny<bool>()), Times.Never());
 
             // Verify setting true value when previous value is false.
             _settingsMock.Setup(settings => settings.GetValue(AppCenter.AllowedNetworkRequestsKey, It.IsAny<bool>()))
                 .Returns(false);
             AppCenter.IsNetworkRequestsAllowed = true;
-            _channelGroupMock.Verify(groups => groups.SetNetworkRequest(true));
+            _channelGroupMock.Verify(groups => groups.SetNetworkRequestAllowed(true));
 
             // Verify setting false value when previous value is true.
             _settingsMock.Setup(settings => settings.GetValue(AppCenter.AllowedNetworkRequestsKey, It.IsAny<bool>()))
                 .Returns(true);
             AppCenter.IsNetworkRequestsAllowed = false;
-            _channelGroupMock.Verify(groups => groups.SetNetworkRequest(false));
+            _channelGroupMock.Verify(groups => groups.SetNetworkRequestAllowed(false));
         }
 
         /// <summary>

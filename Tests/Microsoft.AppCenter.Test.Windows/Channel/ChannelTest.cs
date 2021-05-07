@@ -328,12 +328,12 @@ namespace Microsoft.AppCenter.Test.Channel
 
             // Enable network requests and verify that logs were sent.
             _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(true);
-            _channel.SetNetworkRequest(true);
+            _channel.SetNetworkRequestAllowed(true);
             VerifySendingLog(MaxLogsPerBatch);
 
             // Disable network request and verify that logs were not sent.
             _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(false);
-            _channel.SetNetworkRequest(false);
+            _channel.SetNetworkRequestAllowed(false);
             for (int i = 0; i < MaxLogsPerBatch; ++i)
             {
                 await _channel.EnqueueAsync(new TestLog());
@@ -342,7 +342,7 @@ namespace Microsoft.AppCenter.Test.Channel
 
             // Enable network requests again and verify that logs were sent.
             _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(true);
-            _channel.SetNetworkRequest(true);
+            _channel.SetNetworkRequestAllowed(true);
             VerifySendingLog(MaxLogsPerBatch);
         }
 

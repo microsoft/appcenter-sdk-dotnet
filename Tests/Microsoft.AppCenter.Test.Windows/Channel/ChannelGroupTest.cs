@@ -195,13 +195,13 @@ namespace Microsoft.AppCenter.Test.Channel
             {
                 _channelGroup.AddChannel(mockedChannel);
             }
-            _channelGroup.SetNetworkRequest(true);
-            _channelGroup.SetNetworkRequest(false);
+            _channelGroup.SetNetworkRequestAllowed(true);
+            _channelGroup.SetNetworkRequestAllowed(false);
 
             foreach (var channelMock in channelMocks.Select(mock => mock as Mock<IChannelUnit>))
             {
-                channelMock.Verify(channel => channel.SetNetworkRequest(true), Times.Once);
-                channelMock.Verify(channel => channel.SetNetworkRequest(false), Times.Once);
+                channelMock.Verify(channel => channel.SetNetworkRequestAllowed(true), Times.Once);
+                channelMock.Verify(channel => channel.SetNetworkRequestAllowed(false), Times.Once);
             }
         }
 

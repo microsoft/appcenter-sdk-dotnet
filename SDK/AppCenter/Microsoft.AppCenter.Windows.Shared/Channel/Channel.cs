@@ -139,12 +139,18 @@ namespace Microsoft.AppCenter.Channel
             }
             if (enabled)
             {
-                _enabled = true;
+                using (_mutex.GetLock())
+                {
+                    _enabled = true;
+                }
                 Resume(state);
             }
             else
             {
-                _enabled = false;
+                using (_mutex.GetLock())
+                {
+                    _enabled = false;
+                }
                 Suspend(state, true, new CancellationException());
             }
         }
@@ -489,7 +495,10 @@ namespace Microsoft.AppCenter.Channel
                     {
                         HandleSendingFailure(state, batchId, call.Exception);
                     }
-                    _enabled = false;
+                    using (_mutex.GetLock())
+                    {
+                        _enabled = false;
+                    }
                     Suspend(state, !isRecoverable, call.Exception);
                 }
                 else
@@ -628,7 +637,10 @@ namespace Microsoft.AppCenter.Channel
         /// <returns>The Task to represent this async operation.</returns>
         public Task ShutdownAsync()
         {
-            _enabled = false;
+            using (_mutex.GetLock())
+            {
+                _enabled = false;
+            }
             Suspend(_mutex.State, false, new CancellationException());
 
             // Nothing to wait on; just suspend and return a task
