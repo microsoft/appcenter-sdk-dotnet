@@ -234,6 +234,24 @@ namespace Microsoft.AppCenter.Test.Channel
         }
 
         [TestMethod]
+        public void VerifyStateChannelAfterEnablingNetworkRequests()
+        {
+            // Disable channel.
+            _channel.SetEnabled(false);
+
+            // Allow network requests and check that state of channel wasn't changed.
+            _channel.SetNetworkRequestAllowed(true);
+            Assert.IsFalse(_channel.IsEnabled);
+
+            // Enable channel.
+            _channel.SetEnabled(true);
+
+            // Disallow network requests and check that state of channel wasn't changed.
+            _channel.SetNetworkRequestAllowed(false);
+            Assert.IsTrue(_channel.IsEnabled);
+        }
+
+        [TestMethod]
         public async Task ChannelInvokesSentLogEventWhenNetworkRequestsDallowed()
         {
             _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(false);

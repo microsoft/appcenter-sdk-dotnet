@@ -275,6 +275,11 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
+        /// <summary>
+        /// Resume channel.
+        /// </summary>
+        /// <param name="state">Current state.</param>
+        /// <param name="needEnableChannel">Value indicating whether channel should be enabled. True by default.</param>
         private void Resume(State state, bool needEnableChannel = true)
         {
             AppCenterLog.Debug(AppCenterLog.LogTag, $"Resume channel: '{Name}'");
@@ -297,6 +302,13 @@ namespace Microsoft.AppCenter.Channel
             CheckPendingLogs(state);
         }
 
+        /// <summary>
+        /// Suspend channel.
+        /// </summary>
+        /// <param name="state">Current state.</param>
+        /// <param name="deleteLogs">Value indicating whether logs should be enabled or disabled.</param>
+        /// <param name="exception">Possible error if unsuccessful.</param>
+        /// <param name="needDisableChannel">Value indicating whether channel should be disabled. True by default.</param>
         private void Suspend(State state, bool deleteLogs, Exception exception, bool needDisableChannel = true)
         {
             AppCenterLog.Debug(AppCenterLog.LogTag, $"Suspend channel: '{Name}'");
