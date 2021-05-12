@@ -23,6 +23,7 @@ namespace Microsoft.AppCenter
         // Internals for testing
         internal const string EnabledKey = Constants.KeyPrefix + "Enabled";
         internal const string InstallIdKey = Constants.KeyPrefix + "InstallId";
+        internal const string AllowedNetworkRequestsKey = Constants.KeyPrefix + "AllowedNetworkRequests";
         private const string ConfigurationErrorMessage = "Failed to configure App Center.";
         private const string StartErrorMessage = "Failed to start services.";
         private const string NotConfiguredMessage = "App Center hasn't been configured. " +
@@ -84,6 +85,37 @@ namespace Microsoft.AppCenter
         {
             get => AppCenterLog.Level;
             set => AppCenterLog.Level = value;
+        }
+
+        /// <summary>
+        /// Allow or disallow network requests. True by the default.
+        /// </summary>
+        public static bool PlatformIsNetworkRequestsAllowed
+        {
+            get
+            {
+                lock (AppCenterLock)
+                {
+                    return Instance._applicationSettings.GetValue<bool>(AllowedNetworkRequestsKey, true);
+                }
+            }
+            set 
+            {
+                lock (AppCenterLock)
+                {
+                    if (PlatformIsNetworkRequestsAllowed == value)
+                    {
+                        AppCenterLog.Info(AppCenterLog.LogTag, $"Network requests are already {(value ? "allowed" : "disallowed")}");
+                        return;
+                    }
+                    Instance._applicationSettings.SetValue(AllowedNetworkRequestsKey, value);
+                    if (Instance._channelGroup != null)
+                    {
+                        Instance._channelGroup.SetNetworkRequestAllowed(value);
+                    }
+                    AppCenterLog.Info(AppCenterLog.LogTag, $"Set network requests {(value ? "allowed" : "forbidden")}");
+                }
+            } 
         }
 
         /// <summary>

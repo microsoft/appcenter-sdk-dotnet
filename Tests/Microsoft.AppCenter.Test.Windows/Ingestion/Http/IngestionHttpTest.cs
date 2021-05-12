@@ -6,6 +6,8 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion.Http;
+using Microsoft.AppCenter.Test.Utils;
+using Microsoft.AppCenter.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -15,12 +17,19 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
     public class IngestionHttpTest : HttpIngestionTest
     {
         private IngestionHttp _httpIngestion;
+        private readonly Mock<IApplicationSettings> _settingsMock = new Mock<IApplicationSettings>();
 
         [TestInitialize]
+        [System.Obsolete]
         public void InitializeHttpIngestionTest()
         {
             _adapter = new Mock<IHttpNetworkAdapter>();
             _httpIngestion = new IngestionHttp(_adapter.Object);
+            AppCenter.Instance = null;
+#pragma warning disable 612
+            AppCenter.SetApplicationSettingsFactory(new MockApplicationSettingsFactory(_settingsMock));
+            _settingsMock.Setup(settings => settings.GetValue(AppCenter.AllowedNetworkRequestsKey, It.IsAny<bool>())).Returns(true);
+#pragma warning restore 612
         }
 
         /// <summary>
@@ -35,6 +44,28 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
             VerifyAdapterSend(Times.Once());
 
             // No throw any exception
+        }
+
+        /// <summary>
+        /// Verify that the ingestion call fails when ingestion is disabled.
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task HttpIngestionWhenIngestionIsDisabled()
+        {
+            _settingsMock.Setup(settings => settings.GetValue(AppCenter.AllowedNetworkRequestsKey, It.IsAny<bool>())).Returns(false);
+            SetupAdapterSendResponse(HttpStatusCode.OK);
+            try
+            {
+                var call = _httpIngestion.Call(AppSecret, InstallId, Logs);
+                await call.ToTask();
+                throw new HttpIngestionException("This test should be failed.");
+            }
+            catch (NetworkIngestionException exc)
+            {
+                Assert.AreEqual(exc.InnerException.Message, "SDK is in offline mode.");
+            }
+            VerifyAdapterSend(Times.Never());
         }
 
         /// <summary>

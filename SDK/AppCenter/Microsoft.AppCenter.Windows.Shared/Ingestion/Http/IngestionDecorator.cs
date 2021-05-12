@@ -35,5 +35,10 @@ namespace Microsoft.AppCenter.Ingestion.Http
         {
             DecoratedApi.Dispose();
         }
+
+        public bool IsEnabled
+        {
+            get => DecoratedApi.IsEnabled;
+        }
     }
 }

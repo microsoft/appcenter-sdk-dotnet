@@ -37,6 +37,8 @@ namespace Contoso.iOS.Puppet
         {
             base.ViewDidAppear(animated);
             AppCenterEnabledSwitch.On = AppCenter.IsEnabledAsync().Result;
+
+            AppCenterNetworkRequestAllowedSwitch.On = AppCenter.IsNetworkRequestsAllowed;
             LogLevelLabel.Text = LogLevelNames[AppCenter.LogLevel];
             LogWriteLevelLabel.Text = LogLevelNames[mLogWriteLevel];
 
@@ -85,6 +87,11 @@ namespace Contoso.iOS.Puppet
         {
             AppCenter.SetEnabledAsync(AppCenterEnabledSwitch.On).Wait();
             AppCenterEnabledSwitch.On = AppCenter.IsEnabledAsync().Result;
+        }
+
+        partial void NetworkRequestAllowedSwitch()
+        {
+            AppCenter.IsNetworkRequestsAllowed = AppCenterNetworkRequestAllowedSwitch.On;
         }
 
         partial void WriteLog()

@@ -83,6 +83,12 @@ namespace Microsoft.AppCenter
             }
         }
 
+        static bool PlatformIsNetworkRequestsAllowed
+        {
+            get => AndroidAppCenter.NetworkRequestsAllowed;
+            set => AndroidAppCenter.NetworkRequestsAllowed = value;
+        }
+
         static void PlatformSetUserId(string userId)
         {
             AndroidAppCenter.SetUserId(userId);

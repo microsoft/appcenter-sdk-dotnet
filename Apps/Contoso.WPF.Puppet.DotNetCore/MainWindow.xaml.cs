@@ -58,6 +58,7 @@ namespace Contoso.WPF.Puppet.DotNetCore
         private void UpdateState()
         {
             AppCenterEnabled.IsChecked = AppCenter.IsEnabledAsync().Result;
+            AppCenterAllowNetworkRequests.IsChecked = AppCenter.IsNetworkRequestsAllowed;
             CrashesEnabled.IsChecked = Crashes.IsEnabledAsync().Result;
             AnalyticsEnabled.IsChecked = Analytics.IsEnabledAsync().Result;
             AnalyticsEnabled.IsEnabled = AppCenterEnabled.IsChecked.Value;
@@ -69,6 +70,14 @@ namespace Contoso.WPF.Puppet.DotNetCore
             if (AppCenterEnabled.IsChecked.HasValue)
             {
                 AppCenter.SetEnabledAsync(AppCenterEnabled.IsChecked.Value).Wait();
+            }
+        }
+        
+        private void AppCenterAllowNetworkRequests_Checked(object sender, RoutedEventArgs e)
+        {
+            if (AppCenterAllowNetworkRequests.IsChecked.HasValue)
+            {
+                AppCenter.IsNetworkRequestsAllowed = AppCenterAllowNetworkRequests.IsChecked.Value;
             }
         }
 

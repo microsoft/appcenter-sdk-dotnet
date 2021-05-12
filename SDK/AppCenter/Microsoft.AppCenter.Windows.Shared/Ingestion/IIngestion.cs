@@ -19,6 +19,11 @@ namespace Microsoft.AppCenter.Ingestion
         void SetLogUrl(string logUrl);
 
         /// <summary>
+        /// The value indicating whether the ingestion is enabled.
+        /// </summary>
+        bool IsEnabled { get; }
+
+        /// <summary>
         /// Send logs to the Ingestion service.
         /// </summary>
         /// <param name="appSecret">A unique and secret key used to identify the application</param>
