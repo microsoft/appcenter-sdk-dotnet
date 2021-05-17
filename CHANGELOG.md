@@ -12,6 +12,12 @@
 
 * **[Fix]** Add obfuscation for username value in the stack trace.
 
+### App Center Distribute Play
+
+#### Android
+
+- **[Fix]** Fix replacement of Distribute dependencies for publishing in Google Play.
+
 ___
 
 ## Version 4.2.0
