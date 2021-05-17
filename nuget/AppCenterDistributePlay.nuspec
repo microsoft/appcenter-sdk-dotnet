@@ -29,5 +29,10 @@
     <file src="$androidPlay_dir$/Microsoft.AppCenter.Distribute.dll" target="lib/MonoAndroid50" />
     <file src="$androidPlay_dir$/Microsoft.AppCenter.Distribute.xml" target="lib/MonoAndroid50" />
 
+    <!-- iOS -->
+    <file src="$ios_dir$/Microsoft.AppCenter.dll" target="lib/Xamarin.iOS10" />
+    <file src="$ios_dir$/Microsoft.AppCenter.xml" target="lib/Xamarin.iOS10" />
+    <file src="$ios_dir$/Microsoft.AppCenter.iOS.Bindings.dll" target="lib/Xamarin.iOS10" />
+
   </files>
 </package>
