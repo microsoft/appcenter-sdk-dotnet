@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{274AB35C-6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contoso.Forms.Demo", "Contoso.Forms.Demo", "{91CEE2C9-F64C-45C9-9353-B1EC87D13C6D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contoso.Forms.Demo", "Apps\Contoso.Forms.Demo\Contoso.Forms.Demo\Contoso.Forms.Demo.csproj", "{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Forms.Demo", "Apps\Contoso.Forms.Demo\Contoso.Forms.Demo\Contoso.Forms.Demo.csproj", "{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Forms.Demo.Droid", "Apps\Contoso.Forms.Demo\Contoso.Forms.Demo.Droid\Contoso.Forms.Demo.Droid.csproj", "{3B39B339-86C4-47EF-8F85-811220494CA6}"
 EndProject
@@ -100,20 +100,20 @@ Global
 		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.Debug|x64.Build.0 = Debug|Any CPU
 		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.Debug|x86.Build.0 = Debug|Any CPU
-		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|Any CPU.ActiveCfg = Release|Any CPU
-		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|Any CPU.Build.0 = Release|Any CPU
-		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|ARM.ActiveCfg = Release|Any CPU
-		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|ARM.Build.0 = Release|Any CPU
-		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|ARM64.ActiveCfg = Release|Any CPU
-		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|ARM64.Build.0 = Release|Any CPU
-		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|iPhone.ActiveCfg = Release|Any CPU
-		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|iPhone.Build.0 = Release|Any CPU
-		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|iPhoneSimulator.Build.0 = Release|Any CPU
-		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|x64.ActiveCfg = Release|Any CPU
-		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|x64.Build.0 = Release|Any CPU
-		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|x86.ActiveCfg = Release|Any CPU
-		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|x86.Build.0 = Release|Any CPU
+		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|Any CPU.ActiveCfg = GooglePlay|Any CPU
+		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|Any CPU.Build.0 = GooglePlay|Any CPU
+		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|ARM.ActiveCfg = GooglePlay|Any CPU
+		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|ARM.Build.0 = GooglePlay|Any CPU
+		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|ARM64.ActiveCfg = GooglePlay|Any CPU
+		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|ARM64.Build.0 = GooglePlay|Any CPU
+		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|iPhone.ActiveCfg = GooglePlay|Any CPU
+		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|iPhone.Build.0 = GooglePlay|Any CPU
+		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|iPhoneSimulator.ActiveCfg = GooglePlay|Any CPU
+		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|iPhoneSimulator.Build.0 = GooglePlay|Any CPU
+		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|x64.ActiveCfg = GooglePlay|Any CPU
+		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|x64.Build.0 = GooglePlay|Any CPU
+		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|x86.ActiveCfg = GooglePlay|Any CPU
+		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.GooglePlay|x86.Build.0 = GooglePlay|Any CPU
 		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8E7B51FC-8A9B-49F7-A40D-4D12BBF893B6}.Release|ARM.ActiveCfg = Release|Any CPU
