@@ -115,6 +115,10 @@ namespace Microsoft.AppCenter.Storage
                         {
                             _storageAdapter.Delete(TableName, ColumnIdName, oldestLog[0][0]);
                         }
+                        else
+                        {
+                            throw new StorageException("Failed to add a new log. Storage is full and old logs cannot be purged.");
+                        }
                     }
                 }
             });
