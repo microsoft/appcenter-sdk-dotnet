@@ -459,16 +459,68 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             Assert.IsTrue(setMaxStorageSizeResult);
 
             // Fill databse with logs.
-            var initialLogs = await FillDatabaseWithLogs(capacity);
+            await FillDatabaseWithLogs(capacity);
+
+            // Get first log
+            var initialLogs = new List<Log>();
+            await _storage.GetLogsAsync(StorageTestChannelName, int.MaxValue, initialLogs);
             var firstLog = initialLogs[0];
+            var secondLog = initialLogs[1];
 
             // Create a new log. Vverify that new log was added and old was deleted.
             var newLog = TestLog.CreateTestLog();
             await _storage.PutLog(StorageTestChannelName, newLog);
             var retrievedLogs = new List<Log>();
+            await _storage.ClearPendingLogState(StorageTestChannelName);
             await _storage.GetLogsAsync(StorageTestChannelName, int.MaxValue, retrievedLogs);
             CollectionAssert.Contains(retrievedLogs, newLog);
+            CollectionAssert.Contains(retrievedLogs, secondLog);
             CollectionAssert.DoesNotContain(retrievedLogs, firstLog);
+        }
+
+        /// <summary>
+        /// Verify that Storage doesn't loop infinitely if old logs cannot be purged.
+        /// Verify that Storage doesn't save a new log in case it cannot purge older ones.
+        /// </summary>
+        [TestMethod]
+        public async Task SaveLogDoesntPurgesOldLogsWhenStorageIsFullOfDifferentKindOfLogs()
+        {
+            // Prepare constants
+            var anotherChannelName = "anotherChannelName";
+
+            // Set storage max size.
+            var capacity = 12 * 1024;
+            var setMaxStorageSizeResult = await _storage.SetMaxStorageSizeAsync(capacity);
+            Assert.IsTrue(setMaxStorageSizeResult);
+
+            // Fill databse with logs.
+            await FillDatabaseWithLogs(capacity);
+
+            // Get stored collection
+            var initialLogs = new List<Log>();
+            await _storage.GetLogsAsync(StorageTestChannelName, int.MaxValue, initialLogs);
+
+            // Try to add a new log with another channel name to storage.
+            // Vverify that StorageException is thrown.
+            var newLog = TestLog.CreateTestLog();
+            try
+            {
+                await _storage.PutLog(anotherChannelName, newLog);
+            }
+            catch (StorageException e)
+            {
+                Assert.AreEqual(e.Message, "Failed to add a new log. Storage is full and old logs cannot be purged.");
+            }
+
+            // Verify that existing logs were not damaged.
+            var retrievedLogs = new List<Log>();
+            await _storage.ClearPendingLogState(StorageTestChannelName);
+            await _storage.GetLogsAsync(StorageTestChannelName, int.MaxValue, retrievedLogs);
+            CollectionAssert.AreEquivalent(retrievedLogs, initialLogs);
+
+            // Verify that new log was not added.
+            await _storage.GetLogsAsync(anotherChannelName, int.MaxValue, retrievedLogs);
+            Assert.IsTrue(retrievedLogs.Count == 0);
         }
 
         /// <summary>
@@ -513,6 +565,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         {
             var putLogTasks = new Task[n];
             var addedLogs = new List<TestLog>();
+            
             for (var i = 0; i < n; ++i)
             {
                 var testLog = TestLog.CreateTestLog();
@@ -535,7 +588,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             return testLog;
         }
 
-        private async Task<List<TestLog>> FillDatabaseWithLogs(int storageCapacity)
+        private async Task FillDatabaseWithLogs(int storageCapacity)
         {
             var log = TestLog.CreateTestLog();
             var logJsonString = LogSerializer.Serialize(log);
@@ -544,7 +597,6 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             var logs = PutNLogs(logsCount - 1);
             logs.Add(log);
             await _storage.PutLog(StorageTestChannelName, log);
-            return logs;
         }
 
         #endregion
