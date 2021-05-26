@@ -8,6 +8,10 @@
 
 ### App Center Crashes
 
+#### Windows
+
+* **[Fix]** Fix infinite loop when old logs cannot be purged by a new one with a different channel name in a case when the storage is full.
+
 #### WPF/WinForms
 
 * **[Fix]** Add obfuscation for username value in the stack trace.
