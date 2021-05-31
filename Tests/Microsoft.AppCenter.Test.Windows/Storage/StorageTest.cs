@@ -521,7 +521,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
 
             // Verify that new log was not added.
             await _storage.GetLogsAsync(anotherChannelName, int.MaxValue, retrievedLogs);
-            Assert.AreEqual(0, retrievedLogs.Count)
+            Assert.AreEqual(0, retrievedLogs.Count);
         }
 
         /// <summary>
