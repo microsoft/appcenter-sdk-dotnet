@@ -467,7 +467,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             var firstLog = initialLogs[0];
             var secondLog = initialLogs[1];
 
-            // Create a new log. Vverify that new log was added and old was deleted.
+            // Create a new log. Verify that new log was added and old was deleted.
             var newLog = TestLog.CreateTestLog();
             await _storage.PutLog(StorageTestChannelName, newLog);
             var retrievedLogs = new List<Log>();
@@ -501,7 +501,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             await _storage.GetLogsAsync(StorageTestChannelName, int.MaxValue, initialLogs);
 
             // Try to add a new log with another channel name to storage.
-            // Vverify that StorageException is thrown.
+            // Verify that StorageException is thrown.
             var newLog = TestLog.CreateTestLog();
             try
             {
