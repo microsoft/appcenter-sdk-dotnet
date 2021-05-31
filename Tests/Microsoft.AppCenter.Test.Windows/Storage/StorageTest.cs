@@ -506,6 +506,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             try
             {
                 await _storage.PutLog(anotherChannelName, newLog);
+                Assert.Fail("It should be failed.");
             }
             catch (StorageException e)
             {
