@@ -480,7 +480,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
 
         /// <summary>
         /// Verify that Storage doesn't loop infinitely if old logs cannot be purged.
-        /// Verify that Storage doesn't save a new log in case it cannot purge older ones.
+        /// And doesn't save a new log in case it cannot purge older ones.
         /// </summary>
         [TestMethod]
         public async Task SaveLogDoesntPurgesOldLogsWhenStorageIsFullOfDifferentKindOfLogs()
