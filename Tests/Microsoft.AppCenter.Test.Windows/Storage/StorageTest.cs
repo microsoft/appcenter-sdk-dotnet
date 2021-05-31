@@ -485,7 +485,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         [TestMethod]
         public async Task SaveLogDoesntPurgesOldLogsWhenStorageIsFullOfDifferentKindOfLogs()
         {
-            // Prepare constants
+            // Prepare constants.
             var anotherChannelName = "anotherChannelName";
 
             // Set storage max size.
@@ -496,7 +496,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
             // Fill databse with logs.
             await FillDatabaseWithLogs(capacity);
 
-            // Get stored collection
+            // Get stored collection.
             var initialLogs = new List<Log>();
             await _storage.GetLogsAsync(StorageTestChannelName, int.MaxValue, initialLogs);
 
@@ -520,7 +520,7 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
 
             // Verify that new log was not added.
             await _storage.GetLogsAsync(anotherChannelName, int.MaxValue, retrievedLogs);
-            Assert.IsTrue(retrievedLogs.Count == 0);
+            Assert.AreEqual(0, retrievedLogs.Count)
         }
 
         /// <summary>
@@ -565,7 +565,6 @@ namespace Microsoft.AppCenter.Test.Windows.Storage
         {
             var putLogTasks = new Task[n];
             var addedLogs = new List<TestLog>();
-            
             for (var i = 0; i < n; ++i)
             {
                 var testLog = TestLog.CreateTestLog();
