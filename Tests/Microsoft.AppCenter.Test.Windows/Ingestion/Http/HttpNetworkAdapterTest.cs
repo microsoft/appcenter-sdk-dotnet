@@ -51,7 +51,7 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
             Assert.AreEqual(SslProtocols.Tls12, httpClientHandler.SslProtocols);
 
             // Just check no side effect.
-            Assert.AreEqual(SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12, ServicePointManager.SecurityProtocol);
+            Assert.AreEqual(SecurityProtocolType.SystemDefault, ServicePointManager.SecurityProtocol);
         }
     }
 }
