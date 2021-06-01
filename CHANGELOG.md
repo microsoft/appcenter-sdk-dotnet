@@ -6,6 +6,10 @@
 
 * **[Feature]** Add a `AppCenter.IsNetworkRequestsAllowed` API to block any network requests without disabling the SDK.
 
+#### Windows
+
+* **[Fix]** Fix infinite loop when old logs cannot be purged by a new one with a different channel name in a case when the storage is full.
+
 ### App Center Crashes
 
 #### WPF/WinForms
@@ -16,7 +20,7 @@
 
 #### Android
 
-- **[Fix]** Fix replacement of Distribute dependencies for publishing in Google Play.
+* **[Fix]** Fix replacement of Distribute dependencies for publishing in Google Play.
 
 ___
 
