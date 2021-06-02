@@ -13,7 +13,7 @@ namespace Microsoft.AppCenter.Test.WindowsDesktop.Ingestion.Http
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11;
 
-            var httpClientHandler = HttpNetworkAdapter.HttpMessageHandlerOverride as HttpClientHandler;
+            var httpClientHandler = HttpNetworkAdapter.HttpMessageHandlerOverride() as HttpClientHandler;
 
             Assert.NotNull(httpClientHandler);
 
@@ -28,7 +28,7 @@ namespace Microsoft.AppCenter.Test.WindowsDesktop.Ingestion.Http
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
-            var httpClientHandler = HttpNetworkAdapter.HttpMessageHandlerOverride as HttpClientHandler;
+            var httpClientHandler = HttpNetworkAdapter.HttpMessageHandlerOverride() as HttpClientHandler;
 
             Assert.NotNull(httpClientHandler);
 

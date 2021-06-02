@@ -17,7 +17,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
         internal const string ContentTypeValue = "application/json; charset=utf-8";
 
         // used by the windows platform to override and force tls1.2
-        internal static readonly HttpMessageHandler HttpMessageHandlerOverride;
+        internal static readonly Func<HttpMessageHandler> HttpMessageHandlerOverride;
 
         private HttpClient _httpClient;
 
@@ -52,7 +52,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
                         return _httpClient;
                     }
 
-                    _httpClient = HttpMessageHandlerOverride != null ? new HttpClient(HttpMessageHandlerOverride) : new HttpClient();
+                    _httpClient = HttpMessageHandlerOverride != null ? new HttpClient(HttpMessageHandlerOverride()) : new HttpClient();
                     return _httpClient;
                 }
             }

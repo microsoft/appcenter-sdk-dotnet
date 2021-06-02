@@ -12,7 +12,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
         // Static initializer specific to windows desktop platforms.
         static HttpNetworkAdapter()
         {
-            HttpMessageHandlerOverride = new HttpClientHandler
+            HttpMessageHandlerOverride = () => new HttpClientHandler
             {
                 SslProtocols = SslProtocols.Tls12
             };

@@ -44,7 +44,7 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.SystemDefault;
 
-            var httpClientHandler = HttpNetworkAdapter.HttpMessageHandlerOverride as HttpClientHandler;
+            var httpClientHandler = HttpNetworkAdapter.HttpMessageHandlerOverride() as HttpClientHandler;
 
             Assert.IsNotNull(httpClientHandler);
 
