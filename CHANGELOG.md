@@ -1,6 +1,6 @@
 # App Center SDK for .NET Change Log
 
-## Version 4.2.1 (Under development)
+## Version 4.3.0
 
 ### AppCenter
 
@@ -15,6 +15,18 @@
 #### WPF/WinForms
 
 * **[Fix]** Add obfuscation for username value in the stack trace.
+
+#### iOS
+
+* **[Fix]** Merge the device information from the crash report with the SDK's device information in order to fix some time sensitive cases where the reported application information was incorrect.
+* **[Improvement]** Update PLCrashReporter to 1.9.0.
+
+### App Center Distribute
+
+#### Android
+
+* **[Fix]** Fix crash during downloading a new release when minifyEnabled settings is true.
+* **[Fix]** Add a missing tag android:exported to the manifest required for Android 12.
 
 ### App Center Distribute Play
 
