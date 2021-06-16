@@ -49,11 +49,16 @@ namespace Contoso.WPF.Demo.DotNetCore
             {
                 UserId.Text = Settings.Default.UserId;
             }
+            if(Settings.Default.StorageMaxSize > 0)
+            {
+                StorageMaxSize.Text = Settings.Default.StorageMaxSize.ToString();
+            }
         }
 
         private void UpdateState()
         {
             AppCenterEnabled.IsChecked = AppCenter.IsEnabledAsync().Result;
+            AppCenterAllowNetworkRequests.IsChecked = AppCenter.IsNetworkRequestsAllowed;
             CrashesEnabled.IsChecked = Crashes.IsEnabledAsync().Result;
             AnalyticsEnabled.IsChecked = Analytics.IsEnabledAsync().Result;
             AnalyticsEnabled.IsEnabled = AppCenterEnabled.IsChecked.Value;
@@ -65,6 +70,14 @@ namespace Contoso.WPF.Demo.DotNetCore
             if (AppCenterEnabled.IsChecked.HasValue)
             {
                 AppCenter.SetEnabledAsync(AppCenterEnabled.IsChecked.Value).Wait();
+            }
+        }
+        
+        private void AppCenterAllowNetworkRequests_Checked(object sender, RoutedEventArgs e)
+        {
+            if (AppCenterAllowNetworkRequests.IsChecked.HasValue)
+            {
+                AppCenter.IsNetworkRequestsAllowed = AppCenterAllowNetworkRequests.IsChecked.Value;
             }
         }
 
@@ -175,6 +188,16 @@ namespace Contoso.WPF.Demo.DotNetCore
             Settings.Default.Save();
         }
 
+        private void SaveStorageSize_Click(object sender, EventArgs e)
+        {
+            var storageSize = StorageMaxSize.Text;
+            var size = 10L * 1024 * 1024;
+            long.TryParse(storageSize, out size);
+            AppCenter.SetMaxStorageSizeAsync(size);
+            Settings.Default.StorageMaxSize = size;
+            Settings.Default.Save();
+        }
+
         #region Crash
 
         private void CrashesEnabled_Checked(object sender, RoutedEventArgs e)
@@ -280,7 +303,6 @@ namespace Contoso.WPF.Demo.DotNetCore
             {
                 properties = null;
             }
-
             Crashes.TrackError(e, properties, App.GetErrorAttachments().ToArray());
         }
 

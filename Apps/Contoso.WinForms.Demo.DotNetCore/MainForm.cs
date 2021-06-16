@@ -31,6 +31,7 @@ namespace Contoso.WinForms.Demo.DotNetCore
         private void UpdateState()
         {
             AppCenterEnabled.Checked = AppCenter.IsEnabledAsync().Result;
+            AppCenterAllowNetworkRequests.Checked = AppCenter.IsNetworkRequestsAllowed;
             AnalyticsEnabled.Checked = Analytics.IsEnabledAsync().Result;
             CrashesEnabled.Checked = Crashes.IsEnabledAsync().Result;
             AnalyticsEnabled.Enabled = AppCenterEnabled.Checked;
@@ -46,6 +47,11 @@ namespace Contoso.WinForms.Demo.DotNetCore
         {
             AnalyticsEnabled.Enabled = AppCenterEnabled.Checked;
             Analytics.SetEnabledAsync(AnalyticsEnabled.Checked).Wait();
+        }
+
+        private void AppCenterAllowNetworkRequest_CheckedChanged(object sender, EventArgs e)
+        {
+            AppCenter.IsNetworkRequestsAllowed = AppCenterAllowNetworkRequests.Checked;
         }
 
         private void Tabs_SelectedIndexChanged(object sender, EventArgs e)
