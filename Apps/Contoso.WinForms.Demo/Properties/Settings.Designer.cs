@@ -53,5 +53,6 @@ namespace Contoso.WinForms.Demo.Properties {
             }
         }
 
+        public long StorageMaxSize { get; internal set; }
     }
 }

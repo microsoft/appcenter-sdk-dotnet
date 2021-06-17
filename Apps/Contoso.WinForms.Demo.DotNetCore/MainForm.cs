@@ -26,6 +26,10 @@ namespace Contoso.WinForms.Demo.DotNetCore
             textAttachments = Settings.Default.TextErrorAttachments;
             TextAttachmentTextBox.Text = textAttachments;
             FileAttachmentPathLabel.Text = fileAttachments;
+            if (Settings.Default.StorageMaxSize > 0)
+            {
+                StorageMaxSizeTextBox.Text = Settings.Default.StorageMaxSize.ToString();
+            }
         }
 
         private void UpdateState()
@@ -43,15 +47,15 @@ namespace Contoso.WinForms.Demo.DotNetCore
             AppCenter.SetEnabledAsync(AppCenterEnabled.Checked).Wait();
         }
 
+        private void AppCenterAllowNetworkRequest_CheckedChanged(object sender, EventArgs e)
+        {
+            AppCenter.IsNetworkRequestsAllowed = AppCenterAllowNetworkRequests.Checked;
+        }
+
         private void AnalyticsEnabled_CheckedChanged(object sender, EventArgs e)
         {
             AnalyticsEnabled.Enabled = AppCenterEnabled.Checked;
             Analytics.SetEnabledAsync(AnalyticsEnabled.Checked).Wait();
-        }
-
-        private void AppCenterAllowNetworkRequest_CheckedChanged(object sender, EventArgs e)
-        {
-            AppCenter.IsNetworkRequestsAllowed = AppCenterAllowNetworkRequests.Checked;
         }
 
         private void Tabs_SelectedIndexChanged(object sender, EventArgs e)
@@ -201,7 +205,6 @@ namespace Contoso.WinForms.Demo.DotNetCore
         private void TrackException(Exception e)
         {
             Dictionary<string, string> properties = null;
-
             Crashes.TrackError(e, properties, Program.GetErrorAttachments().ToArray());
         }
 
@@ -215,6 +218,16 @@ namespace Contoso.WinForms.Demo.DotNetCore
             {
                 TrackException(e);
             }
+        }
+
+        private void SaveStorageSize_Click(object sender, EventArgs e)
+        {
+            var storageSize = StorageMaxSizeTextBox.Text;
+            var size = 10L * 1024 * 1024;
+            long.TryParse(storageSize, out size);
+            AppCenter.SetMaxStorageSizeAsync(size);
+            Settings.Default.StorageMaxSize = size;
+            Settings.Default.Save();
         }
     }
 }
