@@ -114,6 +114,14 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
+        public void SetNetworkRequestAllowed(bool isAllowed)
+        {
+            foreach (var channel in _channels)
+            {
+                channel.SetNetworkRequestAllowed(isAllowed);
+            }
+        }
+
         public Task<bool> SetMaxStorageSizeAsync(long sizeInBytes)
         {
             ThrowIfDisposed();

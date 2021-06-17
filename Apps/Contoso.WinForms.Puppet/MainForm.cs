@@ -37,6 +37,7 @@ namespace Contoso.WinForms.Puppet
         private void UpdateState()
         {
             AppCenterEnabled.Checked = AppCenter.IsEnabledAsync().Result;
+            AppCenterAllowNetworkRequest.Checked = AppCenter.IsNetworkRequestsAllowed;
             AnalyticsEnabled.Checked = Analytics.IsEnabledAsync().Result;
             CrashesEnabled.Checked = Crashes.IsEnabledAsync().Result;
             AnalyticsEnabled.Enabled = AppCenterEnabled.Checked;
@@ -46,6 +47,11 @@ namespace Contoso.WinForms.Puppet
         private void AppCenterEnabled_CheckedChanged(object sender, EventArgs e)
         {
             AppCenter.SetEnabledAsync(AppCenterEnabled.Checked).Wait();
+        }
+
+        private void AppCenterAllowNetworkRequest_CheckedChanged(object sender, EventArgs e)
+        {
+            AppCenter.IsNetworkRequestsAllowed = AppCenterAllowNetworkRequest.Checked;
         }
 
         private void AnalyticsEnabled_CheckedChanged(object sender, EventArgs e)

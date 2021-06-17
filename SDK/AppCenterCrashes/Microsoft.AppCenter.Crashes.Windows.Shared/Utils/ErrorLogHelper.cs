@@ -266,7 +266,7 @@ namespace Microsoft.AppCenter.Crashes.Utils
             try
             {
                 // Serialize main log file.
-                var errorLogString = LogSerializer.Serialize(errorLog);
+                var errorLogString = ObfuscateUserName(LogSerializer.Serialize(errorLog));
                 var errorLogFileName = errorLog.Id + ErrorLogFileExtension;
                 AppCenterLog.Debug(Crashes.LogTag, "Saving uncaught exception.");
                 var directory = InstanceGetErrorStorageDirectory();
@@ -277,7 +277,7 @@ namespace Microsoft.AppCenter.Crashes.Utils
                 {
                     // Serialize exception as raw stack trace.
                     var exceptionFileName = errorLog.Id + ExceptionFileExtension;
-                    directory.CreateFile(exceptionFileName, exception.ToString());
+                    directory.CreateFile(exceptionFileName, ObfuscateUserName(exception.ToString()));
                     AppCenterLog.Debug(Crashes.LogTag, $"Saved exception in directory {ErrorStorageDirectoryName} with name {exceptionFileName}.");
                 }
                 catch (System.Exception ex)
@@ -352,6 +352,21 @@ namespace Microsoft.AppCenter.Crashes.Utils
                     AppCenterLog.Debug(Crashes.LogTag, "Deleted crashes local files.");
                 }
             }
+        }
+
+        /// <summary>
+        /// Remove the user's name from a crash's process path.
+        /// </summary>
+        /// <param name="errorString">A string containing the username.</param>
+        /// <returns>An anonymized string where the real username is replaced by "USER".</returns>
+        internal static string ObfuscateUserName(string errorString)
+        {
+            // Obfuscate user name in stack trace.
+            if (string.IsNullOrEmpty(errorString) || string.IsNullOrEmpty(Constants.UserName))
+            {
+                return errorString;
+            }
+            return errorString.Replace($"\\{Constants.UserName}\\", "\\USER\\");
         }
 
         /// <summary>

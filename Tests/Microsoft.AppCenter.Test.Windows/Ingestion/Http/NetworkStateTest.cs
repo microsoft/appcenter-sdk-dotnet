@@ -8,6 +8,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Ingestion;
 using Microsoft.AppCenter.Ingestion.Http;
+using Microsoft.AppCenter.Test.Utils;
+using Microsoft.AppCenter.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -18,6 +20,7 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
     {
         private NetworkStateAdapter _networkState;
         private NetworkStateIngestion _networkStateIngestion;
+        private readonly Mock<IApplicationSettings> _settingsMock = new Mock<IApplicationSettings>();
 
         [TestInitialize]
         public void InitializeNetworkStateTest()
@@ -27,6 +30,11 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Http
 
             var httpIngestion = new IngestionHttp(_adapter.Object);
             _networkStateIngestion = new NetworkStateIngestion(httpIngestion, _networkState);
+            AppCenter.Instance = null;
+#pragma warning disable 612
+            AppCenter.SetApplicationSettingsFactory(new MockApplicationSettingsFactory(_settingsMock));
+            _settingsMock.Setup(settings => settings.GetValue(AppCenter.AllowedNetworkRequestsKey, It.IsAny<bool>())).Returns(true);
+#pragma warning restore 612
         }
 
         /// <summary>

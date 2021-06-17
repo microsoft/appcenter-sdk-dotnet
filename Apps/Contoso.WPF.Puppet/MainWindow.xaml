@@ -10,10 +10,11 @@
         mc:Ignorable="d"
         Title="App Center WPF Puppet App" Height="505" Width="335">
     <StackPanel>
-        <TabControl SelectionChanged="TabControl_SelectionChanged" Height="185">
+        <TabControl SelectionChanged="TabControl_SelectionChanged" Height="474">
             <TabItem Header="App Center">
                 <StackPanel>
                     <CheckBox Name="AppCenterEnabled" Content="App Center Enabled" Margin="0,10,0,10" Checked="AppCenterEnabled_Checked" Unchecked="AppCenterEnabled_Checked"/>
+                    <CheckBox Name="AppCenterAllowNetworkRequests" Content="Allow network requests" Margin="0,10,0,10" Checked="AppCenterAllowNetworkRequests_Checked" Unchecked="AppCenterAllowNetworkRequests_Checked"/>
                     <StackPanel Orientation ="Horizontal" HorizontalAlignment="Right" />
                     <GroupBox Header="Misc" Height="116">
                         <Grid>

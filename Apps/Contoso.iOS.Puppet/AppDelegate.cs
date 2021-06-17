@@ -26,6 +26,8 @@ namespace Contoso.iOS.Puppet
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
+
+            // Configure App Center.
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
             Distribute.SetInstallUrl("https://install.portal-server-core-integration.dev.avalanch.es");

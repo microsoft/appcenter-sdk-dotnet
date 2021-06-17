@@ -145,6 +145,7 @@ namespace Microsoft.AppCenter.Test.Channel
         [TestMethod]
         public async Task EnqueueMaxLogs()
         {
+            _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(true);
             SetChannelWithTimeSpan(TimeSpan.FromHours(1));
             for (var i = 0; i < MaxLogsPerBatch; ++i)
             {
@@ -198,6 +199,7 @@ namespace Microsoft.AppCenter.Test.Channel
         [TestMethod]
         public async Task FilterLogThenCancelFilterLogInAnotherHandlerShouldSend()
         {
+            _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(true);
             _channel.FilteringLog += (sender, args) => args.FilterRequested = true;
             _channel.FilteringLog += (sender, args) => args.FilterRequested = false;
             for (int i = 0; i < MaxLogsPerBatch; ++i)
@@ -212,6 +214,7 @@ namespace Microsoft.AppCenter.Test.Channel
         [TestMethod]
         public async Task ChannelInvokesSendingLogEvent()
         {
+            _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(true);
             for (var i = 0; i < MaxLogsPerBatch; ++i)
             {
                 await _channel.EnqueueAsync(new TestLog());
@@ -222,6 +225,7 @@ namespace Microsoft.AppCenter.Test.Channel
         [TestMethod]
         public async Task ChannelInvokesSentLogEvent()
         {
+            _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(true);
             for (var i = 0; i < MaxLogsPerBatch; ++i)
             {
                 await _channel.EnqueueAsync(new TestLog());
@@ -230,8 +234,39 @@ namespace Microsoft.AppCenter.Test.Channel
         }
 
         [TestMethod]
+        public void VerifyStateChannelAfterEnablingNetworkRequests()
+        {
+            // Disable channel.
+            _channel.SetEnabled(false);
+
+            // Allow network requests and check that state of channel wasn't changed.
+            _channel.SetNetworkRequestAllowed(true);
+            Assert.IsFalse(_channel.IsEnabled);
+
+            // Enable channel.
+            _channel.SetEnabled(true);
+
+            // Disallow network requests and check that state of channel wasn't changed.
+            _channel.SetNetworkRequestAllowed(false);
+            Assert.IsTrue(_channel.IsEnabled);
+        }
+
+        [TestMethod]
+        public async Task ChannelInvokesSentLogEventWhenNetworkRequestsDallowed()
+        {
+            _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(false);
+            for (var i = 0; i < MaxLogsPerBatch; ++i)
+            {
+                await _channel.EnqueueAsync(new TestLog());
+            }
+            VerifySentLog(0);
+            VerifySendingLog(0);
+        }
+
+        [TestMethod]
         public async Task ChannelInvokesFailedToSendLogEvent()
         {
+            _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(true);
             SetupIngestionCallFail(new Exception());
             for (var i = 0; i < MaxLogsPerBatch; ++i)
             {
@@ -283,12 +318,49 @@ namespace Microsoft.AppCenter.Test.Channel
         [TestMethod]
         public async Task ChannelInvokesSendingLogEventAfterEnabling()
         {
+            _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(true);
             await _channel.ShutdownAsync();
             for (int i = 0; i < MaxLogsPerBatch; ++i)
             {
                 await _channel.EnqueueAsync(new TestLog());
             }
             _channel.SetEnabled(true);
+            VerifySendingLog(MaxLogsPerBatch);
+        }
+
+        /// <summary>
+        /// Verify that logs are sent only when network requests are allowed.
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task ChannelInvokesSendingLogEventAfterEnablingWhenNetworkRequestDisallowed()
+        {
+            _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(false);
+            await _channel.ShutdownAsync();
+            for (int i = 0; i < MaxLogsPerBatch; ++i)
+            {
+                await _channel.EnqueueAsync(new TestLog());
+            }
+            _channel.SetEnabled(true);
+            VerifySendingLog(0);
+
+            // Enable network requests and verify that logs were sent.
+            _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(true);
+            _channel.SetNetworkRequestAllowed(true);
+            VerifySendingLog(MaxLogsPerBatch);
+
+            // Disable network request and verify that logs were not sent.
+            _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(false);
+            _channel.SetNetworkRequestAllowed(false);
+            for (int i = 0; i < MaxLogsPerBatch; ++i)
+            {
+                await _channel.EnqueueAsync(new TestLog());
+            }
+            VerifySendingLog(0);
+
+            // Enable network requests again and verify that logs were sent.
+            _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(true);
+            _channel.SetNetworkRequestAllowed(true);
             VerifySendingLog(MaxLogsPerBatch);
         }
 
@@ -340,6 +412,7 @@ namespace Microsoft.AppCenter.Test.Channel
         [TestMethod]
         public async Task ThrowStorageExceptionInDeleteLogsTime()
         {
+            _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(true);
             var log = new TestLog();
             var storageException = new StorageException();
 
@@ -377,6 +450,7 @@ namespace Microsoft.AppCenter.Test.Channel
         [TestMethod]
         public async Task MultiBatchTest()
         {
+            _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(true);
             SetChannelWithTimeSpan(TimeSpan.Zero);
             
             var firstCalls = new[] { new ServiceCall(), new ServiceCall(), new ServiceCall() };
@@ -423,6 +497,7 @@ namespace Microsoft.AppCenter.Test.Channel
         [TestMethod]
         public async Task RecoverableHttpError()
         {
+            _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(true);
             SetChannelWithTimeSpan(TimeSpan.Zero);
 
             // Enqueue some log and and do not complete it
@@ -455,6 +530,7 @@ namespace Microsoft.AppCenter.Test.Channel
         [TestMethod]
         public async Task NonRecoverableHttpError()
         {
+            _mockIngestion.Setup(ingestion => ingestion.IsEnabled).Returns(true);
             SetChannelWithTimeSpan(TimeSpan.Zero);
 
             // Enqueue some log and and do not complete it

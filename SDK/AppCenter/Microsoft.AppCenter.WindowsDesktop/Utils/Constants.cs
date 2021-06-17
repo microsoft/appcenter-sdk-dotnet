@@ -32,5 +32,7 @@ namespace Microsoft.AppCenter.Utils
         public static string AppCenterDatabasePath = Path.Combine(AppCenterFilesDirectoryPath, "Logs.db");
 
         public static string LocalAppData => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+        public static string UserName { get; internal set; } = Environment.UserName;
     }
 }

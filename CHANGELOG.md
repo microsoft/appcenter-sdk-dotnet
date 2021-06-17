@@ -1,5 +1,41 @@
 # App Center SDK for .NET Change Log
 
+## Version 4.3.0
+
+### AppCenter
+
+* **[Feature]** Add a `AppCenter.IsNetworkRequestsAllowed` API to block any network requests without disabling the SDK.
+
+#### Windows
+
+* **[Fix]** Fix infinite loop when old logs cannot be purged by a new one with a different channel name in a case when the storage is full.
+
+### App Center Crashes
+
+#### WPF/WinForms
+
+* **[Fix]** Add obfuscation for username value in the stack trace.
+
+#### iOS
+
+* **[Fix]** Merge the device information from the crash report with the SDK's device information in order to fix some time sensitive cases where the reported application information was incorrect.
+* **[Improvement]** Update PLCrashReporter to 1.9.0.
+
+### App Center Distribute
+
+#### Android
+
+* **[Fix]** Fix crash during downloading a new release when minifyEnabled settings is true.
+* **[Fix]** Add a missing tag android:exported to the manifest required for Android 12.
+
+### App Center Distribute Play
+
+#### Android
+
+* **[Fix]** Fix replacement of Distribute dependencies for publishing in Google Play.
+
+___
+
 ## Version 4.2.0
 
 ### AppCenter

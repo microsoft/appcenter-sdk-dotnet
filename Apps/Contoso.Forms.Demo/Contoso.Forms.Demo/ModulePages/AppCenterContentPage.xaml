@@ -3,6 +3,7 @@
     <TableView Intent="Form">
         <TableSection Title="AppCenter Settings">
             <SwitchCell Text="AppCenter Enabled" On="true" x:Name="AppCenterEnabledSwitchCell" OnChanged="UpdateEnabled" OnColor="{StaticResource SwitchCellOnColor}" />
+            <SwitchCell Text="Allow network requests" On="true" x:Name="AllowedNetworkRequestSwitchCell" OnChanged="AllowedNetworkRequestEnabled" />
         </TableSection>
         <TableSection Title="Startup type">
             <ViewCell>
