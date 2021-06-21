@@ -25,7 +25,7 @@ namespace Contoso.WPF.Demo
     // ReSharper disable once UnusedMember.Global
     public partial class MainWindow
     {
-        private string fileAttachments;  
+        private string fileAttachments;
         private string textAttachments;
 
         public ObservableCollection<Property> EventPropertiesSource = new ObservableCollection<Property>();
@@ -50,11 +50,16 @@ namespace Contoso.WPF.Demo
             {
                 UserId.Text = Settings.Default.UserId;
             }
+            if (Settings.Default.StorageMaxSize > 0)
+            {
+                StorageMaxSize.Text = Settings.Default.StorageMaxSize.ToString();
+            }
         }
 
         private void UpdateState()
         {
             AppCenterEnabled.IsChecked = AppCenter.IsEnabledAsync().Result;
+            AppCenterAllowNetworkRequests.IsChecked = AppCenter.IsNetworkRequestsAllowed;
             CrashesEnabled.IsChecked = Crashes.IsEnabledAsync().Result;
             AnalyticsEnabled.IsChecked = Analytics.IsEnabledAsync().Result;
             AnalyticsEnabled.IsEnabled = AppCenterEnabled.IsChecked.Value;
@@ -66,6 +71,14 @@ namespace Contoso.WPF.Demo
             if (AppCenterEnabled.IsChecked.HasValue)
             {
                 AppCenter.SetEnabledAsync(AppCenterEnabled.IsChecked.Value).Wait();
+            }
+        }
+
+        private void AppCenterAllowNetworkRequests_Checked(object sender, RoutedEventArgs e)
+        {
+            if (AppCenterAllowNetworkRequests.IsChecked.HasValue)
+            {
+                AppCenter.IsNetworkRequestsAllowed = AppCenterAllowNetworkRequests.IsChecked.Value;
             }
         }
 
@@ -300,6 +313,16 @@ namespace Contoso.WPF.Demo
             var text = string.IsNullOrEmpty(userId) ? null : userId;
             AppCenter.SetUserId(text);
             Settings.Default.UserId = text;
+            Settings.Default.Save();
+        }
+
+        private void SaveStorageSize_Click(object sender, EventArgs e)
+        {
+            var storageSize = StorageMaxSize.Text;
+            var size = 10L * 1024 * 1024;
+            long.TryParse(storageSize, out size);
+            AppCenter.SetMaxStorageSizeAsync(size);
+            Settings.Default.StorageMaxSize = size;
             Settings.Default.Save();
         }
     }

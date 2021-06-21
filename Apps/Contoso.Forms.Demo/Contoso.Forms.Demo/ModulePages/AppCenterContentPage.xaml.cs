@@ -30,6 +30,7 @@ namespace Contoso.Forms.Demo
         {
             base.OnAppearing();
             AppCenterEnabledSwitchCell.On = await AppCenter.IsEnabledAsync();
+            AllowedNetworkRequestSwitchCell.On = AppCenter.IsNetworkRequestsAllowed;
             if (Application.Current.Properties.ContainsKey(Constants.UserId) && Application.Current.Properties[Constants.UserId] is string id)
             {
                 UserIdEntry.Text = id;
@@ -42,6 +43,11 @@ namespace Contoso.Forms.Demo
                 Application.Current.Properties[Constants.UserId] = text;
                 await Application.Current.SavePropertiesAsync();
             };
+        }
+
+        void AllowedNetworkRequestEnabled(System.Object sender, Xamarin.Forms.ToggledEventArgs e)
+        {
+            AppCenter.IsNetworkRequestsAllowed = e.Value;
         }
 
         async void ChangeStartType(object sender, PropertyChangedEventArgs e)

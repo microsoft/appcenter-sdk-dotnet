@@ -70,5 +70,17 @@ namespace Contoso.WPF.Demo.DotNetCore {
                 this["UserId"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public long StorageMaxSize {
+            get {
+                return ((long)(this["StorageMaxSize"]));
+            }
+            set {
+                this["StorageMaxSize"] = value;
+            }
+        }
     }
 }
