@@ -76,6 +76,11 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         [Export("generateTestCrash")]
         void GenerateTestCrash();
 
+        //+(void)trackException:(MSACException *)exception withProperties:(NSDictionary *)properties withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments;
+        [Static]
+        [Export("trackException:withProperties:withAttachments:")]
+        void TrackException(MSACException exception, NSDictionary properties, NSArray attachments);
+
         //(BOOL)hasCrashedInLastSession;
         [Static]
         [Export("hasCrashedInLastSession")]
@@ -176,10 +181,15 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         // @property (nonatomic) NSArray<MSACStackFrame *> * _Nullable frames;
         [NullAllowed, Export("frames", ArgumentSemantic.Assign)]
         MSACStackFrame[] Frames { get; set; }
+    }
 
+    // @interface MSACExceptionInternal : MSACException
+    [BaseType(typeof(MSACException))]
+    interface MSACExceptionInternal
+    {
         // @property (nonatomic) NSArray<MSACException *> * _Nullable innerExceptions;
         [NullAllowed, Export("innerExceptions", ArgumentSemantic.Assign)]
-        MSACException[] InnerExceptions { get; set; }
+        MSACExceptionInternal[] InnerExceptions { get; set; }
 
         // @property (nonatomic) NSString * _Nullable wrapperSdkName;
         [NullAllowed, Export("wrapperSdkName")]
@@ -187,7 +197,7 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
 
         // -(BOOL)isEqual:(MSACException * _Nullable)exception;
         [Export("isEqual:")]
-        bool IsEqual([NullAllowed] MSACException exception);
+        bool IsEqual([NullAllowed] MSACExceptionInternal exception);
     }
 
     // @interface MSACStackFrame : NSObject
@@ -261,7 +271,7 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
     {
         //@property(nonatomic, strong) MSACException* exception;
         [Export("modelException")]
-        MSACException Exception { get; set; }
+        MSACExceptionInternal Exception { get; set; }
 
         //@property(nonatomic, strong) NSData* exceptionData;
         [Export("exceptionData")]
@@ -278,10 +288,5 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         [Static]
         [Export("setCrashHandlerSetupDelegate:")]
         void SetCrashHandlerSetupDelegate(MSACCrashHandlerSetupDelegate del);
-
-        //+(void)trackModelException:(MSACException *)exception withProperties:(NSDictionary *)properties withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments;
-        [Static]
-        [Export("trackModelException:withProperties:withAttachments:")]
-        void TrackModelException(MSACException exception, NSDictionary properties, NSArray attachments);
     }
 }
