@@ -76,10 +76,10 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         [Export("generateTestCrash")]
         void GenerateTestCrash();
 
-        //+(void)trackException:(MSACException *)exception withProperties:(NSDictionary *)properties withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments;
+        //+(void)trackException:(MSACExceptionModel *)exception withProperties:(NSDictionary *)properties attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments;
         [Static]
-        [Export("trackException:withProperties:withAttachments:")]
-        void TrackException(MSACException exception, NSDictionary properties, NSArray attachments);
+        [Export("trackException:withProperties:attachments:")]
+        void TrackException(MSACExceptionModel exception, NSDictionary properties, NSArray attachments);
 
         //(BOOL)hasCrashedInLastSession;
         [Static]
@@ -162,9 +162,9 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         MSACErrorAttachmentLog AttachmentWithBinaryData(NSData data, [NullAllowed] string filename, string contentType);
     }
 
-    // @interface MSACException : NSObject
+    // @interface MSACExceptionModel : NSObject
     [BaseType(typeof(NSObject))]
-    interface MSACException
+    interface MSACExceptionModel
     {
         // @property (nonatomic) NSString * _Nonnull type;
         [Export("type")]
@@ -183,8 +183,8 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         MSACStackFrame[] Frames { get; set; }
     }
 
-    // @interface MSACExceptionInternal : MSACException
-    [BaseType(typeof(MSACException))]
+    // @interface MSACExceptionInternal : MSACExceptionModel
+    [BaseType(typeof(MSACExceptionModel))]
     interface MSACExceptionInternal
     {
         // @property (nonatomic) NSArray<MSACException *> * _Nullable innerExceptions;
@@ -195,7 +195,7 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         [NullAllowed, Export("wrapperSdkName")]
         string WrapperSdkName { get; set; }
 
-        // -(BOOL)isEqual:(MSACException * _Nullable)exception;
+        // -(BOOL)isEqual:(MSACExceptionInternal * _Nullable)exception;
         [Export("isEqual:")]
         bool IsEqual([NullAllowed] MSACExceptionInternal exception);
     }
