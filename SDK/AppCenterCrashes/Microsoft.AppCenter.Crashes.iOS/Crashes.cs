@@ -141,9 +141,9 @@ namespace Microsoft.AppCenter.Crashes
             AppCenterLog.Info(LogTag, "Saved wrapper exception.");
         }
 
-        static MSACExceptionInternal GenerateiOSException(Exception exception, bool structuredFrames)
+        static MSACWrapperExceptionModel GenerateiOSException(Exception exception, bool structuredFrames)
         {
-            var msException = new MSACExceptionInternal();
+            var msException = new MSACWrapperExceptionModel();
             msException.Type = exception.GetType().FullName;
             msException.Message = exception.Message ?? "";
             msException.StackTrace = exception.StackTrace;
@@ -151,7 +151,7 @@ namespace Microsoft.AppCenter.Crashes
             msException.WrapperSdkName = WrapperSdk.Name;
 
             var aggregateException = exception as AggregateException;
-            var innerExceptions = new List<MSACExceptionInternal>();
+            var innerExceptions = new List<MSACWrapperExceptionModel>();
 
             if (aggregateException?.InnerExceptions != null)
             {

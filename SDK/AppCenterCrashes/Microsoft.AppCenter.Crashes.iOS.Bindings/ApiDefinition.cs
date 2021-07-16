@@ -183,21 +183,21 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
         MSACStackFrame[] Frames { get; set; }
     }
 
-    // @interface MSACExceptionInternal : MSACExceptionModel
+    // @interface MSACWrapperExceptionModel : MSACExceptionModel
     [BaseType(typeof(MSACExceptionModel))]
-    interface MSACExceptionInternal
+    interface MSACWrapperExceptionModel
     {
         // @property (nonatomic) NSArray<MSACException *> * _Nullable innerExceptions;
         [NullAllowed, Export("innerExceptions", ArgumentSemantic.Assign)]
-        MSACExceptionInternal[] InnerExceptions { get; set; }
+        MSACWrapperExceptionModel[] InnerExceptions { get; set; }
 
         // @property (nonatomic) NSString * _Nullable wrapperSdkName;
         [NullAllowed, Export("wrapperSdkName")]
         string WrapperSdkName { get; set; }
 
-        // -(BOOL)isEqual:(MSACExceptionInternal * _Nullable)exception;
+        // -(BOOL)isEqual:(MSACWrapperExceptionModel * _Nullable)exception;
         [Export("isEqual:")]
-        bool IsEqual([NullAllowed] MSACExceptionInternal exception);
+        bool IsEqual([NullAllowed] MSACWrapperExceptionModel exception);
     }
 
     // @interface MSACStackFrame : NSObject
@@ -271,7 +271,7 @@ namespace Microsoft.AppCenter.Crashes.iOS.Bindings
     {
         //@property(nonatomic, strong) MSACException* exception;
         [Export("modelException")]
-        MSACExceptionInternal Exception { get; set; }
+        MSACWrapperExceptionModel Exception { get; set; }
 
         //@property(nonatomic, strong) NSData* exceptionData;
         [Export("exceptionData")]
