@@ -85,10 +85,10 @@
     <file src="$uwp_dir$/Microsoft.AppCenter.dll" target="runtimes/lib/native/arm64"/>
     <file src="$uwp_dir$/Microsoft.AppCenter.xml" target="runtimes/lib/native/arm64"/>
 
-    <file src="$windows_desktop_net_5$/Microsoft.AppCenter.dll" target="runtimes/lib/native/x64"/>
-    <file src="$windows_desktop_net_5$/Microsoft.AppCenter.xml" target="runtimes/lib/native/x64"/>
+    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.dll" target="runtimes/lib/native/x64"/>
+    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.xml" target="runtimes/lib/native/x64"/>
 
-    <file src="$windows_desktop_net_5$/Microsoft.AppCenter.dll" target="runtimes/lib/native/x86"/>
-    <file src="$windows_desktop_net_5$/Microsoft.AppCenter.xml" target="runtimes/lib/native/x86"/>
+    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.dll" target="runtimes/lib/native/x86"/>
+    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.xml" target="runtimes/lib/native/x86"/>
   </files>
 </package>
