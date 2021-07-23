@@ -48,18 +48,9 @@
   </metadata>
   <files>
 
-    <!-- WinUI -->
-    <file src="$uwp_dir$/Microsoft.AppCenter.dll" target="runtimes/win10-arm/native"/>
-    <file src="$uwp_dir$/Microsoft.AppCenter.xml" target="runtimes/win10-arm/native"/>
-
-    <file src="$uwp_dir$/Microsoft.AppCenter.dll" target="runtimes/win10-arm64/native"/>
-    <file src="$uwp_dir$/Microsoft.AppCenter.xml" target="runtimes/win10-arm64/native"/>
-
-    <file src="$windows_desktop_dir$/Microsoft.AppCenter.dll" target="runtimes/win10-x64/native"/>
-    <file src="$windows_desktop_dir$/Microsoft.AppCenter.xml" target="runtimes/win10-x64/native"/>
-
-    <file src="$windows_desktop_dir$/Microsoft.AppCenter.dll" target="runtimes/win10-x86/native"/>
-    <file src="$windows_desktop_dir$/Microsoft.AppCenter.xml" target="runtimes/win10-x86/native"/>
+    <!-- UWP -->
+    <file src="$uwp_dir$/Microsoft.AppCenter.dll" target="lib/uap10.0" />
+    <file src="$uwp_dir$/Microsoft.AppCenter.xml" target="lib/uap10.0" />
 
     <!-- WindowsDesktop (WPF and WinForms) for .NET Framework -->
     <file src="$windows_desktop_dir$/Microsoft.AppCenter.dll" target="lib/net461" />
@@ -69,9 +60,24 @@
     <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.dll" target="lib/netcoreapp3.0" />
     <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.xml" target="lib/netcoreapp3.0" />
     
-    <!-- UWP -->
-    <file src="$uwp_dir$/Microsoft.AppCenter.dll" target="lib/uap10.0" />
-    <file src="$uwp_dir$/Microsoft.AppCenter.xml" target="lib/uap10.0" />
+    <!-- WinUI for ARM-->
+    <file src="$uwp_dir$/Microsoft.AppCenter.dll" target="runtimes/win10-arm/lib/uap10.0"/>
+    <file src="$uwp_dir$/Microsoft.AppCenter.xml" target="runtimes/win10-arm/lib/uap10.0"/>
 
+    <file src="$windows_desktop_dir$/Microsoft.AppCenter.dll" target="runtimes/win10-arm/lib/net461"/>
+    <file src="$windows_desktop_dir$/Microsoft.AppCenter.xml" target="runtimes/win10-arm/lib/net461"/>
+
+    <file src="$windows_desktop_dir$/Microsoft.AppCenter.dll" target="runtimes/win10-arm/lib/netcoreapp3.0"/>
+    <file src="$windows_desktop_dir$/Microsoft.AppCenter.xml" target="runtimes/win10-arm/lib/netcoreapp3.0"/>
+
+    <!-- WinUI for ARM64-->
+    <file src="$uwp_dir$/Microsoft.AppCenter.dll" target="runtimes/win10-arm64/lib/uap10.0"/>
+    <file src="$uwp_dir$/Microsoft.AppCenter.xml" target="runtimes/win10-arm64/lib/uap10.0"/>
+
+    <file src="$windows_desktop_dir$/Microsoft.AppCenter.dll" target="runtimes/win10-arm64/lib/net461"/>
+    <file src="$windows_desktop_dir$/Microsoft.AppCenter.xml" target="runtimes/win10-arm64/lib/net461"/>
+
+    <file src="$windows_desktop_dir$/Microsoft.AppCenter.dll" target="runtimes/win10-arm64/lib/netcoreapp3.0"/>
+    <file src="$windows_desktop_dir$/Microsoft.AppCenter.xml" target="runtimes/win10-arm64/lib/netcoreapp3.0"/>
   </files>
 </package>
