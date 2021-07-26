@@ -61,6 +61,9 @@
     <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.xml" target="lib/netcoreapp3.0" />
     
     <!-- WinUI -->
+    <file src="$windows_desktop_dir$/Microsoft.AppCenter.dll" target="lib/net5.0-windows10.0.18362.0" />
+    <file src="$windows_desktop_dir$/Microsoft.AppCenter.xml" target="lib/net5.0-windows10.0.18362.0" />
+
     <file src="$uwp_dir$/Microsoft.AppCenter.dll" target="runtimes/lib/native/arm64"/>
     <file src="$uwp_dir$/Microsoft.AppCenter.xml" target="runtimes/lib/native/arm64"/>
 
