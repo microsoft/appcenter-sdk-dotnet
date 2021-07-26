@@ -18,12 +18,6 @@
       <group>
         <dependency id="Microsoft.AppCenter" version="$version$" />
       </group>
-      <group targetFramework="netcoreapp3.0">
-        <dependency id="Microsoft.Windows.SDK.Contracts" version="10.0.18362.2005" />
-      </group>
-      <group targetFramework="net461">
-        <dependency id="Microsoft.Windows.SDK.Contracts" version="10.0.18362.2005" />
-      </group>
     </dependencies>
     <version>$version$</version>
   </metadata>
