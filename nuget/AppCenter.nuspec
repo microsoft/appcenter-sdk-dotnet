@@ -85,13 +85,13 @@
     <file src="$windows_desktop_dir$/Microsoft.AppCenter.dll" target="lib/net5.0-windows10.0.18362.0" />
     <file src="$windows_desktop_dir$/Microsoft.AppCenter.xml" target="lib/net5.0-windows10.0.18362.0" />
 
-    <file src="$uwp_dir$/Microsoft.AppCenter.dll" target="runtimes/lib/native/arm64"/>
-    <file src="$uwp_dir$/Microsoft.AppCenter.xml" target="runtimes/lib/native/arm64"/>
+    <file src="$uwp_dir$/Microsoft.AppCenter.dll" target="runtimes/win-arm64/native"/>
+    <file src="$uwp_dir$/Microsoft.AppCenter.xml" target="runtimes/win-arm64/native"/>
 
-    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.dll" target="runtimes/lib/native/x64"/>
-    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.xml" target="runtimes/lib/native/x64"/>
+    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.dll" target="runtimes/win-x64/native"/>
+    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.xml" target="runtimeswin-x64/native"/>
 
-    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.dll" target="runtimes/lib/native/x86"/>
-    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.xml" target="runtimes/lib/native/x86"/>
+    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.dll" target="runtimes/win-x86/native"/>
+    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.xml" target="runtimeswin-x86/native"/>
   </files>
 </package>
