@@ -15,9 +15,7 @@
     <license type="expression">MIT</license>
     <iconUrl>https://aka.ms/k76877</iconUrl>
     <dependencies>
-      <group>
-        <dependency id="Microsoft.AppCenter" version="$version$" />
-      </group>
+      <dependency id="Microsoft.AppCenter" version="$version$" />
     </dependencies>
   </metadata>
   <files>

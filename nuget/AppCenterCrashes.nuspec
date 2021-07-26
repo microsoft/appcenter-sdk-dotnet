@@ -27,6 +27,10 @@
   </metadata>
   <files>
 
+    <!-- UWP -->
+    <file src="$uwp_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/uap10.0" />
+    <file src="$uwp_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/uap10.0" />
+
     <!-- .NET Standard -->
     <file src="$netstandard_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/netstandard1.0" />
     <file src="$netstandard_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/netstandard1.0" />
