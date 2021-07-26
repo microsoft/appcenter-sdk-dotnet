@@ -29,6 +29,6 @@
     <TransformFile Include="Properties\Microsoft.AppCenter.UWP.rd.xml" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.18362.2005" />
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.17763.1000" />
   </ItemGroup>
 </Project>
