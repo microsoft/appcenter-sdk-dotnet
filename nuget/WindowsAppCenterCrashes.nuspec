@@ -41,14 +41,5 @@
     <!-- WinUI -->
     <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net5.0-windows10.0.18362.0" />
     <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net5.0-windows10.0.18362.0" />
-
-    <file src="$uwp_dir$/Microsoft.AppCenter.Crashes.dll" target="runtimes/lib/native/arm64"/>
-    <file src="$uwp_dir$/Microsoft.AppCenter.Crashes.xml" target="runtimes/lib/native/arm64"/>
-
-    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.Crashes.dll" target="runtimes/lib/native/x64"/>
-    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.Crashes.xml" target="runtimes/lib/native/x64"/>
-
-    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.Crashes.dll" target="runtimes/lib/native/x86"/>
-    <file src="$windows_desktop_net_5_dir$/Microsoft.AppCenter.Crashes.xml" target="runtimes/lib/native/x86"/>
   </files>
 </package>
