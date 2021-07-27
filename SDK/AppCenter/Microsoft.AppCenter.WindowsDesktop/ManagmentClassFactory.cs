@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-
-#if !NET5_0
 using System.Management;
-#endif
+using System.Text;
 
 namespace Microsoft.AppCenter
 {
-
     interface IManagmentClassFactory
     {
-#if !NET5_0
         /// <summary>
         /// Get object of class Win32_ComputerSystem.
         /// </summary>
@@ -24,7 +18,6 @@ namespace Microsoft.AppCenter
         /// </summary>
         /// <returns>Win32_OperatingSystem object.</returns>
         ManagementClass GetOperatingSystemClass();
-#endif
     }
 
     class ManagmentClassFactory : IManagmentClassFactory
@@ -35,9 +28,9 @@ namespace Microsoft.AppCenter
         /// <summary>
         /// Gets or sets the shared instance of ManagmentClassFactory. Should never return null.
         /// </summary>
-        internal static ManagmentClassFactory Instance
+        internal static ManagmentClassFactory Instance 
         {
-            get
+            get 
             {
                 return _instanceField ?? (_instanceField = new ManagmentClassFactory());
             }
@@ -47,7 +40,6 @@ namespace Microsoft.AppCenter
         {
         }
 
-#if !NET5_0
         public ManagementClass GetComputerSystemClass()
         {
             return new ManagementClass("Win32_ComputerSystem");
@@ -57,6 +49,5 @@ namespace Microsoft.AppCenter
         {
             return new ManagementClass("Win32_OperatingSystem");
         }
-#endif
     }
 }

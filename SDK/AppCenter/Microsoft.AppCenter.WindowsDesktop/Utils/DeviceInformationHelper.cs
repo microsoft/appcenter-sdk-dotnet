@@ -4,16 +4,13 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 #if NET461
 using System.Deployment.Application;
-#endif
-
-#if !NET5_0
-using System.Management;
 #endif
 
 namespace Microsoft.AppCenter.Utils
@@ -53,14 +50,12 @@ namespace Microsoft.AppCenter.Utils
         {
             try
             {
-#if !NET5_0
                 var managementClass = _managmentClassFactory.GetComputerSystemClass();
                 foreach (var managementObject in managementClass.GetInstances())
                 {
                     var model = (string)managementObject["Model"];
                     return string.IsNullOrEmpty(model) || DefaultSystemProductName == model ? null : model;
                 }
-#endif
             }
             catch (UnauthorizedAccessException exception)
             {
@@ -79,15 +74,13 @@ namespace Microsoft.AppCenter.Utils
         {
             try
             {
-#if !NET5_0
                 var managementClass = _managmentClassFactory.GetComputerSystemClass();
                 foreach (var managementObject in managementClass.GetInstances())
                 {
                     var manufacturer = (string)managementObject["Manufacturer"];
                     return string.IsNullOrEmpty(manufacturer) || DefaultSystemManufacturer == manufacturer ? null : manufacturer;
                 }
-#endif
-            }
+            } 
             catch (UnauthorizedAccessException exception)
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OEM name with error: ", exception);
@@ -131,13 +124,11 @@ namespace Microsoft.AppCenter.Utils
         {
             try
             {
-#if !NET5_0
                 var managementClass = _managmentClassFactory.GetOperatingSystemClass();
                 foreach (var managementObject in managementClass.GetInstances())
                 {
                     return (string)managementObject["Version"];
                 }
-#endif
             }
             catch (UnauthorizedAccessException exception)
             {
