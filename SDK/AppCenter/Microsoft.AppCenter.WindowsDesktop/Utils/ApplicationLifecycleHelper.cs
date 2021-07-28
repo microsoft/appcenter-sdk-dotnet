@@ -7,7 +7,10 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+
+#if !NET5_0
 using System.Windows.Forms;
+#endif
 
 namespace Microsoft.AppCenter.Utils
 {
@@ -91,7 +94,9 @@ namespace Microsoft.AppCenter.Utils
             }
 
             var hook = SetWinEventHook(EVENT_SYSTEM_MINIMIZESTART, EVENT_SYSTEM_MINIMIZEEND, IntPtr.Zero, hookDelegate, (uint)Process.GetCurrentProcess().Id, 0, WINEVENT_OUTOFCONTEXT);
+#if !NET5_0
             Application.ApplicationExit += delegate { UnhookWinEvent(hook); };
+#endif
         }
 
         private static bool IsAnyWindowNotMinimized()
@@ -99,7 +104,10 @@ namespace Microsoft.AppCenter.Utils
             // If not in WPF, query the available forms
             if (WpfApplication == null)
             {
+#if !NET5_0
                 return Application.OpenForms.Cast<Form>().Any(form => form.WindowState != FormWindowState.Minimized);
+#endif
+                return true;
             }
 
             // If in WPF, query the available windows
@@ -114,7 +122,7 @@ namespace Microsoft.AppCenter.Utils
             return false;
         }
 
-        #endregion
+#endregion
 
         public ApplicationLifecycleHelper()
         {
@@ -183,7 +191,10 @@ namespace Microsoft.AppCenter.Utils
         private static bool WindowIntersectsWithAnyScreen(dynamic window)
         {
             var windowBounds = WindowsRectToRectangle(window.RestoreBounds);
+#if !NET5_0
             return Screen.AllScreens.Any(screen => screen.Bounds.IntersectsWith(windowBounds));
+#endif
+            return true;
         }
 
         public bool HasShownWindow => started;
