@@ -4,10 +4,12 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
+
+#if !NET5_0
 using System.Windows.Forms;
+#endif
 
 #if NET461
 using System.Deployment.Application;
@@ -145,12 +147,18 @@ namespace Microsoft.AppCenter.Utils
              * If the AssemblyInformationalVersion is not applied to an assembly,
              * the version number specified by the AssemblyFileVersion attribute is used instead.
              */
+#if !NET5_0
             return DeploymentVersion ?? Application.ProductVersion;
+#endif
+            return DeploymentVersion;
         }
 
         protected override string GetAppBuild()
         {
+#if !NET5_0
             return DeploymentVersion ?? FileVersion;
+#endif
+            return DeploymentVersion;
         }
 
         protected override string GetScreenSize()
@@ -201,7 +209,11 @@ namespace Microsoft.AppCenter.Utils
                 }
 
                 // Fallback if entry assembly is not found (in unit tests for example).
-                return Application.ProductVersion;
+
+#if !NET5_0
+            return Application.ProductVersion;
+#endif
+                return "";
             }
         }
 
