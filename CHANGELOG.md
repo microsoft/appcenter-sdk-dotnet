@@ -1,5 +1,17 @@
 # App Center SDK for .NET Change Log
 
+
+## Version 4.3.1 (Under development)
+
+### App Center
+
+#### Windows
+
+* **[Feature]** Add support new platform `WinUI in Desktop`. The requirement target version of `WinUI` apps should be `net5.0-windows10.0.18362.0` or higher.
+* **[Fix]** Update `Newtonsoft.Json` dependency to version `13.0.1`.
+
+___
+
 ## Version 4.3.0
 
 ### AppCenter
