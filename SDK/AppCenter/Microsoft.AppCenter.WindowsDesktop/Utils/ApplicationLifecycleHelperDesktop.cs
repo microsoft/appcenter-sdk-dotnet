@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#if !NET5_0
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-
-#if !NET5_0
 using System.Windows.Forms;
-#endif
 
 namespace Microsoft.AppCenter.Utils
 {
@@ -41,6 +39,7 @@ namespace Microsoft.AppCenter.Utils
 
         // Need to ensure delegate is not collected while we're using it,
         // storing it in a class field is simplest way to do this.
+        private static WinEventDelegate hookDelegate = new WinEventDelegate(WinEventHook);
         private static bool suspended = false;
         private static bool started = false;
         private static Action Minimize;
@@ -48,9 +47,6 @@ namespace Microsoft.AppCenter.Utils
         private static Action Start;
         private static readonly dynamic WpfApplication;
         private static readonly int WpfMinimizedState;
-
-#if !NET5_0
-        private static WinEventDelegate hookDelegate = new WinEventDelegate(WinEventHook);
         private static void WinEventHook(IntPtr winEventHookHandle, uint eventType, IntPtr windowHandle, int objectId, int childId, uint eventThreadId, uint eventTimeInMilliseconds)
         {
             // Filter out non-HWND
@@ -77,7 +73,6 @@ namespace Microsoft.AppCenter.Utils
                 Minimize?.Invoke();
             }
         }
-#endif
 
         static ApplicationLifecycleHelper()
         {
@@ -95,19 +90,16 @@ namespace Microsoft.AppCenter.Utils
                     .GetField("Minimized")
                     .GetRawConstantValue();
             }
-#if !NET5_0
+
             var hook = SetWinEventHook(EVENT_SYSTEM_MINIMIZESTART, EVENT_SYSTEM_MINIMIZEEND, IntPtr.Zero, hookDelegate, (uint)Process.GetCurrentProcess().Id, 0, WINEVENT_OUTOFCONTEXT);
             Application.ApplicationExit += delegate { UnhookWinEvent(hook); };
-#endif
         }
 
-#if !NET5_0
         private static bool IsAnyWindowNotMinimized()
         {
             // If not in WPF, query the available forms
             if (WpfApplication == null)
             {
-
                 return Application.OpenForms.Cast<Form>().Any(form => form.WindowState != FormWindowState.Minimized);
             }
 
@@ -122,7 +114,7 @@ namespace Microsoft.AppCenter.Utils
             }
             return false;
         }
-#endif
+
         #endregion
 
         public ApplicationLifecycleHelper()
@@ -189,13 +181,11 @@ namespace Microsoft.AppCenter.Utils
             };
         }
 
-#if !NET5_0
         private static bool WindowIntersectsWithAnyScreen(dynamic window)
         {
             var windowBounds = WindowsRectToRectangle(window.RestoreBounds);
             return Screen.AllScreens.Any(screen => screen.Bounds.IntersectsWith(windowBounds));
         }
-#endif
 
         public bool HasShownWindow => started;
 
@@ -207,3 +197,4 @@ namespace Microsoft.AppCenter.Utils
         public event EventHandler<UnhandledExceptionOccurredEventArgs> UnhandledExceptionOccurred;
     }
 }
+#endif
