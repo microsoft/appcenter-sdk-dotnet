@@ -1,4 +1,7 @@
-﻿namespace Contoso.WinUI.Desktop.Demo
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace Contoso.WinUI.Desktop.Demo
 {
     public class Constants
     {

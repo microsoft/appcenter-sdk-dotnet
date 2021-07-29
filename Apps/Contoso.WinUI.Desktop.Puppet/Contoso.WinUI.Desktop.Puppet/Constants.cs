@@ -1,4 +1,7 @@
-﻿namespace Contoso.WinUI.Desktop.Puppet
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace Contoso.WinUI.Desktop.Puppet
 {
     public class Constants
     {
