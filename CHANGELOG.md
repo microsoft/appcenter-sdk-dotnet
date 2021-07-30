@@ -7,7 +7,7 @@
 
 #### Windows
 
-* **[Feature]** Add support new platform `WinUI in Desktop`. The requirement target version of `WinUI` apps should be `net5.0-windows10.0.18362.0` or higher.
+* **[Feature]** Add support new platform `WinUI in Desktop`. The requirement target version of `WinUI` apps should be `net5.0-windows10.0.17763.0` or higher.
 * **[Fix]** Update `Newtonsoft.Json` dependency to version `13.0.1`.
 
 ___
