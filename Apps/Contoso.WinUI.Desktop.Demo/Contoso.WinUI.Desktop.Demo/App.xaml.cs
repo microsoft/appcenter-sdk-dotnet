@@ -40,7 +40,6 @@ namespace Contoso.WinUI.Desktop.Demo
             CoreApplication.EnablePrelaunch(true);
             InitializeComponent();
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
 
             // Set data from local storage.
             var countryCode = localSettings.Values[Constants.KeyCountryCode] as string;
