@@ -8,12 +8,12 @@
 
   <Identity
     Name="796335c7-b33b-483b-995f-fa87ae20db4f"
-    Publisher="CN=Anastasia"
+    Publisher="CN=Microsoft.AppCenter"
     Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>Contoso.WinUI.Desktop.Puppet (Package)</DisplayName>
-    <PublisherDisplayName>Anastasia</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft.AppCenter</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 

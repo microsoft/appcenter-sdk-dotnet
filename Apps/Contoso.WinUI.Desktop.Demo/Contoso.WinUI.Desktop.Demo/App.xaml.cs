@@ -14,9 +14,6 @@ using Windows.Storage;
 using System.Globalization;
 using Microsoft.AspNetCore.StaticFiles;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace Contoso.WinUI.Desktop.Demo
 {
     /// <summary>
@@ -27,7 +24,7 @@ namespace Contoso.WinUI.Desktop.Demo
         private ApplicationDataContainer localSettings;
 
         /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
+        /// Initializes the singleton application object. This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
@@ -102,18 +99,17 @@ namespace Contoso.WinUI.Desktop.Demo
 
         public static IEnumerable<ErrorAttachmentLog> GetErrorAttachments()
         {
-            List<ErrorAttachmentLog> attachments = new List<ErrorAttachmentLog>();
+            var attachments = new List<ErrorAttachmentLog>();
 
-            // Text attachment
+            // Text attachment.
             var localSettings = ApplicationData.Current.LocalSettings;
             var textAttachments = localSettings.Values[Constants.KeyTextErrorAttachments] as string;
             if (!string.IsNullOrEmpty(textAttachments))
             {
-                attachments.Add(
-                    ErrorAttachmentLog.AttachmentWithText(textAttachments, "text.txt"));
+                attachments.Add(ErrorAttachmentLog.AttachmentWithText(textAttachments, "text.txt"));
             }
 
-            // Binary attachment
+            // Binary attachment.
             var fileAttachments = localSettings.Values[Constants.KeyFileErrorAttachments] as string;
             if (!string.IsNullOrEmpty(fileAttachments))
             {
@@ -137,7 +133,7 @@ namespace Contoso.WinUI.Desktop.Demo
         }
 
         /// <summary>
-        /// Invoked when the application is launched normally by the end user.  Other entry points
+        /// Invoked when the application is launched normally by the end user. Other entry points
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
@@ -148,6 +144,5 @@ namespace Contoso.WinUI.Desktop.Demo
         }
 
         private Window m_window;
-
     }
 }
