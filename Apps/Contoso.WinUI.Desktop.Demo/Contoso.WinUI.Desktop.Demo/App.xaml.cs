@@ -68,7 +68,7 @@ namespace Contoso.WinUI.Desktop.Demo
             Crashes.FailedToSendErrorReport += (_, args) => Log($"Failed to send error report for an error ID: {args.Report.Id}");
 
             // Start App Center.
-            AppCenter.Start("40814a80-0782-4d5e-b9de-698935156d55", typeof(Analytics), typeof(Crashes));
+            AppCenter.Start("3af4ebc7-2ecb-47d6-a1cf-155119cb207a", typeof(Analytics), typeof(Crashes));
 
             // Set userId.
             var userId = localSettings.Values[Constants.KeyUserId] as string;
