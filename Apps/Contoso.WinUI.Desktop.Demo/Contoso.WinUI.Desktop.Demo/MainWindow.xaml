@@ -77,7 +77,7 @@
                         </StackPanel>
 
                         <!-- Show selected properties -->
-                        <ListView x:Name="EventProperties" Margin="0,16,0,16"  Header="Selected properties" Background="LightGray">
+                        <ListView x:Name="EventProperties" Margin="0,16,0,16"  Header="Selected properties" Background="Gray">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="6">
@@ -127,7 +127,7 @@
                             </StackPanel>
 
                             <!-- Show selected properties -->
-                            <ListView x:Name="ErrorProperties" Margin="0,16,0,16"  Header="Selected properties" Background="LightGray">
+                            <ListView x:Name="ErrorProperties" Margin="0,16,0,16"  Header="Selected properties" Background="Gray">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid Margin="6">
