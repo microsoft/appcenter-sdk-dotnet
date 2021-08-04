@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#if !NET5_0
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -196,3 +197,4 @@ namespace Microsoft.AppCenter.Utils
         public event EventHandler<UnhandledExceptionOccurredEventArgs> UnhandledExceptionOccurred;
     }
 }
+#endif
