@@ -711,6 +711,28 @@ namespace Microsoft.AppCenter.Test.Channel
             }
         }
 
+        [TestMethod]
+        public async Task CheckPendingLogsOnStart()
+        {
+            // Prepare data.
+            var log = new TestLog();
+            var storage = new Mock<IStorage>();
+            storage.Setup(s => s.GetLogsAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<List<Log>>()))
+                    .Callback((string channelName, int limit, List<Log> logs) => logs.Add(log))
+                    .Returns(() => Task.FromResult("test-batch-id"));
+            storage.Setup(s => s.CountLogsAsync(ChannelName)).Returns(() => Task.FromResult(1));
+            
+            SetupEventCallbacks();
+
+            var appSecret = Guid.NewGuid().ToString();
+            Channel channel = new Channel(ChannelName, MaxLogsPerBatch, new TimeSpan(), MaxParallelBatches,
+                appSecret, _mockIngestion.Object, storage.Object);
+
+            // Verify that checkPendingLogs was called and logs were sent.
+            await Task.Delay(1000);
+            VerifySendingLog(1);
+        }
+
         private void SetChannelWithTimeSpan(TimeSpan timeSpan)
         {
             SetChannelWithTimeSpanAndIngestion(timeSpan, _mockIngestion.Object);
