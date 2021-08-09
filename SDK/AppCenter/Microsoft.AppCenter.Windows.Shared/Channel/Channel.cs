@@ -71,6 +71,7 @@ namespace Microsoft.AppCenter.Channel
                     _pendingLogCount = task.Result;
                 }
                 lockHolder.Dispose();
+                CheckPendingLogs(_mutex.State);
             });
         }
 
