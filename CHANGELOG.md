@@ -9,6 +9,7 @@
 
 * **[Feature]** Add support for platform `WinUI in Desktop`. The target version of `WinUI` apps should be `net5.0-windows10.0.17763.0` or higher.
 * **[Fix]** Update `Newtonsoft.Json` dependency to version `13.0.1`.
+* **[Fix]** Check and send pending handled error logs on start.
 
 ___
 
