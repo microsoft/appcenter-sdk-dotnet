@@ -1,10 +1,10 @@
-﻿using Microsoft.AppCenter.Ingestion.Http;
-using System;
-using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.AppCenter.Ingestion.Http;
 using System.Net;
 using System.Net.Http;
 using System.Security.Authentication;
-using System.Text;
 using Xunit;
 
 namespace Microsoft.AppCenter.Test.WindowsDesktop

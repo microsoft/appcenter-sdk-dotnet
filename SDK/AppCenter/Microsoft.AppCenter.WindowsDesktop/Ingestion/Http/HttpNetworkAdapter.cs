@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Net.Http;
-
 #if NET461
 using System.Net;
 #else
+using System.Net.Http;
 using System.Security.Authentication;
 #endif
 
