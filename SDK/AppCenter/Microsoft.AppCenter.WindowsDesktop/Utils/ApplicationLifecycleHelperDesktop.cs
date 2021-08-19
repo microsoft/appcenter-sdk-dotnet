@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#if !NET5_0
+#if !WINDOWS10_0_17763_0
 using System;
 using System.Diagnostics;
 using System.Drawing;
