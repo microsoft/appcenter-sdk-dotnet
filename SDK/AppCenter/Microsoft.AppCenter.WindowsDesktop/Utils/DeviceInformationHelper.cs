@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-#if NET5_0
+#if WINDOWS10_0_17763_0
 using Windows.ApplicationModel;
 #else
 using System.Windows.Forms;
@@ -44,7 +44,7 @@ namespace Microsoft.AppCenter.Utils
         protected override string GetSdkName()
         {
             var sdkName = WpfHelper.IsRunningOnWpf ? "appcenter.wpf" : "appcenter.winforms";
-#if NET5_0            
+#if WINDOWS10_0_17763_0            
             sdkName = $"{sdkName}.net";
 #elif NETCOREAPP3_0
             sdkName = $"{sdkName}.netcore";
@@ -151,7 +151,7 @@ namespace Microsoft.AppCenter.Utils
              * If the AssemblyInformationalVersion is not applied to an assembly,
              * the version number specified by the AssemblyFileVersion attribute is used instead.
              */
-#if NET5_0
+#if WINDOWS10_0_17763_0
             var packageVersion = Package.Current.Id.Version;
             return $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
 #else
@@ -161,7 +161,7 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetAppBuild()
         {
-#if NET5_0
+#if WINDOWS10_0_17763_0
             var packageVersion = Package.Current.Id.Version;
             return $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
 #else
@@ -197,7 +197,7 @@ namespace Microsoft.AppCenter.Utils
             }
         }
 
-#if !NET5_0
+#if !WINDOWS10_0_17763_0
         private static string FileVersion
         {
             get
