@@ -26,7 +26,6 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
-    <CodesignEntitlements>Entitlements-debug.plist</CodesignEntitlements>
     <CodesignProvision>appcenter xamarin forms ios demo df Dist</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -120,6 +119,7 @@
     <BundleResource Include="Resources\socket%402x.png" />
     <BundleResource Include="Resources\lightning%402x.png" />
     <BundleResource Include="Resources\handbag%402x.png" />
+    <BundleResource Include="Resources\custom%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contoso.Forms.Demo\Contoso.Forms.Demo.csproj">
