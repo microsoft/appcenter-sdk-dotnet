@@ -1,5 +1,6 @@
 ﻿using Microsoft.AppCenter.Ingestion.Http;
 using System.Net;
+using System.Diagnostics;
 using Xunit;
 
 namespace Microsoft.AppCenter.Test.WindowsDesktop.Ingestion.Http
@@ -18,8 +19,10 @@ namespace Microsoft.AppCenter.Test.WindowsDesktop.Ingestion.Http
             // Check protocol was added, not the whole value overridden.
             Assert.Equal(SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12, ServicePointManager.SecurityProtocol);
 
-            // Dispose http datapter.
+            // Dispose http atapter.
             httpAdapter.Dispose();
+#else
+            Debug.WriteLine("Skip test for .netcore target framework.");
 #endif
         }
 
@@ -35,8 +38,10 @@ namespace Microsoft.AppCenter.Test.WindowsDesktop.Ingestion.Http
             // Just check no side effect.
             Assert.Equal(SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12, ServicePointManager.SecurityProtocol);
 
-            // Dispose http datapter.
+            // Dispose http atapter.
             httpAdapter.Dispose();
+#else
+            Debug.WriteLine("Skip test for .netcore target framework.");
 #endif
         }
     }

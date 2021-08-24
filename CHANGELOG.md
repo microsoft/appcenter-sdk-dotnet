@@ -10,7 +10,7 @@
 * **[Feature]** Add support for platform `WinUI in Desktop`. The target version of `WinUI` apps should be `net5.0-windows10.0.17763.0` or higher.
 * **[Fix]** Update `Newtonsoft.Json` dependency to version `13.0.1`.
 * **[Fix]** Fix sending pending logs after the first application start.
-* **[Fix]** Using `ServicePointManager` for setup TLS configuration breaks the ability to use any other TLS protocols except TLS1.2 in the clients' applications. We replaced using `ServicePointManager` to `HttpClient` API for applications with target framework version `4.7.1` or higher. For applications with the target framework version lower than `4.7.1` TLS connection still is configured via `ServicePointManager`.
+* **[Fix]** Using `ServicePointManager` for setup TLS configuration breaks the ability to use any other TLS protocols except TLS1.2 in the clients' applications. We replaced using `ServicePointManager` to `HttpClient` API for applications with target framework version `4.7.1` or higher. For applications with the target framework version lower than `4.7.1` TLS connection is still configured via `ServicePointManager`.
 
 ___
 
