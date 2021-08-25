@@ -15,7 +15,7 @@ namespace Contoso.Forms.Demo
             InitializeComponent();
             if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.iOS)
             {
-                Icon = "custom.png";
+                Icon = "customProperties.png";
             }
             AddNewProperty();
         }
