@@ -13,6 +13,10 @@ namespace Contoso.Forms.Puppet
         public CustomPropertiesContentPage()
         {
             InitializeComponent();
+            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.iOS)
+            {
+                Icon = "customProperties.png";
+            }
             AddNewProperty();
         }
 
