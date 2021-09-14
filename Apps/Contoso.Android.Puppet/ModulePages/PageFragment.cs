@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Android.Support.V4.App;
+using AndroidX.Fragment.App;
 
 namespace Contoso.Android.Puppet
 {

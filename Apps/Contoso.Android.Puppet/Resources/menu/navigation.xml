@@ -1,0 +1,19 @@
+﻿<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_core"
+        android:title="@string/AppCenterTitle" />
+
+    <item
+        android:id="@+id/navigation_analytics"
+        android:title="@string/AnalyticsTitle" />
+
+    <item
+        android:id="@+id/navigation_crashes"
+        android:title="@string/CrashesTitle" />
+
+        <item
+        android:id="@+id/navigation_other"
+        android:title="@string/OthersTitle" />
+
+</menu>
