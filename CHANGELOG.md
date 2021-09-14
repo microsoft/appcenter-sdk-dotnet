@@ -1,7 +1,6 @@
 # App Center SDK for .NET Change Log
 
-
-## Version 4.3.1 (Under development)
+## Version 4.4.0
 
 ### App Center
 
@@ -11,6 +10,28 @@
 * **[Fix]** Update `Newtonsoft.Json` dependency to version `13.0.1`.
 * **[Fix]** Fix sending pending logs after the first application start.
 * **[Fix]** Using `ServicePointManager` for setup TLS configuration breaks the ability to use any other TLS protocols except TLS1.2 in the clients' applications. We replaced using `ServicePointManager` to `HttpClient` API for applications with target framework version `4.7.1` or higher. For applications with the target framework version lower than `4.7.1` TLS connection is still configured via `ServicePointManager`.
+
+#### iOS
+
+* **[Feature]** Improved `AES` token encryption algorithm using `Encrypt-then-MAC` data authentication approach.
+
+#### Android
+
+* **[Feature]** Improved `AES` token encryption algorithm using `Encrypt-then-MAC` data authentication approach.
+
+### App Center Crashes
+
+#### iOS
+
+* **[Feature]** Add support for tracking handled errors with `Crashes.trackError` and `Crashes.trackException` APIs.
+* **[Improvement]** Update PLCrashReporter to 1.10.0.
+
+### App Center Distribute
+
+#### Android
+
+* **[Fix]** Fix a rare deadlock case when a new version starts downloading and at the same moment the download status is checked.
+* **[Fix]** Fix passing pending intent flag for a completed download notification on Android lower then 23 API.
 
 ___
 
