@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
      <FrameLayout
-       android:layout_alignParentStart="true"
+        android:layout_alignParentStart="true"
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent" 

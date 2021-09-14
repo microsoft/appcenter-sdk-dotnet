@@ -1,19 +1,28 @@
-﻿<menu xmlns:android="http://schemas.android.com/apk/res/android">
+﻿<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/navigation_core"
+        app:showAsAction="withText"
+        android:icon="@android:drawable/btn_star_big_off"
         android:title="@string/AppCenterTitle" />
 
     <item
         android:id="@+id/navigation_analytics"
+        android:icon="@android:drawable/stat"
+        app:showAsAction="withText"
         android:title="@string/AnalyticsTitle" />
 
     <item
         android:id="@+id/navigation_crashes"
+        android:icon="@android:drawable/stat_sys_warning"
+        app:showAsAction="withText"
         android:title="@string/CrashesTitle" />
 
         <item
+        android:icon="@android:drawable/ic_menu_preferences"
         android:id="@+id/navigation_other"
+        app:showAsAction="withText"
         android:title="@string/OthersTitle" />
 
 </menu>

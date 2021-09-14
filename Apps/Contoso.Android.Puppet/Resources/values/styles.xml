@@ -3,7 +3,7 @@
     <style name="PuppetTheme" parent="PuppetTheme.Base">
     </style>
     <!-- Base theme applied no matter what API -->
-    <style name="PuppetTheme.Base" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="PuppetTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Set theme colors from http://www.google.com/design/spec/style/color.html#color-color-palette-->
         <!-- colorPrimary is used for the default action bar background -->
         <item name="colorPrimary">#2196F3</item>
@@ -16,7 +16,7 @@
          colorControlHighlight and colorSwitchThumbNormal. -->
         <item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
     </style>
-    <style name="AppCompatDialogStyle" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorAccent">#FF4081</item>
     </style>
 </resources>
