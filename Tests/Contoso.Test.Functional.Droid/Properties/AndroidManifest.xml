@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="30" android:versionName="4.3.1-SNAPSHOT" package="com.contoso.test.functional">
-	<uses-sdk android:targetSdkVersion="29" android:minSdkVersion="19" />
+	<uses-sdk android:targetSdkVersion="30" android:minSdkVersion="21" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<application android:label="Contoso.Test.Functional.Droid">
-		<activity android:name="com.contoso.test.functional.MainActivity" android:theme="@android:style/Theme.NoDisplay">
+		<activity android:name="com.contoso.test.functional.MainActivity" android:theme="@android:style/Theme.NoDisplay" android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
