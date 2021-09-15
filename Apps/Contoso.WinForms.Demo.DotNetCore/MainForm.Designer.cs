@@ -35,9 +35,9 @@ namespace Contoso.WinForms.Demo.DotNetCore
             this.AppCenterTab = new System.Windows.Forms.TabPage();
             this.MiscGroupBox = new System.Windows.Forms.GroupBox();
             this.SaveSizeStorageButton = new System.Windows.Forms.Button();
-            this.StorageMaxSizeTextBox = new System.Windows.Forms.TextBox();
             this.StorageMaxSizeLabel = new System.Windows.Forms.Label();
             this.AppCenterEnabled = new System.Windows.Forms.CheckBox();
+            this.AppCenterAllowNetworkRequests = new System.Windows.Forms.CheckBox();
             this.AnalyticsTab = new System.Windows.Forms.TabPage();
             this.EventBox = new System.Windows.Forms.GroupBox();
             this.TrackEvent = new System.Windows.Forms.Button();
@@ -63,7 +63,7 @@ namespace Contoso.WinForms.Demo.DotNetCore
             this.CrashWithNonSerializableException = new System.Windows.Forms.Button();
             this.CrashWithTestException = new System.Windows.Forms.Button();
             this.CrashesEnabled = new System.Windows.Forms.CheckBox();
-            this.AppCenterAllowNetworkRequest = new System.Windows.Forms.CheckBox();
+            this.StorageMaxSizeTextBox = new System.Windows.Forms.TextBox();
             this.Tabs.SuspendLayout();
             this.AppCenterTab.SuspendLayout();
             this.MiscGroupBox.SuspendLayout();
@@ -91,9 +91,9 @@ namespace Contoso.WinForms.Demo.DotNetCore
             // 
             // AppCenterTab
             // 
-            this.AppCenterTab.Controls.Add(this.AppCenterAllowNetworkRequest);
             this.AppCenterTab.Controls.Add(this.MiscGroupBox);
             this.AppCenterTab.Controls.Add(this.AppCenterEnabled);
+            this.AppCenterTab.Controls.Add(this.AppCenterAllowNetworkRequests);
             this.AppCenterTab.Location = new System.Drawing.Point(4, 22);
             this.AppCenterTab.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.AppCenterTab.Name = "AppCenterTab";
@@ -108,7 +108,7 @@ namespace Contoso.WinForms.Demo.DotNetCore
             this.MiscGroupBox.Controls.Add(this.SaveSizeStorageButton);
             this.MiscGroupBox.Controls.Add(this.StorageMaxSizeTextBox);
             this.MiscGroupBox.Controls.Add(this.StorageMaxSizeLabel);
-            this.MiscGroupBox.Location = new System.Drawing.Point(8, 72);
+            this.MiscGroupBox.Location = new System.Drawing.Point(8, 36);
             this.MiscGroupBox.Name = "MiscGroupBox";
             this.MiscGroupBox.Size = new System.Drawing.Size(360, 100);
             this.MiscGroupBox.TabIndex = 2;
@@ -128,18 +128,11 @@ namespace Contoso.WinForms.Demo.DotNetCore
             this.SaveSizeStorageButton.UseVisualStyleBackColor = true;
             this.SaveSizeStorageButton.Click += new System.EventHandler(this.SaveStorageSize_Click);
             // 
-            // StorageMaxSizeTextBox
-            // 
-            this.StorageMaxSizeTextBox.Location = new System.Drawing.Point(103, 17);
-            this.StorageMaxSizeTextBox.Name = "StorageMaxSizeTextBox";
-            this.StorageMaxSizeTextBox.Size = new System.Drawing.Size(249, 20);
-            this.StorageMaxSizeTextBox.TabIndex = 1;
-            // 
-            // StorageMaxSizeLabel
+            // StorageMaxLabel
             // 
             this.StorageMaxSizeLabel.AutoSize = true;
             this.StorageMaxSizeLabel.Location = new System.Drawing.Point(7, 20);
-            this.StorageMaxSizeLabel.Name = "StorageMaxSizeLabel";
+            this.StorageMaxSizeLabel.Name = "StorageMaxLabel";
             this.StorageMaxSizeLabel.Size = new System.Drawing.Size(90, 13);
             this.StorageMaxSizeLabel.TabIndex = 0;
             this.StorageMaxSizeLabel.Text = "Storage Max Size";
@@ -156,6 +149,19 @@ namespace Contoso.WinForms.Demo.DotNetCore
             this.AppCenterEnabled.Text = "App Center Enabled";
             this.AppCenterEnabled.UseVisualStyleBackColor = true;
             this.AppCenterEnabled.CheckedChanged += new System.EventHandler(this.AppCenterEnabled_CheckedChanged);
+            // 
+            // AppCenterAllowNetworkRequests
+            // 
+            this.AppCenterAllowNetworkRequests.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.AppCenterAllowNetworkRequests.Location = new System.Drawing.Point(8, 6);
+            this.AppCenterAllowNetworkRequests.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.AppCenterAllowNetworkRequests.Name = "AppCenterAllowNetworkRequests";
+            this.AppCenterAllowNetworkRequests.Size = new System.Drawing.Size(360, 24);
+            this.AppCenterAllowNetworkRequests.TabIndex = 1;
+            this.AppCenterAllowNetworkRequests.Text = "Allow Network Requests";
+            this.AppCenterAllowNetworkRequests.UseVisualStyleBackColor = true;
+            this.AppCenterAllowNetworkRequests.CheckedChanged += new System.EventHandler(this.AppCenterAllowNetworkRequest_CheckedChanged);
             // 
             // AnalyticsTab
             // 
@@ -460,18 +466,13 @@ namespace Contoso.WinForms.Demo.DotNetCore
             this.CrashesEnabled.UseVisualStyleBackColor = true;
             this.CrashesEnabled.CheckedChanged += new System.EventHandler(this.CrashesEnabled_CheckedChanged);
             // 
-            // AppCenterAllowNetworkRequest
+            // textBox1
             // 
-            this.AppCenterAllowNetworkRequest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.AppCenterAllowNetworkRequest.Location = new System.Drawing.Point(8, 36);
-            this.AppCenterAllowNetworkRequest.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.AppCenterAllowNetworkRequest.Name = "AppCenterAllowNetworkRequest";
-            this.AppCenterAllowNetworkRequest.Size = new System.Drawing.Size(360, 24);
-            this.AppCenterAllowNetworkRequest.TabIndex = 3;
-            this.AppCenterAllowNetworkRequest.Text = "Allow Network Request";
-            this.AppCenterAllowNetworkRequest.UseVisualStyleBackColor = true;
-            this.AppCenterAllowNetworkRequest.CheckedChanged += new System.EventHandler(this.AppCenterAllowNetworkRequest_CheckedChanged);
+            this.StorageMaxSizeTextBox.Location = new System.Drawing.Point(103, 17);
+            this.StorageMaxSizeTextBox.Name = "StorageMaxSizeTextBox";
+            this.StorageMaxSizeTextBox.Size = new System.Drawing.Size(100, 20);
+            this.StorageMaxSizeTextBox.TabIndex = 1;
+
             // 
             // MainForm
             // 
@@ -507,6 +508,7 @@ namespace Contoso.WinForms.Demo.DotNetCore
         private System.Windows.Forms.TabPage AnalyticsTab;
         private System.Windows.Forms.TabPage CrashesTab;
         private System.Windows.Forms.CheckBox AppCenterEnabled;
+        private System.Windows.Forms.CheckBox AppCenterAllowNetworkRequests;
         private System.Windows.Forms.GroupBox EventBox;
         private System.Windows.Forms.CheckBox AnalyticsEnabled;
         private System.Windows.Forms.TextBox EventName;
@@ -534,7 +536,5 @@ namespace Contoso.WinForms.Demo.DotNetCore
         private System.Windows.Forms.Label StorageMaxSizeLabel;
         private System.Windows.Forms.TextBox StorageMaxSizeTextBox;
         private System.Windows.Forms.Button SaveSizeStorageButton;
-        private System.Windows.Forms.CheckBox AppCenterAllowNetworkRequest;
     }
 }
-

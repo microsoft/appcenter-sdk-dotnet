@@ -4,10 +4,10 @@
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Microsoft.AspNetCore.StaticFiles;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Web;
 using System.Windows.Forms;
 
 namespace Contoso.WinForms.Demo.DotNetCore
@@ -58,9 +58,13 @@ namespace Contoso.WinForms.Demo.DotNetCore
                 if (File.Exists(Settings.Default.FileErrorAttachments))
                 {
                     var fileName = new FileInfo(Settings.Default.FileErrorAttachments).Name;
-                    var mimeType = MimeMapping.GetMimeMapping(Settings.Default.FileErrorAttachments);
+                    var provider = new FileExtensionContentTypeProvider();
+                    if (!provider.TryGetContentType(fileName, out var contentType))
+                    {
+                        contentType = "application/octet-stream";
+                    }
                     var fileContent = File.ReadAllBytes(Settings.Default.FileErrorAttachments);
-                    attachments.Add(ErrorAttachmentLog.AttachmentWithBinary(fileContent, fileName, mimeType));
+                    attachments.Add(ErrorAttachmentLog.AttachmentWithBinary(fileContent, fileName, contentType));
                 }
                 else
                 {
