@@ -34,7 +34,6 @@
     <JavaMaximumHeapSize></JavaMaximumHeapSize>
     <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidSupportedAbis>arm64-v8a;armeabi-v7a;x86</AndroidSupportedAbis>
-    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,7 +47,6 @@
     <JavaMaximumHeapSize></JavaMaximumHeapSize>
     <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidSupportedAbis>x86;armeabi-v7a</AndroidSupportedAbis>
-    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
