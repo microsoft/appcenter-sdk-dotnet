@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Microsoft.AppCenter;
 using Xamarin.Forms;
 
@@ -10,6 +11,8 @@ namespace Contoso.Forms.Demo
     [Android.Runtime.Preserve(AllMembers = true)]
     public partial class AppCenterContentPage : ContentPage
     {
+        const string LogTag = "AppCenterXamarinDemo";
+
         public AppCenterContentPage()
         {
             InitializeComponent();
@@ -35,6 +38,10 @@ namespace Contoso.Forms.Demo
             {
                 UserIdEntry.Text = id;
             }
+            if (Application.Current.Properties.ContainsKey(Constants.StorageMaxSize) && Application.Current.Properties[Constants.StorageMaxSize] is long size)
+            {
+                StorageMaxSize.Text = size.ToString();
+            }
             UserIdEntry.Unfocused += async (sender, args) =>
             {
                 var inputText = UserIdEntry.Text;
@@ -43,11 +50,6 @@ namespace Contoso.Forms.Demo
                 Application.Current.Properties[Constants.UserId] = text;
                 await Application.Current.SavePropertiesAsync();
             };
-        }
-
-        void AllowedNetworkRequestEnabled(System.Object sender, Xamarin.Forms.ToggledEventArgs e)
-        {
-            AppCenter.IsNetworkRequestsAllowed = e.Value;
         }
 
         async void ChangeStartType(object sender, PropertyChangedEventArgs e)
@@ -70,6 +72,26 @@ namespace Contoso.Forms.Demo
         async void UpdateEnabled(object sender, ToggledEventArgs e)
         {
             await AppCenter.SetEnabledAsync(e.Value);
+        }
+
+        private void SaveStorageSize_Clicked(object sender, System.EventArgs e)
+        {
+            var inputText = StorageMaxSize.Text;
+            if (long.TryParse(inputText, out var result))
+            {
+                _ = AppCenter.SetMaxStorageSizeAsync(result);
+                Application.Current.Properties[Constants.StorageMaxSize] = result;
+                _ = Application.Current.SavePropertiesAsync();
+            }
+            else
+            {
+                AppCenterLog.Error(LogTag, "Wrong number value for the max storage size.");
+            }
+        }
+
+        void AllowedNetworkRequestEnabled(System.Object sender, Xamarin.Forms.ToggledEventArgs e)
+        {
+            AppCenter.IsNetworkRequestsAllowed = e.Value;
         }
     }
 }
