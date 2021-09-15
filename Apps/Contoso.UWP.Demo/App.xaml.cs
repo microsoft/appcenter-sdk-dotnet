@@ -14,7 +14,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using System.Threading.Tasks;
 
-namespace Contoso.UWP.Demo
+namespace Contoso.UWP.Puppet
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -27,16 +27,22 @@ namespace Contoso.UWP.Demo
         /// </summary>
         public App()
         {
-             TaskScheduler.UnobservedTaskException += (object sender, UnobservedTaskExceptionEventArgs args) =>
+            TaskScheduler.UnobservedTaskException += (object sender, UnobservedTaskExceptionEventArgs args) =>
             {
                 // If you see this message while testing the app and if the stack trace is SDK related, we might have a bug in the SDK as we don't want to leak any exception from the SDK.
-                AppCenterLog.Error("AppCenterDemo", "Unobserved exception observed=" + args.Observed, args.Exception);
+                AppCenterLog.Error("AppCenterPuppet", "Unobserved exception observed=" + args.Observed, args.Exception);
             };
             CoreApplication.EnablePrelaunch(true);
             InitializeComponent();
             Suspending += OnSuspending;
             AppCenter.LogLevel = LogLevel.Verbose;
-            AppCenter.Start("e8354a9a-001a-4728-be65-a6477e57f2e7", typeof(Analytics), typeof(Crashes));
+            AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
+            object storageSize;
+            if (Windows.Storage.ApplicationData.Current.LocalSettings.Values.TryGetValue("StorageMaxSize", out storageSize))
+            {
+                AppCenter.SetMaxStorageSizeAsync((long)storageSize);
+            }
+            AppCenter.Start("42f4a839-c54c-44da-8072-a2f2a61751b2", typeof(Analytics), typeof(Crashes));
         }
 
         /// <summary>
@@ -96,6 +102,7 @@ namespace Contoso.UWP.Demo
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
+
 
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved
