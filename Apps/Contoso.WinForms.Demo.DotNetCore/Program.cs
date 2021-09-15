@@ -4,10 +4,10 @@
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using Microsoft.AspNetCore.StaticFiles;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Web;
 using System.Windows.Forms;
 
 namespace Contoso.WinForms.Demo.DotNetCore
@@ -24,8 +24,13 @@ namespace Contoso.WinForms.Demo.DotNetCore
 
             AppCenter.LogLevel = LogLevel.Verbose;
             Crashes.GetErrorAttachments = GetErrorAttachmentsHandler;
-            AppCenter.Start("734be4f7-3607-489b-ae81-284d2eb908f8", typeof(Analytics), typeof(Crashes));
 
+            var storageMaxSize = Settings.Default.StorageMaxSize;
+            if (storageMaxSize > 0)
+            {
+                AppCenter.SetMaxStorageSizeAsync(storageMaxSize);
+            }
+            AppCenter.Start("734be4f7-3607-489b-ae81-284d2eb908f8", typeof(Analytics), typeof(Crashes));
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
@@ -53,13 +58,9 @@ namespace Contoso.WinForms.Demo.DotNetCore
                 if (File.Exists(Settings.Default.FileErrorAttachments))
                 {
                     var fileName = new FileInfo(Settings.Default.FileErrorAttachments).Name;
-                    var provider = new FileExtensionContentTypeProvider();
-                    if (!provider.TryGetContentType(fileName, out var contentType))
-                    {
-                        contentType = "application/octet-stream";
-                    }
+                    var mimeType = MimeMapping.GetMimeMapping(Settings.Default.FileErrorAttachments);
                     var fileContent = File.ReadAllBytes(Settings.Default.FileErrorAttachments);
-                    attachments.Add(ErrorAttachmentLog.AttachmentWithBinary(fileContent, fileName, contentType));
+                    attachments.Add(ErrorAttachmentLog.AttachmentWithBinary(fileContent, fileName, mimeType));
                 }
                 else
                 {
