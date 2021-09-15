@@ -23,8 +23,7 @@
 
 #### iOS
 
-* **[Feature]** Add support for tracking handled errors with `Crashes.trackError` and `Crashes.trackException` APIs.
-* **[Improvement]** Update PLCrashReporter to 1.10.0.
+* **[Improvement]** Update PLCrashReporter to 1.10.
 
 ### App Center Distribute
 
