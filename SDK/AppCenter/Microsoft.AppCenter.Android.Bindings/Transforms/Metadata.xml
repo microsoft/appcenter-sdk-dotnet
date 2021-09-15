@@ -6,6 +6,7 @@
     <remove-node path="/api/package[@name='com.microsoft.appcenter.ingestion']/class[@name='AbstractAppCenterIngestion']"/>
     <remove-node path="/api/package[@name='com.microsoft.appcenter.persistence']" />
     <remove-node path="/api/package[@name='com.microsoft.appcenter.utils.storage']" />
+    <remove-node path="/api/package[@name='com.microsoft.appcenter.utils.crypto']" />
     <add-node path="/api/package[@name='com.microsoft.appcenter']/class[@name='AppCenter']">
         <method name="unsetInstance" return="void" abstract="false" native="false" synchronized="true" static="true" final="false" deprecated="not deprecated" visibility="public"/>
     </add-node>

@@ -1,0 +1,190 @@
+﻿<Window
+    x:Class="Contoso.WinUI.Desktop.Puppet.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Contoso.WinUI.Desktop.Puppet"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="16, 16, 16, 16" Width="Auto">
+        <muxc:TabView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControl_SelectionChanged" IsAddTabButtonVisible="False">
+            <muxc:TabView.TabItems>
+                <muxc:TabViewItem Header="App Center" IsClosable="False">
+                    <StackPanel>
+                        <CheckBox Name="AppCenterEnabled" Content="App Center Enabled" Margin="0, 10, 0, 5" Checked="AppCenterEnabled_Checked" Unchecked="AppCenterEnabled_Unchecked"/>
+                        <CheckBox Name="AppCenterAllowNetworkRequests" Content="Allow network requests" Margin="0, 5, 0, 10" Checked="AppCenterAllowNetworkRequests_Checked" Unchecked="AppCenterAllowNetworkRequests_Unchecked"/>
+                        <StackPanel Orientation="Horizontal" Height="1" Background="Gray"/>
+                        
+                        <!-- Set storage size and userId -->
+                        <StackPanel Orientation ="Vertical" HorizontalAlignment="Left" Margin="0, 16, 0, 16">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="User Id" Grid.Column="0" Grid.Row="0"/>
+                                <TextBox Name="UserId"  Width="250" Grid.Column="1" Grid.Row="0" Margin="16, 4, 16, 4" KeyDown="UserId_KeyDown" LostFocus="UserId_LostFocus"/>
+                                <TextBlock Text="Storage Max Size" Grid.Column="0" Grid.Row="1"/>
+                                <TextBox Name="StorageMaxSize"  Width="250" Grid.Column="1" Grid.Row="1"  Margin="16, 4, 16, 4"/>
+                                <Button Name="SaveStorageSize" Click="SaveStorageSize_Click" Content="Save Storage Size"  Grid.Column="0" Grid.Row="2" Padding="16,4,16,4"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Set country code -->
+                        <StackPanel Orientation="Horizontal" Height="1" Background="Gray"/>
+                        <StackPanel  Margin="0, 16, 0, 16">
+                            <CheckBox Name="CountryCodeEnableCheckbox" Content="Country Code Enabled" Margin="0, 10, 0, 10" Checked="CountryCodeEnableCheckbox_Checked" Unchecked="CountryCodeEnableCheckbox_Unchecked"/>
+                            <StackPanel Name="CountryCodePanel">
+                                <TextBlock Text="Country code" Name="CountryCodeLabel"/>
+                                <TextBox Name="CountryCodeText"  VerticalAlignment="Center"/>
+                                <Button Name="SaveCountryCodeButton" Content="Save" Margin="0, 8, 0, 8" Click="SaveCountryCodeButton_Click"/>
+                                <TextBlock Visibility="Collapsed" Text="Country code has been updated. This value will only be applied to the following sessions." Foreground="Red" Name="CountryCodeNotice" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </muxc:TabViewItem>
+                <muxc:TabViewItem Header="Analytics" IsClosable="False">
+                    <StackPanel>
+                        <CheckBox Name="AnalyticsEnabled" Content="Analytics Enabled" Margin="0,10,0,10" Checked="AnalyticsEnabled_Checked" Unchecked="AnalyticsEnabled_Unchecked"/>
+                        <TextBlock Text="Event Name"/>
+                        <TextBox Name="EventName" VerticalAlignment="Center" />
+
+                        <!-- Add properties -->
+                        <StackPanel Orientation ="Vertical" HorizontalAlignment="Left" Margin="0, 16, 0, 16">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Key" Grid.Column="0" Grid.Row="0"/>
+                                <TextBox Name="EventKeyItem"  Width="250" Grid.Column="1" Grid.Row="0" Margin="16, 4, 16, 4" KeyDown="UserId_KeyDown" LostFocus="UserId_LostFocus"/>
+                                <TextBlock Text="Value" Grid.Column="0" Grid.Row="1"/>
+                                <TextBox Name="EventValueItem"  Width="250" Grid.Column="1" Grid.Row="1"  Margin="16, 4, 16, 4"/>
+                                <Button Name="EventAddProperties" Click="EventAddProperties_Click" Content="Add property"  Grid.Column="0" Grid.Row="2" Padding="16,4,16,4"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Show selected properties -->
+                        <ListView x:Name="EventProperties" Margin="0,16,0,16"  Header="Selected properties" Background="{ThemeResource SystemControlBackgroundListMediumBrush}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="6">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Name="EventPropertyKey"  Margin="16, 4, 16, 4" TextWrapping="NoWrap"  Text="{Binding Key}"/>
+                                            <TextBlock Name="EventPropertyValue"  Margin="16, 4, 16, 4" TextWrapping="NoWrap" Text="{Binding Value}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Button Name="TrackEvent" Margin="0, 8, 0, 8" Content="Track event" Click="TrackEvent_Click"/>
+                    </StackPanel>
+                </muxc:TabViewItem>
+                <muxc:TabViewItem Header="Crashes" IsClosable="False">
+                    <StackPanel>
+                        <StackPanel>
+                            <CheckBox Name="CrashesEnabled" Content="Crashes Enabled" Margin="0,10,0,10" Checked="CrashesEnabled_Checked" Unchecked="CrashesEnabled_Unchecked" />
+                            <CheckBox Name="HandleExceptions" Content="Handle Exceptions" Margin="0,10,0,10" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Error properties"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="1" Background="Gray"/>
+
+                            <!-- Add properties -->
+                            <StackPanel Orientation ="Vertical" HorizontalAlignment="Left" Margin="0, 16, 0, 16">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="16*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Key" Grid.Column="0" Grid.Row="0"/>
+                                    <TextBox Name="ErrorKeyItem"  Width="250" Grid.Column="1" Grid.Row="0" Margin="16, 4, 16, 4" KeyDown="UserId_KeyDown" LostFocus="UserId_LostFocus"/>
+                                    <TextBlock Text="Value" Grid.Column="0" Grid.Row="1"/>
+                                    <TextBox Name="ErrorValueItem"  Width="250" Grid.Column="1" Grid.Row="1"  Margin="16, 4, 16, 4"/>
+                                    <Button Name="CrashesAddProperties" Click="CrashesAddNewProperty_Click" Content="Add property"  Grid.Column="0" Grid.Row="2" Padding="16,4,16,4"/>
+                                </Grid>
+                            </StackPanel>
+                            
+                            <!-- Show selected properties -->
+                            <ListView x:Name="ErrorProperties" Margin="0,16,0,16"  Header="Selected properties" Background="{ThemeResource SystemControlBackgroundListMediumBrush}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="6">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Name="CrashesPropertyKey"  Margin="16, 4, 16, 4" TextWrapping="NoWrap"  Text="{Binding Key}"/>
+                                                <TextBlock Name="CrashesPropertyValue"  Margin="16, 4, 16, 4" TextWrapping="NoWrap" Text="{Binding Value}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            
+                            <!-- Select error attachments -->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Error attachments"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="1" Background="Gray"/>
+                            <StackPanel Orientation ="Vertical" HorizontalAlignment="Left" Margin="0, 16, 0, 16">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="16*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Text attachment" Grid.Column="0" Grid.Row="0"/>
+                                    <TextBox Name="TextAttachmentTextBox" TextChanged="TextAttachmentTextBox_TextChanged" VerticalAlignment="Center"  Grid.Column="1" Grid.Row="0" Margin="16, 4, 16, 4" />
+                                    <TextBlock Text="File attachment" Grid.Column="0" Grid.Row="1"/>
+                                    <TextBlock Name="FileAttachmentLabel"  Margin="16, 4, 16, 4" Text="The file isn't selected" Width="250" Grid.Column="1" Grid.Row="1" />
+                                    <Button Name="SaveAttachments" Click="FileErrorAttachment_Click"  Content="Select file attachment"  Grid.Column="0" Grid.Row="2" Padding="16, 4, 16, 4"/>
+                                </Grid>
+                            </StackPanel>
+                            
+                            <!-- Test crashes -->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Crashes"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="1" Background="Gray"/>
+                            <StackPanel Margin="0, 8, 0, 8" Orientation="Vertical">
+                                <Button Content="Call Crashes.GenerateTestCrash (debug only)" Margin="2" Click="CrashWithTestException_Click"/>
+                                <Button Content="Generate non serializable Exception" Margin="2" Click="CrashWithNonSerializableException_Click" />
+                                <Button Content="Divide by zero" Margin="2" Click="CrashWithDivisionByZero_Click" />
+                                <Button Content="Aggregate Exception" Margin="2" Click="CrashWithAggregateException_Click" />
+                                <Button Content="Crash with null reference" Margin="2" Click="CrashWithNullReference_Click"/>
+                                <Button Content="Async task crash" Margin="2" Click="CrashInsideAsyncTask_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </muxc:TabViewItem>
+            </muxc:TabView.TabItems>
+        </muxc:TabView>
+    </StackPanel>
+</Window>

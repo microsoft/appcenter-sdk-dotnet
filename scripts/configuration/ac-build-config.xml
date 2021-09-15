@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <config>
     <sdkInfo>
-        <sdkVersion>4.3.0-SNAPSHOT</sdkVersion>
-        <iosVersion>4.2.0</iosVersion>
-        <androidVersion>4.2.0</androidVersion>
+        <sdkVersion>4.4.0-SNAPSHOT</sdkVersion>
+        <iosVersion>4.3.0</iosVersion>
+        <androidVersion>4.3.1</androidVersion>
     </sdkInfo>
     <group id="ios" folder="iOSAssemblies" buildGroup="mac">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.iOS/bin/Release/Microsoft.AppCenter.dll"/>
@@ -44,6 +44,16 @@
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/netcoreapp3.0/Microsoft.AppCenter.dll"/>
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.WindowsDesktop/bin/Release/netcoreapp3.0/Microsoft.AppCenter.Analytics.dll"/>
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.WindowsDesktop/bin/Release/netcoreapp3.0/Microsoft.AppCenter.Crashes.dll"/>
+    </group>
+    <group id="windows_desktop_net_5_windows_winui" folder="WindowsDesktopNet5WindowsWinuiAssemblies" buildGroup="windows">
+        <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/net5.0-windows10.0.17763.0/Microsoft.AppCenter.dll"/>
+        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.WindowsDesktop/bin/Release/net5.0-windows10.0.17763.0/Microsoft.AppCenter.Analytics.dll"/>
+        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.WindowsDesktop/bin/Release/net5.0-windows10.0.17763.0/Microsoft.AppCenter.Crashes.dll"/>
+    </group>
+    <group id="windows_desktop_net_5_windows" folder="WindowsDesktopNet5WindowsAssemblies" buildGroup="windows">
+        <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/net5.0-windows/Microsoft.AppCenter.dll"/>
+        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.WindowsDesktop/bin/Release/net5.0-windows/Microsoft.AppCenter.Analytics.dll"/>
+        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.WindowsDesktop/bin/Release/net5.0-windows/Microsoft.AppCenter.Crashes.dll"/>
     </group>
     <group id="uwp" folder="UWPAssemblies" buildGroup="windows">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.UWP/bin/Release/uap10.0.16299/Microsoft.AppCenter.dll"/>

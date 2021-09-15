@@ -14,9 +14,11 @@ namespace Microsoft.AppCenter.Ingestion.Http
     public sealed partial class HttpNetworkAdapter : IHttpNetworkAdapter
     {
         internal const string ContentTypeValue = "application/json; charset=utf-8";
-
         private HttpClient _httpClient;
         private readonly object _lockObject = new object();
+
+        // Prepare an HTTP message handler for configuring the TLS protocol.
+        internal static readonly Func<HttpMessageHandler> HttpMessageHandlerOverride;
 
         // Exception codes (HResults) involving poor network connectivity:
         private static readonly uint[] NetworkUnavailableCodes =
@@ -46,7 +48,7 @@ namespace Microsoft.AppCenter.Ingestion.Http
                     {
                         return _httpClient;
                     }
-                    _httpClient = new HttpClient();
+                    _httpClient = HttpMessageHandlerOverride != null ? new HttpClient(HttpMessageHandlerOverride()) : new HttpClient();
                     return _httpClient;
                 }
             }

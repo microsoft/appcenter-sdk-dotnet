@@ -4,10 +4,14 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
+
+#if WINDOWS10_0_17763_0
+using Windows.ApplicationModel;
+#else
 using System.Windows.Forms;
+#endif
 
 #if NET461
 using System.Deployment.Application;
@@ -40,7 +44,9 @@ namespace Microsoft.AppCenter.Utils
         protected override string GetSdkName()
         {
             var sdkName = WpfHelper.IsRunningOnWpf ? "appcenter.wpf" : "appcenter.winforms";
-#if NETCOREAPP3_0
+#if WINDOWS10_0_17763_0            
+            sdkName = $"{sdkName}.net";
+#elif NETCOREAPP3_0
             sdkName = $"{sdkName}.netcore";
 #endif
             return sdkName;
@@ -145,12 +151,22 @@ namespace Microsoft.AppCenter.Utils
              * If the AssemblyInformationalVersion is not applied to an assembly,
              * the version number specified by the AssemblyFileVersion attribute is used instead.
              */
+#if WINDOWS10_0_17763_0
+            var packageVersion = Package.Current.Id.Version;
+            return $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
+#else
             return DeploymentVersion ?? Application.ProductVersion;
+#endif
         }
 
         protected override string GetAppBuild()
         {
+#if WINDOWS10_0_17763_0
+            var packageVersion = Package.Current.Id.Version;
+            return $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
+#else
             return DeploymentVersion ?? FileVersion;
+#endif
         }
 
         protected override string GetScreenSize()
@@ -181,6 +197,7 @@ namespace Microsoft.AppCenter.Utils
             }
         }
 
+#if !WINDOWS10_0_17763_0
         private static string FileVersion
         {
             get
@@ -204,6 +221,7 @@ namespace Microsoft.AppCenter.Utils
                 return Application.ProductVersion;
             }
         }
+#endif
 
         /// <summary>
         /// Import GetDeviceCaps function to retreive scale-independent screen size.
