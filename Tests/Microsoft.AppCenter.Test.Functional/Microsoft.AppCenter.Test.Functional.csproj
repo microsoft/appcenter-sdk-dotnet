@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991477" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SDK\AppCenter\Microsoft.AppCenter\Microsoft.AppCenter.csproj" />
