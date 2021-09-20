@@ -3,7 +3,7 @@
 
 #!/usr/bin/env bash
 echo "Executing post clone script in `pwd`"
-
+pushd $APPCENTER_SOURCE_DIRECTORY
 nugetFileName="../../../NuGet.config"
 contentValue="<?xml version=\""1.0\"" encoding=\""utf-8\""?>
  <configuration>
@@ -26,3 +26,5 @@ if [ -e $nugetFileName ]; then
     rm $nugetFileName
 fi
 echo $contentValue >> $nugetFileName
+./build.sh -t=externals-ios
+popd

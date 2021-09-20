@@ -36,6 +36,11 @@ namespace Contoso.WPF.Demo.DotNetCore
             Crashes.SendingErrorReport += (_, args) => Log($"Sending error report for an error ID: {args.Report.Id}");
             Crashes.SentErrorReport += (_, args) => Log($"Sent error report for an error ID: {args.Report.Id}");
             Crashes.FailedToSendErrorReport += (_, args) => Log($"Failed to send error report for an error ID: {args.Report.Id}");
+            var storageMaxSize = Settings.Default.StorageMaxSize;
+            if (storageMaxSize > 0)
+            {
+                AppCenter.SetMaxStorageSizeAsync(storageMaxSize);
+            }
 
             // Start AppCenter.
             AppCenter.Start("40814a80-0782-4d5e-b9de-698935156d55", typeof(Analytics), typeof(Crashes));

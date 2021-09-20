@@ -27,7 +27,7 @@ namespace Contoso.UWP.Demo
         /// </summary>
         public App()
         {
-             TaskScheduler.UnobservedTaskException += (object sender, UnobservedTaskExceptionEventArgs args) =>
+            TaskScheduler.UnobservedTaskException += (object sender, UnobservedTaskExceptionEventArgs args) =>
             {
                 // If you see this message while testing the app and if the stack trace is SDK related, we might have a bug in the SDK as we don't want to leak any exception from the SDK.
                 AppCenterLog.Error("AppCenterDemo", "Unobserved exception observed=" + args.Observed, args.Exception);
@@ -36,6 +36,11 @@ namespace Contoso.UWP.Demo
             InitializeComponent();
             Suspending += OnSuspending;
             AppCenter.LogLevel = LogLevel.Verbose;
+            object storageSize;
+            if (Windows.Storage.ApplicationData.Current.LocalSettings.Values.TryGetValue("StorageMaxSize", out storageSize))
+            {
+                AppCenter.SetMaxStorageSizeAsync((long)storageSize);
+            }
             AppCenter.Start("e8354a9a-001a-4728-be65-a6477e57f2e7", typeof(Analytics), typeof(Crashes));
         }
 
