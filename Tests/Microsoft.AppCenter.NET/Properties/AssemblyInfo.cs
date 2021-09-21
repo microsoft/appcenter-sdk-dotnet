@@ -36,8 +36,8 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.0.0.0")]
-[assembly: AssemblyFileVersion("4.4.0.0")]
-[assembly: AssemblyInformationalVersion("4.4.0-SNAPSHOT")]
+[assembly: AssemblyFileVersion("4.4.1.0")]
+[assembly: AssemblyInformationalVersion("4.4.1-SNAPSHOT")]
 
 [assembly: InternalsVisibleTo("Microsoft.AppCenter.Test.Windows, PublicKey=002400000480000094000000060200000024000052534131000400000100010055c4e2f76a6f3430448b1fd5b9ced790181e698a86759ece168bd955efc4297c9f89a303204019a9d2e8e92d204ba87e4825b36f8ba08113dc7297dcebe3d2bc15fabeae1d8c71d69769adedbc37ba7e197efc537cac2d477772ab38c4d4ccee45ddf99ce4343e9b665b663280c4dae2520b508bc7de0faf1978934f094d68e3")]
 [assembly: InternalsVisibleTo("Microsoft.AppCenter.Analytics.Test.Windows, PublicKey=002400000480000094000000060200000024000052534131000400000100010055c4e2f76a6f3430448b1fd5b9ced790181e698a86759ece168bd955efc4297c9f89a303204019a9d2e8e92d204ba87e4825b36f8ba08113dc7297dcebe3d2bc15fabeae1d8c71d69769adedbc37ba7e197efc537cac2d477772ab38c4d4ccee45ddf99ce4343e9b665b663280c4dae2520b508bc7de0faf1978934f094d68e3")]
