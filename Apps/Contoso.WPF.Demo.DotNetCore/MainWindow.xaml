@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="475" Width="335">
+        Title="MainWindow" Height="493" Width="335">
     <StackPanel>
         <TabControl SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="App Center">

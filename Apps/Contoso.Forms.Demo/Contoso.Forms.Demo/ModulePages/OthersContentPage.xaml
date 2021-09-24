@@ -2,7 +2,7 @@
 <ContentPage Title="Others" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Contoso.Forms.Demo.OthersContentPage">
     <TableView Intent="Form">
         <TableSection Title="Distribute">
-            <SwitchCell Text="Distribute Enabled" On="true" x:Name="DistributeEnabledSwitchCell" OnChanged="UpdateDistributeEnabled" OnColor="{StaticResource SwitchCellOnColor}" />
+            <SwitchCell Text="Distribute Enabled" On="true" x:Name="DistributeEnabledSwitchCell" OnChanged="UpdateDistributeEnabled" />
             <ViewCell>
                 <Picker x:Name="UpdateTrackPicker" Title="Update track" PropertyChanged="ChangeUpdateTrack" />
             </ViewCell>
@@ -12,7 +12,7 @@
             </ViewCell>
         </TableSection>
         <TableSection Title="EventFilter">
-            <SwitchCell Text="EventFilter Enabled" x:Name="EventFilterEnabledSwitchCell" OnChanged="UpdateEventFilterEnabled" OnColor="{StaticResource SwitchCellOnColor}" />
+            <SwitchCell Text="EventFilter Enabled" x:Name="EventFilterEnabledSwitchCell" OnChanged="UpdateEventFilterEnabled" />
         </TableSection>
     </TableView>
 </ContentPage>
