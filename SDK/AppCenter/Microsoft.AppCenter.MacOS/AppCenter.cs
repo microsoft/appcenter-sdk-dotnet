@@ -189,7 +189,7 @@ namespace Microsoft.AppCenter
 
         static void PlatformSetCustomProperties(CustomProperties customProperties)
         {
-            MacOSAppCenter.SetCustomProperties(customProperties?.IOSCustomProperties);
+            MacOSAppCenter.SetCustomProperties(customProperties?.MacOSCustomProperties);
         }
 
         internal static void PlatformUnsetInstance()

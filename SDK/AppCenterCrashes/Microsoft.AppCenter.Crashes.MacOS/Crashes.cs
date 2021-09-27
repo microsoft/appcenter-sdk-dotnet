@@ -17,7 +17,7 @@ namespace Microsoft.AppCenter.Crashes
         /// Internal SDK property not intended for public use.
         /// </summary>
         /// <value>
-        /// The iOS SDK Crashes bindings type.
+        /// The macOS SDK Crashes bindings type.
         /// </value>
         [Preserve]
         public static Type BindingType => typeof(MacOSCrashes);
