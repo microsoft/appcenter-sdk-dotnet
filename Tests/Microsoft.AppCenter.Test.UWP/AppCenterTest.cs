@@ -161,26 +161,5 @@ namespace Microsoft.AppCenter.Test.UWP
             // No exceptions are thrown.
             // System.Diagnostics.Debug.Listeners is not available here, so not able to verify that there are no errors in logs.
         }
-
-        /// <summary>
-        /// Set custom properties after unhandled exception
-        /// </summary>
-        [TestMethod]
-        public void SetPropertiesAfterUnhandledException()
-        {
-            AppCenter.Start("uwp=appsecret");
-            Assert.IsTrue(AppCenter.Configured);
-
-            // Some exception occurred.
-            ApplicationLifecycleHelper.Instance.InvokeUnhandledExceptionOccurred(null, new Exception());
-            Task.Delay(100).Wait();
-
-            // Set custom properties.
-            AppCenter.SetCustomProperties(new CustomProperties().Set("test", 42));
-            Task.Delay(100).Wait();
-
-            // No exceptions are thrown.
-            // System.Diagnostics.Debug.Listeners is not available here, so not able to verify that there are no errors in logs.
-        }
     }
 }

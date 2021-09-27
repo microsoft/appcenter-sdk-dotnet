@@ -270,11 +270,6 @@ namespace Microsoft.AppCenter.iOS.Bindings
         [Export("isDebuggerAttached")]
         bool IsDebuggerAttached();
 
-        // + (void)setCustomProperties:(MSACCustomProperties *)customProperties;
-        [Static]
-        [Export("setCustomProperties:")]
-        void SetCustomProperties([NullAllowed] MSACCustomProperties properties);
-
         // +(void)setMaxStorageSize:(long)sizeInBytes completionHandler(void (^)(BOOL))completionHandler;
         [Static]
         [Export("setMaxStorageSize:completionHandler:")]

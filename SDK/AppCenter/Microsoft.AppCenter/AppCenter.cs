@@ -63,10 +63,6 @@ namespace Microsoft.AppCenter
             Debug.WriteLine(ErrorMessage);
         }
 
-        static void PlatformSetCustomProperties(CustomProperties customProperties)
-        {
-        }
-
         static Task<bool> PlatformSetMaxStorageSizeAsync(long sizeInBytes)
         {
             return Task.FromResult(false);

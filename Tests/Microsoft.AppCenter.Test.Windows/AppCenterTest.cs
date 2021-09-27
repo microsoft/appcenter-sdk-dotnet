@@ -789,38 +789,6 @@ namespace Microsoft.AppCenter.Test
         }
 
         /// <summary>
-        /// Verify setting custom properties.
-        /// </summary>
-        [TestMethod]
-        public void SetCustomProperties()
-        {
-            _settingsMock.Setup(settings => settings.GetValue(AppCenter.EnabledKey, It.IsAny<bool>()))
-                .Returns(true);
-
-            // Set before App Center is configured.
-            AppCenter.SetCustomProperties(new CustomProperties());
-            _channelMock.Verify(channel => channel.EnqueueAsync(It.IsAny<Log>()), Times.Never());
-
-            AppCenter.Configure("appsecret");
-
-            // Set null.
-            AppCenter.SetCustomProperties(null);
-            _channelMock.Verify(channel => channel.EnqueueAsync(It.IsAny<Log>()), Times.Never());
-
-            // Set empty.
-            var empty = new CustomProperties();
-            AppCenter.SetCustomProperties(empty);
-            _channelMock.Verify(channel => channel.EnqueueAsync(It.IsAny<Log>()), Times.Never());
-
-            // Set normal.
-            var properties = new CustomProperties();
-            properties.Set("test", "test");
-            AppCenter.SetCustomProperties(properties);
-            _channelMock.Verify(channel => channel.EnqueueAsync(It.Is<CustomPropertyLog>(log =>
-                log.Properties == properties.Properties)), Times.Once());
-        }
-
-        /// <summary>
         /// Verify sending start service log
         /// </summary>
         [TestMethod]
