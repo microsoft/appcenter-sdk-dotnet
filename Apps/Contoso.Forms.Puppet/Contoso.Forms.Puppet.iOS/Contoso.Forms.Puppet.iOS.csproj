@@ -128,7 +128,6 @@
     <BundleResource Include="Resources\socket%402x.png" />
     <BundleResource Include="Resources\lightning%402x.png" />
     <BundleResource Include="Resources\handbag%402x.png" />
-    <BundleResource Include="Resources\customProperties%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.iOS\Microsoft.AppCenter.Analytics.iOS.csproj">
