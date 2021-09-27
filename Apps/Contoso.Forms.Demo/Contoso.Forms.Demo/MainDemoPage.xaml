@@ -7,6 +7,5 @@
     <local:AppCenterContentPage />
     <local:AnalyticsContentPage />
     <local:CrashesContentPage />
-    <local:CustomPropertiesContentPage />
     <local:OthersContentPage />
 </TabbedPage>
