@@ -37,5 +37,12 @@
     <file src="$ios_dir$/Microsoft.AppCenter.dll" target="lib/Xamarin.iOS10" />
     <file src="$ios_dir$/Microsoft.AppCenter.xml" target="lib/Xamarin.iOS10" />
     <file src="$ios_dir$/Microsoft.AppCenter.iOS.Bindings.dll" target="lib/Xamarin.iOS10" />
+  
+    <!-- macOS -->
+    <file src="$macos_dir$/Microsoft.AppCenter.dll" target="lib/Xamarin.Mac" />
+    <file src="$macos_dir$/Microsoft.AppCenter.xml" target="lib/Xamarin.Mac" />
+    <file src="$macos_dir$/Microsoft.AppCenter.MacOS.Bindings.dll" target="lib/Xamarin.Mac" />
+    <file src="SDK/AppCenter/Microsoft.AppCenter.MacOS/Microsoft.AppCenter.targets" target="build/Xamarin.Mac/Microsoft.AppCenter.targets" />
+  
   </files>
 </package>
