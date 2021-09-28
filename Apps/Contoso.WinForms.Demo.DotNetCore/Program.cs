@@ -24,8 +24,13 @@ namespace Contoso.WinForms.Demo.DotNetCore
 
             AppCenter.LogLevel = LogLevel.Verbose;
             Crashes.GetErrorAttachments = GetErrorAttachmentsHandler;
-            AppCenter.Start("734be4f7-3607-489b-ae81-284d2eb908f8", typeof(Analytics), typeof(Crashes));
 
+            var storageMaxSize = Settings.Default.StorageMaxSize;
+            if (storageMaxSize > 0)
+            {
+                AppCenter.SetMaxStorageSizeAsync(storageMaxSize);
+            }
+            AppCenter.Start("734be4f7-3607-489b-ae81-284d2eb908f8", typeof(Analytics), typeof(Crashes));
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());

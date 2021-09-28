@@ -4,6 +4,5 @@
              x:Class="Contoso.Forms.Demo.App">
     <Application.Resources>
         <!-- Application resource dictionary -->
-        <Color x:Key="SwitchCellOnColor">Accent</Color>
     </Application.Resources>
 </Application>

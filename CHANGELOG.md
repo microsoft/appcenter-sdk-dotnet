@@ -1,16 +1,36 @@
 # App Center SDK for .NET Change Log
 
-
-## Version 4.3.1 (Under development)
+## Version 4.4.0
 
 ### App Center
 
 #### Windows
 
-* **[Feature]** Add support for platform `WinUI in Desktop`. The target version of `WinUI` apps should be `net5.0-windows10.0.17763.0` or higher.
+* **[Feature]** Add support for platform `WinUI in Desktop`. The target version of `WinUI` apps should be `net5.0-windows10.0.17763.0` or higher. **Known issue**: on WinUI apps, the amount of sessions may be lower than on UWP apps due to specifics of its lifecycle.
 * **[Fix]** Update `Newtonsoft.Json` dependency to version `13.0.1`.
 * **[Fix]** Fix sending pending logs after the first application start.
 * **[Fix]** Using `ServicePointManager` for setup TLS configuration breaks the ability to use any other TLS protocols except TLS1.2 in the clients' applications. We replaced using `ServicePointManager` to `HttpClient` API for applications with target framework version `4.7.1` or higher. For applications with the target framework version lower than `4.7.1` TLS connection is still configured via `ServicePointManager`.
+
+#### iOS
+
+* **[Feature]** Improved `AES` token encryption algorithm using `Encrypt-then-MAC` data authentication approach.
+
+#### Android
+
+* **[Feature]** Improved `AES` token encryption algorithm using `Encrypt-then-MAC` data authentication approach.
+
+### App Center Crashes
+
+#### iOS
+
+* **[Improvement]** Update PLCrashReporter to 1.10.
+
+### App Center Distribute
+
+#### Android
+
+* **[Fix]** Fix a rare deadlock case when a new version starts downloading and at the same moment the download status is checked.
+* **[Fix]** Fix passing pending intent flag for a completed download notification on Android lower then 23 API.
 
 ___
 
