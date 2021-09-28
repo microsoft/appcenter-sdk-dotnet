@@ -13,7 +13,7 @@ using Microsoft.AppCenter.Analytics;
 
 namespace Contoso.Android.Puppet
 {
-	using AlertDialog = global::Android.Support.V7.App.AlertDialog;
+	using AlertDialog = global::Android.App.AlertDialog;
 
     public class AnalyticsFragment : PageFragment
     {
