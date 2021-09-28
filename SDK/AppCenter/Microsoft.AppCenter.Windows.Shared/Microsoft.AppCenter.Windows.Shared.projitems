@@ -23,11 +23,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Http\IHttpNetworkAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Http\IngestionDecorator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Http\NetworkIngestionException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Models\BooleanProperty.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Models\ClearProperty.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Models\DateTimeProperty.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Models\NumberProperty.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Models\StringProperty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Models\ValidationException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\IStorageAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\StorageAdapter.cs" />
