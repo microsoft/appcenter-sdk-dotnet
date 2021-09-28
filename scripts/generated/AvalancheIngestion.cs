@@ -162,8 +162,6 @@ namespace Microsoft.AppCenter.Ingestion
             DeserializationSettings.Converters.Add(new  PolymorphicDeserializeJsonConverter<Log>("type"));
             SerializationSettings.Converters.Add(new PolymorphicSerializeJsonConverter<TypedProperty>("type"));
             DeserializationSettings.Converters.Add(new  PolymorphicDeserializeJsonConverter<TypedProperty>("type"));
-            SerializationSettings.Converters.Add(new PolymorphicSerializeJsonConverter<CustomProperty>("type"));
-            DeserializationSettings.Converters.Add(new  PolymorphicDeserializeJsonConverter<CustomProperty>("type"));
             CustomInitialize();
         }
         /// <summary>
