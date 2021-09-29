@@ -13,12 +13,10 @@ namespace Microsoft.AppCenter.Crashes
             {
                 return;
             }
-
             Id = msReport.IncidentIdentifier;
             AppStartTime = NSDateToDateTimeOffset(msReport.AppStartTime);
             AppErrorTime = NSDateToDateTimeOffset(msReport.AppErrorTime);
             Device = msReport.Device == null ? null : new Device(msReport.Device);
-
             AndroidDetails = null;
             iOSDetails = null;
             MacOSDetails = new MacOSErrorDetails(msReport.ReporterKey,
@@ -26,7 +24,6 @@ namespace Microsoft.AppCenter.Crashes
                                              msReport.ExceptionName,
                                              msReport.ExceptionReason,
                                              (uint)msReport.AppProcessIdentifier);
-
             MSACWrapperException wrapperException = MSACWrapperExceptionManager.LoadWrapperExceptionWithUUID(msReport.IncidentIdentifier);
             if (wrapperException != null && wrapperException.ExceptionData != null && wrapperException.ExceptionData.Length > 0)
             {

@@ -13,6 +13,7 @@ namespace Microsoft.AppCenter.Crashes
 
     public partial class Crashes
     {
+
         /// <summary>
         /// Internal SDK property not intended for public use.
         /// </summary>
@@ -146,10 +147,8 @@ namespace Microsoft.AppCenter.Crashes
             msException.StackTrace = exception.StackTrace;
             msException.Frames = structuredFrames ? GenerateStackFrames(exception) : null;
             msException.WrapperSdkName = WrapperSdk.Name;
-
             var aggregateException = exception as AggregateException;
             var innerExceptions = new List<MSACWrapperExceptionModel>();
-
             if (aggregateException?.InnerExceptions != null)
             {
                 foreach (Exception innerException in aggregateException.InnerExceptions)
@@ -161,9 +160,7 @@ namespace Microsoft.AppCenter.Crashes
             {
                 innerExceptions.Add(GeneratemacOSException(exception.InnerException, structuredFrames));
             }
-
             msException.InnerExceptions = innerExceptions.Count > 0 ? innerExceptions.ToArray() : null;
-
             return msException;
         }
 
@@ -173,7 +170,6 @@ namespace Microsoft.AppCenter.Crashes
         {
             var trace = new StackTrace(e, true);
             var frameList = new List<MSACStackFrame>();
-
             for (int i = 0; i < trace.FrameCount; ++i)
             {
                 StackFrame dotnetFrame = trace.GetFrame(i);
@@ -198,7 +194,6 @@ namespace Microsoft.AppCenter.Crashes
             {
                 return path;
             }
-
             string pattern = "(/Users/[^/]+/)";
             return Regex.Replace(path, pattern, "/Users/USER/");
         }
@@ -267,7 +262,6 @@ namespace Microsoft.AppCenter.Crashes
                     };
                     SentErrorReport(null, e);
                 }
-
             }
 
             public override void CrashesDidFailSendingErrorReport(MacOSCrashes crashes, MSACErrorReport msReport, NSError error)

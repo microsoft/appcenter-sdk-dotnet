@@ -139,18 +139,18 @@ Task("UpdateAndroidVersionToLatest").Does(() =>
     VersionReader.WriteAndroidVersion(androidLatestVersion);
 }).OnError(HandleError);
 
-Task("UpdateIosVersionToLatest").Does(() => 
+Task("UpdateAppleVersionToLatest").Does(() => 
 {
     var appleLatestVersion = GetLatestGitHubReleaseVersion(AppleSdkRepoName);
     Information($"Received latest apple sdk release version {appleLatestVersion}. Verifying if it's a valid semver version...");
     ParseSemVer(appleLatestVersion);
-    var versionsAreEqual = VersionReader.IosVersion.Equals(appleLatestVersion);
+    var versionsAreEqual = VersionReader.AppleVersion.Equals(appleLatestVersion);
     if (versionsAreEqual) 
     {
         Information($"Nothing to replace. Exiting...");
         return;
     }
-    VersionReader.WriteIosVersion(appleLatestVersion);
+    VersionReader.WriteAppleVersion(appleLatestVersion);
 }).OnError(HandleError);
 
 Task("IncreasePatchVersion").Does(() => 
@@ -476,7 +476,7 @@ string GetReleaseTag(string currentRepoName)
         case AndroidSdkRepoName:
             return VersionReader.AndroidVersion;
         case AppleSdkRepoName:
-            return VersionReader.IosVersion;
+            return VersionReader.AppleVersion;
         default:
             return null;
     }

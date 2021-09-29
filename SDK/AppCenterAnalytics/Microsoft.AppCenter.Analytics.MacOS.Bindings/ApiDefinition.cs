@@ -45,26 +45,6 @@ namespace Microsoft.AppCenter.Analytics.MacOS.Bindings
         [Static]
         [Export("resetSharedInstance")]
         void ResetSharedInstance();
-
-        //// +(void)trackPage:(NSString *)pageName;
-        //[Static]
-        //[Export("trackPage:")]
-        //void TrackPage(string pageName);
-
-        //// +(void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties;
-        //[Static]
-        //[Export("trackPage:withProperties:")]
-        //void TrackPage(string pageName, NSDictionary properties);
-
-        //// +(void)setAutoPageTrackingEnabled:(BOOL)isEnabled;
-        //[Static]
-        //[Export("setAutoPageTrackingEnabled:")]
-        //void SetAutoPageTrackingEnabled(bool isEnabled);
-
-        //// +(BOOL)isAutoPageTrackingEnabled;
-        //[Static]
-        //[Export("isAutoPageTrackingEnabled")]
-        //bool IsAutoPageTrackingEnabled();
     }
 
     // @protocol MSACAnalyticsDelegate <NSObject>
@@ -83,18 +63,6 @@ namespace Microsoft.AppCenter.Analytics.MacOS.Bindings
         //@optional - (void)analytics:(MSACAnalytics*)analytics didFailSendingEventLog:(MSACEventLog*)eventLog withError:(NSError*)error;
         [Export("analytics:didFailSendingEventLog:withError:")]
         void DidFailSendingEventLog(MSACAnalytics analytics, MSACEventLog eventLog, NSError error);
-
-        ////@optional - (void)analytics:(MSACAnalytics*)analytics willSendPageLog:(MSACPageLog*)pageLog;
-        //[Export("analytics:willSendPageLog:")]
-        //void WillSendPageLog(MSACAnalytics analytics, MSACPageLog pageLog);
-
-        ////@optional - (void)analytics:(MSACAnalytics*)analytics didSucceedSendingPageLog:(MSACPageLog*)pageLog;
-        //[Export("analytics:didSucceedSendingPageLog:")]
-        //void DidSucceedSendingPageLog(MSACAnalytics analytics, MSACPageLog pageLog);
-
-        ////@optional - (void)analytics:(MSACAnalytics*)analytics didFailSendingPageLog:(MSACPageLog*)pageLog withError:(NSError*)error;
-        //[Export("analytics:didFailSendingPageLog:withError:")]
-        //void DidFailSendingPageLog(MSACAnalytics analytics, MSACPageLog pageLog, NSError error);
     }
 
     // @interface MSACLogWithProperties : MSACAbstractLog

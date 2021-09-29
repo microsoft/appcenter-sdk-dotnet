@@ -187,11 +187,6 @@ namespace Microsoft.AppCenter
             MacOSAppCenter.SetWrapperSdk(wrapperSdk);
         }
 
-        static void PlatformSetCustomProperties(CustomProperties customProperties)
-        {
-            MacOSAppCenter.SetCustomProperties(customProperties?.MacOSCustomProperties);
-        }
-
         internal static void PlatformUnsetInstance()
         {
             MacOSAppCenter.ResetSharedInstance();

@@ -1,27 +1,27 @@
 public class VersionReader
 {
     private const string SdkVersionTag = "sdkVersion";
-    private const string IosVersionTag = "iosVersion";
+    private const string AppleVersionTag = "appleVersion";
     private const string AndroidVersionTag = "androidVersion";
 
     public static string SdkVersion { get; private set; }
-    public static string IosVersion { get; private set; }
+    public static string AppleVersion { get; private set; }
     public static string AndroidVersion { get; private set; }
 
     public static void ReadVersions()
     {
         XmlReader reader = ConfigFile.CreateReader();
         string sdkVersion = null;
-        string iosVersion = null;
+        string appleVersion = null;
         string androidVersion = null;
         while (reader.Read())
         {
             ReadVersion(SdkVersionTag, reader, ref sdkVersion);
-            ReadVersion(IosVersionTag, reader, ref iosVersion);
+            ReadVersion(AppleVersionTag, reader, ref appleVersion);
             ReadVersion(AndroidVersionTag, reader, ref androidVersion);
         }
         SdkVersion = sdkVersion;
-        IosVersion = iosVersion;
+        AppleVersion = appleVersion;
         AndroidVersion = androidVersion;
         reader.Close();
     }
@@ -37,10 +37,10 @@ public class VersionReader
         }
     }
 
-    public static void WriteIosVersion(string value)
+    public static void WriteAppleVersion(string value)
     {
-        Statics.Context.Information($"Replacing build config versions: {IosVersionTag} from {IosVersion} to {value}.");
-        Statics.Context.ReplaceTextInFiles(ConfigFile.Path, $"<{IosVersionTag}>{IosVersion}</{IosVersionTag}>", $"<{IosVersionTag}>{value}</{IosVersionTag}>");
+        Statics.Context.Information($"Replacing build config versions: {AppleVersionTag} from {AppleVersion} to {value}.");
+        Statics.Context.ReplaceTextInFiles(ConfigFile.Path, $"<{AppleVersionTag}>{AppleVersion}</{AppleVersionTag}>", $"<{AppleVersionTag}>{value}</{AppleVersionTag}>");
     }
 
     public static void WriteAndroidVersion(string value)
