@@ -1,5 +1,13 @@
 # App Center SDK for .NET Change Log
 
+## Version 4.4.1 (Under active development)
+
+### App Center
+
+* **[Breaking change]** Remove `AppCenter.SetCustomProperties` API.
+
+___
+
 ## Version 4.4.0
 
 ### App Center
