@@ -1,9 +1,6 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 using System;
 using Foundation;
-using Microsoft.AppCenter.Crashes.iOS.Bindings;
+using Microsoft.AppCenter.Crashes.MacOS.Bindings;
 
 namespace Microsoft.AppCenter.Crashes
 {
@@ -23,8 +20,8 @@ namespace Microsoft.AppCenter.Crashes
             Device = msReport.Device == null ? null : new Device(msReport.Device);
 
             AndroidDetails = null;
-            MacOSDetails = null;
-            iOSDetails = new iOSErrorDetails(msReport.ReporterKey,
+            iOSDetails = null;
+            MacOSDetails = new MacOSErrorDetails(msReport.ReporterKey,
                                              msReport.Signal,
                                              msReport.ExceptionName,
                                              msReport.ExceptionReason,
