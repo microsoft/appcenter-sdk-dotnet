@@ -109,7 +109,6 @@ definitions:
           type: string
 
   # Define typed properties for events.
-  # Unfortunately incompatible with push custom properties.
 
   TypedProperty:
     type: object
