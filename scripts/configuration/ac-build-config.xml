@@ -2,7 +2,7 @@
 <config>
     <sdkInfo>
         <sdkVersion>4.4.1-SNAPSHOT</sdkVersion>
-        <iosVersion>4.3.0</iosVersion>
+        <appleVersion>4.3.0</appleVersion>
         <androidVersion>4.3.1</androidVersion>
     </sdkInfo>
     <group id="ios" folder="iOSAssemblies" buildGroup="mac">

@@ -123,7 +123,7 @@ Task("StartNewVersion").Does(() =>
 // Fills Android and iOS versions in the build config file with the relevant ones.
 Task("UpdateNativeVersionsToLatest")
     .IsDependentOn("UpdateAndroidVersionToLatest")
-    .IsDependentOn("UpdateIosVersionToLatest");
+    .IsDependentOn("UpdateAppleVersionToLatest");
 
 Task("UpdateAndroidVersionToLatest").Does(() => 
 {

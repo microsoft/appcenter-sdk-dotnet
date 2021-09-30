@@ -135,7 +135,7 @@ Setup(context =>
 
 // Distribution Tasks
 
-Task("CreateIosArchive").IsDependentOn("IncreaseIosVersion").Does(()=>
+Task("CreateIosArchive").IsDependentOn("IncreaseAppleVersion").Does(()=>
 {
     MSBuild(CurrentApp.ProjectPath, settings => settings.SetConfiguration("Release")
       .WithTarget("Build")
@@ -178,7 +178,7 @@ Task("CreateAndroidArchive").IsDependentOn("IncreaseAndroidVersion").Does(()=>
     CopyFile(unsignedApk, CurrentApp.AppPath);
 });
 
-Task("IncreaseIosVersion").Does(()=>
+Task("IncreaseAppleVersion").Does(()=>
 {
     var infoPlistLocation = CurrentApp.ProjectDirectory + "/Info.plist";
     var plist = File(infoPlistLocation);
