@@ -58,5 +58,5 @@ namespace Contoso.Forms.Puppet.MacOS
                 AppCenterLog.Debug(App.LogTag, "Failed to send event with error: " + error);
             }
         }
-        }
+    }
 }
