@@ -106,6 +106,7 @@
     <Compile Include="ModulePages\CrashesController.designer.cs">
       <DependentUpon>CrashesController.cs</DependentUpon>
     </Compile>
+    <Compile Include="FakeService.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
@@ -131,6 +132,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\SDK\AppCenter\Microsoft.AppCenter.MacOS.Bindings\Microsoft.AppCenter.MacOS.Bindings.csproj">
       <Name>Microsoft.AppCenter.MacOS.Bindings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Contoso.UtilClassLibrary\Contoso.UtilClassLibrary.csproj">
+      <Name>Contoso.UtilClassLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />

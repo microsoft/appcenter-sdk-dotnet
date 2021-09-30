@@ -6,7 +6,9 @@ namespace Contoso.MacOS.Puppet.ModulePages
 {
     public partial class AppCenterController : AppKit.NSViewController
     {
-        private const string TAG = "XamarinMacOS";
+        private const string LogTag = "XamarinMacOS";
+        private const string On = "1";
+        private const string Off = "0";
 
         #region Constructors
 
@@ -32,20 +34,35 @@ namespace Contoso.MacOS.Puppet.ModulePages
         // Shared initialization code
         void Initialize()
         {
-            
         }
 
         #endregion
 
+        public override void ViewDidAppear()
+        {
+            base.ViewDidAppear();
+            isAppCenterEnabledSwitch.StringValue = Microsoft.AppCenter.AppCenter.IsEnabledAsync().Result ? On : Off;
+            isNetworkRequestAllowedSwitch.StringValue = Microsoft.AppCenter.AppCenter.IsNetworkRequestsAllowed ? On : Off;
+
+            // Set max storage size value.
+            var plist = NSUserDefaults.StandardUserDefaults;
+            var storageSizeValue = plist.IntForKey(Constants.StorageSizeKey);
+            if (storageSizeValue > 0)
+            {
+                MaxStorageSizeText.StringValue = storageSizeValue.ToString();
+            }
+        }
+
         partial void isAppCenterEnabled(NSSwitch sender)
         {
-            var isAppCenterEnabled = sender.AccessibilityValue.ToLower().Equals("on");
+            var isAppCenterEnabled = sender.StringValue.ToLower().Equals(On);
             Microsoft.AppCenter.AppCenter.SetEnabledAsync(isAppCenterEnabled).Wait();
+            isAppCenterEnabledSwitch.StringValue = Microsoft.AppCenter.AppCenter.IsEnabledAsync().Result ? On : Off;
         }
 
         partial void isNetworkRequestsAllowed(NSSwitch sender)
         {
-            var isNetworkAllowed = sender.AccessibilityValue.ToLower().Equals("on");
+            var isNetworkAllowed = sender.StringValue.ToLower().Equals(On);
             Microsoft.AppCenter.AppCenter.IsNetworkRequestsAllowed = isNetworkAllowed;
         }
 
@@ -59,7 +76,7 @@ namespace Contoso.MacOS.Puppet.ModulePages
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine(TAG, "Wrong storage size value.");
+                Microsoft.AppCenter.AppCenterLog.Error(LogTag, "Wrong number value for the max storage size.");
             }
         }
 
@@ -67,7 +84,6 @@ namespace Contoso.MacOS.Puppet.ModulePages
         {
             var userId = string.IsNullOrEmpty(sender.AccessibilityValue) ? null : sender.AccessibilityValue;
             Microsoft.AppCenter.AppCenter.SetUserId(userId);
-
         }
 
         //strongly typed view accessor

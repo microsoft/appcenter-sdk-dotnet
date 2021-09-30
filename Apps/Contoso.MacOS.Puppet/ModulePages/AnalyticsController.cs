@@ -9,6 +9,8 @@ namespace Contoso.MacOS.Puppet.ModulePages
     public partial class AnalyticsController : AppKit.NSViewController
     {
         private bool hasTrackEventPropery = false;
+        private const string On = "1";
+        private const string Off = "0";
 
         #region Constructors
 
@@ -38,10 +40,19 @@ namespace Contoso.MacOS.Puppet.ModulePages
 
         #endregion
 
+        public override void ViewDidAppear()
+        {
+            base.ViewDidAppear();
+            isAnalyticsEnabledSwitch.StringValue = Microsoft.AppCenter.Analytics.Analytics.IsEnabledAsync().Result ? On : Off;
+            isAnalyticsEnabledSwitch.Enabled = Microsoft.AppCenter.AppCenter.IsEnabledAsync().Result ? true : false;
+
+        }
+
         partial void AnalyticsSwitchEnabled(NSSwitch sender)
         {
             var isAnalyticsEnabled = sender.AccessibilityValue.ToLower().Equals("on");
             Microsoft.AppCenter.Analytics.Analytics.SetEnabledAsync(isAnalyticsEnabled).Wait();
+            isAnalyticsEnabledSwitch.StringValue = Microsoft.AppCenter.Analytics.Analytics.IsEnabledAsync().Result ? On : Off;
         }
 
         partial void hasTrackErrorProperties(NSButton sender)

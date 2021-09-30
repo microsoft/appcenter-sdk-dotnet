@@ -752,13 +752,104 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oKQ-tO-RdX">
+                                <rect key="frame" x="20" y="213" width="417" height="32"/>
+                                <buttonCell key="cell" type="push" title="GENERATE TEST CRASH" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="a7Y-9i-TvD">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <connections>
+                                        <action selector="TestCrash:" target="X2Z-ti-DMD" id="6Jl-O6-pqi"/>
+                                    </connections>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I8v-mg-oIC">
+                                <rect key="frame" x="20" y="181" width="417" height="32"/>
+                                <buttonCell key="cell" type="push" title="DIVIDE 42 BY 0" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Tte-83-rEW">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="DivideByZero:" target="X2Z-ti-DMD" id="et4-Xj-ADV"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Blr-Wg-b5c">
+                                <rect key="frame" x="20" y="149" width="417" height="32"/>
+                                <buttonCell key="cell" type="push" title="CRASH WITH AGGREGATE EXCEPTION" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zEu-58-wAD">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <connections>
+                                        <action selector="CrashWithAggregateException:" target="X2Z-ti-DMD" id="Pac-Tb-J1y"/>
+                                    </connections>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ueQ-un-5U0">
+                                <rect key="frame" x="20" y="117" width="417" height="32"/>
+                                <buttonCell key="cell" type="push" title="TEST CATCHING NULLREFERENCEEXCEPTION" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fDS-Xw-wuX">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <connections>
+                                        <action selector="CatchNullReferenceException:" target="X2Z-ti-DMD" id="3Nk-Hy-2wH"/>
+                                    </connections>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wkl-Bj-HLQ">
+                                <rect key="frame" x="20" y="85" width="417" height="32"/>
+                                <buttonCell key="cell" type="push" title="CRASH WITH NULLREFERENCEEXCEPTION" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="L9v-z4-JXn">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="CrashWithNullReferenceException:" target="X2Z-ti-DMD" id="2VC-hu-YGZ"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="U3W-vK-q4M">
+                                <rect key="frame" x="20" y="53" width="417" height="32"/>
+                                <buttonCell key="cell" type="push" title="CRASH INSIDE ASYNC TASK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="M1b-mx-QEy">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="CrashAsync:" target="X2Z-ti-DMD" id="6ga-00-OoE"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="stx-D5-Fco">
+                                <rect key="frame" x="20" y="21" width="417" height="32"/>
+                                <buttonCell key="cell" type="push" title="TRACK ERROR WITH NATIVE CRASH" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FG0-rY-BEU">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <connections>
+                                        <action selector="NativeCrash:" target="X2Z-ti-DMD" id="572-zs-JBX"/>
+                                    </connections>
+                                </buttonCell>
+                            </button>
                         </subviews>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="stx-D5-Fco" secondAttribute="trailing" constant="20" symbolic="YES" id="0tC-BK-0Wa"/>
+                            <constraint firstItem="wkl-Bj-HLQ" firstAttribute="top" secondItem="ueQ-un-5U0" secondAttribute="bottom" constant="12" symbolic="YES" id="49W-5Q-brS"/>
+                            <constraint firstItem="I8v-mg-oIC" firstAttribute="top" secondItem="oKQ-tO-RdX" secondAttribute="bottom" constant="12" symbolic="YES" id="966-Dx-dri"/>
+                            <constraint firstItem="ueQ-un-5U0" firstAttribute="top" secondItem="Blr-Wg-b5c" secondAttribute="bottom" constant="12" symbolic="YES" id="Cjh-0c-saK"/>
+                            <constraint firstItem="Blr-Wg-b5c" firstAttribute="top" secondItem="I8v-mg-oIC" secondAttribute="bottom" constant="12" symbolic="YES" id="D6o-r1-IJE"/>
+                            <constraint firstItem="I8v-mg-oIC" firstAttribute="leading" secondItem="4Mn-Lj-dFU" secondAttribute="leading" constant="27" id="HXx-V1-dMq"/>
+                            <constraint firstItem="oKQ-tO-RdX" firstAttribute="leading" secondItem="4Mn-Lj-dFU" secondAttribute="leading" constant="27" id="Nzj-c8-ydt"/>
+                            <constraint firstAttribute="trailing" secondItem="Blr-Wg-b5c" secondAttribute="trailing" constant="20" symbolic="YES" id="OZG-RQ-61l"/>
+                            <constraint firstItem="stx-D5-Fco" firstAttribute="top" secondItem="U3W-vK-q4M" secondAttribute="bottom" constant="12" symbolic="YES" id="QaC-Fp-NWM"/>
+                            <constraint firstAttribute="trailing" secondItem="oKQ-tO-RdX" secondAttribute="trailing" constant="20" symbolic="YES" id="S5G-4N-GY5"/>
                             <constraint firstItem="Ety-Wi-Cnn" firstAttribute="leading" secondItem="4Mn-Lj-dFU" secondAttribute="leading" constant="27" id="SxG-2M-U8Z"/>
+                            <constraint firstItem="wkl-Bj-HLQ" firstAttribute="leading" secondItem="4Mn-Lj-dFU" secondAttribute="leading" constant="27" id="Syz-Wk-F8q"/>
+                            <constraint firstAttribute="trailing" secondItem="I8v-mg-oIC" secondAttribute="trailing" constant="20" symbolic="YES" id="VOk-On-eQU"/>
+                            <constraint firstAttribute="trailing" secondItem="ueQ-un-5U0" secondAttribute="trailing" constant="20" symbolic="YES" id="WBE-2x-efY"/>
                             <constraint firstItem="Ety-Wi-Cnn" firstAttribute="top" secondItem="4Mn-Lj-dFU" secondAttribute="top" constant="23" id="WHT-y9-mr7"/>
+                            <constraint firstItem="U3W-vK-q4M" firstAttribute="leading" secondItem="4Mn-Lj-dFU" secondAttribute="leading" constant="27" id="Y14-o5-h83"/>
+                            <constraint firstAttribute="trailing" secondItem="wkl-Bj-HLQ" secondAttribute="trailing" constant="20" symbolic="YES" id="c3K-Ms-Kfh"/>
                             <constraint firstItem="4er-1P-8gP" firstAttribute="top" secondItem="4Mn-Lj-dFU" secondAttribute="top" constant="20" symbolic="YES" id="dF9-TM-XmV"/>
+                            <constraint firstItem="U3W-vK-q4M" firstAttribute="top" secondItem="wkl-Bj-HLQ" secondAttribute="bottom" constant="12" symbolic="YES" id="dMk-tm-Ui6"/>
                             <constraint firstItem="4er-1P-8gP" firstAttribute="leading" secondItem="Ety-Wi-Cnn" secondAttribute="trailing" constant="239" id="eWC-hg-o85"/>
+                            <constraint firstAttribute="trailing" secondItem="U3W-vK-q4M" secondAttribute="trailing" constant="20" symbolic="YES" id="hmF-Hs-ptp"/>
+                            <constraint firstItem="ueQ-un-5U0" firstAttribute="leading" secondItem="4Mn-Lj-dFU" secondAttribute="leading" constant="27" id="kwg-zA-roY"/>
+                            <constraint firstItem="stx-D5-Fco" firstAttribute="leading" secondItem="4Mn-Lj-dFU" secondAttribute="leading" constant="27" id="sMA-HB-jJr"/>
                             <constraint firstAttribute="trailing" secondItem="4er-1P-8gP" secondAttribute="trailing" constant="20" symbolic="YES" id="tdj-n5-Jiq"/>
+                            <constraint firstItem="oKQ-tO-RdX" firstAttribute="top" secondItem="Ety-Wi-Cnn" secondAttribute="bottom" constant="21" id="tl9-It-NBB"/>
+                            <constraint firstItem="Blr-Wg-b5c" firstAttribute="leading" secondItem="4Mn-Lj-dFU" secondAttribute="leading" constant="27" id="yKs-7h-TsH"/>
                         </constraints>
                     </view>
                     <connections>
