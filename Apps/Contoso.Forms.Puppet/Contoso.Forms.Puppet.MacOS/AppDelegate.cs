@@ -15,7 +15,11 @@ namespace Contoso.Forms.Puppet.MacOS
         NSWindow window;
         public AppDelegate()
         {
-
+            var style = NSWindowStyle.Closable | NSWindowStyle.Resizable | NSWindowStyle.Titled;
+            var rect = new CoreGraphics.CGRect(200, 1000, 1024, 768);
+            window = new NSWindow(rect, style, NSBackingStore.Buffered, false);
+            window.Title = "App Center Xamarin.Forms on Mac!"; // choose your own Title here
+            window.TitleVisibility = NSWindowTitleVisibility.Hidden;
         }
 
         public override NSWindow MainWindow
