@@ -1,23 +1,24 @@
 ﻿using AppKit;
+using Contoso.Forms.Puppet.MacOS;
 using Foundation;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics.MacOS.Bindings;
 using Xamarin.Forms;
-using Xamarin.Forms.Platform.MacOS;
 
+[assembly: Dependency(typeof(AppDelegate))]
 namespace Contoso.Forms.Puppet.MacOS
 {
     [Register("AppDelegate")]
-    public class AppDelegate : FormsApplicationDelegate, IClearCrashClick
+    public class AppDelegate : Xamarin.Forms.Platform.MacOS.FormsApplicationDelegate, IClearCrashClick
     {
         private const string CrashesUserConfirmationStorageKey = "MSAppCenterCrashesUserConfirmation";
 
-        NSWindow window;
+        NSPanel window;
         public AppDelegate()
         {
             var style = NSWindowStyle.Closable | NSWindowStyle.Resizable | NSWindowStyle.Titled;
             var rect = new CoreGraphics.CGRect(200, 1000, 1024, 768);
-            window = new NSWindow(rect, style, NSBackingStore.Buffered, false);
+            window = new NSPanel(rect, style, NSBackingStore.Buffered, false);
             window.Title = "App Center Xamarin.Forms on Mac!"; // choose your own Title here
             window.TitleVisibility = NSWindowTitleVisibility.Hidden;
         }
@@ -37,7 +38,6 @@ namespace Contoso.Forms.Puppet.MacOS
             Xamarin.Forms.Forms.Init();
             MSACAnalytics.SetDelegate(new AnalyticsDelegate());
             LoadApplication(new App());
-            AppCenter.Start("2b06eb3f-70c9-4b31-b74b-a84fd2d01f51");
             base.DidFinishLaunching(notification);
         }
 

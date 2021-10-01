@@ -26,7 +26,8 @@ namespace Contoso.Forms.Puppet
         {
             { XamarinDevice.UWP, "a678b499-1912-4a94-9d97-25b569284d3a" },
             { XamarinDevice.Android, "bff0949b-7970-439d-9745-92cdc59b10fe" },
-            { XamarinDevice.iOS, "b889c4f2-9ac2-4e2e-ae16-dae54f2c5899" }
+            { XamarinDevice.iOS, "b889c4f2-9ac2-4e2e-ae16-dae54f2c5899" },
+            { XamarinDevice.macOS, "2b06eb3f-70c9-4b31-b74b-a84fd2d01f51" }
         };
 
         // OneCollector secrets
@@ -118,7 +119,7 @@ namespace Contoso.Forms.Puppet
 
         private string GetAppCenterTokenString()
         {
-            return $"uwp={AppSecrets[XamarinDevice.UWP]};android={AppSecrets[XamarinDevice.Android]};ios={AppSecrets[XamarinDevice.iOS]}";
+            return $"uwp={AppSecrets[XamarinDevice.UWP]};android={AppSecrets[XamarinDevice.Android]};ios={AppSecrets[XamarinDevice.iOS]};macos={AppSecrets[XamarinDevice.macOS]}";
         }
 
         private string GetTokensString()
