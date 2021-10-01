@@ -119,7 +119,7 @@ namespace Contoso.Forms.Demo
 
         async void RefreshEnabled()
         {
-            CrashesEnabledSwitchCell.On = await Crashes.IsEnabledAsync();
+            CrashesEnabledSwitchCell.IsToggled = await Crashes.IsEnabledAsync();
             CrashesEnabledSwitchCell.IsEnabled = await AppCenter.IsEnabledAsync();
         }
 
@@ -134,7 +134,7 @@ namespace Contoso.Forms.Demo
             {
                 action();
             }
-            catch (Exception e) when (HandleExceptionsSwitchCell.On)
+            catch (Exception e) when (HandleExceptionsSwitchCell.IsToggled)
             {
                 TrackException(e);
             }
@@ -229,7 +229,7 @@ namespace Contoso.Forms.Demo
             {
                 await FakeService.DoStuffInBackground();
             }
-            catch (Exception ex) when (HandleExceptionsSwitchCell.On)
+            catch (Exception ex) when (HandleExceptionsSwitchCell.IsToggled)
             {
                 TrackException(ex);
             }
@@ -241,7 +241,7 @@ namespace Contoso.Forms.Demo
             {
                 CrashUtils.BackgroundExceptionTask().RunSynchronously();
             }
-            catch (Exception ex) when (HandleExceptionsSwitchCell.On)
+            catch (Exception ex) when (HandleExceptionsSwitchCell.IsToggled)
             {
                 TrackException(ex);
             }

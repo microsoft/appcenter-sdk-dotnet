@@ -1,33 +1,28 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage Title="App Center" xmlns:local="clr-namespace:Contoso.Forms.Demo" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Contoso.Forms.Demo.AppCenterContentPage">
-    <TableView Intent="Form">
-        <TableSection Title="AppCenter Settings">
-            <SwitchCell Text="AppCenter Enabled" On="true" x:Name="AppCenterEnabledSwitchCell" OnChanged="UpdateEnabled" />
-            <SwitchCell Text="Allow network requests" On="true" x:Name="AllowedNetworkRequestSwitchCell" OnChanged="AllowedNetworkRequestEnabled" />
-        </TableSection>
-        <TableSection Title="Startup type">
-            <ViewCell>
-                <Picker x:Name="StartTypePicker" Title="Start Type" PropertyChanged="ChangeStartType" />
-            </ViewCell>
-        </TableSection>
-        <TableSection Title="Misc">
-            <ViewCell>
-                <StackLayout Orientation="Horizontal" Margin="15,0,15,0">
-                    <Label Text="User Id" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-                    <Entry x:Name="UserIdEntry" Margin="4, 0, 4, 0" HorizontalOptions="FillAndExpand" VerticalOptions="Center" HorizontalTextAlignment="End" />
-                </StackLayout>
-            </ViewCell>
-            <ViewCell>
-                <StackLayout Orientation="Horizontal" Margin="15,0,15,0">
-                    <Label Text="Storage Max Size" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-                    <Entry x:Name="StorageMaxSize" Margin="4, 0, 4, 0" HorizontalOptions="FillAndExpand" VerticalOptions="Center" HorizontalTextAlignment="End" />
-                </StackLayout>
-            </ViewCell>
-            <ViewCell>
-                <StackLayout Orientation="Horizontal" Margin="15,0,15,0">
-                    <Button Text="Save Storage Size" Clicked="SaveStorageSize_Clicked"/>
-                </StackLayout>
-            </ViewCell>
-        </TableSection>
-    </TableView>
+    <StackLayout Orientation="Vertical" Padding="16">
+        <StackLayout Orientation="Vertical">
+            <Label Text="App Center Settings"/>
+            <StackLayout Margin="0, 16, 0, 0" Orientation="Horizontal">
+                <Label FontSize="Small" HorizontalOptions="Start" Text="AppCenter Enabled"/>
+                <Switch HorizontalOptions="EndAndExpand"  IsToggled="true" x:Name="AppCenterEnabledSwitchCell" Toggled="UpdateEnabled" />
+            </StackLayout>
+            <StackLayout Margin="0, 16, 0, 0" Orientation="Horizontal">
+                <Label FontSize="Small" HorizontalOptions="Start"  Text="Allow network requests"/>
+                <Switch HorizontalOptions="EndAndExpand"  IsToggled="true" x:Name="AllowedNetworkRequestSwitchCell" Toggled="AllowedNetworkRequestEnabled" />
+            </StackLayout>
+        </StackLayout>
+        <StackLayout>
+            <Picker x:Name="StartTypePicker" Title="Start Type" Margin="0, 16, 0, 16" PropertyChanged="ChangeStartType" />
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label FontSize="Small"  Text="User Id" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+            <Entry FontSize="Small" x:Name="UserIdEntry" Margin="4, 0, 4, 0" HorizontalOptions="FillAndExpand" VerticalOptions="Center" HorizontalTextAlignment="End" />
+        </StackLayout>
+         <StackLayout Margin="0, 8, 0, 4" Orientation="Horizontal">
+            <Label FontSize="Small"  Text="Storage Max Size" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+            <Entry FontSize="Small" x:Name="StorageMaxSize" Margin="4, 0, 4, 0" HorizontalOptions="FillAndExpand" VerticalOptions="Center" HorizontalTextAlignment="End" />
+        </StackLayout>
+        <Button Text="Save Storage Size" Padding="16, 8, 16, 8" InputTransparent="true" Clicked="SaveStorageSize_Clicked"/>
+    </StackLayout>
 </ContentPage>
