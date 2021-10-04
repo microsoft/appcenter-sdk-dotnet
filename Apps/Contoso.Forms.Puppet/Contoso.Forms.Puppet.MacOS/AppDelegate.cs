@@ -1,4 +1,7 @@
-﻿using AppKit;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using AppKit;
 using Contoso.Forms.Puppet.MacOS;
 using Foundation;
 using Microsoft.AppCenter;
