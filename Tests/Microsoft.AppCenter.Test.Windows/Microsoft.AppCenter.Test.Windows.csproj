@@ -62,7 +62,6 @@
     <Compile Include="Channel\ChannelGroupTest.cs" />
     <Compile Include="Channel\ChannelTest.cs" />
     <Compile Include="Channel\MockChannelGroupFactory.cs" />
-    <Compile Include="CustomPropertiesTest.cs" />
     <Compile Include="IngestionExceptions.cs" />
     <Compile Include="Ingestion\Http\HttpIngestionTest.cs" />
     <Compile Include="Ingestion\Http\HttpNetworkAdapterTest.cs" />
@@ -72,7 +71,6 @@
     <Compile Include="Ingestion\Http\RetryableTest.cs" />
     <Compile Include="Ingestion\ServiceCallTest.cs" />
     <Compile Include="Ingestion\IngestionExceptionTest.cs" />
-    <Compile Include="Ingestion\Models\CustomPropertiesLogTest.cs" />
     <Compile Include="Ingestion\Models\JsonLogConverterTest.cs" />
     <Compile Include="Ingestion\Models\TestLog.cs" />
     <Compile Include="Ingestion\Models\LogContainerTest.cs" />

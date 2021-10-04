@@ -199,15 +199,6 @@ namespace Microsoft.AppCenter
         }
 
         /// <summary>
-        /// Set the custom properties.
-        /// </summary>
-        /// <param name="customProperties">Custom properties object.</param>
-        public static void SetCustomProperties(CustomProperties customProperties)
-        {
-            PlatformSetCustomProperties(customProperties);
-        }
-
-        /// <summary>
         /// Set the maximum size of the internal storage.
         /// This method must be called before App Center is started. This method is only intended for applications.
         /// </summary>

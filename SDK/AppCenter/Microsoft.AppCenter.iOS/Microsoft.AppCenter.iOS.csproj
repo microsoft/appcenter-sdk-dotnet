@@ -54,7 +54,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AppCenterLog.cs" />
     <Compile Include="Device.cs" />
-    <Compile Include="CustomProperties.cs" />
     <Compile Include="DependencyConfiguration.cs" />
     <Compile Include="IosHttpClientAdapter.cs" />
   </ItemGroup>

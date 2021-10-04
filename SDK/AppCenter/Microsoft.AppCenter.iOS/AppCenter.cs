@@ -190,11 +190,6 @@ namespace Microsoft.AppCenter
             iOSAppCenter.SetWrapperSdk(wrapperSdk);
         }
 
-        static void PlatformSetCustomProperties(CustomProperties customProperties)
-        {
-            iOSAppCenter.SetCustomProperties(customProperties?.IOSCustomProperties);
-        }
-
         internal static void PlatformUnsetInstance()
         {
             iOSAppCenter.ResetSharedInstance();

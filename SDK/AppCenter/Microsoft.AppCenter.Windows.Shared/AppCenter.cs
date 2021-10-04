@@ -205,14 +205,6 @@ namespace Microsoft.AppCenter
             }
         }
 
-        internal static void PlatformSetCustomProperties(CustomProperties customProperties)
-        {
-            lock (AppCenterLock)
-            {
-                Instance.SetInstanceCustomProperties(customProperties);
-            }
-        }
-
         internal static void PlatformUnsetInstance()
         {
             Instance = null;
@@ -310,7 +302,6 @@ namespace Microsoft.AppCenter
             {
                 _applicationSettings = _applicationSettingsFactory?.CreateApplicationSettings() ?? new DefaultApplicationSettings();
                 LogSerializer.AddLogType(StartServiceLog.JsonIdentifier, typeof(StartServiceLog));
-                LogSerializer.AddLogType(CustomPropertyLog.JsonIdentifier, typeof(CustomPropertyLog));
                 ApplicationLifecycleHelper.Instance.UnhandledExceptionOccurred += OnUnhandledExceptionOccurred;
             }
         }
@@ -383,21 +374,6 @@ namespace Microsoft.AppCenter
             _storageMaxSize = storageMaxSize;
             _storageTaskCompletionSource = resultTaskCompletionSource;
             return _storageTaskCompletionSource.Task;
-        }
-
-        private void SetInstanceCustomProperties(CustomProperties customProperties)
-        {
-            if (!Configured)
-            {
-                AppCenterLog.Error(AppCenterLog.LogTag, NotConfiguredMessage);
-                return;
-            }
-            if (customProperties == null || customProperties.Properties.Count == 0)
-            {
-                AppCenterLog.Error(AppCenterLog.LogTag, "Custom properties may not be null or empty.");
-                return;
-            }
-            _channel.EnqueueAsync(new CustomPropertyLog { Properties = customProperties.Properties });
         }
 
         private void OnUnhandledExceptionOccurred(object sender, UnhandledExceptionOccurredEventArgs args)
