@@ -23,6 +23,6 @@
             <Label FontSize="Small"  Text="Storage Max Size" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
             <Entry FontSize="Small" x:Name="StorageMaxSize" Margin="4, 0, 4, 0" HorizontalOptions="FillAndExpand" VerticalOptions="Center" HorizontalTextAlignment="End" />
         </StackLayout>
-        <Button Text="Save Storage Size" Padding="16, 8, 16, 8" InputTransparent="true" Clicked="SaveStorageSize_Clicked"/>
+        <Button Text="Save Storage Size" Padding="16, 8, 16, 8" Clicked="SaveStorageSize_Clicked"/>
     </StackLayout>
 </ContentPage>

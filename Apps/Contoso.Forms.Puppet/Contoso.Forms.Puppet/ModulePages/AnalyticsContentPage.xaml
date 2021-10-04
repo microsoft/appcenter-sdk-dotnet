@@ -6,7 +6,7 @@
     <StackLayout Orientation="Vertical">
         <StackLayout Orientation="Vertical">
             <Label Text="Analytics Settings"/>
-            <StackLayout Margin="0, 8, 0, 0" Orientation="Horizontal">
+            <StackLayout Margin="0, 16, 0, 0" Orientation="Horizontal">
                 <Label FontSize="Small" HorizontalOptions="Start"  Text="Analytics Enabled"/>
                 <Switch HorizontalOptions="EndAndExpand"  IsToggled="true" x:Name="EnabledSwitchCell" Toggled="UpdateEnabled" />
             </StackLayout>
@@ -19,7 +19,7 @@
                 <Label FontSize="Small" Text="0" HorizontalOptions="EndAndExpand" VerticalOptions="Center" TextColor="Gray" x:Name="NumPropertiesLabel" />
             </StackLayout>
         </StackLayout>
-        <Button Text="Add Property" Padding="0, 8, 0, 8"  Clicked="AddProperty" InputTransparent="true" />
-        <Button Text="Track Event" Padding="0, 8, 0, 8" InputTransparent="true" Clicked="TrackEvent" FontAttributes="Bold" />
+        <Button Text="Add Property" Padding="0, 8, 0, 8"  Clicked="AddProperty" />
+        <Button Text="Track Event" Padding="0, 8, 0, 8" Clicked="TrackEvent" FontAttributes="Bold" />
     </StackLayout>
 </ContentPage>
