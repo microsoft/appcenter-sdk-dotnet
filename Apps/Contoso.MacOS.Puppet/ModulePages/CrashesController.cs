@@ -46,15 +46,15 @@ namespace Contoso.MacOS.Puppet.ModulePages
         public override void ViewDidAppear()
         {
             base.ViewDidAppear();
-            isCrashesEnabledSwitch.StringValue = Microsoft.AppCenter.Crashes.Crashes.IsEnabledAsync().Result ? On : Off;
-            isCrashesEnabledSwitch.Enabled = Microsoft.AppCenter.AppCenter.IsEnabledAsync().Result ? true : false;
+            IsCrashesEnabledSwitch.StringValue = Microsoft.AppCenter.Crashes.Crashes.IsEnabledAsync().Result ? On : Off;
+            IsCrashesEnabledSwitch.Enabled = Microsoft.AppCenter.AppCenter.IsEnabledAsync().Result ? true : false;
         }
 
-        partial void isCrashesEnabled(NSSwitch sender)
+        partial void IsCrashesEnabled(NSSwitch sender)
         {
             var isAnalyticsEnabled = sender.AccessibilityValue.ToLower().Equals("on");
             Microsoft.AppCenter.Crashes.Crashes.SetEnabledAsync(isAnalyticsEnabled).Wait();
-            isCrashesEnabledSwitch.StringValue = Microsoft.AppCenter.Crashes.Crashes.IsEnabledAsync().Result ? On : Off;
+            IsCrashesEnabledSwitch.StringValue = Microsoft.AppCenter.Crashes.Crashes.IsEnabledAsync().Result ? On : Off;
         }
 
         partial void TestCrash(NSButton sender)
@@ -76,9 +76,9 @@ namespace Contoso.MacOS.Puppet.ModulePages
             {
                 TriggerNullReferenceException();
             }
-            catch (NullReferenceException)
+            catch (NullReferenceException e)
             {
-                System.Diagnostics.Debug.WriteLine("null reference exception");
+                Microsoft.AppCenter.Crashes.Crashes.TrackError(e);
             }
         }
 
@@ -147,14 +147,7 @@ namespace Contoso.MacOS.Puppet.ModulePages
 
         partial void NativeCrash(NSButton sender)
         {
-            try
-            {
-                NSNull.Null.PerformSelector(new ObjCRuntime.Selector("isEqualToString:"));
-            }
-            catch (Exception ex)
-            {
-                Microsoft.AppCenter.Crashes.Crashes.TrackError(ex);
-            }
+            NSNull.Null.PerformSelector(new ObjCRuntime.Selector("isEqualToString:"));
         }
 
         //strongly typed view accessor

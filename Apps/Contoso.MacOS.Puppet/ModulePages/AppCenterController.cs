@@ -12,6 +12,7 @@ namespace Contoso.MacOS.Puppet.ModulePages
         private const string LogTag = "XamarinMacOS";
         private const string On = "1";
         private const string Off = "0";
+        private NSUserDefaults plist = NSUserDefaults.StandardUserDefaults;
 
         #region Constructors
 
@@ -44,11 +45,11 @@ namespace Contoso.MacOS.Puppet.ModulePages
         public override void ViewDidAppear()
         {
             base.ViewDidAppear();
-            isAppCenterEnabledSwitch.StringValue = Microsoft.AppCenter.AppCenter.IsEnabledAsync().Result ? On : Off;
+            IsAppCenterEnabledSwitch.StringValue = Microsoft.AppCenter.AppCenter.IsEnabledAsync().Result ? On : Off;
             isNetworkRequestAllowedSwitch.StringValue = Microsoft.AppCenter.AppCenter.IsNetworkRequestsAllowed ? On : Off;
 
             // Set max storage size value.
-            var plist = NSUserDefaults.StandardUserDefaults;
+            plist = NSUserDefaults.StandardUserDefaults;
             var storageSizeValue = plist.IntForKey(Constants.StorageSizeKey);
             if (storageSizeValue > 0)
             {
@@ -56,26 +57,27 @@ namespace Contoso.MacOS.Puppet.ModulePages
             }
         }
 
-        partial void isAppCenterEnabled(NSSwitch sender)
+        partial void IsAppCenterEnabled(NSSwitch sender)
         {
-            var isAppCenterEnabled = sender.StringValue.ToLower().Equals(On);
-            Microsoft.AppCenter.AppCenter.SetEnabledAsync(isAppCenterEnabled).Wait();
-            isAppCenterEnabledSwitch.StringValue = Microsoft.AppCenter.AppCenter.IsEnabledAsync().Result ? On : Off;
+            var IsAppCenterEnabled = sender.StringValue.ToLower().Equals(On);
+            Microsoft.AppCenter.AppCenter.SetEnabledAsync(IsAppCenterEnabled).Wait();
+            IsAppCenterEnabledSwitch.StringValue = Microsoft.AppCenter.AppCenter.IsEnabledAsync().Result ? On : Off;
         }
 
-        partial void isNetworkRequestsAllowed(NSSwitch sender)
+        partial void IsNetworkRequestsAllowed(NSSwitch sender)
         {
             var isNetworkAllowed = sender.StringValue.ToLower().Equals(On);
             Microsoft.AppCenter.AppCenter.IsNetworkRequestsAllowed = isNetworkAllowed;
         }
 
-        partial void saveMaxStorageSizeText(NSButton sender)
+        partial void SaveMaxStorageSizeText(NSButton sender)
         {
             var size = MaxStorageSizeText.AccessibilityValue;
-            long.TryParse(size, out var result);
+            int.TryParse(size, out var result);
             if (result != 0)
             {
                 Microsoft.AppCenter.AppCenter.SetMaxStorageSizeAsync(result).Wait();
+                plist.SetInt(result, Constants.StorageSizeKey);
             }
             else
             {
@@ -83,7 +85,7 @@ namespace Contoso.MacOS.Puppet.ModulePages
             }
         }
 
-        partial void userIdTextChanged(NSTextField sender)
+        partial void UserIdTextChanged(NSTextField sender)
         {
             var userId = string.IsNullOrEmpty(sender.AccessibilityValue) ? null : sender.AccessibilityValue;
             Microsoft.AppCenter.AppCenter.SetUserId(userId);

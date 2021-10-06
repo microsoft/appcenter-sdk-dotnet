@@ -10,7 +10,7 @@ namespace Contoso.MacOS.Puppet.ModulePages
 	partial class CrashesController
 	{
 		[Outlet]
-		AppKit.NSSwitch isCrashesEnabledSwitch { get; set; }
+		AppKit.NSSwitch IsCrashesEnabledSwitch { get; set; }
 
 		[Action ("CatchNullReferenceException:")]
 		partial void CatchNullReferenceException (AppKit.NSButton sender);
@@ -27,8 +27,8 @@ namespace Contoso.MacOS.Puppet.ModulePages
 		[Action ("DivideByZero:")]
 		partial void DivideByZero (AppKit.NSButton sender);
 
-		[Action ("isCrashesEnabled:")]
-		partial void isCrashesEnabled (AppKit.NSSwitch sender);
+		[Action ("IsCrashesEnabled:")]
+		partial void IsCrashesEnabled (AppKit.NSSwitch sender);
 
 		[Action ("NativeCrash:")]
 		partial void NativeCrash (AppKit.NSButton sender);
@@ -38,9 +38,9 @@ namespace Contoso.MacOS.Puppet.ModulePages
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (isCrashesEnabledSwitch != null) {
-				isCrashesEnabledSwitch.Dispose ();
-				isCrashesEnabledSwitch = null;
+			if (IsCrashesEnabledSwitch != null) {
+				IsCrashesEnabledSwitch.Dispose ();
+				IsCrashesEnabledSwitch = null;
 			}
 		}
 	}

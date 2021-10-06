@@ -58,12 +58,12 @@ namespace Contoso.MacOS.Puppet.ModulePages
             isAnalyticsEnabledSwitch.StringValue = Microsoft.AppCenter.Analytics.Analytics.IsEnabledAsync().Result ? On : Off;
         }
 
-        partial void hasTrackErrorProperties(NSButton sender)
+        partial void HasTrackErrorProperties(NSButton sender)
         {
             hasTrackEventPropery = !hasTrackEventPropery;
         }
 
-        partial void sendTrackEvent(NSButton sender)
+        partial void SendTrackEvent(NSButton sender)
         {
             var trackEvent = trackEventName.AccessibilityValue;
             if (hasTrackEventPropery)

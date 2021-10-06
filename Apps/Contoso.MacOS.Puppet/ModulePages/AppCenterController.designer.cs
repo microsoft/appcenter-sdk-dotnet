@@ -10,7 +10,7 @@ namespace Contoso.MacOS.Puppet.ModulePages
 	partial class AppCenterController
 	{
 		[Outlet]
-		AppKit.NSSwitch isAppCenterEnabledSwitch { get; set; }
+		AppKit.NSSwitch IsAppCenterEnabledSwitch { get; set; }
 
 		[Outlet]
 		AppKit.NSSwitch isNetworkRequestAllowedSwitch { get; set; }
@@ -21,23 +21,23 @@ namespace Contoso.MacOS.Puppet.ModulePages
 		[Outlet]
 		AppKit.NSTextField UserIdText { get; set; }
 
-		[Action ("isAppCenterEnabled:")]
-		partial void isAppCenterEnabled (AppKit.NSSwitch sender);
+		[Action ("IsAppCenterEnabled:")]
+		partial void IsAppCenterEnabled (AppKit.NSSwitch sender);
 
-		[Action ("isNetworkRequestsAllowed:")]
-		partial void isNetworkRequestsAllowed (AppKit.NSSwitch sender);
+		[Action ("IsNetworkRequestsAllowed:")]
+		partial void IsNetworkRequestsAllowed (AppKit.NSSwitch sender);
 
-		[Action ("saveMaxStorageSizeText:")]
-		partial void saveMaxStorageSizeText (AppKit.NSButton sender);
+		[Action ("SaveMaxStorageSizeText:")]
+		partial void SaveMaxStorageSizeText (AppKit.NSButton sender);
 
-		[Action ("userIdTextChanged:")]
-		partial void userIdTextChanged (AppKit.NSTextField sender);
+		[Action ("UserIdTextChanged:")]
+		partial void UserIdTextChanged (AppKit.NSTextField sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (isAppCenterEnabledSwitch != null) {
-				isAppCenterEnabledSwitch.Dispose ();
-				isAppCenterEnabledSwitch = null;
+			if (IsAppCenterEnabledSwitch != null) {
+				IsAppCenterEnabledSwitch.Dispose ();
+				IsAppCenterEnabledSwitch = null;
 			}
 
 			if (isNetworkRequestAllowedSwitch != null) {

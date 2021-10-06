@@ -11,14 +11,19 @@ namespace Contoso.Forms.Demo.MacOS
     public class AppDelegate : FormsApplicationDelegate, IClearCrashClick
     {
         private const string CrashesUserConfirmationStorageKey = "MSAppCenterCrashesUserConfirmation";
+        private const string ApplicationCrashOnExceptionsKey = "NSApplicationCrashOnExceptions";
+
         NSPanel window;
         public AppDelegate()
         {
             var style = NSWindowStyle.Closable | NSWindowStyle.Resizable | NSWindowStyle.Titled;
             var rect = new CoreGraphics.CGRect(200, 1000, 1024, 768);
             window = new NSPanel(rect, style, NSBackingStore.Buffered, false);
-            window.Title = "App Center Xamarin.Forms on Mac!"; // choose your own Title here
+            window.Title = "App Center Xamarin.Forms on Mac!";
             window.TitleVisibility = NSWindowTitleVisibility.Hidden;
+            var plist = NSUserDefaults.StandardUserDefaults;
+            var dictionary = new NSDictionary<NSObject, NSObject>(NSObject.FromObject(true), new NSString(ApplicationCrashOnExceptionsKey));
+            plist.RegisterDefaults(dictionary);
         }
 
         public override NSWindow MainWindow

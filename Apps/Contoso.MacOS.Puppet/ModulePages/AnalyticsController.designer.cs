@@ -18,11 +18,11 @@ namespace Contoso.MacOS.Puppet.ModulePages
 		[Action ("AnalyticsSwitchEnabled:")]
 		partial void AnalyticsSwitchEnabled (AppKit.NSSwitch sender);
 
-		[Action ("hasTrackErrorProperties:")]
-		partial void hasTrackErrorProperties (AppKit.NSButton sender);
+		[Action ("HasTrackErrorProperties:")]
+		partial void HasTrackErrorProperties (AppKit.NSButton sender);
 
-		[Action ("sendTrackEvent:")]
-		partial void sendTrackEvent (AppKit.NSButton sender);
+		[Action ("SendTrackEvent:")]
+		partial void SendTrackEvent (AppKit.NSButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

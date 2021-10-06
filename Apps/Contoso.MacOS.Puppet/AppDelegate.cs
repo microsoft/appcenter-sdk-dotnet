@@ -13,11 +13,13 @@ namespace Contoso.MacOS.Puppet
     public class AppDelegate : NSApplicationDelegate
     {
         const string LogTag = "AppCenterXamarinPuppet";
+        private const string ApplicationCrashOnExceptionsKey = "NSApplicationCrashOnExceptions";
 
         public AppDelegate()
         {
         }
 
+        [Export("applicationDidFinishLaunching:")]
         public override void DidFinishLaunching(NSNotification notification)
         {
             // Configure App Center.
@@ -29,12 +31,10 @@ namespace Contoso.MacOS.Puppet
             {
                 AppCenter.SetMaxStorageSizeAsync(storageSizeValue);
             }
+            var dictionary = new NSDictionary<NSObject, NSObject>(NSObject.FromObject(true), new NSString(ApplicationCrashOnExceptionsKey));
+            plist.RegisterDefaults(dictionary);
             AppCenter.Start("2b06eb3f-70c9-4b31-b74b-a84fd2d01f51", typeof(Analytics), typeof(Crashes));
         }
 
-        public override void WillTerminate(NSNotification notification)
-        {
-            // Insert code here to tear down your application
-        }
     }
 }
