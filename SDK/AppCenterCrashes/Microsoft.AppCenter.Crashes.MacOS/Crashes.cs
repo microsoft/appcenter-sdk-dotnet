@@ -135,7 +135,7 @@ namespace Microsoft.AppCenter.Crashes
                 ProcessId = new NSNumber(Process.GetCurrentProcess().Id)
             };
             AppCenterLog.Info(LogTag, "Saving wrapper exception...");
-            MSACWrapperExceptionManager.SaveWrapperExceptionAsCrashLog(wrapperException);
+            MSACWrapperExceptionManager.SaveWrapperExceptionAndCrashReport(wrapperException);
             AppCenterLog.Info(LogTag, "Saved wrapper exception.");
         }
 
