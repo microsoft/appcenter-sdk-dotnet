@@ -264,8 +264,8 @@ namespace Microsoft.AppCenter.Crashes.MacOS.Bindings
 
         // + (void)saveWrapperExceptionAsCrashLog:(MSACWrapperException *)wrapperException
         [Static]
-        [Export("saveWrapperExceptionAsCrashLog:")]
-        void SaveWrapperExceptionAsCrashLog(MSACWrapperException wrapperException);
+        [Export("saveWrapperExceptionAndCrashReport:")]
+        void SaveWrapperExceptionAndCrashReport(MSACWrapperException wrapperException);
     }
 
     [BaseType(typeof(NSObject))]
