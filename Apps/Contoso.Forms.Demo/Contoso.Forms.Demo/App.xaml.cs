@@ -22,6 +22,7 @@ namespace Contoso.Forms.Demo
     public partial class App
     {
         public const string LogTag = "AppCenterXamarinDemo";
+        private Task<string> dialog = null;
 
         // OneCollector secrets
         static readonly IReadOnlyDictionary<string, string> OneCollectorTokens = new Dictionary<string, string>
@@ -155,7 +156,15 @@ namespace Contoso.Forms.Demo
         {
             XamarinDevice.BeginInvokeOnMainThread(() =>
             {
-                Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send").ContinueWith((arg) =>
+                if (XamarinDevice.RuntimePlatform == XamarinDevice.macOS)
+                {
+                    dialog = Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", "Send", "Always Send");
+                }
+                else
+                {
+                    Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send");
+                }
+                dialog.ContinueWith((arg) =>
                 {
                     var answer = arg.Result;
                     UserConfirmation userConfirmationSelection;
