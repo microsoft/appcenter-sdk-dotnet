@@ -21,6 +21,7 @@ namespace Contoso.Forms.Puppet
     public partial class App
     {
         public const string LogTag = "AppCenterXamarinPuppet";
+        private Task<string> dialog = null;
 
         static readonly IReadOnlyDictionary<string, string> AppSecrets = new Dictionary<string, string>
         {
@@ -161,7 +162,15 @@ namespace Contoso.Forms.Puppet
         {
             XamarinDevice.BeginInvokeOnMainThread(() =>
             {
-                Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send").ContinueWith((arg) =>
+                if (XamarinDevice.RuntimePlatform == XamarinDevice.macOS)
+                {
+                    dialog = Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", "Send", "Always Send");
+                }
+                else
+                {
+                    Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send");
+                }
+                dialog.ContinueWith((arg) =>
                 {
                     var answer = arg.Result;
                     UserConfirmation userConfirmationSelection;
