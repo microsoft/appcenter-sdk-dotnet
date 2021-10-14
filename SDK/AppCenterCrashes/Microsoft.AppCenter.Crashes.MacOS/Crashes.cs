@@ -144,7 +144,7 @@ namespace Microsoft.AppCenter.Crashes
             var msException = new MSACWrapperExceptionModel();
             msException.Type = exception.GetType().FullName;
             msException.Message = exception.Message ?? "";
-            msException.StackTrace = exception.StackTrace;
+            msException.StackTrace = AnonymizePath(exception.StackTrace);
             msException.Frames = structuredFrames ? GenerateStackFrames(exception) : null;
             msException.WrapperSdkName = WrapperSdk.Name;
             var aggregateException = exception as AggregateException;
