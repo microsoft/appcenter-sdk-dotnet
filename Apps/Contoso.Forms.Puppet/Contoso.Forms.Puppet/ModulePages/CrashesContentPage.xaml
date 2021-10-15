@@ -1,72 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage Title="Crashes" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Contoso.Forms.Puppet.CrashesContentPage">
-    <TableView Intent="Form">
-        <TableSection Title="Crashes Settings">
-            <SwitchCell Text="Crashes Enabled" On="true" x:Name="CrashesEnabledSwitchCell" OnChanged="UpdateEnabled" />
-            <SwitchCell Text="Handle Exceptions" On="false" x:Name="HandleExceptionsSwitchCell" />
-            <ViewCell Tapped="TextAttachment">
-                <Button Text="Text Attachment" x:Name="TextAttachmentButton" Clicked="TextAttachment" />
-            </ViewCell>
-            <ViewCell>
-                <Label Text="" HorizontalOptions="EndAndExpand" VerticalOptions="Center" TextColor="Gray" x:Name="TextAttachmentContent"/>
-            </ViewCell>
-            <ViewCell Tapped="FileAttachment">
-                <Button Text="Binary Attachment (use Picture Library)" x:Name="FileAttachmentButton" Clicked="FileAttachment" />
-            </ViewCell>
-            <ViewCell>
-                <StackLayout Orientation="Horizontal" Margin="15,0,15,0">
-                    <Label Text="Binary Attachment File Path" HorizontalOptions="StartAndExpand" VerticalOptions="Center" />
-                    <Label Text="No File Selected" HorizontalOptions="EndAndExpand" VerticalOptions="Center" TextColor="Gray" x:Name="BinaryAttachmentFilePathLabel"/>
+    <ScrollView>
+        <StackLayout Orientation="Vertical" Padding="16">
+            <StackLayout Orientation="Vertical">
+                <Label Text="Crashes Settings"/>
+                <StackLayout Margin="0, 8, 0, 0" Orientation="Horizontal">
+                    <Label FontSize="Small" HorizontalOptions="Start"  Text="Crashes Enabled"/>
+                    <Switch HorizontalOptions="EndAndExpand" IsToggled="true" x:Name="CrashesEnabledSwitchCell" Toggled="UpdateEnabled" />
                 </StackLayout>
-            </ViewCell>
-            <ViewCell Tapped="PropertiesCellTapped">
-                <StackLayout Orientation="Horizontal" Margin="15,0,15,0">
-                    <Label Text="Properties" HorizontalOptions="StartAndExpand" VerticalOptions="Center" />
-                    <Label Text="0" HorizontalOptions="EndAndExpand" VerticalOptions="Center" TextColor="Gray" x:Name="NumPropertiesLabel" />
+                <StackLayout Margin="0, 8, 0, 0" Orientation="Horizontal">
+                    <Label FontSize="Small" HorizontalOptions="Start"  Text="Handle Exceptions"/>
+                    <Switch HorizontalOptions="EndAndExpand"  IsToggled="False" x:Name="HandleExceptionsSwitchCell" />
                 </StackLayout>
-            </ViewCell>
-            <ViewCell Tapped="AddProperty">
-                <Button Text="Add Property" Clicked="AddProperty" InputTransparent="true" />
-            </ViewCell>
-        </TableSection>
-        <TableSection Title="Test Crashes">
-            <ViewCell Tapped="TestException">
-                <Button Text="Generate Test Exception" InputTransparent="true" Clicked="TestException" />
-            </ViewCell>
-            <ViewCell Tapped="DivideByZero">
-                <Button Text="Divide 42 by 0" InputTransparent="true" Clicked="DivideByZero" />
-            </ViewCell>
-            <ViewCell Tapped="AggregateException">
-                <Button Text="Aggregate Exception" InputTransparent="true" Clicked="AggregateException" />
-            </ViewCell>
-            <ViewCell Tapped="NullReferenceException">
-                <Button Text="NullReferenceException" InputTransparent="true" Clicked="NullReferenceException" />
-            </ViewCell>
-            <ViewCell Tapped="CatchNullReferenceException">
-                <Button Text="Test Catching NullReferenceException" InputTransparent="true" Clicked="CatchNullReferenceException" />
-            </ViewCell>
-            <ViewCell Tapped="AsyncException">
-                <Button Text="Exception Inside Async Task" InputTransparent="true" Clicked="AsyncException" />
-            </ViewCell>
-            <ViewCell Tapped="ClassLibException">
-                <Button Text="Exception Inside Another Lib" InputTransparent="true" Clicked="ClassLibException" />
-            </ViewCell>
-        </TableSection>
-        <TableSection Title="Memory warning">
-            <ViewCell>
-                <StackLayout Orientation="Horizontal" Margin="15,0,15,0">
-                    <Label Text="Has received low memory warning" HorizontalOptions="StartAndExpand" VerticalOptions="Center" />
-                    <Label Text="No" HorizontalOptions="EndAndExpand" VerticalOptions="Center" TextColor="Gray" x:Name="MemoryWarningLabel"/>
+                <StackLayout Orientation="Vertical">
+                    <Button Padding="0, 8, 0, 8" Text="Text Attachment" x:Name="TextAttachmentButton" Clicked="TextAttachment" />
+                    <Label FontSize="Small" Text="" HorizontalOptions="StartAndExpand" VerticalOptions="Center" VerticalTextAlignment="Start" TextColor="Gray" x:Name="TextAttachmentContent"/>
                 </StackLayout>
-            </ViewCell>
-            <ViewCell Tapped="MemoryWarningTrigger">
-                 <Button Text="Trigger low memory warning" InputTransparent="true" Clicked="MemoryWarningTrigger" />
-            </ViewCell>
-        </TableSection>
-        <TableSection Title="Clear Crash">
-            <ViewCell Tapped="ClearCrashUserConfirmation">
-                <Button Text="Clear Crash User Confirmation" InputTransparent="True" Clicked="ClearCrashUserConfirmation"/>
-            </ViewCell>
-        </TableSection>
-    </TableView>
+                <StackLayout Orientation="Vertical">
+                    <Button Padding="0, 8, 0, 8" Text="Binary Attachment (use Picture Library)" x:Name="FileAttachmentButton" Clicked="FileAttachment" />
+                    <Label FontSize="Small" Text="No File Selected" HorizontalOptions="StartAndExpand" VerticalOptions="Center" TextColor="Gray" x:Name="BinaryAttachmentFilePathLabel"/>
+                </StackLayout>
+                <StackLayout Padding="0, 8, 0, 8" Orientation="Vertical">
+                    <StackLayout Orientation="Horizontal">
+                        <Label FontSize="Small" Text="Properties" HorizontalOptions="StartAndExpand" VerticalOptions="Center" />
+                        <Label FontSize="Small" Text="0" HorizontalOptions="EndAndExpand" VerticalOptions="Center" TextColor="Gray" x:Name="NumPropertiesLabel" />
+                    </StackLayout>
+                    <Button Padding="0, 8, 0, 8" Text="Add Property" Clicked="AddProperty"/>
+                </StackLayout>
+                 <StackLayout Orientation="Vertical">
+                    <Label Margin="0, 8, 0, 0" Text="Test Crashes"/>
+                    <Button Padding="0, 8, 0, 8" Text="Generate Test Exception" Clicked="TestException" />
+                    <Button Padding="0, 8, 0, 8" Text="Divide 42 by 0" Clicked="DivideByZero" />
+                    <Button Padding="0, 8, 0, 8" Text="Aggregate Exception" Clicked="AggregateException" />
+                    <Button Padding="0, 8, 0, 8" Text="NullReferenceException"  Clicked="NullReferenceException" />
+                    <Button Padding="0, 8, 0, 8" Text="Test Catching NullReferenceException" Clicked="CatchNullReferenceException" />
+                    <Button Padding="0, 8, 0, 8" Text="Exception Inside Async Task" Clicked="AsyncException" />
+                    <Button Padding="0, 8, 0, 8" Text="Exception Inside Another Lib" Clicked="ClassLibException" />
+                    <StackLayout Margin="0, 8, 0, 0" Orientation="Horizontal">
+                        <Label FontSize="Small" Text="Has received low memory warning" HorizontalOptions="Start" VerticalOptions="Center" />
+                        <Label FontSize="Small" Text="No" HorizontalOptions="EndAndExpand" VerticalOptions="Center" TextColor="Gray" x:Name="MemoryWarningLabel"/>
+                    </StackLayout>
+                    <Button Padding="0, 8, 0, 8" Text="Trigger low memory warning" Clicked="MemoryWarningTrigger" />
+                </StackLayout>
+            </StackLayout>
+            <Button Padding="0, 8, 0, 8" Text="Clear Crash User Confirmation" Clicked="ClearCrashUserConfirmation"/>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
