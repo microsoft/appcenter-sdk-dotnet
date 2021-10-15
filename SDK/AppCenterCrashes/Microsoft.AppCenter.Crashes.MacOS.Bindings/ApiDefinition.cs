@@ -261,6 +261,11 @@ namespace Microsoft.AppCenter.Crashes.MacOS.Bindings
         [Static]
         [Export("loadWrapperExceptionWithUUIDString:")]
         MSACWrapperException LoadWrapperExceptionWithUUID(string uuidString);
+
+        // + (void)saveWrapperExceptionAsCrashLog:(MSACWrapperException *)wrapperException
+        [Static]
+        [Export("saveWrapperExceptionAndCrashReport:")]
+        void SaveWrapperExceptionAndCrashReport(MSACWrapperException wrapperException);
     }
 
     [BaseType(typeof(NSObject))]

@@ -30,7 +30,7 @@ namespace Contoso.Forms.Puppet
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            EnabledSwitchCell.On = await Analytics.IsEnabledAsync();
+            EnabledSwitchCell.IsToggled = await Analytics.IsEnabledAsync();
             EnabledSwitchCell.IsEnabled = await AppCenter.IsEnabledAsync();
         }
 

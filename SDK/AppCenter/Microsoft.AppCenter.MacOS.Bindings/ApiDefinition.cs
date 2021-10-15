@@ -148,31 +148,6 @@ namespace Microsoft.AppCenter.MacOS.Bindings
         bool IsEqual(MSACDevice device);
     }
 
-    // @interface MSACCustomProperties : NSObject
-    [BaseType(typeof(NSObject))]
-    interface MSACCustomProperties
-    {
-        // - (instancetype)setString:(NSString *)value forKey:(NSString *)key;
-        [Export("setString:forKey:")]
-        void Set([NullAllowed] string value, [NullAllowed] string key);
-
-        // - (instancetype)setNumber:(NSNumber *)value forKey:(NSString *)key;
-        [Export("setNumber:forKey:")]
-        void Set(NSNumber value, [NullAllowed] string key);
-
-        // - (instancetype)setBool:(BOOL)value forKey:(NSString *)key;
-        [Export("setBool:forKey:")]
-        void Set(bool value, [NullAllowed] string key);
-
-        // - (instancetype)setDate:(NSDate *)value forKey:(NSString *)key;
-        [Export("setDate:forKey:")]
-        void Set(NSDate value, [NullAllowed] string key);
-
-        // - (instancetype)clearPropertyForKey:(NSString *)key;
-        [Export("clearPropertyForKey:")]
-        void Clear([NullAllowed] string key);
-    }
-
     // @interface MSACAppCenter : NSObject
     [BaseType(typeof(NSObject), Name = "MSACAppCenter")]
     interface MSACAppCenter
@@ -266,11 +241,6 @@ namespace Microsoft.AppCenter.MacOS.Bindings
         [Static]
         [Export("isDebuggerAttached")]
         bool IsDebuggerAttached();
-
-        // + (void)setCustomProperties:(MSACCustomProperties *)customProperties;
-        [Static]
-        [Export("setCustomProperties:")]
-        void SetCustomProperties([NullAllowed] MSACCustomProperties properties);
 
         // +(void)setMaxStorageSize:(long)sizeInBytes completionHandler(void (^)(BOOL))completionHandler;
         [Static]

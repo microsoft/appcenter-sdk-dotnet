@@ -61,15 +61,6 @@ namespace Microsoft.AppCenter.Analytics
         {
             MacOSAnalytics.Resume();
         }
-        /// <summary>
-        /// Enable or disable automatic page tracking.
-        /// Set this to false to if you plan to call <see cref="TrackPage"/> manually.
-        /// </summary>
-        //public static bool AutoPageTrackingEnabled
-        //{
-        //  get { return MacOSAnalytics.IsAutoPageTrackingEnabled(); }
-        //  set { MacOSAnalytics.SetAutoPageTrackingEnabled(value); }
-        //}
 
         /// <summary>
         /// Track a custom event.
@@ -85,21 +76,6 @@ namespace Microsoft.AppCenter.Analytics
             }
             MacOSAnalytics.TrackEvent(name);
         }
-
-        ///// <summary>
-        ///// Track a custom page.
-        ///// </summary>
-        ///// <param name="name">A page name.</param>
-        ///// <param name="properties">Optional properties.</param>
-        //public static void TrackPage(string name, [Optional] IDictionary<string, string> properties)
-        //{
-        //  if (properties != null)
-        //  {
-        //      MacOSAnalytics.TrackPage(name, StringDictToNSDict(properties));
-        //      return;
-        //  }
-        //  MacOSAnalytics.TrackPage(name);
-        //}
 
         internal static void UnsetInstance()
         {

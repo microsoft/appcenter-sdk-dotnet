@@ -78,7 +78,6 @@
     <file src="$macos_dir$/Microsoft.AppCenter.dll" target="lib/Xamarin.Mac" />
     <file src="$macos_dir$/Microsoft.AppCenter.xml" target="lib/Xamarin.Mac" />
     <file src="$macos_dir$/Microsoft.AppCenter.MacOS.Bindings.dll" target="lib/Xamarin.Mac" />
-    <file src="SDK/AppCenter/Microsoft.AppCenter.MacOS/Microsoft.AppCenter.targets" target="build/Xamarin.Mac/Microsoft.AppCenter.targets" />
 
     <!-- UWP -->
     <file src="$uwp_dir$/Microsoft.AppCenter.dll" target="lib/uap10.0" />

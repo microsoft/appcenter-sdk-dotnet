@@ -13,6 +13,7 @@ namespace Microsoft.AppCenter.Crashes
 
     public partial class Crashes
     {
+
         /// <summary>
         /// Internal SDK property not intended for public use.
         /// </summary>
@@ -90,7 +91,7 @@ namespace Microsoft.AppCenter.Crashes
                     }
                 }
             }
-            MSACCrashes.TrackException(GeneratemacOSException(exception, false), propertyDictionary, attachmentArray);
+            MSACCrashes.TrackException(GenerateMacOSException(exception, false), propertyDictionary, attachmentArray);
         }
 
         /// <summary>
@@ -124,7 +125,7 @@ namespace Microsoft.AppCenter.Crashes
         {
             var systemException = e.ExceptionObject as Exception;
             AppCenterLog.Error(LogTag, "Unhandled Exception:", systemException);
-            var exception = GeneratemacOSException(systemException, true);
+            var exception = GenerateMacOSException(systemException, true);
             var exceptionBytes = CrashesUtils.SerializeException(systemException) ?? new byte[0];
             var wrapperExceptionData = NSData.FromArray(exceptionBytes);
             var wrapperException = new MSACWrapperException
@@ -134,36 +135,32 @@ namespace Microsoft.AppCenter.Crashes
                 ProcessId = new NSNumber(Process.GetCurrentProcess().Id)
             };
             AppCenterLog.Info(LogTag, "Saving wrapper exception...");
-            MSACWrapperExceptionManager.SaveWrapperException(wrapperException);
+            MSACWrapperExceptionManager.SaveWrapperExceptionAndCrashReport(wrapperException);
             AppCenterLog.Info(LogTag, "Saved wrapper exception.");
         }
 
-        static MSACWrapperExceptionModel GeneratemacOSException(Exception exception, bool structuredFrames)
+        static MSACWrapperExceptionModel GenerateMacOSException(Exception exception, bool structuredFrames)
         {
             var msException = new MSACWrapperExceptionModel();
             msException.Type = exception.GetType().FullName;
             msException.Message = exception.Message ?? "";
-            msException.StackTrace = exception.StackTrace;
+            msException.StackTrace = AnonymizePath(exception.StackTrace);
             msException.Frames = structuredFrames ? GenerateStackFrames(exception) : null;
             msException.WrapperSdkName = WrapperSdk.Name;
-
             var aggregateException = exception as AggregateException;
             var innerExceptions = new List<MSACWrapperExceptionModel>();
-
             if (aggregateException?.InnerExceptions != null)
             {
                 foreach (Exception innerException in aggregateException.InnerExceptions)
                 {
-                    innerExceptions.Add(GeneratemacOSException(innerException, structuredFrames));
+                    innerExceptions.Add(GenerateMacOSException(innerException, structuredFrames));
                 }
             }
             else if (exception.InnerException != null)
             {
-                innerExceptions.Add(GeneratemacOSException(exception.InnerException, structuredFrames));
+                innerExceptions.Add(GenerateMacOSException(exception.InnerException, structuredFrames));
             }
-
             msException.InnerExceptions = innerExceptions.Count > 0 ? innerExceptions.ToArray() : null;
-
             return msException;
         }
 
@@ -173,7 +170,6 @@ namespace Microsoft.AppCenter.Crashes
         {
             var trace = new StackTrace(e, true);
             var frameList = new List<MSACStackFrame>();
-
             for (int i = 0; i < trace.FrameCount; ++i)
             {
                 StackFrame dotnetFrame = trace.GetFrame(i);
@@ -198,7 +194,6 @@ namespace Microsoft.AppCenter.Crashes
             {
                 return path;
             }
-
             string pattern = "(/Users/[^/]+/)";
             return Regex.Replace(path, pattern, "/Users/USER/");
         }
@@ -267,7 +262,6 @@ namespace Microsoft.AppCenter.Crashes
                     };
                     SentErrorReport(null, e);
                 }
-
             }
 
             public override void CrashesDidFailSendingErrorReport(MacOSCrashes crashes, MSACErrorReport msReport, NSError error)
