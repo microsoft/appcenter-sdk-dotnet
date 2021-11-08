@@ -69,8 +69,8 @@ namespace Contoso.MacOS.Puppet.ModulePages
             if (hasTrackEventPropery)
             {
                 var properties = new Dictionary<string, string>();
-                properties.Add("properties1", "key1");
-                properties.Add("properties2", "key2");
+                properties.Add("property1", "key1");
+                properties.Add("property2", "key2");
                 Microsoft.AppCenter.Analytics.Analytics.TrackEvent(trackEvent, properties);
                 return;
             }
