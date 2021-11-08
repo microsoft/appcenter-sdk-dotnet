@@ -10,6 +10,10 @@ namespace Contoso.Forms.Puppet
         public MainPuppetPage ()
         {
             InitializeComponent();
+            if (Device.RuntimePlatform == Device.macOS && Children.Contains(DistributeContentPage))
+            {
+                Children.Remove(DistributeContentPage);
+            }
         }
     }
 }
