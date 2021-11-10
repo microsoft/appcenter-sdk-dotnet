@@ -21,12 +21,14 @@ namespace Contoso.Forms.Puppet
     public partial class App
     {
         public const string LogTag = "AppCenterXamarinPuppet";
+        private Task<string> dialog = null;
 
         static readonly IReadOnlyDictionary<string, string> AppSecrets = new Dictionary<string, string>
         {
             { XamarinDevice.UWP, "a678b499-1912-4a94-9d97-25b569284d3a" },
             { XamarinDevice.Android, "bff0949b-7970-439d-9745-92cdc59b10fe" },
-            { XamarinDevice.iOS, "b889c4f2-9ac2-4e2e-ae16-dae54f2c5899" }
+            { XamarinDevice.iOS, "b889c4f2-9ac2-4e2e-ae16-dae54f2c5899" },
+            { XamarinDevice.macOS, "2b06eb3f-70c9-4b31-b74b-a84fd2d01f51" }
         };
 
         // OneCollector secrets
@@ -118,7 +120,7 @@ namespace Contoso.Forms.Puppet
 
         private string GetAppCenterTokenString()
         {
-            return $"uwp={AppSecrets[XamarinDevice.UWP]};android={AppSecrets[XamarinDevice.Android]};ios={AppSecrets[XamarinDevice.iOS]}";
+            return $"uwp={AppSecrets[XamarinDevice.UWP]};android={AppSecrets[XamarinDevice.Android]};ios={AppSecrets[XamarinDevice.iOS]};macos={AppSecrets[XamarinDevice.macOS]}";
         }
 
         private string GetTokensString()
@@ -160,7 +162,15 @@ namespace Contoso.Forms.Puppet
         {
             XamarinDevice.BeginInvokeOnMainThread(() =>
             {
-                Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send").ContinueWith((arg) =>
+                if (XamarinDevice.RuntimePlatform == XamarinDevice.macOS)
+                {
+                    dialog = Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", "Send", "Always Send");
+                }
+                else
+                {
+                    Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send");
+                }
+                dialog.ContinueWith((arg) =>
                 {
                     var answer = arg.Result;
                     UserConfirmation userConfirmationSelection;

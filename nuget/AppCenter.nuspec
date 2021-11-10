@@ -73,6 +73,11 @@
     <file src="$ios_dir$/Microsoft.AppCenter.xml" target="lib/Xamarin.iOS10" />
     <file src="$ios_dir$/Microsoft.AppCenter.iOS.Bindings.dll" target="lib/Xamarin.iOS10" />
 
+    <!-- macOS -->
+    <file src="$macos_dir$/Microsoft.AppCenter.dll" target="lib/Xamarin.Mac" />
+    <file src="$macos_dir$/Microsoft.AppCenter.xml" target="lib/Xamarin.Mac" />
+    <file src="$macos_dir$/Microsoft.AppCenter.MacOS.Bindings.dll" target="lib/Xamarin.Mac" />
+
     <!-- UWP -->
     <file src="$uwp_dir$/Microsoft.AppCenter.dll" target="lib/uap10.0" />
     <file src="$uwp_dir$/Microsoft.AppCenter.xml" target="lib/uap10.0" />

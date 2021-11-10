@@ -23,7 +23,7 @@ namespace Microsoft.AppCenter.Crashes
             Device = msReport.Device == null ? null : new Device(msReport.Device);
 
             AndroidDetails = null;
-
+            MacOSDetails = null;
             iOSDetails = new iOSErrorDetails(msReport.ReporterKey,
                                              msReport.Signal,
                                              msReport.ExceptionName,

@@ -7,5 +7,5 @@
     <local:AppCenterContentPage/>
     <local:AnalyticsContentPage/>
     <local:CrashesContentPage/>
-    <local:OthersContentPage/>
+    <local:OthersContentPage x:Name="DistributeContentPage"/>
 </TabbedPage>
