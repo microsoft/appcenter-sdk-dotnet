@@ -49,6 +49,16 @@ namespace Microsoft.AppCenter.Analytics.iOS.Bindings
         [Export("resetSharedInstance")]
         void ResetSharedInstance();
 
+        // + (void)enableManualSessionTracker
+        [Static]
+        [Export("enableManualSessionTracker:")]
+        void EnableManualSessionTracker();
+
+        // + (void)startSession
+        [Static]
+        [Export("startSession")]
+        void StartSession();
+
         //// +(void)trackPage:(NSString *)pageName;
         //[Static]
         //[Export("trackPage:")]

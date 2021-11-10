@@ -11,5 +11,6 @@ namespace Contoso.Android.Puppet
         public const string Warning = "Warning";
         public const string Error = "Error";
         public const string StorageSizeKey = "StorageSizeKey";
+        public const string EnableManualSessionTrackerKey = "EnableManualSessionTrackerKey";
     }
 }

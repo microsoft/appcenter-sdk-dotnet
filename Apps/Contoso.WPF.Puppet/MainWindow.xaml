@@ -55,6 +55,12 @@
                             <Button Name="TrackEvent" Content="Track event" Click="TrackEvent_Click"/>
                         </StackPanel>
                     </GroupBox>
+                    <GroupBox Header="Session Settings">
+                        <StackPanel Orientation="Vertical">
+                            <CheckBox Name="EnableManualSessionTrackerCheckBox" Content="Enable Manual Session Tracker" Unchecked="EnableManualSessionTracker_Unchecked" Checked="EnableManualSessionTracker_Checked"/>
+                            <Button x:Name="StartSessionButton" Content="Start session" Margin="0, 0, 8, 0" Width="149" Click="StartSessionButton_Click"/>
+                        </StackPanel>
+                    </GroupBox>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Crashes">

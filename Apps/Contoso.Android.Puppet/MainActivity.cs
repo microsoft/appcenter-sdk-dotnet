@@ -60,6 +60,9 @@ namespace Contoso.Android.Puppet
             {
                 AppCenter.SetMaxStorageSizeAsync(storageSizeValue);
             }
+            if (prefs.GetBoolean(Constants.EnableManualSessionTrackerKey, false)) {
+                Analytics.EnableManualSessionTracker();
+            }
             Distribute.SetInstallUrl("https://install.portal-server-core-integration.dev.avalanch.es");
             Distribute.SetApiUrl("https://asgard-int.trafficmanager.net/api/v0.1");
             AppCenter.Start("bff0949b-7970-439d-9745-92cdc59b10fe", typeof(Analytics), typeof(Crashes), typeof(Distribute));

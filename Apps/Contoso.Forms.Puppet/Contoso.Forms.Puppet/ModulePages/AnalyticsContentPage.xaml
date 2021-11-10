@@ -21,5 +21,13 @@
         </StackLayout>
         <Button Text="Add Property" Padding="0, 8, 0, 8"  Clicked="AddProperty" />
         <Button Text="Track Event" Padding="0, 8, 0, 8" Clicked="TrackEvent" FontAttributes="Bold" />
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Settings Session"/>
+            <StackLayout Margin="0, 16, 0, 0" Orientation="Horizontal">
+                <Label FontSize="Small" HorizontalOptions="Start"  Text="Enable Manual Session Tracker"/>
+                <Switch HorizontalOptions="EndAndExpand"  IsToggled="true" x:Name="EnabledSwitchCell" Toggled="EnableManualSessionTrackerCellEnabled" />
+            </StackLayout>
+            <Button Text="Start Session" Clicked="StartSessionButtonClicked" InputTransparent="true" />
+        </StackLayout>
     </StackLayout>
 </ContentPage>

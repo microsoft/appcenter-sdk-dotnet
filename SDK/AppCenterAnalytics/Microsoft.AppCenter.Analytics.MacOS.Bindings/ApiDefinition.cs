@@ -45,6 +45,16 @@ namespace Microsoft.AppCenter.Analytics.MacOS.Bindings
         [Static]
         [Export("resetSharedInstance")]
         void ResetSharedInstance();
+
+        // + (void)enableManualSessionTracker
+        [Static]
+        [Export("enableManualSessionTracker:")]
+        void EnableManualSessionTracker();
+
+        // + (void)startSession
+        [Static]
+        [Export("startSession")]
+        void StartSession();
     }
 
     // @protocol MSACAnalyticsDelegate <NSObject>

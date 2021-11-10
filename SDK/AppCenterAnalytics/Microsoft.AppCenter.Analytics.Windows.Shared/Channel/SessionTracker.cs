@@ -32,6 +32,9 @@ namespace Microsoft.AppCenter.Analytics.Channel
         // so we track the current session state.
         private SessionState _currentSessionState = SessionState.None;
 
+        // Stores the value of whether manual session tracker is enabled, false by default.
+        private bool _isManualSessionTrackerEnabled = false;
+
         // Some fields are internal for testing
         internal static long SessionTimeout = 20000;
         private readonly IChannelUnit _channel;
@@ -55,6 +58,10 @@ namespace Microsoft.AppCenter.Analytics.Channel
         {
             lock (_lockObject)
             {
+                if (_isManualSessionTrackerEnabled) { 
+                    AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is enabled. Skip tracking a session status request.");
+                    return;
+                }
                 if (_currentSessionState == SessionState.Inactive)
                 {
                     AppCenterLog.Warn(Analytics.Instance.LogTag, "Trying to pause already inactive session.");
@@ -70,6 +77,11 @@ namespace Microsoft.AppCenter.Analytics.Channel
         {
             lock (_lockObject)
             {
+                if (_isManualSessionTrackerEnabled)
+                {
+                    AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is enabled. Skip tracking a session status request.");
+                    return;
+                }
                 if (_currentSessionState == SessionState.Active)
                 {
                     AppCenterLog.Warn(Analytics.Instance.LogTag, "Trying to resume already active session.");
@@ -86,6 +98,11 @@ namespace Microsoft.AppCenter.Analytics.Channel
         {
             lock (_lockObject)
             {
+                if (_isManualSessionTrackerEnabled)
+                {
+                    AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is enabled. Skip tracking a session status request.");
+                    return;
+                }
                 SessionContext.SessionId = null;
             }
         }
@@ -107,9 +124,45 @@ namespace Microsoft.AppCenter.Analytics.Channel
                 {
                     e.Log.Sid = SessionContext.SessionId;
                 }
-
                 _lastQueuedLogTime = TimeHelper.CurrentTimeInMilliseconds();
             }
+        }
+
+        /// <summary>
+        ///  Enable manual session tracker.
+        /// </summary>
+        public void EnableManualSessionTracker()
+        {
+            lock (_lockObject)
+            {
+                _isManualSessionTrackerEnabled = true;
+                AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is enabled.");
+            }
+        }
+
+        /// <summary>
+        /// Start a new session if manual session tracker was enabled, otherwise nothing.
+        /// </summary>
+        public void StartSession()
+        {
+            lock (_lockObject)
+            {
+                if (!_isManualSessionTrackerEnabled)
+                {
+                    AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is disabled. Skip start a new session request.");
+                    return;
+                }
+                SendStartSession();
+                AppCenterLog.Debug(Analytics.Instance.LogTag, $"Start a new session with id: {SessionContext.SessionId}.");
+            }
+        }
+
+        private void SendStartSession() 
+        {
+            SessionContext.SessionId = Guid.NewGuid();
+            _lastQueuedLogTime = TimeHelper.CurrentTimeInMilliseconds();
+            var startSessionLog = new StartSessionLog { Sid = SessionContext.SessionId };
+            _channel.EnqueueAsync(startSessionLog).ConfigureAwait(false);
         }
 
         private void SendStartSessionIfNeeded()
@@ -119,11 +172,7 @@ namespace Microsoft.AppCenter.Analytics.Channel
             {
                 return;
             }
-
-            SessionContext.SessionId = Guid.NewGuid();
-            _lastQueuedLogTime = TimeHelper.CurrentTimeInMilliseconds();
-            var startSessionLog = new StartSessionLog { Sid = SessionContext.SessionId };
-            _channel.EnqueueAsync(startSessionLog).ConfigureAwait(false);
+            SendStartSession();
         }
 
         private bool HasSessionTimedOut(long now)

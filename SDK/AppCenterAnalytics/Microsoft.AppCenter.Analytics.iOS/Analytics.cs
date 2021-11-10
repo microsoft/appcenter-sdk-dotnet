@@ -90,6 +90,22 @@ namespace Microsoft.AppCenter.Analytics
             iOSAnalytics.TrackEvent(name);
         }
 
+        /// <summary>
+        ///  Enable manual session tracker.
+        /// </summary>
+        public static void EnableManualSessionTracker()
+        {
+            iOSAnalytics.EnableManualSessionTracker();
+        }
+
+        /// <summary>
+        /// Start a new session if manual session tracker was enabled, otherwise nothing.
+        /// </summary>
+        public static void StartSession()
+        {
+            iOSAnalytics.StartSession();
+        }
+
         ///// <summary>
         ///// Track a custom page.
         ///// </summary>

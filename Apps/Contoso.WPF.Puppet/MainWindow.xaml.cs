@@ -42,6 +42,7 @@ namespace Contoso.WPF.Puppet
             textAttachments = Settings.Default.TextErrorAttachments;
             TextAttachmentTextBox.Text = textAttachments;
             FileAttachmentLabel.Content = fileAttachments;
+            EnableManualSessionTrackerCheckBox.IsChecked = Settings.Default.EnableManualSessionTracker;
             if (!string.IsNullOrEmpty(Settings.Default.CountryCode))
             {
                 CountryCodeEnableCheckbox.IsChecked = true;
@@ -325,6 +326,27 @@ namespace Contoso.WPF.Puppet
             AppCenter.SetMaxStorageSizeAsync(size);
             Settings.Default.StorageMaxSize = size;
             Settings.Default.Save();
+        }
+
+        private void EnableManualSessionTracker_Checked(object sender, RoutedEventArgs e)
+        {
+            EnableManualSessionTracker(true);
+        }
+
+        private void EnableManualSessionTracker_Unchecked(object sender, RoutedEventArgs e)
+        {
+            EnableManualSessionTracker(false);
+        }
+
+        private void EnableManualSessionTracker(bool isDisabled)
+        {
+            Settings.Default.EnableManualSessionTracker = isDisabled;
+            Settings.Default.Save();
+        }
+
+        private void StartSessionButton_Click(object sender, RoutedEventArgs e)
+        {
+            Analytics.StartSession();
         }
     }
 }

@@ -36,6 +36,73 @@ namespace Microsoft.AppCenter.Analytics.Test.Windows
         }
 
         /// <summary>
+        /// Verify start session when autogenerate session is disabled.
+        /// </summary>
+        [TestMethod]
+        public void EnableManualSessionTracker()
+        {
+            // Mock channel.
+            Log actualLog = null;
+            _mockChannel.Setup(channel => channel.EnqueueAsync(It.IsAny<StartSessionLog>())).Callback<Log>(log => actualLog = log);
+
+            // Enable manual session tracker.
+            _sessionTracker.EnableManualSessionTracker();
+
+            // Verify that after disable automatic session generation start session log wasn't sent.
+            _sessionTracker.Resume();
+            _mockChannel.Verify(channel => channel.EnqueueAsync(It.IsNotNull<StartSessionLog>()), Times.Never);
+            Assert.IsNull(actualLog);
+
+            // Start session and check that session was sent.
+            _sessionTracker.StartSession();
+            _mockChannel.Verify(channel => channel.EnqueueAsync(It.IsNotNull<StartSessionLog>()), Times.Once());
+            Assert.IsNotNull(actualLog.Sid);
+            Assert.IsNotNull(SessionContext.SessionId);
+            Assert.AreEqual(SessionContext.SessionId, actualLog.Sid);
+
+            // Save last session value.
+            var lastSid = actualLog.Sid;
+
+            // Start session again.
+            _sessionTracker.StartSession();
+            _mockChannel.Verify(channel => channel.EnqueueAsync(It.IsNotNull<StartSessionLog>()), Times.Exactly(2));
+            Assert.IsNotNull(actualLog.Sid);
+            Assert.IsNotNull(SessionContext.SessionId);
+            Assert.AreEqual(SessionContext.SessionId, actualLog.Sid);
+            Assert.AreNotEqual(SessionContext.SessionId, lastSid);
+        }
+
+        /// <summary>
+        /// Verify start session when autogenerate session is enabled.
+        /// </summary>
+        [TestMethod]
+        public void EnableAutomaticGenerationSession()
+        {
+            // Mock channel.
+            Log actualLog = null;
+            _mockChannel.Setup(channel => channel.EnqueueAsync(It.IsAny<StartSessionLog>())).Callback<Log>(log => actualLog = log);
+
+            // Enable automatic session generation.
+            _sessionTracker.EnableManualSessionTracker();
+
+            // Verify that after disable automatic session generation start session log wasn't sent.
+            _sessionTracker.Resume();
+            _mockChannel.Verify(channel => channel.EnqueueAsync(It.IsNotNull<StartSessionLog>()), Times.Never);
+            Assert.IsNotNull(actualLog.Sid);
+            Assert.IsNotNull(SessionContext.SessionId);
+            Assert.AreEqual(SessionContext.SessionId, actualLog.Sid);
+
+            // Save last session value.
+            var lastSid = actualLog.Sid;
+
+            // Start session and check that session was sent.
+            _sessionTracker.StartSession();
+            _mockChannel.Verify(channel => channel.EnqueueAsync(It.IsNotNull<StartSessionLog>()), Times.Once);
+            Assert.AreEqual(actualLog.Sid, lastSid);
+            Assert.AreEqual(SessionContext.SessionId, lastSid);
+        }
+
+        /// <summary>
         ///     Verify that the first call to resume sends a start session log
         /// </summary>
         [TestMethod]

@@ -32,6 +32,10 @@ namespace Contoso.Forms.Puppet
             base.OnAppearing();
             EnabledSwitchCell.IsToggled = await Analytics.IsEnabledAsync();
             EnabledSwitchCell.IsEnabled = await AppCenter.IsEnabledAsync();
+            if (Application.Current.Properties.ContainsKey(Constants.EnableManualSessionTracker) && Application.Current.Properties[Constants.EnableManualSessionTracker] is bool isDisabled)
+            {
+                EnableManualSessionTrackerCell.On = isDisabled;
+            }
         }
 
         async void AddProperty(object sender, EventArgs e)
@@ -82,6 +86,17 @@ namespace Contoso.Forms.Puppet
         void RefreshPropCount()
         {
             NumPropertiesLabel.Text = EventProperties.Count.ToString();
+        }
+
+        void EnableManualSessionTrackerCellEnabled(object sender, ToggledEventArgs e)
+        {
+            Application.Current.Properties[Constants.EnableManualSessionTracker] = e.Value;
+            _ = Application.Current.SavePropertiesAsync();
+        }
+
+        void StartSessionButtonClicked(object sender, ToggledEventArgs e)
+        {
+            Analytics.StartSession();
         }
     }
 }

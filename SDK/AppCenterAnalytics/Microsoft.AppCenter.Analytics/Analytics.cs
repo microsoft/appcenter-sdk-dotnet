@@ -62,6 +62,20 @@ namespace Microsoft.AppCenter.Analytics
         {
         }
 
+        /// <summary>
+        ///  Enable manual session tracker.
+        /// </summary>
+        public static void EnableManualSessionTracker()
+        {
+        }
+
+        /// <summary>
+        /// Start a new session if manual session tracker was enabled, otherwise nothing.
+        /// </summary>
+        public static void StartSession()
+        {
+        }
+
         ///// Track a custom page.
 
         ///// <summary>
