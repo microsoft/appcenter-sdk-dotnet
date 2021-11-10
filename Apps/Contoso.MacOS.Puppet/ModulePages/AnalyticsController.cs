@@ -47,8 +47,7 @@ namespace Contoso.MacOS.Puppet.ModulePages
         {
             base.ViewDidAppear();
             isAnalyticsEnabledSwitch.StringValue = Microsoft.AppCenter.Analytics.Analytics.IsEnabledAsync().Result ? On : Off;
-            isAnalyticsEnabledSwitch.Enabled = Microsoft.AppCenter.AppCenter.IsEnabledAsync().Result ? true : false;
-
+            isAnalyticsEnabledSwitch.Enabled = Microsoft.AppCenter.AppCenter.IsEnabledAsync().Result;
         }
 
         partial void AnalyticsSwitchEnabled(NSSwitch sender)

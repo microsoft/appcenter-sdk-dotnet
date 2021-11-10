@@ -2,7 +2,7 @@ namespace Microsoft.AppCenter
 {
     using MacOSMessageProvider = Microsoft.AppCenter.MacOS.Bindings.MSACLogMessageProvider;
     using MacOSLogger = Microsoft.AppCenter.MacOS.Bindings.MSACWrapperLogger;
-	using MacOSLogLevel = Microsoft.AppCenter.MacOS.Bindings.MSACLogLevel;
+    using MacOSLogLevel = Microsoft.AppCenter.MacOS.Bindings.MSACLogLevel;
 
     public static partial class AppCenterLog
     {

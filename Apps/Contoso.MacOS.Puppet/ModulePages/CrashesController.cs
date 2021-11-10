@@ -47,7 +47,7 @@ namespace Contoso.MacOS.Puppet.ModulePages
         {
             base.ViewDidAppear();
             IsCrashesEnabledSwitch.StringValue = Microsoft.AppCenter.Crashes.Crashes.IsEnabledAsync().Result ? On : Off;
-            IsCrashesEnabledSwitch.Enabled = Microsoft.AppCenter.AppCenter.IsEnabledAsync().Result ? true : false;
+            IsCrashesEnabledSwitch.Enabled = Microsoft.AppCenter.AppCenter.IsEnabledAsync().Result;
         }
 
         partial void IsCrashesEnabled(NSSwitch sender)
