@@ -1038,27 +1038,60 @@
                                     <action selector="SendTrackEvent:" target="VWK-W9-jX6" id="q6u-P3-gbO"/>
                                 </connections>
                             </button>
+                            <switch identifier="EnableManualSessionTrackerUpdate" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="QSA-Kw-2ay">
+                                <rect key="frame" x="390" y="96" width="42" height="25"/>
+                                <connections>
+                                    <action selector="ManualSessionTrackerUpdate:" target="VWK-W9-jX6" id="16r-Ef-BFf"/>
+                                </connections>
+                            </switch>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kNm-XM-fzU">
+                                <rect key="frame" x="32" y="101" width="192" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Enable Manual Session Tracker" id="bNf-zN-06k">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button identifier="StartSessionButton" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jsY-kn-Omi">
+                                <rect key="frame" x="127" y="57" width="210" height="32"/>
+                                <buttonCell key="cell" type="push" title="Start Session" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DDS-Sd-4tI">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="StartSession:" target="VWK-W9-jX6" id="R07-Rm-AmD"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="6kL-kU-t95" firstAttribute="leading" secondItem="2vd-t5-488" secondAttribute="leading" constant="34" id="0wP-SY-FIg"/>
                             <constraint firstAttribute="trailing" secondItem="6kL-kU-t95" secondAttribute="trailing" constant="20" symbolic="YES" id="13W-Z7-Gyx"/>
                             <constraint firstItem="HSA-YJ-pKq" firstAttribute="top" secondItem="4gL-lp-5Oy" secondAttribute="bottom" constant="32" id="2ap-oE-2y5"/>
+                            <constraint firstItem="kNm-XM-fzU" firstAttribute="leading" secondItem="2vd-t5-488" secondAttribute="leading" constant="34" id="4Pa-zc-26T"/>
                             <constraint firstItem="DuP-gM-pq0" firstAttribute="top" secondItem="xnW-KU-k1I" secondAttribute="bottom" constant="27" id="AB2-vD-JM5"/>
+                            <constraint firstItem="kNm-XM-fzU" firstAttribute="top" secondItem="6kL-kU-t95" secondAttribute="bottom" constant="63" id="Bcq-ef-q93"/>
                             <constraint firstItem="SzF-g8-miL" firstAttribute="top" secondItem="6kL-kU-t95" secondAttribute="bottom" constant="20" symbolic="YES" id="EAo-SM-FeC"/>
                             <constraint firstItem="xnW-KU-k1I" firstAttribute="leading" secondItem="4gL-lp-5Oy" secondAttribute="trailing" constant="228" id="EZR-iR-m4r"/>
                             <constraint firstItem="SzF-g8-miL" firstAttribute="leading" secondItem="2vd-t5-488" secondAttribute="leading" constant="353" id="FcY-zO-SZq"/>
+                            <constraint firstAttribute="trailing" secondItem="QSA-Kw-2ay" secondAttribute="trailing" constant="20" symbolic="YES" id="FiF-3t-glN"/>
                             <constraint firstItem="4gL-lp-5Oy" firstAttribute="leading" secondItem="2vd-t5-488" secondAttribute="leading" constant="32" id="G5a-ZH-BSo"/>
                             <constraint firstItem="4gL-lp-5Oy" firstAttribute="top" secondItem="2vd-t5-488" secondAttribute="top" constant="26" id="OJb-O2-h1o"/>
+                            <constraint firstAttribute="trailing" secondItem="jsY-kn-Omi" secondAttribute="trailing" constant="120" id="SHt-Ma-baW"/>
                             <constraint firstItem="HSA-YJ-pKq" firstAttribute="leading" secondItem="2vd-t5-488" secondAttribute="leading" constant="34" id="TeG-3Y-8lo"/>
                             <constraint firstItem="xnW-KU-k1I" firstAttribute="top" secondItem="2vd-t5-488" secondAttribute="top" constant="20" symbolic="YES" id="VeK-g0-jZU"/>
                             <constraint firstAttribute="trailing" secondItem="xnW-KU-k1I" secondAttribute="trailing" constant="20" symbolic="YES" id="Xe0-Y3-79G"/>
                             <constraint firstAttribute="trailing" secondItem="SzF-g8-miL" secondAttribute="trailing" constant="20" symbolic="YES" id="Zue-wR-PJa"/>
+                            <constraint firstItem="QSA-Kw-2ay" firstAttribute="leading" secondItem="kNm-XM-fzU" secondAttribute="trailing" constant="170" id="e6k-pi-zvt"/>
+                            <constraint firstItem="QSA-Kw-2ay" firstAttribute="top" secondItem="SzF-g8-miL" secondAttribute="bottom" constant="20" symbolic="YES" id="ip6-dX-vbt"/>
+                            <constraint firstItem="jsY-kn-Omi" firstAttribute="top" secondItem="kNm-XM-fzU" secondAttribute="bottom" constant="17" id="j4a-3W-Tix"/>
+                            <constraint firstItem="jsY-kn-Omi" firstAttribute="leading" secondItem="2vd-t5-488" secondAttribute="leading" constant="134" id="oj4-h3-Tsg"/>
                             <constraint firstItem="DuP-gM-pq0" firstAttribute="leading" secondItem="HSA-YJ-pKq" secondAttribute="trailing" constant="81" id="ojc-37-mle"/>
                             <constraint firstAttribute="trailing" secondItem="DuP-gM-pq0" secondAttribute="trailing" constant="20" symbolic="YES" id="tip-kM-0Yj"/>
                             <constraint firstItem="6kL-kU-t95" firstAttribute="top" secondItem="HSA-YJ-pKq" secondAttribute="bottom" constant="14" id="wOi-1i-wB5"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="ManualSessionTrackerSwitch" destination="QSA-Kw-2ay" id="Cas-oV-r8s"/>
                         <outlet property="isAnalyticsEnabledSwitch" destination="xnW-KU-k1I" id="5N6-gE-fb5"/>
                         <outlet property="trackEventName" destination="DuP-gM-pq0" id="nHE-hp-GEM"/>
                     </connections>

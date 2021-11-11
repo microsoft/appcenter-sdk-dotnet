@@ -14,6 +14,7 @@ namespace Contoso.MacOS.Puppet.ModulePages
         private bool hasTrackEventPropery = false;
         private const string On = "1";
         private const string Off = "0";
+        private NSUserDefaults plist = NSUserDefaults.StandardUserDefaults;
 
         #region Constructors
 
@@ -48,6 +49,8 @@ namespace Contoso.MacOS.Puppet.ModulePages
             base.ViewDidAppear();
             isAnalyticsEnabledSwitch.StringValue = Microsoft.AppCenter.Analytics.Analytics.IsEnabledAsync().Result ? On : Off;
             isAnalyticsEnabledSwitch.Enabled = Microsoft.AppCenter.AppCenter.IsEnabledAsync().Result;
+            var isEnabled = plist.BoolForKey(Constants.EnableManualSessionTrackerKey);
+            ManualSessionTrackerSwitch.StringValue = isEnabled ? On : Off;
         }
 
         partial void AnalyticsSwitchEnabled(NSSwitch sender)
@@ -60,6 +63,16 @@ namespace Contoso.MacOS.Puppet.ModulePages
         partial void HasTrackErrorProperties(NSButton sender)
         {
             hasTrackEventPropery = !hasTrackEventPropery;
+        }
+
+        partial void ManualSessionTrackerUpdate(NSSwitch sender)
+        {
+            plist.SetBool(sender.AccessibilityValue.ToLower().Equals("on"), Constants.EnableManualSessionTrackerKey);
+        }
+
+        partial void StartSession(NSObject sender)
+        {
+            Microsoft.AppCenter.Analytics.Analytics.StartSession();
         }
 
         partial void SendTrackEvent(NSButton sender)

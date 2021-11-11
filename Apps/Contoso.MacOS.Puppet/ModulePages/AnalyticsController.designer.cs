@@ -13,6 +13,9 @@ namespace Contoso.MacOS.Puppet.ModulePages
 		AppKit.NSSwitch isAnalyticsEnabledSwitch { get; set; }
 
 		[Outlet]
+		AppKit.NSSwitch ManualSessionTrackerSwitch { get; set; }
+
+		[Outlet]
 		AppKit.NSTextField trackEventName { get; set; }
 
 		[Action ("AnalyticsSwitchEnabled:")]
@@ -21,8 +24,14 @@ namespace Contoso.MacOS.Puppet.ModulePages
 		[Action ("HasTrackErrorProperties:")]
 		partial void HasTrackErrorProperties (AppKit.NSButton sender);
 
+		[Action ("ManualSessionTrackerUpdate:")]
+		partial void ManualSessionTrackerUpdate (AppKit.NSSwitch sender);
+
 		[Action ("SendTrackEvent:")]
 		partial void SendTrackEvent (AppKit.NSButton sender);
+
+		[Action ("StartSession:")]
+		partial void StartSession (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -34,6 +43,11 @@ namespace Contoso.MacOS.Puppet.ModulePages
 			if (trackEventName != null) {
 				trackEventName.Dispose ();
 				trackEventName = null;
+			}
+
+			if (ManualSessionTrackerSwitch != null) {
+				ManualSessionTrackerSwitch.Dispose ();
+				ManualSessionTrackerSwitch = null;
 			}
 		}
 	}

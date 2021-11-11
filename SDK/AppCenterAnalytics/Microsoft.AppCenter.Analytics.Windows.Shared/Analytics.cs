@@ -24,7 +24,7 @@ namespace Microsoft.AppCenter.Analytics
         private static volatile Analytics _instanceField;
 
         // Stores the value of whether manual session tracker was enabled.
-        private bool _isManualSessionTrackerEnabled = false;
+        private bool _ismanualSessionTrackerSwitch = false;
 
         // Internal for testing purposes
         private ISessionTracker _sessionTracker;
@@ -108,7 +108,7 @@ namespace Microsoft.AppCenter.Analytics
             }
             if (Instance._sessionTracker == null)
             {
-                Instance._isManualSessionTrackerEnabled = true;
+                Instance._ismanualSessionTrackerSwitch = true;
                 return;
             }
             Instance._sessionTracker.EnableManualSessionTracker();
@@ -198,7 +198,7 @@ namespace Microsoft.AppCenter.Analytics
                 if (enabled && ChannelGroup != null && _sessionTracker == null)
                 {
                     _sessionTracker = CreateSessionTracker(ChannelGroup, Channel, ApplicationSettings);
-                    if (_isManualSessionTrackerEnabled)
+                    if (_ismanualSessionTrackerSwitch)
                     {
                         _sessionTracker.EnableManualSessionTracker();
                     }

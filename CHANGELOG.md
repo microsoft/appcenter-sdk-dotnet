@@ -7,6 +7,10 @@
 * **[Breaking change]** Remove `AppCenter.SetCustomProperties` API.
 * **[Fix]** Fix App Center SDK compatibility with projects targeting .NETCore3.0 and higher.
 
+### App Center Analytics
+
+* **[Feature]** Add `Analytics.EnableManualSessionTracker` and `Analytics.StartSession` APIs for control start session time manually.
+
 ___
 
 ## Version 4.4.0
