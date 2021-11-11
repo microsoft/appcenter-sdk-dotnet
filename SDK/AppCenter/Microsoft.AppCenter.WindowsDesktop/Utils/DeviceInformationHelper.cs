@@ -6,11 +6,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 #if WINDOWS10_0_17763_0
 using Windows.ApplicationModel;
-#else
-using System.Windows.Forms;
 #endif
 
 #if NET461
@@ -151,22 +150,12 @@ namespace Microsoft.AppCenter.Utils
              * If the AssemblyInformationalVersion is not applied to an assembly,
              * the version number specified by the AssemblyFileVersion attribute is used instead.
              */
-#if WINDOWS10_0_17763_0
-            var packageVersion = Package.Current.Id.Version;
-            return $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
-#else
-            return DeploymentVersion ?? Application.ProductVersion;
-#endif
+            return PackageVersion ?? DeploymentVersion ?? Application.ProductVersion;
         }
 
         protected override string GetAppBuild()
         {
-#if WINDOWS10_0_17763_0
-            var packageVersion = Package.Current.Id.Version;
-            return $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
-#else
-            return DeploymentVersion ?? FileVersion;
-#endif
+            return PackageVersion ?? DeploymentVersion ?? FileVersion;
         }
 
         protected override string GetScreenSize()
@@ -179,6 +168,25 @@ namespace Microsoft.AppCenter.Utils
                 var height = GetDeviceCaps(desktop, DESKTOPVERTRES);
                 var width = GetDeviceCaps(desktop, DESKTOPHORZRES);
                 return $"{width}x{height}";
+            }
+        }
+
+        private static string PackageVersion
+        {
+            get
+            {
+#if WINDOWS10_0_17763_0
+                try
+                {
+                    var packageVersion = Package.Current.Id.Version;
+                    return $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
+                }
+                catch (InvalidOperationException)
+                {
+                    // Package.Current is only available in MSIX-packaged apps
+                }
+#endif
+                return null;
             }
         }
 
@@ -197,7 +205,6 @@ namespace Microsoft.AppCenter.Utils
             }
         }
 
-#if !WINDOWS10_0_17763_0
         private static string FileVersion
         {
             get
@@ -221,7 +228,6 @@ namespace Microsoft.AppCenter.Utils
                 return Application.ProductVersion;
             }
         }
-#endif
 
         /// <summary>
         /// Import GetDeviceCaps function to retreive scale-independent screen size.
