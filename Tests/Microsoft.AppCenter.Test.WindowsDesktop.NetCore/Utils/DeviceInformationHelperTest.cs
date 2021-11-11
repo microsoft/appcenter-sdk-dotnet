@@ -18,7 +18,11 @@ namespace Microsoft.AppCenter.Test.WindowsDesktop.Utils
         public void VerifySdkName()
         {
             var device = Task.Run(() => new DeviceInformationHelper().GetDeviceInformationAsync()).Result;
+#if NETCOREAPP3_0
             Assert.Equal("appcenter.wpf.netcore", device.SdkName);
+#else
+            Assert.Equal("appcenter.wpf", device.SdkName);
+#endif
         }
 
         /// <summary>
