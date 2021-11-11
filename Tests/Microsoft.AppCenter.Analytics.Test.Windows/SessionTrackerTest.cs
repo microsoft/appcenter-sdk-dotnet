@@ -82,12 +82,9 @@ namespace Microsoft.AppCenter.Analytics.Test.Windows
             Log actualLog = null;
             _mockChannel.Setup(channel => channel.EnqueueAsync(It.IsAny<StartSessionLog>())).Callback<Log>(log => actualLog = log);
 
-            // Enable automatic session generation.
-            _sessionTracker.EnableManualSessionTracker();
-
-            // Verify that after disable automatic session generation start session log wasn't sent.
+            // Verify that logs was sent with automatic session generation.
             _sessionTracker.Resume();
-            _mockChannel.Verify(channel => channel.EnqueueAsync(It.IsNotNull<StartSessionLog>()), Times.Never);
+            _mockChannel.Verify(channel => channel.EnqueueAsync(It.IsNotNull<StartSessionLog>()), Times.Once);
             Assert.IsNotNull(actualLog.Sid);
             Assert.IsNotNull(SessionContext.SessionId);
             Assert.AreEqual(SessionContext.SessionId, actualLog.Sid);
@@ -95,7 +92,7 @@ namespace Microsoft.AppCenter.Analytics.Test.Windows
             // Save last session value.
             var lastSid = actualLog.Sid;
 
-            // Start session and check that session was sent.
+            // Call start session and check that session was sent.
             _sessionTracker.StartSession();
             _mockChannel.Verify(channel => channel.EnqueueAsync(It.IsNotNull<StartSessionLog>()), Times.Once);
             Assert.AreEqual(actualLog.Sid, lastSid);

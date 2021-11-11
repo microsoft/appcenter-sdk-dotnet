@@ -171,7 +171,7 @@ namespace Microsoft.AppCenter.Analytics.Test.Windows
             _mockSessionTracker.Verify(tracker => tracker.Resume(), Times.Once());
             _mockSessionTracker.Verify(tracker => tracker.Stop(), Times.Once());
 
-            // Verify that disable session will be never called.
+            // Verify that enable manual session tracker will be never called.
             _mockSessionTracker.Verify(tracker => tracker.EnableManualSessionTracker(), Times.Never());
         }
 
@@ -184,7 +184,7 @@ namespace Microsoft.AppCenter.Analytics.Test.Windows
             // Start Analytics.
             Analytics.SetEnabledAsync(true).Wait();
 
-            // Enable Manual Session Tracker and verify that it will be not set after Analytics start.
+            // Enable manual session tracker and verify that it will be not set after Analytics start.
             Analytics.EnableManualSessionTracker();
             _mockSessionTracker.Verify(tracker => tracker.EnableManualSessionTracker(), Times.Never());
 
@@ -209,7 +209,7 @@ namespace Microsoft.AppCenter.Analytics.Test.Windows
         [TestMethod]
         public void TrackEventInvalid()
         {
-            // Enable Manual Session Tracker.
+            // Enable manual session tracker.
             Analytics.EnableManualSessionTracker();
             _mockSessionTracker.Verify(tracker => tracker.EnableManualSessionTracker(), Times.Never());
 
