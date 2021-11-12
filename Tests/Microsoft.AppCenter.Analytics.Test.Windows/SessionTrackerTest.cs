@@ -36,7 +36,7 @@ namespace Microsoft.AppCenter.Analytics.Test.Windows
         }
 
         /// <summary>
-        /// Verify start session when autogenerate session is disabled.
+        /// Verify start session when manual session tracker is enabled.
         /// </summary>
         [TestMethod]
         public void EnableManualSessionTracker()
@@ -73,10 +73,10 @@ namespace Microsoft.AppCenter.Analytics.Test.Windows
         }
 
         /// <summary>
-        /// Verify start session when autogenerate session is enabled.
+        /// Verify start session when session is tracker automatically.
         /// </summary>
         [TestMethod]
-        public void EnableAutomaticGenerationSession()
+        public void StartSessionWhenSessionIsTrackedAutomatically()
         {
             // Mock channel.
             Log actualLog = null;

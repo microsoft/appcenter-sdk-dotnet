@@ -32,9 +32,11 @@ namespace Contoso.Forms.Puppet
             base.OnAppearing();
             EnabledSwitchCell.IsToggled = await Analytics.IsEnabledAsync();
             EnabledSwitchCell.IsEnabled = await AppCenter.IsEnabledAsync();
-            if (Application.Current.Properties.ContainsKey(Constants.EnableManualSessionTracker) && Application.Current.Properties[Constants.EnableManualSessionTracker] is bool isDisabled)
+            if (Application.Current.Properties.ContainsKey(Constants.EnableManualSessionTracker)
+                && Application.Current.Properties[Constants.EnableManualSessionTracker] is bool isEnabled
+                && isEnabled)
             {
-                EnableManualSessionTrackerCell.On = isDisabled;
+                EnableManualSessionTrackerSwitch.IsToggled = isEnabled;
             }
         }
 

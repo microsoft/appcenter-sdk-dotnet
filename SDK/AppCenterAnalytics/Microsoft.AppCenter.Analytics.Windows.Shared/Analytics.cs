@@ -24,7 +24,7 @@ namespace Microsoft.AppCenter.Analytics
         private static volatile Analytics _instanceField;
 
         // Stores the value of whether manual session tracker was enabled.
-        private bool _ismanualSessionTrackerSwitch = false;
+        private bool _isManualSessionTrackerEnabled = false;
 
         // Internal for testing purposes
         private ISessionTracker _sessionTracker;
@@ -101,29 +101,35 @@ namespace Microsoft.AppCenter.Analytics
         /// </summary>
         public static void EnableManualSessionTracker()
         {
-            if (Instance.Channel != null)
+            lock (AnalyticsLock)
             {
-                AppCenterLog.Error(Instance.LogTag, "The manual session tracker should be installed before the App Center start.");
-                return;
+                if (Instance.Channel != null)
+                {
+                    AppCenterLog.Error(Instance.LogTag, "The manual session tracker should be installed before the App Center start.");
+                    return;
+                }
+                if (Instance._sessionTracker == null)
+                {
+                    Instance._isManualSessionTrackerEnabled = true;
+                    return;
+                }
+                Instance._sessionTracker.EnableManualSessionTracker();
             }
-            if (Instance._sessionTracker == null)
-            {
-                Instance._ismanualSessionTrackerSwitch = true;
-                return;
-            }
-            Instance._sessionTracker.EnableManualSessionTracker();
         }
 
         /// <summary>
-        /// Start a new session if manual session tracker was enabled.
+        /// Start a new session if manual session tracker is enabled, otherwise do nothing.
         /// </summary>
         public static void StartSession()
         {
-            if (Instance._sessionTracker == null) {
-                AppCenterLog.Error(Instance.LogTag, "Start session should be called after the Analytics start.");
-                return;
+            lock (AnalyticsLock)
+            {
+                if (Instance._sessionTracker == null) {
+                    AppCenterLog.Error(Instance.LogTag, "Start session should be called after the Analytics start.");
+                    return;
+                }
+                Instance._sessionTracker.StartSession();
             }
-            Instance._sessionTracker.StartSession();
         }
 
         #endregion
@@ -198,7 +204,7 @@ namespace Microsoft.AppCenter.Analytics
                 if (enabled && ChannelGroup != null && _sessionTracker == null)
                 {
                     _sessionTracker = CreateSessionTracker(ChannelGroup, Channel, ApplicationSettings);
-                    if (_ismanualSessionTrackerSwitch)
+                    if (_isManualSessionTrackerEnabled)
                     {
                         _sessionTracker.EnableManualSessionTracker();
                     }

@@ -88,11 +88,11 @@ namespace Contoso.Forms.Puppet
                 {
                     AppCenter.SetMaxStorageSizeAsync(size);
                 }
-                if (Current.Properties.ContainsKey(Constants.EnableManualSessionTracker) && Current.Properties[Constants.EnableManualSessionTracker] is bool isDisabled)
+                if (Current.Properties.ContainsKey(Constants.EnableManualSessionTracker)
+                    && Current.Properties[Constants.EnableManualSessionTracker] is bool isEnabled
+                    && isEnabled)
                 {
-                    if (isDisabled) {
-                        Analytics.EnableManualSessionTracker();
-                    }
+                    Analytics.EnableManualSessionTracker();
                 }
                 AppCenter.Start(GetTokensString(), typeof(Analytics), typeof(Crashes), typeof(Distribute));
                 if (Current.Properties.ContainsKey(Constants.UserId) && Current.Properties[Constants.UserId] is string id)

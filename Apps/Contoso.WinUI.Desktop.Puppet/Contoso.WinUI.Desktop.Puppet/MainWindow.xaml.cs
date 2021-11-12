@@ -66,10 +66,10 @@ namespace Contoso.WinUI.Desktop.Puppet
             {
                 StorageMaxSize.Text = storageSize.ToString();
             }
-            var isSessionGenerationDisabled = localSettings.Values[Constants.KeyEnableManualSessionTracker] as bool?;
-            if (isSessionGenerationDisabled != null)
+            var isManualSessionTrackerEnabled = localSettings.Values[Constants.KeyEnableManualSessionTracker] as bool?;
+            if (isManualSessionTrackerEnabled != null)
             {
-                EnableManualSessionTrackerCheckBox.IsChecked = isSessionGenerationDisabled;
+                EnableManualSessionTrackerCheckBox.IsChecked = isManualSessionTrackerEnabled;
             }
         }
 
@@ -455,12 +455,12 @@ namespace Contoso.WinUI.Desktop.Puppet
             EnableManualSessionTracker(false);
         }
 
-        private void EnableManualSessionTracker(bool isDisabled)
+        private void EnableManualSessionTracker(bool isEnabled)
         {
-            localSettings.Values[Constants.KeyEnableManualSessionTracker] = isDisabled;
+            localSettings.Values[Constants.KeyEnableManualSessionTracker] = isEnabled;
         }
 
-        private void StartSessionButton_Click(object sender, RoutedEventArgs e)
+        private void StartSessionButton(object sender, RoutedEventArgs e)
         {
             Analytics.StartSession();
         }

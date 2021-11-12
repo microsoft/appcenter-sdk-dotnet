@@ -25,7 +25,7 @@
             <Label Text="Settings Session"/>
             <StackLayout Margin="0, 16, 0, 0" Orientation="Horizontal">
                 <Label FontSize="Small" HorizontalOptions="Start"  Text="Enable Manual Session Tracker"/>
-                <Switch HorizontalOptions="EndAndExpand"  IsToggled="true" x:Name="EnabledSwitchCell" Toggled="EnableManualSessionTrackerCellEnabled" />
+                <Switch HorizontalOptions="EndAndExpand"  IsToggled="true" x:Name="EnableManualSessionTrackerSwitch" Toggled="EnableManualSessionTrackerCellEnabled" />
             </StackLayout>
             <Button Text="Start Session" Clicked="StartSessionButtonClicked" InputTransparent="true" />
         </StackLayout>

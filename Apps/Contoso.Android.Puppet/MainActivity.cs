@@ -60,7 +60,8 @@ namespace Contoso.Android.Puppet
             {
                 AppCenter.SetMaxStorageSizeAsync(storageSizeValue);
             }
-            if (prefs.GetBoolean(Constants.EnableManualSessionTrackerKey, false)) {
+            if (prefs.GetBoolean(Constants.EnableManualSessionTrackerKey, false)) 
+            {
                 Analytics.EnableManualSessionTracker();
             }
             Distribute.SetInstallUrl("https://install.portal-server-core-integration.dev.avalanch.es");

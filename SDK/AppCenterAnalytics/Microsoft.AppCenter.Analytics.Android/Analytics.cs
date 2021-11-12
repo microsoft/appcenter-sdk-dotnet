@@ -92,7 +92,7 @@ namespace Microsoft.AppCenter.Analytics
         }
 
         /// <summary>
-        /// Start a new session if manual session tracker was enabled, otherwise nothing.
+        /// Start a new session if manual session tracker is enabled, otherwise do nothing.
         /// </summary>
         public static void StartSession()
         {

@@ -47,11 +47,11 @@ namespace Contoso.Android.Puppet
 
             // Subscribe to events.
             AnalyticsEnabledSwitch.CheckedChange += UpdateEnabled;
-            EnableManualSessionTrackerSwitch.CheckedChange += DisableSessionGenerationUpdate;
+            EnableManualSessionTrackerSwitch.CheckedChange += EnableManualSessionUpdate;
             ((View)PropertiesCountLabel.Parent).Click += Properties;
             AddPropertyButton.Click += AddProperty;
             TrackEventButton.Click += TrackEvent;
-            StartSessionButton.Click += StartSessionButton_Click;
+            StartSessionButton.Click += StartSessionButton;
 
             UpdateState();
         }
@@ -63,12 +63,12 @@ namespace Contoso.Android.Puppet
             AnalyticsEnabledSwitch.Checked = await Analytics.IsEnabledAsync();
             AnalyticsEnabledSwitch.Enabled = await AppCenter.IsEnabledAsync();
             AnalyticsEnabledSwitch.CheckedChange += UpdateEnabled;
-            EnableManualSessionTrackerSwitch.CheckedChange -= DisableSessionGenerationUpdate;
+            EnableManualSessionTrackerSwitch.CheckedChange -= EnableManualSessionUpdate;
 
-            // Set session generation value.
+            // Set manual session tracker value.
             var prefs = Context.GetSharedPreferences("AppCenter", FileCreationMode.Private);
             EnableManualSessionTrackerSwitch.Checked = prefs.GetBoolean(Constants.EnableManualSessionTrackerKey, false);
-            EnableManualSessionTrackerSwitch.CheckedChange += DisableSessionGenerationUpdate;
+            EnableManualSessionTrackerSwitch.CheckedChange += EnableManualSessionUpdate;
             PropertiesCountLabel.Text = mEventProperties.Count.ToString();
         }
 
@@ -116,7 +116,7 @@ namespace Contoso.Android.Puppet
             PropertiesCountLabel.Text = mEventProperties.Count.ToString();
         }
 
-        private void DisableSessionGenerationUpdate(object sender, CompoundButton.CheckedChangeEventArgs e)
+        private void EnableManualSessionUpdate(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             var prefs = Context.GetSharedPreferences("AppCenter", FileCreationMode.Private);
             var prefEditor = prefs.Edit();
@@ -124,7 +124,7 @@ namespace Contoso.Android.Puppet
             prefEditor.Commit();
         }
 
-        private void StartSessionButton_Click(object sender, EventArgs e)
+        private void StartSessionButton(object sender, EventArgs e)
         {
             Analytics.StartSession();
         }

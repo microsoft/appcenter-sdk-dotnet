@@ -209,13 +209,13 @@ namespace Contoso.WPF.Puppet.DotNetCore
             EnableManualSessionTracker(false);
         }
 
-        private void EnableManualSessionTracker(bool isDisabled)
+        private void EnableManualSessionTracker(bool isEnabled)
         {
-            Settings.Default.EnableManualSessionTracker = isDisabled;
+            Settings.Default.EnableManualSessionTracker = isEnabled;
             Settings.Default.Save();
         }
 
-        private void StartSessionButton_Click(object sender, RoutedEventArgs e)
+        private void StartSessionButton(object sender, RoutedEventArgs e)
         {
             Analytics.StartSession();
         }

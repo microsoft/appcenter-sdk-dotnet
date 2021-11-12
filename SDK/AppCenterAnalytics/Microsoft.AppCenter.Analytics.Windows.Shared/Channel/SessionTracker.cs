@@ -33,7 +33,7 @@ namespace Microsoft.AppCenter.Analytics.Channel
         private SessionState _currentSessionState = SessionState.None;
 
         // Stores the value of whether manual session tracker is enabled, false by default.
-        private bool _ismanualSessionTrackerSwitch = false;
+        private bool _isManualSessionTrackerEnabled = false;
 
         // Some fields are internal for testing
         internal static long SessionTimeout = 20000;
@@ -58,8 +58,8 @@ namespace Microsoft.AppCenter.Analytics.Channel
         {
             lock (_lockObject)
             {
-                if (_ismanualSessionTrackerSwitch) { 
-                    AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is enabled. Skip tracking a session status request.");
+                if (_isManualSessionTrackerEnabled) { 
+                    AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is enabled. Skip tracking a session status request after pause.");
                     return;
                 }
                 if (_currentSessionState == SessionState.Inactive)
@@ -77,9 +77,9 @@ namespace Microsoft.AppCenter.Analytics.Channel
         {
             lock (_lockObject)
             {
-                if (_ismanualSessionTrackerSwitch)
+                if (_isManualSessionTrackerEnabled)
                 {
-                    AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is enabled. Skip tracking a session status request.");
+                    AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is enabled. Skip tracking a session status request after resume.");
                     return;
                 }
                 if (_currentSessionState == SessionState.Active)
@@ -98,9 +98,9 @@ namespace Microsoft.AppCenter.Analytics.Channel
         {
             lock (_lockObject)
             {
-                if (_ismanualSessionTrackerSwitch)
+                if (_isManualSessionTrackerEnabled)
                 {
-                    AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is enabled. Skip tracking a session status request.");
+                    AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is enabled. Skip tracking a session status request after stop.");
                     return;
                 }
                 SessionContext.SessionId = null;
@@ -135,25 +135,25 @@ namespace Microsoft.AppCenter.Analytics.Channel
         {
             lock (_lockObject)
             {
-                _ismanualSessionTrackerSwitch = true;
+                _isManualSessionTrackerEnabled = true;
                 AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is enabled.");
             }
         }
 
         /// <summary>
-        /// Start a new session if manual session tracker was enabled, otherwise nothing.
+        /// Start a new session if manual session tracker is enabled, otherwise do nothing.
         /// </summary>
         public void StartSession()
         {
             lock (_lockObject)
             {
-                if (!_ismanualSessionTrackerSwitch)
+                if (!_isManualSessionTrackerEnabled)
                 {
                     AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is disabled. Skip start a new session request.");
                     return;
                 }
                 SendStartSession();
-                AppCenterLog.Debug(Analytics.Instance.LogTag, $"Start a new session with id: {SessionContext.SessionId}.");
+                AppCenterLog.Debug(Analytics.Instance.LogTag, $"Started a new session with id: {SessionContext.SessionId}.");
             }
         }
 

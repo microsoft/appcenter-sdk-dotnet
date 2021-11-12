@@ -171,7 +171,7 @@ namespace Microsoft.AppCenter.Analytics.Test.Windows
             _mockSessionTracker.Verify(tracker => tracker.Resume(), Times.Once());
             _mockSessionTracker.Verify(tracker => tracker.Stop(), Times.Once());
 
-            // Verify that enable manual session tracker will be never called.
+            // Verify that enable manual session tracker will never be called.
             _mockSessionTracker.Verify(tracker => tracker.EnableManualSessionTracker(), Times.Never());
         }
 

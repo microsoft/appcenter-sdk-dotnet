@@ -18,6 +18,7 @@ namespace Contoso.iOS.Puppet
         {
             private readonly IDictionary<string, string> mEventProperties;
             private readonly string[] mKeys;
+            private NSUserDefaults plist = NSUserDefaults.StandardUserDefaults;
 
             public PropertiesTableSource(IDictionary<string, string> eventProperties)
             {
@@ -56,8 +57,7 @@ namespace Contoso.iOS.Puppet
             AnalyticsEnabledSwitch.Enabled = AppCenter.IsEnabledAsync().Result;
             NumPropertiesLabel.Text = mEventProperties.Count.ToString();
 
-            // Set disable session value.
-            var plist = NSUserDefaults.StandardUserDefaults;
+            // Set enabled manual session tracker value.
             EnableManualSessionTrackerSwitch.On = plist.BoolForKey(Constants.EnableManualSessionTrackerKey);
         }
 
@@ -80,7 +80,6 @@ namespace Contoso.iOS.Puppet
 
         partial void SessionGenerationUpdate(NSObject sender)
         {
-            var plist = NSUserDefaults.StandardUserDefaults;
             plist.SetBool(EnableManualSessionTrackerSwitch.On, Constants.EnableManualSessionTrackerKey);
         }
 
