@@ -48,7 +48,7 @@ namespace Microsoft.AppCenter.Analytics.MacOS.Bindings
 
         // + (void)enableManualSessionTracker
         [Static]
-        [Export("enableManualSessionTracker:")]
+        [Export("enableManualSessionTracker")]
         void EnableManualSessionTracker();
 
         // + (void)startSession
