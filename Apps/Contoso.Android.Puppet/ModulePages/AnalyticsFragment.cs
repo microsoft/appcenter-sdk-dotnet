@@ -51,7 +51,7 @@ namespace Contoso.Android.Puppet
             ((View)PropertiesCountLabel.Parent).Click += Properties;
             AddPropertyButton.Click += AddProperty;
             TrackEventButton.Click += TrackEvent;
-            StartSessionButton.Click += StartSessionButton;
+            StartSessionButton.Click += StartSessionButtonClick;
 
             UpdateState();
         }
@@ -124,7 +124,7 @@ namespace Contoso.Android.Puppet
             prefEditor.Commit();
         }
 
-        private void StartSessionButton(object sender, EventArgs e)
+        private void StartSessionButtonClick(object sender, EventArgs e)
         {
             Analytics.StartSession();
         }
