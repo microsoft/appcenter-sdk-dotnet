@@ -460,7 +460,7 @@ namespace Contoso.WinUI.Desktop.Puppet
             localSettings.Values[Constants.KeyEnableManualSessionTracker] = isEnabled;
         }
 
-        private void StartSessionButton(object sender, RoutedEventArgs e)
+        private void StartSessionButtonClick(object sender, RoutedEventArgs e)
         {
             Analytics.StartSession();
         }
