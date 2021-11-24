@@ -344,7 +344,7 @@ namespace Contoso.WPF.Puppet
             Settings.Default.Save();
         }
 
-        private void StartSessionButton(object sender, RoutedEventArgs e)
+        private void StartSessionButtonClick(object sender, RoutedEventArgs e)
         {
             Analytics.StartSession();
         }
