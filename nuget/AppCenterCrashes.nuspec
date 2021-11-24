@@ -41,6 +41,11 @@
     <file src="$ios_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/Xamarin.iOS10" />
     <file src="$ios_dir$/Microsoft.AppCenter.Crashes.iOS.Bindings.dll" target="lib/Xamarin.iOS10" />
 
+    <!-- Mac Catalyst -->
+    <file src="$maccatalyst_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net6.0-maccatalyst15.0" />
+    <file src="$maccatalyst_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net6.0-maccatalyst15.0" />
+    <file src="$maccatalyst_dir$/Microsoft.AppCenter.Crashes.iOS.Bindings.dll" target="lib/net6.0-maccatalyst15.0" />
+
     <!-- macOS -->
     <file src="$macos_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/Xamarin.Mac" />
     <file src="$macos_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/Xamarin.Mac" />
