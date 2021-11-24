@@ -2,8 +2,8 @@
 <config>
     <sdkInfo>
         <sdkVersion>4.4.1-SNAPSHOT</sdkVersion>
-        <appleVersion>4.3.1-15+942232b573c9c9987ae5d16df95c303c517fb9f0</appleVersion>
-        <androidVersion>4.3.1</androidVersion>
+        <appleVersion>4.3.1-17+6b7274135f3f8f4fda92001714119f6939caf772</appleVersion>
+        <androidVersion>4.3.2-0a0ffd9f3</androidVersion>
     </sdkInfo>
     <group id="ios" folder="iOSAssemblies" buildGroup="mac">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.iOS/bin/Release/Microsoft.AppCenter.dll"/>

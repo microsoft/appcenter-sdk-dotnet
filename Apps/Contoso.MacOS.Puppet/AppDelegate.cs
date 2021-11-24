@@ -31,6 +31,10 @@ namespace Contoso.MacOS.Puppet
             {
                 AppCenter.SetMaxStorageSizeAsync(storageSizeValue);
             }
+            if (plist.BoolForKey(Constants.EnableManualSessionTrackerKey))
+            {
+                Analytics.EnableManualSessionTracker();
+            }
             var dictionary = new NSDictionary<NSObject, NSObject>(NSObject.FromObject(true), new NSString(ApplicationCrashOnExceptionsKey));
             plist.RegisterDefaults(dictionary);
             AppCenter.Start("2b06eb3f-70c9-4b31-b74b-a84fd2d01f51", typeof(Analytics), typeof(Crashes));

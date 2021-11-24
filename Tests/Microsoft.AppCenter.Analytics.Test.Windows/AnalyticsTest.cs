@@ -170,6 +170,9 @@ namespace Microsoft.AppCenter.Analytics.Test.Windows
             _mockSessionTracker.Verify(tracker => tracker.Pause(), Times.Never());
             _mockSessionTracker.Verify(tracker => tracker.Resume(), Times.Once());
             _mockSessionTracker.Verify(tracker => tracker.Stop(), Times.Once());
+
+            // Verify that enable manual session tracker will never be called.
+            _mockSessionTracker.Verify(tracker => tracker.EnableManualSessionTracker(), Times.Never());
         }
 
         /// <summary>
@@ -178,7 +181,14 @@ namespace Microsoft.AppCenter.Analytics.Test.Windows
         [TestMethod]
         public void TrackEvent()
         {
+            // Start Analytics.
             Analytics.SetEnabledAsync(true).Wait();
+
+            // Enable manual session tracker and verify that it will be not set after Analytics start.
+            Analytics.EnableManualSessionTracker();
+            _mockSessionTracker.Verify(tracker => tracker.EnableManualSessionTracker(), Times.Never());
+
+            // Prepare group.
             Analytics.Instance.OnChannelGroupReady(_mockChannelGroup.Object, string.Empty);
             var eventName = "eventName";
             var key = "key";
@@ -199,8 +209,16 @@ namespace Microsoft.AppCenter.Analytics.Test.Windows
         [TestMethod]
         public void TrackEventInvalid()
         {
+            // Enable manual session tracker.
+            Analytics.EnableManualSessionTracker();
+            _mockSessionTracker.Verify(tracker => tracker.EnableManualSessionTracker(), Times.Never());
+
+            // Start Analytics.
             Analytics.SetEnabledAsync(true).Wait();
             Analytics.Instance.OnChannelGroupReady(_mockChannelGroup.Object, string.Empty);
+
+            // Verify that session generation will be set after Analytics start.
+            _mockSessionTracker.Verify(tracker => tracker.EnableManualSessionTracker(), Times.Once());
 
             // Event name is null or empty
             Analytics.TrackEvent(null);

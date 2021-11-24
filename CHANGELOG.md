@@ -11,6 +11,10 @@
 
 * **[Feature]** Increase the interval between sending logs from 3 to 6 seconds for the backend load optimization.
 
+### App Center Analytics
+
+* **[Feature]** Add `Analytics.EnableManualSessionTracker` and `Analytics.StartSession` APIs for tracking session manually.
+
 ___
 
 ## Version 4.4.0

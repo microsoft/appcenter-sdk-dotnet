@@ -26,6 +26,9 @@ namespace Contoso.WinForms.Puppet
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.SetLogUrl("https://in-integration.dev.avalanch.es");
             Crashes.GetErrorAttachments = GetErrorAttachmentsHandler;
+            if (Settings.Default.EnableManualSessionTracker) {
+                Analytics.EnableManualSessionTracker();
+            }
             var storageMaxSize = Settings.Default.StorageMaxSize;
             if (storageMaxSize > 0)
             {

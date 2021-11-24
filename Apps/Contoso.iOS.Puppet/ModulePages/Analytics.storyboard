@@ -140,6 +140,59 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection id="hOp-8W-vXJ">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Aq2-P6-D6u">
+                                        <rect key="frame" x="0.0" y="310" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Aq2-P6-D6u" id="WpX-MM-WHR">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="jGW-1Y-ZV2">
+                                                    <rect key="frame" x="310" y="7" width="51" height="31"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="EnableManualSessionTrackerSwitch"/>
+                                                    <connections>
+                                                        <action selector="SessionGenerationUpdate:" destination="hXc-ew-IDH" eventType="valueChanged" id="BQb-ON-C4r"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable Manual Session Tracker" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J7h-2T-HWq">
+                                                    <rect key="frame" x="14" y="11" width="209" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="jGW-1Y-ZV2" secondAttribute="trailing" constant="16" id="7pj-Wr-Amd"/>
+                                                <constraint firstItem="jGW-1Y-ZV2" firstAttribute="top" secondItem="WpX-MM-WHR" secondAttribute="top" constant="7" id="N6Q-J3-EKp"/>
+                                                <constraint firstItem="J7h-2T-HWq" firstAttribute="leading" secondItem="WpX-MM-WHR" secondAttribute="leading" constant="14" id="Tav-At-icR"/>
+                                                <constraint firstItem="J7h-2T-HWq" firstAttribute="top" secondItem="WpX-MM-WHR" secondAttribute="top" constant="11" id="tng-Nd-YnG"/>
+                                                <constraint firstItem="jGW-1Y-ZV2" firstAttribute="leading" secondItem="J7h-2T-HWq" secondAttribute="trailing" constant="87" id="xrA-68-t7k"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="bzF-79-Cja">
+                                        <rect key="frame" x="0.0" y="354" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bzF-79-Cja" id="ZMM-Bs-u40">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wMa-Tw-pe3">
+                                                    <rect key="frame" x="141" y="7" width="92" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="StartSessionButton"/>
+                                                    <state key="normal" title="Start Session"/>
+                                                    <connections>
+                                                        <action selector="StartSession:" destination="hXc-ew-IDH" eventType="touchUpInside" id="L5e-7g-zYW"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="hXc-ew-IDH" id="0Eb-YL-y5g"/>
@@ -151,6 +204,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="AnalyticsEnabledSwitch" destination="Lca-F4-Rmc" id="kCL-F5-eIe"/>
+                        <outlet property="EnableManualSessionTrackerSwitch" destination="jGW-1Y-ZV2" id="5Ld-Mx-k2v"/>
                         <outlet property="EventName" destination="w6f-yF-tME" id="CgR-Yr-RWJ"/>
                         <outlet property="NumPropertiesLabel" destination="hxf-ws-Tmz" id="o4S-to-ttJ"/>
                     </connections>

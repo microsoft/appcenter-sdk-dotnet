@@ -33,12 +33,15 @@ namespace Contoso.WinForms.Puppet
         {
             this.Tabs = new System.Windows.Forms.TabControl();
             this.AppCenterTab = new System.Windows.Forms.TabPage();
+            this.AppCenterAllowNetworkRequest = new System.Windows.Forms.CheckBox();
             this.MiscGroupBox = new System.Windows.Forms.GroupBox();
             this.SaveSizeStorageButton = new System.Windows.Forms.Button();
             this.StorageMaxSizeTextBox = new System.Windows.Forms.TextBox();
             this.StorageMaxSizeLabel = new System.Windows.Forms.Label();
             this.AppCenterEnabled = new System.Windows.Forms.CheckBox();
             this.AnalyticsTab = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.EnableManualSessionTrackerCheckBox = new System.Windows.Forms.CheckBox();
             this.EventBox = new System.Windows.Forms.GroupBox();
             this.TrackEvent = new System.Windows.Forms.Button();
             this.EventProperties = new System.Windows.Forms.DataGridView();
@@ -63,11 +66,12 @@ namespace Contoso.WinForms.Puppet
             this.CrashWithNonSerializableException = new System.Windows.Forms.Button();
             this.CrashWithTestException = new System.Windows.Forms.Button();
             this.CrashesEnabled = new System.Windows.Forms.CheckBox();
-            this.AppCenterAllowNetworkRequest = new System.Windows.Forms.CheckBox();
+            this.StartSession = new System.Windows.Forms.Button();
             this.Tabs.SuspendLayout();
             this.AppCenterTab.SuspendLayout();
             this.MiscGroupBox.SuspendLayout();
             this.AnalyticsTab.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.EventBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EventProperties)).BeginInit();
             this.CrashesTab.SuspendLayout();
@@ -102,6 +106,19 @@ namespace Contoso.WinForms.Puppet
             this.AppCenterTab.TabIndex = 0;
             this.AppCenterTab.Text = "App Center";
             this.AppCenterTab.UseVisualStyleBackColor = true;
+            // 
+            // AppCenterAllowNetworkRequest
+            // 
+            this.AppCenterAllowNetworkRequest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.AppCenterAllowNetworkRequest.Location = new System.Drawing.Point(8, 36);
+            this.AppCenterAllowNetworkRequest.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.AppCenterAllowNetworkRequest.Name = "AppCenterAllowNetworkRequest";
+            this.AppCenterAllowNetworkRequest.Size = new System.Drawing.Size(360, 24);
+            this.AppCenterAllowNetworkRequest.TabIndex = 3;
+            this.AppCenterAllowNetworkRequest.Text = "Allow Network Request";
+            this.AppCenterAllowNetworkRequest.UseVisualStyleBackColor = true;
+            this.AppCenterAllowNetworkRequest.CheckedChanged += new System.EventHandler(this.AppCenterAllowNetworkRequest_CheckedChanged);
             // 
             // MiscGroupBox
             // 
@@ -159,6 +176,7 @@ namespace Contoso.WinForms.Puppet
             // 
             // AnalyticsTab
             // 
+            this.AnalyticsTab.Controls.Add(this.groupBox1);
             this.AnalyticsTab.Controls.Add(this.EventBox);
             this.AnalyticsTab.Controls.Add(this.AnalyticsEnabled);
             this.AnalyticsTab.Location = new System.Drawing.Point(4, 22);
@@ -169,6 +187,28 @@ namespace Contoso.WinForms.Puppet
             this.AnalyticsTab.TabIndex = 1;
             this.AnalyticsTab.Text = "Analytics";
             this.AnalyticsTab.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.StartSession);
+            this.groupBox1.Controls.Add(this.EnableManualSessionTrackerCheckBox);
+            this.groupBox1.Location = new System.Drawing.Point(9, 234);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(359, 108);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Settings Session";
+            // 
+            // EnableManualSessionTrackerCheckBox
+            // 
+            this.EnableManualSessionTrackerCheckBox.AutoSize = true;
+            this.EnableManualSessionTrackerCheckBox.Location = new System.Drawing.Point(9, 31);
+            this.EnableManualSessionTrackerCheckBox.Name = "EnableManualSessionTrackerCheckBox";
+            this.EnableManualSessionTrackerCheckBox.Size = new System.Drawing.Size(206, 17);
+            this.EnableManualSessionTrackerCheckBox.TabIndex = 0;
+            this.EnableManualSessionTrackerCheckBox.Text = "Enable Manual Session Tracker";
+            this.EnableManualSessionTrackerCheckBox.UseVisualStyleBackColor = true;
+            this.EnableManualSessionTrackerCheckBox.CheckedChanged += new System.EventHandler(this.EnableManualSessionTrackerCheckBox_CheckedChanged);
             // 
             // EventBox
             // 
@@ -460,18 +500,15 @@ namespace Contoso.WinForms.Puppet
             this.CrashesEnabled.UseVisualStyleBackColor = true;
             this.CrashesEnabled.CheckedChanged += new System.EventHandler(this.CrashesEnabled_CheckedChanged);
             // 
-            // AppCenterAllowNetworkRequest
+            // StartSession
             // 
-            this.AppCenterAllowNetworkRequest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.AppCenterAllowNetworkRequest.Location = new System.Drawing.Point(8, 36);
-            this.AppCenterAllowNetworkRequest.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.AppCenterAllowNetworkRequest.Name = "AppCenterAllowNetworkRequest";
-            this.AppCenterAllowNetworkRequest.Size = new System.Drawing.Size(360, 24);
-            this.AppCenterAllowNetworkRequest.TabIndex = 3;
-            this.AppCenterAllowNetworkRequest.Text = "Allow Network Request";
-            this.AppCenterAllowNetworkRequest.UseVisualStyleBackColor = true;
-            this.AppCenterAllowNetworkRequest.CheckedChanged += new System.EventHandler(this.AppCenterAllowNetworkRequest_CheckedChanged);
+            this.StartSession.Location = new System.Drawing.Point(9, 69);
+            this.StartSession.Name = "StartSession";
+            this.StartSession.Size = new System.Drawing.Size(164, 23);
+            this.StartSession.TabIndex = 1;
+            this.StartSession.Text = "Start Session";
+            this.StartSession.UseVisualStyleBackColor = true;
+            this.StartSession.Click += new System.EventHandler(this.StartSession_Click);
             // 
             // MainForm
             // 
@@ -489,6 +526,8 @@ namespace Contoso.WinForms.Puppet
             this.MiscGroupBox.ResumeLayout(false);
             this.MiscGroupBox.PerformLayout();
             this.AnalyticsTab.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.EventBox.ResumeLayout(false);
             this.EventBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EventProperties)).EndInit();
@@ -535,6 +574,9 @@ namespace Contoso.WinForms.Puppet
         private System.Windows.Forms.TextBox StorageMaxSizeTextBox;
         private System.Windows.Forms.Button SaveSizeStorageButton;
         private System.Windows.Forms.CheckBox AppCenterAllowNetworkRequest;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox EnableManualSessionTrackerCheckBox;
+        private System.Windows.Forms.Button StartSession;
     }
 }
 

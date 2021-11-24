@@ -20,10 +20,12 @@ namespace Contoso.Android.Puppet
         private readonly IDictionary<string, string> mEventProperties = new Dictionary<string, string>();
 
         private Switch AnalyticsEnabledSwitch;
+        private Switch EnableManualSessionTrackerSwitch;
         private EditText EventNameText;
         private TextView PropertiesCountLabel;
         private Button AddPropertyButton;
         private Button TrackEventButton;
+        private Button StartSessionButton;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -36,16 +38,20 @@ namespace Contoso.Android.Puppet
 
             // Find views.
             AnalyticsEnabledSwitch = view.FindViewById(Resource.Id.enabled_analytics) as Switch;
+            EnableManualSessionTrackerSwitch = view.FindViewById(Resource.Id.enable_manual_session_tracker_switch) as Switch;
             EventNameText = view.FindViewById(Resource.Id.event_name) as EditText;
             PropertiesCountLabel = view.FindViewById(Resource.Id.properties_count) as TextView;
             AddPropertyButton = view.FindViewById(Resource.Id.add_property) as Button;
             TrackEventButton = view.FindViewById(Resource.Id.track_event) as Button;
+            StartSessionButton = view.FindViewById(Resource.Id.start_session_button) as Button;
 
             // Subscribe to events.
             AnalyticsEnabledSwitch.CheckedChange += UpdateEnabled;
+            EnableManualSessionTrackerSwitch.CheckedChange += EnableManualSessionUpdate;
             ((View)PropertiesCountLabel.Parent).Click += Properties;
             AddPropertyButton.Click += AddProperty;
             TrackEventButton.Click += TrackEvent;
+            StartSessionButton.Click += StartSessionButtonClick;
 
             UpdateState();
         }
@@ -57,6 +63,12 @@ namespace Contoso.Android.Puppet
             AnalyticsEnabledSwitch.Checked = await Analytics.IsEnabledAsync();
             AnalyticsEnabledSwitch.Enabled = await AppCenter.IsEnabledAsync();
             AnalyticsEnabledSwitch.CheckedChange += UpdateEnabled;
+            EnableManualSessionTrackerSwitch.CheckedChange -= EnableManualSessionUpdate;
+
+            // Set manual session tracker value.
+            var prefs = Context.GetSharedPreferences("AppCenter", FileCreationMode.Private);
+            EnableManualSessionTrackerSwitch.Checked = prefs.GetBoolean(Constants.EnableManualSessionTrackerKey, false);
+            EnableManualSessionTrackerSwitch.CheckedChange += EnableManualSessionUpdate;
             PropertiesCountLabel.Text = mEventProperties.Count.ToString();
         }
 
@@ -102,6 +114,19 @@ namespace Contoso.Android.Puppet
             Analytics.TrackEvent(EventNameText.Text, mEventProperties.Count > 0 ? mEventProperties : null);
             mEventProperties.Clear();
             PropertiesCountLabel.Text = mEventProperties.Count.ToString();
+        }
+
+        private void EnableManualSessionUpdate(object sender, CompoundButton.CheckedChangeEventArgs e)
+        {
+            var prefs = Context.GetSharedPreferences("AppCenter", FileCreationMode.Private);
+            var prefEditor = prefs.Edit();
+            prefEditor.PutBoolean(Constants.EnableManualSessionTrackerKey, e.IsChecked);
+            prefEditor.Commit();
+        }
+
+        private void StartSessionButtonClick(object sender, EventArgs e)
+        {
+            Analytics.StartSession();
         }
     }
 }

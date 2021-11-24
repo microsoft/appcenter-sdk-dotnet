@@ -41,6 +41,9 @@ namespace Contoso.iOS.Puppet
             {
                 AppCenter.SetMaxStorageSizeAsync(storageSizeValue);
             }
+            if (plist.BoolForKey(Constants.EnableManualSessionTrackerKey)) {
+                Analytics.EnableManualSessionTracker();
+            }
             AppCenter.Start("e94aaff4-e80d-4fee-9a5f-a84eb6e688fc", typeof(Analytics), typeof(Crashes), typeof(Distribute));
             return true;
         }

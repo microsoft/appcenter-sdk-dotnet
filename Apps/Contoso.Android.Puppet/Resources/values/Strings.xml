@@ -41,4 +41,6 @@
     <string name="add_property_dialog_cancel_button">Cancel</string>
     <string name="save">Save</string>
     <string name="change_storage_size">Change Storage Size</string>
+    <string name="enable_manual_session_tracker">Enable Manual Session Tracker</string>
+    <string name="start_session">Start Session</string>
 </resources>

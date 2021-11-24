@@ -18,6 +18,7 @@ namespace Contoso.iOS.Puppet
         {
             private readonly IDictionary<string, string> mEventProperties;
             private readonly string[] mKeys;
+            private NSUserDefaults plist = NSUserDefaults.StandardUserDefaults;
 
             public PropertiesTableSource(IDictionary<string, string> eventProperties)
             {
@@ -55,6 +56,9 @@ namespace Contoso.iOS.Puppet
             AnalyticsEnabledSwitch.On = Analytics.IsEnabledAsync().Result;
             AnalyticsEnabledSwitch.Enabled = AppCenter.IsEnabledAsync().Result;
             NumPropertiesLabel.Text = mEventProperties.Count.ToString();
+
+            // Set enabled manual session tracker value.
+            EnableManualSessionTrackerSwitch.On = plist.BoolForKey(Constants.EnableManualSessionTrackerKey);
         }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
@@ -72,6 +76,16 @@ namespace Contoso.iOS.Puppet
         {
             Analytics.SetEnabledAsync(AnalyticsEnabledSwitch.On).Wait();
             AnalyticsEnabledSwitch.On = Analytics.IsEnabledAsync().Result;
+        }
+
+        partial void SessionGenerationUpdate(NSObject sender)
+        {
+            plist.SetBool(EnableManualSessionTrackerSwitch.On, Constants.EnableManualSessionTrackerKey);
+        }
+
+        partial void StartSession(NSObject sender)
+        {
+            Analytics.StartSession();
         }
 
         partial void AddProperty()
