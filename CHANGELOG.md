@@ -5,7 +5,11 @@
 ### App Center
 
 * **[Breaking change]** Remove `AppCenter.SetCustomProperties` API.
-* **[Fix]** Fix App Center SDK compatibility with projects targeting .NETCore3.0 and higher.
+* **[Fix]** Fix App Center SDK compatibility with projects targeting `NETCore3.0` and higher.
+
+### App Center Analytics
+
+* **[Feature]** Increase the interval between sending logs from 3 to 6 seconds for the backend load optimization.
 
 ___
 
