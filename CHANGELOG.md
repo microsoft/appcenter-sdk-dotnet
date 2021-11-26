@@ -5,14 +5,18 @@
 ### App Center
 
 * **[Breaking change]** Remove `AppCenter.SetCustomProperties` API.
+
+#### Windows
+
 * **[Fix]** Fix App Center SDK compatibility with projects targeting `NETCore3.0` and higher.
+
+#### Xamarin
+
+* **[Feature]** Add method to manually set the country code `AppCenter.SetCountryCode(string)`.
 
 ### App Center Analytics
 
 * **[Feature]** Increase the interval between sending logs from 3 to 6 seconds for the backend load optimization.
-
-### App Center Analytics
-
 * **[Feature]** Add `Analytics.EnableManualSessionTracker` and `Analytics.StartSession` APIs for tracking session manually.
 
 ___

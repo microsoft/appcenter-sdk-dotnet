@@ -210,6 +210,11 @@ namespace Microsoft.AppCenter.iOS.Bindings
         [Export("setLogLevel:")]
         void SetLogLevel(MSACLogLevel logLevel);
 
+        // + (void)setCountryCode:(NSString *)countryCode
+        [Static]
+        [Export("setCountryCode:")]
+        void SetCountryCode(string countryCode);
+
         // + (void)setNetworkRequestsAllowed:(BOOL)isAllowed;
         [Static]
         [Export("setNetworkRequestsAllowed:")]

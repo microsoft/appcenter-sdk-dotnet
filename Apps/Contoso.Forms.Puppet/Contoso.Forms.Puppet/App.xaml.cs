@@ -66,6 +66,21 @@ namespace Contoso.Forms.Puppet
                 Crashes.SentErrorReport += SentErrorReportHandler;
                 Crashes.FailedToSendErrorReport += FailedToSendErrorReportHandler;
 
+                // Country code.
+                if (Current.Properties.ContainsKey(Constants.CountryCode)
+                    && Current.Properties[Constants.CountryCode] is string countryCode)
+                {
+                    AppCenter.SetCountryCode(countryCode);
+                }
+
+                // Manual session tracker.
+                if (Current.Properties.ContainsKey(Constants.EnableManualSessionTracker)
+                    && Current.Properties[Constants.EnableManualSessionTracker] is bool isEnabled
+                    && isEnabled)
+                {
+                    Analytics.EnableManualSessionTracker();
+                }
+
                 AppCenterLog.Assert(LogTag, "AppCenter.Configured=" + AppCenter.Configured);
 
                 if (!StartType.OneCollector.Equals(StartTypeUtils.GetPersistedStartType()))
@@ -87,12 +102,6 @@ namespace Contoso.Forms.Puppet
                 if (Current.Properties.ContainsKey(Constants.StorageMaxSize) && Current.Properties[Constants.StorageMaxSize] is long size)
                 {
                     AppCenter.SetMaxStorageSizeAsync(size);
-                }
-                if (Current.Properties.ContainsKey(Constants.EnableManualSessionTracker)
-                    && Current.Properties[Constants.EnableManualSessionTracker] is bool isEnabled
-                    && isEnabled)
-                {
-                    Analytics.EnableManualSessionTracker();
                 }
                 AppCenter.Start(GetTokensString(), typeof(Analytics), typeof(Crashes), typeof(Distribute));
                 if (Current.Properties.ContainsKey(Constants.UserId) && Current.Properties[Constants.UserId] is string id)

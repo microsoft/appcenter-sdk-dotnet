@@ -110,6 +110,15 @@ namespace Microsoft.AppCenter
         }
 
         /// <summary>
+        /// Sets the two-letter ISO country code to send to the backend.
+        /// </summary>
+        /// <param name="countryCode">The two-letter ISO country code. See <see href="https://www.iso.org/obp/ui/#search"/> for more information.</param>
+        public static void SetCountryCode(string countryCode)
+        {
+            PlatformSetCountryCode(countryCode);
+        }
+
+        /// <summary>
         ///     Set the custom user id.
         /// </summary>
         /// <param name="userId">Custom string to identify user. 256 characters or less.</param>

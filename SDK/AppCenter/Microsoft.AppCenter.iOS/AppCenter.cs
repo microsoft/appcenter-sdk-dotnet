@@ -95,6 +95,11 @@ namespace Microsoft.AppCenter
             iOSAppCenter.SetLogUrl(logUrl);
         }
 
+        static void PlatformSetCountryCode(string countryCode)
+        {
+            iOSAppCenter.SetCountryCode(countryCode);
+        }
+
         static bool PlatformConfigured
         {
             get
