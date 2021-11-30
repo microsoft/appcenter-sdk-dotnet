@@ -5,7 +5,7 @@
 ### App Center
 
 * **[Breaking change]** Remove `AppCenter.SetCustomProperties` API.
-* **[Fix]** Fix App Center SDK compatibility with projects targeting `NETCore3.0` and higher.
+* **[Fix]** Fix App Center SDK compatibility with project targets .NET Framework and .NET Core.
 
 ### App Center Analytics
 
