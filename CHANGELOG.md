@@ -8,11 +8,11 @@
 
 #### Windows
 
-* **[Fix]** Fix App Center SDK compatibility with projects targeting `NETCore3.0` and higher.
+* **[Fix]** Fix App Center SDK compatibility with project targets .NET Framework and .NET Core.
 
 #### Xamarin
 
-* **[Feature]** Add method to manually set the country code `AppCenter.SetCountryCode(string)`.
+* **[Feature]** Add `AppCenter.setCountryCode(string)` API to set the country code manually.
 
 ### App Center Analytics
 
