@@ -32,9 +32,13 @@ namespace Contoso.Forms.Puppet
             base.OnAppearing();
             EnabledSwitchCell.IsToggled = await Analytics.IsEnabledAsync();
             EnabledSwitchCell.IsEnabled = await AppCenter.IsEnabledAsync();
+            if (Application.Current.Properties.ContainsKey(Constants.CountryCode)
+                && Application.Current.Properties[Constants.CountryCode] is string countryCode)
+            {
+                CountryCodeText.Text = countryCode;
+            }
             if (Application.Current.Properties.ContainsKey(Constants.EnableManualSessionTracker)
-                && Application.Current.Properties[Constants.EnableManualSessionTracker] is bool isEnabled
-                && isEnabled)
+                && Application.Current.Properties[Constants.EnableManualSessionTracker] is bool isEnabled)
             {
                 EnableManualSessionTrackerSwitch.IsToggled = isEnabled;
             }
@@ -96,9 +100,15 @@ namespace Contoso.Forms.Puppet
             _ = Application.Current.SavePropertiesAsync();
         }
 
-        void StartSessionButtonClicked(object sender, ToggledEventArgs e)
+        void StartSessionButton_Clicked(object sender, EventArgs e)
         {
             Analytics.StartSession();
+        }
+
+        void SaveCountryCode_Clicked(object sender, EventArgs e)
+        {
+            Application.Current.Properties[Constants.CountryCode] = CountryCodeText.Text;
+            _ = Application.Current.SavePropertiesAsync();
         }
     }
 }

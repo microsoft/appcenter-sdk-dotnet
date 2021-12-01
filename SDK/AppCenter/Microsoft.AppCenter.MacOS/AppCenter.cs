@@ -92,6 +92,11 @@ namespace Microsoft.AppCenter
             MacOSAppCenter.SetLogUrl(logUrl);
         }
 
+        static void PlatformSetCountryCode(string countryCode)
+        {
+            MacOSAppCenter.SetCountryCode(countryCode);
+        }
+
         static bool PlatformConfigured
         {
             get

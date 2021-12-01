@@ -99,6 +99,11 @@ namespace Microsoft.AppCenter
             AndroidAppCenter.SetLogUrl(logUrl);
         }
 
+        static void PlatformSetCountryCode(string countryCode)
+        {
+            AndroidAppCenter.SetCountryCode(countryCode);
+        }
+
         static bool PlatformConfigured
         {
             get

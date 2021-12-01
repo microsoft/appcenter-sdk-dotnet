@@ -46,6 +46,10 @@ namespace Microsoft.AppCenter
         {
         }
 
+        static void PlatformSetCountryCode(string countryCode)
+        {
+        }
+
         static bool PlatformConfigured { get; }
 
         static void PlatformConfigure(string appSecret)

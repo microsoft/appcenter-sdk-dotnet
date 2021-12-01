@@ -187,6 +187,11 @@ namespace Microsoft.AppCenter.MacOS.Bindings
         [Export("setLogUrl:")]
         void SetLogUrl([NullAllowed] string logUrl);
 
+        // + (void)setCountryCode:(NSString *)countryCode
+        [Static]
+        [Export("setCountryCode:")]
+        void SetCountryCode(string countryCode);
+
         // +(void)setEnabled:(BOOL)isEnabled;
         [Static]
         [Export("setEnabled:")]
