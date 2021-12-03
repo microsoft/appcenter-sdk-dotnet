@@ -22,7 +22,6 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
     <PackageReference Include="System.Management" Version="4.6.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.18362.2005" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net5.0-windows'">
     <PackageReference Include="System.Management" Version="5.0.0" />
