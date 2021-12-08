@@ -70,7 +70,7 @@ namespace Microsoft.AppCenter.Utils
             }
             catch (COMException exception)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device model. Make sure that WMI is enabled.", exception);
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device model. Make sure that WMI service is enabled.", exception);
                 return string.Empty;
             }
             return string.Empty;
@@ -99,7 +99,7 @@ namespace Microsoft.AppCenter.Utils
             }
             catch (COMException exception)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OEM name. Make sure that WMI is enabled.", exception);
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OEM name. Make sure that WMI service is enabled.", exception);
                 return string.Empty;
             }
             return string.Empty;
@@ -153,7 +153,7 @@ namespace Microsoft.AppCenter.Utils
             }
             catch (COMException exception)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OS version. Make sure that WMI is enabled.", exception);
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OS version. Make sure that WMI service is enabled.", exception);
                 return string.Empty;
             }
             return string.Empty;
