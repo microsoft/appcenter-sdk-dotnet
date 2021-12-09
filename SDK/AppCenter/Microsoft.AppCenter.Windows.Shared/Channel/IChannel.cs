@@ -52,5 +52,11 @@ namespace Microsoft.AppCenter.Channel
         /// </summary>
         /// <param name="isAllowed">True if network request allowed, false otherwise.</param>
         void SetNetworkRequestAllowed(bool isAllowed);
+
+        /// <summary>
+        /// Check if there are any pending logs in database.
+        /// Trigger ingestion if logs are found.
+        /// </summary>
+        void CheckPendingLogs();
     }
 }

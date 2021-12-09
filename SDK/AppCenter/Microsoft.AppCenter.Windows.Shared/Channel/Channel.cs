@@ -71,7 +71,6 @@ namespace Microsoft.AppCenter.Channel
                     _pendingLogCount = task.Result;
                 }
                 lockHolder.Dispose();
-                CheckPendingLogs(_mutex.State);
             });
         }
 
@@ -584,6 +583,11 @@ namespace Microsoft.AppCenter.Channel
             {
                 Suspend(_mutex.State, false, new CancellationException(), false);
             }
+        }
+
+        public void CheckPendingLogs()
+        {
+            CheckPendingLogs(_mutex.State);
         }
 
         private void CheckPendingLogs(State state)
