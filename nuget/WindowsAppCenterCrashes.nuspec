@@ -34,6 +34,10 @@
     <file src="$windows_desktop_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net461" />
     <file src="$windows_desktop_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net461" />
 
+    <!-- Windows Classic Desktop (WPF and WinForms) for .NETFramework 471 -->
+    <file src="$windows_desktop_net471_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net471" />
+    <file src="$windows_desktop_net471_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net471" />
+
     <!-- WindowsDesktop (WPF and WinForms) for .NET Core -->
     <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/netcoreapp3.0" />
     <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/netcoreapp3.0" />
