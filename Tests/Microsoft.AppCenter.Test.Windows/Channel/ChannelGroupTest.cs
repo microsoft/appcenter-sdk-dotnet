@@ -227,5 +227,18 @@ namespace Microsoft.AppCenter.Test.Channel
             Assert.IsFalse(addedChannel.IsEnabled);
             _mockIngestion.Verify(ingestion => ingestion.Close(), Times.Once);
         }
+
+        /// <summary>
+        /// Verify that channel group's sending log event fires when appropriate
+        /// </summary>
+        [TestMethod]
+        public void TestCheckPendingLogsOnAddChannel()
+        {
+            var fired = false;
+            var mockChannel = new Mock<IChannelUnit>();
+            _channelGroup.AddChannel(mockChannel.Object);
+
+            mockChannel.Verify(channel => channel.CheckPendingLogs(), Times.Once);
+        }
     }
 }
