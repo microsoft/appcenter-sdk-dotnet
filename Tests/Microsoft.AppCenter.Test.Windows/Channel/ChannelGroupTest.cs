@@ -259,7 +259,7 @@ namespace Microsoft.AppCenter.Test.Channel
         /// Verify that a channel group invokes check pending logs on a channel after adding it.
         /// </summary>
         [TestMethod]
-        public void TestCheckPendingLogsOnAddChannel()
+        public void TestCheckPendingLogsAfterAddChannel()
         {
             var channelMock = new Mock<IChannelUnit>();
             _channelGroup.AddChannel(channelMock.Object);
