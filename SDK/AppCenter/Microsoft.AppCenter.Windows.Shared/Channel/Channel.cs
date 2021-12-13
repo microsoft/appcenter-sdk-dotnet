@@ -573,24 +573,7 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
-        public void SetNetworkRequestAllowed(bool isAllowed)
-        {
-            if (isAllowed)
-            {
-                Resume(_mutex.State, false);
-            }
-            else
-            {
-                Suspend(_mutex.State, false, new CancellationException(), false);
-            }
-        }
-
-        public void CheckPendingLogs()
-        {
-            CheckPendingLogs(_mutex.State);
-        }
-
-        private void CheckPendingLogs(State state)
+        private void CheckPendingLogsInternal(State state)
         {
             if (!_enabled)
             {
@@ -642,6 +625,31 @@ namespace Microsoft.AppCenter.Channel
                     });
                 }
             }
+        }
+
+        /// <summary>
+        /// Enable or disable network requests.
+        /// Data will be saved in database while network requests are disabled. 
+        /// </summary>
+        /// <param name="isAllowed">Allow network requests if false, disallow otherwise. True by default.</param>
+        public void SetNetworkRequestAllowed(bool isAllowed)
+        {
+            if (isAllowed)
+            {
+                Resume(_mutex.State, false);
+            }
+            else
+            {
+                Suspend(_mutex.State, false, new CancellationException(), false);
+            }
+        }
+
+        /// <summary>
+        /// Check pending logs and trigger ingestion if any.
+        /// </summary>
+        public void CheckPendingLogs()
+        {
+            CheckPendingLogsInternal(_mutex.State);
         }
 
         /// <summary>
