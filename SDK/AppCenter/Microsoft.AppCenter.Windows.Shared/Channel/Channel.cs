@@ -228,7 +228,7 @@ namespace Microsoft.AppCenter.Channel
                 }
                 if (enabled)
                 {
-                    CheckPendingLogs(state);
+                    CheckPendingLogsInternal(state);
                     return;
                 }
                 AppCenterLog.Warn(AppCenterLog.LogTag, "Channel is temporarily disabled; log was saved to disk");
@@ -299,7 +299,7 @@ namespace Microsoft.AppCenter.Channel
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, "The resume operation has been canceled");
             }
-            CheckPendingLogs(state);
+            CheckPendingLogsInternal(state);
         }
 
         /// <summary>
@@ -467,7 +467,7 @@ namespace Microsoft.AppCenter.Channel
                         _calls.Add(ingestionCall);
                     }
                     ingestionCall.ContinueWith(call => HandleSendingResult(state, batchId, call));
-                    CheckPendingLogs(state);
+                    CheckPendingLogsInternal(state);
                 }
                 catch (StorageException)
                 {
@@ -544,7 +544,7 @@ namespace Microsoft.AppCenter.Channel
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, $"Could not delete logs for batch {batchId}", e);
             }
-            CheckPendingLogs(state);
+            CheckPendingLogsInternal(state);
         }
 
         private void HandleSendingFailure(State state, string batchId, Exception exception)
@@ -585,7 +585,7 @@ namespace Microsoft.AppCenter.Channel
                 AppCenterLog.Info(AppCenterLog.LogTag, "App Center is in offline mode.");
                 return;
             }
-            AppCenterLog.Debug(AppCenterLog.LogTag, $"CheckPendingLogs({Name}) pending log count: {_pendingLogCount}");
+            AppCenterLog.Debug(AppCenterLog.LogTag, $"CheckPendingLogsInternal({Name}) pending log count: {_pendingLogCount}");
             using (_mutex.GetLock())
             {
                 if (_pendingLogCount >= _maxLogsPerBatch)
