@@ -628,10 +628,9 @@ namespace Microsoft.AppCenter.Channel
         }
 
         /// <summary>
-        /// Enable or disable network requests.
-        /// Data will be saved in database while network requests are disabled. 
+        /// Set network request allowed. If true check pending logs, suspend sending logs otherwise.
         /// </summary>
-        /// <param name="isAllowed">Allow network requests if false, disallow otherwise. True by default.</param>
+        /// <param name="isAllowed">True if network request allowed, false otherwise.</param>
         public void SetNetworkRequestAllowed(bool isAllowed)
         {
             if (isAllowed)
@@ -645,7 +644,7 @@ namespace Microsoft.AppCenter.Channel
         }
 
         /// <summary>
-        /// Check pending logs and trigger ingestion if any.
+        /// Check if there are any pending logs in database and rigger ingestion if such logs are found.
         /// </summary>
         public void CheckPendingLogs()
         {

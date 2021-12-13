@@ -54,8 +54,7 @@ namespace Microsoft.AppCenter.Channel
         void SetNetworkRequestAllowed(bool isAllowed);
 
         /// <summary>
-        /// Check if there are any pending logs in database.
-        /// Trigger ingestion if logs are found.
+        /// Check if there are any pending logs in database and rigger ingestion if such logs are found.
         /// </summary>
         void CheckPendingLogs();
     }

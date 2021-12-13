@@ -229,15 +229,13 @@ namespace Microsoft.AppCenter.Test.Channel
         }
 
         /// <summary>
-        /// Verify that channel group's sending log event fires when appropriate
+        /// Verify that channel group invokes check pending logs on channel after adding it.
         /// </summary>
         [TestMethod]
         public void TestCheckPendingLogsOnAddChannel()
         {
-            var fired = false;
             var mockChannel = new Mock<IChannelUnit>();
             _channelGroup.AddChannel(mockChannel.Object);
-
             mockChannel.Verify(channel => channel.CheckPendingLogs(), Times.Once);
         }
     }
