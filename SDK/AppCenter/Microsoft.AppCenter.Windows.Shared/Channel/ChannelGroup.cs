@@ -123,14 +123,6 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
-        public void CheckPendingLogs()
-        {
-            foreach (var channel in _channels)
-            {
-                channel.CheckPendingLogs();
-            }
-        }
-
         public Task<bool> SetMaxStorageSizeAsync(long sizeInBytes)
         {
             ThrowIfDisposed();
