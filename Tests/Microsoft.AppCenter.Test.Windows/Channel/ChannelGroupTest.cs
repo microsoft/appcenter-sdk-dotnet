@@ -213,7 +213,7 @@ namespace Microsoft.AppCenter.Test.Channel
         }
 
         /// <summary>
-        /// Veriy that all channels are disabled after channel group disabling
+        /// Veriy that all channels are disabled after channel group disabling.
         /// </summary>
         [TestMethod]
         public async Task TestShutdownChannelGroup()
@@ -228,6 +228,9 @@ namespace Microsoft.AppCenter.Test.Channel
             _mockIngestion.Verify(ingestion => ingestion.Close(), Times.Once);
         }
 
+        /// <summary>
+        /// Verify that a channel sends pending logs after it is added to a channel group.
+        /// </summary>
         [TestMethod]
         public async Task TestPendingLogsAreSentOnAddChannel()
         {
@@ -248,17 +251,20 @@ namespace Microsoft.AppCenter.Test.Channel
             // Wait when tasks will be finalized.
             await Task.Delay(500);
 
-            //Verify channel sends pending logs.
+            // Verify channel sends pending logs.
             _mockIngestion.Verify(ingestion => ingestion.Call(It.IsAny<string>(), It.IsAny<Guid>(), It.IsAny<IList<Log>>()), Times.Once);
         }
 
+        /// <summary>
+        /// Verify that a channel group invokes check pending logs on a channel after adding it.
+        /// </summary>
         [TestMethod]
-        public async Task TestCheckPendingLogsOnAddChannel()
+        public void TestCheckPendingLogsOnAddChannel()
         {
             var channelMock = new Mock<IChannelUnit>();
             _channelGroup.AddChannel(channelMock.Object);
 
-            //Verify channel is trying to check pending logs.
+            // Verify the channel is trying to check pending logs.
             channelMock.Verify(channel => channel.CheckPendingLogs(), Times.Once);
         }
     }
