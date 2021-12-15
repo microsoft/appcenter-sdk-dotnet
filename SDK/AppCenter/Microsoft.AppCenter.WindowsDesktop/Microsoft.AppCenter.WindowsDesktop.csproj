@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;net461;net5.0-windows;net5.0-windows10.0.17763.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0;net461;net471;net5.0-windows;net5.0-windows10.0.17763.0</TargetFrameworks>
     <RootNamespace>Microsoft.AppCenter</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
     <Version>4.4.1-SNAPSHOT</Version>
@@ -32,6 +32,13 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net461'">
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net471'">
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Deployment" />

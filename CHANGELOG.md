@@ -5,6 +5,7 @@
 ### App Center
 
 * **[Breaking change]** Remove `AppCenter.SetCustomProperties` API.
+* **[Fix]** Fix check on using `HttpClient` API instead of `ServicePointManager` in applications with target framework version `4.7.1` and higher.
 
 #### Windows
 
