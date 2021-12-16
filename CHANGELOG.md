@@ -11,6 +11,7 @@
 
 * **[Fix]** Fix App Center SDK compatibility with project targets .NET Framework and .NET Core.
 * **[Fix]** Fix crash during getting device information when WMI service is disabled.
+* **[Fix]** Fix a deadlock after the application start caused by improper `StatefulMutex` usage on the Windows Server OS.
 
 #### Xamarin
 

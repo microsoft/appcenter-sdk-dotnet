@@ -94,6 +94,7 @@ namespace Microsoft.AppCenter.Channel
                     // The benefit of throwing an exception in this case is debatable. Might make sense to allow this.
                     throw new AppCenterException("Attempted to add duplicate channel to group");
                 }
+                channel.CheckPendingLogs();
                 channel.EnqueuingLog += AnyChannelEnqueuingLog;
                 channel.FilteringLog += AnyChannelFilteringLog;
                 channel.SendingLog += AnyChannelSendingLog;
