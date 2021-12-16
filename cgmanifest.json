@@ -5,7 +5,7 @@
         "type": "git",
         "git": {
           "repositoryUrl": "https://github.com/microsoft/appcenter-sdk-android.git",
-          "commitHash": "9f6f2d9ab6cbe356fcc2efa30cb0a67e3531f1fb"
+          "commitHash": "fedfc38e9dad07fe7a88be9eb471c63f27af4068"
         }
       }
     },
@@ -14,7 +14,7 @@
         "type": "git",
         "git": {
           "repositoryUrl": "https://github.com/microsoft/appcenter-sdk-apple.git",
-          "commitHash": "25f64229373de97ff3920941cd52203193e5d8be"
+          "commitHash": "16d6ed7c3550870ac42f95a0fdccc7235450b863"
         }
       }
     }
