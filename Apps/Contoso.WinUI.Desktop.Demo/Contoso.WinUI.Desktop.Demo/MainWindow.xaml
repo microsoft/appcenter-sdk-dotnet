@@ -94,6 +94,10 @@
                             </ListView.ItemTemplate>
                         </ListView>
                         <Button Name="TrackEvent" Margin="0, 8, 0, 8" Content="Track event" Click="TrackEvent_Click"/>
+                        <StackPanel Orientation="Vertical">
+                            <CheckBox Name="EnableManualSessionTrackerCheckBox" Content="Enable Manual Session Tracker" Margin="0,10,0,10" Checked="EnableManualSessionTrackerCheckBox_Checked" Unchecked="EnableManualSessionTrackerCheckBox_Unchecked"/>
+                            <Button Content="Start Session" Name="StartSessionButton" Click="StartSessionButtonClick"/>
+                        </StackPanel>
                     </StackPanel>
                 </muxc:TabViewItem>
                 <muxc:TabViewItem Header="Crashes" IsClosable="False">
