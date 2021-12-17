@@ -193,7 +193,7 @@ namespace Microsoft.AppCenter
             var classes = new List<Class>();
             foreach (var t in services)
             {
-                var propertyInfo = t.GetProperty("BindingType");
+                var propertyInfo = t.GetProperty("BindingType", BindingFlags.Default);
                 if (propertyInfo != null)
                 {
                     var value = (Type)propertyInfo.GetValue(null, null);
