@@ -191,15 +191,15 @@ namespace Microsoft.AppCenter
         static Class[] GetServices(IEnumerable<Type> services)
         {
             var classes = new List<Class>();
-            foreach (var t in services)
+            foreach (var s in services)
             {
-                var propertyInfo = t.GetProperty("BindingType", BindingFlags.Default);
+                var propertyInfo = s.GetProperty("BindingType", BindingFlags.Static | BindingFlags.Public);
                 if (propertyInfo != null)
                 {
                     var value = (Type)propertyInfo.GetValue(null, null);
                     if (value != null)
                     {
-                        var aClass = Class.FromType((Type)propertyInfo.GetValue(null, null));
+                        var aClass = Class.FromType(value);
                         if (aClass != null)
                         {
                             classes.Add(aClass);
