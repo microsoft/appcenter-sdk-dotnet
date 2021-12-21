@@ -23,6 +23,9 @@ namespace Contoso.WPF.Demo
         {
             AppCenter.LogLevel = LogLevel.Verbose;
             AppCenter.SetCountryCode(string.IsNullOrEmpty(Settings.Default.CountryCode) ? null : Settings.Default.CountryCode);
+            if (Settings.Default.EnableManualSessionTracker) {
+                Analytics.EnableManualSessionTracker();
+            }
 
             // User callbacks.
             Crashes.ShouldAwaitUserConfirmation = ConfirmationHandler;
