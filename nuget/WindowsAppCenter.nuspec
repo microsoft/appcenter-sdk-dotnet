@@ -48,10 +48,18 @@
       </group>
     </dependencies>
     <frameworkAssemblies>
+
+      <!-- Framework assembly for net461 -->
       <frameworkAssembly assemblyName="System.Configuration" targetFramework="net461" />
       <frameworkAssembly assemblyName="System.Deployment" targetFramework="net461" />
       <frameworkAssembly assemblyName="System.Management" targetFramework="net461" />
       <frameworkAssembly assemblyName="System.Net.Http" targetFramework="net461" />
+
+      <!-- Framework assembly for net471 -->
+      <frameworkAssembly assemblyName="System.Configuration" targetFramework="net471" />
+      <frameworkAssembly assemblyName="System.Deployment" targetFramework="net471" />
+      <frameworkAssembly assemblyName="System.Management" targetFramework="net471" />
+      <frameworkAssembly assemblyName="System.Net.Http" targetFramework="net471" />
     </frameworkAssemblies>
   </metadata>
   <files>
