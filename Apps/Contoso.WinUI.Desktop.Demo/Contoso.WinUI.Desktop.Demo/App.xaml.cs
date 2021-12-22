@@ -52,6 +52,11 @@ namespace Contoso.WinUI.Desktop.Demo
             {
                 AppCenter.SetMaxStorageSizeAsync((long)storageSize);
             }
+            var isManualSessionTrackerEnabled = localSettings.Values[Constants.KeyEnableManualSessionTracker] as bool?;
+            if (isManualSessionTrackerEnabled != null && isManualSessionTrackerEnabled.Value)
+            {
+                Analytics.EnableManualSessionTracker();
+            }
 
             // User callbacks.
             Crashes.ShouldProcessErrorReport = (report) =>

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using Android.Content;
-using Android.Support.V4.App;
+using AndroidX.Fragment.App;
 using Java.Lang;
 
 namespace Contoso.Android.Puppet

@@ -87,10 +87,10 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.4.0" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.4.0" />
-    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="4.4.0" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.0" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="4.5.0" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -120,7 +120,6 @@
     <BundleResource Include="Resources\socket%402x.png" />
     <BundleResource Include="Resources\lightning%402x.png" />
     <BundleResource Include="Resources\handbag%402x.png" />
-    <BundleResource Include="Resources\customProperties%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contoso.Forms.Demo\Contoso.Forms.Demo.csproj">

@@ -22,6 +22,7 @@ namespace Contoso.Forms.Demo
     public partial class App
     {
         public const string LogTag = "AppCenterXamarinDemo";
+        private Task<string> dialog = null;
 
         // OneCollector secrets
         static readonly IReadOnlyDictionary<string, string> OneCollectorTokens = new Dictionary<string, string>
@@ -34,7 +35,8 @@ namespace Contoso.Forms.Demo
         {
             { XamarinDevice.UWP, "5bce20c8-f00b-49ca-8580-7a49d5705d4c" },
             { XamarinDevice.Android, "987b5941-4fac-4968-933e-98a7ff29237c" },
-            { XamarinDevice.iOS, "fe2bf05d-f4f9-48a6-83d9-ea8033fbb644" }
+            { XamarinDevice.iOS, "fe2bf05d-f4f9-48a6-83d9-ea8033fbb644" },
+            { XamarinDevice.macOS, "f4b8380f-710c-40b9-a494-f351510e3123" }
         };
 
         public App()
@@ -64,6 +66,21 @@ namespace Contoso.Forms.Demo
                 Crashes.SendingErrorReport += SendingErrorReportHandler;
                 Crashes.SentErrorReport += SentErrorReportHandler;
                 Crashes.FailedToSendErrorReport += FailedToSendErrorReportHandler;
+
+                // Country code.
+                if (Current.Properties.ContainsKey(Constants.CountryCode)
+                    && Current.Properties[Constants.CountryCode] is string countryCode)
+                {
+                    AppCenter.SetCountryCode(countryCode);
+                }
+
+                // Manual session tracker.
+                if (Current.Properties.ContainsKey(Constants.EnableManualSessionTracker)
+                    && Current.Properties[Constants.EnableManualSessionTracker] is bool isEnabled
+                    && isEnabled)
+                {
+                    Analytics.EnableManualSessionTracker();
+                }
 
                 AppCenterLog.Assert(LogTag, "AppCenter.Configured=" + AppCenter.Configured);
 
@@ -112,7 +129,7 @@ namespace Contoso.Forms.Demo
 
         private string GetAppCenterTokenString()
         {
-            return $"uwp={AppSecrets[XamarinDevice.UWP]};android={AppSecrets[XamarinDevice.Android]};ios={AppSecrets[XamarinDevice.iOS]}";
+            return $"uwp={AppSecrets[XamarinDevice.UWP]};android={AppSecrets[XamarinDevice.Android]};ios={AppSecrets[XamarinDevice.iOS]};macos={AppSecrets[XamarinDevice.macOS]}";
         }
 
         private string GetTokensString()
@@ -154,7 +171,15 @@ namespace Contoso.Forms.Demo
         {
             XamarinDevice.BeginInvokeOnMainThread(() =>
             {
-                Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send").ContinueWith((arg) =>
+                if (XamarinDevice.RuntimePlatform == XamarinDevice.macOS)
+                {
+                    dialog = Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", "Send", "Always Send");
+                }
+                else
+                {
+                    Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send");
+                }
+                dialog.ContinueWith((arg) =>
                 {
                     var answer = arg.Result;
                     UserConfirmation userConfirmationSelection;

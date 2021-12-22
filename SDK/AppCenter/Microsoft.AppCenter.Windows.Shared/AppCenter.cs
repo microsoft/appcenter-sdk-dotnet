@@ -122,7 +122,7 @@ namespace Microsoft.AppCenter
         /// Sets the two-letter ISO country code to send to the backend.
         /// </summary>
         /// <param name="countryCode">The two-letter ISO country code. See <see href="https://www.iso.org/obp/ui/#search"/> for more information.</param>
-        public static void SetCountryCode(string countryCode)
+        public static void PlatformSetCountryCode(string countryCode)
         {
             if (countryCode != null && countryCode.Length != 2)
             {
@@ -202,14 +202,6 @@ namespace Microsoft.AppCenter
             lock (AppCenterLock)
             {
                 Instance.SetInstanceLogUrl(logUrl);
-            }
-        }
-
-        internal static void PlatformSetCustomProperties(CustomProperties customProperties)
-        {
-            lock (AppCenterLock)
-            {
-                Instance.SetInstanceCustomProperties(customProperties);
             }
         }
 
@@ -310,7 +302,6 @@ namespace Microsoft.AppCenter
             {
                 _applicationSettings = _applicationSettingsFactory?.CreateApplicationSettings() ?? new DefaultApplicationSettings();
                 LogSerializer.AddLogType(StartServiceLog.JsonIdentifier, typeof(StartServiceLog));
-                LogSerializer.AddLogType(CustomPropertyLog.JsonIdentifier, typeof(CustomPropertyLog));
                 ApplicationLifecycleHelper.Instance.UnhandledExceptionOccurred += OnUnhandledExceptionOccurred;
             }
         }
@@ -383,21 +374,6 @@ namespace Microsoft.AppCenter
             _storageMaxSize = storageMaxSize;
             _storageTaskCompletionSource = resultTaskCompletionSource;
             return _storageTaskCompletionSource.Task;
-        }
-
-        private void SetInstanceCustomProperties(CustomProperties customProperties)
-        {
-            if (!Configured)
-            {
-                AppCenterLog.Error(AppCenterLog.LogTag, NotConfiguredMessage);
-                return;
-            }
-            if (customProperties == null || customProperties.Properties.Count == 0)
-            {
-                AppCenterLog.Error(AppCenterLog.LogTag, "Custom properties may not be null or empty.");
-                return;
-            }
-            _channel.EnqueueAsync(new CustomPropertyLog { Properties = customProperties.Properties });
         }
 
         private void OnUnhandledExceptionOccurred(object sender, UnhandledExceptionOccurredEventArgs args)

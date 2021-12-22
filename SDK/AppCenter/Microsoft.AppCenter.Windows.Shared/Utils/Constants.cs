@@ -15,7 +15,7 @@ namespace Microsoft.AppCenter.Utils
 
         // Channel constants
         public const int DefaultTriggerCount = 50;
-        public static readonly TimeSpan DefaultTriggerInterval = TimeSpan.FromSeconds(3);
+        public static readonly TimeSpan DefaultTriggerInterval = TimeSpan.FromSeconds(6);
         public const int DefaultTriggerMaxParallelRequests = 3;
     }
 }

@@ -26,6 +26,7 @@ namespace Contoso.WinForms.Puppet.DotNetCore
             textAttachments = Settings.Default.TextErrorAttachments;
             TextAttachmentTextBox.Text = textAttachments;
             FileAttachmentPathLabel.Text = fileAttachments;
+            EnableManualSessionTrackerCheckBox.Checked = Settings.Default.EnableManualSessionTracker;
             if (Settings.Default.StorageMaxSize > 0)
             {
                 StorageMaxSizeTextBox.Text = Settings.Default.StorageMaxSize.ToString();
@@ -228,6 +229,17 @@ namespace Contoso.WinForms.Puppet.DotNetCore
             AppCenter.SetMaxStorageSizeAsync(size);
             Settings.Default.StorageMaxSize = size;
             Settings.Default.Save();
+        }
+
+        private void EnableManualSessionTrackerCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.EnableManualSessionTracker = EnableManualSessionTrackerCheckBox.Checked;
+            Settings.Default.Save();
+        }
+
+        private void StartSession_Click(object sender, EventArgs e)
+        {
+            Analytics.StartSession();
         }
     }
 }

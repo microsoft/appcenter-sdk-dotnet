@@ -16,5 +16,10 @@ namespace Microsoft.AppCenter.Channel
         /// </summary>
         /// <param name="log"></param>
         Task EnqueueAsync(Log log);
+
+        /// <summary>
+        /// Check if there are any pending logs in database and rigger ingestion if such logs are found.
+        /// </summary>
+        void CheckPendingLogs();
     }
 }

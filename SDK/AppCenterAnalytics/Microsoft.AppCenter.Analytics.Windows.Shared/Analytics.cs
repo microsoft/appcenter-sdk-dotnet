@@ -23,6 +23,13 @@ namespace Microsoft.AppCenter.Analytics
 
         private static volatile Analytics _instanceField;
 
+        // Stores the value of whether manual session tracker was enabled.
+        private bool _isManualSessionTrackerEnabled = false;
+
+        // Internal for testing purposes
+        private ISessionTracker _sessionTracker;
+        private readonly ISessionTrackerFactory _sessionTrackerFactory;
+
         public static Analytics Instance
         {
             get
@@ -74,10 +81,10 @@ namespace Microsoft.AppCenter.Analytics
         ///     Track a custom event with name and optional properties.
         /// </summary>
         /// <remarks>
-        ///     The name parameter can not be null or empty.Maximum allowed length = 256.
-        ///     The properties parameter maximum item count = 5.
-        ///     The properties keys/names can not be null or empty, maximum allowed key length = 64.
-        ///     The properties values can not be null, maximum allowed value length = 64.
+        ///     The name parameter can not be null or empty. Maximum allowed length = 256.
+        ///     The properties parameter maximum item count = 20.
+        ///     The properties keys/names can not be null or empty, maximum allowed key length = 125.
+        ///     The properties values can not be null, maximum allowed value length = 125.
         /// </remarks>
         /// <param name="name">An event name.</param>
         /// <param name="properties">Optional properties.</param>
@@ -89,14 +96,45 @@ namespace Microsoft.AppCenter.Analytics
             }
         }
 
+        /// <summary>
+        ///  Enable manual session tracker.
+        /// </summary>
+        public static void EnableManualSessionTracker()
+        {
+            lock (AnalyticsLock)
+            {
+                if (Instance.Channel != null)
+                {
+                    AppCenterLog.Error(Instance.LogTag, "The manual session tracker should be installed before the App Center start.");
+                    return;
+                }
+                if (Instance._sessionTracker == null)
+                {
+                    Instance._isManualSessionTrackerEnabled = true;
+                    return;
+                }
+                Instance._sessionTracker.EnableManualSessionTracker();
+            }
+        }
+
+        /// <summary>
+        /// Start a new session if manual session tracker is enabled, otherwise do nothing.
+        /// </summary>
+        public static void StartSession()
+        {
+            lock (AnalyticsLock)
+            {
+                if (Instance._sessionTracker == null) {
+                    AppCenterLog.Error(Instance.LogTag, "Start session should be called after the Analytics start.");
+                    return;
+                }
+                Instance._sessionTracker.StartSession();
+            }
+        }
+
         #endregion
 
         #region instance
-
-        // Internal for testing purposes
-        private ISessionTracker _sessionTracker;
-
-        private readonly ISessionTrackerFactory _sessionTrackerFactory;
 
         private Analytics()
         {
@@ -166,6 +204,10 @@ namespace Microsoft.AppCenter.Analytics
                 if (enabled && ChannelGroup != null && _sessionTracker == null)
                 {
                     _sessionTracker = CreateSessionTracker(ChannelGroup, Channel, ApplicationSettings);
+                    if (_isManualSessionTrackerEnabled)
+                    {
+                        _sessionTracker.EnableManualSessionTracker();
+                    }
                     if (!ApplicationLifecycleHelper.Instance.IsSuspended)
                     {
                         _sessionTracker.Resume();

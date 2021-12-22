@@ -32,8 +32,8 @@ namespace Contoso.Forms.Demo
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            AppCenterEnabledSwitchCell.On = await AppCenter.IsEnabledAsync();
-            AllowedNetworkRequestSwitchCell.On = AppCenter.IsNetworkRequestsAllowed;
+            AppCenterEnabledSwitchCell.IsToggled = await AppCenter.IsEnabledAsync();
+            AllowedNetworkRequestSwitchCell.IsToggled = AppCenter.IsNetworkRequestsAllowed;
             if (Application.Current.Properties.ContainsKey(Constants.UserId) && Application.Current.Properties[Constants.UserId] is string id)
             {
                 UserIdEntry.Text = id;

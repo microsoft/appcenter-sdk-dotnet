@@ -11,7 +11,6 @@
         <method name="unsetInstance" return="void" abstract="false" native="false" synchronized="true" static="true" final="false" deprecated="not deprecated" visibility="public"/>
     </add-node>
     <attr path="/api/package[@name='com.microsoft.appcenter']/class[@name='AppCenter']" name="managedName">AndroidAppCenter</attr>
-    <attr path="/api/package[@name='com.microsoft.appcenter']/class[@name='CustomProperties']" name="managedName">AndroidCustomProperties</attr>
     <attr path="/api/package[@name='com.microsoft.appcenter']/class[@name='DependencyConfiguration']" name="managedName">AndroidDependencyConfiguration</attr>
     <attr path="/api/package[@name='com.microsoft.appcenter.http']/class[@name='HttpResponse']" name="managedName">AndroidHttpResponse</attr>
     <attr path="/api/package[@name='com.microsoft.appcenter.http']/class[@name='HttpException']" name="managedName">AndroidHttpException</attr>

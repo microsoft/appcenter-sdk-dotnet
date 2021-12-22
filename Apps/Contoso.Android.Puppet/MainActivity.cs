@@ -2,24 +2,25 @@
 // Licensed under the MIT License.
 
 using System.Linq;
-using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using Android.Support.Design.Widget;
-using Android.Support.V4.View;
-using Android.Support.V7.App;
+using Android.App;
+using AndroidX.AppCompat.App;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Distribute;
+using Google.Android.Material.BottomNavigation;
+using Android.Views;
 
 namespace Contoso.Android.Puppet
 {
-    using AlertDialog = global::Android.Support.V7.App.AlertDialog;
+    using AlertDialog = global::Android.App.AlertDialog;
 
     [Activity(Label = "SXPuppet", Icon = "@drawable/icon", Theme = "@style/PuppetTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : AppCompatActivity
+    [System.Obsolete]
+    public class MainActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
     {
         const string LogTag = "AppCenterXamarinPuppet";
 
@@ -30,13 +31,10 @@ namespace Contoso.Android.Puppet
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            // Get the ViewPager and set it's PagerAdapter so that it can display items
-            var viewPager = FindViewById(Resource.Id.viewpager) as ViewPager;
-            viewPager.Adapter = new PagerAdapter(SupportFragmentManager, this);
-
-            // Give the TabLayout the ViewPager
-            var tabLayout = FindViewById(Resource.Id.tablayout) as TabLayout;
-            tabLayout.SetupWithViewPager(viewPager);
+            // Init bottom menu.
+            BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.bottom_navigation);
+            navigation.SetOnNavigationItemSelectedListener(this);
+            UpdateFragment(new AppCenterFragment(), Resource.String.AppCenterTitle);
 
             // App Center integration
             AppCenterLog.Assert(LogTag, "AppCenter.LogLevel=" + AppCenter.LogLevel);
@@ -61,6 +59,10 @@ namespace Contoso.Android.Puppet
             if (storageSizeValue > 0)
             {
                 AppCenter.SetMaxStorageSizeAsync(storageSizeValue);
+            }
+            if (prefs.GetBoolean(Constants.EnableManualSessionTrackerKey, false)) 
+            {
+                Analytics.EnableManualSessionTracker();
             }
             Distribute.SetInstallUrl("https://install.portal-server-core-integration.dev.avalanch.es");
             Distribute.SetApiUrl("https://asgard-int.trafficmanager.net/api/v0.1");
@@ -157,6 +159,34 @@ namespace Contoso.Android.Puppet
                 builder.Create().Show();
             }
             return custom;
+        }
+
+        public bool OnNavigationItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Resource.Id.navigation_core:
+                    UpdateFragment(new AppCenterFragment(), Resource.String.AppCenterTitle);
+                    return true;
+                case Resource.Id.navigation_analytics:
+                    UpdateFragment(new AnalyticsFragment(), Resource.String.AnalyticsTitle);
+                    return true;
+                case Resource.Id.navigation_crashes:
+                    UpdateFragment(new CrashesFragment(), Resource.String.CrashesTitle);
+                    return true;
+                case Resource.Id.navigation_other:
+                    UpdateFragment(new OthersFragment(), Resource.String.OthersTitle);
+                    return true;
+            }
+            return false;
+        }
+
+        private void UpdateFragment(PageFragment page, int titleId)
+        {
+            Title = Resources.GetString(titleId);
+            SupportFragmentManager.BeginTransaction()
+                .Replace(Resource.Id.content_frame, page)
+                .Commit();
         }
     }
 }

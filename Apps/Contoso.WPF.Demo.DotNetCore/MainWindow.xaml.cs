@@ -40,6 +40,7 @@ namespace Contoso.WPF.Demo.DotNetCore
             textAttachments = Settings.Default.TextErrorAttachments;
             TextAttachmentTextBox.Text = textAttachments;
             FileAttachmentLabel.Content = fileAttachments;
+            EnableManualSessionTrackerCheckBox.IsChecked = Settings.Default.EnableManualSessionTracker;
             if (!string.IsNullOrEmpty(Settings.Default.CountryCode))
             {
                 CountryCodeEnableCheckbox.IsChecked = true;
@@ -196,6 +197,27 @@ namespace Contoso.WPF.Demo.DotNetCore
             AppCenter.SetMaxStorageSizeAsync(size);
             Settings.Default.StorageMaxSize = size;
             Settings.Default.Save();
+        }
+
+        private void EnableManualSessionTracker_Checked(object sender, RoutedEventArgs e)
+        {
+            EnableManualSessionTracker(true);
+        }
+
+        private void EnableManualSessionTracker_Unchecked(object sender, RoutedEventArgs e)
+        {
+            EnableManualSessionTracker(false);
+        }
+
+        private void EnableManualSessionTracker(bool isEnabled)
+        {
+            Settings.Default.EnableManualSessionTracker = isEnabled;
+            Settings.Default.Save();
+        }
+
+        private void StartSessionButtonClick(object sender, RoutedEventArgs e)
+        {
+            Analytics.StartSession();
         }
 
         #region Crash

@@ -110,6 +110,15 @@ namespace Microsoft.AppCenter
         }
 
         /// <summary>
+        /// Sets the two-letter ISO country code to send to the backend.
+        /// </summary>
+        /// <param name="countryCode">The two-letter ISO country code. See <see href="https://www.iso.org/obp/ui/#search"/> for more information.</param>
+        public static void SetCountryCode(string countryCode)
+        {
+            PlatformSetCountryCode(countryCode);
+        }
+
+        /// <summary>
         ///     Set the custom user id.
         /// </summary>
         /// <param name="userId">Custom string to identify user. 256 characters or less.</param>
@@ -196,15 +205,6 @@ namespace Microsoft.AppCenter
         public static void Start(string appSecret, params Type[] services)
         {
             PlatformStart(appSecret, services);
-        }
-
-        /// <summary>
-        /// Set the custom properties.
-        /// </summary>
-        /// <param name="customProperties">Custom properties object.</param>
-        public static void SetCustomProperties(CustomProperties customProperties)
-        {
-            PlatformSetCustomProperties(customProperties);
         }
 
         /// <summary>

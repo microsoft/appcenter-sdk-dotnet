@@ -46,6 +46,10 @@ namespace Microsoft.AppCenter
         {
         }
 
+        static void PlatformSetCountryCode(string countryCode)
+        {
+        }
+
         static bool PlatformConfigured { get; }
 
         static void PlatformConfigure(string appSecret)
@@ -61,10 +65,6 @@ namespace Microsoft.AppCenter
         static void PlatformStart(string appSecret, params Type[] services)
         {
             Debug.WriteLine(ErrorMessage);
-        }
-
-        static void PlatformSetCustomProperties(CustomProperties customProperties)
-        {
         }
 
         static Task<bool> PlatformSetMaxStorageSizeAsync(long sizeInBytes)

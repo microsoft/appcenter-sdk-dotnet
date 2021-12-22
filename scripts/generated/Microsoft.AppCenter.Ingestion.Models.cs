@@ -148,8 +148,6 @@ namespace Microsoft.AppCenter.Ingestion.Models
             };
             SerializationSettings.Converters.Add(new Microsoft.Rest.Serialization.PolymorphicSerializeJsonConverter<Log>("type"));
             DeserializationSettings.Converters.Add(new  Microsoft.Rest.Serialization.PolymorphicDeserializeJsonConverter<Log>("type"));
-            SerializationSettings.Converters.Add(new Microsoft.Rest.Serialization.PolymorphicSerializeJsonConverter<CustomProperty>("type"));
-            DeserializationSettings.Converters.Add(new  Microsoft.Rest.Serialization.PolymorphicDeserializeJsonConverter<CustomProperty>("type"));
             CustomInitialize();
         }
         /// <summary>

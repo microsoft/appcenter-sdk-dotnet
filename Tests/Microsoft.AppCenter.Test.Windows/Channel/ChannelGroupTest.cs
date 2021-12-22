@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Channel;
 using Microsoft.AppCenter.Ingestion;
+using Microsoft.AppCenter.Ingestion.Models;
 using Microsoft.AppCenter.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -197,7 +198,6 @@ namespace Microsoft.AppCenter.Test.Channel
             }
             _channelGroup.SetNetworkRequestAllowed(true);
             _channelGroup.SetNetworkRequestAllowed(false);
-
             foreach (var channelMock in channelMocks.Select(mock => mock as Mock<IChannelUnit>))
             {
                 channelMock.Verify(channel => channel.SetNetworkRequestAllowed(true), Times.Once);
@@ -213,7 +213,7 @@ namespace Microsoft.AppCenter.Test.Channel
         }
 
         /// <summary>
-        /// Veriy that all channels are disabled after channel group disabling
+        /// Veriy that all channels are disabled after channel group disabling.
         /// </summary>
         [TestMethod]
         public async Task TestShutdownChannelGroup()
@@ -226,6 +226,46 @@ namespace Microsoft.AppCenter.Test.Channel
 
             Assert.IsFalse(addedChannel.IsEnabled);
             _mockIngestion.Verify(ingestion => ingestion.Close(), Times.Once);
+        }
+
+        /// <summary>
+        /// Verify that a channel sends pending logs after it is added to a channel group.
+        /// </summary>
+        [TestMethod]
+        public async Task TestPendingLogsAreSentOnAddChannel()
+        {
+            const string channelName = "some_channel";
+            _mockStorage.Setup(_mockStorage => _mockStorage.CountLogsAsync(channelName)).Returns(Task.FromResult(1));
+            _mockStorage.Setup(s => s.GetLogsAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<List<Log>>()))
+                    .Callback((string chanName, int limit, List<Log> logs) => logs.Add(new TestLog()))
+                    .Returns(() => Task.FromResult("test-batch-id"));
+            _mockIngestion
+                .SetupSequence(ingestion => ingestion.Call(
+                    It.IsAny<string>(),
+                    It.IsAny<Guid>(),
+                    It.IsAny<IList<Log>>())).Returns(new ServiceCall());
+            _mockIngestion.Setup(_mockIngestion => _mockIngestion.IsEnabled).Returns(true);
+            var addedChannel =
+                _channelGroup.AddChannel(channelName, 2, TimeSpan.FromMilliseconds(50), 3) as Channel;
+
+            // Wait when tasks will be finalized.
+            await Task.Delay(500);
+
+            // Verify channel sends pending logs.
+            _mockIngestion.Verify(ingestion => ingestion.Call(It.IsAny<string>(), It.IsAny<Guid>(), It.IsAny<IList<Log>>()), Times.Once);
+        }
+
+        /// <summary>
+        /// Verify that a channel group invokes check pending logs on a channel after adding it.
+        /// </summary>
+        [TestMethod]
+        public void TestCheckPendingLogsAfterAddChannel()
+        {
+            var channelMock = new Mock<IChannelUnit>();
+            _channelGroup.AddChannel(channelMock.Object);
+
+            // Verify the channel is trying to check pending logs.
+            channelMock.Verify(channel => channel.CheckPendingLogs(), Times.Once);
         }
     }
 }

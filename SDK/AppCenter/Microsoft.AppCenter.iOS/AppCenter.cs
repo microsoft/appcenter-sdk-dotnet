@@ -95,6 +95,11 @@ namespace Microsoft.AppCenter
             iOSAppCenter.SetLogUrl(logUrl);
         }
 
+        static void PlatformSetCountryCode(string countryCode)
+        {
+            iOSAppCenter.SetCountryCode(countryCode);
+        }
+
         static bool PlatformConfigured
         {
             get
@@ -188,11 +193,6 @@ namespace Microsoft.AppCenter
         {
             iOSWrapperSdk wrapperSdk = new iOSWrapperSdk(WrapperSdk.Version, WrapperSdk.Name, Constants.Version, null, null, null);
             iOSAppCenter.SetWrapperSdk(wrapperSdk);
-        }
-
-        static void PlatformSetCustomProperties(CustomProperties customProperties)
-        {
-            iOSAppCenter.SetCustomProperties(customProperties?.IOSCustomProperties);
         }
 
         internal static void PlatformUnsetInstance()

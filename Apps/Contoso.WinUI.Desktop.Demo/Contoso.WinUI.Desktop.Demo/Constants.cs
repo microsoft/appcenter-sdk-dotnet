@@ -10,5 +10,6 @@ namespace Contoso.WinUI.Desktop.Demo
         public static string KeyCountryCode = "CountryCode";
         public static string KeyFileErrorAttachments = "FileErrorAttachments";
         public static string KeyTextErrorAttachments = "TextErrorAttachments";
+        public static string KeyEnableManualSessionTracker = "EnableManualSessionTrackerKey";
     }
 }

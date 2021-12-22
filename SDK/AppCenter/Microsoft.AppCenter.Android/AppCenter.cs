@@ -99,6 +99,11 @@ namespace Microsoft.AppCenter
             AndroidAppCenter.SetLogUrl(logUrl);
         }
 
+        static void PlatformSetCountryCode(string countryCode)
+        {
+            AndroidAppCenter.SetCountryCode(countryCode);
+        }
+
         static bool PlatformConfigured
         {
             get
@@ -203,11 +208,6 @@ namespace Microsoft.AppCenter
                 }
             }
             return classes.ToArray();
-        }
-
-        static void PlatformSetCustomProperties(CustomProperties customProperties)
-        {
-            AndroidAppCenter.SetCustomProperties(customProperties.AndroidCustomProperties);
         }
 
         internal static void PlatformUnsetInstance()

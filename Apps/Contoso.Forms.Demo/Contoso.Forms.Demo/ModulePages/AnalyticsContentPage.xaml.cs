@@ -30,8 +30,18 @@ namespace Contoso.Forms.Demo
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            EnabledSwitchCell.On = await Analytics.IsEnabledAsync();
+            EnabledSwitchCell.IsToggled = await Analytics.IsEnabledAsync();
             EnabledSwitchCell.IsEnabled = await AppCenter.IsEnabledAsync();
+            if (Application.Current.Properties.ContainsKey(Constants.CountryCode)
+                && Application.Current.Properties[Constants.CountryCode] is string countryCode)
+            {
+                CountryCodeText.Text = countryCode;
+            }
+            if (Application.Current.Properties.ContainsKey(Constants.EnableManualSessionTracker)
+                && Application.Current.Properties[Constants.EnableManualSessionTracker] is bool isEnabled)
+            {
+                EnableManualSessionTrackerSwitch.IsToggled = isEnabled;
+            }
         }
 
         async void AddProperty(object sender, EventArgs e)
@@ -82,6 +92,23 @@ namespace Contoso.Forms.Demo
         void RefreshPropCount()
         {
             NumPropertiesLabel.Text = EventProperties.Count.ToString();
+        }
+
+        void EnableManualSessionTrackerCellEnabled(object sender, ToggledEventArgs e)
+        {
+            Application.Current.Properties[Constants.EnableManualSessionTracker] = e.Value;
+            _ = Application.Current.SavePropertiesAsync();
+        }
+
+        void StartSessionButton_Clicked(object sender, EventArgs e)
+        {
+            Analytics.StartSession();
+        }
+
+        void SaveCountryCode_Clicked(object sender, EventArgs e)
+        {
+            Application.Current.Properties[Constants.CountryCode] = CountryCodeText.Text;
+            _ = Application.Current.SavePropertiesAsync();
         }
     }
 }

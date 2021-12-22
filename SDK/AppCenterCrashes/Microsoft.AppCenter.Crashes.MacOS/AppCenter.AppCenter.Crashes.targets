@@ -1,0 +1,6 @@
+<Project>
+    <Target Name="FixAppCenterCrashesSymlink" AfterTargets="_CollectFrameworks">
+        <Message Text="symlinking AppCenterCrashes" />
+        <Exec Command="cd $(AppBundleDir)\Contents\Frameworks\AppCenterCrashes.framework\ ; rm AppCenterCrashes ; ln -s Versions\A\AppCenterCrashes AppCenterCrashes" />
+    </Target>
+</Project>

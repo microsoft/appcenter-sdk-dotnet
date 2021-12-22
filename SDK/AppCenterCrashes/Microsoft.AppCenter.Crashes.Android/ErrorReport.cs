@@ -19,6 +19,7 @@ namespace Microsoft.AppCenter.Crashes
             var androidStackTrace = androidReport.StackTrace;
             AndroidDetails = new AndroidErrorDetails(androidStackTrace, androidReport.ThreadName);
             iOSDetails = null;
+            MacOSDetails = null;
             string exceptionString = AndroidExceptionDataManager.LoadWrapperExceptionData(Java.Util.UUID.FromString(Id));
             if (exceptionString != null)
             {
