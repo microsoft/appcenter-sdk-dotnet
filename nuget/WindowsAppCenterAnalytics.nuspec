@@ -29,8 +29,8 @@
     <file src="$windows_desktop_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net461" />
 
     <!-- Windows Classic Desktop (WPF and WinForms) for .NETFramework 471 -->
-    <file src="$windows_desktop_net471_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net471" />
-    <file src="$windows_desktop_net471_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net471" />
+    <file src="$windows_desktop_net472_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net472" />
+    <file src="$windows_desktop_net472_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net472" />
 
     <!-- WindowsDesktop (WPF and WinForms) for .NET Core -->
     <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/netcoreapp3.0" />

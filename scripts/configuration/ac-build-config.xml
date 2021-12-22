@@ -48,10 +48,10 @@
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.WindowsDesktop/bin/Release/net461/Microsoft.AppCenter.Analytics.dll"/>
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.WindowsDesktop/bin/Release/net461/Microsoft.AppCenter.Crashes.dll"/>
     </group>
-    <group id="windows_desktop_net471" folder="WindowsDesktopNet471Assemblies" buildGroup="windows">
-        <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/net471/Microsoft.AppCenter.dll"/>
-        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.WindowsDesktop/bin/Release/net471/Microsoft.AppCenter.Analytics.dll"/>
-        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.WindowsDesktop/bin/Release/net471/Microsoft.AppCenter.Crashes.dll"/>
+    <group id="windows_desktop_net472" folder="WindowsDesktopNet472Assemblies" buildGroup="windows">
+        <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/net472/Microsoft.AppCenter.dll"/>
+        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.WindowsDesktop/bin/Release/net472/Microsoft.AppCenter.Analytics.dll"/>
+        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.WindowsDesktop/bin/Release/net472/Microsoft.AppCenter.Crashes.dll"/>
     </group>
     <group id="windows_desktop_netcore" folder="WindowsDesktopNetCoreAssemblies" buildGroup="windows">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/netcoreapp3.0/Microsoft.AppCenter.dll"/>
