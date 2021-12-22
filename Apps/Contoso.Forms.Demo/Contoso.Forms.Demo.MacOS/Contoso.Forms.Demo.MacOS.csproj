@@ -65,25 +65,25 @@
       <HintPath>..\..\..\packages\Xamarin.Forms.5.0.0.2125\lib\Xamarin.Mac\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AppCenter">
-      <HintPath>..\..\..\packages\Microsoft.AppCenter.4.4.1-r0007-917b739\lib\Xamarin.Mac\Microsoft.AppCenter.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.AppCenter.4.5.0\lib\Xamarin.Mac\Microsoft.AppCenter.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AppCenter.Crashes">
-      <HintPath>..\..\..\packages\Microsoft.AppCenter.Crashes.4.4.1-r0007-917b739\lib\Xamarin.Mac\Microsoft.AppCenter.Crashes.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.AppCenter.Crashes.4.5.0\lib\Xamarin.Mac\Microsoft.AppCenter.Crashes.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AppCenter.Analytics">
-      <HintPath>..\..\..\packages\Microsoft.AppCenter.Analytics.4.4.1-r0007-917b739\lib\Xamarin.Mac\Microsoft.AppCenter.Analytics.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.AppCenter.Analytics.4.5.0\lib\Xamarin.Mac\Microsoft.AppCenter.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AppCenter.MacOS.Bindings">
-      <HintPath>..\..\..\packages\Microsoft.AppCenter.4.4.1-r0007-917b739\lib\Xamarin.Mac\Microsoft.AppCenter.MacOS.Bindings.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.AppCenter.4.5.0\lib\Xamarin.Mac\Microsoft.AppCenter.MacOS.Bindings.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AppCenter.Analytics.MacOS.Bindings">
-      <HintPath>..\..\..\packages\Microsoft.AppCenter.Analytics.4.4.1-r0007-917b739\lib\Xamarin.Mac\Microsoft.AppCenter.Analytics.MacOS.Bindings.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.AppCenter.Analytics.4.5.0\lib\Xamarin.Mac\Microsoft.AppCenter.Analytics.MacOS.Bindings.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AppCenter.Crashes.MacOS.Bindings">
-      <HintPath>..\..\..\packages\Microsoft.AppCenter.Crashes.4.4.1-r0007-917b739\lib\Xamarin.Mac\Microsoft.AppCenter.Crashes.MacOS.Bindings.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.AppCenter.Crashes.4.5.0\lib\Xamarin.Mac\Microsoft.AppCenter.Crashes.MacOS.Bindings.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AppCenter.Distribute">
-      <HintPath>..\..\..\packages\Microsoft.AppCenter.DistributePlay.4.4.1-r0007-917b739\lib\netstandard1.0\Microsoft.AppCenter.Distribute.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.AppCenter.DistributePlay.4.5.0\lib\netstandard1.0\Microsoft.AppCenter.Distribute.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
