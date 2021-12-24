@@ -177,7 +177,7 @@ namespace Contoso.Forms.Demo
                 }
                 else
                 {
-                    Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send");
+                    dialog = Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send");
                 }
                 dialog.ContinueWith((arg) =>
                 {
@@ -199,7 +199,6 @@ namespace Contoso.Forms.Demo
                     Crashes.NotifyUserConfirmation(userConfirmationSelection);
                 });
             });
-
             return true;
         }
 
