@@ -4,9 +4,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="Contoso.Forms.Puppet.AnalyticsContentPage" Padding="16">
     <ScrollView>
-        <StackLayout Orientation="Vertical">
+        <StackLayout Padding="16" Orientation="Vertical">
             <StackLayout Orientation="Vertical">
-                <Label Text="Analytics Settings"/>
+                <Label FontSize="Medium" Text="Analytics Settings"/>
                 <StackLayout Margin="0, 16, 0, 0" Orientation="Horizontal">
                     <Label FontSize="Small" HorizontalOptions="Start"  Text="Analytics Enabled"/>
                     <Switch HorizontalOptions="EndAndExpand"  IsToggled="true" x:Name="EnabledSwitchCell" Toggled="UpdateEnabled" />
@@ -26,14 +26,14 @@
                 <Label FontSize="Medium" Text="Settings Session"/>
                 <StackLayout Margin="0, 16, 0, 0" Orientation="Horizontal">
                     <Label FontSize="Small" HorizontalOptions="Start"  Text="Enable Manual Session Tracker"/>
-                    <Switch HorizontalOptions="EndAndExpand" IsToggled="true" x:Name="EnableManualSessionTrackerSwitch" Toggled="EnableManualSessionTrackerCellEnabled" />
+                    <Switch HorizontalOptions="EndAndExpand" IsToggled="False" x:Name="EnableManualSessionTrackerSwitch" Toggled="EnableManualSessionTrackerCellEnabled" />
                 </StackLayout>
-                <Button Text="Start Session" x:Name="StartSessionButton" Clicked="StartSessionButton_Clicked"/>
+                <Button Text="Start Session"  Padding="0, 8, 0, 8" x:Name="StartSessionButton" Clicked="StartSessionButton_Clicked"/>
             </StackLayout>
             <StackLayout Orientation="Vertical">
-                <Label FontSize="Small" Text="Country Code Settings"/>
+                <Label FontSize="Medium" Text="Country Code Settings"/>
                 <Entry Margin="0, 8, 0, 0" FontSize="Small" HorizontalTextAlignment="Start" x:Name="CountryCodeText"/>
-                <Button Text="Save Country Code" x:Name="SaveCountryCode" Clicked="SaveCountryCode_Clicked"/>
+                <Button Text="Save Country Code"  Padding="0, 8, 0, 8" x:Name="SaveCountryCode" Clicked="SaveCountryCode_Clicked"/>
             </StackLayout>
         </StackLayout>
     </ScrollView>

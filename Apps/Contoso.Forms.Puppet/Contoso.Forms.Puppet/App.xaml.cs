@@ -183,7 +183,7 @@ namespace Contoso.Forms.Puppet
                 }
                 else
                 {
-                    Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send");
+                    dialog = Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send");
                 }
                 dialog.ContinueWith((arg) =>
                 {
@@ -205,7 +205,6 @@ namespace Contoso.Forms.Puppet
                     Crashes.NotifyUserConfirmation(userConfirmationSelection);
                 });
             });
-
             return true;
         }
 
