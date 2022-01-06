@@ -17,6 +17,9 @@ namespace Microsoft.AppCenter.Utils
                 PresentationFramework =
                     assemblies.FirstOrDefault(assembly => assembly.GetName().Name == "PresentationFramework");
                 IsRunningOnWpf = PresentationFramework != null;
+#if WINDOWS10_0_17763_0
+                IsRunningAsUwp = (new DesktopBridge.Helpers()).IsRunningAsUwp();
+#endif
             }
             catch (AppDomainUnloadedException)
             {
@@ -25,6 +28,9 @@ namespace Microsoft.AppCenter.Utils
         }
 
         public static bool IsRunningOnWpf { get; }
+
+        public static bool IsRunningAsUwp { get; } = false;
+
         public static Assembly PresentationFramework { get; }
     }
 }
