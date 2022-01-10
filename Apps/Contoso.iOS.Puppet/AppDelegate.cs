@@ -44,7 +44,7 @@ namespace Contoso.iOS.Puppet
             if (plist.BoolForKey(Constants.EnableManualSessionTrackerKey)) {
                 Analytics.EnableManualSessionTracker();
             }
-            AppCenter.Start("e94aaff4-e80d-4fee-9a5f-a84eb6e688fc", typeof(Analytics), typeof(Crashes), typeof(Distribute));
+            AppCenter.Start("XAMARIN_IOS_INT", typeof(Analytics), typeof(Crashes), typeof(Distribute));
             return true;
         }
 

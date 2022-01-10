@@ -33,7 +33,7 @@ namespace Contoso.WinForms.Demo.DotNetCore
             {
                 AppCenter.SetMaxStorageSizeAsync(storageMaxSize);
             }
-            AppCenter.Start("734be4f7-3607-489b-ae81-284d2eb908f8", typeof(Analytics), typeof(Crashes));
+            AppCenter.Start("WINFORMS_CORE_PROD", typeof(Analytics), typeof(Crashes));
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());

@@ -42,7 +42,7 @@ namespace Contoso.UWP.Puppet
             {
                 AppCenter.SetMaxStorageSizeAsync((long)storageSize);
             }
-            AppCenter.Start("42f4a839-c54c-44da-8072-a2f2a61751b2", typeof(Analytics), typeof(Crashes));
+            AppCenter.Start("XAMARIN_UWP_INT", typeof(Analytics), typeof(Crashes));
         }
 
         /// <summary>

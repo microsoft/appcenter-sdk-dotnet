@@ -25,10 +25,10 @@ namespace Contoso.Forms.Puppet
 
         static readonly IReadOnlyDictionary<string, string> AppSecrets = new Dictionary<string, string>
         {
-            { XamarinDevice.UWP, "a678b499-1912-4a94-9d97-25b569284d3a" },
-            { XamarinDevice.Android, "bff0949b-7970-439d-9745-92cdc59b10fe" },
-            { XamarinDevice.iOS, "b889c4f2-9ac2-4e2e-ae16-dae54f2c5899" },
-            { XamarinDevice.macOS, "2b06eb3f-70c9-4b31-b74b-a84fd2d01f51" }
+            { XamarinDevice.UWP, "XAMARIN_FORMS_UWP_INT" },
+            { XamarinDevice.Android, "XAMARIN_FORMS_ANDROID_INT" },
+            { XamarinDevice.iOS, "XAMARIN_FORMS_IOS_INT" },
+            { XamarinDevice.macOS, "XAMARIN_FORMS_MACOS_INT" }
         };
 
         // OneCollector secrets

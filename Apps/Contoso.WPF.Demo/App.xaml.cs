@@ -47,7 +47,7 @@ namespace Contoso.WPF.Demo
             }
 
             // Start AppCenter.
-            AppCenter.Start("40814a80-0782-4d5e-b9de-698935156d55", typeof(Analytics), typeof(Crashes));
+            AppCenter.Start("WPF_PROD", typeof(Analytics), typeof(Crashes));
 
             var userId = Settings.Default.UserId;
             if (!string.IsNullOrEmpty(userId))

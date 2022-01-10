@@ -41,7 +41,7 @@ namespace Contoso.UWP.Demo
             {
                 AppCenter.SetMaxStorageSizeAsync((long)storageSize);
             }
-            AppCenter.Start("e8354a9a-001a-4728-be65-a6477e57f2e7", typeof(Analytics), typeof(Crashes));
+            AppCenter.Start("XAMARIN_UWP_PROD", typeof(Analytics), typeof(Crashes));
         }
 
         /// <summary>

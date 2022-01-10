@@ -37,7 +37,7 @@ namespace Contoso.MacOS.Puppet
             }
             var dictionary = new NSDictionary<NSObject, NSObject>(NSObject.FromObject(true), new NSString(ApplicationCrashOnExceptionsKey));
             plist.RegisterDefaults(dictionary);
-            AppCenter.Start("2b06eb3f-70c9-4b31-b74b-a84fd2d01f51", typeof(Analytics), typeof(Crashes));
+            AppCenter.Start("XAMARIN_MACOS_INT", typeof(Analytics), typeof(Crashes));
         }
 
     }
