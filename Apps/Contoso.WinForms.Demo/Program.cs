@@ -34,7 +34,8 @@ namespace Contoso.WinForms.Demo
             {
                 AppCenter.SetMaxStorageSizeAsync(storageMaxSize);
             }
-            AppCenter.Start("WINFORMS_PROD", typeof(Analytics), typeof(Crashes));
+            var appSecret = Environment.GetEnvironmentVariable("WINFORMS_PROD");
+            AppCenter.Start(appSecret, typeof(Analytics), typeof(Crashes));
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());

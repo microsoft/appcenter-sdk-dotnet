@@ -73,7 +73,8 @@ namespace Contoso.WinUI.Desktop.Puppet
             Crashes.FailedToSendErrorReport += (_, args) => Log($"Failed to send error report for an error ID: {args.Report.Id}");
 
             // Start App Center.
-            AppCenter.Start("WINUI_IN_DESKTOP_INT", typeof(Analytics), typeof(Crashes));
+            var appSecret = Environment.GetEnvironmentVariable("WINUI_IN_DESKTOP_INT");
+            AppCenter.Start(appSecret, typeof(Analytics), typeof(Crashes));
 
             // Set userId.
             var userId = localSettings.Values[Constants.KeyUserId] as string;

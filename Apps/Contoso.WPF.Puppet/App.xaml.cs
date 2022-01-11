@@ -48,7 +48,8 @@ namespace Contoso.WPF.Puppet
             }
 
             // Start AppCenter.
-            AppCenter.Start("WPF_INT", typeof(Analytics), typeof(Crashes));
+            var appSecret = Environment.GetEnvironmentVariable("WPF_INT");
+            AppCenter.Start(appSecret, typeof(Analytics), typeof(Crashes));
             var userId = Settings.Default.UserId;
             if (!string.IsNullOrEmpty(userId))
             {

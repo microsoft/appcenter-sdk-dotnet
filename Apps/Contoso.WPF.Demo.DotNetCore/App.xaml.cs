@@ -46,7 +46,8 @@ namespace Contoso.WPF.Demo.DotNetCore
             }
 
             // Start AppCenter.
-            AppCenter.Start("WPF_CORE_PROD", typeof(Analytics), typeof(Crashes));
+            var appSecret = Environment.GetEnvironmentVariable("WPF_CORE_PROD");
+            AppCenter.Start(appSecret, typeof(Analytics), typeof(Crashes));
 
             var userId = Settings.Default.UserId;
             if (!string.IsNullOrEmpty(userId))

@@ -48,7 +48,8 @@ namespace Contoso.WPF.Puppet.DotNetCore
             }
 
             // Start AppCenter.
-            AppCenter.Start("WPF_CORE_INT", typeof(Analytics), typeof(Crashes));
+            var appSecret = Environment.GetEnvironmentVariable("WPF_CORE_INT");
+            AppCenter.Start(appSecret, typeof(Analytics), typeof(Crashes));
             var userId = Settings.Default.UserId;
             if (!string.IsNullOrEmpty(userId))
             {
