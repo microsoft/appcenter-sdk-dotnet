@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using Contoso.Forms.Puppet.iOS;
 using Foundation;
 using Microsoft.AppCenter;
@@ -13,12 +14,16 @@ using Xamarin.Forms;
 namespace Contoso.Forms.Puppet.iOS
 {
     [Register("AppDelegate")]
-    public class AppDelegate : Xamarin.Forms.Platform.iOS.FormsApplicationDelegate, IClearCrashClick
+    public class AppDelegate : Xamarin.Forms.Platform.iOS.FormsApplicationDelegate, IClearCrashClick, IAppConfiguration
     {
         private const string CrashesUserConfirmationStorageKey = "MSAppCenterCrashesUserConfirmation";
+        private static string AppCenterSecret;
+        private static string AppCenterTargetToken;
 
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
+            AppCenterSecret = Environment.GetEnvironmentVariable("XAMARIN_FORMS_IOS_INT");
+            AppCenterTargetToken = Environment.GetEnvironmentVariable("XAMARIN_FORMS_IOS_TARGET_TOKEN_INT");
             Xamarin.Forms.Forms.Init();
             Distribute.DontCheckForUpdatesInDebug();
             MSACAnalytics.SetDelegate(new AnalyticsDelegate());
@@ -36,6 +41,16 @@ namespace Contoso.Forms.Puppet.iOS
         public void ClearCrashButton()
         {
             NSUserDefaults.StandardUserDefaults.RemoveObject(CrashesUserConfirmationStorageKey);
+        }
+
+        public string GetAppSecret()
+        {
+            return AppCenterSecret;
+        }
+
+        public string GetTargetToken()
+        {
+            return AppCenterTargetToken;
         }
     }
 

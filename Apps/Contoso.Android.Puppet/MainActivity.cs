@@ -18,7 +18,7 @@ namespace Contoso.Android.Puppet
 {
     using AlertDialog = global::Android.App.AlertDialog;
 
-    [Activity(Label = "SXPuppet", Icon = "@drawable/icon", Theme = "@style/PuppetTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Exported = true, Label = "SXPuppet", Icon = "@drawable/icon", Theme = "@style/PuppetTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     [System.Obsolete]
     public class MainActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
     {
@@ -66,7 +66,8 @@ namespace Contoso.Android.Puppet
             }
             Distribute.SetInstallUrl("https://install.portal-server-core-integration.dev.avalanch.es");
             Distribute.SetApiUrl("https://asgard-int.trafficmanager.net/api/v0.1");
-            AppCenter.Start("XAMARIN_ANDROID_INT", typeof(Analytics), typeof(Crashes), typeof(Distribute));
+            var appCenterSecret = Intent.GetStringExtra("XAMARIN_ANDROID_INT");
+            AppCenter.Start(appCenterSecret, typeof(Analytics), typeof(Crashes), typeof(Distribute));
             AppCenter.IsEnabledAsync().ContinueWith(enabled =>
             {
                 AppCenterLog.Info(LogTag, "AppCenter.Enabled=" + enabled.Result);

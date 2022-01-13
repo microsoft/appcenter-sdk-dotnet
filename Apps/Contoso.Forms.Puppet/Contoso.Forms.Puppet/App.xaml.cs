@@ -18,25 +18,16 @@ namespace Contoso.Forms.Puppet
         void ClearCrashButton();
     }
 
+    public interface IAppConfiguration
+    {
+        string GetAppSecret();
+        string GetTargetToken();
+    }
+
     public partial class App
     {
         public const string LogTag = "AppCenterXamarinPuppet";
         private Task<string> dialog = null;
-
-        static readonly IReadOnlyDictionary<string, string> AppSecrets = new Dictionary<string, string>
-        {
-            { XamarinDevice.UWP, "XAMARIN_FORMS_UWP_INT" },
-            { XamarinDevice.Android, "XAMARIN_FORMS_ANDROID_INT" },
-            { XamarinDevice.iOS, "XAMARIN_FORMS_IOS_INT" },
-            { XamarinDevice.macOS, "XAMARIN_FORMS_MACOS_INT" }
-        };
-
-        // OneCollector secrets
-        static readonly IReadOnlyDictionary<string, string> OneCollectorTokens = new Dictionary<string, string>
-        {
-            { XamarinDevice.Android, "7be01f52a17a455ca07566a4e978d961-de99cbfd-41a4-463a-9c23-92cabd834b0d-6966" },
-            { XamarinDevice.iOS, "1ad92bec07bb4cbf8d98f37c345f1982-c261ed35-7a36-429f-9f5f-6162117fbb72-7166" }
-        };
 
         public App()
         {
@@ -130,12 +121,12 @@ namespace Contoso.Forms.Puppet
 
         private string GetOneCollectorTokenString()
         {
-            return $"androidTarget={OneCollectorTokens[XamarinDevice.Android]};iosTarget={OneCollectorTokens[XamarinDevice.iOS]}";
+            return DependencyService.Get<IAppConfiguration>().GetTargetToken();
         }
 
         private string GetAppCenterTokenString()
         {
-            return $"uwp={AppSecrets[XamarinDevice.UWP]};android={AppSecrets[XamarinDevice.Android]};ios={AppSecrets[XamarinDevice.iOS]};macos={AppSecrets[XamarinDevice.macOS]}";
+            return DependencyService.Get<IAppConfiguration>().GetAppSecret();
         }
 
         private string GetTokensString()

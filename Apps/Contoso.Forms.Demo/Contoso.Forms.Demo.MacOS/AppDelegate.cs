@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using AppKit;
 using Foundation;
 using Xamarin.Forms.Platform.MacOS;
@@ -8,14 +9,16 @@ using Xamarin.Forms.Platform.MacOS;
 namespace Contoso.Forms.Demo.MacOS
 {
     [Register("AppDelegate")]
-    public class AppDelegate : FormsApplicationDelegate, IClearCrashClick
+    public class AppDelegate : FormsApplicationDelegate, IClearCrashClick, IAppConfiguration
     {
         private const string CrashesUserConfirmationStorageKey = "MSAppCenterCrashesUserConfirmation";
         private const string ApplicationCrashOnExceptionsKey = "NSApplicationCrashOnExceptions";
+        private static string AppCenterSecret;
 
         NSPanel window;
         public AppDelegate()
         {
+            AppCenterSecret = Environment.GetEnvironmentVariable("XAMARIN_FORMS_MACOS_PROD");
             var style = NSWindowStyle.Closable | NSWindowStyle.Resizable | NSWindowStyle.Titled;
             var rect = new CoreGraphics.CGRect(200, 1000, 1024, 768);
             window = new NSPanel(rect, style, NSBackingStore.Buffered, false);
@@ -41,6 +44,16 @@ namespace Contoso.Forms.Demo.MacOS
         public void ClearCrashButton()
         {
             NSUserDefaults.StandardUserDefaults.RemoveObject(CrashesUserConfirmationStorageKey);
+        }
+
+        public string GetAppSecret()
+        {
+            return AppCenterSecret;
+        }
+
+        public string GetTargetToken()
+        {
+            return "";
         }
     }
 }

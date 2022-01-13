@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using AppKit;
 using Foundation;
 using Microsoft.AppCenter;
@@ -37,7 +38,8 @@ namespace Contoso.MacOS.Puppet
             }
             var dictionary = new NSDictionary<NSObject, NSObject>(NSObject.FromObject(true), new NSString(ApplicationCrashOnExceptionsKey));
             plist.RegisterDefaults(dictionary);
-            AppCenter.Start("XAMARIN_MACOS_INT", typeof(Analytics), typeof(Crashes));
+            var appCenterSecret = Environment.GetEnvironmentVariable("XAMARIN_MACOS_INT");
+            AppCenter.Start(appCenterSecret, typeof(Analytics), typeof(Crashes));
         }
 
     }
