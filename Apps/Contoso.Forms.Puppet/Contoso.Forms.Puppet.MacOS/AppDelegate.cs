@@ -13,16 +13,14 @@ using Xamarin.Forms;
 namespace Contoso.Forms.Puppet.MacOS
 {
     [Register("AppDelegate")]
-    public class AppDelegate : Xamarin.Forms.Platform.MacOS.FormsApplicationDelegate, IClearCrashClick, IAppConfiguration
+    public class AppDelegate : Xamarin.Forms.Platform.MacOS.FormsApplicationDelegate, IClearCrashClick
     {
         private const string CrashesUserConfirmationStorageKey = "MSAppCenterCrashesUserConfirmation";
         private const string ApplicationCrashOnExceptionsKey = "NSApplicationCrashOnExceptions";
-        private static string AppCenterSecret;
 
         NSPanel window;
         public AppDelegate()
         {
-            AppCenterSecret = Environment.GetEnvironmentVariable("XAMARIN_FORMS_MACOS_INT");
             var style = NSWindowStyle.Closable | NSWindowStyle.Resizable | NSWindowStyle.Titled;
             var rect = new CoreGraphics.CGRect(200, 1000, 1024, 768);
             window = new NSPanel(rect, style, NSBackingStore.Buffered, false);
@@ -49,16 +47,6 @@ namespace Contoso.Forms.Puppet.MacOS
             MSACAnalytics.SetDelegate(new AnalyticsDelegate());
             LoadApplication(new App());
             base.DidFinishLaunching(notification);
-        }
-
-        public string GetAppSecret()
-        {
-            return AppCenterSecret;
-        }
-
-        public string GetTargetToken()
-        {
-            return "";
         }
 
         public class AnalyticsDelegate : MSACAnalyticsDelegate

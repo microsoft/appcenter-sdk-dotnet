@@ -46,6 +46,10 @@
     <CodeSignEntitlements>Entitlements.plist</CodeSignEntitlements>
     <LinkMode>SdkOnly</LinkMode>
     <HttpClientHandler></HttpClientHandler>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <EnvironmentVariables>
+      <Variable name="XAMARIN_MACOS_INT" value="app-secret" />
+    </EnvironmentVariables>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

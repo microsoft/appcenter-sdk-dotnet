@@ -18,12 +18,6 @@ namespace Contoso.Forms.Puppet
         void ClearCrashButton();
     }
 
-    public interface IAppConfiguration
-    {
-        string GetAppSecret();
-        string GetTargetToken();
-    }
-
     public partial class App
     {
         public const string LogTag = "AppCenterXamarinPuppet";

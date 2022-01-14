@@ -18,7 +18,6 @@ namespace Contoso.iOS.Puppet
         {
             private readonly IDictionary<string, string> mEventProperties;
             private readonly string[] mKeys;
-            private NSUserDefaults plist = NSUserDefaults.StandardUserDefaults;
 
             public PropertiesTableSource(IDictionary<string, string> eventProperties)
             {
@@ -45,6 +44,7 @@ namespace Contoso.iOS.Puppet
         }
 
         private readonly IDictionary<string, string> mEventProperties = new Dictionary<string, string>();
+        private NSUserDefaults plist = NSUserDefaults.StandardUserDefaults;
 
         public AnalyticsController(IntPtr handle) : base(handle)
         {

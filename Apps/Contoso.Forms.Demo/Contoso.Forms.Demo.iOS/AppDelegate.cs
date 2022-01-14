@@ -17,13 +17,9 @@ namespace Contoso.Forms.Demo.iOS
     public class AppDelegate : Xamarin.Forms.Platform.iOS.FormsApplicationDelegate, IClearCrashClick, IAppConfiguration
     {
         private const string CrashesUserConfirmationStorageKey = "MSAppCenterCrashesUserConfirmation";
-        private static string AppCenterSecret;
-        private static string AppCenterTargetToken;
 
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
-            AppCenterSecret = Environment.GetEnvironmentVariable("XAMARIN_FORMS_IOS_PROD");
-            AppCenterTargetToken = Environment.GetEnvironmentVariable("XAMARIN_FORMS_IOS_TARGET_TOKEN_PROD");
             Xamarin.Forms.Forms.Init();
             Distribute.DontCheckForUpdatesInDebug();
             MSACAnalytics.SetDelegate(new AnalyticsDelegate());
@@ -45,12 +41,12 @@ namespace Contoso.Forms.Demo.iOS
 
         public string GetAppSecret()
         {
-            return AppCenterSecret;
+            return Environment.GetEnvironmentVariable("XAMARIN_FORMS_IOS_PROD");
         }
 
         public string GetTargetToken()
         {
-            return AppCenterTargetToken;
+            return Environment.GetEnvironmentVariable("XAMARIN_FORMS_IOS_TARGET_TOKEN_PROD");
         }
     }
 
