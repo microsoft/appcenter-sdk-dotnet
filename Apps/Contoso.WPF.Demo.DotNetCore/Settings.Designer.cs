@@ -82,5 +82,17 @@ namespace Contoso.WPF.Demo.DotNetCore {
                 this["StorageMaxSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableManualSessionTracker {
+            get {
+                return ((bool)(this["EnableManualSessionTracker"]));
+            }
+            set {
+                this["EnableManualSessionTracker"] = value;
+            }
+        }
     }
 }

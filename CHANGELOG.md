@@ -5,7 +5,7 @@
 ### App Center
 
 * **[Breaking change]** Remove `AppCenter.SetCustomProperties` API.
-* **[Fix]** Fix check on using `HttpClient` API instead of `ServicePointManager` in applications with target framework version `4.7.1` and higher.
+* **[Fix]** Fix check on using `HttpClient` API instead of `ServicePointManager` in applications with target framework version `4.7.2` and higher.
 
 #### Windows
 
@@ -13,14 +13,37 @@
 * **[Fix]** Fix crash during getting device information when WMI service is disabled.
 * **[Fix]** Fix a deadlock after the application start caused by improper `StatefulMutex` usage on the Windows Server OS.
 
-#### Xamarin
+#### Android/iOS
 
 * **[Feature]** Add `AppCenter.setCountryCode(string)` API to set the country code manually.
+
+#### iOS 
+
+* **[Fix]** Fix throw an exception when checking to authenticate MAC value during decryption.
 
 ### App Center Analytics
 
 * **[Feature]** Increase the interval between sending logs from 3 to 6 seconds for the backend load optimization.
 * **[Feature]** Add `Analytics.EnableManualSessionTracker` and `Analytics.StartSession` APIs for tracking session manually.
+
+### App Center Crashes
+
+#### iOS
+
+* **[Fix]** Fix sending `Crashes.trackError` logs after allowing network requests after the launch app.
+
+### App Center Distribute
+
+#### iOS
+
+* **[Fix]** Cancel authorization process if application is not active, otherwise `ASWebAuthenticationSession` will fail opening browswer and update flow will end up being in a broken state. This only affects updating from a private distribution group.
+
+#### Android
+
+* **[Feature]** Remove the download manager task if the download doesn't start within 10 seconds.
+* **[Feature]** Replace installing a new release using the deprecated intent action [ACTION_INSTALL_PACKAGE](https://developer.android.com/reference/android/content/Intent#ACTION_INSTALL_PACKAGE) with the `PackageInstaller` API.
+* **[Feature]** Add sumcheck on the downloaded file before starting the install process.
+* **[Fix]** Fix a crash after discarding the installation if the download of a new release was interrupted in the previous application start and resumed in the current one.
 
 ___
 

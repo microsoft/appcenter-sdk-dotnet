@@ -81,13 +81,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter" version="4.4.0" />
+    <PackageReference Include="Microsoft.AppCenter" version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Crashes" version="4.4.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" version="4.4.0" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" version="4.5.0" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -25,6 +25,9 @@ namespace Contoso.WinForms.Demo.DotNetCore
             AppCenter.LogLevel = LogLevel.Verbose;
             Crashes.GetErrorAttachments = GetErrorAttachmentsHandler;
 
+            if (Settings.Default.EnableManualSessionTracker) {
+                Analytics.EnableManualSessionTracker();
+            }
             var storageMaxSize = Settings.Default.StorageMaxSize;
             if (storageMaxSize > 0)
             {
