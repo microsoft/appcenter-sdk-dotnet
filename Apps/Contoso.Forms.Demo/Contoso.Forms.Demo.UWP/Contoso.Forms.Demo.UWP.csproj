@@ -93,6 +93,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AppConfiguration.cs" />
     <Compile Include="ClearCrashes.cs" />
     <Compile Include="EventFilter.cs" />
     <Compile Include="EventFilterWrapper.cs" />

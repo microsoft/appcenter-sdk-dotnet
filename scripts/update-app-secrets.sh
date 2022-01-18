@@ -19,7 +19,6 @@ declare -a platformConstants=(
     "XAMARIN_FORMS_IOS_${appPrefix}"
     "XAMARIN_FORMS_IOS_TARGET_TOKEN_${appPrefix}"
     "XAMARIN_FORMS_MACOS_${appPrefix}"
-    "XAMARIN_FORMS_UWP_${appPrefix}"
     "XAMARIN_ANDROID_${appPrefix}"
     "XAMARIN_IOS_${appPrefix}"
     "XAMARIN_MACOS_${appPrefix}")
