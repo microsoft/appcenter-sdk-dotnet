@@ -49,7 +49,7 @@
     <HttpClientHandler></HttpClientHandler>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <EnvironmentVariables>
-      <Variable name="XAMARIN_FORMS_MACOS_INT" value="app-secret" />
+      <Variable name="XAMARIN_FORMS_MACOS_INT" value="{XAMARIN_FORMS_MACOS_INT}" />
     </EnvironmentVariables>
   </PropertyGroup>
   <ItemGroup>

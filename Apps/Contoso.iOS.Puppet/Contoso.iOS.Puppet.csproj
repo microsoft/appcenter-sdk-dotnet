@@ -82,7 +82,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <EnvironmentVariables>
-      <Variable name="XAMARIN_IOS_INT" value="app-secret" />
+      <Variable name="XAMARIN_IOS_INT" value="{XAMARIN_IOS_INT}" />
     </EnvironmentVariables>
   </PropertyGroup>
   <ItemGroup>

@@ -27,3 +27,4 @@ $nugetFileName = "NuGet.config"
    Remove-Item $nugetFileName
  }
  New-Item -Path . -Name $nugetFileName -Value $contentValue 
+ ./scripts/update-app-secrets.sh $env:APP_BUILD_TYPE
