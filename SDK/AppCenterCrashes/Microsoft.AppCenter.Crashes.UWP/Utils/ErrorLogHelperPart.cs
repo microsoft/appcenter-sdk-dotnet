@@ -111,6 +111,12 @@ namespace Microsoft.AppCenter.Crashes.Utils
             using (var reader = new PEReader((byte*)imageBase.ToPointer(), imageSize, true))
             {
                 var debugdir = reader.ReadDebugDirectory();
+
+                // In some cases debugDir can be empty even though frame.GetNativeImageBase() returns a value.
+                if (debugdir.IsEmpty)
+                {
+                    return null;
+                }
                 var codeViewEntry = debugdir.First(entry => entry.Type == DebugDirectoryEntryType.CodeView);
 
                 // When attaching a debugger in release, it will break into MissingRuntimeArtifactException, just click continue as it is actually caught and recovered by the lib.
