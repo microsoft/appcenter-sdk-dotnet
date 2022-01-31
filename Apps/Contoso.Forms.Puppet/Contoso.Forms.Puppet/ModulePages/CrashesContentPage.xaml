@@ -3,7 +3,7 @@
     <ScrollView>
         <StackLayout Orientation="Vertical" Padding="16">
             <StackLayout Orientation="Vertical">
-                <Label Text="Crashes Settings"/>
+                <Label FontSize="Medium" Text="Crashes Settings"/>
                 <StackLayout Margin="0, 8, 0, 0" Orientation="Horizontal">
                     <Label FontSize="Small" HorizontalOptions="Start"  Text="Crashes Enabled"/>
                     <Switch HorizontalOptions="EndAndExpand" IsToggled="true" x:Name="CrashesEnabledSwitchCell" Toggled="UpdateEnabled" />
@@ -28,7 +28,7 @@
                     <Button Padding="0, 8, 0, 8" Text="Add Property" Clicked="AddProperty"/>
                 </StackLayout>
                  <StackLayout Orientation="Vertical">
-                    <Label Margin="0, 8, 0, 0" Text="Test Crashes"/>
+                    <Label FontSize="Medium" Margin="0, 8, 0, 0" Text="Test Crashes"/>
                     <Button Padding="0, 8, 0, 8" Text="Generate Test Exception" Clicked="TestException" />
                     <Button Padding="0, 8, 0, 8" Text="Divide 42 by 0" Clicked="DivideByZero" />
                     <Button Padding="0, 8, 0, 8" Text="Aggregate Exception" Clicked="AggregateException" />

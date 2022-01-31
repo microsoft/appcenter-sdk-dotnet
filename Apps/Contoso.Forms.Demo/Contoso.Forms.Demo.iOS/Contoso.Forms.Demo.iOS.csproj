@@ -80,6 +80,12 @@
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <CodesignProvision>appcenter xamarin forms ios demo df Dist</CodesignProvision>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <EnvironmentVariables>
+      <Variable name="XAMARIN_FORMS_IOS_PROD" value="{XAMARIN_FORMS_IOS_PROD}" />
+      <Variable name="XAMARIN_FORMS_IOS_TARGET_TOKEN_PROD" value="{XAMARIN_FORMS_IOS_TARGET_TOKEN_PROD}" />
+    </EnvironmentVariables>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />

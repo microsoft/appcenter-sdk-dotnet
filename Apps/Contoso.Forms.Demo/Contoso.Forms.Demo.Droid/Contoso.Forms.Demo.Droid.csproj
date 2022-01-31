@@ -63,6 +63,9 @@
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <Run>am start -e "XAMARIN_FORMS_ANDROID_PROD" "{XAMARIN_FORMS_ANDROID_PROD}" -e "XAMARIN_FORMS_ANDROID_TARGET_TOKEN_PROD" "{XAMARIN_FORMS_ANDROID_TARGET_TOKEN_PROD}" -n "com.microsoft.appcenter.xamarin.forms.demo/Contoso.Forms.Demo.Droid.MainActivity"</Run>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />

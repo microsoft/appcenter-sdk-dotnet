@@ -26,5 +26,6 @@ if [ -e $nugetFileName ]; then
     rm $nugetFileName
 fi
 echo $contentValue >> $nugetFileName
+./scripts/update-app-secrets.sh
 ./build.sh -t=externals-android
 popd

@@ -66,6 +66,9 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidLinkTool>r8</AndroidLinkTool>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <Run>am start -e "XAMARIN_FORMS_ANDROID_INT" "{XAMARIN_FORMS_ANDROID_INT}" -e "XAMARIN_FORMS_ANDROID_TARGET_TOKEN_INT" "{XAMARIN_FORMS_ANDROID_TARGET_TOKEN_INT}" -n "com.microsoft.appcenter.xamarin.forms.puppet/Contoso.Forms.Puppet.Droid.MainActivity"</Run>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
