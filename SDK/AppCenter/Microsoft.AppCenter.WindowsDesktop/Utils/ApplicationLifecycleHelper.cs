@@ -10,7 +10,7 @@ namespace Microsoft.AppCenter
     {
         private static IApplicationLifecycleHelper _instance = null;
 
-        // Considered to be suspended until can verify that has started
+        // Considered to be suspended until can verify that the application has started.
         protected static bool _suspended = true;
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Microsoft.AppCenter
                 return _instance;
             }
 
-            // Setter for testing
+            // Setter for using in tests.
             internal set { _instance = value; }
         }
 

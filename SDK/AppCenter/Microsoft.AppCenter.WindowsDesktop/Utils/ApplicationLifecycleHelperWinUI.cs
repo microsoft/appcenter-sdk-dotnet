@@ -17,7 +17,7 @@ namespace Microsoft.AppCenter.Utils
     public class ApplicationLifecycleHelperWinUI: ApplicationLifecycleHelper
     {
 
-        // True if InvokeResuming has been called at least once during the current process
+        // True if InvokeResuming has been called at least once during the current process.
         private static bool _started;
 
         public ApplicationLifecycleHelperWinUI()
@@ -47,7 +47,7 @@ namespace Microsoft.AppCenter.Utils
             {
 
                 // In versions of Windows 10 where the LeavingBackground event is unavailable, we consider this point to be
-                // the start so invoke resuming (and subscribe to future resume events). If InvokeResuming were not called here,
+                // the start so invoke resuming (and subscribe to future resume events). If InvokeResuming was not called here,
                 // the resuming event wouldn't be invoked until the *next* time the application is resumed, which is a problem
                 // if the application is not currently suspended. The side effect is that regardless of whether UI is available
                 // ever in the process, InvokeResuming will be called at least once (in the case where LeavingBackground isn't
