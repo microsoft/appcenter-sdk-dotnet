@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#if !WINDOWS10_0_17763_0
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -12,17 +11,8 @@ using System.Windows.Forms;
 
 namespace Microsoft.AppCenter.Utils
 {
-    public class ApplicationLifecycleHelper : IApplicationLifecycleHelper
+    public class ApplicationLifecycleHelperDesktop : ApplicationLifecycleHelper
     {
-        // Singleton instance of ApplicationLifecycleHelper
-        private static IApplicationLifecycleHelper _instance;
-        public static IApplicationLifecycleHelper Instance
-        {
-            get { return _instance ?? (_instance = new ApplicationLifecycleHelper()); }
-
-            // Setter for testing
-            internal set { _instance = value; }
-        }
 
         #region WinEventHook
 
@@ -74,7 +64,7 @@ namespace Microsoft.AppCenter.Utils
             }
         }
 
-        static ApplicationLifecycleHelper()
+        static ApplicationLifecycleHelperDesktop()
         {
             // Retrieve the WPF APIs through reflection, if they are available
             if (WpfHelper.IsRunningOnWpf)
@@ -117,28 +107,30 @@ namespace Microsoft.AppCenter.Utils
 
         #endregion
 
-        public ApplicationLifecycleHelper()
+        public bool HasShownWindow => started;
+
+        public ApplicationLifecycleHelperDesktop()
         {
             Enabled = true;
             AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) =>
             {
-                UnhandledExceptionOccurred?.Invoke(sender, new UnhandledExceptionOccurredEventArgs((Exception)eventArgs.ExceptionObject));
+               base.InvokeUnhandledExceptionOccurred(sender, new UnhandledExceptionOccurredEventArgs((Exception)eventArgs.ExceptionObject));
             };
         }
 
         private void InvokeResuming()
         {
-            ApplicationResuming?.Invoke(null, EventArgs.Empty);
+            base.InvokeResuming(null, EventArgs.Empty);
         }
 
         private void InvokeStarted()
         {
-            ApplicationStarted?.Invoke(null, EventArgs.Empty);
+            base.InvokeStarted(null, EventArgs.Empty);
         }
 
         private void InvokeSuspended()
         {
-            ApplicationSuspended?.Invoke(null, EventArgs.Empty);
+            base.InvokeSuspended(null, EventArgs.Empty);
         }
 
         private bool enabled;
@@ -186,15 +178,5 @@ namespace Microsoft.AppCenter.Utils
             var windowBounds = WindowsRectToRectangle(window.RestoreBounds);
             return Screen.AllScreens.Any(screen => screen.Bounds.IntersectsWith(windowBounds));
         }
-
-        public bool HasShownWindow => started;
-
-        public bool IsSuspended => suspended;
-
-        public event EventHandler ApplicationSuspended;
-        public event EventHandler ApplicationResuming;
-        public event EventHandler ApplicationStarted;
-        public event EventHandler<UnhandledExceptionOccurredEventArgs> UnhandledExceptionOccurred;
     }
 }
-#endif

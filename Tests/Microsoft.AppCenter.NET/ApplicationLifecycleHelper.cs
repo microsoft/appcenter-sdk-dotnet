@@ -11,7 +11,7 @@ namespace Microsoft.AppCenter.Utils
         public static IApplicationLifecycleHelper Instance
         {
             get { return _instance ?? (_instance = new ApplicationLifecycleHelper()); }
-            // Setter for testing
+            // Setter for using in tests.
             internal set { _instance = value; }
         }
         public bool IsSuspended { get; private set; }

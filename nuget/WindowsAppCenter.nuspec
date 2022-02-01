@@ -45,6 +45,7 @@
         <dependency id="SQLitePCLRaw.bundle_green" version="2.0.2" />
         <dependency id="System.Management" version="5.0.0"/>
         <dependency id="System.Configuration.ConfigurationManager" version="5.0.0"/>
+        <dependency id="DesktopBridge.Helpers" version="1.2.2" />
       </group>
     </dependencies>
     <frameworkAssemblies>

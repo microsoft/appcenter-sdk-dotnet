@@ -1,5 +1,13 @@
 # App Center SDK for .NET Change Log
 
+## Version 4.5.1 (Under develop)
+
+### App Center
+
+#### Windows
+
+* **[Feature]**  Add support target framework `net5.0-windows10.0.17763.0` or higher for non-WinUI applications.
+
 ## Version 4.5.0
 
 ### App Center
@@ -26,11 +34,19 @@
 * **[Feature]** Increase the interval between sending logs from 3 to 6 seconds for the backend load optimization.
 * **[Feature]** Add `Analytics.EnableManualSessionTracker` and `Analytics.StartSession` APIs for tracking session manually.
 
+#### macOS
+
+* **[Feature]** Add support for Xamarin.Mac. 
+
 ### App Center Crashes
 
 #### iOS
 
 * **[Fix]** Fix sending `Crashes.trackError` logs after allowing network requests after the launch app.
+
+#### macOS
+
+* **[Feature]** Add support for Xamarin.Mac. 
 
 ### App Center Distribute
 
