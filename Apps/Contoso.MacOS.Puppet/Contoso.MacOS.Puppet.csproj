@@ -47,6 +47,11 @@
     <LinkMode>SdkOnly</LinkMode>
     <HttpClientHandler></HttpClientHandler>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <EnvironmentVariables>
+      <Variable name="XAMARIN_MACOS_INT" value="{XAMARIN_MACOS_INT}" />
+    </EnvironmentVariables>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />

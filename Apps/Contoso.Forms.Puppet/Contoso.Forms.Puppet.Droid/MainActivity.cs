@@ -17,16 +17,20 @@ using Contoso.Forms.Puppet.Droid;
 namespace Contoso.Forms.Puppet.Droid
 {
     [Activity(Label = "ACFPuppet", Icon = "@drawable/icon", Theme = "@style/PuppetTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, LaunchMode = LaunchMode.SingleTop)]
-    public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IClearCrashClick
+    public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IClearCrashClick, IAppConfiguration
     {
         public static readonly int FileAttachmentId = 1;
 
         private const string CrashesUserConfirmationStorageKey = "com.microsoft.appcenter.crashes.always.send";
+        private static string AppCenterSecret;
+        private static string AppCenterTargetToken;
 
         public TaskCompletionSource<string> FileAttachmentTaskCompletionSource { set; get; }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            AppCenterSecret = Intent.GetStringExtra("XAMARIN_FORMS_ANDROID_INT");
+            AppCenterTargetToken = Intent.GetStringExtra("XAMARIN_FORMS_ANDROID_TARGET_TOKEN_INT");
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
@@ -56,6 +60,16 @@ namespace Contoso.Forms.Puppet.Droid
         {
             ISharedPreferences appCenterPreferences = Android.App.Application.Context.GetSharedPreferences("AppCenter", FileCreationMode.Private);
             appCenterPreferences.Edit().Remove(CrashesUserConfirmationStorageKey).Apply();
+        }
+
+        public string GetAppSecret()
+        {
+            return AppCenterSecret;
+        }
+
+        public string GetTargetToken()
+        {
+            return AppCenterTargetToken;
         }
     }
 

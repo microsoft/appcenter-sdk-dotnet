@@ -2,7 +2,7 @@
 <ContentPage Title="App Center" xmlns:local="clr-namespace:Contoso.Forms.Demo" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Contoso.Forms.Demo.AppCenterContentPage">
     <StackLayout Orientation="Vertical" Padding="16">
         <StackLayout Orientation="Vertical">
-            <Label Text="App Center Settings"/>
+            <Label FontSize="Medium" Text="App Center Settings"/>
             <StackLayout Margin="0, 16, 0, 0" Orientation="Horizontal">
                 <Label FontSize="Small" HorizontalOptions="Start" Text="AppCenter Enabled"/>
                 <Switch HorizontalOptions="EndAndExpand"  IsToggled="true" x:Name="AppCenterEnabledSwitchCell" Toggled="UpdateEnabled" />

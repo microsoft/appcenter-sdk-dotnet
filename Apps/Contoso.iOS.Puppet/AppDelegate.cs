@@ -3,6 +3,7 @@
 
 #pragma warning disable XI0002 // Notifies you from using newer Apple APIs when targeting an older OS version
 
+using System;
 using Foundation;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
@@ -44,7 +45,8 @@ namespace Contoso.iOS.Puppet
             if (plist.BoolForKey(Constants.EnableManualSessionTrackerKey)) {
                 Analytics.EnableManualSessionTracker();
             }
-            AppCenter.Start("e94aaff4-e80d-4fee-9a5f-a84eb6e688fc", typeof(Analytics), typeof(Crashes), typeof(Distribute));
+            var appCenterSecret = Environment.GetEnvironmentVariable("XAMARIN_IOS_INT");
+            AppCenter.Start(appCenterSecret, typeof(Analytics), typeof(Crashes), typeof(Distribute));
             return true;
         }
 

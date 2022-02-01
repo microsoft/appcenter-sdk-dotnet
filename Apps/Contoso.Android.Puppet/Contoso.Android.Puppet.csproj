@@ -58,6 +58,9 @@
     <EnableProguard>true</EnableProguard>
     <AndroidLinkTool>r8</AndroidLinkTool>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <Run>am start -e "XAMARIN_ANDROID_INT" "{XAMARIN_ANDROID_INT}" -n "com.microsoft.appcenter.xamarin.puppet/Contoso.Android.Puppet.MainActivity"</Run>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />

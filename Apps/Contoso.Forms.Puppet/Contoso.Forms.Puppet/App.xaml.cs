@@ -23,21 +23,6 @@ namespace Contoso.Forms.Puppet
         public const string LogTag = "AppCenterXamarinPuppet";
         private Task<string> dialog = null;
 
-        static readonly IReadOnlyDictionary<string, string> AppSecrets = new Dictionary<string, string>
-        {
-            { XamarinDevice.UWP, "a678b499-1912-4a94-9d97-25b569284d3a" },
-            { XamarinDevice.Android, "bff0949b-7970-439d-9745-92cdc59b10fe" },
-            { XamarinDevice.iOS, "b889c4f2-9ac2-4e2e-ae16-dae54f2c5899" },
-            { XamarinDevice.macOS, "2b06eb3f-70c9-4b31-b74b-a84fd2d01f51" }
-        };
-
-        // OneCollector secrets
-        static readonly IReadOnlyDictionary<string, string> OneCollectorTokens = new Dictionary<string, string>
-        {
-            { XamarinDevice.Android, "7be01f52a17a455ca07566a4e978d961-de99cbfd-41a4-463a-9c23-92cabd834b0d-6966" },
-            { XamarinDevice.iOS, "1ad92bec07bb4cbf8d98f37c345f1982-c261ed35-7a36-429f-9f5f-6162117fbb72-7166" }
-        };
-
         public App()
         {
             InitializeComponent();
@@ -130,12 +115,12 @@ namespace Contoso.Forms.Puppet
 
         private string GetOneCollectorTokenString()
         {
-            return $"androidTarget={OneCollectorTokens[XamarinDevice.Android]};iosTarget={OneCollectorTokens[XamarinDevice.iOS]}";
+            return DependencyService.Get<IAppConfiguration>().GetTargetToken();
         }
 
         private string GetAppCenterTokenString()
         {
-            return $"uwp={AppSecrets[XamarinDevice.UWP]};android={AppSecrets[XamarinDevice.Android]};ios={AppSecrets[XamarinDevice.iOS]};macos={AppSecrets[XamarinDevice.macOS]}";
+            return DependencyService.Get<IAppConfiguration>().GetAppSecret();
         }
 
         private string GetTokensString()
@@ -183,7 +168,7 @@ namespace Contoso.Forms.Puppet
                 }
                 else
                 {
-                    Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send");
+                    dialog = Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send");
                 }
                 dialog.ContinueWith((arg) =>
                 {
@@ -205,7 +190,6 @@ namespace Contoso.Forms.Puppet
                     Crashes.NotifyUserConfirmation(userConfirmationSelection);
                 });
             });
-
             return true;
         }
 

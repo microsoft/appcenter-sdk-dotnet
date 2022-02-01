@@ -48,6 +48,11 @@
     <LinkMode>SdkOnly</LinkMode>
     <HttpClientHandler></HttpClientHandler>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <EnvironmentVariables>
+      <Variable name="XAMARIN_FORMS_MACOS_PROD" value="{XAMARIN_FORMS_MACOS_PROD}" />
+    </EnvironmentVariables>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -116,6 +121,7 @@
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="FilePicker.cs" />
+    <Compile Include="AppConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />

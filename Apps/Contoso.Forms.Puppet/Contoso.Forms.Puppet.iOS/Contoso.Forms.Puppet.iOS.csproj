@@ -78,6 +78,12 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <EnvironmentVariables>
+      <Variable name="XAMARIN_FORMS_IOS_INT" value="{XAMARIN_FORMS_IOS_INT}" />
+      <Variable name="XAMARIN_FORMS_IOS_TARGET_TOKEN_INT" value="{XAMARIN_FORMS_IOS_TARGET_TOKEN_INT}" />
+    </EnvironmentVariables>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
