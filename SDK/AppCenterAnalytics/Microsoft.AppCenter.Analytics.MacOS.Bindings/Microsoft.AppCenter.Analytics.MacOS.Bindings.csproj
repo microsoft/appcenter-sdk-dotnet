@@ -49,7 +49,7 @@
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
   </ItemGroup>
   <ItemGroup>
-    <NativeReference Include="..\..\..\externals\macos\AppCenterAnalytics.framework">
+    <NativeReference Include="..\..\..\externals\apple\ios\AppCenterAnalytics.framework">
       <Kind>Framework</Kind>
       <ForceLoad>True</ForceLoad>
     </NativeReference>

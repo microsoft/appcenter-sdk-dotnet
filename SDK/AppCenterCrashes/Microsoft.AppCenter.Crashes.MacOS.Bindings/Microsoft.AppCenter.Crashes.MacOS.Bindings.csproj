@@ -55,7 +55,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <NativeReference Include="..\..\..\externals\macos\AppCenterCrashes.framework">
+    <NativeReference Include="..\..\..\externals\apple\macos\AppCenterCrashes.framework">
       <Kind>Framework</Kind>
       <ForceLoad>True</ForceLoad>
       <Frameworks />

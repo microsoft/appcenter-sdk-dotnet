@@ -32,8 +32,7 @@ IList<AppCenterModule> AppCenterModules = null;
 
 var ExternalsDirectory = "externals";
 var AndroidExternals = $"{ExternalsDirectory}/android";
-var IosExternals = $"{ExternalsDirectory}/ios";
-var MacosExternals = $"{ExternalsDirectory}/macos";
+var AppleExternals = $"{ExternalsDirectory}/apple";
 
 var SdkStorageUrl = "https://mobilecentersdkdev.blob.core.windows.net/sdk/";
 
@@ -98,60 +97,53 @@ Task("Externals-Android")
 }).OnError(HandleError);
 
 // Downloading iOS binaries.
-Task("Externals-Ios")
+Task("Externals-Apple")
     .Does(() =>
 {
-    CleanDirectory(IosExternals);
-    var zipFile = System.IO.Path.Combine(IosExternals, "ios.zip");
+    // CleanDirectory(AppleExternals);
+    var zipFile = System.IO.Path.Combine(AppleExternals, "apple.zip");
 
     // Download zip file containing AppCenter frameworks
     DownloadFile(AppleUrl, zipFile);
-    Unzip(zipFile, IosExternals);
-    var frameworksLocation = System.IO.Path.Combine(IosExternals, "AppCenter-SDK-Apple/iOS");
+
+    StartProcess("unzip", new ProcessSettings{ Arguments = $"-o {zipFile} -d {AppleExternals}" });
+
+    // Unzip(zipFile, AppleExternals);
+    var iosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/iOS");
+    var macosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/macOS");
+
+    // Move iOS frameworks.
+    var iosExternals = System.IO.Path.Combine(AppleExternals, "ios");
+    CleanDirectory(iosExternals);
 
     // Copy the AppCenter binaries directly from the frameworks and add the ".a" extension
-    var files = GetFiles($"{frameworksLocation}/*.framework/AppCenter*");
+    var files = GetFiles($"{iosFrameworksLocation}/*.framework/AppCenter*");
     foreach (var file in files)
     {
         var filename = file.GetFilename();
-        MoveFile(file, $"{IosExternals}/{filename}.a");
+        MoveFile(file, $"{iosExternals}/{filename}.a");
     }
     
     // Copy Distribute resource bundle and copy it to the externals directory.
     var distributeBundle = "AppCenterDistributeResources.bundle";
-    if(DirectoryExists($"{frameworksLocation}/{distributeBundle}"))
+    if(DirectoryExists($"{iosFrameworksLocation}/{distributeBundle}"))
     {
-        MoveDirectory($"{frameworksLocation}/{distributeBundle}", $"{IosExternals}/{distributeBundle}");
-    }
-}).OnError(HandleError);
-
-// Downloading macOS binaries.
-Task("Externals-MacOS")
-    .Does(() =>
-{
-    CleanDirectory(MacosExternals);
-    CopyDirectory($"{IosExternals}/AppCenter-SDK-Apple", $"{MacosExternals}/AppCenter-SDK-Apple");
-
-    var frameworksLocation = System.IO.Path.Combine(MacosExternals, "AppCenter-SDK-Apple/macOS");
-
-    // Copy the AppCenter binaries directly from the frameworks and add the ".a" extension
-    var files = GetFiles($"{frameworksLocation}/*.framework/Versions/A/AppCenter*");
-    foreach (var file in files)
-    {
-        var filename = file.GetFilename();
-        CopyFile(file, $"{MacosExternals}/{filename}.a");
+        MoveDirectory($"{iosFrameworksLocation}/{distributeBundle}", $"{iosExternals}/{distributeBundle}");
     }
 
-    //generate correct .framework directories
-    CopyDirectory($"{frameworksLocation}/AppCenter.framework/Versions/A", $"{MacosExternals}/AppCenter.framework");
-    CopyDirectory($"{frameworksLocation}/AppCenterAnalytics.framework/Versions/A", $"{MacosExternals}/AppCenterAnalytics.framework");
-    CopyDirectory($"{frameworksLocation}/AppCenterCrashes.framework/Versions/A", $"{MacosExternals}/AppCenterCrashes.framework");
+    // Move macOS frameworks.
+    var macosExternals = System.IO.Path.Combine(AppleExternals, "macos");
+    CleanDirectory(macosExternals);
+    var frameworks = GetDirectories($"{macosFrameworksLocation}/*.framework");
+    foreach (var frameworkDir in frameworks)
+    {
+        var dirName = frameworkDir.GetDirectoryName();
+        MoveDirectory(frameworkDir, $"{macosExternals}/{dirName}");
+    }
 }).OnError(HandleError);
-
-
 
 // Create a common externals task depending on platform specific ones
-Task("Externals").IsDependentOn("Externals-Ios").IsDependentOn("Externals-MacOS").IsDependentOn("Externals-Android");
+Task("Externals").IsDependentOn("Externals-Apple").IsDependentOn("Externals-Android");
 
 // Main Task.
 Task("Default").IsDependentOn("NuGet").IsDependentOn("RemoveTemporaries");
