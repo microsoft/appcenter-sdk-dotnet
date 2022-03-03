@@ -47,6 +47,31 @@ var Target = Argument("Target", Argument("t", "Default"));
 
 var NuspecFolder = "nuget";
 
+// Path to folders and projects. 
+var configuration = "Release";
+var solutionDir = ".";
+var outputPath = "bin/" + configuration;
+var utilClassLibraryProject = "Apps/Contoso.UtilClassLibrary/Contoso.UtilClassLibrary.csproj";
+var commonProject = "Apps/Contoso.Forms.Demo/Contoso.Forms.Demo/Contoso.Forms.Demo.csproj";
+var androidProject = "Apps/Contoso.Forms.Demo/Contoso.Forms.Demo.Droid/Contoso.Forms.Demo.Droid.csproj";
+var iosProject = "Apps/Contoso.Forms.Demo/Contoso.Forms.Demo.iOS/Contoso.Forms.Demo.iOS.csproj";
+
+// Android apk configuration.
+var androidSigningKeyStore = EnvironmentVariable("PATH_TO_ANDROID_KEYSTORE_FILE") ?? "";
+var androidSigningKeyAlias = EnvironmentVariable("ANDROID_KEYSTORE_ALIAS") ?? "";
+var androidSigningStorePass = EnvironmentVariable("ANDROID_KEYSTORE_PASSWORD") ?? "";
+var androidSigningKeyPass = EnvironmentVariable("ANDROID_KEYSTORE_ALIAS_PASSWORD") ?? "";
+
+// iOS ipa configuration.
+var serverAddress = EnvironmentVariable("NAME_OF_YOUR_MAC") ?? "";
+var serverUser = EnvironmentVariable("NAME_OF_YOUR_MAC_USER") ?? "";
+var serverPassword = EnvironmentVariable("PASSWORD_OF_YOUR_MAC_USER") ?? "";
+
+// Application outputs.
+var applicationOutput = "applicationOutput/";
+var androidApkPath = "Apps/Contoso.Forms.Demo/Contoso.Forms.Demo.Droid/bin/Release/*.apk";
+var iosIpsPath = "Apps/Contoso.Forms.Demo/Contoso.Forms.Demo.iOS/bin/Release/*.ipa";
+
 // Prepare the platform paths for downloading, uploading, and preparing assemblies
 Setup(context =>
 {
@@ -148,8 +173,6 @@ Task("Externals-MacOS")
     CopyDirectory($"{frameworksLocation}/AppCenterCrashes.framework/Versions/A", $"{MacosExternals}/AppCenterCrashes.framework");
 }).OnError(HandleError);
 
-
-
 // Create a common externals task depending on platform specific ones
 Task("Externals").IsDependentOn("Externals-Ios").IsDependentOn("Externals-MacOS").IsDependentOn("Externals-Android");
 
@@ -233,6 +256,106 @@ void ReplaceAssemblyPathsInNuspecs(string nuspecPath)
     {
         ReplaceTextInFiles(nuspecPath, assemblyPathVar.Item1, assemblyPathVar.Item2);
     }
+}
+
+Task("WindowsXamarinFormsBuildApps")
+    .Does(()=>
+{
+    CreateOutputApplication();
+
+    // Build applications.
+    BuildUwpApk();
+}).OnError(HandleError);
+
+Task("MacXamarinFormsBuildApps")
+    .Does(()=>
+{
+    CreateOutputApplication();
+
+    // Build applications.
+    BuildAndroidApk();
+    BuildIosIpa();
+}).OnError(HandleError);
+
+public MSBuildSettings CreateDefaultBuildSettings(string buildConfig, string outputPath, string solutionDir)
+{
+    var result = new MSBuildSettings();
+    result.Verbosity = Verbosity.Minimal;
+    result.Configuration = buildConfig;
+    result.WithTarget("Clean");
+    result.WithTarget("Build");   
+    result.WithProperty("OutputPath", outputPath);
+ 	result.WithProperty("SolutionDir", solutionDir);
+    return result;
+}
+
+public void CreateOutputApplication() {
+
+    // Create directory if not exists.
+    if (!DirectoryExists(applicationOutput))
+    {
+        CreateDirectory(applicationOutput);
+    }
+    CleanDirectory(applicationOutput);
+}
+
+public void BuildUwpApk() {
+
+}
+
+public void BuildAndroidApk() {
+
+    // Restore NuGet.
+    NuGetRestore(utilClassLibraryProject, new NuGetRestoreSettings { NoCache = true });
+    NuGetRestore(commonProject, new NuGetRestoreSettings { NoCache = true });
+    NuGetRestore(androidProject, new NuGetRestoreSettings { NoCache = true });
+
+    // Configure build settings.
+    var buildSettings = CreateDefaultBuildSettings(configuration, outputPath, solutionDir);
+    buildSettings.WithProperty("AndroidUseSharedRuntime",  "false" );
+    buildSettings.WithProperty("EmbedAssembliesIntoApk", "true");
+    buildSettings.WithProperty("BundleAssemblies", "true");
+    buildSettings.WithProperty("AotAssemblies", "true");
+    buildSettings.WithProperty("EnableLLVM", "true");
+    buildSettings.WithProperty("AndroidLinkMode", "SdkOnly");
+    buildSettings.WithProperty("AndroidSigningKeyStore", androidSigningKeyStore);
+    buildSettings.WithProperty("AndroidSigningKeyAlias", androidSigningKeyAlias);
+    buildSettings.WithProperty("AndroidSigningStorePass", androidSigningStorePass);
+    buildSettings.WithProperty("AndroidSigningKeyPass", androidSigningKeyPass);         
+    buildSettings.Targets.Clear();
+    buildSettings.WithTarget("SignAndroidPackage");
+    buildSettings.WithProperty("AndroidSupportedAbis", "armeabi-v7a");
+    
+    // Build apk.
+    MSBuild(androidProject, buildSettings);
+
+    // Move apk to output file.
+    var files = GetFiles(androidApkPath);
+    CopyFiles(files, applicationOutput);
+}
+
+public void BuildIosIpa() {
+
+    // Restore NuGet.
+    NuGetRestore(commonProject, new NuGetRestoreSettings { NoCache = true });
+    NuGetRestore(iosProject, new NuGetRestoreSettings { NoCache = true });
+
+    // Configure build settings.
+    var buildSettings = CreateDefaultBuildSettings(configuration, outputPath, solutionDir);
+    buildSettings.WithTarget("Build");
+    buildSettings.WithProperty("Platform", "iPhone");
+    buildSettings.WithProperty("BuildIpa", "true");
+    // buildSettings.WithProperty("ServerAddress", serverAddress)
+    // buildSettings.WithProperty("ServerUser", serverUser)
+    // buildSettings.WithProperty("ServerPassword", serverPassword)
+    buildSettings.WithProperty("TreatWarningsAsErrors", "false");
+
+    // Build ipa.
+    MSBuild(iosProject, buildSettings);
+
+    // Move ipa to output file.
+    var files = GetFiles(iosIpsPath);
+    CopyFiles(files, applicationOutput);
 }
 
 RunTarget(Target);
