@@ -100,15 +100,15 @@ Task("Externals-Android")
 Task("Externals-Apple")
     .Does(() =>
 {
-    // CleanDirectory(AppleExternals);
+    CleanDirectory(AppleExternals);
     var zipFile = System.IO.Path.Combine(AppleExternals, "apple.zip");
 
-    // Download zip file containing AppCenter frameworks
+    // Download zip file containing AppCenter frameworks.
     DownloadFile(AppleUrl, zipFile);
 
+    // Unzip.
     StartProcess("unzip", new ProcessSettings{ Arguments = $"-o {zipFile} -d {AppleExternals}" });
 
-    // Unzip(zipFile, AppleExternals);
     var iosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/iOS");
     var macosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/macOS");
 
@@ -116,7 +116,7 @@ Task("Externals-Apple")
     var iosExternals = System.IO.Path.Combine(AppleExternals, "ios");
     CleanDirectory(iosExternals);
 
-    // Copy the AppCenter binaries directly from the frameworks and add the ".a" extension
+    // Copy the AppCenter binaries directly from the frameworks and add the ".a" extension.s
     var files = GetFiles($"{iosFrameworksLocation}/*.framework/AppCenter*");
     foreach (var file in files)
     {
