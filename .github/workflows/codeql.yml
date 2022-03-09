@@ -45,8 +45,8 @@ jobs:
     #    uses a compiled language 
     
     - run: |
-        echo "Run Externals-iOS"
-        ./build.sh -target="Externals-iOS"
+        echo "Run Externals-Apple"
+        ./build.sh -target="Externals-Apple"
 
     - run: |
         echo "Build App Center For iOS"

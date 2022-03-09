@@ -27,5 +27,5 @@ if [ -e $nugetFileName ]; then
 fi
 echo $contentValue >> $nugetFileName
 ./scripts/update-app-secrets.sh
-./build.sh -t=externals-ios
+./build.sh -t=Externals-Apple
 popd

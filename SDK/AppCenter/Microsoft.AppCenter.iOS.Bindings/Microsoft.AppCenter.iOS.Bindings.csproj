@@ -29,7 +29,7 @@
       <CustomCommands>
         <Command>
           <type>BeforeBuild</type>
-          <command>sh build.sh -t=externals-ios</command>
+          <command>sh build.sh -t=Externals-Apple</command>
           <workingdir>${SolutionDir}</workingdir>
         </Command>
         <Command>
@@ -52,7 +52,7 @@
       <CustomCommands>
         <Command>
           <type>BeforeBuild</type>
-          <command>sh build.sh -t=externals-ios</command>
+          <command>sh build.sh -t=Externals-Apple</command>
           <workingdir>${SolutionDir}</workingdir>
         </Command>
         <Command>
