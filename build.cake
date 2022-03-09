@@ -98,6 +98,7 @@ Task("Externals-Android")
 
 // Downloading iOS binaries.
 Task("Externals-Apple")
+    .WithCriteria(() => IsRunningOnUnix())
     .Does(() =>
 {
     CleanDirectory(AppleExternals);
