@@ -15,7 +15,6 @@ jobs:
     strategy:
       fail-fast: false
 
-    # CodeQL runs on ubuntu-latest, windows-latest, and macos-latest
     runs-on: macos-latest
 
     steps:
@@ -64,8 +63,7 @@ jobs:
     strategy:
       fail-fast: false
 
-    # CodeQL runs on ubuntu-latest, windows-latest, and macos-latest
-    runs-on: windows-latest
+    runs-on: windows-2019
 
     steps:
     - name: Checkout repository
