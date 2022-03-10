@@ -108,7 +108,7 @@ Task("Externals-Apple")
     DownloadFile(AppleUrl, zipFile);
 
     // Unzip.
-    StartProcess("unzip", new ProcessSettings{ Arguments = $"-o {zipFile} -d {AppleExternals}" });
+    StartProcess("unzip", new ProcessSettings{ Arguments = $"{zipFile} -d {AppleExternals}" });
 
     var iosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/iOS");
     var macosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/macOS");
