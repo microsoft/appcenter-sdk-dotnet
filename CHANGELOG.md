@@ -8,6 +8,14 @@
 
 * **[Feature]**  Add support target framework `net5.0-windows10.0.17763.0` or higher for non-WinUI applications.
 
+### App Center Crashes
+
+#### UWP
+
+* **[Fix]** Fix crash when use `Crashes.TrackError` API where exception has frames with empty native images.
+
+___
+
 ## Version 4.5.0
 
 ### App Center
