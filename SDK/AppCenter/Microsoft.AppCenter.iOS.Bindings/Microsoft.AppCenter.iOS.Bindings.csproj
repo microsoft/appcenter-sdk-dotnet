@@ -34,7 +34,7 @@
         </Command>
         <Command>
           <type>AfterClean</type>
-          <command>rm -rf externals/ios</command>
+          <command>rm -rf externals/apple</command>
           <workingdir>${SolutionDir}</workingdir>
         </Command>
       </CustomCommands>
@@ -57,7 +57,7 @@
         </Command>
         <Command>
           <type>AfterClean</type>
-          <command>rm -rf externals/ios</command>
+          <command>rm -rf externals/apple</command>
           <workingdir>${SolutionDir}</workingdir>
         </Command>
       </CustomCommands>

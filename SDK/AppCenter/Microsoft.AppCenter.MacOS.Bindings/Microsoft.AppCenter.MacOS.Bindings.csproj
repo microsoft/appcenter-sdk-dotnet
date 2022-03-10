@@ -31,12 +31,12 @@
       <CustomCommands>
         <Command>
           <type>BeforeBuild</type>
-          <command>sh build.sh -t-external-macos</command>
+          <command>sh build.sh -t-Externals-Apple</command>
           <workingdir>${SolutionDir}</workingdir>
         </Command>
         <Command>
           <type>AfterClean</type>
-          <command>rm -rf external/macos</command>
+          <command>rm -rf external/apple</command>
           <workingdir>${SolutionDir}</workingdir>
         </Command>
       </CustomCommands>
@@ -53,12 +53,12 @@
       <CustomCommands>
         <Command>
           <type>BeforeBuild</type>
-          <command>sh build.sh -t-external-macos</command>
+          <command>sh build.sh -t-Externals-Apple</command>
           <workingdir>${SolutionDir}</workingdir>
         </Command>
         <Command>
           <type>AfterClean</type>
-          <command>rm -rf external/macos</command>
+          <command>rm -rf external/apple</command>
           <workingdir>${SolutionDir}</workingdir>
         </Command>
       </CustomCommands>
