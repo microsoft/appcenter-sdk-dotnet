@@ -108,7 +108,19 @@ Task("Externals-Apple")
     DownloadFile(AppleUrl, zipFile);
 
     // Unzip.
-    StartProcess("unzip", new ProcessSettings{ Arguments = $"{zipFile} -d {AppleExternals}" });
+    // StartProcess("unzipr", new ProcessSettings{ Arguments = $"{zipFile} -d {AppleExternals}" });
+    using(var process = StartAndReturnProcess("unzip",
+        new ProcessSettings { Arguments =new ProcessArgumentBuilder()
+            .Append(zipFile)
+            .Append("-d")
+            .Append(AppleExternals)
+        }))
+    {
+        process.WaitForExit();
+        // This should output 0 as valid arguments supplied
+        Information($"Exit code: {process.GetExitCode()}");
+        Information($"error: {process.GetStandardError()}, output: {process.GetStandardError()}");
+    }
 
     var iosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/iOS");
     var macosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/macOS");
