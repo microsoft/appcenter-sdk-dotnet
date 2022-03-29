@@ -55,7 +55,7 @@
         </ProjectReference>
     </ItemGroup>
     <ItemGroup>
-        <NativeReference Include="..\..\..\externals\ios\AppCenterCrashes.a">
+        <NativeReference Include="..\..\..\externals\apple\ios\AppCenterCrashes.a">
             <Kind>Static</Kind>
             <ForceLoad>True</ForceLoad>
             <Frameworks>

@@ -43,10 +43,12 @@ jobs:
     # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
     #    and modify them (or add more) to build your code if your project
     #    uses a compiled language 
-    
-    - run: |
-        echo "Run Externals-iOS"
-        ./build.sh -target="Externals-iOS"
+
+    steps:
+      - name: Run the Cake script
+        uses: cake-build/cake-action@v1
+        with:
+          target: Externals-Apple
 
     - run: |
         echo "Build App Center For iOS"
