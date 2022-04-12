@@ -38,6 +38,8 @@ namespace Microsoft.AppCenter.Channel
 
         private readonly int _maxLogsPerBatch;
 
+        private readonly Task _pendingLogCountInitTask;
+
         private long _pendingLogCount;
 
         private bool _enabled;
@@ -63,15 +65,7 @@ namespace Microsoft.AppCenter.Channel
             _batchScheduled = false;
             _enabled = true;
             DeviceInformationHelper.InformationInvalidated += (sender, e) => InvalidateDeviceCache();
-            var lockHolder = _mutex.GetLock();
-            Task.Run(() => _storage.CountLogsAsync(Name)).ContinueWith(task =>
-            {
-                if (!task.IsFaulted && !task.IsCanceled)
-                {
-                    _pendingLogCount = task.Result;
-                }
-                lockHolder.Dispose();
-            });
+            _pendingLogCountInitTask = Task.Run(InitializeLogCount);
         }
 
         /// <summary>
@@ -221,6 +215,7 @@ namespace Microsoft.AppCenter.Channel
             try
             {
                 bool enabled;
+                await _pendingLogCountInitTask.ConfigureAwait(false);
                 using (await _mutex.GetLockAsync(state).ConfigureAwait(false))
                 {
                     _pendingLogCount++;
@@ -228,7 +223,7 @@ namespace Microsoft.AppCenter.Channel
                 }
                 if (enabled)
                 {
-                    CheckPendingLogsInternal(state);
+                    await CheckPendingLogsInternal(state).ConfigureAwait(false);
                     return;
                 }
                 AppCenterLog.Warn(AppCenterLog.LogTag, "Channel is temporarily disabled; log was saved to disk");
@@ -259,6 +254,7 @@ namespace Microsoft.AppCenter.Channel
             var state = _mutex.State;
             try
             {
+                await _pendingLogCountInitTask.ConfigureAwait(false);
                 await _storage.DeleteLogs(Name).ConfigureAwait(false);
                 using (await _mutex.GetLockAsync(state).ConfigureAwait(false))
                 {
@@ -280,7 +276,7 @@ namespace Microsoft.AppCenter.Channel
         /// </summary>
         /// <param name="state">Current state.</param>
         /// <param name="needEnableChannel">Value indicating whether channel should be enabled. True by default.</param>
-        private void Resume(State state, bool needEnableChannel = true)
+        private async Task Resume(State state, bool needEnableChannel = true)
         {
             AppCenterLog.Debug(AppCenterLog.LogTag, $"Resume channel: '{Name}'");
             try
@@ -299,7 +295,7 @@ namespace Microsoft.AppCenter.Channel
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, "The resume operation has been canceled");
             }
-            CheckPendingLogsInternal(state);
+            await CheckPendingLogsInternal(state).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -309,7 +305,7 @@ namespace Microsoft.AppCenter.Channel
         /// <param name="deleteLogs">Value indicating whether logs should be enabled or disabled.</param>
         /// <param name="exception">Possible error if unsuccessful.</param>
         /// <param name="needDisableChannel">Value indicating whether channel should be disabled. True by default.</param>
-        private void Suspend(State state, bool deleteLogs, Exception exception, bool needDisableChannel = true)
+        private async Task Suspend(State state, bool deleteLogs, Exception exception, bool needDisableChannel = true)
         {
             AppCenterLog.Debug(AppCenterLog.LogTag, $"Suspend channel: '{Name}'");
             try
@@ -343,6 +339,7 @@ namespace Microsoft.AppCenter.Channel
                 if (deleteLogs)
                 {
                     IList<IServiceCall> calls;
+                    await _pendingLogCountInitTask.ConfigureAwait(false);
                     using (_mutex.GetLock(state))
                     {
                         calls = _calls.ToList();
@@ -355,7 +352,7 @@ namespace Microsoft.AppCenter.Channel
                         call.Cancel();
                     }
                 }
-                _storage.ClearPendingLogState(Name);
+               await _storage.ClearPendingLogState(Name).ConfigureAwait(false);
             }
             catch (StatefulMutexException)
             {
@@ -420,6 +417,7 @@ namespace Microsoft.AppCenter.Channel
 
         private async Task TriggerIngestionAsync(State state)
         {
+            await _pendingLogCountInitTask.ConfigureAwait(false);
             using (await _mutex.GetLockAsync(state).ConfigureAwait(false))
             {
                 if (!_enabled || !_batchScheduled)
@@ -467,7 +465,7 @@ namespace Microsoft.AppCenter.Channel
                         _calls.Add(ingestionCall);
                     }
                     ingestionCall.ContinueWith(call => HandleSendingResult(state, batchId, call));
-                    CheckPendingLogsInternal(state);
+                    await CheckPendingLogsInternal(state).ConfigureAwait(false);
                 }
                 catch (StorageException)
                 {
@@ -476,7 +474,7 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
-        private void HandleSendingResult(State state, string batchId, IServiceCall call)
+        private async Task HandleSendingResult(State state, string batchId, IServiceCall call)
         {
             // Get a lock without checking the state here.
             using (_mutex.GetLock())
@@ -496,6 +494,7 @@ namespace Microsoft.AppCenter.Channel
                     var isRecoverable = call.Exception is IngestionException ingestionException && ingestionException.IsRecoverable;
                     if (isRecoverable)
                     {
+                        await _pendingLogCountInitTask.ConfigureAwait(false);
                         using (_mutex.GetLock(state))
                         {
                             var removedLogs = _sendingBatches[batchId];
@@ -507,11 +506,11 @@ namespace Microsoft.AppCenter.Channel
                     {
                         HandleSendingFailure(state, batchId, call.Exception);
                     }
-                    Suspend(state, !isRecoverable, call.Exception);
+                    await Suspend(state, !isRecoverable, call.Exception).ConfigureAwait(false);
                 }
                 else
                 {
-                    HandleSendingSuccess(state, batchId);
+                    await HandleSendingSuccess(state, batchId).ConfigureAwait(false);
                 }
             }
             catch (StatefulMutexException)
@@ -520,7 +519,7 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
-        private void HandleSendingSuccess(State state, string batchId)
+        private async Task HandleSendingSuccess(State state, string batchId)
         {
             IList<Log> removedLogs;
             using (_mutex.GetLock(state))
@@ -538,13 +537,13 @@ namespace Microsoft.AppCenter.Channel
             }
             try
             {
-                _storage.DeleteLogs(Name, batchId);
+                await _storage.DeleteLogs(Name, batchId).ConfigureAwait(false);
             }
             catch (StorageException e)
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, $"Could not delete logs for batch {batchId}", e);
             }
-            CheckPendingLogsInternal(state);
+            await CheckPendingLogsInternal(state).ConfigureAwait(false);
         }
 
         private void HandleSendingFailure(State state, string batchId, Exception exception)
@@ -573,7 +572,7 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
-        private void CheckPendingLogsInternal(State state)
+        private async Task CheckPendingLogsInternal(State state)
         {
             if (!_enabled)
             {
@@ -585,6 +584,8 @@ namespace Microsoft.AppCenter.Channel
                 AppCenterLog.Info(AppCenterLog.LogTag, "App Center is in offline mode.");
                 return;
             }
+
+            await _pendingLogCountInitTask.ConfigureAwait(false);
             AppCenterLog.Debug(AppCenterLog.LogTag, $"CheckPendingLogsInternal({Name}) pending log count: {_pendingLogCount}");
             using (_mutex.GetLock())
             {
@@ -627,6 +628,18 @@ namespace Microsoft.AppCenter.Channel
             }
         }
 
+        private async Task InitializeLogCount()
+        {
+            try
+            {
+                _pendingLogCount = await _storage.CountLogsAsync(Name).ConfigureAwait(false);
+            }
+            catch (Exception exception)
+            {
+                AppCenterLog.Error(AppCenterLog.LogTag, $"Failed to initialize the log count: {exception.Message}");
+            }
+        }
+
         /// <summary>
         /// Set network request allowed. If true check pending logs, suspend sending logs otherwise.
         /// </summary>
@@ -655,12 +668,9 @@ namespace Microsoft.AppCenter.Channel
         /// Stop all calls in progress and deactivate this channel.
         /// </summary>
         /// <returns>The Task to represent this async operation.</returns>
-        public Task ShutdownAsync()
+        public async Task ShutdownAsync()
         {
-            Suspend(_mutex.State, false, new CancellationException());
-
-            // Nothing to wait on; just suspend and return a task
-            return Task.FromResult(default(object));
+            await Suspend(_mutex.State, false, new CancellationException()).ConfigureAwait(false);
         }
 
         /// <summary>

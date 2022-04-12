@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\..\packages\Xamarin.Forms.5.0.0.2125\build\Xamarin.Forms.props" Condition="Exists('..\..\..\packages\Xamarin.Forms.5.0.0.2125\build\Xamarin.Forms.props')" />
+  <Import Project="..\..\..\packages\Xamarin.Forms.5.0.0.2401\build\Xamarin.Forms.props" Condition="Exists('..\..\..\packages\Xamarin.Forms.5.0.0.2401\build\Xamarin.Forms.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -48,21 +48,26 @@
     <LinkMode>SdkOnly</LinkMode>
     <HttpClientHandler></HttpClientHandler>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <EnvironmentVariables>
+      <Variable name="XAMARIN_FORMS_MACOS_PROD" value="{XAMARIN_FORMS_MACOS_PROD}" />
+    </EnvironmentVariables>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.Mac" />
     <Reference Include="Xamarin.Forms.Core">
-      <HintPath>..\..\..\packages\Xamarin.Forms.5.0.0.2125\lib\Xamarin.Mac\Xamarin.Forms.Core.dll</HintPath>
+      <HintPath>..\..\..\packages\Xamarin.Forms.5.0.0.2401\lib\Xamarin.Mac\Xamarin.Forms.Core.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Platform">
-      <HintPath>..\..\..\packages\Xamarin.Forms.5.0.0.2125\lib\Xamarin.Mac\Xamarin.Forms.Platform.dll</HintPath>
+      <HintPath>..\..\..\packages\Xamarin.Forms.5.0.0.2401\lib\Xamarin.Mac\Xamarin.Forms.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Platform.macOS">
-      <HintPath>..\..\..\packages\Xamarin.Forms.5.0.0.2125\lib\Xamarin.Mac\Xamarin.Forms.Platform.macOS.dll</HintPath>
+      <HintPath>..\..\..\packages\Xamarin.Forms.5.0.0.2401\lib\Xamarin.Mac\Xamarin.Forms.Platform.macOS.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Xaml">
-      <HintPath>..\..\..\packages\Xamarin.Forms.5.0.0.2125\lib\Xamarin.Mac\Xamarin.Forms.Xaml.dll</HintPath>
+      <HintPath>..\..\..\packages\Xamarin.Forms.5.0.0.2401\lib\Xamarin.Mac\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AppCenter">
       <HintPath>..\..\..\packages\Microsoft.AppCenter.4.5.0\lib\Xamarin.Mac\Microsoft.AppCenter.dll</HintPath>
@@ -116,6 +121,7 @@
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="FilePicker.cs" />
+    <Compile Include="AppConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
@@ -127,5 +133,5 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
-  <Import Project="..\..\..\packages\Xamarin.Forms.5.0.0.2125\build\Xamarin.Forms.targets" Condition="Exists('..\..\..\packages\Xamarin.Forms.5.0.0.2125\build\Xamarin.Forms.targets')" />
+  <Import Project="..\..\..\packages\Xamarin.Forms.5.0.0.2401\build\Xamarin.Forms.targets" Condition="Exists('..\..\..\packages\Xamarin.Forms.5.0.0.2401\build\Xamarin.Forms.targets')" />
 </Project>

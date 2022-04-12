@@ -63,6 +63,9 @@
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <Run>am start -e "XAMARIN_FORMS_ANDROID_PROD" "{XAMARIN_FORMS_ANDROID_PROD}" -e "XAMARIN_FORMS_ANDROID_TARGET_TOKEN_PROD" "{XAMARIN_FORMS_ANDROID_TARGET_TOKEN_PROD}" -n "com.microsoft.appcenter.xamarin.forms.demo/Contoso.Forms.Demo.Droid.MainActivity"</Run>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -70,15 +73,15 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'=='GooglePlay' ">
-    <PackageReference Include="Microsoft.AppCenter.DistributePlay" Version="4.5.0" />
+    <PackageReference Include="Microsoft.AppCenter.DistributePlay" Version="4.5.1" />
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'!='GooglePlay' ">
-    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="4.5.0" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="4.5.1" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.0" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.0" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.1" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.1" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />

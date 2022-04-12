@@ -4,6 +4,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -14,7 +15,7 @@ using Windows.ApplicationModel;
 using System.Windows.Forms;
 #endif
 
-#if NET461
+#if NET461 || NET472
 using System.Deployment.Application;
 #endif
 
@@ -27,6 +28,7 @@ namespace Microsoft.AppCenter.Utils
     public class DeviceInformationHelper : AbstractDeviceInformationHelper
     {
         private IManagmentClassFactory _managmentClassFactory;
+        private const string _defaultVersion = "Unknown";
 
         public DeviceInformationHelper()
         {
@@ -182,22 +184,16 @@ namespace Microsoft.AppCenter.Utils
              * If the AssemblyInformationalVersion is not applied to an assembly,
              * the version number specified by the AssemblyFileVersion attribute is used instead.
              */
-#if WINDOWS10_0_17763_0
-            var packageVersion = Package.Current.Id.Version;
-            return $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
-#else
-            return DeploymentVersion ?? Application.ProductVersion;
+            string productVersion = null;
+#if !WINDOWS10_0_17763_0
+            productVersion = Application.ProductVersion;
 #endif
+            return DeploymentVersion ?? productVersion ?? PackageVersion ?? _defaultVersion;
         }
 
         protected override string GetAppBuild()
         {
-#if WINDOWS10_0_17763_0
-            var packageVersion = Package.Current.Id.Version;
-            return $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
-#else
-            return DeploymentVersion ?? FileVersion;
-#endif
+            return DeploymentVersion ?? FileVersion ?? PackageVersion ?? _defaultVersion;
         }
 
         protected override string GetScreenSize()
@@ -213,11 +209,34 @@ namespace Microsoft.AppCenter.Utils
             }
         }
 
+        private static string PackageVersion
+        {
+            get
+            {
+#if WINDOWS10_0_17763_0
+                if (!WpfHelper.IsRunningAsUwp)
+                {
+                    return null;
+                }
+                try
+                {
+                    var packageVersion = Package.Current.Id.Version;
+                    return $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
+                } 
+                catch (InvalidOperationException exception)
+                {
+                    AppCenterLog.Warn(AppCenterLog.LogTag, "Package version is available only in MSIX-packaged applications. See link https://docs.microsoft.com/en-us/windows/apps/desktop/modernize/desktop-to-uwp-supported-api.", exception);
+                }
+#endif
+                return null;
+            }
+        }
+
         private static string DeploymentVersion
         {
             get
             {
-#if NET461
+#if NET461 || NET472
                 // Get ClickOnce version (does not exist on .NET Core). 
                 if (ApplicationDeployment.IsNetworkDeployed)
                 {
@@ -228,11 +247,11 @@ namespace Microsoft.AppCenter.Utils
             }
         }
 
-#if !WINDOWS10_0_17763_0
         private static string FileVersion
         {
             get
             {
+#if !WINDOWS10_0_17763_0
                 // The AssemblyFileVersion uniquely identifies a build.
                 var entryAssembly = Assembly.GetEntryAssembly();
                 if (entryAssembly != null)
@@ -250,9 +269,10 @@ namespace Microsoft.AppCenter.Utils
 
                 // Fallback if entry assembly is not found (in unit tests for example).
                 return Application.ProductVersion;
+#endif
+                return null;
             }
         }
-#endif
 
         /// <summary>
         /// Import GetDeviceCaps function to retreive scale-independent screen size.

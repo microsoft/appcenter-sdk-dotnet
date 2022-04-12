@@ -18,10 +18,10 @@ namespace Microsoft.AppCenter.Utils
         public event EventHandler ApplicationResuming;
         public event EventHandler<UnhandledExceptionOccurredEventArgs> UnhandledExceptionOccurred;
 
-        // True if InvokeResuming has been called at least once during the current process
+        // True if InvokeResuming has been called at least once during the current process.
         private static bool _started;
         
-        // Considered to be suspended until can verify that has started
+        // Considered to be suspended until can verify that the application has started.
         private static bool _suspended = true;
 
         // Singleton instance of ApplicationLifecycleHelper
@@ -30,7 +30,7 @@ namespace Microsoft.AppCenter.Utils
         {
             get { return _instance ?? (_instance = new ApplicationLifecycleHelper()); }
 
-            // Setter for testing
+            // Setter for using in tests.
             internal set { _instance = value; }
         }
 
@@ -62,7 +62,7 @@ namespace Microsoft.AppCenter.Utils
             else
             {
                 // In versions of Windows 10 where the LeavingBackground event is unavailable, we consider this point to be
-                // the start so invoke resuming (and subscribe to future resume events). If InvokeResuming were not called here,
+                // the start so invoke resuming (and subscribe to future resume events). If InvokeResuming was not called here,
                 // the resuming event wouldn't be invoked until the *next* time the application is resumed, which is a problem
                 // if the application is not currently suspended. The side effect is that regardless of whether UI is available
                 // ever in the process, InvokeResuming will be called at least once (in the case where LeavingBackground isn't

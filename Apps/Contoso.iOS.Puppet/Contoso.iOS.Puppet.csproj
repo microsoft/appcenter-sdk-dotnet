@@ -80,6 +80,11 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <EnvironmentVariables>
+      <Variable name="XAMARIN_IOS_INT" value="{XAMARIN_IOS_INT}" />
+    </EnvironmentVariables>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
