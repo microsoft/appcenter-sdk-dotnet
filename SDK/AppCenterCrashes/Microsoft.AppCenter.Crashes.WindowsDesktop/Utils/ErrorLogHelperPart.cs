@@ -29,7 +29,7 @@ namespace Microsoft.AppCenter.Crashes.Utils
                     }
                 }
             }
-            if (exception.InnerException != null)
+            else if (exception.InnerException != null)
             {
                 modelException.InnerExceptions = modelException.InnerExceptions ?? new List<ModelException>();
                 modelException.InnerExceptions.Add(CreateModelExceptionAndBinaries(exception.InnerException).Exception);
