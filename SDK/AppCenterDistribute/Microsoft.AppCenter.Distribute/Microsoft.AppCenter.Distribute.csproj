@@ -2,7 +2,7 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.44">
   <Import Project="..\Microsoft.AppCenter.Distribute.Shared\Microsoft.AppCenter.Distribute.Shared.projitems" Label="Shared" />
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;MonoAndroid70</TargetFrameworks>
+    <TargetFrameworks>netstandard1.0;monoandroid</TargetFrameworks>
     <Optimize>true</Optimize>
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
     <Product>Microsoft.AppCenter.Distribute</Product>
@@ -16,7 +16,10 @@
     <DelaySign>true</DelaySign>
     <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'MonoAndroid70'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'monoandroid'">
+    <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'monoandroid'">
     <AndroidResource Include="Resources\values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
