@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.microsoft.appcenter.xamarin.puppet" android:versionCode="107" android:versionName="4.5.4-SNAPSHOT" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
+	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="31" />
 	<application android:label="SXPuppet" android:icon="@drawable/Icon" android:theme="@style/PuppetTheme">
 	</application>
 </manifest>

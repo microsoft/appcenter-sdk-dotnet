@@ -11,7 +11,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Contoso.Forms.Puppet.Droid</RootNamespace>
     <AssemblyName>Contoso.Forms.Puppet.Droid</AssemblyName>
-    <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
