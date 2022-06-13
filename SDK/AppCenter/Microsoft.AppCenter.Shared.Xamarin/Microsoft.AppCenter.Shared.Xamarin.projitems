@@ -13,5 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)HttpResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IHttpNetworkAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HttpException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppCenterService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IAppCenterService.cs" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#if __IOS__
 using Microsoft.AppCenter.iOS.Bindings;
+#elif __MACOS__
+using Microsoft.AppCenter.MacOS.Bindings;
+#endif
 
 namespace Microsoft.AppCenter
 {

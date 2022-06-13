@@ -5,17 +5,22 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ObjCRuntime;
+#if __IOS__
+using Microsoft.AppCenter.iOS.Bindings;
+#elif __MACOS__
+using Microsoft.AppCenter.MacOS.Bindings;
+#endif
 
 namespace Microsoft.AppCenter
 {
-    using iOSLogLevel = Microsoft.AppCenter.iOS.Bindings.MSACLogLevel;
-    using iOSAppCenter = Microsoft.AppCenter.iOS.Bindings.MSACAppCenter;
-    using iOSWrapperSdk = Microsoft.AppCenter.iOS.Bindings.MSACWrapperSdk;
-
     public partial class AppCenter
     {
         /* The key identifier for parsing app secrets */
+#if __IOS__
         const string PlatformIdentifier = "ios";
+#elif __MACOS__
+        const string PlatformIdentifier = "macos";
+#endif
 
         internal AppCenter()
         {
@@ -25,22 +30,22 @@ namespace Microsoft.AppCenter
         {
             get
             {
-                var val = iOSAppCenter.LogLevel();
+                var val = MSACAppCenter.LogLevel();
                 switch (val)
                 {
-                    case iOSLogLevel.Verbose:
+                    case MSACLogLevel.Verbose:
                         return LogLevel.Verbose;
-                    case iOSLogLevel.Debug:
+                    case MSACLogLevel.Debug:
                         return LogLevel.Debug;
-                    case iOSLogLevel.Info:
+                    case MSACLogLevel.Info:
                         return LogLevel.Info;
-                    case iOSLogLevel.Warning:
+                    case MSACLogLevel.Warning:
                         return LogLevel.Warn;
-                    case iOSLogLevel.Error:
+                    case MSACLogLevel.Error:
                         return LogLevel.Error;
-                    case iOSLogLevel.Assert:
+                    case MSACLogLevel.Assert:
                         return LogLevel.Assert;
-                    case iOSLogLevel.None:
+                    case MSACLogLevel.None:
                         return LogLevel.None;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(val), val, null);
@@ -48,70 +53,70 @@ namespace Microsoft.AppCenter
             }
             set
             {
-                iOSLogLevel loglevel;
+                MSACLogLevel loglevel;
                 switch (value)
                 {
                     case LogLevel.Verbose:
-                        loglevel = iOSLogLevel.Verbose;
+                        loglevel = MSACLogLevel.Verbose;
                         break;
                     case LogLevel.Debug:
-                        loglevel = iOSLogLevel.Debug;
+                        loglevel = MSACLogLevel.Debug;
                         break;
                     case LogLevel.Info:
-                        loglevel = iOSLogLevel.Info;
+                        loglevel = MSACLogLevel.Info;
                         break;
                     case LogLevel.Warn:
-                        loglevel = iOSLogLevel.Warning;
+                        loglevel = MSACLogLevel.Warning;
                         break;
                     case LogLevel.Error:
-                        loglevel = iOSLogLevel.Error;
+                        loglevel = MSACLogLevel.Error;
                         break;
                     case LogLevel.Assert:
-                        loglevel = iOSLogLevel.Assert;
+                        loglevel = MSACLogLevel.Assert;
                         break;
                     case LogLevel.None:
-                        loglevel = iOSLogLevel.None;
+                        loglevel = MSACLogLevel.None;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(value), value, null);
                 }
-                iOSAppCenter.SetLogLevel(loglevel);
+                MSACAppCenter.SetLogLevel(loglevel);
             }
         }
 
         static bool PlatformIsNetworkRequestsAllowed
         {
-            get => iOSAppCenter.IsNetworkRequestsAllowed();
-            set => iOSAppCenter.SetNetworkRequestsAllowed(value);
+            get => MSACAppCenter.IsNetworkRequestsAllowed();
+            set => MSACAppCenter.SetNetworkRequestsAllowed(value);
         }
 
         static void PlatformSetUserId(string userId)
         {
-            iOSAppCenter.SetUserId(userId);
+            MSACAppCenter.SetUserId(userId);
         }
 
         static void PlatformSetLogUrl(string logUrl)
         {
-            iOSAppCenter.SetLogUrl(logUrl);
+            MSACAppCenter.SetLogUrl(logUrl);
         }
 
         static void PlatformSetCountryCode(string countryCode)
         {
-            iOSAppCenter.SetCountryCode(countryCode);
+            MSACAppCenter.SetCountryCode(countryCode);
         }
 
         static bool PlatformConfigured
         {
             get
             {
-                return iOSAppCenter.IsConfigured();
+                return MSACAppCenter.IsConfigured();
             }
         }
 
         static void PlatformConfigure(string appSecret)
         {
             SetWrapperSdk();
-            iOSAppCenter.ConfigureWithAppSecret(appSecret);
+            MSACAppCenter.ConfigureWithAppSecret(appSecret);
         }
 
         static void PlatformStart(params Type[] services)
@@ -119,7 +124,7 @@ namespace Microsoft.AppCenter
             SetWrapperSdk();
             foreach (var service in GetServices(services))
             {
-                iOSAppCenter.StartService(service);
+                MSACAppCenter.StartService(service);
             }
         }
 
@@ -136,23 +141,23 @@ namespace Microsoft.AppCenter
                 AppCenterLog.Assert(AppCenterLog.LogTag, ex.Message);
                 return;
             }
-            iOSAppCenter.Start(parsedSecret, GetServices(services));
+            MSACAppCenter.Start(parsedSecret, GetServices(services));
         }
 
         static Task<bool> PlatformIsEnabledAsync()
         {
-            return Task.FromResult(iOSAppCenter.IsEnabled());
+            return Task.FromResult(MSACAppCenter.IsEnabled());
         }
 
         static Task PlatformSetEnabledAsync(bool enabled)
         {
-            iOSAppCenter.SetEnabled(enabled);
+            MSACAppCenter.SetEnabled(enabled);
             return Task.FromResult(default(object));
         }
 
         static Task<Guid?> PlatformGetInstallIdAsync()
         {
-            Guid? installId = Guid.Parse(iOSAppCenter.InstallId().AsString());
+            Guid? installId = Guid.Parse(MSACAppCenter.InstallId().AsString());
             return Task.FromResult(installId);
         }
 
@@ -191,19 +196,19 @@ namespace Microsoft.AppCenter
 
         static void SetWrapperSdk()
         {
-            iOSWrapperSdk wrapperSdk = new iOSWrapperSdk(WrapperSdk.Version, WrapperSdk.Name, Constants.Version, null, null, null);
-            iOSAppCenter.SetWrapperSdk(wrapperSdk);
+            MSACWrapperSdk wrapperSdk = new MSACWrapperSdk(WrapperSdk.Version, WrapperSdk.Name, Constants.Version, null, null, null);
+            MSACAppCenter.SetWrapperSdk(wrapperSdk);
         }
 
         internal static void PlatformUnsetInstance()
         {
-            iOSAppCenter.ResetSharedInstance();
+            MSACAppCenter.ResetSharedInstance();
         }
 
         static Task<bool> PlatformSetMaxStorageSizeAsync(long sizeInBytes)
         {
             TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
-            iOSAppCenter.SetMaxStorageSize(sizeInBytes, (result) => taskCompletionSource.SetResult(result));
+            MSACAppCenter.SetMaxStorageSize(sizeInBytes, (result) => taskCompletionSource.SetResult(result));
             return taskCompletionSource.Task;
         }
     }

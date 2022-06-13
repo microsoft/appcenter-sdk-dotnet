@@ -57,14 +57,7 @@
     <Reference Include="Xamarin.Mac" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppCenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AppCenterLog.cs" />
-    <Compile Include="Device.cs" />
-    <Compile Include="IAppCenterService.cs" />
-    <Compile Include="AppCenterService.cs" />
-    <Compile Include="DependencyConfiguration.cs" />
-    <Compile Include="MacOSHttpClientAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.AppCenter.MacOS.Bindings\Microsoft.AppCenter.MacOS.Bindings.csproj">
@@ -72,7 +65,8 @@
       <Name>Microsoft.AppCenter.MacOS.Bindings</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\Microsoft.AppCenter.Shared.Xamarin\Microsoft.AppCenter.Shared.Xamarin.projitems" Label="Shared" Condition="Exists('..\Microsoft.AppCenter.Shared.Xamarin\Microsoft.AppCenter.Shared.Xamarin.projitems')" />
-  <Import Project="..\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems" Label="Shared" Condition="Exists('..\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems')" />
+  <Import Project="..\Microsoft.AppCenter.Shared.Apple\Microsoft.AppCenter.Shared.Apple.projitems" Label="Shared" />
+  <Import Project="..\Microsoft.AppCenter.Shared.Xamarin\Microsoft.AppCenter.Shared.Xamarin.projitems" Label="Shared" />
+  <Import Project="..\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>

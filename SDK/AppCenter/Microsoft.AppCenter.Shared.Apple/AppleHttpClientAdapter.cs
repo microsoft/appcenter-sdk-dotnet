@@ -4,17 +4,21 @@
 using System.Collections.Generic;
 using System.Threading;
 using Foundation;
+#if __IOS__
+using Microsoft.AppCenter.iOS.Bindings;
+#elif __MACOS__
 using Microsoft.AppCenter.MacOS.Bindings;
+#endif
 
 namespace Microsoft.AppCenter
 {
-    internal class MacOSHttpClientAdapter : MSACHttpClientProtocol
+    internal class AppleHttpClientAdapter : MSACHttpClientProtocol
     {
         private readonly IHttpNetworkAdapter _httpNetworkAdapter;
 
         private MSACHttpClientDelegate _httpClientDelegate;
 
-        public MacOSHttpClientAdapter(IHttpNetworkAdapter httpNetworkAdapter)
+        public AppleHttpClientAdapter(IHttpNetworkAdapter httpNetworkAdapter)
         {
             _httpNetworkAdapter = httpNetworkAdapter;
         }
