@@ -4,11 +4,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using Foundation;
-#if __IOS__
-using Microsoft.AppCenter.iOS.Bindings;
-#elif __MACOS__
-using Microsoft.AppCenter.MacOS.Bindings;
-#endif
+using Microsoft.AppCenter.Apple.Bindings;
 
 namespace Microsoft.AppCenter
 {

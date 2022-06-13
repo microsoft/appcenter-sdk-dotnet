@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net6.0-ios;net6.0-macos</TargetFrameworks>
+		<IsBindingProject>true</IsBindingProject>
+    <Optimize>true</Optimize>
+    <Copyright>Microsoft Corp. All rights reserved.</Copyright>
+    <Product>Microsoft.AppCenter.Core</Product>
+    <Company>Microsoft Corporation</Company>
+    <Version>4.5.1-SNAPSHOT</Version>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+    <FileVersion>4.5.1.0</FileVersion>
+    <RootNamespace>Microsoft.AppCenter</RootNamespace>
+    <AssemblyName>Microsoft.AppCenter</AssemblyName>
+    <AssemblyTitle>Microsoft.AppCenter.Core</AssemblyTitle>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.xml</DocumentationFile>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>true</DelaySign>
+    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>sh build.sh -t=Externals-Apple</command>
+          <workingdir>${SolutionDir}</workingdir>
+        </Command>
+        <Command>
+          <type>AfterClean</type>
+          <command>rm -rf externals/apple</command>
+          <workingdir>${SolutionDir}</workingdir>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.EndsWith('-ios'))">
+    <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.EndsWith('-macos'))">
+    <SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>sh build.sh -t=Externals-Apple</command>
+          <workingdir>${SolutionDir}</workingdir>
+        </Command>
+        <Command>
+          <type>AfterClean</type>
+          <command>rm -rf externals/apple</command>
+          <workingdir>${SolutionDir}</workingdir>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>sh build.sh -t=Externals-Apple</command>
+          <workingdir>${SolutionDir}</workingdir>
+        </Command>
+        <Command>
+          <type>AfterClean</type>
+          <command>rm -rf externals/apple</command>
+          <workingdir>${SolutionDir}</workingdir>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <ItemGroup>
+    <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
+    <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.EndsWith('-ios'))">
+    <NativeReference Include="..\..\..\externals\apple\ios\AppCenter.a">
+      <Kind>Static</Kind>
+      <ForceLoad>True</ForceLoad>
+      <LinkerFlags>-lsqlite3</LinkerFlags>
+      <Frameworks>CoreTelephony Security SystemConfiguration</Frameworks>
+    </NativeReference>
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.EndsWith('-macos'))">
+    <NativeReference Include="..\..\..\externals\apple\macOS\AppCenter.framework">
+      <Kind>Framework</Kind>
+      <ForceLoad>True</ForceLoad>
+      <LinkerFlags>-lsqlite3</LinkerFlags>
+      <Frameworks>CoreTelephony Security SystemConfiguration</Frameworks>
+    </NativeReference>
+  </ItemGroup>
+  <Import Project="..\Microsoft.AppCenter.Shared.Apple\Microsoft.AppCenter.Shared.Apple.projitems" Label="Shared" />
+  <Import Project="..\Microsoft.AppCenter.Shared.Xamarin\Microsoft.AppCenter.Shared.Xamarin.projitems" Label="Shared" />
+  <Import Project="..\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems" Label="Shared" />
+</Project>

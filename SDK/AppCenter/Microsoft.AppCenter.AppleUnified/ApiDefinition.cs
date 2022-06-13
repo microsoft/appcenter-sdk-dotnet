@@ -5,10 +5,8 @@ using Foundation;
 using ObjCRuntime;
 using System;
 
-namespace Microsoft.AppCenter.iOS.Bindings
+namespace Microsoft.AppCenter.Apple.Bindings
 {
-    interface IMSACService { }
-
     // typedef (void (^)(BOOL))completionHandler();
     delegate void MSACSetLogLevelCompletionHandlerCallback(bool result);
 
@@ -16,7 +14,7 @@ namespace Microsoft.AppCenter.iOS.Bindings
     delegate string MSACLogMessageProvider();
 
     // typedef void (^MSACLogHandler)(MSACLogMessageProvider, MSACLogLevel, const char *, const char *, uint);
-    unsafe delegate void MSACLogHandler(MSACLogMessageProvider arg0, MSACLogLevel arg1, IntPtr arg2, IntPtr arg3, uint arg4);
+    unsafe delegate void MSACLogHandler([CCallback] MSACLogMessageProvider arg0, MSACLogLevel arg1, IntPtr arg2, IntPtr arg3, uint arg4);
     //Note: Objective Sharpie tried to bind the above as:
     //  unsafe delegate void MSACLogHandler(MSACLogMessageProvider arg0, MSACLogLevel arg1, string arg2, sbyte* arg3, sbyte* arg4, uint arg5);
     //But trying to use it as given gave an error.
@@ -261,19 +259,11 @@ namespace Microsoft.AppCenter.iOS.Bindings
     [BaseType(typeof(NSObject))]
     interface MSACService
     {
-        // @required +(BOOL)isEnabled;
-        [Static]
-        [Export("isEnabled")]
-        bool GetEnabled();
-
-        [Static]
-        [Export("setEnabled:")]
-        void SetEnabled(bool val);
     }
 
     // @interface MSACServiceAbstract : NSObject <MSACService>
     [BaseType(typeof(MSACService))]
-    interface MSACServiceAbstract : IMSACService
+    interface MSACServiceAbstract : MSACService
     {
     }
 

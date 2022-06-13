@@ -4,7 +4,7 @@
 using System;
 using ObjCRuntime;
 
-namespace Microsoft.AppCenter.iOS.Bindings
+namespace Microsoft.AppCenter.Apple.Bindings
 {
 	[Native]
 	public enum MSACLogLevel : ulong
