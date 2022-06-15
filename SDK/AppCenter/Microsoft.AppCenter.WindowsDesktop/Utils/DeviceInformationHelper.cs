@@ -81,6 +81,11 @@ namespace Microsoft.AppCenter.Utils
                 AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device model. Make sure that WMI service is enabled.", exception);
                 return string.Empty;
             }
+            catch (PlatformNotSupportedException exception)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device model. Make sure that .NET Framework is up to date.", exception);
+                return string.Empty;
+            }
             return string.Empty;
         }
 
@@ -112,7 +117,12 @@ namespace Microsoft.AppCenter.Utils
             }
             catch (ManagementException exception)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device model. Make sure that WMI service is enabled.", exception);
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OEM name. Make sure that WMI service is enabled.", exception);
+                return string.Empty;
+            }
+            catch (PlatformNotSupportedException exception)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OEM name. Make sure that .NET Framework is up to date.", exception);
                 return string.Empty;
             }
             return string.Empty;
@@ -171,7 +181,12 @@ namespace Microsoft.AppCenter.Utils
             }
             catch (ManagementException exception)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device model. Make sure that WMI service is enabled.", exception);
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OS version. Make sure that WMI service is enabled.", exception);
+                return string.Empty;
+            }
+            catch (PlatformNotSupportedException exception)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OS version. Make sure that .NET Framework is up to date.", exception);
                 return string.Empty;
             }
             return string.Empty;
