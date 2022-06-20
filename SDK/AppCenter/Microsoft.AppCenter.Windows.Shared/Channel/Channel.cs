@@ -133,11 +133,11 @@ namespace Microsoft.AppCenter.Channel
             }
             if (enabled)
             {
-                Resume(state);
+                var _ = Resume(state);
             }
             else
             {
-                Suspend(state, true, new CancellationException());
+                var _ = Suspend(state, true, new CancellationException());
             }
         }
 
@@ -464,7 +464,10 @@ namespace Microsoft.AppCenter.Channel
                     {
                         _calls.Add(ingestionCall);
                     }
-                    ingestionCall.ContinueWith(call => HandleSendingResult(state, batchId, call));
+                    ingestionCall.ContinueWith(call =>
+                    {
+                        var _ = HandleSendingResult(state, batchId, call);
+                    });
                     await CheckPendingLogsInternal(state).ConfigureAwait(false);
                 }
                 catch (StorageException)
@@ -592,7 +595,7 @@ namespace Microsoft.AppCenter.Channel
                 if (_pendingLogCount >= _maxLogsPerBatch)
                 {
                     _batchScheduled = true;
-                    Task.Run(async () =>
+                    var _ = Task.Run(async () =>
                     {
                         try
                         {
@@ -609,7 +612,7 @@ namespace Microsoft.AppCenter.Channel
                     _batchScheduled = true;
 
                     // No need wait _batchTimeInterval here.
-                    Task.Run(async () =>
+                    var _ = Task.Run(async () =>
                     {
                         await Task.Delay((int)_batchTimeInterval.TotalMilliseconds).ConfigureAwait(false);
                         if (_batchScheduled)
@@ -648,11 +651,11 @@ namespace Microsoft.AppCenter.Channel
         {
             if (isAllowed)
             {
-                Resume(_mutex.State, false);
+                var _ = Resume(_mutex.State, false);
             }
             else
             {
-                Suspend(_mutex.State, false, new CancellationException(), false);
+                var _ = Suspend(_mutex.State, false, new CancellationException(), false);
             }
         }
 
@@ -661,7 +664,7 @@ namespace Microsoft.AppCenter.Channel
         /// </summary>
         public void CheckPendingLogs()
         {
-            CheckPendingLogsInternal(_mutex.State);
+            var _ = CheckPendingLogsInternal(_mutex.State);
         }
 
         /// <summary>
