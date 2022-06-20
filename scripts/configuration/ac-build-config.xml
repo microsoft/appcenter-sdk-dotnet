@@ -54,9 +54,9 @@
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.WindowsDesktop/bin/Release/net472/Microsoft.AppCenter.Crashes.dll"/>
     </group>
     <group id="windows_desktop_netcore" folder="WindowsDesktopNetCoreAssemblies" buildGroup="windows">
-        <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/netcoreapp3.0/Microsoft.AppCenter.dll"/>
-        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.WindowsDesktop/bin/Release/netcoreapp3.0/Microsoft.AppCenter.Analytics.dll"/>
-        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.WindowsDesktop/bin/Release/netcoreapp3.0/Microsoft.AppCenter.Crashes.dll"/>
+        <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/netcoreapp3.1/Microsoft.AppCenter.dll"/>
+        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.WindowsDesktop/bin/Release/netcoreapp3.1/Microsoft.AppCenter.Analytics.dll"/>
+        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.WindowsDesktop/bin/Release/netcoreapp3.1/Microsoft.AppCenter.Crashes.dll"/>
     </group>
     <group id="windows_desktop_net_5_windows_winui" folder="WindowsDesktopNet5WindowsWinuiAssemblies" buildGroup="windows">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/net5.0-windows10.0.17763.0/Microsoft.AppCenter.dll"/>

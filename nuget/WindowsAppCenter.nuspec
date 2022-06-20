@@ -28,7 +28,7 @@
         <dependency id="Newtonsoft.Json" version="13.0.1"/>
         <dependency id="SQLitePCLRaw.bundle_green" version="2.1.0" />
       </group>
-      <group targetFramework="netcoreapp3.0">
+      <group targetFramework="netcoreapp3.1">
         <dependency id="Newtonsoft.Json" version="13.0.1"/>
         <dependency id="SQLitePCLRaw.bundle_green" version="2.1.0" />
         <dependency id="System.Management" version="4.6.0"/>
@@ -78,8 +78,8 @@
     <file src="$windows_desktop_net472_dir$/Microsoft.AppCenter.xml" target="lib/net472" />
 
     <!-- WindowsDesktop (WPF and WinForms) for .NET Core -->
-    <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.dll" target="lib/netcoreapp3.0" />
-    <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.xml" target="lib/netcoreapp3.0" />
+    <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.dll" target="lib/netcoreapp3.1" />
+    <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.xml" target="lib/netcoreapp3.1" />
     <file src="$windows_desktop_net_5_windows_dir$/Microsoft.AppCenter.dll" target="lib/net5.0-windows7.0" />
     <file src="$windows_desktop_net_5_windows_dir$/Microsoft.AppCenter.xml" target="lib/net5.0-windows7.0" />
     

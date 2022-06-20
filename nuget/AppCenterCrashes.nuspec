@@ -59,8 +59,8 @@
     <file src="$windows_desktop_net472_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net472" />
 
     <!-- WindowsDesktop (WPF and WinForms) for .NET Core -->
-    <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/netcoreapp3.0" />
-    <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/netcoreapp3.0" />
+    <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/netcoreapp3.1" />
+    <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/netcoreapp3.1" />
     <file src="$windows_desktop_net_5_windows_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net5.0-windows7.0" />
     <file src="$windows_desktop_net_5_windows_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net5.0-windows7.0" />
 

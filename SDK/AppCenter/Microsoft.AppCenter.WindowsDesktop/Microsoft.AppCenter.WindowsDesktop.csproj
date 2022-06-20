@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;net461;net472;net5.0-windows;net5.0-windows10.0.17763.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net461;net472;net5.0-windows;net5.0-windows10.0.17763.0</TargetFrameworks>
     <RootNamespace>Microsoft.AppCenter</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
     <Version>4.5.4-SNAPSHOT</Version>
@@ -20,7 +20,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.0" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
     <PackageReference Include="System.Management" Version="4.6.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
   </ItemGroup>
