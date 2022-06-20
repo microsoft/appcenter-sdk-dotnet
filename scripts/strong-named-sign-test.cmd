@@ -3,15 +3,6 @@
 
 :: This script is used for test-sign or partially signed assemblies with the private key.
 
-:: This script uses the VS140COMNTOOLS environment variable which contains path 
-:: to the Visual Studio Tools. By default, the path should be like this 
-:: "C:\Program Files (x86)\Microsoft Visual Studio [version]\Common7\Tools\" 
-:: and should contain VsDevCmd.bat file.
-
-:: If this VS140COMNTOOLS environment variable doesn't contains this file 
-:: you should replace this path with the right Visual Studio Tools folder 
-:: or some other path containing the VsDevCmd.bat file.  
-
 :: The PATH_TO_PRIVATE_KEY contains path to the private key file.
 
 :: Usage: 
@@ -22,7 +13,8 @@
 setlocal
 set pathToFile=%1
 
-call "%VS140COMNTOOLS%VsDevCmd.bat"
+call "%VSAPPIDDIR%..\Tools\VsDevCmd.bat"
+
 call :testSignAssemble %pathToFile%Microsoft.AppCenter.Crashes.dll
 call :testSignAssemble %pathToFile%Microsoft.AppCenter.Test.Windows.dll
 call :testSignAssemble %pathToFile%Microsoft.AppCenter.Test.WindowsDesktop.dll

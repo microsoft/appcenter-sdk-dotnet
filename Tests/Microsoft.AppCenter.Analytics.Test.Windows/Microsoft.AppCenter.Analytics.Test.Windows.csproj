@@ -38,12 +38,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
     <DelaySign>true</DelaySign>
+    <PostBuildEvent>call $(SolutionDir)scripts\strong-named-sign-test.cmd $(TargetDir)</PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -102,9 +99,6 @@
   <ItemGroup>
     <None Include="..\..\appcenter-public-key.snk" />
   </ItemGroup>
-  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>call $(SolutionDir)scripts\strong-named-sign-test.cmd $(TargetDir)</PostBuildEvent>
-  </PropertyGroup>
 </Project>
