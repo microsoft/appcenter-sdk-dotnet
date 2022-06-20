@@ -33,20 +33,6 @@
     <LinkMode>None</LinkMode>
     <XamMacArch>x86_64</XamMacArch>
     <AOTMode>None</AOTMode>
-    <CustomCommands>
-      <CustomCommands>
-        <Command>
-          <type>BeforeBuild</type>
-          <command>sh build.sh -t=Externals-Apple</command>
-          <workingdir>${SolutionDir}</workingdir>
-        </Command>
-        <Command>
-          <type>AfterClean</type>
-          <command>rm -rf external/apple</command>
-          <workingdir>${SolutionDir}</workingdir>
-        </Command>
-      </CustomCommands>
-    </CustomCommands>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -65,20 +51,6 @@
     <LinkMode>None</LinkMode>
     <XamMacArch>x86_64</XamMacArch>
     <AOTMode>None</AOTMode>
-    <CustomCommands>
-      <CustomCommands>
-        <Command>
-          <type>BeforeBuild</type>
-          <command>sh build.sh -t=Externals-Apple</command>
-          <workingdir>${SolutionDir}</workingdir>
-        </Command>
-        <Command>
-          <type>AfterClean</type>
-          <command>rm -rf external/apple</command>
-          <workingdir>${SolutionDir}</workingdir>
-        </Command>
-      </CustomCommands>
-    </CustomCommands>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
