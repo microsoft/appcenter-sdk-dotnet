@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 // A Build Group contains information on what solutions to build for which platform,
 // and how to do so.
 using Cake.Common.Tools.MSBuild;

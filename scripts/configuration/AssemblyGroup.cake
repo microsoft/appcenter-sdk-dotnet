@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 // An assembly group contains information about which assemblies to be packaged together
 // for each supported platform
 public class AssemblyGroup

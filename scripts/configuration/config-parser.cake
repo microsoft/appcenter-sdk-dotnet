@@ -1,4 +1,5 @@
-#addin "nuget:?package=System.Xml.ReaderWriter"
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 using System.Xml;
 using System.Collections.Generic;
