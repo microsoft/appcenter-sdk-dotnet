@@ -48,12 +48,6 @@
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.iOS.Bindings\Microsoft.AppCenter.iOS.Bindings.csproj">
-      <Project>{5490FECC-63B2-4543-B4FE-EDD8D1BD8351}</Project>
-      <Name>Microsoft.AppCenter.iOS.Bindings</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>

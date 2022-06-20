@@ -49,12 +49,6 @@
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.MacOS.Bindings\Microsoft.AppCenter.MacOS.Bindings.csproj">
-      <Project>{E97116CF-0A1F-41B0-A5A2-A5C4A3464BD4}</Project>
-      <Name>Microsoft.AppCenter.MacOS.Bindings</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <NativeReference Include="..\..\..\externals\apple\macOS\AppCenterCrashes.framework">
       <Kind>Framework</Kind>
       <ForceLoad>True</ForceLoad>

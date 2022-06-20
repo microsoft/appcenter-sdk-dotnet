@@ -58,14 +58,13 @@
     <Compile Include="Distribute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.iOS.Bindings\Microsoft.AppCenter.iOS.Bindings.csproj">
-      <Project>{5490FECC-63B2-4543-B4FE-EDD8D1BD8351}</Project>
-      <Name>Microsoft.AppCenter.iOS.Bindings</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Microsoft.AppCenter.Distribute.iOS.Bindings\Microsoft.AppCenter.Distribute.iOS.Bindings.csproj">
       <Project>{278DFD3C-A0DD-4DD2-97C5-44EC4BEE8462}</Project>
       <Name>Microsoft.AppCenter.Distribute.iOS.Bindings</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Info.plist" />
   </ItemGroup>
   <Import Project="..\Microsoft.AppCenter.Distribute.Shared\Microsoft.AppCenter.Distribute.Shared.projitems" Label="Shared" Condition="Exists('..\Microsoft.AppCenter.Distribute.Shared\Microsoft.AppCenter.Distribute.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

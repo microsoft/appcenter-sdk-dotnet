@@ -21,8 +21,7 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <MtouchLink>
-    </MtouchLink>
+    <MtouchLink>SdkOnly</MtouchLink>
     <MtouchHttpClientHandler>
     </MtouchHttpClientHandler>
     <MtouchTlsProvider>
@@ -36,8 +35,7 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <MtouchLink>
-    </MtouchLink>
+    <MtouchLink>SdkOnly</MtouchLink>
     <MtouchHttpClientHandler>
     </MtouchHttpClientHandler>
     <MtouchTlsProvider>
@@ -69,10 +67,6 @@
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.iOS\Microsoft.AppCenter.iOS.csproj">
       <Project>{B87370CD-AF51-45E0-AA15-3E0ABC0C30A0}</Project>
       <Name>Microsoft.AppCenter.iOS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.iOS.Bindings\Microsoft.AppCenter.iOS.Bindings.csproj">
-      <Project>{5490FECC-63B2-4543-B4FE-EDD8D1BD8351}</Project>
-      <Name>Microsoft.AppCenter.iOS.Bindings</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

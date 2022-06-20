@@ -30,7 +30,7 @@
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <UseSGen>false</UseSGen>
     <HttpClientHandler />
-    <LinkMode />
+    <LinkMode>None</LinkMode>
     <XamMacArch>x86_64</XamMacArch>
     <AOTMode>None</AOTMode>
   </PropertyGroup>
@@ -47,7 +47,7 @@
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <UseSGen>false</UseSGen>
     <HttpClientHandler />
-    <LinkMode />
+    <LinkMode>None</LinkMode>
     <XamMacArch>x86_64</XamMacArch>
     <AOTMode>None</AOTMode>
   </PropertyGroup>
@@ -64,10 +64,6 @@
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.MacOS\Microsoft.AppCenter.MacOS.csproj">
       <Project>{727A9E5A-566A-4DC5-B62B-8F7CA17661B8}</Project>
       <Name>Microsoft.AppCenter.MacOS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.MacOS.Bindings\Microsoft.AppCenter.MacOS.Bindings.csproj">
-      <Project>{E97116CF-0A1F-41B0-A5A2-A5C4A3464BD4}</Project>
-      <Name>Microsoft.AppCenter.MacOS.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.AppCenter.Analytics.MacOS.Bindings\Microsoft.AppCenter.Analytics.MacOS.Bindings.csproj">
       <Project>{D00918DD-BAC4-4AD4-A866-056CBE780AB2}</Project>
