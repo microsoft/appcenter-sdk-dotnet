@@ -5,7 +5,7 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Microsoft.AppCenter.Crashes.MacOS.Bindings;
+using Microsoft.AppCenter.Crashes.Apple.Bindings;
 
 namespace Microsoft.AppCenter.Crashes
 {

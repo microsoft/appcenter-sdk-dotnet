@@ -3,7 +3,7 @@
 
 using System;
 using Foundation;
-using Microsoft.AppCenter.Crashes.iOS.Bindings;
+using Microsoft.AppCenter.Crashes.Apple.Bindings;
 
 namespace Microsoft.AppCenter.Crashes
 {

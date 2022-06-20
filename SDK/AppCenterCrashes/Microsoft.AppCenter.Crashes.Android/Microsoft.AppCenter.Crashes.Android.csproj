@@ -81,7 +81,7 @@
       <Name>Microsoft.AppCenter.Android.Bindings</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\Microsoft.AppCenter.Crashes.Shared.Targets\Microsoft.AppCenter.Crashes.Shared.Targets.projitems" Label="Shared" />
+  <Import Project="..\Microsoft.AppCenter.Crashes.Shared.Xamarin\Microsoft.AppCenter.Crashes.Shared.Xamarin.projitems" Label="Shared" />
   <Import Project="..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

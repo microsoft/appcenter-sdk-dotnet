@@ -33,6 +33,7 @@
     <LinkMode>None</LinkMode>
     <XamMacArch>x86_64</XamMacArch>
     <AOTMode>None</AOTMode>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -50,6 +51,7 @@
     <LinkMode>None</LinkMode>
     <XamMacArch>x86_64</XamMacArch>
     <AOTMode>None</AOTMode>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -57,18 +59,22 @@
     <Reference Include="Xamarin.Mac" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analytics.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Analytics.AppleUnified\Analytics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ObjcBindingApiDefinition Include="..\Microsoft.AppCenter.Analytics.AppleUnified\ApiDefinition.cs">
+      <Link>ApiDefinition.cs</Link>
+    </ObjcBindingApiDefinition>
+    <ObjcBindingCoreSource Include="..\Microsoft.AppCenter.Analytics.AppleUnified\StructsAndEnums.cs">
+      <Link>StructsAndEnums.cs</Link>
+    </ObjcBindingCoreSource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.MacOS\Microsoft.AppCenter.MacOS.csproj">
       <Project>{727A9E5A-566A-4DC5-B62B-8F7CA17661B8}</Project>
       <Name>Microsoft.AppCenter.MacOS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.AppCenter.Analytics.MacOS.Bindings\Microsoft.AppCenter.Analytics.MacOS.Bindings.csproj">
-      <Project>{D00918DD-BAC4-4AD4-A866-056CBE780AB2}</Project>
-      <Name>Microsoft.AppCenter.Analytics.MacOS.Bindings</Name>
-    </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.ObjcBinding.CSharp.targets" />
 </Project>

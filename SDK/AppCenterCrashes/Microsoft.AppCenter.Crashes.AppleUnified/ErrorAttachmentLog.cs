@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using Foundation;
-using Microsoft.AppCenter.Crashes.iOS.Bindings;
+using Microsoft.AppCenter.Crashes.Apple.Bindings;
 
 namespace Microsoft.AppCenter.Crashes
 {
@@ -10,22 +10,22 @@ namespace Microsoft.AppCenter.Crashes
     {
         internal MSACErrorAttachmentLog internalAttachment { get; }
 
-        ErrorAttachmentLog(MSACErrorAttachmentLog iosAttachment)
+        ErrorAttachmentLog(MSACErrorAttachmentLog appleAttachment)
         {
-            internalAttachment = iosAttachment;
+            internalAttachment = appleAttachment;
         }
 
         static ErrorAttachmentLog PlatformAttachmentWithText(string text, string fileName)
         {
-            MSACErrorAttachmentLog iosAttachment = MSACErrorAttachmentLog.AttachmentWithText(text, fileName);
-            return new ErrorAttachmentLog(iosAttachment);
+            MSACErrorAttachmentLog appleAttachment = MSACErrorAttachmentLog.AttachmentWithText(text, fileName);
+            return new ErrorAttachmentLog(appleAttachment);
         }
 
         static ErrorAttachmentLog PlatformAttachmentWithBinary(byte[] data, string filename, string contentType)
         {
             NSData nsdata = NSData.FromArray(data);
-            MSACErrorAttachmentLog iosAttachment = MSACErrorAttachmentLog.AttachmentWithBinaryData(nsdata, filename, contentType);
-            return new ErrorAttachmentLog(iosAttachment);
+            MSACErrorAttachmentLog appleAttachment = MSACErrorAttachmentLog.AttachmentWithBinaryData(nsdata, filename, contentType);
+            return new ErrorAttachmentLog(appleAttachment);
         }
     }
 }

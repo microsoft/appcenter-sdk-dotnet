@@ -25,6 +25,7 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <DocumentationFile>bin\Debug\Microsoft.AppCenter.Analytics.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -37,25 +38,26 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <DocumentationFile>bin\Release\Microsoft.AppCenter.Analytics.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Analytics.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Analytics.AppleUnified\Analytics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.AppCenter.Analytics.iOS.Bindings\Microsoft.AppCenter.Analytics.iOS.Bindings.csproj">
-      <Project>{45EA6818-8759-4E48-BD7A-E240E4D4B0F7}</Project>
-      <Name>Microsoft.AppCenter.Analytics.iOS.Bindings</Name>
-    </ProjectReference>
+    <ObjcBindingApiDefinition Include="..\Microsoft.AppCenter.Analytics.AppleUnified\ApiDefinition.cs">
+      <Link>ApiDefinition.cs</Link>
+    </ObjcBindingApiDefinition>
+    <ObjcBindingCoreSource Include="..\Microsoft.AppCenter.Analytics.AppleUnified\StructsAndEnums.cs">
+      <Link>StructsAndEnums.cs</Link>
+    </ObjcBindingCoreSource>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.iOS\Microsoft.AppCenter.iOS.csproj">
       <Project>{B87370CD-AF51-45E0-AA15-3E0ABC0C30A0}</Project>
       <Name>Microsoft.AppCenter.iOS</Name>
@@ -64,5 +66,5 @@
   <ItemGroup>
     <None Include="Info.plist" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
 </Project>

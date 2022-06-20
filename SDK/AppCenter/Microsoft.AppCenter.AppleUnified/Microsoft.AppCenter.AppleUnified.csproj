@@ -17,6 +17,7 @@
     <SignAssembly>true</SignAssembly>
     <DelaySign>true</DelaySign>
     <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
+    <NoBindingEmbedding>false</NoBindingEmbedding>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.EndsWith('-ios'))">

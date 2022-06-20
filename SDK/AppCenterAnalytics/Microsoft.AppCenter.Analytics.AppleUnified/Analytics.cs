@@ -3,15 +3,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Foundation;
+using Microsoft.AppCenter.Analytics.Apple.Bindings;
 
 namespace Microsoft.AppCenter.Analytics
 {
-    using System.Linq;
-    using System.Threading.Tasks;
-    using iOSAnalytics = iOS.Bindings.MSACAnalytics;
-
     /// <summary>
     /// Analytics feature.
     /// </summary>
@@ -25,10 +24,10 @@ namespace Microsoft.AppCenter.Analytics
         /// Internal SDK property not intended for public use.
         /// </summary>
         /// <value>
-        /// The iOS SDK Analytics bindings type.
+        /// The Apple SDK Analytics bindings type.
         /// </value>
         [Preserve]
-        public static Type BindingType => typeof(iOSAnalytics);
+        public static Type BindingType => typeof(MSACAnalytics);
 
         /// <summary>
         /// Check whether the Analytics service is enabled or not.
@@ -36,7 +35,7 @@ namespace Microsoft.AppCenter.Analytics
         /// <returns>A task with result being true if enabled, false if disabled.</returns>
         public static Task<bool> IsEnabledAsync()
         {
-            return Task.FromResult(iOSAnalytics.IsEnabled());
+            return Task.FromResult(MSACAnalytics.IsEnabled());
         }
 
         /// <summary>
@@ -45,7 +44,7 @@ namespace Microsoft.AppCenter.Analytics
         /// <returns>A task to monitor the operation.</returns>
         public static Task SetEnabledAsync(bool enabled)
         {
-            iOSAnalytics.SetEnabled(enabled);
+            MSACAnalytics.SetEnabled(enabled);
             return Task.FromResult(default(object));
         }
 
@@ -54,7 +53,7 @@ namespace Microsoft.AppCenter.Analytics
         /// </summary>
         internal static void Pause()
         {
-            iOSAnalytics.Pause();
+            MSACAnalytics.Pause();
         }
 
         /// <summary>
@@ -62,7 +61,7 @@ namespace Microsoft.AppCenter.Analytics
         /// </summary>
         internal static void Resume()
         {
-            iOSAnalytics.Resume();
+            MSACAnalytics.Resume();
         }
 
         /// <summary>
@@ -71,8 +70,8 @@ namespace Microsoft.AppCenter.Analytics
         /// </summary>
         //public static bool AutoPageTrackingEnabled
         //{
-        //	get { return iOSAnalytics.IsAutoPageTrackingEnabled(); }
-        //	set { iOSAnalytics.SetAutoPageTrackingEnabled(value); }
+        //	get { return MSACAnalytics.IsAutoPageTrackingEnabled(); }
+        //	set { MSACAnalytics.SetAutoPageTrackingEnabled(value); }
         //}
 
         /// <summary>
@@ -84,10 +83,10 @@ namespace Microsoft.AppCenter.Analytics
         {
             if (properties != null)
             {
-                iOSAnalytics.TrackEvent(name, StringDictToNSDict(properties));
+                MSACAnalytics.TrackEvent(name, StringDictToNSDict(properties));
                 return;
             }
-            iOSAnalytics.TrackEvent(name);
+            MSACAnalytics.TrackEvent(name);
         }
 
         /// <summary>
@@ -95,7 +94,7 @@ namespace Microsoft.AppCenter.Analytics
         /// </summary>
         public static void EnableManualSessionTracker()
         {
-            iOSAnalytics.EnableManualSessionTracker();
+            MSACAnalytics.EnableManualSessionTracker();
         }
 
         /// <summary>
@@ -103,7 +102,7 @@ namespace Microsoft.AppCenter.Analytics
         /// </summary>
         public static void StartSession()
         {
-            iOSAnalytics.StartSession();
+            MSACAnalytics.StartSession();
         }
 
         ///// <summary>
@@ -115,15 +114,15 @@ namespace Microsoft.AppCenter.Analytics
         //{
         //	if (properties != null)
         //	{
-        //		iOSAnalytics.TrackPage(name, StringDictToNSDict(properties));
+        //		MSACAnalytics.TrackPage(name, StringDictToNSDict(properties));
         //		return;
         //	}
-        //	iOSAnalytics.TrackPage(name);
+        //	MSACAnalytics.TrackPage(name);
         //}
 
         internal static void UnsetInstance()
         {
-            iOSAnalytics.ResetSharedInstance();
+            MSACAnalytics.ResetSharedInstance();
         }
 
         private static NSDictionary StringDictToNSDict(IDictionary<string, string> dict)

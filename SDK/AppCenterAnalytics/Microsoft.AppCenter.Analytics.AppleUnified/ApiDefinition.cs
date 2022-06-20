@@ -3,7 +3,7 @@
 
 using Foundation;
 
-namespace Microsoft.AppCenter.Analytics.iOS.Bindings
+namespace Microsoft.AppCenter.Analytics.Apple.Bindings
 {
     // @interface MSACAnalytics : MSACService
     [BaseType(typeof(NSObject))]

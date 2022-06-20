@@ -4,7 +4,7 @@
 using System;
 using ObjCRuntime;
 
-namespace Microsoft.AppCenter.Distribute.iOS.Bindings
+namespace Microsoft.AppCenter.Distribute.Apple.Bindings
 {
 	[Native]
 	public enum MSACUpdateAction : ulong

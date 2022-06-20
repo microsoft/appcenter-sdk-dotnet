@@ -1,9 +1,12 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using System;
 using Foundation;
 using ObjCRuntime;
-using CoreFoundation;
+using Microsoft.AppCenter.Apple.Bindings;
 
-namespace Microsoft.AppCenter.Crashes.MacOS.Bindings
+namespace Microsoft.AppCenter.Crashes.Apple.Bindings
 {
     // @interface MSACErrorReport : NSObject
     [BaseType(typeof(NSObject))]
@@ -39,7 +42,7 @@ namespace Microsoft.AppCenter.Crashes.MacOS.Bindings
 
         // @property (readonly, nonatomic) MSACDevice * device;
         [Export("device")]
-        Microsoft.AppCenter.MacOS.Bindings.MSACDevice Device { get; }
+        MSACDevice Device { get; }
 
         // @property (readonly, assign, nonatomic) NSUInteger appProcessIdentifier;
         [Export("appProcessIdentifier")]

@@ -3,7 +3,7 @@
 
 using Foundation;
 
-namespace Microsoft.AppCenter.Distribute.iOS.Bindings
+namespace Microsoft.AppCenter.Distribute.Apple.Bindings
 {
     // @interface MSACDistribute : MSACService
     [BaseType(typeof(NSObject))]

@@ -4,15 +4,13 @@
 using System;
 using System.Threading.Tasks;
 using Foundation;
-using Microsoft.AppCenter.Distribute.iOS.Bindings;
+using Microsoft.AppCenter.Distribute.Apple.Bindings;
 
 namespace Microsoft.AppCenter.Distribute
 {
-    using iOSDistribute = iOS.Bindings.MSACDistribute;
-
     public static partial class Distribute
     {
-        static Type _internalBindingType = typeof(iOSDistribute);
+        static Type _internalBindingType = typeof(MSACDistribute);
 
         [Preserve]
         public static Type BindingType
@@ -25,23 +23,23 @@ namespace Microsoft.AppCenter.Distribute
 
         static Task<bool> PlatformIsEnabledAsync()
         {
-            return Task.FromResult(iOSDistribute.IsEnabled());
+            return Task.FromResult(MSACDistribute.IsEnabled());
         }
 
         static Task PlatformSetEnabledAsync(bool enabled)
         {
-            iOSDistribute.SetEnabled(enabled);
+            MSACDistribute.SetEnabled(enabled);
             return Task.FromResult(default(object));
         }
 
         static void PlatformSetInstallUrl(string installUrl)
         {
-            iOSDistribute.SetInstallUrl(installUrl);
+            MSACDistribute.SetInstallUrl(installUrl);
         }
 
         static void PlatformSetApiUrl(string apiUrl)
         {
-            iOSDistribute.SetApiUrl(apiUrl);
+            MSACDistribute.SetApiUrl(apiUrl);
         }
 
         /// <summary>
@@ -51,7 +49,7 @@ namespace Microsoft.AppCenter.Distribute
         /// <param name="url">The url with parameters.</param>
         public static void OpenUrl(NSUrl url)
         {
-            iOSDistribute.OpenUrl(url);
+            MSACDistribute.OpenUrl(url);
         }
 
         /// <summary>
@@ -87,7 +85,7 @@ namespace Microsoft.AppCenter.Distribute
                 if (_delegate == null && _releaseAvailableCallback != null)
                 {
                     _delegate = new Delegate();
-                    iOSDistribute.SetDelegate(_delegate);
+                    MSACDistribute.SetDelegate(_delegate);
                 }
             }
         }
@@ -100,7 +98,7 @@ namespace Microsoft.AppCenter.Distribute
                 if (_delegate == null && _willExitAppCallback != null)
                 {
                     _delegate = new Delegate();
-                    iOSDistribute.SetDelegate(_delegate);
+                    MSACDistribute.SetDelegate(_delegate);
                 }
             }
         }
@@ -113,7 +111,7 @@ namespace Microsoft.AppCenter.Distribute
                 if (_delegate == null && _noReleaseAvailableCallback != null)
                 {
                     _delegate = new Delegate();
-                    iOSDistribute.SetDelegate(_delegate);
+                    MSACDistribute.SetDelegate(_delegate);
                 }
             }
         }
@@ -123,11 +121,11 @@ namespace Microsoft.AppCenter.Distribute
             switch (updateAction)
             {
                 case UpdateAction.Update:
-                    iOSDistribute.NotifyUpdateAction(MSACUpdateAction.Update);
+                    MSACDistribute.NotifyUpdateAction(MSACUpdateAction.Update);
                     break;
 
                 case UpdateAction.Postpone:
-                    iOSDistribute.NotifyUpdateAction(MSACUpdateAction.Postpone);
+                    MSACDistribute.NotifyUpdateAction(MSACUpdateAction.Postpone);
                     break;
             }
         }
@@ -135,33 +133,33 @@ namespace Microsoft.AppCenter.Distribute
         static void SetUpdateTrack(UpdateTrack updateTrack)
         {
             var updateTrackValue = (int)updateTrack;
-            iOSDistribute.SetUpdateTrack((MSACUpdateTrack)updateTrackValue);
+            MSACDistribute.SetUpdateTrack((MSACUpdateTrack)updateTrackValue);
         }
 
         static UpdateTrack GetUpdateTrack()
         {
-            var updateTrackValue = (int)iOSDistribute.GetUpdateTrack();
+            var updateTrackValue = (int)MSACDistribute.GetUpdateTrack();
             return (UpdateTrack)updateTrackValue;
         }
 
         static void PlatformCheckForUpdate()
         {
-            iOSDistribute.CheckForUpdate();
+            MSACDistribute.CheckForUpdate();
         }
 
         static void PlatformDisableAutomaticCheckForUpdate()
         {
-            iOSDistribute.DisableAutomaticCheckForUpdate();
+            MSACDistribute.DisableAutomaticCheckForUpdate();
         }
 
         private static void PlatformUnsetInstance()
         {
-            iOSDistribute.ResetSharedInstance();
+            MSACDistribute.ResetSharedInstance();
         }
 
         public class Delegate : MSACDistributeDelegate
         {
-            public override bool OnReleaseAvailable(iOSDistribute distribute, MSACReleaseDetails details)
+            public override bool OnReleaseAvailable(MSACDistribute distribute, MSACReleaseDetails details)
             {
                 if (_releaseAvailableCallback != null)
                 {
@@ -184,7 +182,7 @@ namespace Microsoft.AppCenter.Distribute
                 return false;
             }
 
-            public override void WillExitApp(iOSDistribute distribute)
+            public override void WillExitApp(MSACDistribute distribute)
             {
                 _willExitAppCallback?.Invoke();
             }
