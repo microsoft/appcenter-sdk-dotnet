@@ -12,6 +12,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
     <DelaySign>true</DelaySign>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <Import Project="..\Microsoft.AppCenter.Windows.Shared\Microsoft.AppCenter.Windows.Shared.projitems" Label="Shared" />
   <Import Project="..\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems" Label="Shared" />

@@ -15,9 +15,9 @@ namespace Microsoft.AppCenter.Crashes
     public partial class Crashes
     {
         /// <summary>
-        /// Log tag used by the Crashes component.
+        /// Log tag used by the Crashes service.
         /// </summary>
-        public const string LogTag = "AppCenterCrashes";
+        internal const string LogTag = AppCenterLog.LogTag + nameof(Crashes);
 
         /// <summary>
         /// Occurs when an error report is about to be sent.

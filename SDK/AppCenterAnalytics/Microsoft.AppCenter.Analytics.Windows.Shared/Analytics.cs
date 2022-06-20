@@ -17,6 +17,11 @@ namespace Microsoft.AppCenter.Analytics
     {
         #region static
 
+        /// <summary>
+        /// Log tag used by the Analytics service.
+        /// </summary>
+        internal const string LogTag = AppCenterLog.LogTag + nameof(Analytics);
+
         private const int MaxEventNameLength = 256;
 
         private static readonly object AnalyticsLock = new object();
@@ -105,7 +110,7 @@ namespace Microsoft.AppCenter.Analytics
             {
                 if (Instance.Channel != null)
                 {
-                    AppCenterLog.Error(Instance.LogTag, "The manual session tracker should be installed before the App Center start.");
+                    AppCenterLog.Error(LogTag, "The manual session tracker should be installed before the App Center start.");
                     return;
                 }
                 if (Instance._sessionTracker == null)
@@ -125,7 +130,7 @@ namespace Microsoft.AppCenter.Analytics
             lock (AnalyticsLock)
             {
                 if (Instance._sessionTracker == null) {
-                    AppCenterLog.Error(Instance.LogTag, "Start session should be called after the Analytics start.");
+                    AppCenterLog.Error(LogTag, "Start session should be called after the Analytics start.");
                     return;
                 }
                 Instance._sessionTracker.StartSession();
