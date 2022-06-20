@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
+<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
   <PropertyGroup>
     <ProjectGuid>{200073BF-FA7E-42AF-8ED5-AA50BE7C0295}</ProjectGuid>
     <TargetFrameworks>uap10.0.16299;net461</TargetFrameworks>

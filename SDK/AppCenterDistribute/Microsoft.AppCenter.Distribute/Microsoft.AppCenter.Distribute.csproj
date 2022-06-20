@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
+<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
   <Import Project="..\Microsoft.AppCenter.Distribute.Shared\Microsoft.AppCenter.Distribute.Shared.projitems" Label="Shared" />
   <PropertyGroup>
     <TargetFrameworks>netstandard1.0;MonoAndroid70</TargetFrameworks>
