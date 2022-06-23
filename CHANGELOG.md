@@ -2,6 +2,12 @@
 
 ## Version 4.5.2 (Under development)
 
+### App Center
+
+#### Windows
+
+* **[Fix]** Fix crash when retrieving device info on early Windows versions.
+
 ___
 
 ## Version 4.5.1
