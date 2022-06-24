@@ -22,8 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchHttpClientHandler>
-    </MtouchHttpClientHandler>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>
     </MtouchTlsProvider>
     <DocumentationFile>bin\Debug\Microsoft.AppCenter.Crashes.xml</DocumentationFile>
@@ -37,8 +36,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchHttpClientHandler>
-    </MtouchHttpClientHandler>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>
     </MtouchTlsProvider>
     <DocumentationFile>bin\Release\Microsoft.AppCenter.Crashes.xml</DocumentationFile>

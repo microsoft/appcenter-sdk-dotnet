@@ -4,7 +4,8 @@
 using System;
 using ObjCRuntime;
 
-namespace Microsoft.AppCenter.Crashes.Apple.Bindings {
+namespace Microsoft.AppCenter.Crashes.Apple.Bindings
+{
 	[Native]
 	public enum MSACErrorLogSetting : ulong
 	{

@@ -58,6 +58,12 @@
     </ObjcBindingCoreSource>
   </ItemGroup>
   <ItemGroup>
+    <NativeReference Include="..\..\..\externals\apple\ios\AppCenterAnalytics.a">
+      <Kind>Static</Kind>
+      <ForceLoad>True</ForceLoad>
+    </NativeReference>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.iOS\Microsoft.AppCenter.iOS.csproj">
       <Project>{B87370CD-AF51-45E0-AA15-3E0ABC0C30A0}</Project>
       <Name>Microsoft.AppCenter.iOS</Name>
