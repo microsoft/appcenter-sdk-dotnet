@@ -30,7 +30,6 @@ namespace Microsoft.AppCenter.Utils
         // Need to ensure delegate is not collected while we're using it,
         // storing it in a class field is simplest way to do this.
         private static WinEventDelegate hookDelegate = new WinEventDelegate(WinEventHook);
-        private static bool suspended = false;
         private static bool started = false;
         private static Action Minimize;
         private static Action Restore;
@@ -52,14 +51,14 @@ namespace Microsoft.AppCenter.Utils
                 started = true;
                 Start?.Invoke();
             }
-            if (suspended && anyNotMinimized)
+            if (_suspended && anyNotMinimized)
             {
-                suspended = false;
+                _suspended = false;
                 Restore?.Invoke();
             }
-            else if (!suspended && !anyNotMinimized)
+            else if (!_suspended && !anyNotMinimized)
             {
-                suspended = true;
+                _suspended = true;
                 Minimize?.Invoke();
             }
         }
@@ -80,6 +79,7 @@ namespace Microsoft.AppCenter.Utils
                     .GetField("Minimized")
                     .GetRawConstantValue();
             }
+            _suspended = false;
 
             var hook = SetWinEventHook(EVENT_SYSTEM_MINIMIZESTART, EVENT_SYSTEM_MINIMIZEEND, IntPtr.Zero, hookDelegate, (uint)Process.GetCurrentProcess().Id, 0, WINEVENT_OUTOFCONTEXT);
             Application.ApplicationExit += delegate { UnhookWinEvent(hook); };
