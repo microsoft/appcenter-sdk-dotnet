@@ -79,6 +79,8 @@ namespace Microsoft.AppCenter.Utils
                     .GetField("Minimized")
                     .GetRawConstantValue();
             }
+
+            // Change the state after we started the application to activate the sessionTracker.Resume
             _suspended = false;
 
             var hook = SetWinEventHook(EVENT_SYSTEM_MINIMIZESTART, EVENT_SYSTEM_MINIMIZEEND, IntPtr.Zero, hookDelegate, (uint)Process.GetCurrentProcess().Id, 0, WINEVENT_OUTOFCONTEXT);
