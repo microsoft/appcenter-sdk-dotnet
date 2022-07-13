@@ -11,6 +11,7 @@
 #### WPF
 
 * **[Fix]** Fix logic in which the `startSession` log was not sent.
+
 ___
 
 ## Version 4.5.1
