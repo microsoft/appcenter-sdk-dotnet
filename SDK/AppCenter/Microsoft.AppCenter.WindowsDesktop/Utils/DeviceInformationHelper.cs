@@ -4,15 +4,12 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
-
+using System.Windows.Forms;
 #if WINDOWS10_0_17763_0
 using Windows.ApplicationModel;
-#else
-using System.Windows.Forms;
 #endif
 
 #if NET461 || NET472
@@ -199,11 +196,7 @@ namespace Microsoft.AppCenter.Utils
              * If the AssemblyInformationalVersion is not applied to an assembly,
              * the version number specified by the AssemblyFileVersion attribute is used instead.
              */
-            string productVersion = null;
-#if !WINDOWS10_0_17763_0
-            productVersion = Application.ProductVersion;
-#endif
-            return DeploymentVersion ?? productVersion ?? PackageVersion ?? _defaultVersion;
+            return DeploymentVersion ?? PackageVersion ?? Application.ProductVersion ?? _defaultVersion;
         }
 
         protected override string GetAppBuild()
