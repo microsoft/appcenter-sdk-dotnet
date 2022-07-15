@@ -7,6 +7,7 @@
 #### Windows
 
 * **[Fix]** Fix crash when retrieving device info on early Windows versions.
+* **[Fix]** Update vulnerable version of `SQLitePCLRaw.bundle_green` dependency.
 
 ___
 
