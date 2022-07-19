@@ -10,7 +10,7 @@
 
 #### WPF
 
-* **[Fix]** Fix version reporting for non-WinUI applications when target framework is `net5.0-windows10.0.17763.0` or higher..
+* **[Fix]** Fix version reporting for non-WinUI applications when target framework is `net5.0-windows10.0.17763.0` or higher.
 
 ___
 
