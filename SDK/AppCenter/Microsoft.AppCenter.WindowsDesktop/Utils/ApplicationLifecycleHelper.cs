@@ -13,10 +13,19 @@ namespace Microsoft.AppCenter
         // Considered to be suspended until can verify that the application has started.
         protected static bool _suspended = true;
 
+        // Is defined as `false` until the application is minimized and restored.
+        protected static bool _started = false;
+
         /// <summary>
         /// Indicates whether the application is currently in a suspended state. 
         /// </summary>
         public bool IsSuspended => _suspended;
+
+        /// <summary>
+        /// Indicates whether the application displays the active window.
+        /// </summary>
+        public bool HasShownWindow => _started;
+
 
         public event EventHandler ApplicationSuspended;
         public event EventHandler ApplicationResuming;

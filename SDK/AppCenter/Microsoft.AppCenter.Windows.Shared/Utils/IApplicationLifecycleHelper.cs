@@ -16,6 +16,11 @@ namespace Microsoft.AppCenter.Utils
         bool IsSuspended { get; }
 
         /// <summary>
+        /// Indicates whether the application displays the active window
+        /// </summary>
+        bool HasShownWindow { get; }
+
+        /// <summary>
         /// Occurs when the application has just been suspended
         /// </summary>
         event EventHandler ApplicationSuspended;

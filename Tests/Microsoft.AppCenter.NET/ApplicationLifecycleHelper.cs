@@ -16,6 +16,8 @@ namespace Microsoft.AppCenter.Utils
         }
         public bool IsSuspended { get; private set; }
 
+        public bool HasShownWindow { get; private set; }
+
         // Internal for testing
         internal void InvokeSuspended()
         {

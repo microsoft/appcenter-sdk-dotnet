@@ -30,7 +30,6 @@ namespace Microsoft.AppCenter.Utils
         // Need to ensure delegate is not collected while we're using it,
         // storing it in a class field is simplest way to do this.
         private static WinEventDelegate hookDelegate = new WinEventDelegate(WinEventHook);
-        private static bool started = false;
         private static Action Minimize;
         private static Action Restore;
         private static Action Start;
@@ -46,9 +45,9 @@ namespace Microsoft.AppCenter.Utils
 
             var anyNotMinimized = IsAnyWindowNotMinimized();
 
-            if (!started && anyNotMinimized)
+            if (!_started && anyNotMinimized)
             {
-                started = true;
+                _started = true;
                 Start?.Invoke();
             }
             if (_suspended && anyNotMinimized)
@@ -80,7 +79,9 @@ namespace Microsoft.AppCenter.Utils
                     .GetRawConstantValue();
             }
 
-            // Change the state after we started the application to activate the sessionTracker.Resume
+            // The change of the state of the flag in this place occurs at the start of the app
+            // The `winEventHook` method does not handle the first entry into the app
+            // so it must happen after initialization
             _suspended = false;
 
             var hook = SetWinEventHook(EVENT_SYSTEM_MINIMIZESTART, EVENT_SYSTEM_MINIMIZEEND, IntPtr.Zero, hookDelegate, (uint)Process.GetCurrentProcess().Id, 0, WINEVENT_OUTOFCONTEXT);
@@ -108,8 +109,6 @@ namespace Microsoft.AppCenter.Utils
         }
 
         #endregion
-
-        public bool HasShownWindow => started;
 
         public ApplicationLifecycleHelperDesktop()
         {
