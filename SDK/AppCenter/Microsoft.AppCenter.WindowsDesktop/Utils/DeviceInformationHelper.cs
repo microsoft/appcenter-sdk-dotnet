@@ -190,19 +190,10 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetAppVersion()
         {
-            string productVersion = null;
-            try
-            {
-                productVersion = GetWinFormsAppVersion();
-            }
-            catch(Exception exception)
-            {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get product version with error: ", exception);
-            }
-            return DeploymentVersion ?? PackageVersion ?? productVersion ?? _defaultVersion;
+            return DeploymentVersion ?? PackageVersion ?? TryToGetWinFormsAppVersion() ?? _defaultVersion;
         }
 
-        private string GetWinFormsAppVersion()
+        private static string GetWinFormsAppVersion()
         {
             /*
              * Application.ProductVersion returns the value from AssemblyInformationalVersion.
@@ -210,6 +201,19 @@ namespace Microsoft.AppCenter.Utils
              * the version number specified by the AssemblyFileVersion attribute is used instead.
              */
             return System.Windows.Forms.Application.ProductVersion;
+        }
+
+        private static string TryToGetWinFormsAppVersion()
+        {
+            try
+            {
+                return GetWinFormsAppVersion();
+            }
+            catch (Exception exception)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get product version with error: ", exception);
+                return null;
+            }
         }
 
         protected override string GetAppBuild()
@@ -289,9 +293,10 @@ namespace Microsoft.AppCenter.Utils
                 }
 
                 // Fallback if entry assembly is not found (in unit tests for example).
-                return Application.ProductVersion;
-#endif
+                return TryToGetWinFormsAppVersion();
+#else
                 return null;
+#endif
             }
         }
 
