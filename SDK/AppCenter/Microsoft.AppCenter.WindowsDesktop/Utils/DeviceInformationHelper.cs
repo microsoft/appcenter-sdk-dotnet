@@ -196,7 +196,16 @@ namespace Microsoft.AppCenter.Utils
              * If the AssemblyInformationalVersion is not applied to an assembly,
              * the version number specified by the AssemblyFileVersion attribute is used instead.
              */
-            return DeploymentVersion ?? PackageVersion ?? Application.ProductVersion ?? _defaultVersion;
+            string productVersion = null;
+            try
+            {
+                productVersion = Application.ProductVersion;
+            }
+            catch(Exception exception)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get product version with error: ", exception);
+            }
+            return DeploymentVersion ?? PackageVersion ?? productVersion ?? _defaultVersion;
         }
 
         protected override string GetAppBuild()
