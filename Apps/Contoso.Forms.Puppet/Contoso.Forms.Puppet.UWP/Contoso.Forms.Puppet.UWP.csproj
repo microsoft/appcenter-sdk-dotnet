@@ -124,7 +124,7 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.0.2" />
+    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

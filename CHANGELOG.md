@@ -7,6 +7,8 @@
 #### Windows
 
 * **[Fix]** Fix crash when retrieving device info on early Windows versions.
+* **[Fix]** Update vulnerable version of `SQLitePCLRaw.bundle_green` dependency.
+* **[Fix]** Fix version reporting for non-WinUI applications when target framework is `net5.0-windows10.0.17763.0` or higher.
 * **[Fix]** Fix `4.5.1` regression of auto session tracking.
 
 ___
