@@ -7,7 +7,6 @@ using System.Drawing;
 using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 #if WINDOWS10_0_17763_0
 using Windows.ApplicationModel;
 #endif
@@ -191,21 +190,26 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetAppVersion()
         {
-            /*
-             * Application.ProductVersion returns the value from AssemblyInformationalVersion.
-             * If the AssemblyInformationalVersion is not applied to an assembly,
-             * the version number specified by the AssemblyFileVersion attribute is used instead.
-             */
             string productVersion = null;
             try
             {
-                productVersion = Application.ProductVersion;
+                productVersion = GetWinFormsAppVersion();
             }
             catch(Exception exception)
             {
                 AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get product version with error: ", exception);
             }
             return DeploymentVersion ?? PackageVersion ?? productVersion ?? _defaultVersion;
+        }
+
+        private string GetWinFormsAppVersion()
+        {
+            /*
+             * Application.ProductVersion returns the value from AssemblyInformationalVersion.
+             * If the AssemblyInformationalVersion is not applied to an assembly,
+             * the version number specified by the AssemblyFileVersion attribute is used instead.
+             */
+            return System.Windows.Forms.Application.ProductVersion;
         }
 
         protected override string GetAppBuild()
