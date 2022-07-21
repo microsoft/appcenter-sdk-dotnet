@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#if WINDOWS10_0_17763_0
 using System;
 using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-#if WINDOWS10_0_17763_0
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.UI.Core;
-#endif
 
 namespace Microsoft.AppCenter.Utils
 {
@@ -18,8 +17,6 @@ namespace Microsoft.AppCenter.Utils
     {
         public ApplicationLifecycleHelperWinUI()
         {
-
-#if WINDOWS10_0_17763_0
 
             // Subscribe to Resuming and Suspending events.
             CoreApplication.Suspending += delegate { InvokeSuspended(); };
@@ -31,13 +28,7 @@ namespace Microsoft.AppCenter.Utils
 
                 // If the application has anything visible, then it has already started,
                 // so invoke the resuming event immediately.
-                HasStartedAndNeedsResume().ContinueWith(completedTask =>
-                {
-                    if (completedTask.Result)
-                    {
-                        InvokeResuming();
-                    }
-                });
+                InvokeResuming();
             }
             else
             {
@@ -70,48 +61,6 @@ namespace Microsoft.AppCenter.Utils
                     ExceptionDispatchInfo.Capture(exception).Throw();
                 }
             };
-#endif
-        }
-
-        // Determines whether the application has started already and is not suspended, 
-        // but ApplicationLifecycleHelper has not yet fired an initial "resume" event.
-        private static async Task<bool> HasStartedAndNeedsResume()
-        {
-            var needsResume = false;
-            try
-            {
-#if WINDOWS10_0_17763_0
-
-                // Don't use CurrentSynchronizationContext as that seems to cause an error in Unity applications.
-                var asyncAction = CoreApplication.MainView?.CoreWindow?.Dispatcher.RunAsync(
-                    CoreDispatcherPriority.Normal, () =>
-                    {
-
-                        // If started already, a resume has already occurred.
-                        if (_started)
-                        {
-                            return;
-                        }
-                        if (CoreApplication.Views.Any(view => view.CoreWindow != null && view.CoreWindow.Visible))
-                        {
-                            needsResume = true;
-                        }
-                    });
-                if (asyncAction != null)
-                {
-                    await asyncAction;
-                }
-#endif
-            }
-            catch (Exception e) when (e is COMException || e is InvalidOperationException)
-            {
-
-                // If MainView can't be accessed, a COMException or InvalidOperationException is thrown. It means that the
-                // MainView hasn't been created, and thus the UI hasn't appeared yet.
-                AppCenterLog.Debug(AppCenterLog.LogTag,
-                    "Not invoking resume immediately because UI is not ready.");
-            }
-            return needsResume;
         }
 
         internal void InvokeUnhandledExceptionOccurred(object sender, Exception exception)
@@ -120,3 +69,4 @@ namespace Microsoft.AppCenter.Utils
         }
     }
 }
+#endif

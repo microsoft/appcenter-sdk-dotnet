@@ -31,12 +31,14 @@ namespace Microsoft.AppCenter
             {
                 if (_instance == null)
                 {
+#if WINDOWS10_0_17763_0
                     if (WpfHelper.IsRunningAsUwp)
                     {
                         _instance = new ApplicationLifecycleHelperWinUI();
                         AppCenterLog.Debug(AppCenterLog.LogTag, "Use lifecycle for WinUI applications.");
                     }
                     else
+#endif
                     {
                         _instance = new ApplicationLifecycleHelperDesktop();
                         AppCenterLog.Debug(AppCenterLog.LogTag, "Use lifecycle for desktop applications.");
