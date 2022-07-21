@@ -9,6 +9,10 @@
 * **[Fix]** Fix crash when retrieving device info on early Windows versions.
 * **[Fix]** Update vulnerable version of `SQLitePCLRaw.bundle_green` dependency.
 
+#### WPF
+
+* **[Fix]** Fix version reporting for non-WinUI applications when target framework is `net5.0-windows10.0.17763.0` or higher.
+
 ___
 
 ## Version 4.5.1
