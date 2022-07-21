@@ -30,9 +30,6 @@ namespace Microsoft.AppCenter.Utils
         // Need to ensure delegate is not collected while we're using it,
         // storing it in a class field is simplest way to do this.
         private static WinEventDelegate hookDelegate = new WinEventDelegate(WinEventHook);
-        private static Action Minimize;
-        private static Action Restore;
-        private static Action Start;
         private static readonly dynamic WpfApplication;
         private static readonly int WpfMinimizedState;
         private static void WinEventHook(IntPtr winEventHookHandle, uint eventType, IntPtr windowHandle, int objectId, int childId, uint eventThreadId, uint eventTimeInMilliseconds)
@@ -43,22 +40,13 @@ namespace Microsoft.AppCenter.Utils
                 return;
             }
 
-            var anyNotMinimized = IsAnyWindowNotMinimized();
-
-            if (!_started && anyNotMinimized)
+            if(IsAnyWindowNotMinimized())
             {
-                _started = true;
-                Start?.Invoke();
+                InvokeResuming();
             }
-            if (_suspended && anyNotMinimized)
+            else
             {
-                _suspended = false;
-                Restore?.Invoke();
-            }
-            else if (!_suspended && !anyNotMinimized)
-            {
-                _suspended = true;
-                Minimize?.Invoke();
+                InvokeSuspended();
             }
         }
 
@@ -112,55 +100,10 @@ namespace Microsoft.AppCenter.Utils
 
         public ApplicationLifecycleHelperDesktop()
         {
-            Enabled = true;
             AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) =>
             {
                base.InvokeUnhandledExceptionOccurred(sender, new UnhandledExceptionOccurredEventArgs((Exception)eventArgs.ExceptionObject));
             };
-        }
-
-        private void InvokeResuming()
-        {
-            base.InvokeResuming(null, EventArgs.Empty);
-        }
-
-        private void InvokeStarted()
-        {
-            base.InvokeStarted(null, EventArgs.Empty);
-        }
-
-        private void InvokeSuspended()
-        {
-            base.InvokeSuspended(null, EventArgs.Empty);
-        }
-
-        private bool enabled;
-        public bool Enabled
-        {
-            get
-            {
-                return enabled;
-            }
-            set
-            {
-                if (value == enabled)
-                {
-                    return;
-                }
-                if (value)
-                {
-                    Start = InvokeStarted;
-                    Restore = InvokeResuming;
-                    Minimize = InvokeSuspended;
-                }
-                else
-                {
-                    Start = null;
-                    Restore = null;
-                    Minimize = null;
-                }
-                enabled = value;
-            }
         }
 
         private static Rectangle WindowsRectToRectangle(dynamic windowsRect)

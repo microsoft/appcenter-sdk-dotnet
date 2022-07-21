@@ -21,14 +21,8 @@ namespace Microsoft.AppCenter
         /// </summary>
         public bool IsSuspended => _suspended;
 
-        /// <summary>
-        /// Indicates whether the application displays the active window.
-        /// </summary>
-        public bool HasShownWindow => _started;
-
         public event EventHandler ApplicationSuspended;
         public event EventHandler ApplicationResuming;
-        public event EventHandler ApplicationStarted;
         public event EventHandler<UnhandledExceptionOccurredEventArgs> UnhandledExceptionOccurred;
 
         public static IApplicationLifecycleHelper Instance
@@ -55,19 +49,35 @@ namespace Microsoft.AppCenter
             internal set { _instance = value; }
         }
 
-        protected void InvokeResuming(object sender, EventArgs args)
+        protected static void InvokeResuming()
         {
-            ApplicationResuming?.Invoke(sender, args);
+            _started = true;
+            if (_suspended)
+            {
+                _suspended = false;
+                var instance = _instance as ApplicationLifecycleHelper;
+                instance?._InvokeResuming();
+            }
         }
 
-        protected void InvokeStarted(object sender, EventArgs args)
+        private void _InvokeResuming()
         {
-            ApplicationStarted?.Invoke(sender, args);
+            ApplicationResuming?.Invoke(this, EventArgs.Empty);
         }
 
-        protected void InvokeSuspended(object sender, EventArgs args)
+        protected static void InvokeSuspended()
         {
-            ApplicationSuspended?.Invoke(sender, args);
+            if (!_suspended)
+            {
+                _suspended = true;
+                var instance = _instance as ApplicationLifecycleHelper;
+                instance?._InvokeSuspended();
+            }
+        }
+
+        private void _InvokeSuspended()
+        {
+            ApplicationSuspended?.Invoke(this, EventArgs.Empty);
         }
 
         protected void InvokeUnhandledExceptionOccurred(object sender, UnhandledExceptionOccurredEventArgs args)

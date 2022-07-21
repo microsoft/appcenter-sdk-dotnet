@@ -39,11 +39,6 @@ namespace Microsoft.AppCenter.Utils
         /// </summary>
         public bool IsSuspended => _suspended;
 
-        /// <summary>
-        /// Indicates whether the application displays the active window. 
-        /// </summary>
-        public bool HasShownWindow => _started;
-
         public ApplicationLifecycleHelper()
         {
             // Subscribe to Resuming and Suspending events.

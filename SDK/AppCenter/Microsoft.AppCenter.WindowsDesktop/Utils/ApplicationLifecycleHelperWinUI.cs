@@ -16,22 +16,18 @@ namespace Microsoft.AppCenter.Utils
 {
     public class ApplicationLifecycleHelperWinUI: ApplicationLifecycleHelper
     {
-
-        // True if InvokeResuming has been called at least once during the current process.
-        private static bool _started;
-
         public ApplicationLifecycleHelperWinUI()
         {
 
 #if WINDOWS10_0_17763_0
 
             // Subscribe to Resuming and Suspending events.
-            CoreApplication.Suspending += InvokeSuspended;
+            CoreApplication.Suspending += delegate { InvokeSuspended(); };
 
             // If the "LeavingBackground" event is present, use that for Resuming. Else, use CoreApplication.Resuming.
             if (ApiInformation.IsEventPresent(typeof(CoreApplication).FullName, "LeavingBackground"))
             {
-                CoreApplication.LeavingBackground += InvokeResuming;
+                CoreApplication.LeavingBackground += delegate { InvokeResuming(); };
 
                 // If the application has anything visible, then it has already started,
                 // so invoke the resuming event immediately.
@@ -39,7 +35,7 @@ namespace Microsoft.AppCenter.Utils
                 {
                     if (completedTask.Result)
                     {
-                        InvokeResuming(null, EventArgs.Empty);
+                        InvokeResuming();
                     }
                 });
             }
@@ -52,8 +48,8 @@ namespace Microsoft.AppCenter.Utils
                 // if the application is not currently suspended. The side effect is that regardless of whether UI is available
                 // ever in the process, InvokeResuming will be called at least once (in the case where LeavingBackground isn't
                 // available).
-                CoreApplication.Resuming += InvokeResuming;
-                InvokeResuming(null, EventArgs.Empty);
+                CoreApplication.Resuming += delegate { InvokeResuming(); };
+                InvokeResuming();
             }
 
             // Subscribe to unhandled errors events.
@@ -121,19 +117,6 @@ namespace Microsoft.AppCenter.Utils
         internal void InvokeUnhandledExceptionOccurred(object sender, Exception exception)
         {
             base.InvokeUnhandledExceptionOccurred(sender, new UnhandledExceptionOccurredEventArgs(exception));
-        }
-
-        private void InvokeResuming(object sender, object e)
-        {
-            _started = true;
-            _suspended = false;
-            base.InvokeResuming(sender, EventArgs.Empty);
-        }
-
-        private void InvokeSuspended(object sender, object e)
-        {
-            _suspended = true;
-            base.InvokeSuspended(sender, EventArgs.Empty);
         }
     }
 }
