@@ -4,15 +4,11 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
-
 #if WINDOWS10_0_17763_0
 using Windows.ApplicationModel;
-#else
-using System.Windows.Forms;
 #endif
 
 #if NET461 || NET472
@@ -81,6 +77,11 @@ namespace Microsoft.AppCenter.Utils
                 AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device model. Make sure that WMI service is enabled.", exception);
                 return string.Empty;
             }
+            catch (PlatformNotSupportedException exception)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device model. Make sure that .NET Framework is up to date.", exception);
+                return string.Empty;
+            }
             return string.Empty;
         }
 
@@ -112,7 +113,12 @@ namespace Microsoft.AppCenter.Utils
             }
             catch (ManagementException exception)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device model. Make sure that WMI service is enabled.", exception);
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OEM name. Make sure that WMI service is enabled.", exception);
+                return string.Empty;
+            }
+            catch (PlatformNotSupportedException exception)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OEM name. Make sure that .NET Framework is up to date.", exception);
                 return string.Empty;
             }
             return string.Empty;
@@ -171,7 +177,12 @@ namespace Microsoft.AppCenter.Utils
             }
             catch (ManagementException exception)
             {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device model. Make sure that WMI service is enabled.", exception);
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OS version. Make sure that WMI service is enabled.", exception);
+                return string.Empty;
+            }
+            catch (PlatformNotSupportedException exception)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get device OS version. Make sure that .NET Framework is up to date.", exception);
                 return string.Empty;
             }
             return string.Empty;
@@ -179,16 +190,30 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetAppVersion()
         {
+            return DeploymentVersion ?? PackageVersion ?? TryToGetWinFormsAppVersion() ?? _defaultVersion;
+        }
+
+        private static string GetWinFormsAppVersion()
+        {
             /*
              * Application.ProductVersion returns the value from AssemblyInformationalVersion.
              * If the AssemblyInformationalVersion is not applied to an assembly,
              * the version number specified by the AssemblyFileVersion attribute is used instead.
              */
-            string productVersion = null;
-#if !WINDOWS10_0_17763_0
-            productVersion = Application.ProductVersion;
-#endif
-            return DeploymentVersion ?? productVersion ?? PackageVersion ?? _defaultVersion;
+            return System.Windows.Forms.Application.ProductVersion;
+        }
+
+        private static string TryToGetWinFormsAppVersion()
+        {
+            try
+            {
+                return GetWinFormsAppVersion();
+            }
+            catch (Exception exception)
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get product version with error: ", exception);
+                return null;
+            }
         }
 
         protected override string GetAppBuild()
@@ -268,9 +293,10 @@ namespace Microsoft.AppCenter.Utils
                 }
 
                 // Fallback if entry assembly is not found (in unit tests for example).
-                return Application.ProductVersion;
-#endif
+                return TryToGetWinFormsAppVersion();
+#else
                 return null;
+#endif
             }
         }
 

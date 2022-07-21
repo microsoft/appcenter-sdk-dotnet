@@ -1,5 +1,42 @@
 # App Center SDK for .NET Change Log
 
+## Version 4.5.2
+
+### App Center
+
+#### Android
+
+* **[Fix]** Fix crash when storage is encrypted during direct boot. Please note that settings and pending logs database are not shared between regular and device-protected storage.
+
+#### Windows
+
+* **[Fix]** Fix crash when retrieving device info on early Windows versions.
+* **[Fix]** Update vulnerable version of `SQLitePCLRaw.bundle_green` dependency.
+* **[Fix]** Fix version reporting for non-WinUI applications when target framework is `net5.0-windows10.0.17763.0` or higher.
+* **[Fix]** Fix `4.5.1` regression of auto session tracking.
+* **[Fix]** Fix duplicate inner exception reporting in `AggregateException`.
+
+### App Center Crashes
+
+#### iOS/macOS
+
+* **[Improvement]** Update PLCrashReporter to 1.10.2.
+* **[Fix]** Fix `4.3.0` regression where native exceptions crashes an application even if wrapped into `try`/`catch`.
+
+### App Center Distribute
+
+#### Android
+
+* **[Improvement]** Remove optional `SYSTEM_ALERT_WINDOW` permission that was required to automatically restart the app after installing the update.
+* **[Improvement]** Add fallback to the old [ACTION_INSTALL_PACKAGE](https://developer.android.com/reference/android/content/Intent#ACTION_INSTALL_PACKAGE) installation method if the update cannot be installed by `PackageInstaller` API (e.g. when MIUI optimizations block installation).
+* **[Fix]** Fix possible crash on resume event before initialization.
+* **[Fix]** Fix clicks on the download completion notification.
+* **[Fix]** Fix ANR on installing large packages.
+* **[Fix]** Fix cancellation handling of confirmation dialog for mandatory updates.
+* **[Fix]** Fix strict mode issues.
+
+___
+
 ## Version 4.5.1
 
 ### App Center
@@ -38,7 +75,7 @@ ___
 
 * **[Feature]** Add `AppCenter.setCountryCode(string)` API to set the country code manually.
 
-#### iOS 
+#### iOS
 
 * **[Fix]** Fix throw an exception when checking to authenticate MAC value during decryption.
 
@@ -49,7 +86,7 @@ ___
 
 #### macOS
 
-* **[Feature]** Add support for Xamarin.Mac. 
+* **[Feature]** Add support for Xamarin.Mac.
 
 ### App Center Crashes
 
@@ -59,7 +96,7 @@ ___
 
 #### macOS
 
-* **[Feature]** Add support for Xamarin.Mac. 
+* **[Feature]** Add support for Xamarin.Mac.
 
 ### App Center Distribute
 
