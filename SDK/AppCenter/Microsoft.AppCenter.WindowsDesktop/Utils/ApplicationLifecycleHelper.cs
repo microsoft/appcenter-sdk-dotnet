@@ -26,7 +26,6 @@ namespace Microsoft.AppCenter
         /// </summary>
         public bool HasShownWindow => _started;
 
-
         public event EventHandler ApplicationSuspended;
         public event EventHandler ApplicationResuming;
         public event EventHandler ApplicationStarted;
