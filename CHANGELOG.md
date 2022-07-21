@@ -7,10 +7,7 @@
 #### Windows
 
 * **[Fix]** Fix crash when retrieving device info on early Windows versions.
-
-#### WPF
-
-* **[Fix]** Fix logic in which the `startSession` log was not sent.
+* **[Fix]** Fix `4.5.1` regression of auto session tracking.
 
 ___
 

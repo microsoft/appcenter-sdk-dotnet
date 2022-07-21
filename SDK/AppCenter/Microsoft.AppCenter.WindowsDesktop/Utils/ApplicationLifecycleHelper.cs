@@ -13,7 +13,7 @@ namespace Microsoft.AppCenter
         // Considered to be suspended until can verify that the application has started.
         protected static bool _suspended = true;
 
-        // Is defined as `false` until the application is minimized and restored.
+        // True if InvokeResuming has been called at least once during the current process.
         protected static bool _started = false;
 
         /// <summary>
