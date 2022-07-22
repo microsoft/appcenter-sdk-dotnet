@@ -9,7 +9,7 @@
   <Identity
     Name="1351d609-eaaa-44b8-8752-b6bab406bb98"
     Publisher="CN=Microsoft.AppCenter"
-    Version="4.5.2.0" />
+    Version="4.5.3.0" />
 
   <Properties>
     <DisplayName>Contoso.WinUI.Desktop.Demo (Package)</DisplayName>
