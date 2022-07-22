@@ -5,9 +5,9 @@
     <TargetFrameworks>uap10.0.16299;net461</TargetFrameworks>
     <Company>Microsoft Corporation</Company>
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
-    <Version>4.5.2-SNAPSHOT</Version>
+    <Version>4.5.3-SNAPSHOT</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>4.5.2.0</FileVersion>
+    <FileVersion>4.5.3.0</FileVersion>
     <AssemblyName>Microsoft.AppCenter.Analytics</AssemblyName>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Analytics.xml</DocumentationFile>
     <SignAssembly>true</SignAssembly>
