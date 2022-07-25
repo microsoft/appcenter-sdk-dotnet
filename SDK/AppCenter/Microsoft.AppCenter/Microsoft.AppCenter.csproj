@@ -8,9 +8,9 @@
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
     <Product>Microsoft.AppCenter.Core</Product>
     <Company>Microsoft Corporation</Company>
-    <Version>4.5.3-SNAPSHOT</Version>
+    <Version>4.5.4-SNAPSHOT</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>4.5.3.0</FileVersion>
+    <FileVersion>4.5.4.0</FileVersion>
     <AssemblyTitle>Microsoft.AppCenter.Core</AssemblyTitle>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.xml</DocumentationFile>
     <SignAssembly>true</SignAssembly>

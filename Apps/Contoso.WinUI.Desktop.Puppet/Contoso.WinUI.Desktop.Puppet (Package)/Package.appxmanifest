@@ -9,7 +9,7 @@
   <Identity
     Name="796335c7-b33b-483b-995f-fa87ae20db4f"
     Publisher="CN=Microsoft.AppCenter"
-    Version="4.5.3.0" />
+    Version="4.5.4.0" />
 
   <Properties>
     <DisplayName>Contoso.WinUI.Desktop.Puppet (Package)</DisplayName>
