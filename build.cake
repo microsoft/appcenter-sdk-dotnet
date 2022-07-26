@@ -55,7 +55,7 @@ Task("Build")
     .Does(() =>
 {
     var platformId = IsRunningOnUnix() ? "mac" : "windows";
-    var buildGroups = BuildGroup.ReadBuildGroups();
+    var buildGroups = BuildGroup.ReadBuildGroups(platformId);
     foreach (var buildGroup in buildGroups)
     {
         buildGroup.ExecuteBuilds();
@@ -91,7 +91,8 @@ Task("Externals-Android")
     CleanDirectory(AndroidExternals);
 
     // Download zip file.
-    DownloadFile(AndroidUrl, zipFile);
+    using (VerboseVerbosity())
+        DownloadFile(AndroidUrl, zipFile);
     Unzip(zipFile, AndroidExternals);
 
     // Move binaries to externals/android so that linked files don't have versions
@@ -113,7 +114,8 @@ Task("Externals-Apple")
     CleanDirectory(AppleExternals);
 
     // Download zip file.
-    DownloadFile(AppleUrl, zipFile);
+    using (VerboseVerbosity())
+        DownloadFile(AppleUrl, zipFile);
     using(var process = StartAndReturnProcess("unzip",
         new ProcessSettings
         {

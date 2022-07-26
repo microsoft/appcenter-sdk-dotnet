@@ -53,4 +53,5 @@
   <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.AppleUnified\Microsoft.AppCenter.AppleUnified.csproj" />
   </ItemGroup>
+  <Import Project="..\Microsoft.AppCenter.Distribute.Shared\Microsoft.AppCenter.Distribute.Shared.projitems" Label="Shared" />
 </Project>

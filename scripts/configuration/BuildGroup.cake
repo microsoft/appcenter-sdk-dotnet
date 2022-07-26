@@ -23,7 +23,6 @@ public class BuildGroup
 
         public override void Build(string solutionPath)
         {
-            Statics.Context.NuGetRestore(solutionPath);
             Statics.Context.MSBuild(solutionPath, settings => {
                 if (ToolVersion != null)
                 {
@@ -39,7 +38,6 @@ public class BuildGroup
     {
         public override void Build(string solutionPath)
         {
-            Statics.Context.DotNetRestore(solutionPath);
             var settings = new DotNetCoreBuildSettings
             {
                 Configuration = Configuration,
@@ -48,7 +46,7 @@ public class BuildGroup
         }
     }
 
-    public static IList<BuildGroup> ReadBuildGroups()
+    public static IList<BuildGroup> ReadBuildGroups(string platformId)
     {
         XmlReader reader = ConfigFile.CreateReader();
         IList<BuildGroup> groups = new List<BuildGroup>();
@@ -58,6 +56,10 @@ public class BuildGroup
             {
                 XmlDocument buildGroup = new XmlDocument();
                 var node = buildGroup.ReadNode(reader);
+                if (node.Attributes.GetNamedItem("platformId").Value != platformId)
+                {
+                    continue;
+                }
                 groups.Add(new BuildGroup(node));
             }
         }
@@ -80,6 +82,14 @@ public class BuildGroup
 
     public void ExecuteBuilds()
     {
+        if (_solutionPath.EndsWith(".slnf"))
+        {
+            Statics.Context.DotNetRestore(_solutionPath);
+        }
+        else
+        {
+            Statics.Context.NuGetRestore(_solutionPath);
+        }
         foreach (var builders in _builders)
         {
             builders.Build(_solutionPath);

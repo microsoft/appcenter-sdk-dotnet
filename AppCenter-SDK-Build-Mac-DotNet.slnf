@@ -2,13 +2,9 @@
   "solution": {
     "path": "AppCenter-Mac.sln",
     "projects": [
-      "SDK\\AppCenter\\Microsoft.AppCenter\\Microsoft.AppCenter.csproj",
       "SDK\\AppCenter\\Microsoft.AppCenter.AppleUnified\\Microsoft.AppCenter.AppleUnified.csproj",
-      "SDK\\AppCenterAnalytics\\Microsoft.AppCenter.Analytics\\Microsoft.AppCenter.Analytics.csproj",
       "SDK\\AppCenterAnalytics\\Microsoft.AppCenter.Analytics.AppleUnified\\Microsoft.AppCenter.Analytics.AppleUnified.csproj",
-      "SDK\\AppCenterCrashes\\Microsoft.AppCenter.Crashes\\Microsoft.AppCenter.Crashes.csproj",
       "SDK\\AppCenterCrashes\\Microsoft.AppCenter.Crashes.AppleUnified\\Microsoft.AppCenter.Crashes.AppleUnified.csproj",
-      "SDK\\AppCenterDistribute\\Microsoft.AppCenter.Distribute\\Microsoft.AppCenter.Distribute.csproj",
       "SDK\\AppCenterDistribute\\Microsoft.AppCenter.Distribute.AppleUnified\\Microsoft.AppCenter.Distribute.AppleUnified.csproj"
     ]
   }
