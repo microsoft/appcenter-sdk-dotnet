@@ -32,10 +32,14 @@
     <!-- iOS -->
     <file src="$ios_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/Xamarin.iOS10" />
     <file src="$ios_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/Xamarin.iOS10" />
+    <file src="$ios_net6_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net6.0-ios" />
+    <file src="$ios_net6_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net6.0-ios" />
 
     <!-- macOS -->
     <file src="$macos_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/Xamarin.Mac" />
     <file src="$macos_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/Xamarin.Mac" />
+    <file src="$macos_net6_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net6.0-macos" />
+    <file src="$macos_net6_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net6.0-macos" />
 
   </files>
 </package>

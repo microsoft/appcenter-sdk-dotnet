@@ -39,10 +39,14 @@
     <!-- iOS -->
     <file src="$ios_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/Xamarin.iOS10" />
     <file src="$ios_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/Xamarin.iOS10" />
+    <file src="$ios_net6_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net6.0-ios" />
+    <file src="$ios_net6_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net6.0-ios" />
 
     <!-- macOS -->
     <file src="$macos_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/Xamarin.Mac" />
     <file src="$macos_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/Xamarin.Mac" />
+    <file src="$macos_net6_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net6.0-macos" />
+    <file src="$macos_net6_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net6.0-macos" />
 
     <!-- UWP -->
     <file src="$uwp_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/uap10.0" />
@@ -59,11 +63,11 @@
     <!-- WindowsDesktop (WPF and WinForms) for .NET Core -->
     <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/netcoreapp3.1" />
     <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/netcoreapp3.1" />
-    <file src="$windows_desktop_net_5_windows_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net5.0-windows7.0" />
-    <file src="$windows_desktop_net_5_windows_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net5.0-windows7.0" />
+    <file src="$windows_desktop_net5_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net5.0-windows7.0" />
+    <file src="$windows_desktop_net5_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net5.0-windows7.0" />
 
     <!-- WinUI -->
-    <file src="$windows_desktop_net_5_windows_winui_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net5.0-windows10.0.17763.0" />
-    <file src="$windows_desktop_net_5_windows_winui_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net5.0-windows10.0.17763.0" />
+    <file src="$windows_desktop_net5_winui_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net5.0-windows10.0.17763.0" />
+    <file src="$windows_desktop_net5_winui_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net5.0-windows10.0.17763.0" />
   </files>
 </package>

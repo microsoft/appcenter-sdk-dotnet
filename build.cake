@@ -55,8 +55,11 @@ Task("Build")
     .Does(() =>
 {
     var platformId = IsRunningOnUnix() ? "mac" : "windows";
-    var buildGroup = new BuildGroup(platformId);
-    buildGroup.ExecuteBuilds();
+    var buildGroups = BuildGroup.ReadBuildGroups();
+    foreach (var buildGroup in buildGroups)
+    {
+        buildGroup.ExecuteBuilds();
+    }
 }).OnError(HandleError);
 
 Task("PrepareAssemblies")

@@ -7,86 +7,103 @@ using Cake.Common.Tools.MSBuild;
 
 public class BuildGroup
 {
-    private string _platformId;
     private string _solutionPath;
-    private IList<BuildConfig> _builds;
+    private IList<Builder> _builders = new List<Builder>();
 
-    private class BuildConfig
+    private abstract class Builder
     {
-        private string _platform { get; set; }
-        private string _configuration { get; set; }
-        private string _toolVersion { get; set; }
+        public string Configuration { get; set; }
 
-        public BuildConfig(string platform, string configuration, string toolVersion)
-        {
-            _platform = platform;
-            _configuration = configuration;
-            _toolVersion = toolVersion;
-        }
+        public abstract void Build(string solutionPath);
+    }
 
-        public void Build(string solutionPath)
+    private class MSBuilder : Builder
+    {
+        public string ToolVersion { get; set; }
+
+        public override void Build(string solutionPath)
         {
+            Statics.Context.NuGetRestore(solutionPath);
             Statics.Context.MSBuild(solutionPath, settings => {
-                if (_toolVersion != null)
+                if (ToolVersion != null)
                 {
-                    Enum.TryParse(_toolVersion, out MSBuildToolVersion msBuildToolVersion);
+                    Enum.TryParse(ToolVersion, out MSBuildToolVersion msBuildToolVersion);
                     settings.ToolVersion = msBuildToolVersion;
                 }
-                if (_platform != null)
-                {
-                    settings.SetConfiguration(_configuration).WithProperty("Platform", _platform);
-                }
-                else
-                {
-                    settings.Configuration = _configuration;
-                }
+                settings.Configuration = Configuration;
             });
         }
     }
 
-    public BuildGroup(string platformId)
+    private class DotNetBuilder : Builder
     {
-        _platformId = platformId;
+        public override void Build(string solutionPath)
+        {
+            Statics.Context.DotNetRestore(solutionPath);
+            var settings = new DotNetCoreBuildSettings
+            {
+                Configuration = Configuration,
+            };
+            Statics.Context.DotNetBuild(solutionPath, settings);
+        }
+    }
 
-        var reader = ConfigFile.CreateReader();
-        _builds = new List<BuildConfig>();
+    public static IList<BuildGroup> ReadBuildGroups()
+    {
+        XmlReader reader = ConfigFile.CreateReader();
+        IList<BuildGroup> groups = new List<BuildGroup>();
         while (reader.Read())
         {
             if (reader.Name == "buildGroup")
             {
-                var buildGroup = new XmlDocument();
+                XmlDocument buildGroup = new XmlDocument();
                 var node = buildGroup.ReadNode(reader);
-                ApplyBuildGroupNode(node);
+                groups.Add(new BuildGroup(node));
+            }
+        }
+        return groups;
+    }
+
+    public BuildGroup(XmlNode node)
+    {
+        _solutionPath = node.Attributes.GetNamedItem("solutionPath").Value;
+        for (int i = 0; i < node.ChildNodes.Count; ++i)
+        {
+            var childNode = node.ChildNodes.Item(i);
+            var builder = CreateBuilder(childNode);
+            if (builder != null)
+            {
+                _builders.Add(builder);
             }
         }
     }
 
     public void ExecuteBuilds()
     {
-        Statics.Context.NuGetRestore(_solutionPath);
-        foreach (var buildConfig in _builds)
+        foreach (var builders in _builders)
         {
-            buildConfig.Build(_solutionPath);
+            builders.Build(_solutionPath);
         }
     }
 
-    private void ApplyBuildGroupNode(XmlNode buildGroup)
+    private Builder CreateBuilder(XmlNode node)
     {
-        if (buildGroup.Attributes.GetNamedItem("platformId").Value != _platformId)
+        if (node.Name == "msBuild")
         {
-            return;
+            var configuration = node.Attributes.GetNamedItem("configuration")?.Value;
+            var toolVersion = node.Attributes.GetNamedItem("toolVersion")?.Value;
+            return new MSBuilder {
+                Configuration = configuration,
+                ToolVersion = toolVersion,
+            };
         }
-        _solutionPath = buildGroup.Attributes.GetNamedItem("solutionPath").Value;
-        for (int i = 0; i < buildGroup.ChildNodes.Count; ++i)
+        else if (node.Name == "dotNetBuild")
         {
-            var childNode = buildGroup.ChildNodes.Item(i);
-            if (childNode.Name == "build")
-            {
-                var platform = childNode.Attributes.GetNamedItem("platform")?.Value;
-                var configuration = childNode.Attributes.GetNamedItem("configuration")?.Value;
-                var toolVersion = childNode.Attributes.GetNamedItem("toolVersion")?.Value;
-                _builds.Add(new BuildConfig(platform, configuration, toolVersion));
-            }
+            var configuration = node.Attributes.GetNamedItem("configuration")?.Value;
+            return new DotNetBuilder {
+                Configuration = configuration,
+            };
         }
+        return null;
     }
 }
