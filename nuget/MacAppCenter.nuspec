@@ -36,14 +36,14 @@
     <!-- iOS -->
     <file src="$ios_dir$/Microsoft.AppCenter.dll" target="lib/Xamarin.iOS10" />
     <file src="$ios_dir$/Microsoft.AppCenter.xml" target="lib/Xamarin.iOS10" />
-    <file src="$ios_net6_dir$/Microsoft.AppCenter.dll" target="lib/net6.0-ios" />
-    <file src="$ios_net6_dir$/Microsoft.AppCenter.xml" target="lib/net6.0-ios" />
+    <file src="$ios_net6_dir$/Microsoft.AppCenter.dll" target="lib/net6.0-ios9.0" />
+    <file src="$ios_net6_dir$/Microsoft.AppCenter.xml" target="lib/net6.0-ios9.0" />
   
     <!-- macOS -->
     <file src="$macos_dir$/Microsoft.AppCenter.dll" target="lib/Xamarin.Mac" />
     <file src="$macos_dir$/Microsoft.AppCenter.xml" target="lib/Xamarin.Mac" />
-    <file src="$macos_net6_dir$/Microsoft.AppCenter.dll" target="lib/net6.0-macos" />
-    <file src="$macos_net6_dir$/Microsoft.AppCenter.xml" target="lib/net6.0-macos" />
+    <file src="$macos_net6_dir$/Microsoft.AppCenter.dll" target="lib/net6.0-macos10.10" />
+    <file src="$macos_net6_dir$/Microsoft.AppCenter.xml" target="lib/net6.0-macos10.10" />
   
   </files>
 </package>
