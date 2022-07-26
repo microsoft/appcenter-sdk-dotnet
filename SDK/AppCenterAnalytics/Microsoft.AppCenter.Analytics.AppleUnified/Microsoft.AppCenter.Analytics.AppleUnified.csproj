@@ -7,9 +7,9 @@
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
     <Product>Microsoft.AppCenter.Analytics</Product>
     <Company>Microsoft Corporation</Company>
-    <Version>4.5.1-SNAPSHOT</Version>
+    <Version>4.5.4-SNAPSHOT</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>4.5.1.0</FileVersion>
+    <FileVersion>4.5.4.0</FileVersion>
     <RootNamespace>Microsoft.AppCenter.Analytics</RootNamespace>
     <AssemblyName>Microsoft.AppCenter.Analytics</AssemblyName>
     <AssemblyTitle>Microsoft.AppCenter.Analytics</AssemblyTitle>
