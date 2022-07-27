@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net6.0-ios;net6.0-macos</TargetFrameworks>
-		<IsBindingProject>true</IsBindingProject>
+    <IsBindingProject>true</IsBindingProject>
     <Optimize>true</Optimize>
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
     <Product>Microsoft.AppCenter.Core</Product>
