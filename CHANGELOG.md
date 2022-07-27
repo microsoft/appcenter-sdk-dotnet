@@ -1,5 +1,15 @@
 # App Center SDK for .NET Change Log
 
+## Version 4.6.0 (Under Development)
+
+### App Center
+
+#### Windows
+
+* **[Breaking change]** .NET Core 3.0 target for WPF and WinForms applications is out of support, it's replaced to 3.1 (LTS).
+
+___
+
 ## Version 4.5.3
 
 ### App Center
