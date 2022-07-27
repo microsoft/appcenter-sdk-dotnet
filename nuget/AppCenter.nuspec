@@ -48,7 +48,7 @@
         <dependency id="DesktopBridge.Helpers" version="1.2.2" />
       </group>
       <!-- Use empty dependency groups for iOS and Android so that additional dependencies aren't added to them -->
-      <group targetFramework="MonoAndroid50">
+      <group targetFramework="MonoAndroid10.0">
       </group>
       <group targetFramework="Xamarin.iOS10">
       </group>
@@ -76,9 +76,9 @@
     <file src="$netstandard_dir$/Microsoft.AppCenter.xml" target="lib/netstandard1.0" />
 
     <!-- Android -->
-    <file src="$android_dir$/Microsoft.AppCenter.dll" target="lib/MonoAndroid50" />
-    <file src="$android_dir$/Microsoft.AppCenter.xml" target="lib/MonoAndroid50" />
-    <file src="$android_dir$/Microsoft.AppCenter.Android.Bindings.dll" target="lib/MonoAndroid50" />
+    <file src="$android_dir$/Microsoft.AppCenter.dll" target="lib/MonoAndroid10.0" />
+    <file src="$android_dir$/Microsoft.AppCenter.xml" target="lib/MonoAndroid10.0" />
+    <file src="$android_dir$/Microsoft.AppCenter.Android.Bindings.dll" target="lib/MonoAndroid10.0" />
 
     <!-- iOS -->
     <file src="$ios_dir$/Microsoft.AppCenter.dll" target="lib/Xamarin.iOS10" />
