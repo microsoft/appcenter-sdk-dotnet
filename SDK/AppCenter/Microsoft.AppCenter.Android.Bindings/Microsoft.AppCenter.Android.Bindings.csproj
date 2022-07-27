@@ -12,7 +12,7 @@
     <RootNamespace>Microsoft.AppCenter.Android.Bindings</RootNamespace>
     <AssemblyName>Microsoft.AppCenter.Android.Bindings</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
     <AndroidClassParser>class-parse</AndroidClassParser>
     <AndroidTlsProvider>
     </AndroidTlsProvider>

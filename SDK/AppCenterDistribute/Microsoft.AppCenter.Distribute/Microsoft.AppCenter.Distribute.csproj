@@ -17,7 +17,7 @@
     <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'monoandroid'">
-    <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'monoandroid'">
     <AndroidResource Include="Resources\values\Strings.xml" />
