@@ -16,7 +16,8 @@ namespace Microsoft.AppCenter
         /// The log tag for this SDK. All logs emitted at the SDK level will contain this tag.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static string LogTag { get; private set; }
+        public const string LogTag = nameof(AppCenter);
+
         private static readonly object LogLock = new object();
         private static volatile LogLevel _level = LogLevel.Assert;
 
@@ -39,7 +40,6 @@ namespace Microsoft.AppCenter
         }
         static AppCenterLog()
         {
-            LogTag = "AppCenter";
             if (Debugger.IsAttached)
             {
                 _level = LogLevel.Warn;

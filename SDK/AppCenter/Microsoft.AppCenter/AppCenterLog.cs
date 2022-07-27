@@ -11,7 +11,7 @@ namespace Microsoft.AppCenter
         /// The log tag for this SDK. All logs emitted at the SDK level will contain this tag.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static string LogTag { get; private set; }
+        public const string LogTag = nameof(AppCenter);
 
         /// <summary>
         /// Writes a log at the <see cref="LogLevel.Verbose"/> level.

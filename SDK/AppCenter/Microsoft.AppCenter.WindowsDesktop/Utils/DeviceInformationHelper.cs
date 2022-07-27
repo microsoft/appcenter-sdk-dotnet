@@ -45,7 +45,7 @@ namespace Microsoft.AppCenter.Utils
             var sdkName = WpfHelper.IsRunningOnWpf ? "appcenter.wpf" : "appcenter.winforms";
 #if WINDOWS10_0_17763_0            
             sdkName = $"{sdkName}.net";
-#elif NETCOREAPP3_0
+#elif NETCOREAPP3_1
             sdkName = $"{sdkName}.netcore";
 #endif
             return sdkName;

@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;net461;net472;net5.0-windows;net5.0-windows10.0.17763.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net461;net472;net5.0-windows;net5.0-windows10.0.17763.0</TargetFrameworks>
     <RootNamespace>Microsoft.AppCenter.Analytics</RootNamespace>
+    <UseWindowsForms>true</UseWindowsForms>
     <Version>4.5.4-SNAPSHOT</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
     <FileVersion>4.5.4.0</FileVersion>
@@ -11,6 +12,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
     <DelaySign>true</DelaySign>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <Import Project="..\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.projitems" Label="Shared" />
   <ItemGroup>

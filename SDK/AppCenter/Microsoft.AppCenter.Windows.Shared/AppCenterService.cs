@@ -45,11 +45,6 @@ namespace Microsoft.AppCenter
         public abstract string ServiceName { get; }
 
         /// <summary>
-        /// Log tag for this service.
-        /// </summary>
-        public virtual string LogTag => AppCenterLog.LogTag + ServiceName;
-
-        /// <summary>
         /// Settings dictionary key for whether this service is enabled.
         /// </summary>
         protected virtual string EnabledPreferenceKey => KeyEnabled + PreferenceKeySeparator + ChannelName;
@@ -88,18 +83,18 @@ namespace Microsoft.AppCenter
                     var enabledString = value ? "enabled" : "disabled";
                     if (value && !AppCenter.IsEnabledAsync().Result)
                     {
-                        AppCenterLog.Error(LogTag,
+                        AppCenterLog.Error(AppCenterLog.LogTag,
                             "The SDK is disabled. Set AppCenter.Enabled to 'true' before enabling a specific service.");
                         return;
                     }
                     if (value == InstanceEnabled)
                     {
-                        AppCenterLog.Info(LogTag, $"{ServiceName} service has already been {enabledString}.");
+                        AppCenterLog.Info(AppCenterLog.LogTag, $"{ServiceName} service has already been {enabledString}.");
                         return;
                     }
                     Channel?.SetEnabled(value);
                     ApplicationSettings.SetValue(EnabledPreferenceKey, value);
-                    AppCenterLog.Info(LogTag, $"{ServiceName} service has been {enabledString}");
+                    AppCenterLog.Info(AppCenterLog.LogTag, $"{ServiceName} service has been {enabledString}");
                 }
             }
         }

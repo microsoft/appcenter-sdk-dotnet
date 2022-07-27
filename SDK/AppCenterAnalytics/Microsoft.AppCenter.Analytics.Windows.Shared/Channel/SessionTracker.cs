@@ -59,15 +59,15 @@ namespace Microsoft.AppCenter.Analytics.Channel
             lock (_lockObject)
             {
                 if (_isManualSessionTrackerEnabled) { 
-                    AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is enabled. Skip tracking a session status request after pause.");
+                    AppCenterLog.Debug(Analytics.LogTag, "Manual session tracker is enabled. Skip tracking a session status request after pause.");
                     return;
                 }
                 if (_currentSessionState == SessionState.Inactive)
                 {
-                    AppCenterLog.Warn(Analytics.Instance.LogTag, "Trying to pause already inactive session.");
+                    AppCenterLog.Warn(Analytics.LogTag, "Trying to pause already inactive session.");
                     return;
                 }
-                AppCenterLog.Debug(Analytics.Instance.LogTag, "SessionTracker.Pause");
+                AppCenterLog.Debug(Analytics.LogTag, "SessionTracker.Pause");
                 _lastPausedTime = TimeHelper.CurrentTimeInMilliseconds();
                 _currentSessionState = SessionState.Inactive;
             }
@@ -79,15 +79,15 @@ namespace Microsoft.AppCenter.Analytics.Channel
             {
                 if (_isManualSessionTrackerEnabled)
                 {
-                    AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is enabled. Skip tracking a session status request after resume.");
+                    AppCenterLog.Debug(Analytics.LogTag, "Manual session tracker is enabled. Skip tracking a session status request after resume.");
                     return;
                 }
                 if (_currentSessionState == SessionState.Active)
                 {
-                    AppCenterLog.Warn(Analytics.Instance.LogTag, "Trying to resume already active session.");
+                    AppCenterLog.Warn(Analytics.LogTag, "Trying to resume already active session.");
                     return;
                 }
-                AppCenterLog.Debug(Analytics.Instance.LogTag, "SessionTracker.Resume");
+                AppCenterLog.Debug(Analytics.LogTag, "SessionTracker.Resume");
                 _lastResumedTime = TimeHelper.CurrentTimeInMilliseconds();
                 _currentSessionState = SessionState.Active;
                 SendStartSessionIfNeeded();
@@ -100,7 +100,7 @@ namespace Microsoft.AppCenter.Analytics.Channel
             {
                 if (_isManualSessionTrackerEnabled)
                 {
-                    AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is enabled. Skip tracking a session status request after stop.");
+                    AppCenterLog.Debug(Analytics.LogTag, "Manual session tracker is enabled. Skip tracking a session status request after stop.");
                     return;
                 }
                 SessionContext.SessionId = null;
@@ -136,7 +136,7 @@ namespace Microsoft.AppCenter.Analytics.Channel
             lock (_lockObject)
             {
                 _isManualSessionTrackerEnabled = true;
-                AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is enabled.");
+                AppCenterLog.Debug(Analytics.LogTag, "Manual session tracker is enabled.");
             }
         }
 
@@ -149,11 +149,11 @@ namespace Microsoft.AppCenter.Analytics.Channel
             {
                 if (!_isManualSessionTrackerEnabled)
                 {
-                    AppCenterLog.Debug(Analytics.Instance.LogTag, "Manual session tracker is disabled. Skip start a new session request.");
+                    AppCenterLog.Debug(Analytics.LogTag, "Manual session tracker is disabled. Skip start a new session request.");
                     return;
                 }
                 SendStartSession();
-                AppCenterLog.Debug(Analytics.Instance.LogTag, $"Started a new session with id: {SessionContext.SessionId}.");
+                AppCenterLog.Debug(Analytics.LogTag, $"Started a new session with id: {SessionContext.SessionId}.");
             }
         }
 
@@ -189,7 +189,7 @@ namespace Microsoft.AppCenter.Analytics.Channel
             }
             var noLogSentForLong = lastQueuedLogTime == 0 || now - lastQueuedLogTime >= SessionTimeout;
             var wasBackgroundForLong = lastResumedTime - Math.Max(lastPausedTime, lastQueuedLogTime) >= SessionTimeout;
-            AppCenterLog.Debug(Analytics.Instance.LogTag, $"noLogSentForLong={noLogSentForLong} " +
+            AppCenterLog.Debug(Analytics.LogTag, $"noLogSentForLong={noLogSentForLong} " +
                                                     $"wasBackgroundForLong={wasBackgroundForLong}");
             return noLogSentForLong && wasBackgroundForLong;
         }
