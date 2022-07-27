@@ -6,7 +6,7 @@
 
 #### Windows
 
-* **[Breaking change]** .NET Core 3.0 target for WPF and WinForms applications is out of support, it's replaced to 3.1 (LTS).
+* **[Breaking change]** .NET Core 3.0 target for WPF and WinForms applications is out of support, it's replaced with 3.1 (LTS).
 
 ___
 
