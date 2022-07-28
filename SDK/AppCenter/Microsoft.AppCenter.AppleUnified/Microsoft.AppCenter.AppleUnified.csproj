@@ -7,9 +7,9 @@
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
     <Product>Microsoft.AppCenter.Core</Product>
     <Company>Microsoft Corporation</Company>
-    <Version>4.5.4-SNAPSHOT</Version>
+    <Version>4.6.0-SNAPSHOT</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>4.5.4.0</FileVersion>
+    <FileVersion>4.6.0.0</FileVersion>
     <RootNamespace>Microsoft.AppCenter</RootNamespace>
     <AssemblyName>Microsoft.AppCenter</AssemblyName>
     <AssemblyTitle>Microsoft.AppCenter.Core</AssemblyTitle>
