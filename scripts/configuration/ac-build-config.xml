@@ -88,6 +88,6 @@
         <msBuild configuration="Release" />
     </buildGroup>
     <buildGroup platformId="windows" solutionPath="AppCenter-SDK-Build-Windows.sln">
-        <msBuild configuration="Release" toolVersion="VS2019" />
+        <msBuild configuration="Release" toolVersion="VS2022" />
     </buildGroup>
 </config>
