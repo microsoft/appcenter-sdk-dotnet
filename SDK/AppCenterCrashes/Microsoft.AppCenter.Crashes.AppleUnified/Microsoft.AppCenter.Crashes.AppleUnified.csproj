@@ -42,12 +42,18 @@
     <NativeReference Include="..\..\..\externals\apple\ios\AppCenterCrashes.a">
       <Kind>Static</Kind>
       <ForceLoad>True</ForceLoad>
+      <LinkerFlags>-lc++</LinkerFlags>
+      <IsCxx>True</IsCxx>
+      <SmartLink>False</SmartLink>
     </NativeReference>
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.EndsWith('-macos'))">
     <NativeReference Include="..\..\..\externals\apple\macOS\AppCenterCrashes.framework">
       <Kind>Framework</Kind>
       <ForceLoad>True</ForceLoad>
+      <LinkerFlags>-lc++</LinkerFlags>
+      <IsCxx>True</IsCxx>
+      <SmartLink>False</SmartLink>
     </NativeReference>
   </ItemGroup>
   <ItemGroup>

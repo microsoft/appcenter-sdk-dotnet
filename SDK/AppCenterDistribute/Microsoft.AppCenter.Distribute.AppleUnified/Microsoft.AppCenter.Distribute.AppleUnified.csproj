@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-ios;net6.0-macos</TargetFrameworks>
+    <TargetFrameworks>net6.0-ios</TargetFrameworks>
     <IsBindingProject>true</IsBindingProject>
     <Optimize>true</Optimize>
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
@@ -23,9 +23,6 @@
   <PropertyGroup Condition="$(TargetFramework.EndsWith('-ios'))">
     <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.EndsWith('-macos'))">
-    <SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
@@ -41,13 +38,9 @@
   <ItemGroup Condition="$(TargetFramework.EndsWith('-ios'))">
     <NativeReference Include="..\..\..\externals\apple\ios\AppCenterDistribute.a">
       <Kind>Static</Kind>
+      <SmartLink>False</SmartLink>
       <ForceLoad>True</ForceLoad>
-    </NativeReference>
-  </ItemGroup>
-  <ItemGroup Condition="$(TargetFramework.EndsWith('-macos'))">
-    <NativeReference Include="..\..\..\externals\apple\macOS\AppCenterDistribute.framework">
-      <Kind>Framework</Kind>
-      <ForceLoad>True</ForceLoad>
+      <WeakFrameworks>SafariServices AuthenticationServices</WeakFrameworks>
     </NativeReference>
   </ItemGroup>
   <ItemGroup>
