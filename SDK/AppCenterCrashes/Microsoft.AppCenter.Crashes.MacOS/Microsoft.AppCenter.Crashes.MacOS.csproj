@@ -14,6 +14,7 @@
     <SignAssembly>true</SignAssembly>
     <DelaySign>true</DelaySign>
     <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,9 +31,10 @@
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <UseSGen>false</UseSGen>
     <HttpClientHandler />
-    <LinkMode />
+    <LinkMode>None</LinkMode>
     <XamMacArch>x86_64</XamMacArch>
     <AOTMode>None</AOTMode>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -47,9 +49,10 @@
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <UseSGen>false</UseSGen>
     <HttpClientHandler />
-    <LinkMode />
+    <LinkMode>None</LinkMode>
     <XamMacArch>x86_64</XamMacArch>
     <AOTMode>None</AOTMode>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -58,27 +61,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ErrorReport.cs" />
-    <Compile Include="ErrorAttachmentLog.cs" />
-    <Compile Include="Crashes.cs" />
-    <Compile Include="CrashesUtils.cs" />
-    <Compile Include="CrashesInitializationDelegate.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.AppleUnified\Crashes.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.AppleUnified\ErrorAttachmentLog.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.AppleUnified\ErrorReport.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.AppleUnified\CrashesUtils.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.AppleUnified\CrashesInitializationDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.AppCenter.Crashes.MacOS.Bindings\Microsoft.AppCenter.Crashes.MacOS.Bindings.csproj">
-      <Project>{85C929EF-7FF4-4C43-967E-DFA816EFF5E4}</Project>
-      <Name>Microsoft.AppCenter.Crashes.MacOS.Bindings</Name>
-    </ProjectReference>
+    <ObjcBindingApiDefinition Include="..\Microsoft.AppCenter.Crashes.AppleUnified\ApiDefinition.cs">
+      <Link>ApiDefinition.cs</Link>
+    </ObjcBindingApiDefinition>
+    <ObjcBindingCoreSource Include="..\Microsoft.AppCenter.Crashes.AppleUnified\StructsAndEnums.cs">
+      <Link>StructsAndEnums.cs</Link>
+    </ObjcBindingCoreSource>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.MacOS\Microsoft.AppCenter.MacOS.csproj">
       <Project>{727A9E5A-566A-4DC5-B62B-8F7CA17661B8}</Project>
       <Name>Microsoft.AppCenter.MacOS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.MacOS.Bindings\Microsoft.AppCenter.MacOS.Bindings.csproj">
-      <Project>{E97116CF-0A1F-41B0-A5A2-A5C4A3464BD4}</Project>
-      <Name>Microsoft.AppCenter.MacOS.Bindings</Name>
-    </ProjectReference>
   </ItemGroup>
-  <Import Project="..\Microsoft.AppCenter.Crashes.Shared.Targets\Microsoft.AppCenter.Crashes.Shared.Targets.projitems" Label="Shared" Condition="Exists('..\Microsoft.AppCenter.Crashes.Shared.Targets\Microsoft.AppCenter.Crashes.Shared.Targets.projitems')" />
-  <Import Project="..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems" Label="Shared" Condition="Exists('..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems')" />
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
+  <Import Project="..\Microsoft.AppCenter.Crashes.Shared.Xamarin\Microsoft.AppCenter.Crashes.Shared.Xamarin.projitems" Label="Shared" />
+  <Import Project="..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems" Label="Shared" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.ObjcBinding.CSharp.targets" />
 </Project>

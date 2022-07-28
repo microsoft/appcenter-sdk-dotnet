@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#tool nuget:?package=XamarinComponent
-#addin nuget:?package=Cake.FileHelpers&version=3.0.0
-#addin nuget:?package=Cake.Git&version=0.18.0
-#addin nuget:?package=Cake.Incubator&version=2.0.2
-#addin nuget:?package=Cake.Xamarin
+#addin nuget:?package=Cake.FileHelpers&version=5.0.0
+#addin nuget:?package=Cake.Incubator&version=7.0.0
 #load "scripts/utility.cake"
 #load "scripts/configuration/config-parser.cake"
 
@@ -58,8 +55,11 @@ Task("Build")
     .Does(() =>
 {
     var platformId = IsRunningOnUnix() ? "mac" : "windows";
-    var buildGroup = new BuildGroup(platformId);
-    buildGroup.ExecuteBuilds();
+    var buildGroups = BuildGroup.ReadBuildGroups(platformId);
+    foreach (var buildGroup in buildGroups)
+    {
+        buildGroup.ExecuteBuilds();
+    }
 }).OnError(HandleError);
 
 Task("PrepareAssemblies")
@@ -84,10 +84,15 @@ Task("Externals-Android")
     .Does(() =>
 {
     var zipFile = System.IO.Path.Combine(AndroidExternals, "android.zip");
+    if (FileExists(zipFile))
+    {
+        return;
+    }
     CleanDirectory(AndroidExternals);
 
     // Download zip file.
-    DownloadFile(AndroidUrl, zipFile);
+    using (VerboseVerbosity())
+        DownloadFile(AndroidUrl, zipFile);
     Unzip(zipFile, AndroidExternals);
 
     // Move binaries to externals/android so that linked files don't have versions
@@ -101,25 +106,31 @@ Task("Externals-Apple")
     .WithCriteria(() => IsRunningOnUnix())
     .Does(() =>
 {
-    CleanDirectory(AppleExternals);
     var zipFile = System.IO.Path.Combine(AppleExternals, "apple.zip");
+    if (FileExists(zipFile))
+    {
+        return;
+    }
+    CleanDirectory(AppleExternals);
 
-    // Download zip file containing AppCenter frameworks.
-    DownloadFile(AppleUrl, zipFile);
-
-    // Unzip.
-    // StartProcess("unzipr", new ProcessSettings{ Arguments = $"{zipFile} -d {AppleExternals}" });
+    // Download zip file.
+    using (VerboseVerbosity())
+        DownloadFile(AppleUrl, zipFile);
     using(var process = StartAndReturnProcess("unzip",
-        new ProcessSettings { Arguments =new ProcessArgumentBuilder()
-            .Append(zipFile)
-            .Append("-d")
-            .Append(AppleExternals)
+        new ProcessSettings
+        {
+            Arguments = new ProcessArgumentBuilder()
+                .Append(zipFile)
+                .Append("-d")
+                .Append(AppleExternals),
+            RedirectStandardOutput = true,
         }))
     {
-        process.WaitForExit();
-        // This should output 0 as valid arguments supplied
-        Information($"Exit code: {process.GetExitCode()}");
-        Information($"error: {process.GetStandardError()}, output: {process.GetStandardError()}");
+        process.WaitForExit(10000);
+        if (process.GetExitCode() != 0)
+        {
+            throw new Exception($"Failed to unzip {zipFile}");
+        }
     }
 
     var iosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/iOS");

@@ -12,6 +12,7 @@
     <SignAssembly>true</SignAssembly>
     <DelaySign>true</DelaySign>
     <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,13 +22,12 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <MtouchLink>
-    </MtouchLink>
-    <MtouchHttpClientHandler>
-    </MtouchHttpClientHandler>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>
     </MtouchTlsProvider>
     <DocumentationFile>bin\Debug\Microsoft.AppCenter.Crashes.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -36,17 +36,15 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <MtouchLink>
-    </MtouchLink>
-    <MtouchHttpClientHandler>
-    </MtouchHttpClientHandler>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>
     </MtouchTlsProvider>
-    <DocumentationFile>bin\Release\Microsoft.AppCenter.Crashes.xml</DocumentationFile>  
+    <DocumentationFile>bin\Release\Microsoft.AppCenter.Crashes.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
@@ -54,31 +52,31 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Crashes.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ErrorAttachmentLog.cs" />
-    <Compile Include="ErrorReport.cs" />
-    <Compile Include="CrashesUtils.cs" />
-    <Compile Include="CrashesInitializationDelegate.cs" />
+    <None Include="Info.plist" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.AppCenter.Crashes.iOS.Bindings\Microsoft.AppCenter.Crashes.iOS.Bindings.csproj">
-      <Project>{FCEB9729-627A-4964-B853-1649CA1FA76D}</Project>
-      <Name>Microsoft.AppCenter.Crashes.iOS.Bindings</Name>
-    </ProjectReference>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.AppleUnified\Crashes.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.AppleUnified\ErrorAttachmentLog.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.AppleUnified\ErrorReport.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.AppleUnified\CrashesUtils.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.AppleUnified\CrashesInitializationDelegate.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ObjcBindingApiDefinition Include="..\Microsoft.AppCenter.Crashes.AppleUnified\ApiDefinition.cs">
+      <Link>ApiDefinition.cs</Link>
+    </ObjcBindingApiDefinition>
+    <ObjcBindingCoreSource Include="..\Microsoft.AppCenter.Crashes.AppleUnified\StructsAndEnums.cs">
+      <Link>StructsAndEnums.cs</Link>
+    </ObjcBindingCoreSource>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.iOS\Microsoft.AppCenter.iOS.csproj">
       <Project>{B87370CD-AF51-45E0-AA15-3E0ABC0C30A0}</Project>
       <Name>Microsoft.AppCenter.iOS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.iOS.Bindings\Microsoft.AppCenter.iOS.Bindings.csproj">
-      <Project>{5490FECC-63B2-4543-B4FE-EDD8D1BD8351}</Project>
-      <Name>Microsoft.AppCenter.iOS.Bindings</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Info.plist" />
-  </ItemGroup>
-  <Import Project="..\Microsoft.AppCenter.Crashes.Shared.Targets\Microsoft.AppCenter.Crashes.Shared.Targets.projitems" Label="Shared" Condition="Exists('..\Microsoft.AppCenter.Crashes.Shared.Targets\Microsoft.AppCenter.Crashes.Shared.Targets.projitems')" />
-  <Import Project="..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems" Label="Shared" Condition="Exists('..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems')" />
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <Import Project="..\Microsoft.AppCenter.Crashes.Shared.Xamarin\Microsoft.AppCenter.Crashes.Shared.Xamarin.projitems" Label="Shared" />
+  <Import Project="..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems" Label="Shared" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
 </Project>

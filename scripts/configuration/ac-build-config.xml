@@ -5,25 +5,29 @@
         <appleVersion>4.4.3</appleVersion>
         <androidVersion>4.4.5</androidVersion>
     </sdkInfo>
-    <group id="ios" folder="iOSAssemblies" buildGroup="mac">
+    <group id="ios" buildGroup="mac">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.iOS/bin/Release/Microsoft.AppCenter.dll"/>
-        <assembly path="SDK/AppCenter/Microsoft.AppCenter.iOS/bin/Release/Microsoft.AppCenter.iOS.Bindings.dll"/>
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.iOS/bin/Release/Microsoft.AppCenter.Analytics.dll"/>
-        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.iOS/bin/Release/Microsoft.AppCenter.Analytics.iOS.Bindings.dll"/>
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.iOS/bin/Release/Microsoft.AppCenter.Crashes.dll"/>
-        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.iOS/bin/Release/Microsoft.AppCenter.Crashes.iOS.Bindings.dll"/>
         <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.iOS/bin/Release/Microsoft.AppCenter.Distribute.dll"/>
-        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.iOS/bin/Release/Microsoft.AppCenter.Distribute.iOS.Bindings.dll"/>
     </group>
-    <group id="macos" folder="macOSAssemblies" buildGroup="mac">
+    <group id="ios_net6" buildGroup="mac">
+        <assembly path="SDK/AppCenter/Microsoft.AppCenter.AppleUnified/bin/Release/net6.0-ios/Microsoft.AppCenter.dll"/>
+        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.AppleUnified/bin/Release/net6.0-ios/Microsoft.AppCenter.Analytics.dll"/>
+        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.AppleUnified/bin/Release/net6.0-ios/Microsoft.AppCenter.Crashes.dll"/>
+        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.AppleUnified/bin/Release/net6.0-ios/Microsoft.AppCenter.Distribute.dll"/>
+    </group>
+    <group id="macos" buildGroup="mac">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.MacOS/bin/Release/Microsoft.AppCenter.dll"/>
-        <assembly path="SDK/AppCenter/Microsoft.AppCenter.MacOS/bin/Release/Microsoft.AppCenter.MacOS.Bindings.dll"/>
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.MacOS/bin/Release/Microsoft.AppCenter.Analytics.dll"/>
-        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.MacOS/bin/Release/Microsoft.AppCenter.Analytics.MacOS.Bindings.dll"/>
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.MacOS/bin/Release/Microsoft.AppCenter.Crashes.dll"/>
-        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.MacOS/bin/Release/Microsoft.AppCenter.Crashes.MacOS.Bindings.dll"/>
     </group>
-    <group id="android" folder="AndroidAssemblies" buildGroup="mac">
+    <group id="macos_net6" buildGroup="mac">
+        <assembly path="SDK/AppCenter/Microsoft.AppCenter.AppleUnified/bin/Release/net6.0-macos/Microsoft.AppCenter.dll"/>
+        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.AppleUnified/bin/Release/net6.0-macos/Microsoft.AppCenter.Analytics.dll"/>
+        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.AppleUnified/bin/Release/net6.0-macos/Microsoft.AppCenter.Crashes.dll"/>
+    </group>
+    <group id="android" buildGroup="mac">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.Android/bin/Release/Microsoft.AppCenter.dll"/>
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.Android/bin/Release/Microsoft.AppCenter.Android.Bindings.dll"/>
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Android/bin/Release/Microsoft.AppCenter.Analytics.dll"/>
@@ -33,46 +37,46 @@
         <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/bin/Release/Microsoft.AppCenter.Distribute.dll"/>
         <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/bin/Release/Microsoft.AppCenter.Distribute.Android.Bindings.dll"/>
     </group>
-    <group id="androidPlay" folder="AndroidPlayAssemblies" buildGroup="mac">
+    <group id="android_play" buildGroup="mac">
         <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/bin/Release/monoandroid/Microsoft.AppCenter.Distribute.dll"/>
     </group>
-    <group id="netstandard" folder="NETStandardAssemblies" buildGroup="mac">
+    <group id="netstandard" buildGroup="mac">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter/bin/Release/netstandard1.0/Microsoft.AppCenter.dll"/>
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics/bin/Release/netstandard1.0/Microsoft.AppCenter.Analytics.dll"/>
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes/bin/Release/netstandard1.0/Microsoft.AppCenter.Crashes.dll"/>
         <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/bin/Release/netstandard1.0/Microsoft.AppCenter.Distribute.dll"/>
     </group>
-    <group id="windows_desktop" folder="WindowsDesktopAssemblies" buildGroup="windows">
+    <group id="windows_desktop" buildGroup="windows">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/net461/Microsoft.AppCenter.dll"/>
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.WindowsDesktop/bin/Release/net461/Microsoft.AppCenter.Analytics.dll"/>
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.WindowsDesktop/bin/Release/net461/Microsoft.AppCenter.Crashes.dll"/>
     </group>
-    <group id="windows_desktop_net472" folder="WindowsDesktopNet472Assemblies" buildGroup="windows">
+    <group id="windows_desktop_net472" buildGroup="windows">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/net472/Microsoft.AppCenter.dll"/>
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.WindowsDesktop/bin/Release/net472/Microsoft.AppCenter.Analytics.dll"/>
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.WindowsDesktop/bin/Release/net472/Microsoft.AppCenter.Crashes.dll"/>
     </group>
-    <group id="windows_desktop_netcore" folder="WindowsDesktopNetCoreAssemblies" buildGroup="windows">
+    <group id="windows_desktop_netcore" buildGroup="windows">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/netcoreapp3.1/Microsoft.AppCenter.dll"/>
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.WindowsDesktop/bin/Release/netcoreapp3.1/Microsoft.AppCenter.Analytics.dll"/>
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.WindowsDesktop/bin/Release/netcoreapp3.1/Microsoft.AppCenter.Crashes.dll"/>
     </group>
-    <group id="windows_desktop_net_5_windows_winui" folder="WindowsDesktopNet5WindowsWinuiAssemblies" buildGroup="windows">
+    <group id="windows_desktop_net5_winui" buildGroup="windows">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/net5.0-windows10.0.17763.0/Microsoft.AppCenter.dll"/>
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.WindowsDesktop/bin/Release/net5.0-windows10.0.17763.0/Microsoft.AppCenter.Analytics.dll"/>
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.WindowsDesktop/bin/Release/net5.0-windows10.0.17763.0/Microsoft.AppCenter.Crashes.dll"/>
     </group>
-    <group id="windows_desktop_net_5_windows" folder="WindowsDesktopNet5WindowsAssemblies" buildGroup="windows">
+    <group id="windows_desktop_net5" buildGroup="windows">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/net5.0-windows/Microsoft.AppCenter.dll"/>
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.WindowsDesktop/bin/Release/net5.0-windows/Microsoft.AppCenter.Analytics.dll"/>
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.WindowsDesktop/bin/Release/net5.0-windows/Microsoft.AppCenter.Crashes.dll"/>
     </group>
-    <group id="uwp" folder="UWPAssemblies" buildGroup="windows">
+    <group id="uwp" buildGroup="windows">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.UWP/bin/Release/uap10.0.16299/Microsoft.AppCenter.dll"/>
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.UWP/bin/Release/uap10.0.16299/Microsoft.AppCenter.Analytics.dll"/>
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.UWP/bin/Release/uap10.0.16299/Microsoft.AppCenter.Crashes.dll"/>
     </group>
-    <group id="unity_uwp" folder="UnityUWPAssemblies" buildGroup="windows">
+    <group id="unity_uwp" buildGroup="windows">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.UWP/bin/Release/net461/Microsoft.AppCenter.dll"/>
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.UWP/bin/Release/net461/Microsoft.AppCenter.Analytics.dll"/>
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.UWP/bin/Release/net461/Microsoft.AppCenter.Crashes.dll"/>
@@ -82,10 +86,13 @@
     <module dotnetModule="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes" nuspec="AppCenterCrashes.nuspec"/>
     <module dotnetModule="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute" nuspec="AppCenterDistribute.nuspec"/>
     <module dotnetModule="SDK/AppCenterDistribute/Microsoft.AppCenter.DistributePlay" nuspec="AppCenterDistributePlay.nuspec"/>
-    <buildGroup platformId="mac" solutionPath="AppCenter-SDK-Build-Mac.sln">
-        <build configuration="Release"/>
+    <buildGroup platformId="mac" solutionPath="AppCenter-SDK-Build-Mac-DotNet.slnf">
+        <dotNetBuild configuration="Release" />
+    </buildGroup>
+    <buildGroup platformId="mac" solutionPath="AppCenter-SDK-Build-Mac-Mono.slnf">
+        <msBuild configuration="Release" />
     </buildGroup>
     <buildGroup platformId="windows" solutionPath="AppCenter-SDK-Build-Windows.sln">
-        <build configuration="Release" toolVersion="VS2019"/>
+        <msBuild configuration="Release" toolVersion="VS2019" />
     </buildGroup>
 </config>

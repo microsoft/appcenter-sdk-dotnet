@@ -33,7 +33,8 @@
     <!-- iOS -->
     <file src="$ios_dir$/Microsoft.AppCenter.Distribute.dll" target="lib/Xamarin.iOS10" />
     <file src="$ios_dir$/Microsoft.AppCenter.Distribute.xml" target="lib/Xamarin.iOS10" />
-    <file src="$ios_dir$/Microsoft.AppCenter.Distribute.iOS.Bindings.dll" target="lib/Xamarin.iOS10" />
+    <file src="$ios_net6_dir$/Microsoft.AppCenter.Distribute.dll" target="lib/net6.0-ios9.0" />
+    <file src="$ios_net6_dir$/Microsoft.AppCenter.Distribute.xml" target="lib/net6.0-ios9.0" />
 
   </files>
 </package>

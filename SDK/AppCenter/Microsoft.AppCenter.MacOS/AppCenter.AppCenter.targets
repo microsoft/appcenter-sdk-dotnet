@@ -1,6 +1,0 @@
-<Project>
-    <Target Name="FixAppCenterSymlink" AfterTargets="_CollectFrameworks">
-        <Message Text="symlinking AppCenter" />
-        <Exec Command="cd $(AppBundleDir)\Contents\Frameworks\AppCenter.framework\ ; rm AppCenter ; ln -s Versions\A\AppCenter AppCenter" />
-    </Target>
-</Project>

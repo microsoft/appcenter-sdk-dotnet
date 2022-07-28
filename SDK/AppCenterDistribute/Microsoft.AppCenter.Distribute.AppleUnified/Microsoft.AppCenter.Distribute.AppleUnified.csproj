@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net6.0-ios;net6.0-macos</TargetFrameworks>
+    <IsBindingProject>true</IsBindingProject>
+    <Optimize>true</Optimize>
+    <Copyright>Microsoft Corp. All rights reserved.</Copyright>
+    <Product>Microsoft.AppCenter.Distribute</Product>
+    <Company>Microsoft Corporation</Company>
+    <Version>4.5.4-SNAPSHOT</Version>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+    <FileVersion>4.5.4.0</FileVersion>
+    <RootNamespace>Microsoft.AppCenter.Distribute</RootNamespace>
+    <AssemblyName>Microsoft.AppCenter.Distribute</AssemblyName>
+    <AssemblyTitle>Microsoft.AppCenter.Distribute</AssemblyTitle>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Distribute.xml</DocumentationFile>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>true</DelaySign>
+    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
+    <NoBindingEmbedding>false</NoBindingEmbedding>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.EndsWith('-ios'))">
+    <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.EndsWith('-macos'))">
+    <SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+  </PropertyGroup>
+  <ItemGroup>
+    <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
+    <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.EndsWith('-ios'))">
+    <NativeReference Include="..\..\..\externals\apple\ios\AppCenterDistribute.a">
+      <Kind>Static</Kind>
+      <ForceLoad>True</ForceLoad>
+    </NativeReference>
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.EndsWith('-macos'))">
+    <NativeReference Include="..\..\..\externals\apple\macOS\AppCenterDistribute.framework">
+      <Kind>Framework</Kind>
+      <ForceLoad>True</ForceLoad>
+    </NativeReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.AppleUnified\Microsoft.AppCenter.AppleUnified.csproj" />
+  </ItemGroup>
+  <Import Project="..\Microsoft.AppCenter.Distribute.Shared\Microsoft.AppCenter.Distribute.Shared.projitems" Label="Shared" />
+</Project>

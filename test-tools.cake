@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#tool nuget:?package=XamarinComponent
-#addin nuget:?package=Cake.Xamarin
-#addin nuget:?package=Cake.FileHelpers&version=3.0.0
-#addin nuget:?package=Newtonsoft.Json
+#addin nuget:?package=Cake.Xamarin&version=4.0.0
+#addin nuget:?package=Cake.FileHelpers&version=5.0.0
+#addin nuget:?package=Newtonsoft.Json&version=13.0.1
 
 using System;
 using System.Collections.Generic;

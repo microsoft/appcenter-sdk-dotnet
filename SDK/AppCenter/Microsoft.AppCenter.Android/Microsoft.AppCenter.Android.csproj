@@ -47,8 +47,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppCenterService.cs" />
-    <Compile Include="IAppCenterService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AppCenter.cs" />
     <Compile Include="AppCenterLog.cs" />

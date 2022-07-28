@@ -28,20 +28,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CustomCommands>
-      <CustomCommands>
-        <Command>
-          <type>BeforeBuild</type>
-          <command>sh build.sh -t=externals-android</command>
-          <workingdir>${SolutionDir}</workingdir>
-        </Command>
-        <Command>
-          <type>AfterClean</type>
-          <command>rm -rf externals/android</command>
-          <workingdir>${SolutionDir}</workingdir>
-        </Command>
-      </CustomCommands>
-    </CustomCommands>
     <NoWarn>CS0109</NoWarn>
     <Commandlineparameters></Commandlineparameters>
   </PropertyGroup>
@@ -53,20 +39,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CustomCommands>
-      <CustomCommands>
-        <Command>
-          <type>BeforeBuild</type>
-          <command>sh build.sh -t=externals-android</command>
-          <workingdir>${SolutionDir}</workingdir>
-        </Command>
-        <Command>
-          <type>AfterClean</type>
-          <command>rm -rf externals/android</command>
-          <workingdir>${SolutionDir}</workingdir>
-        </Command>
-      </CustomCommands>
-    </CustomCommands>
     <NoWarn>CS0109</NoWarn>
   </PropertyGroup>
   <ItemGroup>
