@@ -21,8 +21,8 @@
   <files>
 
     <!-- UWP -->
-    <file src="$uwp_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/uap10.0" />
-    <file src="$uwp_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/uap10.0" />
+    <file src="$uwp_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/uap10.0.16299" />
+    <file src="$uwp_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/uap10.0.16299" />
 
     <!-- Windows Classic Desktop (WPF and WinForms) for .NET Framework -->
     <file src="$windows_net472_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net472" />

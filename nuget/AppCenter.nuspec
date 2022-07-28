@@ -15,7 +15,7 @@
     <license type="expression">MIT</license>
     <iconUrl>https://aka.ms/k76877</iconUrl>
     <dependencies>
-      <group targetFramework="uap10.0">
+      <group targetFramework="uap10.0.16299">
         <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="6.2.8"/>
         <dependency id="Newtonsoft.Json" version="13.0.1"/>
         <dependency id="SQLitePCLRaw.bundle_green" version="2.1.0" />
@@ -76,8 +76,8 @@
     <file src="$macos_net6_dir$/Microsoft.AppCenter.xml" target="lib/net6.0-macos10.10" />
 
     <!-- UWP -->
-    <file src="$uwp_dir$/Microsoft.AppCenter.dll" target="lib/uap10.0" />
-    <file src="$uwp_dir$/Microsoft.AppCenter.xml" target="lib/uap10.0" />
+    <file src="$uwp_dir$/Microsoft.AppCenter.dll" target="lib/uap10.0.16299" />
+    <file src="$uwp_dir$/Microsoft.AppCenter.xml" target="lib/uap10.0.16299" />
 
     <!-- Windows Classic Desktop (WPF and WinForms) for .NET Framework -->
     <file src="$windows_net472_dir$/Microsoft.AppCenter.dll" target="lib/net472" />

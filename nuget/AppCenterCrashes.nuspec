@@ -18,7 +18,7 @@
       <group>
         <dependency id="Microsoft.AppCenter" version="$version$" />
       </group>
-      <group targetFramework="uap10.0">
+      <group targetFramework="uap10.0.16299">
         <dependency id="Microsoft.AppCenter" version="$version$" />
         <dependency id="System.Reflection.Metadata" version="1.7.0" />
       </group>
@@ -49,8 +49,8 @@
     <file src="$macos_net6_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net6.0-macos10.10" />
 
     <!-- UWP -->
-    <file src="$uwp_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/uap10.0" />
-    <file src="$uwp_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/uap10.0" />
+    <file src="$uwp_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/uap10.0.16299" />
+    <file src="$uwp_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/uap10.0.16299" />
 
     <!-- Windows Classic Desktop (WPF and WinForms) for .NET Framework -->
     <file src="$windows_net472_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net472" />
