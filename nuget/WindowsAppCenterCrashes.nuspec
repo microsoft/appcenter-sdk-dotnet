@@ -36,12 +36,12 @@
     <file src="$windows_net472_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net472" />
     <file src="$windows_net472_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net472" />
 
-    <!-- Windows Desktop for .NET Core and .NET 5 with old OS targets -->
+    <!-- Windows Desktop for .NET Core and .NET 5 -->
     <file src="$windows_netcore_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/netcoreapp3.1" />
     <file src="$windows_netcore_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/netcoreapp3.1" />
 
     <!-- Windows Desktop for WinUI and modern OS targets -->
-    <file src="$windows_net5_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net5.0-windows10.0.17763.0" />
-    <file src="$windows_net5_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net5.0-windows10.0.17763.0" />
+    <file src="$windows_net6_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net6.0-windows10.0.17763.0" />
+    <file src="$windows_net6_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net6.0-windows10.0.17763.0" />
   </files>
 </package>
