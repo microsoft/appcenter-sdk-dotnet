@@ -46,11 +46,6 @@
         <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes/bin/Release/netstandard1.0/Microsoft.AppCenter.Crashes.dll"/>
         <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/bin/Release/netstandard1.0/Microsoft.AppCenter.Distribute.dll"/>
     </group>
-    <group id="windows_net461" buildGroup="windows">
-        <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/net461/Microsoft.AppCenter.dll"/>
-        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.WindowsDesktop/bin/Release/net461/Microsoft.AppCenter.Analytics.dll"/>
-        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.WindowsDesktop/bin/Release/net461/Microsoft.AppCenter.Crashes.dll"/>
-    </group>
     <group id="windows_net472" buildGroup="windows">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/net472/Microsoft.AppCenter.dll"/>
         <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.WindowsDesktop/bin/Release/net472/Microsoft.AppCenter.Analytics.dll"/>

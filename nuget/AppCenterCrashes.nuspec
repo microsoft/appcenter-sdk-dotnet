@@ -53,8 +53,6 @@
     <file src="$uwp_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/uap10.0" />
 
     <!-- Windows Classic Desktop (WPF and WinForms) for .NET Framework -->
-    <file src="$windows_net461_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net461" />
-    <file src="$windows_net461_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net461" />
     <file src="$windows_net472_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net472" />
     <file src="$windows_net472_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net472" />
 

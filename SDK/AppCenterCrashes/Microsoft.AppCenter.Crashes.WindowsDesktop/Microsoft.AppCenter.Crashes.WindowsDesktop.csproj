@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net461;net472;net6.0-windows10.0.17763.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net472;net6.0-windows10.0.17763.0</TargetFrameworks>
     <RootNamespace>Microsoft.AppCenter.Crashes</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
     <Version>4.6.0-SNAPSHOT</Version>
