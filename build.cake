@@ -41,13 +41,11 @@ var AppleUrl = $"{SdkStorageUrl}AppCenter-SDK-Apple-{VersionReader.AppleVersion}
 // Task Target for build
 var Target = Argument("Target", Argument("t", "Default"));
 
-var NuspecFolder = "nuget";
-
 // Prepare the platform paths for downloading, uploading, and preparing assemblies
 Setup(context =>
 {
     AssemblyGroups = AssemblyGroup.ReadAssemblyGroups();
-    AppCenterModules = AppCenterModule.ReadAppCenterModules(NuspecFolder, VersionReader.SdkVersion);
+    AppCenterModules = AppCenterModule.ReadAppCenterModules("nuget", VersionReader.SdkVersion);
 });
 
 Task("Build")
@@ -170,7 +168,7 @@ Task("Externals-Apple")
 Task("Externals").IsDependentOn("Externals-Apple").IsDependentOn("Externals-Android");
 
 // Main Task.
-Task("Default").IsDependentOn("NuGet").IsDependentOn("RemoveTemporaries");
+Task("Default").IsDependentOn("NuGet");
 
 // Pack NuGets for appropriate platform
 Task("NuGet")
@@ -178,77 +176,39 @@ Task("NuGet")
     .Does(()=>
 {
     CleanDirectory("output");
-    var specCopyName = Statics.TemporaryPrefix + "spec_copy.nuspec";
 
     // Package NuGets.
     foreach (var module in AppCenterModules)
     {
-        var nuspecFilename = (IsRunningOnUnix() ? module.MacNuspecFilename : module.WindowsNuspecFilename);
-        var nuspecPath = System.IO.Path.Combine(NuspecFolder, nuspecFilename);
+        var originalPath = System.IO.Path.Combine("nuget", module.NuspecFilename);
 
         // Skip modules that don't have nuspecs.
-        if (!FileExists(nuspecPath))
+        if (!FileExists(originalPath))
         {
             continue;
         }
 
         // Prepare nuspec by making substitutions in a copied nuspec (to avoid altering the original)
-        CopyFile(nuspecPath, specCopyName);
-        ReplaceAssemblyPathsInNuspecs(specCopyName);
+        var nuspecFileName = System.IO.Path.GetFileNameWithoutExtension(originalPath) + ".copy.nuspec";
+        var nuspecPath = System.IO.Path.Combine("nuget", nuspecFileName);
+        CopyFile(originalPath, nuspecPath);
+        ReplaceTextInFiles(nuspecPath, "$version$", module.NuGetVersion);
+        foreach (var group in AssemblyGroups)
+        {
+            var groupFolder = MakeAbsolute((DirectoryPath) group.Folder).FullPath;
+            ReplaceTextInFiles(nuspecPath, group.NuspecKey, groupFolder);
+        }
         Information("Building a NuGet package for " + module.DotNetModule + " version " + module.NuGetVersion);
-        NuGetPack(File(specCopyName), new NuGetPackSettings {
+        NuGetPack(File(nuspecPath), new NuGetPackSettings {
             Verbosity = NuGetVerbosity.Detailed,
             Version = module.NuGetVersion,
             RequireLicenseAcceptance = true
         });
 
         // Clean up
-        DeleteFiles(specCopyName);
+        DeleteFiles(nuspecPath);
     }
     MoveFiles("Microsoft.AppCenter*.nupkg", "output");
 }).OnError(HandleError);
-
-Task("NuGetPackAzDO").Does(()=>
-{
-    var nuspecPathPrefix = EnvironmentVariable("NUSPEC_PATH");
-    foreach (var module in AppCenterModules)
-    {
-        var nuspecPath = System.IO.Path.Combine(nuspecPathPrefix, module.MainNuspecFilename);
-        ReplaceTextInFiles(nuspecPath, "$version$", module.NuGetVersion);
-        ReplaceAssemblyPathsInNuspecs(nuspecPath);
-
-        var spec = GetFiles(nuspecPath);
-
-        // Create the NuGet packages.
-        Information("Building a NuGet package for " + module.MainNuspecFilename);
-        NuGetPack(spec, new NuGetPackSettings {
-            Verbosity = NuGetVerbosity.Detailed,
-            RequireLicenseAcceptance = true
-        });
-    }
-}).OnError(HandleError);
-
-// In AzDO, the assembly path environment variable names should be in the format
-// "{uppercase group id}_ASSEMBLY_PATH_NUSPEC"
-void ReplaceAssemblyPathsInNuspecs(string nuspecPath)
-{
-    // For the Tuples, Item1 is variable name, Item2 is variable value.
-    var assemblyPathVars = new List<Tuple<string, string>>();
-    foreach (var group in AssemblyGroups)
-    {
-        if (group.NuspecKey == null)
-        {
-            continue;
-        }
-        var environmentVariableName = group.Id.ToUpper() + "_ASSEMBLY_PATH_NUSPEC";
-        var assemblyPath = EnvironmentVariable(environmentVariableName, group.Folder);
-        var tuple = Tuple.Create(group.NuspecKey, assemblyPath);
-        assemblyPathVars.Add(tuple);
-    }
-    foreach (var assemblyPathVar in assemblyPathVars)
-    {
-        ReplaceTextInFiles(nuspecPath, assemblyPathVar.Item1, assemblyPathVar.Item2);
-    }
-}
 
 RunTarget(Target);

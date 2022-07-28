@@ -6,10 +6,12 @@ class AppCenterModule
 {
     public string DotNetModule { get; }
     public string NuGetVersion { get; }
-    public string MainNuspecFilename { get; }
     public string NuGetPackageName => $"{_packageId}.{NuGetVersion}.nupkg";
+    public string MainNuspecFilename { get; }
     public string MacNuspecFilename =>  "Mac" + MainNuspecFilename;
     public string WindowsNuspecFilename => "Windows" + MainNuspecFilename;
+    public string PlatformNuspecFilename => Statics.Context.IsRunningOnUnix() ? MacNuspecFilename : WindowsNuspecFilename;
+    public string NuspecFilename => Statics.Context.Argument<bool>("MainPackage", false) ? MainNuspecFilename : PlatformNuspecFilename;
     private string _packageId;
 
     private AppCenterModule(string dotnet, string mainNuspecFilename) {

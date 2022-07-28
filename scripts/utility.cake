@@ -13,9 +13,6 @@ public class Statics
 {
     // Cake context.
     public static ICakeContext Context { get; set; }
-
-    // Prefix for temporary intermediates that are created by this script.
-    public const string TemporaryPrefix = "CAKE_SCRIPT_TEMP";
 }
 
 // Can't reference Context within the class, so set value outside
@@ -58,25 +55,13 @@ void HandleError(Exception exception)
     throw exception;
 }
 
-// Remove all temporary files and folders
-Task("RemoveTemporaries").Does(()=>
-{
-    DeleteFiles(Statics.TemporaryPrefix + "*");
-    var dirs = GetDirectories(Statics.TemporaryPrefix + "*");
-    foreach (var directory in dirs)
-    {
-        DeleteDirectoryIfExists(directory.ToString());
-    }
-    DeleteFiles("./nuget/*.temp.nuspec");
-});
-
 // Clean up files/directories.
 Task("clean")
-    .IsDependentOn("RemoveTemporaries")
     .Does(() =>
 {
     DeleteDirectoryIfExists("externals");
     DeleteDirectoryIfExists("output");
+    DeleteFiles("./nuget/*.temp.nuspec");
     DeleteFiles("./*.nupkg");
     CleanDirectories("./**/bin");
     CleanDirectories("./**/obj");
