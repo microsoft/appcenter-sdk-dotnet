@@ -4,6 +4,8 @@
 
 ### App Center
 
+* **[Feature]** Add .NET 6 support.
+
 #### Windows
 
 * **[Breaking change]** .NET Core `3.0` target for WPF and WinForms applications is out of support, it's replaced with `3.1` (LTS).
@@ -54,7 +56,7 @@ ___
 
 #### Windows
 
-* **[Feature]**  Add support target framework `net5.0-windows10.0.17763.0` or higher for non-WinUI applications.
+* **[Feature]** Add support target framework `net5.0-windows10.0.17763.0` or higher for non-WinUI applications.
 * **[Fix]** Fix a deadlock that occurs during the services initialization on Windows.
 
 #### macOS 
