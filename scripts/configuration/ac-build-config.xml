@@ -41,10 +41,10 @@
         <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/bin/Release/monoandroid/Microsoft.AppCenter.Distribute.dll"/>
     </group>
     <group id="netstandard" buildGroup="mac">
-        <assembly path="SDK/AppCenter/Microsoft.AppCenter/bin/Release/netstandard1.0/Microsoft.AppCenter.dll"/>
-        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics/bin/Release/netstandard1.0/Microsoft.AppCenter.Analytics.dll"/>
-        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes/bin/Release/netstandard1.0/Microsoft.AppCenter.Crashes.dll"/>
-        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/bin/Release/netstandard1.0/Microsoft.AppCenter.Distribute.dll"/>
+        <assembly path="SDK/AppCenter/Microsoft.AppCenter/bin/Release/netstandard2.0/Microsoft.AppCenter.dll"/>
+        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics/bin/Release/netstandard2.0/Microsoft.AppCenter.Analytics.dll"/>
+        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes/bin/Release/netstandard2.0/Microsoft.AppCenter.Crashes.dll"/>
+        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/bin/Release/netstandard2.0/Microsoft.AppCenter.Distribute.dll"/>
     </group>
     <group id="windows_net472" buildGroup="windows">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.WindowsDesktop/bin/Release/net472/Microsoft.AppCenter.dll"/>

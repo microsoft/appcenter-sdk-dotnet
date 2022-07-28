@@ -22,8 +22,8 @@
   <files>
 
     <!-- .NET Standard -->
-    <file src="$netstandard_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/netstandard1.0" />
-    <file src="$netstandard_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/netstandard1.0" />
+    <file src="$netstandard_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/netstandard2.0" />
+    <file src="$netstandard_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/netstandard2.0" />
 
     <!-- Android -->
     <file src="$android_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/MonoAndroid10.0" />
