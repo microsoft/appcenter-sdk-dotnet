@@ -7,4 +7,4 @@
 
 version=$1
 
-./build.sh -s "version.cake" -t="StartNewVersion" -NewVersion="$version"
+./build.sh "version.cake" --Target="StartNewVersion" --NewVersion="$version"
