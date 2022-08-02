@@ -3,7 +3,7 @@
 
 namespace Microsoft.AppCenter
 {
-    using AndroidDevice = Com.Microsoft.Appcenter.Ingestion.Models.Device;
+    using AndroidDevice = Android.Ingestion.Models.Device;
 
     public partial class Device
     {

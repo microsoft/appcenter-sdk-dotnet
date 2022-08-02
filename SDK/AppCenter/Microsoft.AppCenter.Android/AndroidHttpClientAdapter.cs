@@ -3,11 +3,11 @@
 
 using System.Collections.Generic;
 using System.Threading;
-using Com.Microsoft.Appcenter.Http;
+using Microsoft.AppCenter.Android.Http;
 
 namespace Microsoft.AppCenter
 {
-    internal class AndroidHttpClientAdapter : Java.Lang.Object, IAndroidHttpClient
+    internal class AndroidHttpClientAdapter : Java.Lang.Object, IHttpClient
     {
         private readonly IHttpNetworkAdapter _httpNetworkAdapter;
 
@@ -16,7 +16,7 @@ namespace Microsoft.AppCenter
             _httpNetworkAdapter = httpNetworkAdapter;
         }
 
-        public IServiceCall CallAsync(string uri, string method, IDictionary<string, string> headers, IAndroidHttpClientCallTemplate callTemplate, IServiceCallback serviceCallback)
+        public IServiceCall CallAsync(string uri, string method, IDictionary<string, string> headers, IHttpClientCallTemplate callTemplate, IServiceCallback serviceCallback)
         {
             callTemplate?.OnBeforeCalling(new Java.Net.URL(uri), headers);
             var jsonContent = callTemplate?.BuildRequestBody();
@@ -27,7 +27,7 @@ namespace Microsoft.AppCenter
                 if (innerException is HttpException)
                 {
                     var response = (innerException as HttpException).HttpResponse;
-                    serviceCallback.OnCallFailed(new AndroidHttpException(new AndroidHttpResponse(response.StatusCode, response.Content)));
+                    serviceCallback.OnCallFailed(new Android.Http.HttpException(new Android.Http.HttpResponse(response.StatusCode, response.Content)));
                 }
                 else if (innerException != null)
                 {
@@ -36,7 +36,7 @@ namespace Microsoft.AppCenter
                 else
                 {
                     var response = t.Result;
-                    serviceCallback.OnCallSucceeded(new AndroidHttpResponse(response.StatusCode, response.Content));
+                    serviceCallback.OnCallSucceeded(new Android.Http.HttpResponse(response.StatusCode, response.Content));
                 }
             });
             return new ServiceCall(cancellationTokenSource);

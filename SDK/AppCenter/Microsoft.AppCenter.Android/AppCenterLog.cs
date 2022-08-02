@@ -3,7 +3,7 @@
 
 namespace Microsoft.AppCenter
 {
-    using AndroidAppCenterLog = Com.Microsoft.Appcenter.Utils.AppCenterLog;
+    using AndroidAppCenterLog = Android.Utils.AppCenterLog;
 
     public static partial class AppCenterLog
     {
