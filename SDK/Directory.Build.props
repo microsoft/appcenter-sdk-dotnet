@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+
+    <!-- Fix to have multiple projects in the same folder. -->
+    <BaseIntermediateOutputPath>obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <DefaultItemExcludes>$(DefaultItemExcludes);obj\**</DefaultItemExcludes>
+  </PropertyGroup>
+</Project>
