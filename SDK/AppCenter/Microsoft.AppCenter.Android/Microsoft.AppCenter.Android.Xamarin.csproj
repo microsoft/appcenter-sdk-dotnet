@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-android</TargetFrameworks>
-    <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
-    <AndroidBoundInterfacesContainTypes>false</AndroidBoundInterfacesContainTypes>
-    <AndroidGenerateResourceDesigner>false</AndroidGenerateResourceDesigner>
+    <ProjectGuid>{119C1730-E109-4BC9-AA89-9DCA2C50BFD5}</ProjectGuid>
+    <TargetFramework>MonoAndroid10.0</TargetFramework>
+    <IsBindingProject>true</IsBindingProject>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AndroidClassParser>class-parse</AndroidClassParser>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.xml</DocumentationFile>
     <LangVersion>7.0</LangVersion>
     <NoWarn>1591</NoWarn>
-
+    
     <!-- Assembly information. -->
+    <Company>Microsoft Corporation</Company>
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
     <Product>Microsoft.AppCenter.Core</Product>
     <Company>Microsoft Corporation</Company>
@@ -26,9 +28,19 @@
     <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <AndroidLibrary Include="..\..\..\externals\android\appcenter-release.aar">
+    <Reference Include="Mono.Android" />
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="Transforms\Metadata.xml">
+      <SubType>Designer</SubType>
+    </TransformFile>
+  </ItemGroup>
+  <ItemGroup>
+    <LibraryProjectZip Include="..\..\..\externals\android\appcenter-release.aar">
       <Link>Jars\appcenter-release.aar</Link>
-    </AndroidLibrary>
+    </LibraryProjectZip>
   </ItemGroup>
   <Import Project="..\Microsoft.AppCenter.Shared.Xamarin\Microsoft.AppCenter.Shared.Xamarin.projitems" Label="Shared" />
   <Import Project="..\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems" Label="Shared" />

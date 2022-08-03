@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppCenterCrashes", "AppCent
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter", "SDK\AppCenter\Microsoft.AppCenter\Microsoft.AppCenter.csproj", "{3FE04B97-48DE-4895-8612-ECBDFEBD917C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Android", "SDK\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.csproj", "{119C1730-E109-4BC9-AA89-9DCA2C50BFD5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Android.Xamarin", "SDK\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.Xamarin.csproj", "{119C1730-E109-4BC9-AA89-9DCA2C50BFD5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.iOS", "SDK\AppCenter\Microsoft.AppCenter.iOS\Microsoft.AppCenter.iOS.csproj", "{B87370CD-AF51-45E0-AA15-3E0ABC0C30A0}"
 EndProject
@@ -88,6 +88,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Crashes.AppleUnified", "SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.AppleUnified\Microsoft.AppCenter.Crashes.AppleUnified.csproj", "{B062D990-A256-4E0A-88C7-14B1C1216283}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Distribute.AppleUnified", "SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.AppleUnified\Microsoft.AppCenter.Distribute.AppleUnified.csproj", "{416D42EC-CD5D-42FF-BC16-E2E66C38FDAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Android", "SDK\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.csproj", "{B4868C2D-9475-4AF9-9E23-5501EA6468E7}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -1805,6 +1807,60 @@ Global
 		{416D42EC-CD5D-42FF-BC16-E2E66C38FDAE}.GooglePlay|x64.Build.0 = Release|Any CPU
 		{416D42EC-CD5D-42FF-BC16-E2E66C38FDAE}.GooglePlay|x86.ActiveCfg = Release|Any CPU
 		{416D42EC-CD5D-42FF-BC16-E2E66C38FDAE}.GooglePlay|x86.Build.0 = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Ad-Hoc|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Ad-Hoc|Any CPU.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Ad-Hoc|ARM.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Ad-Hoc|ARM.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Ad-Hoc|iPhone.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Ad-Hoc|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Ad-Hoc|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Ad-Hoc|x64.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Ad-Hoc|x64.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Ad-Hoc|x86.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Ad-Hoc|x86.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.AppStore|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.AppStore|Any CPU.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.AppStore|ARM.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.AppStore|ARM.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.AppStore|iPhone.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.AppStore|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.AppStore|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.AppStore|x64.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.AppStore|x64.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.AppStore|x86.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.AppStore|x86.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Debug|ARM.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Debug|x64.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Debug|x86.Build.0 = Debug|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Release|ARM.ActiveCfg = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Release|ARM.Build.0 = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Release|iPhone.Build.0 = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Release|x64.ActiveCfg = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Release|x64.Build.0 = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Release|x86.ActiveCfg = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.Release|x86.Build.0 = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.GooglePlay|Any CPU.ActiveCfg = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.GooglePlay|Any CPU.Build.0 = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.GooglePlay|x64.ActiveCfg = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.GooglePlay|x64.Build.0 = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.GooglePlay|x86.ActiveCfg = Release|Any CPU
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7}.GooglePlay|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1851,6 +1907,7 @@ Global
 		{2B8DAB16-91E2-4EFB-ADFB-CA87F7B97A85} = {13744327-9529-490B-A970-06A1D3144117}
 		{B062D990-A256-4E0A-88C7-14B1C1216283} = {7FAAA086-4453-4B62-AD9A-2E2ED216E3C4}
 		{416D42EC-CD5D-42FF-BC16-E2E66C38FDAE} = {B0562DBB-3784-4F1C-A355-61CFD44ED963}
+		{B4868C2D-9475-4AF9-9E23-5501EA6468E7} = {13744327-9529-490B-A970-06A1D3144117}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
