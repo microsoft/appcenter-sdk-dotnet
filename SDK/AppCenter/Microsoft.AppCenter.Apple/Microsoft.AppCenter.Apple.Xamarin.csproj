@@ -1,9 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-ios;net6.0-macos</TargetFrameworks>
+    <ProjectGuid>{B87370CD-AF51-45E0-AA15-3E0ABC0C30A0}</ProjectGuid>
+    <TargetFrameworks>Xamarin.iOS;Xamarin.Mac</TargetFrameworks>
     <IsBindingProject>true</IsBindingProject>
-    <Optimize>true</Optimize>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.xml</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.0</LangVersion>
+    <NoWarn>1591</NoWarn>
+
+    <!-- Assembly information. -->
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
     <Product>Microsoft.AppCenter.Core</Product>
     <Company>Microsoft Corporation</Company>
@@ -13,32 +19,27 @@
     <RootNamespace>Microsoft.AppCenter</RootNamespace>
     <AssemblyName>Microsoft.AppCenter</AssemblyName>
     <AssemblyTitle>Microsoft.AppCenter.Core</AssemblyTitle>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.xml</DocumentationFile>
+
+    <!-- Signing. -->
     <SignAssembly>true</SignAssembly>
     <DelaySign>true</DelaySign>
     <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
-    <NoBindingEmbedding>false</NoBindingEmbedding>
-    <NoWarn>1591</NoWarn>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.EndsWith('-ios'))">
-    <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.EndsWith('-macos'))">
-    <SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition="$(TargetFramework.EndsWith('iOS'))">
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="ApiDefinition.cs" />
+    <Compile Remove="StructsAndEnums.cs" />
     <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
   </ItemGroup>
-  <ItemGroup Condition="$(TargetFramework.EndsWith('-ios'))">
+  <ItemGroup Condition="$(TargetFramework.EndsWith('iOS'))">
+    <Reference Include="Xamarin.iOS" />
     <NativeReference Include="..\..\..\externals\apple\ios\AppCenter.a">
       <Kind>Static</Kind>
       <ForceLoad>True</ForceLoad>
@@ -46,7 +47,8 @@
       <Frameworks>CoreTelephony Security SystemConfiguration</Frameworks>
     </NativeReference>
   </ItemGroup>
-  <ItemGroup Condition="$(TargetFramework.EndsWith('-macos'))">
+  <ItemGroup Condition="$(TargetFramework.EndsWith('Mac'))">
+    <Reference Include="Xamarin.Mac" />
     <NativeReference Include="..\..\..\externals\apple\macOS\AppCenter.framework">
       <Kind>Framework</Kind>
       <ForceLoad>True</ForceLoad>
@@ -54,7 +56,6 @@
       <Frameworks>CoreTelephony Security SystemConfiguration</Frameworks>
     </NativeReference>
   </ItemGroup>
-  <Import Project="..\Microsoft.AppCenter.Shared.Apple\Microsoft.AppCenter.Shared.Apple.projitems" Label="Shared" />
   <Import Project="..\Microsoft.AppCenter.Shared.Xamarin\Microsoft.AppCenter.Shared.Xamarin.projitems" Label="Shared" />
   <Import Project="..\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems" Label="Shared" />
 </Project>
