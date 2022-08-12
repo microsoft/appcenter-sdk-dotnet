@@ -61,6 +61,7 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
             Crashes.ShouldAwaitUserConfirmation = null;
             Crashes.GetErrorAttachments = null;
             AppCenter.Instance.ApplicationSettings.Remove(Crashes.PrefKeyAlwaysSend);
+            AppCenter.Instance.ApplicationSettings.Remove(AppCenter.EnabledKey);
         }
 
         [TestMethod]

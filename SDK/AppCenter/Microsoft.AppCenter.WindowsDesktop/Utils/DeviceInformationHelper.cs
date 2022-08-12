@@ -187,7 +187,7 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetAppBuild()
         {
-            return DeploymentVersion ?? AssemblyVersion.FileVersion ?? _defaultVersion;
+            return DeploymentVersion ?? AssemblyVersion?.FileVersion ?? _defaultVersion;
         }
 
         protected override string GetScreenSize()
@@ -207,7 +207,7 @@ namespace Microsoft.AppCenter.Utils
                 catch
                 {
                     var assemblyVersion = AssemblyVersion;
-                    return assemblyVersion.ProductVersion ?? assemblyVersion.FileVersion;
+                    return assemblyVersion?.ProductVersion ?? assemblyVersion?.FileVersion;
                 }
             }
         }
