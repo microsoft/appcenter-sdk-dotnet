@@ -18,7 +18,7 @@
       <group>
         <dependency id="Microsoft.AppCenter" version="$version$" />
       </group>
-      <group targetFramework="uap10.0">
+      <group targetFramework="uap10.0.16299">
         <dependency id="Microsoft.AppCenter" version="$version$" />
         <dependency id="System.Reflection.Metadata" version="1.7.0" />
       </group>
@@ -27,25 +27,21 @@
   <files>
 
     <!-- UWP -->
-    <file src="$uwp_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/uap10.0" />
-    <file src="$uwp_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/uap10.0" />
+    <file src="$uwp_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/uap10.0.16299" />
+    <file src="$uwp_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/uap10.0.16299" />
 
-    <!-- WindowsDesktop (WPF and WinForms) for .NET framework -->
-    <file src="$windows_desktop_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net461" />
-    <file src="$windows_desktop_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net461" />
+    <!-- Windows Classic Desktop (WPF and WinForms) for .NET Framework -->
+    <file src="$windows_net462_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net462" />
+    <file src="$windows_net462_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net462" />
+    <file src="$windows_net472_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net472" />
+    <file src="$windows_net472_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net472" />
 
-    <!-- Windows Classic Desktop (WPF and WinForms) for .NETFramework 471 -->
-    <file src="$windows_desktop_net472_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net472" />
-    <file src="$windows_desktop_net472_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net472" />
+    <!-- Windows Desktop for .NET Core and .NET 5 -->
+    <file src="$windows_netcore_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/netcoreapp3.1" />
+    <file src="$windows_netcore_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/netcoreapp3.1" />
 
-    <!-- WindowsDesktop (WPF and WinForms) for .NET Core -->
-    <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/netcoreapp3.1" />
-    <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/netcoreapp3.1" />
-    <file src="$windows_desktop_net5_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net5.0-windows7.0" />
-    <file src="$windows_desktop_net5_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net5.0-windows7.0" />
-
-    <!-- WinUI -->
-    <file src="$windows_desktop_net5_winui_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net5.0-windows10.0.17763.0" />
-    <file src="$windows_desktop_net5_winui_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net5.0-windows10.0.17763.0" />
+    <!-- Windows Desktop for WinUI and modern OS targets -->
+    <file src="$windows_net6_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net6.0-windows10.0.17763.0" />
+    <file src="$windows_net6_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net6.0-windows10.0.17763.0" />
   </files>
 </package>

@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Android.Runtime;
 using Com.Microsoft.Appcenter.Crashes;
@@ -192,13 +191,20 @@ namespace Microsoft.AppCenter.Crashes
             var frames = stackTrace.GetFrames();
             if (frames != null)
             {
-                modelFrames.AddRange(frames.Select(frame => new ModelStackFrame
+                foreach (var frame in frames)
                 {
-                    ClassName = frame.GetMethod()?.DeclaringType?.FullName,
-                    MethodName = frame.GetMethod()?.Name,
-                    FileName = frame.GetFileName(),
-                    LineNumber = frame.GetFileLineNumber() != 0 ? new Integer(frame.GetFileLineNumber()) : null
-                }).Where(modelFrame => !modelFrame.Equals(EmptyModelFrame)));
+                    var modelFrame = new ModelStackFrame
+                    {
+                        ClassName = frame.GetMethod()?.DeclaringType?.FullName,
+                        MethodName = frame.GetMethod()?.Name,
+                        FileName = frame.GetFileName(),
+                        LineNumber = frame.GetFileLineNumber() != 0 ? new Integer(frame.GetFileLineNumber()) : null
+                    };
+                    if (!modelFrame.Equals(EmptyModelFrame))
+                    {
+                        modelFrames.Add(modelFrame);
+                    }
+                }
             }
             return modelFrames;
         }

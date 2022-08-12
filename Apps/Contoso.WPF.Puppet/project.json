@@ -3,7 +3,7 @@
     "SQLitePCLRaw.bundle_green": "2.1.0"
   },
   "frameworks": {
-    "net461": {}
+    "net472": {}
   },
   "runtimes": {
     "win": {}

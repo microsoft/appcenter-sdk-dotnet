@@ -76,6 +76,15 @@
     </ObjcBindingCoreSource>
   </ItemGroup>
   <ItemGroup>
+    <NativeReference Include="..\..\..\externals\apple\macOS\AppCenterCrashes.framework">
+      <Kind>Framework</Kind>
+      <ForceLoad>True</ForceLoad>
+      <LinkerFlags>-lc++</LinkerFlags>
+      <IsCxx>True</IsCxx>
+      <SmartLink>False</SmartLink>
+    </NativeReference>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.MacOS\Microsoft.AppCenter.MacOS.csproj">
       <Project>{727A9E5A-566A-4DC5-B62B-8F7CA17661B8}</Project>
       <Name>Microsoft.AppCenter.MacOS</Name>

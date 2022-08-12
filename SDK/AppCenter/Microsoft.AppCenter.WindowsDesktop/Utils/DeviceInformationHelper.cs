@@ -3,17 +3,9 @@
 
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
-#if WINDOWS10_0_17763_0
-using Windows.ApplicationModel;
-#endif
-
-#if NET461 || NET472
-using System.Deployment.Application;
-#endif
 
 namespace Microsoft.AppCenter.Utils
 {
@@ -42,10 +34,10 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetSdkName()
         {
-            var sdkName = WpfHelper.IsRunningOnWpf ? "appcenter.wpf" : "appcenter.winforms";
-#if WINDOWS10_0_17763_0            
-            sdkName = $"{sdkName}.net";
-#elif NETCOREAPP3_1
+            var sdkName = WindowsHelper.IsRunningAsWpf ? "appcenter.wpf" : "appcenter.winforms";
+#if WINDOWS
+            sdkName = WindowsHelper.IsRunningAsUwp ? "appcenter.winui" : $"{sdkName}.net";
+#elif NETCOREAPP
             sdkName = $"{sdkName}.netcore";
 #endif
             return sdkName;
@@ -190,70 +182,33 @@ namespace Microsoft.AppCenter.Utils
 
         protected override string GetAppVersion()
         {
-            return DeploymentVersion ?? PackageVersion ?? TryToGetWinFormsAppVersion() ?? _defaultVersion;
-        }
-
-        private static string GetWinFormsAppVersion()
-        {
-            /*
-             * Application.ProductVersion returns the value from AssemblyInformationalVersion.
-             * If the AssemblyInformationalVersion is not applied to an assembly,
-             * the version number specified by the AssemblyFileVersion attribute is used instead.
-             */
-            return System.Windows.Forms.Application.ProductVersion;
-        }
-
-        private static string TryToGetWinFormsAppVersion()
-        {
-            try
-            {
-                return GetWinFormsAppVersion();
-            }
-            catch (Exception exception)
-            {
-                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to get product version with error: ", exception);
-                return null;
-            }
+            return DeploymentVersion ?? ProductVersion ?? _defaultVersion;
         }
 
         protected override string GetAppBuild()
         {
-            return DeploymentVersion ?? FileVersion ?? PackageVersion ?? _defaultVersion;
+            return DeploymentVersion ?? AssemblyVersion?.FileVersion ?? _defaultVersion;
         }
 
         protected override string GetScreenSize()
         {
-            const int DESKTOPVERTRES = 117;
-            const int DESKTOPHORZRES = 118;
-            using (var graphics = Graphics.FromHwnd(IntPtr.Zero))
-            {
-                var desktop = graphics.GetHdc();
-                var height = GetDeviceCaps(desktop, DESKTOPVERTRES);
-                var width = GetDeviceCaps(desktop, DESKTOPHORZRES);
-                return $"{width}x{height}";
-            }
+            WindowsHelper.GetScreenSize(out int width, out int height);
+            return $"{width}x{height}";
         }
 
-        private static string PackageVersion
+        private static string ProductVersion
         {
             get
             {
-#if WINDOWS10_0_17763_0
-                if (!WpfHelper.IsRunningAsUwp)
-                {
-                    return null;
-                }
                 try
                 {
-                    var packageVersion = Package.Current.Id.Version;
-                    return $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
-                } 
-                catch (InvalidOperationException exception)
-                {
-                    AppCenterLog.Warn(AppCenterLog.LogTag, "Package version is available only in MSIX-packaged applications. See link https://docs.microsoft.com/en-us/windows/apps/desktop/modernize/desktop-to-uwp-supported-api.", exception);
+                    return WindowsHelper.GetWinFormsProductVersion();
                 }
-#endif
-                return null;
+                catch
+                {
+                    var assemblyVersion = AssemblyVersion;
+                    return assemblyVersion?.ProductVersion ?? assemblyVersion?.FileVersion;
+                }
             }
         }
 
@@ -261,22 +216,35 @@ namespace Microsoft.AppCenter.Utils
         {
             get
             {
-#if NET461 || NET472
-                // Get ClickOnce version (does not exist on .NET Core). 
-                if (ApplicationDeployment.IsNetworkDeployed)
+#if NETFRAMEWORK
+                // Get ClickOnce version.
+                if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
                 {
-                    return ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+                    return System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+                }
+
+#elif WINDOWS10_0_17763_0_OR_GREATER
+                if (WindowsHelper.IsRunningAsUwp)
+                {
+                    try
+                    {
+                        var packageVersion = global::Windows.ApplicationModel.Package.Current.Id.Version;
+                        return $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
+                    }
+                    catch (InvalidOperationException exception)
+                    {
+                        AppCenterLog.Warn(AppCenterLog.LogTag, "Package version is available only in MSIX-packaged applications. See link https://docs.microsoft.com/en-us/windows/apps/desktop/modernize/desktop-to-uwp-supported-api.", exception);
+                    }
                 }
 #endif
                 return null;
             }
         }
 
-        private static string FileVersion
+        private static FileVersionInfo AssemblyVersion
         {
             get
             {
-#if !WINDOWS10_0_17763_0
                 // The AssemblyFileVersion uniquely identifies a build.
                 var entryAssembly = Assembly.GetEntryAssembly();
                 if (entryAssembly != null)
@@ -288,22 +256,10 @@ namespace Microsoft.AppCenter.Utils
                         // Read at https://docs.microsoft.com/en-us/dotnet/core/deploying/single-file#api-incompatibility
                         assemblyLocation = Environment.GetCommandLineArgs()[0];
                     }
-                    var fileVersionInfo = FileVersionInfo.GetVersionInfo(assemblyLocation);
-                    return fileVersionInfo.FileVersion;
+                    return FileVersionInfo.GetVersionInfo(assemblyLocation);
                 }
-
-                // Fallback if entry assembly is not found (in unit tests for example).
-                return TryToGetWinFormsAppVersion();
-#else
                 return null;
-#endif
             }
         }
-
-        /// <summary>
-        /// Import GetDeviceCaps function to retreive scale-independent screen size.
-        /// </summary>
-        [DllImport("gdi32.dll")]
-        private static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
     }
 }

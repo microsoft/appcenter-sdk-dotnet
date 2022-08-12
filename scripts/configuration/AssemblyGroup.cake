@@ -7,7 +7,8 @@ public class AssemblyGroup
 {
     public string Id { get; set; }
     public string NuspecKey => $"${Id}_dir$";
-    public string Folder => $"bin/{Id}";
+    private string AssembliesPath => Statics.Context.Argument<string>("AssembliesPath", "bin");
+    public string Folder => System.IO.Path.Combine(AssembliesPath, Id);
     public IList<string> AssemblyPaths { get; set; }
     public bool Download { get; set; }
 

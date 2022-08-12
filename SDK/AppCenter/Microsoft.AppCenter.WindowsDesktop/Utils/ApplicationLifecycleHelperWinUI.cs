@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#if WINDOWS10_0_17763_0
+#if WINDOWS10_0_17763_0_OR_GREATER
 using System;
-using System.Linq;
 using System.Runtime.ExceptionServices;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
-using Windows.UI.Core;
 
 namespace Microsoft.AppCenter.Utils
 {

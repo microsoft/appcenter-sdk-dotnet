@@ -48,6 +48,7 @@
     <NativeReference Include="..\..\..\externals\apple\macOS\AppCenterAnalytics.framework">
       <Kind>Framework</Kind>
       <ForceLoad>True</ForceLoad>
+      <Frameworks>IOKit</Frameworks>
     </NativeReference>
   </ItemGroup>
   <ItemGroup>
