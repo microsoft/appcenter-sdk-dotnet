@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.xml</DocumentationFile>
     <LangVersion>7.0</LangVersion>
+    <NoWarn>1591</NoWarn>
     
     <!-- Assembly information. -->
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>

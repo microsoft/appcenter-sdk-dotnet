@@ -64,10 +64,10 @@ namespace Microsoft.AppCenter.Analytics
             MSACAnalytics.Resume();
         }
 
-        /// <summary>
-        /// Enable or disable automatic page tracking.
-        /// Set this to false to if you plan to call <see cref="TrackPage"/> manually.
-        /// </summary>
+        ///// <summary>
+        ///// Enable or disable automatic page tracking.
+        ///// Set this to false to if you plan to call <see cref="TrackPage"/> manually.
+        ///// </summary>
         //public static bool AutoPageTrackingEnabled
         //{
         //	get { return MSACAnalytics.IsAutoPageTrackingEnabled(); }
