@@ -20,6 +20,10 @@
         <dependency id="Newtonsoft.Json" version="13.0.1"/>
         <dependency id="SQLitePCLRaw.bundle_green" version="2.1.0" />
       </group>
+      <group targetFramework="net462">
+        <dependency id="Newtonsoft.Json" version="13.0.1"/>
+        <dependency id="SQLitePCLRaw.bundle_green" version="2.1.0" />
+      </group>
       <group targetFramework="net472">
         <dependency id="Newtonsoft.Json" version="13.0.1"/>
         <dependency id="SQLitePCLRaw.bundle_green" version="2.1.0" />
@@ -40,6 +44,10 @@
     <frameworkAssemblies>
 
       <!-- Framework assembly for .NET Framework -->
+      <frameworkAssembly assemblyName="System.Configuration" targetFramework="net462" />
+      <frameworkAssembly assemblyName="System.Deployment" targetFramework="net462" />
+      <frameworkAssembly assemblyName="System.Management" targetFramework="net462" />
+      <frameworkAssembly assemblyName="System.Net.Http" targetFramework="net462" />
       <frameworkAssembly assemblyName="System.Configuration" targetFramework="net472" />
       <frameworkAssembly assemblyName="System.Deployment" targetFramework="net472" />
       <frameworkAssembly assemblyName="System.Management" targetFramework="net472" />
@@ -53,6 +61,8 @@
     <file src="$uwp_dir$/Microsoft.AppCenter.xml" target="lib/uap10.0.16299" />
 
     <!-- Windows Classic Desktop (WPF and WinForms) for .NET Framework -->
+    <file src="$windows_net462_dir$/Microsoft.AppCenter.dll" target="lib/net462" />
+    <file src="$windows_net462_dir$/Microsoft.AppCenter.xml" target="lib/net462" />
     <file src="$windows_net472_dir$/Microsoft.AppCenter.dll" target="lib/net472" />
     <file src="$windows_net472_dir$/Microsoft.AppCenter.xml" target="lib/net472" />
 
