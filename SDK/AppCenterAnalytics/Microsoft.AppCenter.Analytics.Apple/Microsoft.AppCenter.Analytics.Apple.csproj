@@ -56,6 +56,6 @@
     </NativeReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.AppleUnified\Microsoft.AppCenter.AppleUnified.csproj" />
+    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Apple\Microsoft.AppCenter.Apple.csproj" />
   </ItemGroup>
 </Project>

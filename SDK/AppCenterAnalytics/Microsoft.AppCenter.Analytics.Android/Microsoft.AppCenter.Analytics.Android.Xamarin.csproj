@@ -40,4 +40,7 @@
       <Link>Jars\appcenter-analytics-release.aar</Link>
     </LibraryProjectZip>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.Xamarin.csproj" />
+  </ItemGroup>
 </Project>

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Android.Runtime;
-using Com.Microsoft.Appcenter.Analytics;
 
 namespace Microsoft.AppCenter.Analytics
 {
@@ -25,7 +24,7 @@ namespace Microsoft.AppCenter.Analytics
         /// The Android SDK Analytics bindings type.
         /// </value>
         [Preserve]
-        public static Type BindingType => typeof(AndroidAnalytics);
+        public static Type BindingType => typeof(Android.Analytics);
 
         /// <summary>
         /// Check whether the Analytics service is enabled or not.
@@ -33,7 +32,7 @@ namespace Microsoft.AppCenter.Analytics
         /// <returns>A task with result being true if enabled, false if disabled.</returns>
         public static Task<bool> IsEnabledAsync()
         {
-            var future = AndroidAnalytics.IsEnabled();
+            var future = Android.Analytics.IsEnabled();
             return Task.Run(() => (bool)future.Get());
         }
 
@@ -43,7 +42,7 @@ namespace Microsoft.AppCenter.Analytics
         /// <returns>A task to monitor the operation.</returns>
         public static Task SetEnabledAsync(bool enabled)
         {
-            var future = AndroidAnalytics.SetEnabled(enabled);
+            var future = Android.Analytics.SetEnabled(enabled);
             return Task.Run(() => future.Get());
         }
 
@@ -52,7 +51,7 @@ namespace Microsoft.AppCenter.Analytics
         /// </summary>
         internal static void Pause()
         {
-            AndroidAnalytics.Pause();
+            Android.Analytics.Pause();
         }
 
         /// <summary>
@@ -60,7 +59,7 @@ namespace Microsoft.AppCenter.Analytics
         /// </summary>
         internal static void Resume()
         {
-            AndroidAnalytics.Resume();
+            Android.Analytics.Resume();
         }
 
         ///// <summary>
@@ -69,8 +68,8 @@ namespace Microsoft.AppCenter.Analytics
         ///// </summary>
         //public static bool AutoPageTrackingEnabled
         //{
-        //    get { return AndroidAnalytics.AutoPageTrackingEnabled; }
-        //    set { AndroidAnalytics.AutoPageTrackingEnabled = value; }
+        //    get { return Android.Analytics.AutoPageTrackingEnabled; }
+        //    set { Android.Analytics.AutoPageTrackingEnabled = value; }
         //}
 
         /// <summary>
@@ -80,7 +79,7 @@ namespace Microsoft.AppCenter.Analytics
         /// <param name="properties">Optional properties.</param>
         public static void TrackEvent(string name, IDictionary<string, string> properties = null)
         {
-            AndroidAnalytics.TrackEvent(name, properties);
+            Android.Analytics.TrackEvent(name, properties);
         }
 
         /// <summary>
@@ -88,7 +87,7 @@ namespace Microsoft.AppCenter.Analytics
         /// </summary>
         public static void EnableManualSessionTracker()
         {
-            AndroidAnalytics.EnableManualSessionTracker();
+            Android.Analytics.EnableManualSessionTracker();
         }
 
         /// <summary>
@@ -96,7 +95,7 @@ namespace Microsoft.AppCenter.Analytics
         /// </summary>
         public static void StartSession()
         {
-            AndroidAnalytics.StartSession();
+            Android.Analytics.StartSession();
         }
 
         ///// <summary>
@@ -106,12 +105,12 @@ namespace Microsoft.AppCenter.Analytics
         ///// <param name="properties">Optional properties.</param>
         //public static void TrackPage(string name, [Optional] IDictionary<string, string> properties)
         //{
-        //    AndroidAnalytics.TrackPage(name, properties);
+        //    Android.Analytics.TrackPage(name, properties);
         //}
 
         internal static void UnsetInstance()
         {
-            AndroidAnalytics.UnsetInstance();
+            Android.Analytics.UnsetInstance();
         }
     }
 }

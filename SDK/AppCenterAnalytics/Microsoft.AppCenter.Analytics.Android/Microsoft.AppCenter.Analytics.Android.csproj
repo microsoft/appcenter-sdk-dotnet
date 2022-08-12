@@ -6,7 +6,7 @@
     <AndroidBoundInterfacesContainTypes>false</AndroidBoundInterfacesContainTypes>
     <AndroidGenerateResourceDesigner>false</AndroidGenerateResourceDesigner>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Analytics.xml</DocumentationFile>
-    <LangVersion>7.0</LangVersion>
+    <LangVersion>8.0</LangVersion>
     <NoWarn>1591</NoWarn>
 
     <!-- Assembly information. -->
@@ -29,5 +29,8 @@
     <AndroidLibrary Include="..\..\..\externals\android\appcenter-analytics-release.aar">
       <Link>Jars\appcenter-analytics-release.aar</Link>
     </AndroidLibrary>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.csproj" />
   </ItemGroup>
 </Project>

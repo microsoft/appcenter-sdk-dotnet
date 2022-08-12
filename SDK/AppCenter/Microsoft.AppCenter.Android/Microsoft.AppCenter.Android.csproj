@@ -6,7 +6,7 @@
     <AndroidBoundInterfacesContainTypes>false</AndroidBoundInterfacesContainTypes>
     <AndroidGenerateResourceDesigner>false</AndroidGenerateResourceDesigner>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.xml</DocumentationFile>
-    <LangVersion>7.0</LangVersion>
+    <LangVersion>8.0</LangVersion>
     <NoWarn>1591</NoWarn>
 
     <!-- Assembly information. -->
