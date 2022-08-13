@@ -81,9 +81,9 @@ namespace Microsoft.AppCenter.Crashes
             {
                 foreach (var attachment in attachments)
                 {
-                    if (attachment?.internalAttachment != null)
+                    if (attachment?.InternalAttachment != null)
                     {
-                        attachmentArray.Add(attachment.internalAttachment);
+                        attachmentArray.Add(attachment.InternalAttachment);
                     }
                     else
                     {
@@ -236,7 +236,7 @@ namespace Microsoft.AppCenter.Crashes
                     {
                         if (attachment != null)
                         {
-                            nsArray.Add(attachment.internalAttachment);
+                            nsArray.Add(attachment.InternalAttachment);
                         }
                         else
                         {

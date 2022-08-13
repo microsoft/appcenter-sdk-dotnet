@@ -13,7 +13,6 @@
     <remove-node path="/api/package[@name='com.microsoft.appcenter.ingestion']/class" />
     <remove-node path="/api/package[@name='com.microsoft.appcenter.ingestion.models']/class[@name='CommonProperties' or @name='StartServiceLog']" />
     <remove-node path="/api/package[@name='com.microsoft.appcenter.ingestion.models.json']/class[not(@name='AbstractLogFactory')]" />
-    <remove-node path="/api/package[@name='com.microsoft.appcenter.ingestion.models.json']/interface[not(@name='LogFactory')]" />
     <remove-node path="/api/package[@name='com.microsoft.appcenter.ingestion.models.one']/class[not(@name='CommonSchemaLog')]" />
     <remove-node path="/api/package[@name='com.microsoft.appcenter.ingestion.models.one']/class[@name='CommonSchemaLog']/method" />
     <remove-node path="/api/package[@name='com.microsoft.appcenter.ingestion.models.properties']/class[not(@name='TypedProperty')]" />

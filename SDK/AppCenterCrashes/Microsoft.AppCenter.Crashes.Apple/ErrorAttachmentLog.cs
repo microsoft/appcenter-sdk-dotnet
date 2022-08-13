@@ -8,11 +8,11 @@ namespace Microsoft.AppCenter.Crashes
 {
     public partial class ErrorAttachmentLog
     {
-        internal MSACErrorAttachmentLog internalAttachment { get; }
+        internal MSACErrorAttachmentLog InternalAttachment { get; }
 
         ErrorAttachmentLog(MSACErrorAttachmentLog appleAttachment)
         {
-            internalAttachment = appleAttachment;
+            InternalAttachment = appleAttachment;
         }
 
         static ErrorAttachmentLog PlatformAttachmentWithText(string text, string fileName)
