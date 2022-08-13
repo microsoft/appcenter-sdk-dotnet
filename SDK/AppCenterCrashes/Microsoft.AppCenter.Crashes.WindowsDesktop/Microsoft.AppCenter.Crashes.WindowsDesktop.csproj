@@ -4,8 +4,10 @@
     <TargetFrameworks>netcoreapp3.1;net462;net472;net6.0-windows10.0.17763.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared.Windows\**.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.WindowsDesktop\Microsoft.AppCenter.WindowsDesktop.csproj" />
   </ItemGroup>
-  <Import Project="..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems" Label="Shared" />
-  <Import Project="..\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.projitems" Label="Shared" />
 </Project>

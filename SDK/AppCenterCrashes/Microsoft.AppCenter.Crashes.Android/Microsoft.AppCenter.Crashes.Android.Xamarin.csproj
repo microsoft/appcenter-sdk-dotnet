@@ -16,6 +16,10 @@
     </TransformFile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared.Xamarin\**.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <LibraryProjectZip Include="..\..\..\externals\android\appcenter-crashes-release.aar">
       <Link>Jars\appcenter-crashes-release.aar</Link>
     </LibraryProjectZip>
@@ -23,6 +27,4 @@
   <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.Xamarin.csproj" />
   </ItemGroup>
-  <Import Project="..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems" Label="Shared" />
-  <Import Project="..\Microsoft.AppCenter.Crashes.Shared.Xamarin\Microsoft.AppCenter.Crashes.Shared.Xamarin.projitems" Label="Shared" />
 </Project>

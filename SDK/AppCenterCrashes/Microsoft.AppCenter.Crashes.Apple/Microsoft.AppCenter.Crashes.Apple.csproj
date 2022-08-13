@@ -17,6 +17,10 @@
     <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared.Xamarin\**.cs" />
+  </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.EndsWith('-ios'))">
     <NativeReference Include="..\..\..\externals\apple\ios\AppCenterCrashes.a">
       <Kind>Static</Kind>
@@ -38,6 +42,4 @@
   <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Apple\Microsoft.AppCenter.Apple.csproj" />
   </ItemGroup>
-  <Import Project="..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems" Label="Shared" />
-  <Import Project="..\Microsoft.AppCenter.Crashes.Shared.Xamarin\Microsoft.AppCenter.Crashes.Shared.Xamarin.projitems" Label="Shared" />
 </Project>

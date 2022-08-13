@@ -56,7 +56,7 @@ namespace Microsoft.AppCenter.Crashes
         /// <summary>
         /// Gets details specific to Apple devices.
         /// </summary>
-        /// <value>iOS error report details. <c>null</c> if the OS is not iOS.</value>
+        /// <value>Apple error report details. <c>null</c> if the OS is not iOS/macOS.</value>
         public AppleErrorDetails AppleDetails { get; }
     }
 }
