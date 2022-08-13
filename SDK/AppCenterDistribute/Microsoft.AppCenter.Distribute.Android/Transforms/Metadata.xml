@@ -2,10 +2,16 @@
 <metadata>
 
     <!-- Remove types that aren't used in wrapper SDK. -->
-    <remove-node path="/api/package[@name='com.microsoft.appcenter.distribute.ingestion.models.json']" />
-    <remove-node path="/api/package[@name='com.microsoft.appcenter.distribute.ingestion.models']/class[contains(@name, 'Log')]/field[@name='TYPE']" />
-    <remove-node path="/api/package[@name='com.microsoft.appcenter.distribute']/interface[@name='UpdateAction']" />
+    <remove-node path="/api/package[@name='com.microsoft.appcenter.distribute']/class[not(@name='Distribute' or @name='ReleaseDetails' or contains(@name,'Activity') or contains(@name,'Receiver'))]" />
+    <remove-node path="/api/package[@name='com.microsoft.appcenter.distribute']/interface[not(contains(@name,'Listener'))]" />
+    <remove-node path="/api/package[@name='com.microsoft.appcenter.distribute.channel']" />
+    <remove-node path="/api/package[starts-with(@name,'com.microsoft.appcenter.distribute.download')]" />
+    <remove-node path="/api/package[starts-with(@name,'com.microsoft.appcenter.distribute.ingestion')]" />
+    <remove-node path="/api/package[starts-with(@name,'com.microsoft.appcenter.distribute.install')]" />
 
+    <!-- Fix binding events. -->
+    <attr path="/api/package[@name='com.microsoft.appcenter.distribute']/class[@name='Distribute']/method[@name='setListener']" name="eventName">Release</attr>
+    
     <!-- Explicitly adding bindings for internal methods. -->
     <add-node path="/api/package[@name='com.microsoft.appcenter.distribute']/class[@name='Distribute']">
         <method name="unsetInstance" return="void" abstract="false" native="false" synchronized="true" static="true" final="false" deprecated="not deprecated" visibility="public" />
