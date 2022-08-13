@@ -25,6 +25,6 @@
     </LibraryProjectZip>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.Xamarin.csproj" />
+    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.Mono.csproj" />
   </ItemGroup>
 </Project>

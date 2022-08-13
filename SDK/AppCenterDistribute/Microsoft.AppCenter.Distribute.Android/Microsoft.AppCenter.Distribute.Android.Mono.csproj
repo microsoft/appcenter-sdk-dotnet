@@ -16,14 +16,14 @@
     </TransformFile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Microsoft.AppCenter.Analytics.Shared\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Distribute.Shared\**.cs" />
   </ItemGroup>
   <ItemGroup>
-    <LibraryProjectZip Include="..\..\..\externals\android\appcenter-analytics-release.aar">
-      <Link>Jars\appcenter-analytics-release.aar</Link>
+    <LibraryProjectZip Include="..\..\..\externals\android\appcenter-distribute-release.aar">
+      <Link>Jars\appcenter-distribute-release.aar</Link>
     </LibraryProjectZip>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.Xamarin.csproj" />
+    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.Mono.csproj" />
   </ItemGroup>
 </Project>

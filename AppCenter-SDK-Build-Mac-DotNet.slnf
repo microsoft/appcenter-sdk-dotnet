@@ -2,10 +2,19 @@
   "solution": {
     "path": "AppCenter-Mac.sln",
     "projects": [
-      "SDK\\AppCenter\\Microsoft.AppCenter.AppleUnified\\Microsoft.AppCenter.AppleUnified.csproj",
-      "SDK\\AppCenterAnalytics\\Microsoft.AppCenter.Analytics.AppleUnified\\Microsoft.AppCenter.Analytics.AppleUnified.csproj",
-      "SDK\\AppCenterCrashes\\Microsoft.AppCenter.Crashes.AppleUnified\\Microsoft.AppCenter.Crashes.AppleUnified.csproj",
-      "SDK\\AppCenterDistribute\\Microsoft.AppCenter.Distribute.AppleUnified\\Microsoft.AppCenter.Distribute.AppleUnified.csproj"
+      "SDK\\AppCenter\\Microsoft.AppCenter\\Microsoft.AppCenter.csproj",
+      "SDK\\AppCenter\\Microsoft.AppCenter.Android\\Microsoft.AppCenter.Android.csproj",
+      "SDK\\AppCenter\\Microsoft.AppCenter.Apple\\Microsoft.AppCenter.Apple.csproj",
+      "SDK\\AppCenterAnalytics\\Microsoft.AppCenter.Analytics\\Microsoft.AppCenter.Analytics.csproj",
+      "SDK\\AppCenterAnalytics\\Microsoft.AppCenter.Analytics.Android\\Microsoft.AppCenter.Analytics.Android.csproj",
+      "SDK\\AppCenterAnalytics\\Microsoft.AppCenter.Analytics.Apple\\Microsoft.AppCenter.Analytics.Apple.csproj",
+      "SDK\\AppCenterCrashes\\Microsoft.AppCenter.Crashes\\Microsoft.AppCenter.Crashes.csproj",
+      "SDK\\AppCenterCrashes\\Microsoft.AppCenter.Crashes.Android\\Microsoft.AppCenter.Crashes.Android.csproj",
+      "SDK\\AppCenterCrashes\\Microsoft.AppCenter.Crashes.Apple\\Microsoft.AppCenter.Crashes.Apple.csproj",
+      "SDK\\AppCenterDistribute\\Microsoft.AppCenter.Distribute\\Microsoft.AppCenter.Distribute.csproj",
+      "SDK\\AppCenterDistribute\\Microsoft.AppCenter.Distribute.Android\\Microsoft.AppCenter.Distribute.Android.csproj",
+      "SDK\\AppCenterDistribute\\Microsoft.AppCenter.Distribute.AndroidPlay\\Microsoft.AppCenter.Distribute.AndroidPlay.csproj",
+      "SDK\\AppCenterDistribute\\Microsoft.AppCenter.Distribute.Apple\\Microsoft.AppCenter.Distribute.Apple.csproj"
     ]
   }
 }
