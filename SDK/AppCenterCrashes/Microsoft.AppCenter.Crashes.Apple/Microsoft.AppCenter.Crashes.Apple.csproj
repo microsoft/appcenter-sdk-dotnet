@@ -3,36 +3,15 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0-ios;net6.0-macos</TargetFrameworks>
     <IsBindingProject>true</IsBindingProject>
-    <Optimize>true</Optimize>
-    <Copyright>Microsoft Corp. All rights reserved.</Copyright>
-    <Product>Microsoft.AppCenter.Crashes</Product>
-    <Company>Microsoft Corporation</Company>
-    <Version>4.6.0-SNAPSHOT</Version>
-    <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>4.6.0.0</FileVersion>
-    <RootNamespace>Microsoft.AppCenter.Crashes</RootNamespace>
-    <AssemblyName>Microsoft.AppCenter.Crashes</AssemblyName>
-    <AssemblyTitle>Microsoft.AppCenter.Crashes</AssemblyTitle>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Crashes.xml</DocumentationFile>
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>true</DelaySign>
-    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
     <NoBindingEmbedding>false</NoBindingEmbedding>
-    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.EndsWith('-ios'))">
     <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.EndsWith('-macos'))">
     <SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <ItemGroup>
     <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
@@ -57,8 +36,8 @@
     </NativeReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.AppleUnified\Microsoft.AppCenter.AppleUnified.csproj" />
+    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Apple\Microsoft.AppCenter.Apple.csproj" />
   </ItemGroup>
-  <Import Project="..\Microsoft.AppCenter.Crashes.Shared.Xamarin\Microsoft.AppCenter.Crashes.Shared.Xamarin.projitems" Label="Shared" />
   <Import Project="..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems" Label="Shared" />
+  <Import Project="..\Microsoft.AppCenter.Crashes.Shared.Xamarin\Microsoft.AppCenter.Crashes.Shared.Xamarin.projitems" Label="Shared" />
 </Project>

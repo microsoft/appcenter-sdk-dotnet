@@ -4,11 +4,11 @@
 namespace Microsoft.AppCenter.Crashes
 {    
     /// <summary>
-    /// Error report details pertinent only to devices running iOS.
+    /// Error report details pertinent only to Apple devices.
     /// </summary>
-    public class iOSErrorDetails
+    public class AppleErrorDetails
     {
-        internal iOSErrorDetails(string reporterKey, string signal, string exceptionName, string exceptionReason,
+        internal AppleErrorDetails(string reporterKey, string signal, string exceptionName, string exceptionReason,
                                uint appProcessIdentifier)
         {
             ReporterKey = reporterKey;

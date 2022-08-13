@@ -9,15 +9,14 @@
     <Import_RootNamespace>Microsoft.AppCenter.Crashes</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Crashes.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)NamespaceDoc.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ErrorReportEventArgs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CrashesDelegates.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ErrorReport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AndroidErrorDetails.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)iOSErrorDetails.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserConfirmation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppleErrorDetails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Crashes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CrashesDelegates.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ErrorAttachmentLog.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MacOSErrorDetails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ErrorReport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ErrorReportEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NamespaceDoc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserConfirmation.cs" />
   </ItemGroup>
 </Project>

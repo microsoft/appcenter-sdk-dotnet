@@ -2,21 +2,10 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net462;net472;net6.0-windows10.0.17763.0</TargetFrameworks>
-    <RootNamespace>Microsoft.AppCenter.Crashes</RootNamespace>
-    <UseWindowsForms>true</UseWindowsForms>
-    <Version>4.6.0-SNAPSHOT</Version>
-    <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>4.6.0.0</FileVersion>
-    <AssemblyName>Microsoft.AppCenter.Crashes</AssemblyName>
-    <DocumentationFile>bin\Microsoft.AppCenter.Crashes.xml</DocumentationFile>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>true</DelaySign>
-    <NoWarn>1591</NoWarn>
   </PropertyGroup>
-  <Import Project="..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems" Label="Shared" />
-  <Import Project="..\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.projitems" Label="Shared" />
   <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.WindowsDesktop\Microsoft.AppCenter.WindowsDesktop.csproj" />
   </ItemGroup>
+  <Import Project="..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems" Label="Shared" />
+  <Import Project="..\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.projitems" Label="Shared" />
 </Project>

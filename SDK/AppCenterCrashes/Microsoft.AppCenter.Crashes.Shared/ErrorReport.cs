@@ -54,15 +54,9 @@ namespace Microsoft.AppCenter.Crashes
         public AndroidErrorDetails AndroidDetails { get; }
 
         /// <summary>
-        /// Gets details specific to iOS.
+        /// Gets details specific to Apple devices.
         /// </summary>
         /// <value>iOS error report details. <c>null</c> if the OS is not iOS.</value>
-        public iOSErrorDetails iOSDetails { get; }
-
-        /// <summary>
-        /// Gets details specific to macOS.
-        /// </summary>
-        /// <value>macOS error report details. <c>null</c> if the OS is not iOS.</value>
-        public MacOSErrorDetails MacOSDetails { get; }
+        public AppleErrorDetails AppleDetails { get; }
     }
 }

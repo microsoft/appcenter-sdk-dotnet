@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
+  <PropertyGroup>
+    <TargetFramework>MonoAndroid10.0</TargetFramework>
+    <IsBindingProject>true</IsBindingProject>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AndroidClassParser>class-parse</AndroidClassParser>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Android" />
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="Transforms\Metadata.xml">
+      <SubType>Designer</SubType>
+    </TransformFile>
+  </ItemGroup>
+  <ItemGroup>
+    <LibraryProjectZip Include="..\..\..\externals\android\appcenter-crashes-release.aar">
+      <Link>Jars\appcenter-crashes-release.aar</Link>
+    </LibraryProjectZip>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.Xamarin.csproj" />
+  </ItemGroup>
+  <Import Project="..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems" Label="Shared" />
+  <Import Project="..\Microsoft.AppCenter.Crashes.Shared.Xamarin\Microsoft.AppCenter.Crashes.Shared.Xamarin.projitems" Label="Shared" />
+</Project>
