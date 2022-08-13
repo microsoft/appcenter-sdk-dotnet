@@ -14,7 +14,10 @@
     <TransformFile Include="Properties\Microsoft.AppCenter.Analytics.UWP.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Analytics.Shared\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Analytics.Shared.Windows\**.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.UWP\Microsoft.AppCenter.UWP.csproj" />
   </ItemGroup>
-  <Import Project="..\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.projitems" Label="Shared" />
 </Project>

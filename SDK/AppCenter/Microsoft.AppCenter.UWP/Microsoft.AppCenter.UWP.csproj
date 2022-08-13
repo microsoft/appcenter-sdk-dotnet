@@ -20,6 +20,8 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.17763.1000" />
   </ItemGroup>
-  <Import Project="..\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems" Label="Shared" />
-  <Import Project="..\Microsoft.AppCenter.Windows.Shared\Microsoft.AppCenter.Windows.Shared.projitems" Label="Shared" />
+  <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Shared\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Shared.Windows\**.cs" />
+  </ItemGroup>
 </Project>

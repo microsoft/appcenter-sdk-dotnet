@@ -17,6 +17,9 @@
     <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Analytics.Shared\**.cs" />
+  </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.EndsWith('-ios'))">
     <NativeReference Include="..\..\..\externals\apple\ios\AppCenterAnalytics.a">
       <Kind>Static</Kind>

@@ -8,6 +8,9 @@
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Analytics.Shared\**.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <AndroidLibrary Include="..\..\..\externals\android\appcenter-analytics-release.aar">
       <Link>Jars\appcenter-analytics-release.aar</Link>
     </AndroidLibrary>

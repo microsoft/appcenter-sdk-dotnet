@@ -4,8 +4,6 @@
     <TargetFrameworks>netcoreapp3.1;net462;net472;net6.0-windows10.0.17763.0</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
-  <Import Project="..\Microsoft.AppCenter.Windows.Shared\Microsoft.AppCenter.Windows.Shared.projitems" Label="Shared" />
-  <Import Project="..\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems" Label="Shared" />
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.0" />
@@ -20,5 +18,9 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Management" />
     <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Shared\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Shared.Windows\**.cs" />
   </ItemGroup>
 </Project>

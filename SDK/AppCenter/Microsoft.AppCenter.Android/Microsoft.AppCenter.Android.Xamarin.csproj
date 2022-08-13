@@ -16,10 +16,12 @@
     </TransformFile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Shared\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Shared.Xamarin\**.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <LibraryProjectZip Include="..\..\..\externals\android\appcenter-release.aar">
       <Link>Jars\appcenter-release.aar</Link>
     </LibraryProjectZip>
   </ItemGroup>
-  <Import Project="..\Microsoft.AppCenter.Shared.Xamarin\Microsoft.AppCenter.Shared.Xamarin.projitems" Label="Shared" />
-  <Import Project="..\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems" Label="Shared" />
 </Project>

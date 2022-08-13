@@ -8,10 +8,12 @@
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Shared\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Shared.Xamarin\**.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <AndroidLibrary Include="..\..\..\externals\android\appcenter-release.aar">
       <Link>Jars\appcenter-release.aar</Link>
     </AndroidLibrary>
   </ItemGroup>
-  <Import Project="..\Microsoft.AppCenter.Shared.Xamarin\Microsoft.AppCenter.Shared.Xamarin.projitems" Label="Shared" />
-  <Import Project="..\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems" Label="Shared" />
 </Project>

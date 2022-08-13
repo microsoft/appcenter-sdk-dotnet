@@ -17,6 +17,10 @@
     <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Shared\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Shared.Xamarin\**.cs" />
+  </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.EndsWith('-ios'))">
     <NativeReference Include="..\..\..\externals\apple\ios\AppCenter.a">
       <Kind>Static</Kind>
@@ -33,6 +37,4 @@
       <Frameworks>CoreTelephony Security SystemConfiguration</Frameworks>
     </NativeReference>
   </ItemGroup>
-  <Import Project="..\Microsoft.AppCenter.Shared.Xamarin\Microsoft.AppCenter.Shared.Xamarin.projitems" Label="Shared" />
-  <Import Project="..\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems" Label="Shared" />
 </Project>

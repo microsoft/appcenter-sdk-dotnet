@@ -4,6 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Analytics.Shared\**.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter\Microsoft.AppCenter.csproj" />
   </ItemGroup>
   <Target Name="GetPackagingOutputs" />

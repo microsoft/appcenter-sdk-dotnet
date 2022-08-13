@@ -5,7 +5,10 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Analytics.Shared\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Analytics.Shared.Windows\**.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.WindowsDesktop\Microsoft.AppCenter.WindowsDesktop.csproj" />
   </ItemGroup>
-  <Import Project="..\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.projitems" Label="Shared" />
 </Project>
