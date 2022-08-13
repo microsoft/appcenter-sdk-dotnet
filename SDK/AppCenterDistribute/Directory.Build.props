@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+
+    <!-- Assembly information. -->
+    <Product>Microsoft.AppCenter.Distribute</Product>
+    <RootNamespace>Microsoft.AppCenter.Distribute</RootNamespace>
+    <AssemblyName>Microsoft.AppCenter.Distribute</AssemblyName>
+    <AssemblyTitle>Microsoft.AppCenter.Distribute</AssemblyTitle>
+  </PropertyGroup>
+  <ImportGroup>
+  
+    <!-- It stops at the first Directory.Build.props, so we need to manually include upward one. -->
+    <Import Project="../Directory.Build.props" />
+  </ImportGroup>
+</Project>
+

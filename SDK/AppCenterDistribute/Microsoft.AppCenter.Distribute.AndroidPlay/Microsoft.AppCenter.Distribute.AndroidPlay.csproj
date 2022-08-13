@@ -3,17 +3,12 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0-android</TargetFrameworks>
     <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
-    <AndroidBoundInterfacesContainTypes>false</AndroidBoundInterfacesContainTypes>
-    <AndroidGenerateResourceDesigner>false</AndroidGenerateResourceDesigner>
-    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Microsoft.AppCenter.Distribute.Shared\**.cs" />
+    <AndroidResource Include="Resources\values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidLibrary Include="..\..\..\externals\android\appcenter-distribute-release.aar">
-      <Link>Jars\appcenter-distribute-release.aar</Link>
-    </AndroidLibrary>
+    <Compile Include="..\Microsoft.AppCenter.Distribute.Shared\**.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.csproj" />
