@@ -5,25 +5,7 @@
     <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
     <AndroidBoundInterfacesContainTypes>false</AndroidBoundInterfacesContainTypes>
     <AndroidGenerateResourceDesigner>false</AndroidGenerateResourceDesigner>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.xml</DocumentationFile>
     <LangVersion>8.0</LangVersion>
-    <NoWarn>1591</NoWarn>
-
-    <!-- Assembly information. -->
-    <Copyright>Microsoft Corp. All rights reserved.</Copyright>
-    <Product>Microsoft.AppCenter.Core</Product>
-    <Company>Microsoft Corporation</Company>
-    <Version>4.6.0-SNAPSHOT</Version>
-    <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>4.6.0.0</FileVersion>
-    <RootNamespace>Microsoft.AppCenter</RootNamespace>
-    <AssemblyName>Microsoft.AppCenter</AssemblyName>
-    <AssemblyTitle>Microsoft.AppCenter.Core</AssemblyTitle>
-
-    <!-- Signing. -->
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>true</DelaySign>
-    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <AndroidLibrary Include="..\..\..\externals\android\appcenter-release.aar">

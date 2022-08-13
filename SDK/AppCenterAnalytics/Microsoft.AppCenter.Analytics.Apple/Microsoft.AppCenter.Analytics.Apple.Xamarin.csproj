@@ -1,29 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras/3.0.44">
   <PropertyGroup>
-    <ProjectGuid>{EF5D0090-9E12-45B5-961C-45D787BD80A5}</ProjectGuid>
     <TargetFrameworks>Xamarin.iOS;Xamarin.Mac</TargetFrameworks>
     <IsBindingProject>true</IsBindingProject>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Analytics.xml</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>7.0</LangVersion>
-    <NoWarn>1591</NoWarn>
-
-    <!-- Assembly information. -->
-    <Copyright>Microsoft Corp. All rights reserved.</Copyright>
-    <Product>Microsoft.AppCenter.Analytics</Product>
-    <Company>Microsoft Corporation</Company>
-    <Version>4.6.0-SNAPSHOT</Version>
-    <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>4.6.0.0</FileVersion>
-    <RootNamespace>Microsoft.AppCenter.Analytics</RootNamespace>
-    <AssemblyName>Microsoft.AppCenter.Analytics</AssemblyName>
-    <AssemblyTitle>Microsoft.AppCenter.Analytics</AssemblyTitle>
-
-    <!-- Signing. -->
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>true</DelaySign>
-    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.EndsWith('iOS'))">
     <MtouchLink>SdkOnly</MtouchLink>
@@ -35,13 +15,13 @@
     <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
   </ItemGroup>
-  <ItemGroup Condition="$(TargetFramework.EndsWith('-ios'))">
+  <ItemGroup Condition="$(TargetFramework.EndsWith('iOS'))">
     <NativeReference Include="..\..\..\externals\apple\ios\AppCenterAnalytics.a">
       <Kind>Static</Kind>
       <ForceLoad>True</ForceLoad>
     </NativeReference>
   </ItemGroup>
-  <ItemGroup Condition="$(TargetFramework.EndsWith('-macos'))">
+  <ItemGroup Condition="$(TargetFramework.EndsWith('Mac'))">
     <NativeReference Include="..\..\..\externals\apple\macOS\AppCenterAnalytics.framework">
       <Kind>Framework</Kind>
       <ForceLoad>True</ForceLoad>

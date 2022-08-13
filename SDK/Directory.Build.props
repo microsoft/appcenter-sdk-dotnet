@@ -1,8 +1,31 @@
 <Project>
   <PropertyGroup>
+    <Copyright>Microsoft Corp. All rights reserved.</Copyright>
+    <Company>Microsoft Corporation</Company>
+
+    <!-- Pin C# version. C# 8 features might have issues on Mono runtime. -->  
+    <LangVersion>7.0</LangVersion>
+
+    <!-- Current version. -->
+    <Version>4.6.0-SNAPSHOT</Version>
+    <FileVersion>4.6.0.0</FileVersion>
+
+    <!-- Used in runtime to ensure versions match. Prevents loading in some cases, so don't set it as release version. -->
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
 
     <!-- Fix to have multiple projects in the same folder. -->
     <BaseIntermediateOutputPath>obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
     <DefaultItemExcludes>$(DefaultItemExcludes);obj\**</DefaultItemExcludes>
+
+    <!-- Build XML documentation. -->
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+
+    <!-- Ignore some warnings. -->
+    <NoWarn>1591</NoWarn>
+
+    <!-- Signing. -->
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>true</DelaySign>
+    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 </Project>
