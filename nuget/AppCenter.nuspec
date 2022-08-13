@@ -40,10 +40,20 @@
         <dependency id="System.Management" version="6.0.0"/>
         <dependency id="System.Configuration.ConfigurationManager" version="6.0.0"/>
       </group>
-      <!-- Use empty dependency groups for iOS and Android so that additional dependencies aren't added to them -->
+      <!-- Use empty dependency groups so that additional dependencies aren't added to them. -->
+      <group targetFramework="netstandard2.0">
+      </group>
       <group targetFramework="MonoAndroid10.0">
       </group>
       <group targetFramework="Xamarin.iOS10">
+      </group>
+      <group targetFramework="Xamarin.Mac20">
+      </group>
+      <group targetFramework="net6.0-android29.0">
+      </group>
+      <group targetFramework="net6.0-ios9.0">
+      </group>
+      <group targetFramework="net6.0-macos10.10">
       </group>
     </dependencies>
     <frameworkAssemblies>
@@ -69,7 +79,9 @@
     <!-- Android -->
     <file src="$android_dir$/Microsoft.AppCenter.dll" target="lib/MonoAndroid10.0" />
     <file src="$android_dir$/Microsoft.AppCenter.xml" target="lib/MonoAndroid10.0" />
-    <file src="$android_dir$/Microsoft.AppCenter.Android.Bindings.dll" target="lib/MonoAndroid10.0" />
+    <file src="$android_net6_dir$/Microsoft.AppCenter.dll" target="lib/net6.0-android29.0" />
+    <file src="$android_net6_dir$/Microsoft.AppCenter.xml" target="lib/net6.0-android29.0" />
+    <file src="$android_net6_dir$/appcenter-release.aar" target="lib/net6.0-android29.0" />
 
     <!-- iOS -->
     <file src="$ios_dir$/Microsoft.AppCenter.dll" target="lib/Xamarin.iOS10" />
@@ -78,8 +90,8 @@
     <file src="$ios_net6_dir$/Microsoft.AppCenter.xml" target="lib/net6.0-ios9.0" />
 
     <!-- macOS -->
-    <file src="$macos_dir$/Microsoft.AppCenter.dll" target="lib/Xamarin.Mac" />
-    <file src="$macos_dir$/Microsoft.AppCenter.xml" target="lib/Xamarin.Mac" />
+    <file src="$macos_dir$/Microsoft.AppCenter.dll" target="lib/Xamarin.Mac20" />
+    <file src="$macos_dir$/Microsoft.AppCenter.xml" target="lib/Xamarin.Mac20" />
     <file src="$macos_net6_dir$/Microsoft.AppCenter.dll" target="lib/net6.0-macos10.10" />
     <file src="$macos_net6_dir$/Microsoft.AppCenter.xml" target="lib/net6.0-macos10.10" />
 
