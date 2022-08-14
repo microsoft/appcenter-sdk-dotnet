@@ -4,6 +4,7 @@
 
     <!-- .NET Framework 4.6.1 is used in Unity. -->
     <TargetFrameworks>uap10.0.16299;net461</TargetFrameworks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'uap10.0.16299' ">
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>

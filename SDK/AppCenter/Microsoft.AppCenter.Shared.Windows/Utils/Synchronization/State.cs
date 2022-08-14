@@ -6,7 +6,6 @@ namespace Microsoft.AppCenter.Utils.Synchronization
     /// <summary>
     /// Represents a particular state
     /// </summary>
-    /// <seealso cref="StateKeeper"/>
     /// <seealso cref="StatefulMutex"/> 
     public class State
     {
