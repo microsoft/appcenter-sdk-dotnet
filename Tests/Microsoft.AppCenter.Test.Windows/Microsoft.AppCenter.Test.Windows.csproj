@@ -101,12 +101,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.AppCenter.NET\Microsoft.AppCenter.NET.csproj">
-      <Project>{e76dc547-2b63-4911-971c-767587ebfab6}</Project>
-      <Name>Microsoft.AppCenter.NET</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Castle.Core">
       <Version>5.0.0</Version>
     </PackageReference>
@@ -125,6 +119,12 @@
     <PackageReference Include="MSTest.TestAdapter">
       <Version>2.2.10</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.AppCenter.Test\Microsoft.AppCenter.Test.csproj">
+      <Project>{4887a332-6046-497f-afd5-6a13a4824b8e}</Project>
+      <Name>Microsoft.AppCenter.Test</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
