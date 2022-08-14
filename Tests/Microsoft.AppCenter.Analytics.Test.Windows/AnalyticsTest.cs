@@ -231,36 +231,36 @@ namespace Microsoft.AppCenter.Analytics.Test.Windows
                 log.Name.Length == 256)), Times.Once());
 
             // Without properties
-            _mockChannel.ResetCalls();
+            _mockChannel.Invocations.Clear();
             Analytics.TrackEvent("test", null);
             _mockChannel.Verify(channel => channel.EnqueueAsync(It.IsAny<EventLog>()), Times.Once());
 
             // Property key is null or empty 
-            _mockChannel.ResetCalls();
+            _mockChannel.Invocations.Clear();
             Analytics.TrackEvent("test", new Dictionary<string, string> { { "", "test" } });
             _mockChannel.Verify(channel => channel.EnqueueAsync(It.Is<EventLog>(log =>
                 log.Properties == null || log.Properties.Count == 0)), Times.Once());
 
             // Property key length exceeds maximum
-            _mockChannel.ResetCalls();
+            _mockChannel.Invocations.Clear();
             Analytics.TrackEvent("test", new Dictionary<string, string> { { new string('?', 126), "test" } });
             _mockChannel.Verify(channel => channel.EnqueueAsync(It.Is<EventLog>(log =>
                 log.Properties.First().Key.Length == 125)), Times.Once());
             
             // Property value is null
-            _mockChannel.ResetCalls();
+            _mockChannel.Invocations.Clear();
             Analytics.TrackEvent("test", new Dictionary<string, string> { { "test", null } });
             _mockChannel.Verify(channel => channel.EnqueueAsync(It.Is<EventLog>(log =>
                 log.Properties == null || log.Properties.Count == 0)), Times.Once());
 
             // Property value length exceeds maximum
-            _mockChannel.ResetCalls();
+            _mockChannel.Invocations.Clear();
             Analytics.TrackEvent("test", new Dictionary<string, string> { { "test", new string('?', 126) } });
             _mockChannel.Verify(channel => channel.EnqueueAsync(It.Is<EventLog>(log =>
                 log.Properties.First().Value.Length == 125)), Times.Once());
 
             // Properties size exceeds maximum
-            _mockChannel.ResetCalls();
+            _mockChannel.Invocations.Clear();
             var manyProperties = new Dictionary<string, string>();
             for (int i = 0; i < 21; i++)
             {

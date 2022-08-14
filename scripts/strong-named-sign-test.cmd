@@ -20,8 +20,8 @@ call :testSignAssemble %pathToFile%Microsoft.AppCenter.Test.Windows.dll
 call :testSignAssemble %pathToFile%Microsoft.AppCenter.Test.WindowsDesktop.dll
 call :testSignAssemble %pathToFile%Microsoft.AppCenter.dll
 call :testSignAssemble %pathToFile%Microsoft.AppCenter.Crashes.Test.Windows.dll
-call :testSignAssemble %pathToFile%Microsoft.AppCenter.NET.dll
-call :testSignAssemble %pathToFile%Microsoft.AppCenter.Analytics.NET.dll
+call :testSignAssemble %pathToFile%Microsoft.AppCenter.Test.dll
+call :testSignAssemble %pathToFile%Microsoft.AppCenter.Analytics.Test.dll
 call :testSignAssemble %pathToFile%Microsoft.AppCenter.Analytics.Test.Windows.dll
 EXIT /B
 

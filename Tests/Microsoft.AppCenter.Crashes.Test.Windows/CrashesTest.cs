@@ -463,11 +463,11 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
             Assert.AreEqual(1, sentReportCallCount);
             Assert.AreEqual(1, failedToSendReportCallCount);
             Assert.IsNotNull(actualSendingReport);
-            Assert.IsNull(actualSendingReport.Exception);
+            Assert.IsNull(actualSendingReport.StackTrace);
             Assert.IsNotNull(actualSentReport);
-            Assert.IsNull(actualSentReport.Exception);
+            Assert.IsNull(actualSentReport.StackTrace);
             Assert.IsNotNull(failedToSendReport);
-            Assert.IsNull(failedToSendReport.Exception);
+            Assert.IsNull(failedToSendReport.StackTrace);
         }
 
         [TestMethod]
