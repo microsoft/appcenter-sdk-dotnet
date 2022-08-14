@@ -16,8 +16,8 @@
     </TransformFile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Microsoft.AppCenter.Shared\**.cs" />
-    <Compile Include="..\Microsoft.AppCenter.Shared.Xamarin\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Shared\**\*.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Shared.Xamarin\**\*.cs" />
   </ItemGroup>
   <ItemGroup>
     <LibraryProjectZip Include="..\..\..\externals\android\appcenter-release.aar">

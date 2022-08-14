@@ -8,7 +8,7 @@
     <AndroidResource Include="Resources\values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Microsoft.AppCenter.Distribute.Shared\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Distribute.Shared\**\*.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.csproj" />

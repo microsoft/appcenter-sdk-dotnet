@@ -17,8 +17,8 @@
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Microsoft.AppCenter.Shared\**.cs" />
-    <Compile Include="..\Microsoft.AppCenter.Shared.Xamarin\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Shared\**\*.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Shared.Xamarin\**\*.cs" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.EndsWith('iOS'))">
     <Reference Include="Xamarin.iOS" />

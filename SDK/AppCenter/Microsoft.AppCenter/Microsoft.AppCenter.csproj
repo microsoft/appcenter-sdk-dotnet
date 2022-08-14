@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Microsoft.AppCenter.Shared\**.cs" />
-    <Compile Include="..\Microsoft.AppCenter.Shared.Xamarin\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Shared\**\*.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Shared.Xamarin\**\*.cs" />
   </ItemGroup>
   <Target Name="GetPackagingOutputs" />
 </Project>

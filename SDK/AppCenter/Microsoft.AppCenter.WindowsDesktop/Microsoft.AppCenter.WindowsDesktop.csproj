@@ -20,7 +20,7 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Microsoft.AppCenter.Shared\**.cs" />
-    <Compile Include="..\Microsoft.AppCenter.Shared.Windows\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Shared\**\*.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Shared.Windows\**\*.cs" />
   </ItemGroup>
 </Project>

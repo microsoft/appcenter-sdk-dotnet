@@ -16,8 +16,8 @@
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared\**.cs" />
-    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared.Xamarin\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared\**\*.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared.Xamarin\**\*.cs" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.EndsWith('iOS'))">
     <NativeReference Include="..\..\..\externals\apple\ios\AppCenterCrashes.a">

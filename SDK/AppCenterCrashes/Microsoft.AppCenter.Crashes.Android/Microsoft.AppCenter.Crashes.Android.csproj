@@ -8,8 +8,8 @@
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared\**.cs" />
-    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared.Xamarin\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared\**\*.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared.Xamarin\**\*.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidLibrary Include="..\..\..\externals\android\appcenter-crashes-release.aar">

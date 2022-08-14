@@ -16,7 +16,7 @@
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Microsoft.AppCenter.Distribute.Shared\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Distribute.Shared\**\*.cs" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.EndsWith('iOS'))">
     <NativeReference Include="..\..\..\externals\apple\ios\AppCenterDistribute.a">

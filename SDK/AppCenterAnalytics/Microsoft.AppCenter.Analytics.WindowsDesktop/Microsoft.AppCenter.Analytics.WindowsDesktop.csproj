@@ -5,8 +5,8 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Microsoft.AppCenter.Analytics.Shared\**.cs" />
-    <Compile Include="..\Microsoft.AppCenter.Analytics.Shared.Windows\**.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Analytics.Shared\**\*.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Analytics.Shared.Windows\**\*.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.WindowsDesktop\Microsoft.AppCenter.WindowsDesktop.csproj" />
