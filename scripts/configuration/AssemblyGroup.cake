@@ -36,7 +36,7 @@ public class AssemblyGroup
         var platformString = Statics.Context.IsRunningOnUnix() ? "mac" : "windows";
         if (buildGroup != null)
         {
-            Download = (buildGroup != platformString);
+            Download = buildGroup != platformString || Statics.Context.Argument<bool>("MainPackage", false);
         }
         for (int i = 0; i < groupNode.ChildNodes.Count; ++i)
         {
