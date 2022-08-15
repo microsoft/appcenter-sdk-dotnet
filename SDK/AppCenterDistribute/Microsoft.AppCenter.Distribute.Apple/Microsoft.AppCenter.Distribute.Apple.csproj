@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0-ios</TargetFrameworks>
     <IsBindingProject>true</IsBindingProject>
+    <NoBindingEmbedding>false</NoBindingEmbedding>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.EndsWith('-ios'))">
     <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras/3.0.44">
   <PropertyGroup>
-    <TargetFramework>Xamarin.iOS</TargetFramework>
+    <TargetFrameworks>Xamarin.iOS</TargetFrameworks>
     <IsBindingProject>true</IsBindingProject>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>

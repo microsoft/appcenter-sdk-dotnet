@@ -3,14 +3,10 @@
     
     <!-- Remove types that aren't used in wrapper SDK and as public interface in modules. -->
     <remove-node path="/api/package[@name='com.microsoft.appcenter']/class[not(contains(@name,'AppCenter') or @name='DependencyConfiguration')]" />
-    <remove-node path="/api/package[@name='com.microsoft.appcenter']/class[@name='AppCenter']/method[@name='setChannel']" />
     <remove-node path="/api/package[@name='com.microsoft.appcenter.http']/class[not(@name='HttpResponse' or @name='HttpException')]" />
     <remove-node path="/api/package[@name='com.microsoft.appcenter.http']/interface[@name='DefaultHttpClientCallTask.Tracker']" />
     <remove-node path="/api/package[@name='com.microsoft.appcenter.channel']/class[not(@name='AbstractChannelListener')]" />
-    <remove-node path="/api/package[@name='com.microsoft.appcenter.channel']/class[@name='AbstractChannelListener']/method" />
-    <remove-node path="/api/package[@name='com.microsoft.appcenter.channel']/interface[@name='Channel.Listener']/method" />
-    <remove-node path="/api/package[@name='com.microsoft.appcenter.channel']/interface[@name='Channel.GroupListener']/method" />
-    <remove-node path="/api/package[@name='com.microsoft.appcenter.ingestion']/class" />
+    <remove-node path="/api/package[@name='com.microsoft.appcenter.ingestion']/class[not(@name='AbstractAppCenterIngestion')]" />
     <remove-node path="/api/package[@name='com.microsoft.appcenter.ingestion.models']/class[@name='CommonProperties' or @name='StartServiceLog']" />
     <remove-node path="/api/package[@name='com.microsoft.appcenter.ingestion.models.json']/class[not(@name='AbstractLogFactory')]" />
     <remove-node path="/api/package[@name='com.microsoft.appcenter.ingestion.models.one']/class[not(@name='CommonSchemaLog')]" />
@@ -23,6 +19,9 @@
     <remove-node path="/api/package[@name='com.microsoft.appcenter.utils.storage']" />
     <remove-node path="/api/package[@name='com.microsoft.appcenter.utils.crypto']" />
     
+    <!-- Fix auto-generated bindings. -->
+    <attr path="/api/package[@name='com.microsoft.appcenter.ingestion']/class[@name='AbstractAppCenterIngestion']/method[@name='setLogUrl']" name="propertyName"></attr>
+
     <!-- Explicitly adding bindings for internal methods. -->
     <add-node path="/api/package[@name='com.microsoft.appcenter']/class[@name='AppCenter']">
         <method name="unsetInstance" return="void" abstract="false" native="false" synchronized="true" static="true" final="false" deprecated="not deprecated" visibility="public" />

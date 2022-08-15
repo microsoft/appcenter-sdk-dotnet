@@ -11,6 +11,7 @@
 
     <!-- Fix binding events. -->
     <attr path="/api/package[@name='com.microsoft.appcenter.analytics']/class[@name='Analytics']/method[@name='setListener']" name="eventName">Sending</attr>
+    <attr path="/api/package[@name='com.microsoft.appcenter.analytics']/class[@name='Analytics']/method[@name='setListener']" name="visibility">public</attr>
     
     <!-- Explicitly adding bindings for internal methods. -->
     <add-node path="/api/package[@name='com.microsoft.appcenter.analytics']/class[@name='Analytics']">

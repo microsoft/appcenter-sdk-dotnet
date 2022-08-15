@@ -130,6 +130,11 @@ namespace Microsoft.AppCenter.Analytics.Apple.Bindings
         //@property(nonatomic) NSString *name;
         [Export("name")]
         string Name { get; set; }
+
+        //@property(nonatomic) NSDictionary<NSString*, NSString*>* properties;
+        [Export("properties")]
+        [Override]
+        NSDictionary<NSString, NSString> Properties { get; set; }
     }
 
     //@interface MSACPageLog : MSACLogWithProperties
@@ -139,5 +144,10 @@ namespace Microsoft.AppCenter.Analytics.Apple.Bindings
         //@property(nonatomic) NSString *name;
         [Export("name")]
         string Name { get; set; }
+
+        //@property(nonatomic) NSDictionary<NSString*, NSString*>* properties;
+        [Export("properties")]
+        [Override]
+        NSDictionary<NSString, NSString> Properties { get; set; }
     }
 }

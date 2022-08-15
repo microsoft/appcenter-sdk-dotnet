@@ -11,6 +11,7 @@
 
     <!-- Fix binding events. -->
     <attr path="/api/package[@name='com.microsoft.appcenter.distribute']/class[@name='Distribute']/method[@name='setListener']" name="eventName">Release</attr>
+    <attr path="/api/package[@name='com.microsoft.appcenter.distribute']/class[@name='Distribute']/method[@name='setListener']" name="visibility">public</attr>
     
     <!-- Explicitly adding bindings for internal methods. -->
     <add-node path="/api/package[@name='com.microsoft.appcenter.distribute']/class[@name='Distribute']">

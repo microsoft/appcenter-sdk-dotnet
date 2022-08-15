@@ -5,6 +5,9 @@
     <IsBindingProject>true</IsBindingProject>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidClassParser>class-parse</AndroidClassParser>
+
+    <!-- Ignore that Google Play requires target last SDK for app submissions. -->
+    <NoWarn>XA0113</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
