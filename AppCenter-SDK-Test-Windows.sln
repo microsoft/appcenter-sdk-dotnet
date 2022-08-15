@@ -1,15 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29009.5
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BC900C35-E0AD-46D2-BA4A-EF1904820B4A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Test.Windows", "Tests\Microsoft.AppCenter.Test.Windows\Microsoft.AppCenter.Test.Windows.csproj", "{E52C5D53-4485-4350-9F4E-AFF85CC18FD7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.NET", "Tests\Microsoft.AppCenter.NET\Microsoft.AppCenter.NET.csproj", "{E76DC547-2B63-4911-971C-767587EBFAB6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Analytics.NET", "Tests\Microsoft.AppCenter.Analytics.NET\Microsoft.AppCenter.Analytics.NET.csproj", "{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Analytics.Test.Windows", "Tests\Microsoft.AppCenter.Analytics.Test.Windows\Microsoft.AppCenter.Analytics.Test.Windows.csproj", "{4CFBAE12-D17F-49FF-B41D-C861EEB965C4}"
 EndProject
@@ -19,15 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppCenter", "AppCenter", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppCenterAnalytics", "AppCenterAnalytics", "{7D1BE3C5-199E-483C-A62F-D0376346B0D7}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Shared", "SDK\AppCenter\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.shproj", "{C6C4937C-D5F4-4E00-8B51-8D826AD83C5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.UWP", "SDK\AppCenter\Microsoft.AppCenter.UWP\Microsoft.AppCenter.UWP.csproj", "{15E3FC9B-7714-4468-A296-81627A5B8F01}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Windows.Shared", "SDK\AppCenter\Microsoft.AppCenter.Windows.Shared\Microsoft.AppCenter.Windows.Shared.shproj", "{B4E6AD1C-21A0-43A4-BD73-ED9BFC19BE6F}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Analytics.Windows.Shared", "SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.shproj", "{7CE5BF9E-3650-4151-8B54-C1301AA73606}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.UWP", "SDK\AppCenter\Microsoft.AppCenter.UWP\Microsoft.AppCenter.UWP.csproj", "{15E3FC9B-7714-4468-A296-81627A5B8F01}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Analytics.UWP", "SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.UWP\Microsoft.AppCenter.Analytics.UWP.csproj", "{200073BF-FA7E-42AF-8ED5-AA50BE7C0295}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Analytics.UWP", "SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.UWP\Microsoft.AppCenter.Analytics.UWP.csproj", "{200073BF-FA7E-42AF-8ED5-AA50BE7C0295}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Test.UWP", "Tests\Microsoft.AppCenter.Test.UWP\Microsoft.AppCenter.Test.UWP.csproj", "{6D86EE4F-2871-4DC3-BCA4-A692DBEAE59D}"
 EndProject
@@ -39,9 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Analyti
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppCenterCrashes", "AppCenterCrashes", "{1CC4528D-CB1F-49E7-BB1B-710259FE14F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Crashes.UWP", "SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.UWP\Microsoft.AppCenter.Crashes.UWP.csproj", "{2F715D51-643C-4F7F-9EA4-6554D4EECCB2}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Crashes.Windows.Shared", "SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.shproj", "{3F190EDF-F524-4B8D-9031-CD7B045EB6A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Crashes.UWP", "SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.UWP\Microsoft.AppCenter.Crashes.UWP.csproj", "{2F715D51-643C-4F7F-9EA4-6554D4EECCB2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Crashes.WindowsDesktop", "SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.WindowsDesktop\Microsoft.AppCenter.Crashes.WindowsDesktop.csproj", "{DC55C086-714D-4E2F-B6CE-3C14BC3B6646}"
 EndProject
@@ -49,28 +37,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AppCenter.Crashes
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Test.WindowsDesktop.Shared", "Tests\Microsoft.AppCenter.Test.WindowsDesktop.Shared\Microsoft.AppCenter.Test.WindowsDesktop.Shared.shproj", "{09F38506-8DEF-431D-A749-DF7E73A719F0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Test", "Tests\Microsoft.AppCenter.Test\Microsoft.AppCenter.Test.csproj", "{018D100D-27CE-4F81-9398-00E45D80F97A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Analytics.Test", "Tests\Microsoft.AppCenter.Analytics.Test\Microsoft.AppCenter.Analytics.Test.csproj", "{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}"
+EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Tests\Microsoft.AppCenter.Test.WindowsDesktop.Shared\Microsoft.AppCenter.Test.WindowsDesktop.Shared.projitems*{09f38506-8def-431d-a749-df7e73a719f0}*SharedItemsImports = 13
-		SDK\AppCenter\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems*{15e3fc9b-7714-4468-a296-81627a5b8f01}*SharedItemsImports = 4
-		SDK\AppCenter\Microsoft.AppCenter.Windows.Shared\Microsoft.AppCenter.Windows.Shared.projitems*{15e3fc9b-7714-4468-a296-81627a5b8f01}*SharedItemsImports = 4
-		SDK\AppCenter\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems*{1e9ec0aa-3e32-4551-80c4-e4f3e53d7590}*SharedItemsImports = 4
-		SDK\AppCenter\Microsoft.AppCenter.Windows.Shared\Microsoft.AppCenter.Windows.Shared.projitems*{1e9ec0aa-3e32-4551-80c4-e4f3e53d7590}*SharedItemsImports = 4
-		SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.projitems*{1f6c139a-29bb-4e74-8df2-f8ccab399a67}*SharedItemsImports = 4
-		SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.projitems*{200073bf-fa7e-42af-8ed5-aa50be7c0295}*SharedItemsImports = 4
-		SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems*{2f715d51-643c-4f7f-9ea4-6554d4eeccb2}*SharedItemsImports = 4
-		SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.projitems*{2f715d51-643c-4f7f-9ea4-6554d4eeccb2}*SharedItemsImports = 4
-		SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.projitems*{3f190edf-f524-4b8d-9031-cd7b045eb6a5}*SharedItemsImports = 13
-		SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.projitems*{7ce5bf9e-3650-4151-8b54-c1301aa73606}*SharedItemsImports = 13
-		SDK\AppCenter\Microsoft.AppCenter.Windows.Shared\Microsoft.AppCenter.Windows.Shared.projitems*{b4e6ad1c-21a0-43a4-bd73-ed9bfc19be6f}*SharedItemsImports = 13
-		Tests\Microsoft.AppCenter.Test.WindowsDesktop.Shared\Microsoft.AppCenter.Test.WindowsDesktop.Shared.projitems*{c4674357-efba-43aa-9db8-de62a3309eb6}*SharedItemsImports = 4
-		SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.projitems*{c5dac35e-b902-4e24-a8f7-963ad0f85f7a}*SharedItemsImports = 4
-		SDK\AppCenter\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems*{c6c4937c-d5f4-4e00-8b51-8d826ad83c5e}*SharedItemsImports = 13
-		SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems*{dc55c086-714d-4e2f-b6ce-3c14bc3b6646}*SharedItemsImports = 4
-		SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.projitems*{dc55c086-714d-4e2f-b6ce-3c14bc3b6646}*SharedItemsImports = 4
-		SDK\AppCenter\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems*{e76dc547-2b63-4911-971c-767587ebfab6}*SharedItemsImports = 4
-		SDK\AppCenter\Microsoft.AppCenter.Windows.Shared\Microsoft.AppCenter.Windows.Shared.projitems*{e76dc547-2b63-4911-971c-767587ebfab6}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -98,38 +69,6 @@ Global
 		{E52C5D53-4485-4350-9F4E-AFF85CC18FD7}.Release|x64.Build.0 = Release|Any CPU
 		{E52C5D53-4485-4350-9F4E-AFF85CC18FD7}.Release|x86.ActiveCfg = Release|Any CPU
 		{E52C5D53-4485-4350-9F4E-AFF85CC18FD7}.Release|x86.Build.0 = Release|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Debug|ARM.Build.0 = Debug|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Debug|x64.Build.0 = Debug|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Debug|x86.Build.0 = Debug|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Release|ARM.ActiveCfg = Release|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Release|ARM.Build.0 = Release|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Release|x64.ActiveCfg = Release|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Release|x64.Build.0 = Release|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Release|x86.ActiveCfg = Release|Any CPU
-		{E76DC547-2B63-4911-971C-767587EBFAB6}.Release|x86.Build.0 = Release|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Debug|ARM.Build.0 = Debug|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Debug|x64.Build.0 = Debug|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Debug|x86.Build.0 = Debug|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Release|ARM.ActiveCfg = Release|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Release|ARM.Build.0 = Release|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Release|x64.ActiveCfg = Release|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Release|x64.Build.0 = Release|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Release|x86.ActiveCfg = Release|Any CPU
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A}.Release|x86.Build.0 = Release|Any CPU
 		{4CFBAE12-D17F-49FF-B41D-C861EEB965C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4CFBAE12-D17F-49FF-B41D-C861EEB965C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CFBAE12-D17F-49FF-B41D-C861EEB965C4}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -294,20 +233,47 @@ Global
 		{1F1DBE94-AAEE-4A43-8586-EF8743672587}.Release|x64.Build.0 = Release|Any CPU
 		{1F1DBE94-AAEE-4A43-8586-EF8743672587}.Release|x86.ActiveCfg = Release|Any CPU
 		{1F1DBE94-AAEE-4A43-8586-EF8743672587}.Release|x86.Build.0 = Release|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Debug|ARM.Build.0 = Debug|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Debug|x64.Build.0 = Debug|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Debug|x86.Build.0 = Debug|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Release|ARM.ActiveCfg = Release|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Release|ARM.Build.0 = Release|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Release|x64.ActiveCfg = Release|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Release|x64.Build.0 = Release|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Release|x86.ActiveCfg = Release|Any CPU
+		{018D100D-27CE-4F81-9398-00E45D80F97A}.Release|x86.Build.0 = Release|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Debug|ARM.Build.0 = Debug|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Debug|x64.Build.0 = Debug|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Debug|x86.Build.0 = Debug|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Release|ARM.ActiveCfg = Release|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Release|ARM.Build.0 = Release|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Release|x64.ActiveCfg = Release|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Release|x64.Build.0 = Release|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Release|x86.ActiveCfg = Release|Any CPU
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E52C5D53-4485-4350-9F4E-AFF85CC18FD7} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
-		{E76DC547-2B63-4911-971C-767587EBFAB6} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
-		{C5DAC35E-B902-4E24-A8F7-963AD0F85F7A} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
 		{4CFBAE12-D17F-49FF-B41D-C861EEB965C4} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
 		{B699D34F-C961-4E03-89AD-6B00FF643AE8} = {8E2BC697-ADCD-4395-827D-DDBD0633B145}
 		{7D1BE3C5-199E-483C-A62F-D0376346B0D7} = {8E2BC697-ADCD-4395-827D-DDBD0633B145}
-		{C6C4937C-D5F4-4E00-8B51-8D826AD83C5E} = {B699D34F-C961-4E03-89AD-6B00FF643AE8}
-		{B4E6AD1C-21A0-43A4-BD73-ED9BFC19BE6F} = {B699D34F-C961-4E03-89AD-6B00FF643AE8}
-		{7CE5BF9E-3650-4151-8B54-C1301AA73606} = {7D1BE3C5-199E-483C-A62F-D0376346B0D7}
 		{15E3FC9B-7714-4468-A296-81627A5B8F01} = {B699D34F-C961-4E03-89AD-6B00FF643AE8}
 		{200073BF-FA7E-42AF-8ED5-AA50BE7C0295} = {7D1BE3C5-199E-483C-A62F-D0376346B0D7}
 		{6D86EE4F-2871-4DC3-BCA4-A692DBEAE59D} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
@@ -316,12 +282,17 @@ Global
 		{1F6C139A-29BB-4E74-8DF2-F8CCAB399A67} = {7D1BE3C5-199E-483C-A62F-D0376346B0D7}
 		{1CC4528D-CB1F-49E7-BB1B-710259FE14F1} = {8E2BC697-ADCD-4395-827D-DDBD0633B145}
 		{2F715D51-643C-4F7F-9EA4-6554D4EECCB2} = {1CC4528D-CB1F-49E7-BB1B-710259FE14F1}
-		{3F190EDF-F524-4B8D-9031-CD7B045EB6A5} = {1CC4528D-CB1F-49E7-BB1B-710259FE14F1}
 		{DC55C086-714D-4E2F-B6CE-3C14BC3B6646} = {1CC4528D-CB1F-49E7-BB1B-710259FE14F1}
 		{1F1DBE94-AAEE-4A43-8586-EF8743672587} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
 		{09F38506-8DEF-431D-A749-DF7E73A719F0} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
+		{018D100D-27CE-4F81-9398-00E45D80F97A} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
+		{766D49F8-DB3B-4496-95E5-ED02DAC4BB12} = {BC900C35-E0AD-46D2-BA4A-EF1904820B4A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {20FA0AA7-3861-4C36-97CC-9C5BA0D2D21D}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Tests\Microsoft.AppCenter.Test.WindowsDesktop.Shared\Microsoft.AppCenter.Test.WindowsDesktop.Shared.projitems*{09f38506-8def-431d-a749-df7e73a719f0}*SharedItemsImports = 13
+		Tests\Microsoft.AppCenter.Test.WindowsDesktop.Shared\Microsoft.AppCenter.Test.WindowsDesktop.Shared.projitems*{c4674357-efba-43aa-9db8-de62a3309eb6}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal
