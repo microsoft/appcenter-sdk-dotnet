@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
+  <PropertyGroup>
+    <TargetFramework>MonoAndroid10.0</TargetFramework>
+
+    <!-- Ignore that Google Play requires target last SDK for app submissions. -->
+    <NoWarn>XA0113</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\Strings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Distribute.Shared\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.Mono.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Com.Microsoft.Appcenter.Crashes.Ingestion.Models;
-
 namespace Microsoft.AppCenter.Crashes
 {
+    using AndroidErrorAttachmentLog = Android.Ingestion.Models.ErrorAttachmentLog;
+
     public partial class ErrorAttachmentLog
     {
-        internal AndroidErrorAttachmentLog internalAttachment { get; }
+        internal AndroidErrorAttachmentLog InternalAttachment { get; }
 
         ErrorAttachmentLog(AndroidErrorAttachmentLog androidAttachment)
         {
-            internalAttachment = androidAttachment;
+            InternalAttachment = androidAttachment;
         }
 
         static ErrorAttachmentLog PlatformAttachmentWithText(string text, string fileName)

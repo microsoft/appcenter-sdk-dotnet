@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+    
+    <!-- Remove types that aren't used in wrapper SDK. -->
+    <remove-node path="/api/package[@name='com.microsoft.appcenter.analytics']/class[@name='BuildConfig']" />
+    <remove-node path="/api/package[@name='com.microsoft.appcenter.analytics.channel']/class" />
+    <remove-node path="/api/package[@name='com.microsoft.appcenter.analytics.ingestion.models']" />
+    <remove-node path="/api/package[@name='com.microsoft.appcenter.analytics.ingestion.models.json']" />
+    <remove-node path="/api/package[@name='com.microsoft.appcenter.analytics.ingestion.models.one']" />
+    <remove-node path="/api/package[@name='com.microsoft.appcenter.analytics.ingestion.models.one.json']" />
+
+    <!-- Fix binding events. -->
+    <attr path="/api/package[@name='com.microsoft.appcenter.analytics']/class[@name='Analytics']/method[@name='setListener']" name="eventName">Sending</attr>
+    <attr path="/api/package[@name='com.microsoft.appcenter.analytics']/class[@name='Analytics']/method[@name='setListener']" name="visibility">public</attr>
+    
+    <!-- Explicitly adding bindings for internal methods. -->
+    <add-node path="/api/package[@name='com.microsoft.appcenter.analytics']/class[@name='Analytics']">
+        <method name="unsetInstance" return="void" abstract="false" native="false" synchronized="true" static="true" final="false" deprecated="not deprecated" visibility="public" />
+    </add-node>
+
+    <!-- Changing namespaces to C# style. -->
+    <attr path="/api/package[@name='com.microsoft.appcenter.analytics']" name="managedName">Microsoft.AppCenter.Analytics.Android</attr>
+    <attr path="/api/package[@name='com.microsoft.appcenter.analytics.channel']" name="managedName">Microsoft.AppCenter.Analytics.Android.Channel</attr>
+</metadata>

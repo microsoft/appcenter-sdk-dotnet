@@ -5,40 +5,39 @@ using System;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Runtime;
-using Com.Microsoft.Appcenter.Distribute;
 
 namespace Microsoft.AppCenter.Distribute
 {
     public static partial class Distribute
     {
         [Preserve]
-        public static Type BindingType => typeof(AndroidDistribute);
+        public static Type BindingType => typeof(Android.Distribute);
 
         static Task<bool> PlatformIsEnabledAsync()
         {
-            var future = AndroidDistribute.IsEnabled();
+            var future = Android.Distribute.IsEnabled();
             return Task.Run(() => (bool)future.Get());
         }
 
         static Task PlatformSetEnabledAsync(bool enabled)
         {
-            var future = AndroidDistribute.SetEnabled(enabled);
+            var future = Android.Distribute.SetEnabled(enabled);
             return Task.Run(() => future.Get());
         }
 
         static void PlatformSetInstallUrl(string installUrl)
         {
-            AndroidDistribute.SetInstallUrl(installUrl);
+            Android.Distribute.SetInstallUrl(installUrl);
         }
 
         static void PlatformSetApiUrl(string apiUrl)
         {
-            AndroidDistribute.SetApiUrl(apiUrl);
+            Android.Distribute.SetApiUrl(apiUrl);
         }
 
         private static void PlatformUnsetInstance()
         {
-            AndroidDistribute.UnsetInstance();
+            Android.Distribute.UnsetInstance();
         }
 
         static void HandleUpdateAction(UpdateAction updateAction)
@@ -47,33 +46,33 @@ namespace Microsoft.AppCenter.Distribute
             switch (updateAction)
             {
                 case UpdateAction.Update:
-                    AndroidDistribute.NotifyUpdateAction(-1);
+                    Android.Distribute.NotifyUpdateAction(-1);
                     break;
 
                 case UpdateAction.Postpone:
-                    AndroidDistribute.NotifyUpdateAction(-2);
+                    Android.Distribute.NotifyUpdateAction(-2);
                     break;
             }
         }
 
         static void SetUpdateTrack(UpdateTrack updateTrack)
         {
-            AndroidDistribute.UpdateTrack = (int)updateTrack;
+            Android.Distribute.UpdateTrack = (int)updateTrack;
         }
 
         static UpdateTrack GetUpdateTrack()
         {
-            return (UpdateTrack)AndroidDistribute.UpdateTrack;
+            return (UpdateTrack)Android.Distribute.UpdateTrack;
         }
 
         static void PlatformCheckForUpdate()
         {
-            AndroidDistribute.CheckForUpdate();
+            Android.Distribute.CheckForUpdate();
         }
 
         static void PlatformDisableAutomaticCheckForUpdate()
         {
-            AndroidDistribute.DisableAutomaticCheckForUpdate();
+            Android.Distribute.DisableAutomaticCheckForUpdate();
         }
 
         /// <summary>
@@ -82,7 +81,7 @@ namespace Microsoft.AppCenter.Distribute
         /// <param name="enabled"><c>true</c> to enable, <c>false</c> to disable (the initial default value is <c>false</c>).</param>
         public static void SetEnabledForDebuggableBuild(bool enabled)
         {
-            AndroidDistribute.SetEnabledForDebuggableBuild(enabled);
+            Android.Distribute.SetEnabledForDebuggableBuild(enabled);
         }
 
         static Listener _listener;
@@ -99,7 +98,7 @@ namespace Microsoft.AppCenter.Distribute
                 if (_listener == null && _releaseAvailableCallback != null)
                 {
                     _listener = new Listener();
-                    AndroidDistribute.SetListener(_listener);
+                    Android.Distribute.SetListener(_listener);
                 }
             }
         }
@@ -116,14 +115,14 @@ namespace Microsoft.AppCenter.Distribute
                 if (_listener == null && _noReleaseAvailableCallback != null)
                 {
                     _listener = new Listener();
-                    AndroidDistribute.SetListener(_listener);
+                    Android.Distribute.SetListener(_listener);
                 }
             }
         }
 
-        class Listener : Java.Lang.Object, IDistributeListener
+        class Listener : Java.Lang.Object, Android.IDistributeListener
         {
-            public bool OnReleaseAvailable(Activity activity, AndroidReleaseDetails androidReleaseDetails)
+            public bool OnReleaseAvailable(Activity activity, Android.ReleaseDetails androidReleaseDetails)
             {
                 if (_releaseAvailableCallback != null)
                 {

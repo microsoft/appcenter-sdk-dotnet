@@ -322,7 +322,7 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
             Assert.AreEqual(_expectedManagedErrorLog.AppLaunchTimestamp.Value.Ticks, actualSendingReport.AppStartTime.Ticks);
             Assert.AreEqual(_expectedManagedErrorLog.Timestamp.Value.Ticks, actualSendingReport.AppErrorTime.Ticks);
             Assert.IsNull(actualSendingReport.AndroidDetails);
-            Assert.IsNull(actualSendingReport.iOSDetails);
+            Assert.IsNull(actualSendingReport.AppleDetails);
             Assert.AreEqual(1, sendingReportCallCount);
             Mock.Get(ErrorLogHelper.Instance).Verify(instance => instance.InstanceRemoveStoredExceptionFile(_expectedManagedErrorLog.Id), Times.Never());
 
@@ -391,7 +391,7 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
             Assert.AreEqual(_expectedManagedErrorLog.AppLaunchTimestamp.Value.Ticks, actualSendingReport.AppStartTime.Ticks);
             Assert.AreEqual(_expectedManagedErrorLog.Timestamp.Value.Ticks, actualSendingReport.AppErrorTime.Ticks);
             Assert.IsNull(actualSendingReport.AndroidDetails);
-            Assert.IsNull(actualSendingReport.iOSDetails);
+            Assert.IsNull(actualSendingReport.AppleDetails);
             Assert.AreEqual(1, sendingReportCallCount);
             Mock.Get(ErrorLogHelper.Instance).Verify(instance => instance.InstanceRemoveStoredExceptionFile(_expectedManagedErrorLog.Id), Times.Never());
 
@@ -463,11 +463,11 @@ namespace Microsoft.AppCenter.Crashes.Test.Windows
             Assert.AreEqual(1, sentReportCallCount);
             Assert.AreEqual(1, failedToSendReportCallCount);
             Assert.IsNotNull(actualSendingReport);
-            Assert.IsNull(actualSendingReport.Exception);
+            Assert.IsNull(actualSendingReport.StackTrace);
             Assert.IsNotNull(actualSentReport);
-            Assert.IsNull(actualSentReport.Exception);
+            Assert.IsNull(actualSentReport.StackTrace);
             Assert.IsNotNull(failedToSendReport);
-            Assert.IsNull(failedToSendReport.Exception);
+            Assert.IsNull(failedToSendReport.StackTrace);
         }
 
         [TestMethod]

@@ -31,7 +31,9 @@ namespace Microsoft.AppCenter.Test.UWP
             mockGroupFactory.Setup(mock => mock.CreateChannelGroup(It.IsAny<string>(), It.IsAny<INetworkStateAdapter>())).Returns(mockGroup.Object);
 
             // Replace the channel group factory on mock.
+#pragma warning disable CS0612 // Type or member is obsolete
             AppCenter.SetChannelGroupFactory(mockGroupFactory.Object);
+#pragma warning restore CS0612 // Type or member is obsolete
 
             _unobservedTaskException = null;
             AppCenter.Instance = null;

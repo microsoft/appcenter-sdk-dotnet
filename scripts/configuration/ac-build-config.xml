@@ -6,39 +6,49 @@
         <androidVersion>4.4.5</androidVersion>
     </sdkInfo>
     <group id="ios" buildGroup="mac">
-        <assembly path="SDK/AppCenter/Microsoft.AppCenter.iOS/bin/Release/Microsoft.AppCenter.dll"/>
-        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.iOS/bin/Release/Microsoft.AppCenter.Analytics.dll"/>
-        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.iOS/bin/Release/Microsoft.AppCenter.Crashes.dll"/>
-        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.iOS/bin/Release/Microsoft.AppCenter.Distribute.dll"/>
+        <assembly path="SDK/AppCenter/Microsoft.AppCenter.Apple/bin/Release/xamarin.ios/Microsoft.AppCenter.dll"/>
+        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Apple/bin/Release/xamarin.ios/Microsoft.AppCenter.Analytics.dll"/>
+        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Apple/bin/Release/xamarin.ios/Microsoft.AppCenter.Crashes.dll"/>
+        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Apple/bin/Release/xamarin.ios/Microsoft.AppCenter.Distribute.dll"/>
     </group>
     <group id="ios_net6" buildGroup="mac">
-        <assembly path="SDK/AppCenter/Microsoft.AppCenter.AppleUnified/bin/Release/net6.0-ios/Microsoft.AppCenter.dll"/>
-        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.AppleUnified/bin/Release/net6.0-ios/Microsoft.AppCenter.Analytics.dll"/>
-        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.AppleUnified/bin/Release/net6.0-ios/Microsoft.AppCenter.Crashes.dll"/>
-        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.AppleUnified/bin/Release/net6.0-ios/Microsoft.AppCenter.Distribute.dll"/>
+        <assembly path="SDK/AppCenter/Microsoft.AppCenter.Apple/bin/Release/net6.0-ios/Microsoft.AppCenter.dll"/>
+        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Apple/bin/Release/net6.0-ios/Microsoft.AppCenter.Analytics.dll"/>
+        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Apple/bin/Release/net6.0-ios/Microsoft.AppCenter.Crashes.dll"/>
+        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Apple/bin/Release/net6.0-ios/Microsoft.AppCenter.Distribute.dll"/>
     </group>
     <group id="macos" buildGroup="mac">
-        <assembly path="SDK/AppCenter/Microsoft.AppCenter.MacOS/bin/Release/Microsoft.AppCenter.dll"/>
-        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.MacOS/bin/Release/Microsoft.AppCenter.Analytics.dll"/>
-        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.MacOS/bin/Release/Microsoft.AppCenter.Crashes.dll"/>
+        <assembly path="SDK/AppCenter/Microsoft.AppCenter.Apple/bin/Release/xamarin.mac/Microsoft.AppCenter.dll"/>
+        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Apple/bin/Release/xamarin.mac/Microsoft.AppCenter.Analytics.dll"/>
+        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Apple/bin/Release/xamarin.mac/Microsoft.AppCenter.Crashes.dll"/>
     </group>
     <group id="macos_net6" buildGroup="mac">
-        <assembly path="SDK/AppCenter/Microsoft.AppCenter.AppleUnified/bin/Release/net6.0-macos/Microsoft.AppCenter.dll"/>
-        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.AppleUnified/bin/Release/net6.0-macos/Microsoft.AppCenter.Analytics.dll"/>
-        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.AppleUnified/bin/Release/net6.0-macos/Microsoft.AppCenter.Crashes.dll"/>
+        <assembly path="SDK/AppCenter/Microsoft.AppCenter.Apple/bin/Release/net6.0-macos/Microsoft.AppCenter.dll"/>
+        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Apple/bin/Release/net6.0-macos/Microsoft.AppCenter.Analytics.dll"/>
+        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Apple/bin/Release/net6.0-macos/Microsoft.AppCenter.Crashes.dll"/>
     </group>
     <group id="android" buildGroup="mac">
-        <assembly path="SDK/AppCenter/Microsoft.AppCenter.Android/bin/Release/Microsoft.AppCenter.dll"/>
-        <assembly path="SDK/AppCenter/Microsoft.AppCenter.Android/bin/Release/Microsoft.AppCenter.Android.Bindings.dll"/>
-        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Android/bin/Release/Microsoft.AppCenter.Analytics.dll"/>
-        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Android/bin/Release/Microsoft.AppCenter.Analytics.Android.Bindings.dll"/>
-        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Android/bin/Release/Microsoft.AppCenter.Crashes.dll"/>
-        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Android/bin/Release/Microsoft.AppCenter.Crashes.Android.Bindings.dll"/>
-        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/bin/Release/Microsoft.AppCenter.Distribute.dll"/>
-        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/bin/Release/Microsoft.AppCenter.Distribute.Android.Bindings.dll"/>
+        <assembly path="SDK/AppCenter/Microsoft.AppCenter.Android/bin/Release/monoandroid10.0/Microsoft.AppCenter.dll"/>
+        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Android/bin/Release/monoandroid10.0/Microsoft.AppCenter.Analytics.dll"/>
+        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Android/bin/Release/monoandroid10.0/Microsoft.AppCenter.Crashes.dll"/>
+        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/bin/Release/monoandroid10.0/Microsoft.AppCenter.Distribute.dll"/>
+    </group>
+    <group id="android_net6" buildGroup="mac">
+        <assembly path="SDK/AppCenter/Microsoft.AppCenter.Android/bin/Release/net6.0-android/Microsoft.AppCenter.dll"/>
+        <assembly path="SDK/AppCenter/Microsoft.AppCenter.Android/bin/Release/net6.0-android/appcenter-release.aar"/>
+        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Android/bin/Release/net6.0-android/Microsoft.AppCenter.Analytics.dll"/>
+        <assembly path="SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Android/bin/Release/net6.0-android/appcenter-analytics-release.aar"/>
+        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Android/bin/Release/net6.0-android/Microsoft.AppCenter.Crashes.dll"/>
+        <assembly path="SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Android/bin/Release/net6.0-android/appcenter-crashes-release.aar"/>
+        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/bin/Release/net6.0-android/Microsoft.AppCenter.Distribute.dll"/>
+        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/bin/Release/net6.0-android/appcenter-distribute-release.aar"/>
     </group>
     <group id="android_play" buildGroup="mac">
-        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/bin/Release/monoandroid/Microsoft.AppCenter.Distribute.dll"/>
+        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.AndroidPlay/bin/Release/monoandroid10.0/Microsoft.AppCenter.Distribute.dll"/>
+    </group>
+    <group id="android_play_net6" buildGroup="mac">
+        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.AndroidPlay/bin/Release/net6.0-android/Microsoft.AppCenter.Distribute.dll"/>
+        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.AndroidPlay/bin/Release/net6.0-android/Microsoft.AppCenter.Distribute.aar"/>
     </group>
     <group id="netstandard" buildGroup="mac">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter/bin/Release/netstandard2.0/Microsoft.AppCenter.dll"/>

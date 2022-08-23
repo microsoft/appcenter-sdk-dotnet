@@ -1,36 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras/3.0.44">
   <PropertyGroup>
-    <ProjectGuid>{2F715D51-643C-4F7F-9EA4-6554D4EECCB2}</ProjectGuid>
+
+    <!-- .NET Framework 4.6.1 is used in Unity. -->
     <TargetFrameworks>uap10.0.16299;net461</TargetFrameworks>
-    <Company>Microsoft Corporation</Company>
-    <Copyright>Microsoft Corp. All rights reserved.</Copyright>
-    <Version>4.6.0-SNAPSHOT</Version>
-    <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>4.6.0.0</FileVersion>
-    <AssemblyName>Microsoft.AppCenter.Crashes</AssemblyName>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Crashes.xml</DocumentationFile>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>true</DelaySign>
-    <NoWarn>1591</NoWarn>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'uap10.0.16299' ">
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
   </PropertyGroup>
-  <Import Project="..\Microsoft.AppCenter.Crashes.Shared\Microsoft.AppCenter.Crashes.Shared.projitems" Label="Shared" />
-  <Import Project="..\Microsoft.AppCenter.Crashes.Windows.Shared\Microsoft.AppCenter.Crashes.Windows.Shared.projitems" Label="Shared" />
   <ItemGroup>
-    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.UWP\Microsoft.AppCenter.UWP.csproj">
-      <Project>{15e3fc9b-7714-4468-a296-81627a5b8f01}</Project>
-      <Name>Microsoft.AppCenter.UWP</Name>
-    </ProjectReference>
     <PackageReference Include="System.Reflection.Metadata" Version="1.7.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0.16299'">
     <TransformFile Include="Properties\Microsoft.AppCenter.Crashes.UWP.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared\**\*.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Crashes.Shared.Windows\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.UWP\Microsoft.AppCenter.UWP.csproj" />
   </ItemGroup>
 </Project>

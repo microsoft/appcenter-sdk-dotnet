@@ -593,7 +593,7 @@ namespace Microsoft.AppCenter.Test.Channel
         }
 
         [TestMethod]
-        public async Task HandleStorageExceptionWhenSendingLogsWithNullEvents()
+        public void HandleStorageExceptionWhenSendingLogsWithNullEvents()
         {
             try
             {
@@ -625,7 +625,7 @@ namespace Microsoft.AppCenter.Test.Channel
                 channel.SetEnabled(false);
                 channel.SetEnabled(true);
             }
-            catch (StorageException e)
+            catch (StorageException)
             {
                 // Crash test if was generated StorageException error.
                 Assert.Fail();
@@ -633,7 +633,7 @@ namespace Microsoft.AppCenter.Test.Channel
         }
 
         [TestMethod]
-        public async Task HandleStorageExceptionWhenSendingLogsWithEvents()
+        public void HandleStorageExceptionWhenSendingLogsWithEvents()
         {
             try
             {
@@ -666,7 +666,7 @@ namespace Microsoft.AppCenter.Test.Channel
                 channel.SetEnabled(false);
                 channel.SetEnabled(true);
             }
-            catch (StorageException e)
+            catch (StorageException)
             {
                 // Crash test if was generated StorageException error.
                 Assert.Fail();
@@ -704,7 +704,7 @@ namespace Microsoft.AppCenter.Test.Channel
                 SetupEventCallbacks();
                 await channel.ClearAsync();
             }
-            catch (StorageException e)
+            catch (StorageException)
             {
                 // Crash test if was generated StorageException error.
                 Assert.Fail();

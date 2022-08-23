@@ -3,17 +3,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Threading.Tasks;
 using Android.App;
-using Com.Microsoft.Appcenter;
 using Java.Lang;
+using Java.Util;
 
 namespace Microsoft.AppCenter
 {
-    using System.Reflection;
-    using System.Threading.Tasks;
-    using Com.Microsoft.Appcenter.Utils.Async;
-    using Java.Util;
-    using AndroidWrapperSdk = Com.Microsoft.Appcenter.Ingestion.Models.WrapperSdk;
+    using AndroidAppCenterLog = Android.Utils.AppCenterLog;
+    using AndroidWrapperSdk = Android.Ingestion.Models.WrapperSdk;
 
     public partial class AppCenter
     {
@@ -28,7 +27,7 @@ namespace Microsoft.AppCenter
         {
             get
             {
-                var value = AndroidAppCenter.LogLevel;
+                var value = Android.AppCenter.LogLevel;
                 switch (value)
                 {
                     case 2:
@@ -43,7 +42,7 @@ namespace Microsoft.AppCenter
                         return LogLevel.Error;
                     case 7:
                         return LogLevel.Assert;
-                    case Com.Microsoft.Appcenter.Utils.AppCenterLog.None:
+                    case AndroidAppCenterLog.None:
                         return LogLevel.None;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(value), value, null);
@@ -74,52 +73,52 @@ namespace Microsoft.AppCenter
                         androidValue = 7;
                         break;
                     case LogLevel.None:
-                        androidValue = Com.Microsoft.Appcenter.Utils.AppCenterLog.None;
+                        androidValue = AndroidAppCenterLog.None;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(value), value, null);
                 }
-                AndroidAppCenter.LogLevel = androidValue;
+                Android.AppCenter.LogLevel = androidValue;
             }
         }
 
         static bool PlatformIsNetworkRequestsAllowed
         {
-            get => AndroidAppCenter.NetworkRequestsAllowed;
-            set => AndroidAppCenter.NetworkRequestsAllowed = value;
+            get => Android.AppCenter.NetworkRequestsAllowed;
+            set => Android.AppCenter.NetworkRequestsAllowed = value;
         }
 
         static void PlatformSetUserId(string userId)
         {
-            AndroidAppCenter.SetUserId(userId);
+            Android.AppCenter.SetUserId(userId);
         }
 
         static void PlatformSetLogUrl(string logUrl)
         {
-            AndroidAppCenter.SetLogUrl(logUrl);
+            Android.AppCenter.SetLogUrl(logUrl);
         }
 
         static void PlatformSetCountryCode(string countryCode)
         {
-            AndroidAppCenter.SetCountryCode(countryCode);
+            Android.AppCenter.SetCountryCode(countryCode);
         }
 
         static bool PlatformConfigured
         {
             get
             {
-                return AndroidAppCenter.IsConfigured;
+                return Android.AppCenter.IsConfigured;
             }
         }
 
         static void PlatformConfigure(string appSecret)
         {
-            AndroidAppCenter.Configure(SetWrapperSdkAndGetApplication(), appSecret);
+            Android.AppCenter.Configure(SetWrapperSdkAndGetApplication(), appSecret);
         }
 
         static void PlatformStart(params Type[] services)
         {
-            AndroidAppCenter.Start(GetServices(services));
+            Android.AppCenter.Start(GetServices(services));
         }
 
         static void PlatformStart(string appSecret, params Type[] services)
@@ -134,24 +133,24 @@ namespace Microsoft.AppCenter
                 AppCenterLog.Assert(AppCenterLog.LogTag, ex.Message);
                 return;
             }
-            AndroidAppCenter.Start(SetWrapperSdkAndGetApplication(), parsedSecret, GetServices(services));
+            Android.AppCenter.Start(SetWrapperSdkAndGetApplication(), parsedSecret, GetServices(services));
         }
 
         static Task<bool> PlatformIsEnabledAsync()
         {
-            var future = AndroidAppCenter.IsEnabled();
+            var future = Android.AppCenter.IsEnabled();
             return Task.Run(() => (bool)future.Get());
         }
 
         static Task PlatformSetEnabledAsync(bool enabled)
         {
-            var future = AndroidAppCenter.SetEnabled(enabled);
+            var future = Android.AppCenter.SetEnabled(enabled);
             return Task.Run(() => future.Get());
         }
 
         static Task<Guid?> PlatformGetInstallIdAsync()
         {
-            var future = AndroidAppCenter.InstallId;
+            var future = Android.AppCenter.InstallId;
             return Task.Run(() =>
             {
                 var installId = future.Get() as UUID;
@@ -184,7 +183,7 @@ namespace Microsoft.AppCenter
                 WrapperSdkVersion = WrapperSdk.Version,
                 WrapperRuntimeVersion = xamarinAndroidVersion
             };
-            AndroidAppCenter.SetWrapperSdk(wrapperSdk);
+            Android.AppCenter.SetWrapperSdk(wrapperSdk);
             return (Application)Application.Context;
         }
 
@@ -212,12 +211,12 @@ namespace Microsoft.AppCenter
 
         internal static void PlatformUnsetInstance()
         {
-            AndroidAppCenter.UnsetInstance();
+            Android.AppCenter.UnsetInstance();
         }
 
         static Task<bool> PlatformSetMaxStorageSizeAsync(long sizeInBytes)
         {
-            var future = AndroidAppCenter.SetMaxStorageSize(sizeInBytes);
+            var future = Android.AppCenter.SetMaxStorageSize(sizeInBytes);
             return Task.Run(() => (bool)future.Get());
         }
     }

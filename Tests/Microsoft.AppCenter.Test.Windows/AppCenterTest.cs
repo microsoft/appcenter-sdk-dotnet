@@ -185,7 +185,7 @@ namespace Microsoft.AppCenter.Test
         {
             AppCenter.Configure("appsecret");
 
-            _settingsMock.ResetCalls();
+            _settingsMock.Invocations.Clear();
             _settingsMock.SetupSequence(settings => settings.GetValue(AppCenter.EnabledKey, It.IsAny<bool>()))
                 .Returns(true).Returns(false);
 
@@ -247,7 +247,7 @@ namespace Microsoft.AppCenter.Test
             AppCenter.Configure("appsecret");
 
             var fakeInstallId = Guid.NewGuid();
-            _settingsMock.ResetCalls();
+            _settingsMock.Invocations.Clear();
             _settingsMock.Setup(settings => settings.GetValue(AppCenter.InstallIdKey, default(Guid?))).Returns(fakeInstallId);
 
             var installId = AppCenter.GetInstallIdAsync().Result;
@@ -266,7 +266,7 @@ namespace Microsoft.AppCenter.Test
         {
             AppCenter.Configure("appsecret");
 
-            _settingsMock.ResetCalls();
+            _settingsMock.Invocations.Clear();
 
             var installId = AppCenter.GetInstallIdAsync().Result;
 

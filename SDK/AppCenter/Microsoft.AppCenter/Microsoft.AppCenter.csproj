@@ -1,24 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Microsoft.AppCenter.Shared.Xamarin\Microsoft.AppCenter.Shared.Xamarin.projitems" Label="Shared" Condition="Exists('..\Microsoft.AppCenter.Shared.Xamarin\Microsoft.AppCenter.Shared.Xamarin.projitems')" />
-  <Import Project="..\Microsoft.AppCenter.Shared\Microsoft.AppCenter.Shared.projitems" Label="Shared" />
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Optimize>true</Optimize>
-    <Copyright>Microsoft Corp. All rights reserved.</Copyright>
-    <Product>Microsoft.AppCenter.Core</Product>
-    <Company>Microsoft Corporation</Company>
-    <Version>4.6.0-SNAPSHOT</Version>
-    <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>4.6.0.0</FileVersion>
-    <AssemblyTitle>Microsoft.AppCenter.Core</AssemblyTitle>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.xml</DocumentationFile>
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>true</DelaySign>
-    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <Compile Include="..\Microsoft.AppCenter.Shared\**\*.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Shared.Xamarin\**\*.cs" />
   </ItemGroup>
   <Target Name="GetPackagingOutputs" />
 </Project>

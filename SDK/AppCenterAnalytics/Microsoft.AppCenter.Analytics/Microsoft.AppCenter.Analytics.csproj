@@ -2,24 +2,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Optimize>true</Optimize>
-    <Copyright>Microsoft Corp. All rights reserved.</Copyright>
-    <Product>Microsoft.AppCenter.Analytics</Product>
-    <Company>Microsoft Corporation</Company>
-    <Version>4.6.0-SNAPSHOT</Version>
-    <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>4.6.0.0</FileVersion>
-    <AssemblyTitle>Microsoft.AppCenter.Analytics</AssemblyTitle>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Microsoft.AppCenter.Analytics.xml</DocumentationFile>
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>true</DelaySign>
-    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter\Microsoft.AppCenter.csproj" />
+    <Compile Include="..\Microsoft.AppCenter.Analytics.Shared\**\*.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter\Microsoft.AppCenter.csproj" />
   </ItemGroup>
   <Target Name="GetPackagingOutputs" />
 </Project>

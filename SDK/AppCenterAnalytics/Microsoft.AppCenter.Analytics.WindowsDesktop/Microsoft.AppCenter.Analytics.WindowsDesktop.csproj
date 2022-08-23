@@ -2,19 +2,12 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net462;net472;net6.0-windows10.0.17763.0</TargetFrameworks>
-    <RootNamespace>Microsoft.AppCenter.Analytics</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>4.6.0-SNAPSHOT</Version>
-    <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>4.6.0.0</FileVersion>
-    <AssemblyName>Microsoft.AppCenter.Analytics</AssemblyName>
-    <DocumentationFile>bin\Microsoft.AppCenter.Analytics.xml</DocumentationFile>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>true</DelaySign>
-    <NoWarn>1591</NoWarn>
   </PropertyGroup>
-  <Import Project="..\Microsoft.AppCenter.Analytics.Windows.Shared\Microsoft.AppCenter.Analytics.Windows.Shared.projitems" Label="Shared" />
+  <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Analytics.Shared\**\*.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Analytics.Shared.Windows\**\*.cs" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.WindowsDesktop\Microsoft.AppCenter.WindowsDesktop.csproj" />
   </ItemGroup>
