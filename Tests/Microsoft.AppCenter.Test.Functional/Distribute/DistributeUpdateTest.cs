@@ -224,7 +224,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
             // Setup network adapter.
             var httpNetworkAdapter = new HttpNetworkAdapter();
             DependencyConfiguration.HttpNetworkAdapter = httpNetworkAdapter;
-            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET", delayTimeInSeconds: 30);
+            var explicitCheckForUpdateTask = httpNetworkAdapter.MockRequest(request => request.Method == "GET");
             var startServiceTask = httpNetworkAdapter.MockRequestByLogType("startService");
 
             // Start AppCenter.
