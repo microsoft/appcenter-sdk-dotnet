@@ -17,6 +17,7 @@
     <add-node path="/api/package[@name='com.microsoft.appcenter.distribute']/class[@name='Distribute']">
         <method name="unsetInstance" return="void" abstract="false" native="false" synchronized="true" static="true" final="false" deprecated="not deprecated" visibility="public" />
     </add-node>
+
     <!-- Changing namespaces to C# style. -->
     <attr path="/api/package[@name='com.microsoft.appcenter.distribute']" name="managedName">Microsoft.AppCenter.Distribute.Android</attr>
 </metadata>

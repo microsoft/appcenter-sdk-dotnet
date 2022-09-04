@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+
+    <!-- Fix binding events. -->
+    <attr path="/api/package[@name='com.microsoft.appcenter.distribute']/class[@name='Distribute']/method[@name='setListener']" name="eventName">Release</attr>
+    <attr path="/api/package[@name='com.microsoft.appcenter.distribute']/class[@name='Distribute']/method[@name='setListener']" name="visibility">public</attr>
+
+    <!-- Changing namespaces to C# style. -->
+    <attr path="/api/package[@name='com.microsoft.appcenter.distribute']" name="managedName">Microsoft.AppCenter.Distribute.Android</attr>
+</metadata>
