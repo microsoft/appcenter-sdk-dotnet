@@ -23,9 +23,9 @@
     <Compile Include="..\Microsoft.AppCenter.Distribute.Shared\**\*.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidLibrary Include="..\..\..\externals\android\appcenter-distribute-play-release.aar">
+    <LibraryProjectZip Include="..\..\..\externals\android\appcenter-distribute-play-release.aar">
       <Link>Jars\appcenter-distribute-play-release.aar</Link>
-    </AndroidLibrary>
+    </LibraryProjectZip>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.Mono.csproj" />
