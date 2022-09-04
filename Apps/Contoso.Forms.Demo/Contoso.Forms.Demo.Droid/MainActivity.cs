@@ -6,16 +6,17 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using Com.Microsoft.Appcenter.Analytics;
-using Com.Microsoft.Appcenter.Analytics.Channel;
-using Com.Microsoft.Appcenter.Ingestion.Models;
 using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics.Android.Channel;
+using Microsoft.AppCenter.Android.Ingestion.Models;
+using AndroidAnalytics = Microsoft.AppCenter.Analytics.Android.Analytics;
 using Xamarin.Forms;
 using Contoso.Forms.Demo.Droid;
 
 [assembly: Dependency(typeof(MainActivity))]
 namespace Contoso.Forms.Demo.Droid
 {
+
     [Activity(Label = "ACFDemo", Icon = "@drawable/icon", Theme = "@style/MyTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, LaunchMode = LaunchMode.SingleTop)]
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IClearCrashClick, IAppConfiguration
     {
