@@ -5,7 +5,7 @@ using System;
 using Contoso.Forms.Demo.iOS;
 using Foundation;
 using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics.iOS.Bindings;
+using Microsoft.AppCenter.Analytics.Apple.Bindings;
 using Microsoft.AppCenter.Distribute;
 using UIKit;
 using Xamarin.Forms;
