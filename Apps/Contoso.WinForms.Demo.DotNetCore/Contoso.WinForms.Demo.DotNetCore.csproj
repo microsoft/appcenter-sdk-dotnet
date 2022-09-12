@@ -7,8 +7,8 @@
     <Version>4.5.3</Version>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.3" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.3" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.6.0-r0006-5d28fad" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.6.0-r0006-5d28fad" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>

@@ -120,23 +120,14 @@
     <InterfaceDefinition Include="ModulePages\Crashes.xib" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.MacOS\Microsoft.AppCenter.Crashes.MacOS.csproj">
-      <Name>Microsoft.AppCenter.Crashes.MacOS</Name>
+    <ProjectReference Include="..\..\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Apple\Microsoft.AppCenter.Analytics.Apple.Mono.csproj">
+      <Name>Microsoft.AppCenter.Analytics.Apple.Mono</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.MacOS\Microsoft.AppCenter.Analytics.MacOS.csproj">
-      <Name>Microsoft.AppCenter.Analytics.MacOS</Name>
+    <ProjectReference Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Apple\Microsoft.AppCenter.Crashes.Apple.Mono.csproj">
+      <Name>Microsoft.AppCenter.Crashes.Apple.Mono</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SDK\AppCenter\Microsoft.AppCenter.MacOS\Microsoft.AppCenter.MacOS.csproj">
-      <Name>Microsoft.AppCenter.MacOS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.MacOS.Bindings\Microsoft.AppCenter.Analytics.MacOS.Bindings.csproj">
-      <Name>Microsoft.AppCenter.Analytics.MacOS.Bindings</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.MacOS.Bindings\Microsoft.AppCenter.Crashes.MacOS.Bindings.csproj">
-      <Name>Microsoft.AppCenter.Crashes.MacOS.Bindings</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SDK\AppCenter\Microsoft.AppCenter.MacOS.Bindings\Microsoft.AppCenter.MacOS.Bindings.csproj">
-      <Name>Microsoft.AppCenter.MacOS.Bindings</Name>
+    <ProjectReference Include="..\..\SDK\AppCenter\Microsoft.AppCenter.Apple\Microsoft.AppCenter.Apple.Mono.csproj">
+      <Name>Microsoft.AppCenter.Apple.Mono</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />

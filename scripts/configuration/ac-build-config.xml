@@ -48,7 +48,7 @@
     </group>
     <group id="android_play_net6" buildGroup="mac">
         <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.AndroidPlay/bin/Release/net6.0-android/Microsoft.AppCenter.Distribute.dll"/>
-        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.AndroidPlay/bin/Release/net6.0-android/Microsoft.AppCenter.Distribute.aar"/>
+        <assembly path="SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.AndroidPlay/bin/Release/net6.0-android/appcenter-distribute-play-release.aar"/>
     </group>
     <group id="netstandard" buildGroup="mac">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter/bin/Release/netstandard2.0/Microsoft.AppCenter.dll"/>

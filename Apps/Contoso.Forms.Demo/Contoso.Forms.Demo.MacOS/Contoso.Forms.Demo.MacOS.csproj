@@ -58,9 +58,9 @@
     <Reference Include="Xamarin.Mac" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.3" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.3" />
-    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="4.5.3" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.6.0-r0006-5d28fad" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.6.0-r0006-5d28fad" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="4.6.0-r0006-5d28fad" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
   </ItemGroup>
   <ItemGroup>

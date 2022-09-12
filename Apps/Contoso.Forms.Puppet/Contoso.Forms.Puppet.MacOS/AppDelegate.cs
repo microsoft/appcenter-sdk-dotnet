@@ -6,7 +6,7 @@ using AppKit;
 using Contoso.Forms.Puppet.MacOS;
 using Foundation;
 using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics.MacOS.Bindings;
+using Microsoft.AppCenter.Analytics.Apple.Bindings;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(AppDelegate))]

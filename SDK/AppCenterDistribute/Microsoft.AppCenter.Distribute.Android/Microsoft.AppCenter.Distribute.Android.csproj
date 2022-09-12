@@ -5,6 +5,7 @@
     <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
     <AndroidBoundInterfacesContainTypes>false</AndroidBoundInterfacesContainTypes>
     <AndroidGenerateResourceDesigner>false</AndroidGenerateResourceDesigner>
+    <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
