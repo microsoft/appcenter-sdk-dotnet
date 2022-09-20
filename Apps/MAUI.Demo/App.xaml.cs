@@ -15,7 +15,7 @@ public interface IClearCrashClick
 
 public partial class App : Application
 {
-    public const string LogTag = "AppCenterXamarinDemo";
+    public const string LogTag = "AppCenterMAUIDemo";
     private Task<string> dialog = null;
 
 	public App()
@@ -104,15 +104,15 @@ public partial class App : Application
 
     private string GetOneCollectorTokenString()
     {
-        return $"iosTarget={Environment.GetEnvironmentVariable("MAUI_IOS_TARGET_TOKEN_PROD")};" +
-            $"androidTarget={Environment.GetEnvironmentVariable("MAUI_ANDROID_TARGET_TOKEN_PROD")};" +
+        return "iosTarget={MAUI_IOS_TARGET_TOKEN_PROD};" +
+            "androidTarget={MAUI_ANDROID_TARGET_TOKEN_PROD};" +
             $"windowsTarget={Environment.GetEnvironmentVariable("MAUI_WINDOWS_TARGET_TOKEN_PROD")}";
     }
 
     private string GetAppCenterTokenString()
     {
-        return $"ios={Environment.GetEnvironmentVariable("MAUI_IOS_PROD")};" +
-            $"android={Environment.GetEnvironmentVariable("MAUI_ANDROID_PROD")};" +
+        return "ios={MAUI_IOS_PROD};" +
+            "android={MAUI_ANDROID_PROD};" +
             $"windows={Environment.GetEnvironmentVariable("MAUI_WINDOWS_PROD")}";
     }
 
