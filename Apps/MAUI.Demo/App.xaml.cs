@@ -25,8 +25,6 @@ public partial class App : Application
 		MainPage = new MainPage();
 
 		AppCenter.LogLevel = LogLevel.Verbose;
-        
-        AppCenter.Start(GetTokensString(), typeof(Analytics), typeof(Distribute));
 	}
 
     protected override void OnStart()
