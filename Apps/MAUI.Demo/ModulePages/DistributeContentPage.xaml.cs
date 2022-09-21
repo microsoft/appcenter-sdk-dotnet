@@ -5,24 +5,24 @@ using System;
 using System.ComponentModel;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Distribute;
+using Microsoft.Maui;
 
 namespace MAUI.Demo;
 
-public partial class OthersContentPage
+public partial class DistributeContentPage
 {
     static bool _eventFilterStarted;
 
-    static OthersContentPage()
+    static DistributeContentPage()
     {
-
     }
 
-    public OthersContentPage()
+    public DistributeContentPage()
     {
         InitializeComponent();
         if (DeviceInfo.Platform == DevicePlatform.iOS)
         {
-            //Icon = "handbag.png";
+            IconImageSource = "handbag.png";
         }
 
         // Setup track update dropdown choices.

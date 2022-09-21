@@ -33,7 +33,7 @@ public partial class CrashesContentPage
         NumPropertiesLabel.Text = Properties.Count.ToString();
         if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
         {
-            //Icon = "socket.png";
+            IconImageSource = "socket.png";
         }
     }
 

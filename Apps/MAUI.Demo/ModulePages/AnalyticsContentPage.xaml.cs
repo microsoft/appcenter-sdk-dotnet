@@ -21,7 +21,7 @@ public partial class AnalyticsContentPage : ContentPage
 
         if (DeviceInfo.Platform == DevicePlatform.iOS)
         {
-            //Icon = "lightning.png";
+            IconImageSource = "lightning.png";
         }
     }
 

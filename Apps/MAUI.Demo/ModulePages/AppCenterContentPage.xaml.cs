@@ -9,8 +9,6 @@ namespace MAUI.Demo;
 
 public partial class AppCenterContentPage : ContentPage
 {
-    const string LogTag = "AppCenterXamarinDemo";
-
     public AppCenterContentPage()
     {
         InitializeComponent();
@@ -19,7 +17,7 @@ public partial class AppCenterContentPage : ContentPage
 
         if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
         {
-            //Icon = "bolt.png";
+            IconImageSource = "bolt.png";
         }
 
         UserIdEntry.Text = Preferences.Get(Constants.UserId, string.Empty);
@@ -42,7 +40,7 @@ public partial class AppCenterContentPage : ContentPage
         base.OnAppearing();
         AppCenterEnabledSwitchCell.IsToggled = await AppCenter.IsEnabledAsync();
         AllowedNetworkRequestSwitchCell.IsToggled = AppCenter.IsNetworkRequestsAllowed;
-        UserIdEntry.Unfocused += async (sender, args) =>
+        UserIdEntry.Unfocused += (sender, args) =>
         {
             var inputText = UserIdEntry.Text;
             var text = string.IsNullOrEmpty(inputText) ? null : inputText;
@@ -82,7 +80,7 @@ public partial class AppCenterContentPage : ContentPage
         }
         else
         {
-            AppCenterLog.Error(LogTag, "Wrong number value for the max storage size.");
+            AppCenterLog.Error(App.LogTag, "Wrong number value for the max storage size.");
         }
     }
 

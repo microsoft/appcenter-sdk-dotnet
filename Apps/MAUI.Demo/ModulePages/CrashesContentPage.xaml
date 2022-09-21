@@ -8,12 +8,12 @@
             <StackLayout Orientation="Vertical">
                 <Label FontSize="Medium" Text="Crashes Settings"/>
                 <StackLayout Margin="0, 8, 0, 0" Orientation="Horizontal">
-                    <Label FontSize="Small" HorizontalOptions="Start"  Text="Crashes Enabled"/>
-                    <Switch HorizontalOptions="EndAndExpand" IsToggled="true" x:Name="CrashesEnabledSwitchCell" Toggled="UpdateEnabled" />
+                    <Label FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Text="Crashes Enabled"/>
+                    <Switch HorizontalOptions="EndAndExpand" VerticalOptions="Center" IsToggled="true" x:Name="CrashesEnabledSwitchCell" Toggled="UpdateEnabled" />
                 </StackLayout>
                 <StackLayout Margin="0, 8, 0, 0" Orientation="Horizontal">
-                    <Label FontSize="Small" HorizontalOptions="Start"  Text="Handle Exceptions"/>
-                    <Switch HorizontalOptions="EndAndExpand"  IsToggled="False" x:Name="HandleExceptionsSwitchCell" />
+                    <Label FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center"  Text="Handle Exceptions"/>
+                    <Switch HorizontalOptions="EndAndExpand" VerticalOptions="Center"  IsToggled="False" x:Name="HandleExceptionsSwitchCell" />
                 </StackLayout>
                 <StackLayout Orientation="Vertical">
                     <Button Padding="0, 8, 0, 8" Text="Text Attachment" x:Name="TextAttachmentButton" Clicked="TextAttachment" />
