@@ -88,9 +88,6 @@ public partial class AnalyticsContentPage : ContentPage
     void EnableManualSessionTrackerCellEnabled(object sender, ToggledEventArgs e)
     {
         Preferences.Set(Constants.EnableManualSessionTracker, e.Value);
-
-        // alternative?
-        //_ = Application.Current.SavePropertiesAsync();
     }
 
     void StartSessionButton_Clicked(object sender, EventArgs e)
@@ -101,8 +98,5 @@ public partial class AnalyticsContentPage : ContentPage
     void SaveCountryCode_Clicked(object sender, EventArgs e)
     {
         Preferences.Set(Constants.CountryCode, CountryCodeText.Text);
-
-        // alternative?
-        // _ = Application.Current.SavePropertiesAsync();
     }
 }

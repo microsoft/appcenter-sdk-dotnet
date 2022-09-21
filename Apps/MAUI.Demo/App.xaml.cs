@@ -24,10 +24,10 @@ public partial class App : Application
 
         MainPage = new MainPage();
 
-        AppCenter.LogLevel = LogLevel.Verbose;
+        StartAppCenter();
     }
 
-    protected override void OnStart()
+    private void StartAppCenter()
     {
         if (!AppCenter.Configured)
         {
