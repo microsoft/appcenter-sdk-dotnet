@@ -11,8 +11,6 @@ namespace MAUI.Demo;
 
 public partial class DistributeContentPage
 {
-    static bool _eventFilterStarted;
-
     static DistributeContentPage()
     {
     }
@@ -38,8 +36,6 @@ public partial class DistributeContentPage
         base.OnAppearing();
         var acEnabled = await AppCenter.IsEnabledAsync();
         RefreshDistributeEnabled(acEnabled);
-        EventFilterEnabledSwitchCell.On = _eventFilterStarted && await EventFilterHolder.Implementation?.IsEnabledAsync();
-        EventFilterEnabledSwitchCell.IsEnabled = acEnabled && EventFilterHolder.Implementation != null;
     }
 
     async void UpdateDistributeEnabled(object sender, ToggledEventArgs e)
@@ -75,19 +71,6 @@ public partial class DistributeContentPage
     void RefreshDistributeTrackUpdate()
     {
         UpdateTrackPicker.SelectedIndex = TrackUpdateUtils.ToPickerUpdateTrackIndex(TrackUpdateUtils.GetPersistedUpdateTrack() ?? UpdateTrack.Public);
-    }
-
-    async void UpdateEventFilterEnabled(object sender, ToggledEventArgs e)
-    {
-        if (EventFilterHolder.Implementation != null)
-        {
-            if (!_eventFilterStarted)
-            {
-                AppCenter.Start(EventFilterHolder.Implementation.BindingType);
-                _eventFilterStarted = true;
-            }
-            await EventFilterHolder.Implementation.SetEnabledAsync(e.Value);
-        }
     }
     
     async void OnAutomaticUpdateCheckChanged(object sender, ToggledEventArgs e)
