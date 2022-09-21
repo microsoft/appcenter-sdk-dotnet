@@ -13,11 +13,6 @@ public partial class AppCenterContentPage : ContentPage
     {
         InitializeComponent();
 
-        if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
-        {
-            IconImageSource = "bolt.png";
-        }
-
         UserIdEntry.Text = Preferences.Get(Constants.UserId, string.Empty);
 
         if (Preferences.ContainsKey(Constants.StorageMaxSize))

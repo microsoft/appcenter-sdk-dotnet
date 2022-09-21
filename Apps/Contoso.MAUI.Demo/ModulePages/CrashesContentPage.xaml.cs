@@ -31,10 +31,6 @@ public partial class CrashesContentPage
         InitializeComponent();
         Properties = new List<Property>();
         NumPropertiesLabel.Text = Properties.Count.ToString();
-        if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
-        {
-            IconImageSource = "socket.png";
-        }
     }
 
     protected override async void OnAppearing()

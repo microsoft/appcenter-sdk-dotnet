@@ -18,11 +18,6 @@ public partial class AnalyticsContentPage : ContentPage
         InitializeComponent();
         EventProperties = new List<Property>();
         NumPropertiesLabel.Text = EventProperties.Count.ToString();
-
-        if (DeviceInfo.Platform == DevicePlatform.iOS)
-        {
-            IconImageSource = "lightning.png";
-        }
     }
 
     protected override async void OnAppearing()

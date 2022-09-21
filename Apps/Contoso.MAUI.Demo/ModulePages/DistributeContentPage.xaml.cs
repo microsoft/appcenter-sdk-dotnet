@@ -18,10 +18,6 @@ public partial class DistributeContentPage
     public DistributeContentPage()
     {
         InitializeComponent();
-        if (DeviceInfo.Platform == DevicePlatform.iOS)
-        {
-            IconImageSource = "handbag.png";
-        }
 
         // Setup track update dropdown choices.
         foreach (var trackUpdateType in TrackUpdateUtils.GetUpdateTrackChoiceStrings())
