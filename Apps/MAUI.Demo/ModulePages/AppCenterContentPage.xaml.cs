@@ -13,8 +13,6 @@ public partial class AppCenterContentPage : ContentPage
     {
         InitializeComponent();
 
-        
-
         if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
         {
             IconImageSource = "bolt.png";
