@@ -16,7 +16,7 @@ public partial class AddPropertyContentPage
 
     async void AddProperty(object sender, EventArgs e)
     {
-        Property addedProperty = new Property(NameEntry?.Text, ValueEntry?.Text);
+        var addedProperty = new Property(NameEntry?.Text, ValueEntry?.Text);
         PropertyAdded?.Invoke(addedProperty);
         await Navigation.PopModalAsync();
     }

@@ -3,8 +3,6 @@
 	<PropertyGroup>
 		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
-		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
 		<RootNamespace>MAUI.Demo</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -29,8 +27,20 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<Configurations>Debug;Release;GooglePlay</Configurations>
 	</PropertyGroup>
 
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GooglePlay|AnyCPU' ">
+	  <IntermediateOutputPath>obj\GooglePlay</IntermediateOutputPath>
+	  <DebugType></DebugType>
+	  <Optimize>false</Optimize>
+	  <OutputPath>bin\GooglePlay</OutputPath>
+	  <DefineConstants></DefineConstants>
+	  <WarningLevel>4</WarningLevel>
+	  <DocumentationFile></DocumentationFile>
+	  <NoWarn></NoWarn>
+	  <NoStdLib>false</NoStdLib>
+	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -55,9 +65,11 @@
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.6.0-r0007-5d0e348" />
 	  <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.6.0-r0007-5d0e348" />
-	  <PackageReference Include="Microsoft.AppCenter.DistributePlay" Version="4.6.0-r0007-5d0e348" />
 	</ItemGroup>
-	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'android'">
-	  <PackageReference Include="Microsoft.AppCenter.Distribute" Version="4.6.0-r0007-5d0e348"/>
+	<ItemGroup Condition=" '$(Configuration)'!='GooglePlay' ">
+		<PackageReference Include="Microsoft.AppCenter.Distribute" Version="4.6.0-r0006-5d28fad" />
+	</ItemGroup>
+	<ItemGroup Condition=" '$(Configuration)'=='GooglePlay' ">
+		<PackageReference Include="Microsoft.AppCenter.DistributePlay" Version="4.6.0-r0006-5d28fad" />
 	</ItemGroup>
 </Project>

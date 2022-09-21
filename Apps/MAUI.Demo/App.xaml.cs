@@ -18,14 +18,14 @@ public partial class App : Application
     public const string LogTag = "AppCenterMAUIDemo";
     private Task<string> dialog = null;
 
-	public App()
-	{
-		InitializeComponent();
+    public App()
+    {
+        InitializeComponent();
 
-		MainPage = new MainPage();
+        MainPage = new MainPage();
 
-		AppCenter.LogLevel = LogLevel.Verbose;
-	}
+        AppCenter.LogLevel = LogLevel.Verbose;
+    }
 
     protected override void OnStart()
     {
@@ -154,35 +154,33 @@ public partial class App : Application
     bool ConfirmationHandler()
     {
         
-        MainThread.BeginInvokeOnMainThread(() =>
+        MainThread.BeginInvokeOnMainThread(async () =>
         {
+            string answer;
             if (DeviceInfo.Platform == DevicePlatform.macOS)
             {
-                dialog = Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", "Send", "Always Send");
+                answer = await Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", "Send", "Always Send");
             }
             else
             {
-                dialog = Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send");
+                answer = await Current.MainPage.DisplayActionSheet("Crash detected. Send anonymous crash report?", null, null, "Send", "Always Send", "Don't Send");
             }
-            dialog.ContinueWith((arg) =>
+
+            UserConfirmation userConfirmationSelection;
+            if (answer == "Send")
             {
-                var answer = arg.Result;
-                UserConfirmation userConfirmationSelection;
-                if (answer == "Send")
-                {
-                    userConfirmationSelection = UserConfirmation.Send;
-                }
-                else if (answer == "Always Send")
-                {
-                    userConfirmationSelection = UserConfirmation.AlwaysSend;
-                }
-                else
-                {
-                    userConfirmationSelection = UserConfirmation.DontSend;
-                }
-                AppCenterLog.Debug(LogTag, "User selected confirmation option: \"" + answer + "\"");
-                Crashes.NotifyUserConfirmation(userConfirmationSelection);
-            });
+                userConfirmationSelection = UserConfirmation.Send;
+            }
+            else if (answer == "Always Send")
+            {
+                userConfirmationSelection = UserConfirmation.AlwaysSend;
+            }
+            else
+            {
+                userConfirmationSelection = UserConfirmation.DontSend;
+            }
+            AppCenterLog.Debug(LogTag, "User selected confirmation option: \"" + answer + "\"");
+            Crashes.NotifyUserConfirmation(userConfirmationSelection);
         });
         return true;
     }
