@@ -62,7 +62,7 @@ public partial class DistributeContentPage
 
     async void RefreshDistributeEnabled(bool _appCenterEnabled)
     {
-        DistributeEnabledSwitchCell.On = await Distribute.IsEnabledAsync();
+        DistributeEnabledSwitchCell.IsToggled = await Distribute.IsEnabledAsync();
         DistributeEnabledSwitchCell.IsEnabled = _appCenterEnabled;
         RefreshDistributeTrackUpdate();
         RefreshAutomaticUpdateCheck(_appCenterEnabled);
@@ -89,10 +89,12 @@ public partial class DistributeContentPage
         AutomaticUpdateCheckSwitchCell.IsEnabled = _enabled;
         if (Preferences.ContainsKey(Constants.AutomaticUpdateCheckKey))
         {
-            AutomaticUpdateCheckSwitchCell.On = Preferences.Get((Constants.AutomaticUpdateCheckKey), true);
-            return;
+            AutomaticUpdateCheckSwitchCell.IsToggled = Preferences.Get((Constants.AutomaticUpdateCheckKey), true);
         }
-        AutomaticUpdateCheckSwitchCell.On = true;
+        else
+        {
+            AutomaticUpdateCheckSwitchCell.IsToggled = true;
+        }
     }
 
     void CheckForUpdateClicked(object sender, EventArgs e)
