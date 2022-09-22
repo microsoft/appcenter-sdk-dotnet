@@ -32,6 +32,15 @@ public partial class DistributeContentPage
         base.OnAppearing();
         var acEnabled = await AppCenter.IsEnabledAsync();
         RefreshDistributeEnabled(acEnabled);
+
+#if ANDROID
+        var enabledForDebuggableBuild = Preferences.Get(Constants.EnabledForDebuggableBuild, false);
+        DistributeEnabledForDebuggableBuildSwitch.IsToggled = enabledForDebuggableBuild;
+        if (enabledForDebuggableBuild)
+        {
+            Distribute.SetEnabledForDebuggableBuild(true);
+        }
+#endif
     }
 
     async void UpdateDistributeEnabled(object sender, ToggledEventArgs e)
@@ -56,12 +65,12 @@ public partial class DistributeContentPage
         }
     }
 
-    async void RefreshDistributeEnabled(bool _appCenterEnabled)
+    async void RefreshDistributeEnabled(bool appCenterEnabled)
     {
-        DistributeEnabledSwitchCell.IsToggled = await Distribute.IsEnabledAsync();
-        DistributeEnabledSwitchCell.IsEnabled = _appCenterEnabled;
+        DistributeEnabledSwitchCell.IsToggled = appCenterEnabled;
+        DistributeEnabledSwitchCell.IsEnabled = appCenterEnabled;
         RefreshDistributeTrackUpdate();
-        RefreshAutomaticUpdateCheck(_appCenterEnabled);
+        RefreshAutomaticUpdateCheck(appCenterEnabled);
     }
 
     void RefreshDistributeTrackUpdate()
@@ -96,5 +105,13 @@ public partial class DistributeContentPage
     void CheckForUpdateClicked(object sender, EventArgs e)
     {
         Distribute.CheckForUpdate();
+    }
+
+    void OnEnabledForDebuggableBuildChangeded(object sender, ToggledEventArgs e)
+    {
+#if ANDROID
+        Distribute.SetEnabledForDebuggableBuild(e.Value);
+        Preferences.Set(Constants.EnabledForDebuggableBuild, e.Value);
+#endif
     }
 }

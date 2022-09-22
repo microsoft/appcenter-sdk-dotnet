@@ -15,22 +15,22 @@
                     <Label FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center"  Text="Handle Exceptions"/>
                     <Switch HorizontalOptions="EndAndExpand" VerticalOptions="Center"  IsToggled="False" x:Name="HandleExceptionsSwitchCell" />
                 </StackLayout>
-                <StackLayout Orientation="Vertical">
+                <StackLayout Margin="0, 8, 0, 0" Orientation="Vertical">
                     <Button Padding="0, 8, 0, 8" Text="Text Attachment" x:Name="TextAttachmentButton" Clicked="TextAttachment" />
                     <Label FontSize="Small" Text="" HorizontalOptions="StartAndExpand" VerticalOptions="Center" VerticalTextAlignment="Start" TextColor="Gray" x:Name="TextAttachmentContent"/>
                 </StackLayout>
-                <StackLayout Orientation="Vertical">
+                <StackLayout Margin="0, 8, 0, 0" Orientation="Vertical">
                     <Button Padding="0, 8, 0, 8" Text="Binary Attachment (use Picture Library)" x:Name="FileAttachmentButton" Clicked="FileAttachment" />
                     <Label FontSize="Small" Text="No File Selected" HorizontalOptions="StartAndExpand" VerticalOptions="Center" TextColor="Gray" x:Name="BinaryAttachmentFilePathLabel"/>
                 </StackLayout>
-                <StackLayout Padding="0, 8, 0, 8" Orientation="Vertical">
+                <StackLayout Margin="0, 8, 0, 0" Orientation="Vertical">
                     <StackLayout Orientation="Horizontal">
                         <Label FontSize="Small" Text="Properties" HorizontalOptions="StartAndExpand" VerticalOptions="Center" />
                         <Label FontSize="Small" Text="0" HorizontalOptions="EndAndExpand" VerticalOptions="Center" TextColor="Gray" x:Name="NumPropertiesLabel" />
                     </StackLayout>
                     <Button Padding="0, 8, 0, 8" Text="Add Property" Clicked="AddProperty"/>
                 </StackLayout>
-                 <StackLayout Orientation="Vertical">
+                 <StackLayout Margin="0, 8, 0, 0" Orientation="Vertical">
                     <Label FontSize="Medium" Margin="0, 8, 0, 0" Text="Test Crashes"/>
                     <Button Padding="0, 8, 0, 8" Text="Generate Test Exception" Clicked="TestException" />
                     <Button Padding="0, 8, 0, 8" Text="Divide 42 by 0" Clicked="DivideByZero" />
@@ -43,10 +43,10 @@
                         <Label FontSize="Small" Text="Has received low memory warning" HorizontalOptions="Start" VerticalOptions="Center" />
                         <Label FontSize="Small" Text="No" HorizontalOptions="EndAndExpand" VerticalOptions="Center" TextColor="Gray" x:Name="MemoryWarningLabel"/>
                     </StackLayout>
-                    <Button Padding="0, 8, 0, 8" Text="Trigger low memory warning" Clicked="MemoryWarningTrigger" />
+                    <Button Margin="0, 8, 0, 0" Padding="0, 8, 0, 8" Text="Trigger low memory warning" Clicked="MemoryWarningTrigger" />
                 </StackLayout>
             </StackLayout>
-            <Button Padding="0, 8, 0, 8" Text="Clear Crash User Confirmation" Clicked="ClearCrashUserConfirmation"/>
+            <Button Margin="0, 8, 0, 0" Padding="0, 8, 0, 8" Text="Clear Crash User Confirmation" Clicked="ClearCrashUserConfirmation"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>

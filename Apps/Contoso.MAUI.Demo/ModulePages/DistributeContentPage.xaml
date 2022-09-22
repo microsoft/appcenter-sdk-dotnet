@@ -5,18 +5,22 @@
              x:Class="Contoso.MAUI.Demo.DistributeContentPage">
     <StackLayout Orientation="Vertical" Padding="16">
         <Label FontSize="Medium" Text="Distribute Settings"/>
-        <StackLayout Margin="0, 16, 0, 0" Orientation="Horizontal">
+        <StackLayout Margin="0, 8, 0, 0" Orientation="Horizontal">
             <Label FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Text="Distribute Enabled"/>
             <Switch HorizontalOptions="EndAndExpand" VerticalOptions="Center"  IsToggled="true" x:Name="DistributeEnabledSwitchCell" Toggled="UpdateDistributeEnabled" />
         </StackLayout>
-        <StackLayout>
+        <StackLayout Margin="0, 8, 0, 0">
             <Picker x:Name="UpdateTrackPicker" VerticalOptions="Center" Title="Update track" Margin="0, 16, 0, 16" PropertyChanged="ChangeUpdateTrack" />
         </StackLayout>
-        <StackLayout Margin="0, 16, 0, 0" Orientation="Horizontal">
+        <StackLayout Margin="0, 8, 0, 0" Orientation="Horizontal">
             <Label FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Text="Automatic check for update"/>
             <Switch HorizontalOptions="EndAndExpand" VerticalOptions="Center"  IsToggled="true" x:Name="AutomaticUpdateCheckSwitchCell" Toggled="OnAutomaticUpdateCheckChanged" />
         </StackLayout>
-        <StackLayout>
+        <StackLayout Margin="0, 8, 0, 0" Orientation="Horizontal" IsVisible="{OnPlatform false, Android=true}">
+            <Label FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Text="Enabled for debuggable build"/>
+            <Switch HorizontalOptions="EndAndExpand" VerticalOptions="Center" x:Name="DistributeEnabledForDebuggableBuildSwitch" Toggled="OnEnabledForDebuggableBuildChangeded" />
+        </StackLayout>
+        <StackLayout Margin="0, 8, 0, 0">
             <Button Text="Check for updates" Padding="16, 8, 16, 8" Clicked="CheckForUpdateClicked" VerticalOptions="Center" />
         </StackLayout>
     </StackLayout>

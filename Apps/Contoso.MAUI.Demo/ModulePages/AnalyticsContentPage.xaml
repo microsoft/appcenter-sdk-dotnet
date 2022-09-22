@@ -5,24 +5,24 @@
              x:Class="Contoso.MAUI.Demo.AnalyticsContentPage">
     <ScrollView>
         <StackLayout Padding="16" Orientation="Vertical">
-            <StackLayout Orientation="Vertical">
+            <StackLayout Margin="0, 8, 0, 0" Orientation="Vertical">
                 <Label FontSize="Medium" Text="Analytics Settings"/>
-                <StackLayout Margin="0, 16, 0, 0" Orientation="Horizontal">
+                <StackLayout Margin="0, 8, 0, 0" Orientation="Horizontal">
                     <Label FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center"  Text="Analytics Enabled"/>
                     <Switch HorizontalOptions="EndAndExpand" VerticalOptions="Center" IsToggled="true" x:Name="EnabledSwitchCell" Toggled="UpdateEnabled" />
                 </StackLayout>
             </StackLayout>
-            <StackLayout Orientation="Vertical">
-                <Label Margin="0, 16, 0, 0" Text="Tracking Events"/>
+            <StackLayout Margin="0, 8, 0, 0" Orientation="Vertical">
+                <Label Text="Tracking Events"/>
                 <Entry Margin="0, 8, 0, 0" FontSize="Small" BackgroundColor="LightGrey" Text="Event Name" HorizontalTextAlignment="Start" x:Name="EventNameCell"/>
                 <StackLayout Orientation="Horizontal" Margin="0, 16, 0, 16">
                     <Label FontSize="Small" Text="Properties" HorizontalOptions="StartAndExpand" VerticalOptions="Center" />
                     <Label FontSize="Small" Text="0" HorizontalOptions="EndAndExpand" VerticalOptions="Center" TextColor="Gray" x:Name="NumPropertiesLabel" />
                 </StackLayout>
             </StackLayout>
-            <Button Text="Add Property" Padding="0, 8, 0, 8"  Clicked="AddProperty" />
-            <Button Text="Track Event" Padding="0, 8, 0, 8" Clicked="TrackEvent" FontAttributes="Bold" />
-            <StackLayout Orientation="Vertical">
+            <Button Margin="0, 8, 0, 0" Text="Add Property" Padding="0, 8, 0, 8"  Clicked="AddProperty" />
+            <Button Margin="0, 8, 0, 0" Text="Track Event" Padding="0, 8, 0, 8" Clicked="TrackEvent" FontAttributes="Bold" />
+            <StackLayout Margin="0, 8, 0, 0" Orientation="Vertical">
                 <Label FontSize="Medium" Text="Settings Session"/>
                 <StackLayout Margin="0, 16, 0, 0" Orientation="Horizontal">
                     <Label FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center"  Text="Enable Manual Session Tracker"/>
@@ -30,7 +30,7 @@
                 </StackLayout>
                 <Button Text="Start Session"  Padding="0, 8, 0, 8" x:Name="StartSessionButton" Clicked="StartSessionButton_Clicked"/>
             </StackLayout>
-            <StackLayout Orientation="Vertical">
+            <StackLayout Margin="0, 8, 0, 0" Orientation="Vertical">
                 <Label FontSize="Medium" Text="Country Code Settings"/>
                 <Entry Margin="0, 8, 0, 0" FontSize="Small" BackgroundColor="LightGrey" HorizontalTextAlignment="Start" x:Name="CountryCodeText"/>
                 <Button Text="Save Country Code"  Padding="0, 8, 0, 8" x:Name="SaveCountryCode" Clicked="SaveCountryCode_Clicked"/>
