@@ -27,6 +27,9 @@
     </NativeReference>
   </ItemGroup>
   <ItemGroup>
+    <BundleResource Include="..\..\..\externals\apple\ios\Resources\AppCenterDistributeResources.bundle\**\*" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Apple\Microsoft.AppCenter.Apple.Mono.csproj" />
   </ItemGroup>
 </Project>
