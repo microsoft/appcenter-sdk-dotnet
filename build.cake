@@ -150,7 +150,7 @@ Task("Externals-Apple")
     var distributeBundle = "AppCenterDistributeResources.bundle";
     if(DirectoryExists($"{iosFrameworksLocation}/{distributeBundle}"))
     {
-        MoveDirectory($"{iosFrameworksLocation}/{distributeBundle}", $"{iosExternals}/Resources/{distributeBundle}");
+        MoveDirectory($"{iosFrameworksLocation}/{distributeBundle}", $"{iosExternals}/{distributeBundle}");
     }
 
     // Move macOS frameworks.
