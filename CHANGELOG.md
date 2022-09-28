@@ -1,14 +1,14 @@
 # App Center SDK for .NET Change Log
 
-## Version 4.6.0 (Under Development)
+## Version 5.0.0-preview.1
 
 ### App Center
 
 * **[Feature]** Add .NET 6 support.
-
-#### Windows
-
-* **[Breaking change]** .NET Core `3.0` target for WPF and WinForms applications is out of support, it's replaced with `3.1` (LTS).
+* **[Breaking change]** .NET Core `3.0` target for WPF and WinForms applications is [out of support](https://devblogs.microsoft.com/dotnet/net-core-3-0-end-of-life/), it's replaced with `3.1` (LTS).
+* **[Breaking change]** .NET Framework `4.6.1` target is [out of support](https://devblogs.microsoft.com/dotnet/net-framework-4-5-2-4-6-4-6-1-will-reach-end-of-support-on-april-26-2022/), it's replaced with `4.6.2`
+* **[Breaking change]** .NET `5.0` for windows is [out of support](https://devblogs.microsoft.com/dotnet/dotnet-5-end-of-support-update/), it's replaced .NET `6.0`.
+* **[Breaking change]** Updated .NET Standard "fallback" target from `1.0` to `2.0`.
 * **[Breaking change]** Updated required version of `Xamarin.Android` target framework to `10.0`. The version is specified in the `<TargetFrameworkVersion>` element in the project file.
 
 ___
