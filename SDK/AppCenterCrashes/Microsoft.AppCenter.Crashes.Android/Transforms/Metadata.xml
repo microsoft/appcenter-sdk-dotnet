@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+
+    <!-- Remove types that aren't used in wrapper SDK. -->
+    <remove-node path="/api/package[@name='com.microsoft.appcenter.crashes.ingestion.models']/class[contains(@name, 'Log') and not(@name='ErrorAttachmentLog')]" />
+    <remove-node path="/api/package[@name='com.microsoft.appcenter.crashes.ingestion.models']/class[contains(@name, 'Log')]/field" />
+	<remove-node path="/api/package[@name='com.microsoft.appcenter.crashes.ingestion.models.json']" />
+	<remove-node path="/api/package[@name='com.microsoft.appcenter.crashes.utils']" />
+    
+    <!-- Fix binding events. -->
+    <attr path="/api/package[@name='com.microsoft.appcenter.crashes']/class[@name='Crashes']/method[@name='setListener']" name="eventName">Sending</attr>
+    <attr path="/api/package[@name='com.microsoft.appcenter.crashes']/class[@name='Crashes']/method[@name='setListener']" name="visibility">public</attr>
+    
+    <!-- Explicitly adding bindings for internal methods. -->
+    <add-node path="/api/package[@name='com.microsoft.appcenter.crashes']/class[@name='Crashes']" name="managedName">
+        <method name="unsetInstance" return="void" abstract="false" native="false" synchronized="true" static="true" final="false" deprecated="not deprecated" visibility="public" />
+    </add-node>
+
+    <!-- Changing namespaces to C# style. -->
+    <attr path="/api/package[@name='com.microsoft.appcenter.crashes']" name="managedName">Microsoft.AppCenter.Crashes.Android</attr>
+    <attr path="/api/package[@name='com.microsoft.appcenter.crashes.model']" name="managedName">Microsoft.AppCenter.Crashes.Android.Model</attr>
+    <attr path="/api/package[@name='com.microsoft.appcenter.crashes.ingestion.models']" name="managedName">Microsoft.AppCenter.Crashes.Android.Ingestion.Models</attr>
+</metadata>

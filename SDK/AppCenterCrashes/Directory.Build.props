@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+
+    <!-- Assembly information. -->
+    <Product>Microsoft.AppCenter.Crashes</Product>
+    <RootNamespace>Microsoft.AppCenter.Crashes</RootNamespace>
+    <AssemblyName>Microsoft.AppCenter.Crashes</AssemblyName>
+    <AssemblyTitle>Microsoft.AppCenter.Crashes</AssemblyTitle>
+  </PropertyGroup>
+  <ImportGroup>
+  
+    <!-- It stops at the first Directory.Build.props, so we need to manually include upward one. -->
+    <Import Project="../Directory.Build.props" />
+  </ImportGroup>
+</Project>
+

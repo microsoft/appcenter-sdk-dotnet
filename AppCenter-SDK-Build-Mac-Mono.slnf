@@ -1,0 +1,16 @@
+{
+  "solution": {
+    "path": "AppCenter-Mac.sln",
+    "projects": [
+      "SDK\\AppCenter\\Microsoft.AppCenter.Android\\Microsoft.AppCenter.Android.Mono.csproj",
+      "SDK\\AppCenter\\Microsoft.AppCenter.Apple\\Microsoft.AppCenter.Apple.Mono.csproj",
+      "SDK\\AppCenterAnalytics\\Microsoft.AppCenter.Analytics.Android\\Microsoft.AppCenter.Analytics.Android.Mono.csproj",
+      "SDK\\AppCenterAnalytics\\Microsoft.AppCenter.Analytics.Apple\\Microsoft.AppCenter.Analytics.Apple.Mono.csproj",
+      "SDK\\AppCenterCrashes\\Microsoft.AppCenter.Crashes.Android\\Microsoft.AppCenter.Crashes.Android.Mono.csproj",
+      "SDK\\AppCenterCrashes\\Microsoft.AppCenter.Crashes.Apple\\Microsoft.AppCenter.Crashes.Apple.Mono.csproj",
+      "SDK\\AppCenterDistribute\\Microsoft.AppCenter.Distribute.Android\\Microsoft.AppCenter.Distribute.Android.Mono.csproj",
+      "SDK\\AppCenterDistribute\\Microsoft.AppCenter.Distribute.AndroidPlay\\Microsoft.AppCenter.Distribute.AndroidPlay.Mono.csproj",
+      "SDK\\AppCenterDistribute\\Microsoft.AppCenter.Distribute.Apple\\Microsoft.AppCenter.Distribute.Apple.Mono.csproj"
+    ]
+  }
+}

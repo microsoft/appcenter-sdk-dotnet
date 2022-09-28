@@ -8,4 +8,4 @@ Param(
     [string]$Version
 )
 
-.\build.ps1 -Script "version.cake" -Target "StartNewVersion" -NewVersion="$Version"
+.\build.ps1 "version.cake" --Target="StartNewVersion" --NewVersion="$Version"

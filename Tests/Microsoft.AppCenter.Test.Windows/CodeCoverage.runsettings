@@ -8,8 +8,8 @@
           <CodeCoverage>
             <ModulePaths>
               <Include>
-                <ModulePath>.*\Microsoft.AppCenter.NET.dll$</ModulePath>
-                <ModulePath>.*\Microsoft.AppCenter.Analytics.NET.dll$</ModulePath>                    
+                <ModulePath>.*\Microsoft.AppCenter.Test.dll$</ModulePath>
+                <ModulePath>.*\Microsoft.AppCenter.Analytics.Test.dll$</ModulePath>                    
               </Include>
               <Exclude>
                 <ModulePath>.*Test.Windows.dll</ModulePath>

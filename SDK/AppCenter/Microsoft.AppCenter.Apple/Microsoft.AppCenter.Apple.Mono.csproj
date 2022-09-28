@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
+  <PropertyGroup>
+    <ProjectGuid>{B87370CD-AF51-45E0-AA15-3E0ABC0C30A0}</ProjectGuid>
+    <TargetFrameworks>Xamarin.iOS;Xamarin.Mac</TargetFrameworks>
+    <IsBindingProject>true</IsBindingProject>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.EndsWith('iOS'))">
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="ApiDefinition.cs" />
+    <Compile Remove="StructsAndEnums.cs" />
+    <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
+    <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Microsoft.AppCenter.Shared\**\*.cs" />
+    <Compile Include="..\Microsoft.AppCenter.Shared.Xamarin\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.EndsWith('iOS'))">
+    <Reference Include="Xamarin.iOS" />
+    <NativeReference Include="..\..\..\externals\apple\ios\AppCenter.a">
+      <Kind>Static</Kind>
+      <ForceLoad>True</ForceLoad>
+      <LinkerFlags>-lsqlite3</LinkerFlags>
+      <Frameworks>CoreTelephony Security SystemConfiguration</Frameworks>
+    </NativeReference>
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.EndsWith('Mac'))">
+    <Reference Include="Xamarin.Mac" />
+    <NativeReference Include="..\..\..\externals\apple\macOS\AppCenter.framework">
+      <Kind>Framework</Kind>
+      <ForceLoad>True</ForceLoad>
+      <LinkerFlags>-lsqlite3</LinkerFlags>
+      <Frameworks>CoreTelephony Security SystemConfiguration</Frameworks>
+    </NativeReference>
+  </ItemGroup>
+</Project>

@@ -10,7 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AppCenterTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Ingestion\Http\HttpNetworkAdapterTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\ApplicationSettingsTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\DeviceInformationHelperTest.cs" />
   </ItemGroup>

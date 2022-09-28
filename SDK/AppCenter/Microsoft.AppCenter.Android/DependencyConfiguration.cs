@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Com.Microsoft.Appcenter;
-
 namespace Microsoft.AppCenter
 {
     static partial class DependencyConfiguration
@@ -13,7 +11,7 @@ namespace Microsoft.AppCenter
             get => _httpNetworkAdapter;
             set
             {
-                AndroidDependencyConfiguration.HttpClient = new AndroidHttpClientAdapter(value);
+                Android.DependencyConfiguration.HttpClient = new AndroidHttpClientAdapter(value);
                 _httpNetworkAdapter = value;
             }
         }

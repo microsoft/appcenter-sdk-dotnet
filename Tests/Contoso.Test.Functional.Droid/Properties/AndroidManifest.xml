@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="38" android:versionName="4.5.3-SNAPSHOT" package="com.contoso.test.functional">
-	<uses-sdk android:targetSdkVersion="30" android:minSdkVersion="21" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="41" android:versionName="5.0.0-SNAPSHOT" package="com.contoso.test.functional">
+	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<application android:label="Contoso.Test.Functional.Droid">
 		<activity android:name="com.contoso.test.functional.MainActivity" android:theme="@android:style/Theme.NoDisplay" android:exported="true">

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 public class VersionReader
 {
     private const string SdkVersionTag = "sdkVersion";

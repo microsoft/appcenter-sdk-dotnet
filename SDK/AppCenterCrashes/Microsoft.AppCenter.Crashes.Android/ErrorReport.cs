@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 using System;
+using Java.Util;
 
 namespace Microsoft.AppCenter.Crashes
 {
-    using AndroidExceptionDataManager = Com.Microsoft.Appcenter.Crashes.WrapperSdkExceptionManager;
-    using AndroidErrorReport = Com.Microsoft.Appcenter.Crashes.Model.AndroidErrorReport;
+    using AndroidExceptionDataManager = Android.WrapperSdkExceptionManager;
+    using AndroidErrorReport = Android.Model.ErrorReport;
 
     public partial class ErrorReport
     {
@@ -18,9 +19,8 @@ namespace Microsoft.AppCenter.Crashes
             Device = androidReport.Device == null ? null : new Device(androidReport.Device);
             var androidStackTrace = androidReport.StackTrace;
             AndroidDetails = new AndroidErrorDetails(androidStackTrace, androidReport.ThreadName);
-            iOSDetails = null;
-            MacOSDetails = null;
-            string exceptionString = AndroidExceptionDataManager.LoadWrapperExceptionData(Java.Util.UUID.FromString(Id));
+            AppleDetails = null;
+            string exceptionString = AndroidExceptionDataManager.LoadWrapperExceptionData(UUID.FromString(Id));
             if (exceptionString != null)
             {
                 StackTrace = exceptionString;

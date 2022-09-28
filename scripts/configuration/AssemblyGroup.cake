@@ -1,12 +1,15 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 // An assembly group contains information about which assemblies to be packaged together
 // for each supported platform
 public class AssemblyGroup
 {
-    public string NuspecKey => $"${Id}_dir$";
     public string Id { get; set; }
-    public string Folder { get; set; }
+    public string NuspecKey => $"${Id}_dir$";
+    private string AssembliesPath => Statics.Context.Argument<string>("AssembliesPath", "bin");
+    public string Folder => System.IO.Path.Combine(AssembliesPath, Id);
     public IList<string> AssemblyPaths { get; set; }
-    public IList<AssemblyGroup> Subgroups { get; set; }
     public bool Download { get; set; }
 
     public static IList<AssemblyGroup> ReadAssemblyGroups()
@@ -25,27 +28,15 @@ public class AssemblyGroup
         return groups;
     }
 
-    private AssemblyGroup(XmlNode groupNode, AssemblyGroup parent = null)
+    private AssemblyGroup(XmlNode groupNode)
     {
         AssemblyPaths = new List<string>();
-        Subgroups = new List<AssemblyGroup>();
         Id = groupNode.Attributes.GetNamedItem("id").Value;
         var buildGroup = groupNode.Attributes.GetNamedItem("buildGroup")?.Value;
         var platformString = Statics.Context.IsRunningOnUnix() ? "mac" : "windows";
         if (buildGroup != null)
         {
-            Download = (buildGroup != platformString);
-        }
-        else if (parent != null)
-        {
-            Download = parent.Download;
-        }
-        var parentFolder = parent?.Folder ?? string.Empty;
-        Folder = groupNode.Attributes.GetNamedItem("folder")?.Value ?? string.Empty;
-        Folder = System.IO.Path.Combine(parentFolder, Folder);
-        if (!Folder.StartsWith(Statics.TemporaryPrefix))
-        {
-            Folder = Statics.TemporaryPrefix + Folder;
+            Download = buildGroup != platformString || Statics.Context.Argument<bool>("MainPackage", false);
         }
         for (int i = 0; i < groupNode.ChildNodes.Count; ++i)
         {
@@ -59,10 +50,6 @@ public class AssemblyGroup
                     var docName = System.IO.Path.ChangeExtension(assemblyName, "xml");
                     AssemblyPaths.Add(docName);
                 }
-            }
-            else if (childNode.Name == "group")
-            {
-                Subgroups.Add(new AssemblyGroup(childNode, this));
             }
         }
     }

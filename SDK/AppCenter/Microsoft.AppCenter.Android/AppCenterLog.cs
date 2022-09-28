@@ -3,19 +3,14 @@
 
 namespace Microsoft.AppCenter
 {
-    using AndroidAppCenterLog = Com.Microsoft.Appcenter.Utils.AppCenterLog;
+    using AndroidAppCenterLog = Android.Utils.AppCenterLog;
 
     public static partial class AppCenterLog
     {
         /// <summary>
         /// The log tag for this SDK. All logs emitted at the SDK level will contain this tag.
         /// </summary>
-        public static string LogTag { get; private set; }
-
-        static AppCenterLog()
-        {
-            LogTag = "AppCenterXamarin";
-        }
+        public const string LogTag = nameof(AppCenter) + "Xamarin";
 
         public static void Verbose(string tag, string message)
         {

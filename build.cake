@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#tool nuget:?package=XamarinComponent
-#addin nuget:?package=Cake.FileHelpers&version=3.0.0
-#addin nuget:?package=Cake.Git&version=0.18.0
-#addin nuget:?package=Cake.Incubator&version=2.0.2
-#addin nuget:?package=Cake.Xamarin
+#addin nuget:?package=Cake.FileHelpers&version=5.0.0
+#addin nuget:?package=Cake.Incubator&version=7.0.0
 #load "scripts/utility.cake"
 #load "scripts/configuration/config-parser.cake"
 
@@ -44,13 +41,11 @@ var AppleUrl = $"{SdkStorageUrl}AppCenter-SDK-Apple-{VersionReader.AppleVersion}
 // Task Target for build
 var Target = Argument("Target", Argument("t", "Default"));
 
-var NuspecFolder = "nuget";
-
 // Prepare the platform paths for downloading, uploading, and preparing assemblies
 Setup(context =>
 {
     AssemblyGroups = AssemblyGroup.ReadAssemblyGroups();
-    AppCenterModules = AppCenterModule.ReadAppCenterModules(NuspecFolder, VersionReader.SdkVersion);
+    AppCenterModules = AppCenterModule.ReadAppCenterModules("nuget", VersionReader.SdkVersion);
 });
 
 Task("Build")
@@ -58,8 +53,11 @@ Task("Build")
     .Does(() =>
 {
     var platformId = IsRunningOnUnix() ? "mac" : "windows";
-    var buildGroup = new BuildGroup(platformId);
-    buildGroup.ExecuteBuilds();
+    var buildGroups = BuildGroup.ReadBuildGroups(platformId);
+    foreach (var buildGroup in buildGroups)
+    {
+        buildGroup.ExecuteBuilds();
+    }
 }).OnError(HandleError);
 
 Task("PrepareAssemblies")
@@ -84,10 +82,15 @@ Task("Externals-Android")
     .Does(() =>
 {
     var zipFile = System.IO.Path.Combine(AndroidExternals, "android.zip");
+    if (FileExists(zipFile))
+    {
+        return;
+    }
     CleanDirectory(AndroidExternals);
 
     // Download zip file.
-    DownloadFile(AndroidUrl, zipFile);
+    using (VerboseVerbosity())
+        DownloadFile(AndroidUrl, zipFile);
     Unzip(zipFile, AndroidExternals);
 
     // Move binaries to externals/android so that linked files don't have versions
@@ -101,25 +104,31 @@ Task("Externals-Apple")
     .WithCriteria(() => IsRunningOnUnix())
     .Does(() =>
 {
-    CleanDirectory(AppleExternals);
     var zipFile = System.IO.Path.Combine(AppleExternals, "apple.zip");
+    if (FileExists(zipFile))
+    {
+        return;
+    }
+    CleanDirectory(AppleExternals);
 
-    // Download zip file containing AppCenter frameworks.
-    DownloadFile(AppleUrl, zipFile);
-
-    // Unzip.
-    // StartProcess("unzipr", new ProcessSettings{ Arguments = $"{zipFile} -d {AppleExternals}" });
+    // Download zip file.
+    using (VerboseVerbosity())
+        DownloadFile(AppleUrl, zipFile);
     using(var process = StartAndReturnProcess("unzip",
-        new ProcessSettings { Arguments =new ProcessArgumentBuilder()
-            .Append(zipFile)
-            .Append("-d")
-            .Append(AppleExternals)
+        new ProcessSettings
+        {
+            Arguments = new ProcessArgumentBuilder()
+                .Append(zipFile)
+                .Append("-d")
+                .Append(AppleExternals),
+            RedirectStandardOutput = true,
         }))
     {
-        process.WaitForExit();
-        // This should output 0 as valid arguments supplied
-        Information($"Exit code: {process.GetExitCode()}");
-        Information($"error: {process.GetStandardError()}, output: {process.GetStandardError()}");
+        process.WaitForExit(10000);
+        if (process.GetExitCode() != 0)
+        {
+            throw new Exception($"Failed to unzip {zipFile}");
+        }
     }
 
     var iosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/iOS");
@@ -159,7 +168,7 @@ Task("Externals-Apple")
 Task("Externals").IsDependentOn("Externals-Apple").IsDependentOn("Externals-Android");
 
 // Main Task.
-Task("Default").IsDependentOn("NuGet").IsDependentOn("RemoveTemporaries");
+Task("Default").IsDependentOn("NuGet");
 
 // Pack NuGets for appropriate platform
 Task("NuGet")
@@ -167,77 +176,39 @@ Task("NuGet")
     .Does(()=>
 {
     CleanDirectory("output");
-    var specCopyName = Statics.TemporaryPrefix + "spec_copy.nuspec";
 
     // Package NuGets.
     foreach (var module in AppCenterModules)
     {
-        var nuspecFilename = (IsRunningOnUnix() ? module.MacNuspecFilename : module.WindowsNuspecFilename);
-        var nuspecPath = System.IO.Path.Combine(NuspecFolder, nuspecFilename);
+        var originalPath = System.IO.Path.Combine("nuget", module.NuspecFilename);
 
         // Skip modules that don't have nuspecs.
-        if (!FileExists(nuspecPath))
+        if (!FileExists(originalPath))
         {
             continue;
         }
 
         // Prepare nuspec by making substitutions in a copied nuspec (to avoid altering the original)
-        CopyFile(nuspecPath, specCopyName);
-        ReplaceAssemblyPathsInNuspecs(specCopyName);
+        var nuspecFileName = System.IO.Path.GetFileNameWithoutExtension(originalPath) + ".copy.nuspec";
+        var nuspecPath = System.IO.Path.Combine("nuget", nuspecFileName);
+        CopyFile(originalPath, nuspecPath);
+        ReplaceTextInFiles(nuspecPath, "$version$", module.NuGetVersion);
+        foreach (var group in AssemblyGroups)
+        {
+            var groupFolder = MakeAbsolute((DirectoryPath) group.Folder).FullPath;
+            ReplaceTextInFiles(nuspecPath, group.NuspecKey, groupFolder);
+        }
         Information("Building a NuGet package for " + module.DotNetModule + " version " + module.NuGetVersion);
-        NuGetPack(File(specCopyName), new NuGetPackSettings {
+        NuGetPack(File(nuspecPath), new NuGetPackSettings {
             Verbosity = NuGetVerbosity.Detailed,
             Version = module.NuGetVersion,
             RequireLicenseAcceptance = true
         });
 
         // Clean up
-        DeleteFiles(specCopyName);
+        DeleteFiles(nuspecPath);
     }
     MoveFiles("Microsoft.AppCenter*.nupkg", "output");
 }).OnError(HandleError);
-
-Task("NuGetPackAzDO").Does(()=>
-{
-    var nuspecPathPrefix = EnvironmentVariable("NUSPEC_PATH");
-    foreach (var module in AppCenterModules)
-    {
-        var nuspecPath = System.IO.Path.Combine(nuspecPathPrefix, module.MainNuspecFilename);
-        ReplaceTextInFiles(nuspecPath, "$version$", module.NuGetVersion);
-        ReplaceAssemblyPathsInNuspecs(nuspecPath);
-
-        var spec = GetFiles(nuspecPath);
-
-        // Create the NuGet packages.
-        Information("Building a NuGet package for " + module.MainNuspecFilename);
-        NuGetPack(spec, new NuGetPackSettings {
-            Verbosity = NuGetVerbosity.Detailed,
-            RequireLicenseAcceptance = true
-        });
-    }
-}).OnError(HandleError);
-
-// In AzDO, the assembly path environment variable names should be in the format
-// "{uppercase group id}_ASSEMBLY_PATH_NUSPEC"
-void ReplaceAssemblyPathsInNuspecs(string nuspecPath)
-{
-    // For the Tuples, Item1 is variable name, Item2 is variable value.
-    var assemblyPathVars = new List<Tuple<string, string>>();
-    foreach (var group in AssemblyGroups)
-    {
-        if (group.NuspecKey == null)
-        {
-            continue;
-        }
-        var environmentVariableName = group.Id.ToUpper() + "_ASSEMBLY_PATH_NUSPEC";
-        var assemblyPath = EnvironmentVariable(environmentVariableName, group.Folder);
-        var tuple = Tuple.Create(group.NuspecKey, assemblyPath);
-        assemblyPathVars.Add(tuple);
-    }
-    foreach (var assemblyPathVar in assemblyPathVars)
-    {
-        ReplaceTextInFiles(nuspecPath, assemblyPathVar.Item1, assemblyPathVar.Item2);
-    }
-}
 
 RunTarget(Target);

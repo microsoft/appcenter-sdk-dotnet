@@ -21,7 +21,12 @@ declare -a platformConstants=(
     "XAMARIN_FORMS_MACOS_${appPrefix}"
     "XAMARIN_ANDROID_${appPrefix}"
     "XAMARIN_IOS_${appPrefix}"
-    "XAMARIN_MACOS_${appPrefix}")
+    "XAMARIN_MACOS_${appPrefix}"
+    "MAUI_ANDROID_${appPrefix}"
+    "MAUI_ANDROID_TARGET_TOKEN_${appPrefix}"
+    "MAUI_IOS_${appPrefix}"
+    "MAUI_IOS_TARGET_TOKEN_${appPrefix}"
+    "MAUI_MACOS_${appPrefix}")
 
 # Files which should be changed.
 declare -a targetFiles=("Apps/Contoso.Android.Puppet/Contoso.Android.Puppet.csproj" 
@@ -32,7 +37,8 @@ declare -a targetFiles=("Apps/Contoso.Android.Puppet/Contoso.Android.Puppet.cspr
     "Apps/Contoso.Forms.Puppet/Contoso.Forms.Puppet.MacOS/Contoso.Forms.Puppet.MacOS.csproj"
     "Apps/Contoso.Forms.Puppet/Contoso.Forms.Puppet.iOS/Contoso.Forms.Puppet.iOS.csproj"
     "Apps/Contoso.MacOS.Puppet/Contoso.MacOS.Puppet.csproj"
-    "Apps/Contoso.iOS.Puppet/Contoso.iOS.Puppet.csproj")
+    "Apps/Contoso.iOS.Puppet/Contoso.iOS.Puppet.csproj"
+    "Apps/MAUI.Demo/App.xaml.cs")
 
 # Print info about current job.
 echo "Insert secrets for $appPrefix apps."

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#addin nuget:?package=Cake.FileHelpers&version=3.0.0
-#addin nuget:?package=Cake.Git&version=0.18.0
-#addin nuget:?package=Cake.Incubator&version=2.0.2
-#addin nuget:?package=Cake.SemVer&version=2.0.0
+#addin nuget:?package=Cake.FileHelpers&version=5.0.0
+#addin nuget:?package=Cake.Git&version=2.0.0
+#addin nuget:?package=Cake.Incubator&version=7.0.0
+#addin nuget:?package=Cake.SemVer&version=4.0.0
 #addin nuget:?package=semver&version=2.0.4
-#addin nuget:?package=Cake.Json&version=3.0.1
+#addin nuget:?package=Cake.Json&version=7.0.1
 #load "scripts/utility.cake"
 #load "scripts/configuration/config-parser.cake"
 
@@ -228,6 +228,7 @@ void IncrementRevisionNumber(bool useHash)
     {
         newVersion += "-" + GetShortCommitHash();
     }
+    Information("Set version to " + newVersion);
 
     // Replace AssemblyInformationalVersion in all AssemblyInfo files
     var informationalVersionPattern = @"AssemblyInformationalVersion\(" + "\".*\"" + @"\)";
@@ -327,6 +328,11 @@ void UpdateNewProjSdkVersion(string newVersion, string newFileVersion)
         {
             UpdateNewProjVersion(file, newVersion, newFileVersion);
         }
+    }
+    var propsFiles = GetFiles("**/Directory.Build.props");
+    foreach (var file in propsFiles)
+    {
+            UpdateNewProjVersion(file, newVersion, newFileVersion);
     }
 }
 

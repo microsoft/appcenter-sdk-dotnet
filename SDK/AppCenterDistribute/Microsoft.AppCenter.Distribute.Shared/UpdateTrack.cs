@@ -5,6 +5,9 @@ using System;
 
 namespace Microsoft.AppCenter.Distribute
 {
+    /// <summary>
+    /// Track to use for in-app updates.
+    /// </summary>
     public enum UpdateTrack
     {
         /// <summary>

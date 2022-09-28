@@ -22,44 +22,44 @@
   <files>
 
     <!-- .NET Standard -->
-    <file src="$netstandard_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/netstandard1.0" />
-    <file src="$netstandard_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/netstandard1.0" />
+    <file src="$netstandard_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/netstandard2.0" />
+    <file src="$netstandard_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/netstandard2.0" />
 
     <!-- Android -->
-    <file src="$android_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/MonoAndroid50" />
-    <file src="$android_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/MonoAndroid50" />
-    <file src="$android_dir$/Microsoft.AppCenter.Analytics.Android.Bindings.dll" target="lib/MonoAndroid50" />
+    <file src="$android_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/MonoAndroid10.0" />
+    <file src="$android_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/MonoAndroid10.0" />
+    <file src="$android_net6_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net6.0-android29.0" />
+    <file src="$android_net6_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net6.0-android29.0" />
+    <file src="$android_net6_dir$/appcenter-analytics-release.aar" target="lib/net6.0-android29.0" />
 
     <!-- iOS -->
     <file src="$ios_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/Xamarin.iOS10" />
     <file src="$ios_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/Xamarin.iOS10" />
-    <file src="$ios_dir$/Microsoft.AppCenter.Analytics.iOS.Bindings.dll" target="lib/Xamarin.iOS10" />
+    <file src="$ios_net6_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net6.0-ios9.0" />
+    <file src="$ios_net6_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net6.0-ios9.0" />
 
     <!-- macOS -->
-    <file src="$macos_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/Xamarin.Mac" />
-    <file src="$macos_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/Xamarin.Mac" />
-    <file src="$macos_dir$/Microsoft.AppCenter.Analytics.MacOS.Bindings.dll" target="lib/Xamarin.Mac" />
+    <file src="$macos_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/Xamarin.Mac20" />
+    <file src="$macos_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/Xamarin.Mac20" />
+    <file src="$macos_net6_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net6.0-macos10.10" />
+    <file src="$macos_net6_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net6.0-macos10.10" />
 
     <!-- UWP -->
-    <file src="$uwp_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/uap10.0" />
-    <file src="$uwp_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/uap10.0" />
+    <file src="$uwp_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/uap10.0.16299" />
+    <file src="$uwp_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/uap10.0.16299" />
 
-    <!-- WindowsDesktop (WPF and WinForms) for .NET Framework -->
-    <file src="$windows_desktop_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net461" />
-    <file src="$windows_desktop_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net461" />
+    <!-- Windows Classic Desktop (WPF and WinForms) for .NET Framework -->
+    <file src="$windows_net462_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net462" />
+    <file src="$windows_net462_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net462" />
+    <file src="$windows_net472_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net472" />
+    <file src="$windows_net472_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net472" />
 
-    <!-- Windows Classic Desktop (WPF and WinForms) for .NETFramework 471 -->
-    <file src="$windows_desktop_net472_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net472" />
-    <file src="$windows_desktop_net472_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net472" />
+    <!-- Windows Desktop for .NET Core and .NET 5 -->
+    <file src="$windows_netcore_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/netcoreapp3.1" />
+    <file src="$windows_netcore_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/netcoreapp3.1" />
 
-    <!-- WindowsDesktop (WPF and WinForms) for .NET Core -->
-    <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/netcoreapp3.0" />
-    <file src="$windows_desktop_netcore_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/netcoreapp3.0" />
-    <file src="$windows_desktop_net_5_windows_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net5.0-windows7.0" />
-    <file src="$windows_desktop_net_5_windows_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net5.0-windows7.0" />
-        
-    <!-- WinUI -->
-    <file src="$windows_desktop_net_5_windows_winui_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net5.0-windows10.0.17763.0" />
-    <file src="$windows_desktop_net_5_windows_winui_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net5.0-windows10.0.17763.0" />
+    <!-- Windows Desktop for WinUI and modern OS targets -->
+    <file src="$windows_net6_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net6.0-windows10.0.17763.0" />
+    <file src="$windows_net6_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net6.0-windows10.0.17763.0" />
   </files>
 </package>

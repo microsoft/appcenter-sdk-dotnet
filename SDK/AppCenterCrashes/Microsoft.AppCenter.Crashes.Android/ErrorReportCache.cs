@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using Com.Microsoft.Appcenter.Crashes.Model;
 
 namespace Microsoft.AppCenter.Crashes
 {
+    using AndroidErrorReport = Android.Model.ErrorReport;
+
     static class ErrorReportCache
     {
         readonly static Dictionary<string, ErrorReport> cachedReports = new Dictionary<string, ErrorReport>();

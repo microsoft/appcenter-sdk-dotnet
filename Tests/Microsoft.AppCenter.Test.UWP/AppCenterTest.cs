@@ -31,7 +31,9 @@ namespace Microsoft.AppCenter.Test.UWP
             mockGroupFactory.Setup(mock => mock.CreateChannelGroup(It.IsAny<string>(), It.IsAny<INetworkStateAdapter>())).Returns(mockGroup.Object);
 
             // Replace the channel group factory on mock.
+#pragma warning disable CS0612 // Type or member is obsolete
             AppCenter.SetChannelGroupFactory(mockGroupFactory.Object);
+#pragma warning restore CS0612 // Type or member is obsolete
 
             _unobservedTaskException = null;
             AppCenter.Instance = null;
@@ -98,40 +100,6 @@ namespace Microsoft.AppCenter.Test.UWP
             if (File.Exists(Constants.AppCenterDatabasePath))
             {
                 File.Delete(Constants.AppCenterDatabasePath);
-            }
-            using (var storageMock = new Storage.Storage())
-            {
-                storageMock.WaitOperationsAsync(TimeSpan.FromSeconds(10)).Wait();
-
-                // Verify that database is created inside local app data folder, and not locally.
-                Assert.IsTrue(File.Exists(Path.Combine(Constants.LocalAppData, Constants.AppCenterDatabaseFilename)));
-            }
-        }
-
-        [TestMethod]
-        public void TestDbInitializationFolderNotExists()
-        {
-            // Make sure database directory does not exist before test.
-            if (Directory.Exists(Constants.AppCenterDatabasePath))
-            {
-                new DirectoryInfo(Constants.AppCenterDatabasePath).Delete(false);
-            }
-            using (var storageMock = new Storage.Storage())
-            {
-                storageMock.WaitOperationsAsync(TimeSpan.FromSeconds(10)).Wait();
-
-                // Verify that database is created inside local app data folder, and not locally.
-                Assert.IsTrue(File.Exists(Path.Combine(Constants.LocalAppData, Constants.AppCenterDatabaseFilename)));
-            }
-        }
-
-        [TestMethod]
-        public void TestDbInitializationFolderExists()
-        {
-            // Make sure database directory exists before test.
-            if (!Directory.Exists(Constants.AppCenterDatabasePath))
-            {
-                new DirectoryInfo(Constants.AppCenterDatabasePath).Create();
             }
             using (var storageMock = new Storage.Storage())
             {

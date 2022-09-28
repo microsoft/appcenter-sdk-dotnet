@@ -21,12 +21,12 @@ namespace Microsoft.AppCenter.Test.Functional
 
         internal int CallCount { get; private set; }
 
-        public Task<RequestData> MockRequestByLogType(string logType, HttpResponse response = null, int delayTimeInSeconds = 20)
+        public Task<RequestData> MockRequestByLogType(string logType, HttpResponse response = null, int delayTimeInSeconds = 30)
         {
             return MockRequest(request => request.JsonContent.SelectTokens($"$.logs[?(@.type == '{logType}')]").ToList().Count > 0, response, delayTimeInSeconds);
         }
 
-        public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response = null, int delayTimeInSeconds = 20)
+        public Task<RequestData> MockRequest(Func<RequestData, bool> where, HttpResponse response = null, int delayTimeInSeconds = 30)
         {
             var expectedData = new ExpectedData(TimeSpan.FromSeconds(delayTimeInSeconds))
             {
