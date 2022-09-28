@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config>
     <sdkInfo>
-        <sdkVersion>4.6.0-SNAPSHOT</sdkVersion>
+        <sdkVersion>5.0.0-SNAPSHOT</sdkVersion>
         <appleVersion>4.4.3</appleVersion>
         <androidVersion>4.4.5</androidVersion>
     </sdkInfo>

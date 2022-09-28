@@ -7,8 +7,8 @@
     <LangVersion>7.0</LangVersion>
 
     <!-- Current version. -->
-    <Version>4.6.0-SNAPSHOT</Version>
-    <FileVersion>4.6.0.0</FileVersion>
+    <Version>5.0.0-SNAPSHOT</Version>
+    <FileVersion>5.0.0.0</FileVersion>
 
     <!-- Used in runtime to ensure versions match. Prevents loading in some cases, so don't set it as release version. -->
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
