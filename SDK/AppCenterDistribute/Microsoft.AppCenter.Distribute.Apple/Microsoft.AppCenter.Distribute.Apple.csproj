@@ -29,7 +29,6 @@
     <BundleResource Include="..\..\..\externals\apple\ios\AppCenterDistributeResources.bundle\**\*.*" >
       <Link>Resources\AppCenterDistributeResources.bundle\%(RecursiveDir)%(Filename)%(Extension)</Link>
     </BundleResource>
-    
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Apple\Microsoft.AppCenter.Apple.csproj" />
