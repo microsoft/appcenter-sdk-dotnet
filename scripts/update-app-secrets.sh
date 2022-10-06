@@ -38,7 +38,7 @@ declare -a targetFiles=("Apps/Contoso.Android.Puppet/Contoso.Android.Puppet.cspr
     "Apps/Contoso.Forms.Puppet/Contoso.Forms.Puppet.iOS/Contoso.Forms.Puppet.iOS.csproj"
     "Apps/Contoso.MacOS.Puppet/Contoso.MacOS.Puppet.csproj"
     "Apps/Contoso.iOS.Puppet/Contoso.iOS.Puppet.csproj"
-    "Apps/MAUI.Demo/App.xaml.cs")
+    "Apps/Contoso.MAUI.Demo/App.xaml.cs")
 
 # Print info about current job.
 echo "Insert secrets for $appPrefix apps."
