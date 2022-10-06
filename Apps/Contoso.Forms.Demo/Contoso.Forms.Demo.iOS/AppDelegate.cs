@@ -41,12 +41,12 @@ namespace Contoso.Forms.Demo.iOS
 
         public string GetAppSecret()
         {
-            return Environment.GetEnvironmentVariable("XAMARIN_FORMS_IOS_PROD");
+            return "{XAMARIN_FORMS_IOS_PROD}";
         }
 
         public string GetTargetToken()
         {
-            return Environment.GetEnvironmentVariable("XAMARIN_FORMS_IOS_TARGET_TOKEN_PROD");
+            return "{XAMARIN_FORMS_IOS_TARGET_TOKEN_PROD}";
         }
     }
 

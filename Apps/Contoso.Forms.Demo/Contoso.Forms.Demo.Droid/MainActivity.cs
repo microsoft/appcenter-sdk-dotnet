@@ -30,8 +30,8 @@ namespace Contoso.Forms.Demo.Droid
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            AppCenterSecret = Intent.GetStringExtra("XAMARIN_FORMS_ANDROID_PROD");
-            AppCenterTargetToken = Intent.GetStringExtra("XAMARIN_FORMS_ANDROID_TARGET_TOKEN_PROD");
+            AppCenterSecret = "{XAMARIN_FORMS_ANDROID_PROD}";
+            AppCenterTargetToken = "{XAMARIN_FORMS_ANDROID_TARGET_TOKEN_PROD}";
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
