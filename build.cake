@@ -166,6 +166,15 @@ Task("Externals-Apple")
         var dirName = frameworkDir.GetDirectoryName();
         MoveDirectory(frameworkDir, $"{macosExternals}/{dirName}");
     }
+
+    // Copy binaries for net-6.0 projects
+    files = GetFiles($"{macosExternals}/*.framework/Versions/A/AppCenter*");
+    foreach (var file in files)
+    {
+        var filename = file.GetFilename();
+        CopyFile(file, $"{macosExternals}/{filename}.a");
+    }
+
 }).OnError(HandleError);
 
 // Create a common externals task depending on platform specific ones
