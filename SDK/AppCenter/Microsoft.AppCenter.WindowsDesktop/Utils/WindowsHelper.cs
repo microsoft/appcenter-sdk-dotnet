@@ -21,6 +21,8 @@ namespace Microsoft.AppCenter.Utils
 
         public static bool IsRunningAsUwp { get; }
 
+        public static bool IsRunningAsWinUI { get; }
+
         #region IsRunningAsUwp
 
         const long APPMODEL_ERROR_NO_PACKAGE = 15700L;
@@ -107,7 +109,6 @@ namespace Microsoft.AppCenter.Utils
             try
             {
                 var presentationFramework = GetAssembly("PresentationFramework");
-
                 IsRunningAsWpf = presentationFramework != null;
                 if (IsRunningAsWpf)
                 {
@@ -123,6 +124,7 @@ namespace Microsoft.AppCenter.Utils
                 AppCenterLog.Warn(AppCenterLog.LogTag, "Unabled to determine whether this application is WPF or Windows Forms; proceeding as though it is Windows Forms.");
             }
             IsRunningAsUwp = _IsRunningAsUwp();
+            IsRunningAsWinUI = IsRunningAsUwp || GetAssembly("System.Windows.Forms") == null;
         }
 
         private static dynamic WpfApplication { get; }

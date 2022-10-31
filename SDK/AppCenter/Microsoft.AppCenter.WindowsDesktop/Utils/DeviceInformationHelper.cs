@@ -36,7 +36,7 @@ namespace Microsoft.AppCenter.Utils
         {
             var sdkName = WindowsHelper.IsRunningAsWpf ? "appcenter.wpf" : "appcenter.winforms";
 #if WINDOWS
-            sdkName = WindowsHelper.IsRunningAsUwp ? "appcenter.winui" : $"{sdkName}.net";
+            sdkName = WindowsHelper.IsRunningAsWinUI ? "appcenter.winui" : $"{sdkName}.net";
 #elif NETCOREAPP
             sdkName = $"{sdkName}.netcore";
 #endif

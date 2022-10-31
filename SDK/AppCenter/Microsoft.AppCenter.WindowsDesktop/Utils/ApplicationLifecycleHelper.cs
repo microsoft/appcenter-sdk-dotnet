@@ -32,16 +32,16 @@ namespace Microsoft.AppCenter
                 if (_instance == null)
                 {
 #if WINDOWS10_0_17763_0_OR_GREATER
-                    if (WindowsHelper.IsRunningAsUwp)
+                    if (WindowsHelper.IsRunningAsWinUI)
                     {
-                        _instance = new ApplicationLifecycleHelperWinUI();
                         AppCenterLog.Debug(AppCenterLog.LogTag, "Use lifecycle for WinUI applications.");
+                        _instance = new ApplicationLifecycleHelperWinUI();
                     }
                     else
 #endif
                     {
-                        _instance = new ApplicationLifecycleHelperDesktop();
                         AppCenterLog.Debug(AppCenterLog.LogTag, "Use lifecycle for desktop applications.");
+                        _instance = new ApplicationLifecycleHelperDesktop();
                     }
                 }
                 return _instance;
