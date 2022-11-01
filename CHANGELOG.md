@@ -2,6 +2,12 @@
 
 ## Version 5.0.0
 
+### App Center
+
+#### Apple
+
+* **[Fix]** Fix crash on net6.0-macos application because of an incorrect native binary linking.
+
 ___
 
 ## Version 5.0.0-preview.1
