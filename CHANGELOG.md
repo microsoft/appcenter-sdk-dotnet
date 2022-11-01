@@ -1,5 +1,9 @@
 # App Center SDK for .NET Change Log
 
+## Version 5.0.0
+
+___
+
 ## Version 5.0.0-preview.1
 
 ### App Center
