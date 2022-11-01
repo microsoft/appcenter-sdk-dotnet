@@ -89,8 +89,10 @@ Task("Externals-Android")
     CleanDirectory(AndroidExternals);
 
     // Download zip file.
+    var authParams = Argument("StorageAuthParams", EnvironmentVariable("STORAGE_AUTH_PARAMS"));
+    var artifactUrl = $"{AndroidUrl}{authParams}";
     using (VerboseVerbosity())
-        DownloadFile(AndroidUrl, zipFile);
+        DownloadFile(artifactUrl, zipFile);
     Unzip(zipFile, AndroidExternals);
 
     // Move binaries to externals/android so that linked files don't have versions
@@ -112,8 +114,10 @@ Task("Externals-Apple")
     CleanDirectory(AppleExternals);
 
     // Download zip file.
+    var authParams = Argument("StorageAuthParams", EnvironmentVariable("STORAGE_AUTH_PARAMS"));
+    var artifactUrl = $"{AppleUrl}{authParams}";
     using (VerboseVerbosity())
-        DownloadFile(AppleUrl, zipFile);
+        DownloadFile(artifactUrl, zipFile);
     using(var process = StartAndReturnProcess("unzip",
         new ProcessSettings
         {
@@ -168,11 +172,12 @@ Task("Externals-Apple")
 Task("Externals").IsDependentOn("Externals-Apple").IsDependentOn("Externals-Android");
 
 // Main Task.
-Task("Default").IsDependentOn("NuGet");
+Task("Default")
+    .IsDependentOn("PrepareAssemblies")
+    .IsDependentOn("NuGet");
 
 // Pack NuGets for appropriate platform
 Task("NuGet")
-    .IsDependentOn("PrepareAssemblies")
     .Does(()=>
 {
     CleanDirectory("output");
