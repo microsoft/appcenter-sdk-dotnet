@@ -11,6 +11,7 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.EndsWith('-macos'))">
+    <LinkMode>SdkOnly</LinkMode>
     <SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -31,8 +32,8 @@
     </NativeReference>
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.EndsWith('-macos'))">
-    <NativeReference Include="..\..\..\externals\apple\macOS\AppCenterCrashes.framework">
-      <Kind>Framework</Kind>
+    <NativeReference Include="..\..\..\externals\apple\macOS\AppCenterCrashes.a">
+      <Kind>Static</Kind>
       <ForceLoad>True</ForceLoad>
       <LinkerFlags>-lc++</LinkerFlags>
       <IsCxx>True</IsCxx>
