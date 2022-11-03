@@ -8,6 +8,10 @@
 
 * **[Fix]** Fix crash on net6.0-macos application because of an incorrect native binary linking.
 
+#### Windows
+
+* **[Fix]** Fix crash on MAUI windows unpackaged application due to picking a wrong lifecycle helper.
+
 ___
 
 ## Version 5.0.0-preview.1
