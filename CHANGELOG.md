@@ -7,10 +7,27 @@
 #### Apple
 
 * **[Fix]** Fix crash on net6.0-macos application because of an incorrect native binary linking.
+* **[Feature]** Add Xcode 14 support. Xcode 11 and Xcode 12 are out of support now. Bump minumum supported iOS version to iOS 11.
+
+#### Android
+
+* **[Fix]** Fix ignoring maximum storage size limit in case logs contain large payloads.
 
 #### Windows
 
 * **[Fix]** Fix crash on MAUI windows unpackaged application due to picking a wrong lifecycle helper.
+
+### App Center Crashes
+
+#### Apple
+
+* **[Improvement]** Update PLCrashReporter to 1.11.0.
+
+### App Center Distribute
+
+#### Android
+
+* **[Feature]** Add requesting notifications permission for Android 13 (notifications are used to inform about downloading/installing status if an application is in background)
 
 ___
 
