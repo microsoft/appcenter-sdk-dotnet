@@ -22,7 +22,7 @@
     <MtouchDebug>true</MtouchDebug>
     <MtouchFastDev>true</MtouchFastDev>
     <MtouchLink>None</MtouchLink>
-    <MtouchArch>i386, x86_64</MtouchArch>
+    <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
@@ -93,9 +93,9 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.0" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.0" />
-    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.0-r0005-370fc7b" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.0-r0005-370fc7b" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="5.0.0-r0005-370fc7b" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
   </ItemGroup>
   <ItemGroup>
