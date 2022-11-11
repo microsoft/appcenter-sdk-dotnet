@@ -89,8 +89,10 @@ Task("Externals-Android")
     CleanDirectory(AndroidExternals);
 
     // Download zip file.
+    var authParams = Argument("StorageAuthParams", EnvironmentVariable("STORAGE_AUTH_PARAMS"));
+    var artifactUrl = $"{AndroidUrl}{authParams}";
     using (VerboseVerbosity())
-        DownloadFile(AndroidUrl, zipFile);
+        DownloadFile(artifactUrl, zipFile);
     Unzip(zipFile, AndroidExternals);
 
     // Move binaries to externals/android so that linked files don't have versions
@@ -112,8 +114,10 @@ Task("Externals-Apple")
     CleanDirectory(AppleExternals);
 
     // Download zip file.
+    var authParams = Argument("StorageAuthParams", EnvironmentVariable("STORAGE_AUTH_PARAMS"));
+    var artifactUrl = $"{AppleUrl}{authParams}";
     using (VerboseVerbosity())
-        DownloadFile(AppleUrl, zipFile);
+        DownloadFile(artifactUrl, zipFile);
     using(var process = StartAndReturnProcess("unzip",
         new ProcessSettings
         {
@@ -162,6 +166,15 @@ Task("Externals-Apple")
         var dirName = frameworkDir.GetDirectoryName();
         MoveDirectory(frameworkDir, $"{macosExternals}/{dirName}");
     }
+
+    // Copy binaries for net-6.0 projects
+    files = GetFiles($"{macosExternals}/*.framework/Versions/A/AppCenter*");
+    foreach (var file in files)
+    {
+        var filename = file.GetFilename();
+        CopyFile(file, $"{macosExternals}/{filename}.a");
+    }
+
 }).OnError(HandleError);
 
 // Create a common externals task depending on platform specific ones

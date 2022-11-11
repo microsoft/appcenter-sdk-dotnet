@@ -115,8 +115,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.6.0-r0006-5d28fad" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.6.0-r0006-5d28fad" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.0" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

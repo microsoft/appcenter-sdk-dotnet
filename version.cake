@@ -294,6 +294,10 @@ void IncrementManifestVersionCode(FilePath manifest)
 {
     var versionCodePattern = "android:versionCode=\"[^\"]+\"";
     var versionCodeText = FindRegexMatchInFile(manifest, versionCodePattern, RegexOptions.None);
+    if (string.IsNullOrEmpty(versionCodeText))
+    {
+        return;
+    }
     var firstPart = "android:versionCode=\"";
     var length = versionCodeText.Length - 1 - firstPart.Length;
     var versionCode = int.Parse(versionCodeText.Substring(firstPart.Length, length));

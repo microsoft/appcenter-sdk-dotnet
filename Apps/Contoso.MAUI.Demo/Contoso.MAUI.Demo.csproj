@@ -8,15 +8,12 @@
     <UsingMauiEssentials>true</UsingMauiEssentials>
     <SingleProject>true</SingleProject>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>5.0.0-SNAPSHOT</Version>
-
+    <Version>5.0.0</Version>
     <!-- Display name -->
     <ApplicationTitle>Contoso.MAUI.Demo</ApplicationTitle>
-
     <!-- App Identifier -->
     <ApplicationId>com.microsoft.appcenter.Contoso.MAUI.Demo</ApplicationId>
     <ApplicationIdGuid>d7a06185-3470-4ae9-8a6f-27a861f146b2</ApplicationIdGuid>
-
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
@@ -25,7 +22,6 @@
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
     <Configurations>Debug;Release;GooglePlay</Configurations>
   </PropertyGroup>
-
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GooglePlay|AnyCPU' ">
     <IntermediateOutputPath>obj\GooglePlay</IntermediateOutputPath>
     <DebugType></DebugType>
@@ -40,18 +36,14 @@
   <ItemGroup>
     <!-- App Icon -->
     <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
-
     <!-- Splash Screen -->
     <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
-
     <!-- Images -->
     <MauiImage Include="Resources\Images\*" />
     <MauiFont Include="Resources\Fonts\*" />
-
     <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="Microsoft.AppCenter.Analytics" />
     <None Remove="Microsoft.AppCenter.Crashes" />
@@ -63,13 +55,13 @@
     <None Remove="Platforms\iOS\Resources\Images\socket.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.6.0-r0007-5d0e348" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.6.0-r0007-5d0e348" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'!='GooglePlay' ">
-    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="4.6.0-r0006-5d28fad" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'=='GooglePlay' ">
-    <PackageReference Include="Microsoft.AppCenter.DistributePlay" Version="4.6.0-r0006-5d28fad" />
+    <PackageReference Include="Microsoft.AppCenter.DistributePlay" Version="5.0.0" />
   </ItemGroup>
 </Project>
