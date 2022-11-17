@@ -73,14 +73,14 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'=='GooglePlay' ">
-    <PackageReference Include="Microsoft.AppCenter.DistributePlay" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AppCenter.DistributePlay" Version="5.0.0-r0005-370fc7b" />
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'!='GooglePlay' ">
-    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="5.0.0-r0005-370fc7b" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.0" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.0-r0005-370fc7b" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.0-r0005-370fc7b" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
   </ItemGroup>
   <ItemGroup>
