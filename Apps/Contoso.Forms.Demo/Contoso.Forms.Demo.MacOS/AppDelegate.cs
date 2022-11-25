@@ -4,7 +4,10 @@
 using AppKit;
 using Foundation;
 using Xamarin.Forms.Platform.MacOS;
+using Xamarin.Forms;
+using Contoso.Forms.Demo.MacOS;
 
+[assembly: Dependency(typeof(AppDelegate))]
 namespace Contoso.Forms.Demo.MacOS
 {
     [Register("AppDelegate")]
