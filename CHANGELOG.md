@@ -1,4 +1,9 @@
 # App Center SDK for .NET Change Log
+## Version 5.0.1
+
+#### Windows
+
+* **[Fix]** Fix crash on Windows 7 during intialization for Microsoft.AppCenter.Utils. WindowsHelper. _IsRunningAsUwp() because of an incorrect OSVersion check.
 
 ## Version 5.0.0
 
