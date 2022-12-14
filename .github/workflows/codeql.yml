@@ -31,8 +31,7 @@ jobs:
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
     - run: |
-        dotnet workload install android ios macos -v diagnostic
-        scripts/select-xamarin-sdk.sh 6_12_0    
+        dotnet workload install android ios macos -v diagnostic 
     - name: Run the Cake script
       uses: cake-build/cake-action@v1
       env:
