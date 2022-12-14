@@ -21,14 +21,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
-        # We must fetch at least the immediate parents so that if this is
-        # a pull request then we can checkout the head.
         fetch-depth: 2
+    - name: Setup dotnet 
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.0.x'    
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
-      # Override language selection by uncommenting this and choosing your languages
       with:
         languages: csharp
 
@@ -65,24 +66,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
-        # We must fetch at least the immediate parents so that if this is
-        # a pull request then we can checkout the head.
         fetch-depth: 2
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
-
-      # Override language selection by uncommenting this and choosing your languages
       with:
         languages: csharp
-
-    # ℹ️ Command-line programs to run using the OS shell.
-    # 📚 https://git.io/JvXDl
-
-    # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
-    #    and modify them (or add more) to build your code if your project
-    #    uses a compiled language
 
     - run: |
         echo "Run Externals-Android"
