@@ -30,12 +30,13 @@ jobs:
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
-    - name: Install the .NET 6 SDK
-      uses: actions/setup-dotnet@v2
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
       with:
-        dotnet-version: '6.0.x'
+        vs-version: '16.5'
     - run: |
-        dotnet --version
+        dotnet workload install android ios macos -v diagnostic
+        scripts/select-xamarin-sdk.sh 6_12_0    
     - name: Run the Cake script
       uses: cake-build/cake-action@v1
       env:
