@@ -30,8 +30,8 @@ jobs:
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
-    - run: |
-        dotnet workload install android ios macos -v diagnostic 
+    - name: Install workloads
+      run: dotnet workload install android ios macos -v diagnostic 
     - name: Run the Cake script
       uses: cake-build/cake-action@v1
       env:
@@ -69,7 +69,10 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: csharp
-
+        
+    - name: Install workloads
+      run: dotnet workload install android
+      
     - run: |
         echo "Run Externals-Android"
         .\build.ps1 --target="Externals-Android"
