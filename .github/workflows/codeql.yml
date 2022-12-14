@@ -39,6 +39,7 @@ jobs:
       uses: cake-build/cake-action@v1
       with:
         target: Externals-Apple
+        cake-version: 2.0.0
 
     - run: |
         echo "Build App Center For iOS"
