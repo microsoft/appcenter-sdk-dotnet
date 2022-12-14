@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
 
-    runs-on: macos-latest
+    runs-on: macOS-12
 
     steps:
     - name: Checkout repository
@@ -30,10 +30,6 @@ jobs:
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
-    - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.1
-      with:
-        vs-version: '16.5'
     - run: |
         dotnet workload install android ios macos -v diagnostic
         scripts/select-xamarin-sdk.sh 6_12_0    
