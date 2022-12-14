@@ -43,12 +43,17 @@ jobs:
     # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
     #    and modify them (or add more) to build your code if your project
     #    uses a compiled language 
+  CodeQL-Run-Cake-Script:
+    strategy:
+      fail-fast: false
 
+    runs-on: macos-latest
+    
     steps:
-      - name: Run the Cake script
-        uses: cake-build/cake-action@v1
-        with:
-          target: Externals-Apple
+    - name: Run the Cake script
+      uses: cake-build/cake-action@v1
+      with:
+        target: Externals-Apple
 
     - run: |
         echo "Build App Center For iOS"
@@ -56,7 +61,6 @@ jobs:
         msbuild SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.iOS/Microsoft.AppCenter.Analytics.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build
         msbuild SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.iOS/Microsoft.AppCenter.Crashes.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build
         msbuild SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.iOS/Microsoft.AppCenter.Distribute.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build
-
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
 
@@ -107,7 +111,6 @@ jobs:
         MSBuild.exe SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics/Microsoft.AppCenter.Analytics.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
         MSBuild.exe SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes/Microsoft.AppCenter.Crashes.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
         MSBuild.exe SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/Microsoft.AppCenter.Distribute.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
-
     - run: |
         echo "Build App Center For Android"
         $Env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin"
@@ -115,6 +118,5 @@ jobs:
         MSBuild.exe SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Android/Microsoft.AppCenter.Analytics.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
         MSBuild.exe SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Android/Microsoft.AppCenter.Crashes.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
         MSBuild.exe SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/Microsoft.AppCenter.Distribute.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
-
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
