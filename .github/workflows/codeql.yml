@@ -35,7 +35,6 @@ jobs:
       with:
         dotnet-version: '6.0.x'
     - run: |
-        source /Users/runner/.dotnet
         dotnet --version
     - name: Run the Cake script
       uses: cake-build/cake-action@v1
