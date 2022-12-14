@@ -43,12 +43,17 @@ jobs:
     # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
     #    and modify them (or add more) to build your code if your project
     #    uses a compiled language 
+  CodeQL-Run-Cake-Script:
+    strategy:
+      fail-fast: false
 
+    runs-on: macos-latest
+    
     steps:
-      - name: Run the Cake script
-        uses: cake-build/cake-action@v1
-        with:
-          target: Externals-Apple
+    - name: Run the Cake script
+      uses: cake-build/cake-action@v1
+      with:
+        target: Externals-Apple
 
     - run: |
         echo "Build App Center For iOS"
