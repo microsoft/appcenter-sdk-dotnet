@@ -70,6 +70,12 @@ jobs:
       with:
         languages: csharp
         
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'microsoft'
+        java-version: '11'
+        
     - name: Install workloads
       run: dotnet workload install android
       
