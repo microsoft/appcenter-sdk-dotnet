@@ -45,10 +45,10 @@ jobs:
 
     - run: |
         echo "Build App Center For iOS"
-        msbuild SDK/AppCenter/Microsoft.AppCenter.iOS/Microsoft.AppCenter.iOS.csproj /p:Configuration=Release /restore /t:Build
-        msbuild SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.iOS/Microsoft.AppCenter.Analytics.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build
-        msbuild SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.iOS/Microsoft.AppCenter.Crashes.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build
-        msbuild SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.iOS/Microsoft.AppCenter.Distribute.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build
+        msbuild SDK/AppCenter/Microsoft.AppCenter.Apple/Microsoft.AppCenter.Apple.csproj /p:Configuration=Release /restore /t:Build
+        msbuild SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Apple/Microsoft.AppCenter.Analytics.Apple.csproj /p:UseSharedCompilation=false /restore /t:Build
+        msbuild SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Apple/Microsoft.AppCenter.Crashes.Apple.csproj /p:UseSharedCompilation=false /restore /t:Build
+        msbuild SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Apple/Microsoft.AppCenter.Distribute.Apple.csproj /p:UseSharedCompilation=false /restore /t:Build
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
 
