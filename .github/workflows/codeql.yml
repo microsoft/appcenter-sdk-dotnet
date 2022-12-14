@@ -37,6 +37,8 @@ jobs:
     
     - name: Run the Cake script
       uses: cake-build/cake-action@v1
+      env:
+        STORAGE_AUTH_PARAMS: ${{ secrets.STORAGE_AUTH_PARAMS }}
       with:
         target: Externals-Apple
         cake-version: 2.0.0
@@ -56,6 +58,8 @@ jobs:
       fail-fast: false
 
     runs-on: windows-2019
+    env:
+      STORAGE_AUTH_PARAMS: ${{ secrets.STORAGE_AUTH_PARAMS }}
 
     steps:
     - name: Checkout repository
