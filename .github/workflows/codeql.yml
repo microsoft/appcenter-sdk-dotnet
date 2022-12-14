@@ -15,48 +15,37 @@ jobs:
     strategy:
       fail-fast: false
 
-    runs-on: macos-latest
+    runs-on: macOS-12
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
-        # We must fetch at least the immediate parents so that if this is
-        # a pull request then we can checkout the head.
         fetch-depth: 2
-
-    # If this run was triggered by a pull request event, then checkout
-    # the head of the pull request instead of the merge commit.
-    - run: git checkout HEAD^2
-      if: ${{ github.event_name == 'pull_request' }}
-
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-      # Override language selection by uncommenting this and choosing your languages
+      uses: github/codeql-action/init@v2
       with:
         languages: csharp
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
-
-    # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
-    #    and modify them (or add more) to build your code if your project
-    #    uses a compiled language 
-
-    steps:
-      - name: Run the Cake script
-        uses: cake-build/cake-action@v1
-        with:
-          target: Externals-Apple
+    - name: Install workloads
+      run: dotnet workload install android ios macos -v diagnostic 
+    - name: Run the Cake script
+      uses: cake-build/cake-action@v1
+      env:
+        STORAGE_AUTH_PARAMS: ${{ secrets.STORAGE_AUTH_PARAMS }}
+      with:
+        target: Externals-Apple
+        cake-version: 2.2.0
 
     - run: |
         echo "Build App Center For iOS"
-        msbuild SDK/AppCenter/Microsoft.AppCenter.iOS/Microsoft.AppCenter.iOS.csproj /p:Configuration=Release /restore /t:Build
-        msbuild SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.iOS/Microsoft.AppCenter.Analytics.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build
-        msbuild SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.iOS/Microsoft.AppCenter.Crashes.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build
-        msbuild SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.iOS/Microsoft.AppCenter.Distribute.iOS.csproj /p:UseSharedCompilation=false /restore /t:Build
-
+        dotnet msbuild SDK/AppCenter/Microsoft.AppCenter.Apple/Microsoft.AppCenter.Apple.csproj /p:Configuration=Release /restore /t:Build
+        dotnet msbuild SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Apple/Microsoft.AppCenter.Analytics.Apple.csproj /p:UseSharedCompilation=false /restore /t:Build
+        dotnet msbuild SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Apple/Microsoft.AppCenter.Crashes.Apple.csproj /p:UseSharedCompilation=false /restore /t:Build
+        dotnet msbuild SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Apple/Microsoft.AppCenter.Distribute.Apple.csproj /p:UseSharedCompilation=false /restore /t:Build
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
 
@@ -66,35 +55,30 @@ jobs:
       fail-fast: false
 
     runs-on: windows-2019
+    env:
+      STORAGE_AUTH_PARAMS: ${{ secrets.STORAGE_AUTH_PARAMS }}
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
-        # We must fetch at least the immediate parents so that if this is
-        # a pull request then we can checkout the head.
         fetch-depth: 2
-
-    # If this run was triggered by a pull request event, then checkout
-    # the head of the pull request instead of the merge commit.
-    - run: git checkout HEAD^2
-      if: ${{ github.event_name == 'pull_request' }}
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-
-      # Override language selection by uncommenting this and choosing your languages
+      uses: github/codeql-action/init@v2
       with:
         languages: csharp
-
-    # ℹ️ Command-line programs to run using the OS shell.
-    # 📚 https://git.io/JvXDl
-
-    # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
-    #    and modify them (or add more) to build your code if your project
-    #    uses a compiled language
-
+        
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'microsoft'
+        java-version: '11'
+        
+    - name: Install workloads
+      run: dotnet workload install android
+      
     - run: |
         echo "Run Externals-Android"
         .\build.ps1 --target="Externals-Android"
@@ -102,19 +86,17 @@ jobs:
     - run: |
         echo "Build App Center"
         $Env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin"
-        MSBuild.exe AppCenter-SDK-Build-Windows.sln -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build 
-        MSBuild.exe SDK/AppCenter/Microsoft.AppCenter/Microsoft.AppCenter.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
-        MSBuild.exe SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics/Microsoft.AppCenter.Analytics.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
-        MSBuild.exe SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes/Microsoft.AppCenter.Crashes.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
-        MSBuild.exe SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/Microsoft.AppCenter.Distribute.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
-
+        dotnet msbuild AppCenter-SDK-Build-Windows.sln -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build 
+        dotnet msbuild SDK/AppCenter/Microsoft.AppCenter/Microsoft.AppCenter.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
+        dotnet msbuild SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics/Microsoft.AppCenter.Analytics.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
+        dotnet msbuild SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes/Microsoft.AppCenter.Crashes.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
+        dotnet msbuild SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute/Microsoft.AppCenter.Distribute.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
     - run: |
         echo "Build App Center For Android"
         $Env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin"
-        MSBuild.exe SDK/AppCenter/Microsoft.AppCenter.Android/Microsoft.AppCenter.Android.csproj -property:Configuration=Release /restore -target:Build
-        MSBuild.exe SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Android/Microsoft.AppCenter.Analytics.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
-        MSBuild.exe SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Android/Microsoft.AppCenter.Crashes.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
-        MSBuild.exe SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/Microsoft.AppCenter.Distribute.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
-
+        dotnet msbuild SDK/AppCenter/Microsoft.AppCenter.Android/Microsoft.AppCenter.Android.csproj -property:Configuration=Release /restore -target:Build
+        dotnet msbuild SDK/AppCenterAnalytics/Microsoft.AppCenter.Analytics.Android/Microsoft.AppCenter.Analytics.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
+        dotnet msbuild SDK/AppCenterCrashes/Microsoft.AppCenter.Crashes.Android/Microsoft.AppCenter.Crashes.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
+        dotnet msbuild SDK/AppCenterDistribute/Microsoft.AppCenter.Distribute.Android/Microsoft.AppCenter.Distribute.Android.csproj -property:UseSharedCompilation=false -property:Configuration=Release /restore -target:Build
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
