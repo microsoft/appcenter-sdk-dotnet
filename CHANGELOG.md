@@ -6,7 +6,7 @@
 
 #### Windows
 
-* **[Fix]** Fixing WindowsHelper OSVersion for Windows 7 sp1
+* **[Fix]** Fix WindowsHelper's OSVersion check for Windows 7 sp1
 
 ___
 
