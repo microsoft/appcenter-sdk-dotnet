@@ -1,5 +1,16 @@
 # App Center SDK for .NET Change Log
 
+## Version 5.0.1
+
+### App Center
+
+#### Windows
+
+* **[Fix]** Fix WindowsHelper's OSVersion check for Windows 7 sp1
+
+___
+
+
 ## Version 5.0.0
 
 ### App Center
