@@ -32,7 +32,7 @@ namespace Microsoft.AppCenter.Utils
 
         private static bool _IsRunningAsUwp()
         {
-           if (Environment.OSVersion.Version < new Version(6, 2))
+            if (Environment.OSVersion.Version < new Version(6, 2))
             {
                 return false;
             }
