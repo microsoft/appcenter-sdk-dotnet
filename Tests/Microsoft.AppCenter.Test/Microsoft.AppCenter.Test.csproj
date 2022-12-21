@@ -10,7 +10,7 @@
     <AssemblyOriginatorKeyFile>..\..\appcenter-public-key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.0" />
   </ItemGroup>
   <ItemGroup>
