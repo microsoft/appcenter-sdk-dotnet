@@ -5,7 +5,7 @@
 
 // Static variables defined outside of a class can cause issues.
 
-#addin nuget:?package=Newtonsoft.Json&version=13.0.1
+#addin nuget:?package=Newtonsoft.Json&version=13.0.2
 
 using Newtonsoft.Json.Linq;
 

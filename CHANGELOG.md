@@ -1,8 +1,10 @@
 # App Center SDK for .NET Change Log
 
-## Version 5.0.1
+## Version 5.0.2 (Under development)
 
 ### App Center
+
+* **[Fix]** Update `Newtonsoft.Json` dependency to version `13.0.2`. The update fixes [GHSA-5crp-9r3c-p9vr](https://github.com/advisories/GHSA-5crp-9r3c-p9vr).
 
 #### Windows
 
@@ -10,6 +12,13 @@
 
 ___
 
+## Version 5.0.1
+
+### App Center
+
+* **[Fix]** Fix strong name validation.
+
+___
 
 ## Version 5.0.0
 
