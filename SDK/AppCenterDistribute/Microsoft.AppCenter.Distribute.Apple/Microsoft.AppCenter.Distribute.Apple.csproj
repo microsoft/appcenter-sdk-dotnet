@@ -20,7 +20,6 @@
   <ItemGroup Condition="$(TargetFramework.EndsWith('-ios'))">
     <NativeReference Include="..\..\..\externals\apple\ios\AppCenterDistribute.a">
       <Kind>Static</Kind>
-      <SmartLink>False</SmartLink>
       <ForceLoad>True</ForceLoad>
       <WeakFrameworks>SafariServices AuthenticationServices</WeakFrameworks>
     </NativeReference>

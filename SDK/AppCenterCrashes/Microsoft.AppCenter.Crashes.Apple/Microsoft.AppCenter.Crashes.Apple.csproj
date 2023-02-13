@@ -28,7 +28,6 @@
       <ForceLoad>True</ForceLoad>
       <LinkerFlags>-lc++</LinkerFlags>
       <IsCxx>True</IsCxx>
-      <SmartLink>False</SmartLink>
     </NativeReference>
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.EndsWith('-macos'))">
@@ -37,7 +36,6 @@
       <ForceLoad>True</ForceLoad>
       <LinkerFlags>-lc++</LinkerFlags>
       <IsCxx>True</IsCxx>
-      <SmartLink>False</SmartLink>
     </NativeReference>
   </ItemGroup>
   <ItemGroup>
