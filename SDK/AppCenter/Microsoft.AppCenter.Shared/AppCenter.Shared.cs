@@ -20,7 +20,7 @@ namespace Microsoft.AppCenter
         const string AppSecretKeyName = "appsecret";
         const string SecretsPattern = @"([^;=]+)=([^;]+)(?:;\s*)?";
 
-#if NETSTANDARD
+#if (NETSTANDARD || IOS || ANDROID)
         static readonly Regex _secretsRegex = new Regex(SecretsPattern);
 #else
         static readonly Regex _secretsRegex = new Regex(SecretsPattern, RegexOptions.Compiled);
