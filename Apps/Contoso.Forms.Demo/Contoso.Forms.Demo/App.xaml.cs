@@ -109,12 +109,18 @@ namespace Contoso.Forms.Demo
 
         private string GetOneCollectorTokenString()
         {
-            return DependencyService.Get<IAppConfiguration>().GetTargetToken();
+            return "iosTarget={XAMARIN_FORMS_IOS_TARGET_TOKEN_PROD};" +
+                "macos={XAMARIN_FORMS_MACOS_TARGET_TOKEN_PROD};" +
+                "androidTarget={XAMARIN_FORMS_ANDROID_TARGET_TOKEN_PROD};" +
+                "uwp={XAMARIN_FORMS_UWP_TARGET_TOKEN_PROD}";
         }
 
         private string GetAppCenterTokenString()
         {
-            return DependencyService.Get<IAppConfiguration>().GetAppSecret();
+            return "ios={XAMARIN_FORMS_IOS_PROD};" +
+                "macos={XAMARIN_FORMS_MACOS_PROD};" +
+                "android={XAMARIN_FORMS_ANDROID_PROD};" +
+                "uwp={XAMARIN_FORMS_UWP_PROD}";
         }
 
         private string GetTokensString()
