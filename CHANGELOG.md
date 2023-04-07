@@ -6,6 +6,7 @@
 
 * **[Fix]** Update `Newtonsoft.Json` dependency to version `13.0.2`. The update fixes [GHSA-5crp-9r3c-p9vr](https://github.com/advisories/GHSA-5crp-9r3c-p9vr).
 * **[Improvement]** Remove SmartLink=false, as it may break the SDK integration in some cases.
+* **[Improvement]** Remove flag RegexOptions.Compiled, as it is proved to be slow on net6 and above.
 
 #### Windows
 
