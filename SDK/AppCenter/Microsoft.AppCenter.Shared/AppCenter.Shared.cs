@@ -20,11 +20,7 @@ namespace Microsoft.AppCenter
         const string AppSecretKeyName = "appsecret";
         const string SecretsPattern = @"([^;=]+)=([^;]+)(?:;\s*)?";
 
-#if (NETSTANDARD || IOS || ANDROID)
         static readonly Regex _secretsRegex = new Regex(SecretsPattern);
-#else
-        static readonly Regex _secretsRegex = new Regex(SecretsPattern, RegexOptions.Compiled);
-#endif
 
         // Gets the first instance of an app sceret and/or target token corresponding to the given platform name, or returns the string 
         // as-is if no identifier can be found. Logs a message if no identifiers can be found.
