@@ -23,7 +23,7 @@ namespace Microsoft.AppCenter
 #if NETSTANDARD
         static readonly Regex _secretsRegex = new Regex(SecretsPattern);
 #else
-        static readonly Regex _secretsRegex = new Regex(SecretsPattern, RegexOptions.Compiled);
+        static readonly Regex _secretsRegex = new Regex(SecretsPattern);
 #endif
 
         // Gets the first instance of an app sceret and/or target token corresponding to the given platform name, or returns the string 
