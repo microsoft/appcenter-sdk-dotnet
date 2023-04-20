@@ -14,7 +14,7 @@ using Xamarin.Forms;
 namespace Contoso.Forms.Demo.iOS
 {
     [Register("AppDelegate")]
-    public class AppDelegate : Xamarin.Forms.Platform.iOS.FormsApplicationDelegate, IClearCrashClick, IAppConfiguration
+    public class AppDelegate : Xamarin.Forms.Platform.iOS.FormsApplicationDelegate, IClearCrashClick
     {
         private const string CrashesUserConfirmationStorageKey = "MSAppCenterCrashesUserConfirmation";
 
@@ -37,16 +37,6 @@ namespace Contoso.Forms.Demo.iOS
         public void ClearCrashButton()
         {
             NSUserDefaults.StandardUserDefaults.RemoveObject(CrashesUserConfirmationStorageKey);
-        }
-
-        public string GetAppSecret()
-        {
-            return Environment.GetEnvironmentVariable("XAMARIN_FORMS_IOS_PROD");
-        }
-
-        public string GetTargetToken()
-        {
-            return Environment.GetEnvironmentVariable("XAMARIN_FORMS_IOS_TARGET_TOKEN_PROD");
         }
     }
 
