@@ -42,10 +42,19 @@ namespace Microsoft.AppCenter.Utils
 
         public ApplicationLifecycleHelperDesktop()
         {
-            AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) =>
-            {
-               InvokeUnhandledExceptionOccurred(sender, new UnhandledExceptionOccurredEventArgs((Exception)eventArgs.ExceptionObject));
+            var eventInfo = WindowsHelper.WpfApplication.GetType().GetEvent("DispatcherUnhandledException");
+
+            EventHandler<object> eventHandler = (sender, eventArgs) =>
+            { 
+                var exceptionProperty = eventArgs.GetType().GetProperty("Exception");
+                var exception = (Exception)exceptionProperty.GetValue(eventArgs);
+                InvokeUnhandledExceptionOccurred(sender, new UnhandledExceptionOccurredEventArgs(exception));
             };
+
+            var eventHandlerType = eventInfo.EventHandlerType;
+            var runtimeDelegate = Delegate.CreateDelegate(eventHandlerType, eventHandler.Target, eventHandler.Method);
+
+            eventInfo.AddEventHandler(WindowsHelper.WpfApplication, runtimeDelegate);
         }
     }
 }
