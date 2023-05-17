@@ -7,9 +7,9 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.microsoft.appcenter.Contoso-Forms-Puppet-MacOS</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.0.1</string>
+	<string>5.0.2</string>
 	<key>CFBundleVersion</key>
-	<string>5.0.1</string>
+	<string>5.0.2</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.14</string>
 	<key>CFBundleDevelopmentRegion</key>
