@@ -23,6 +23,8 @@ namespace Microsoft.AppCenter.Utils
 
         public static bool IsRunningAsWinUI { get; }
 
+        public static dynamic WpfApplication { get; }
+
         #region IsRunningAsUwp
 
         const long APPMODEL_ERROR_NO_PACKAGE = 15700L;
@@ -126,8 +128,6 @@ namespace Microsoft.AppCenter.Utils
             IsRunningAsUwp = _IsRunningAsUwp();
             IsRunningAsWinUI = IsRunningAsUwp || GetAssembly("System.Windows.Forms") == null;
         }
-
-        private static dynamic WpfApplication { get; }
 
         // Store the int corresponding to the "Minimized" state for WPF Windows
         // This is equivalent to `System.Windows.WindowState.Minimized`
