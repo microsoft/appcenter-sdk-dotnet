@@ -53,9 +53,7 @@ namespace Microsoft.AppCenter.Utils
                     InvokeUnhandledExceptionOccurred(sender, new UnhandledExceptionOccurredEventArgs(exception));
                 };
 
-                var eventHandlerType = eventInfo.EventHandlerType;
-                var runtimeDelegate = Delegate.CreateDelegate(eventHandlerType, eventHandler.Target, eventHandler.Method);
-
+                var runtimeDelegate = Delegate.CreateDelegate(eventInfo.EventHandlerType, eventHandler.Target, eventHandler.Method);
                 eventInfo.AddEventHandler(WindowsHelper.WpfApplication, runtimeDelegate);
             }
             else 
