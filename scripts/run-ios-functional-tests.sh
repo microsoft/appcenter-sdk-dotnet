@@ -17,16 +17,12 @@ do
 
     # Listen to tests
     echo "Start listening test results on socket."
-    nc -l 127.0.0.1 16384 2>&1 | tee results.xml &
+    nc -l 127.0.0.1 16384 > results.xml &
     RESULTS=$!
-
-    echo "Xcode version:"
-    xcodebuild -version
 
     # Run tests
     echo "Run test app..."
-    xcrun simctl launch "${IOS_DEVICE}" com.contoso.test.functional &
-    log stream --style syslog
+    xcrun simctl launch "${IOS_DEVICE}" com.contoso.test.functional
 
     # Wait results
     echo "Waiting test results..."
