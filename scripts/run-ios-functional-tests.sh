@@ -26,7 +26,7 @@ do
     # Run tests
     echo "Run test app..."
     xcrun simctl launch "${IOS_DEVICE}" com.contoso.test.functional &
-    log stream --predicate 'processImagePath endswith "com.contoso.test.functional"' --style syslog
+    log stream --predicate 'processImagePath contains "com.contoso.test.functional"' --style syslog
 
     # Wait results
     echo "Waiting test results..."
