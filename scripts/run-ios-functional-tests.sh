@@ -17,12 +17,16 @@ do
 
     # Listen to tests
     echo "Start listening test results on socket."
-    nc -l 127.0.0.1 16384 > results.xml &
+    nc -l 127.0.0.1 16384 2>&1 | tee results.xml &
     RESULTS=$!
+
+    echo "Xcode version:"
+    xcodebuild -version
 
     # Run tests
     echo "Run test app..."
-    xcrun simctl launch "${IOS_DEVICE}" com.contoso.test.functional
+    xcrun simctl launch "${IOS_DEVICE}" com.contoso.test.functional &
+    log stream --predicate 'processImagePath endswith "com.contoso.test.functional"' --style syslog
 
     # Wait results
     echo "Waiting test results..."
