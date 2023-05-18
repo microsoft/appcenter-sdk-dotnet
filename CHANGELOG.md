@@ -1,5 +1,28 @@
 # App Center SDK for .NET Change Log
 
+## Version 5.0.2
+
+### App Center
+
+* **[Fix]** Update `Newtonsoft.Json` dependency to version `13.0.2`. The update fixes [GHSA-5crp-9r3c-p9vr](https://github.com/advisories/GHSA-5crp-9r3c-p9vr).
+* **[Fix]** Use `DispatcherUnhandledException` instead of `AppDomain.CurrentDomain.UnhandledException` for WPF applications for postcrash processing. It fixes #1727.
+* **[Improvement]** Remove SmartLink=false, as it may break the SDK integration in some cases.
+* **[Improvement]** Remove flag RegexOptions.Compiled, as it is proved to be slow on net6 and above.
+
+#### Windows
+
+* **[Fix]** Fix WindowsHelper's OSVersion check for Windows 7 sp1
+
+___
+
+## Version 5.0.1
+
+### App Center
+
+* **[Fix]** Fix strong name validation.
+
+___
+
 ## Version 5.0.0
 
 ### App Center

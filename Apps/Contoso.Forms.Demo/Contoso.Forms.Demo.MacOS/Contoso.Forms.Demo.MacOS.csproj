@@ -47,21 +47,16 @@
     <LinkMode>SdkOnly</LinkMode>
     <HttpClientHandler></HttpClientHandler>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
-    <EnvironmentVariables>
-      <Variable name="XAMARIN_FORMS_MACOS_PROD" value="{XAMARIN_FORMS_MACOS_PROD}" />
-    </EnvironmentVariables>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.Mac" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.0-r0005-370fc7b" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.0-r0005-370fc7b" />
-    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="5.0.0-r0005-370fc7b" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.2" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.2" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="5.0.2" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -93,7 +88,6 @@
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="FilePicker.cs" />
-    <Compile Include="AppConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />

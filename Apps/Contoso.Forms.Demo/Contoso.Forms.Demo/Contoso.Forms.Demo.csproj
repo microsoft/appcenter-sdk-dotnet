@@ -4,9 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
     <Company>Microsoft Corporation</Company>
-    <Version>5.0.0</Version>
+    <Version>5.0.2</Version>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>5.0.0.0</FileVersion>
+    <FileVersion>5.0.2.0</FileVersion>
     <Configurations>Debug;Release;GooglePlay</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GooglePlay|AnyCPU' ">
@@ -20,15 +20,15 @@
     <NoStdLib>false</NoStdLib>
   </PropertyGroup>
   <ItemGroup Condition=" '$(Configuration)'!='GooglePlay' ">
-    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="5.0.0-r0005-370fc7b" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="5.0.2" />
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'=='GooglePlay' ">
-    <PackageReference Include="Microsoft.AppCenter.DistributePlay" Version="5.0.0-r0005-370fc7b" />
+    <PackageReference Include="Microsoft.AppCenter.DistributePlay" Version="5.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.0-r0005-370fc7b" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.0-r0005-370fc7b" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.2" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.2" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Contoso.UtilClassLibrary\Contoso.UtilClassLibrary.csproj" />

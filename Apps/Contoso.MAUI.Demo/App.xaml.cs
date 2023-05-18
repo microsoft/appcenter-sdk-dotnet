@@ -116,7 +116,7 @@ public partial class App : Application
     {
         return "ios={MAUI_IOS_PROD};" +
             "android={MAUI_ANDROID_PROD};" +
-            $"windows={Environment.GetEnvironmentVariable("MAUI_WINDOWS_PROD")}";
+            $"uwp={Environment.GetEnvironmentVariable("MAUI_WINDOWS_PROD")}";
     }
 
     private string GetTokensString()

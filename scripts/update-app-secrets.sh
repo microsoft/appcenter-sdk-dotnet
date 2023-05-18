@@ -30,14 +30,12 @@ declare -a platformConstants=(
 
 # Files which should be changed.
 declare -a targetFiles=("Apps/Contoso.Android.Puppet/Contoso.Android.Puppet.csproj" 
-    "Apps/Contoso.Forms.Demo/Contoso.Forms.Demo.Droid/Contoso.Forms.Demo.Droid.csproj"
-    "Apps/Contoso.Forms.Demo/Contoso.Forms.Demo.MacOS/Contoso.Forms.Demo.MacOS.csproj"
-    "Apps/Contoso.Forms.Demo/Contoso.Forms.Demo.iOS/Contoso.Forms.Demo.iOS.csproj"
     "Apps/Contoso.Forms.Puppet/Contoso.Forms.Puppet.Droid/Contoso.Forms.Puppet.Droid.csproj"
     "Apps/Contoso.Forms.Puppet/Contoso.Forms.Puppet.MacOS/Contoso.Forms.Puppet.MacOS.csproj"
     "Apps/Contoso.Forms.Puppet/Contoso.Forms.Puppet.iOS/Contoso.Forms.Puppet.iOS.csproj"
     "Apps/Contoso.MacOS.Puppet/Contoso.MacOS.Puppet.csproj"
     "Apps/Contoso.iOS.Puppet/Contoso.iOS.Puppet.csproj"
+    "Apps/Contoso.Forms.Demo/Contoso.Forms.Demo/App.xaml.cs"
     "Apps/Contoso.MAUI.Demo/App.xaml.cs")
 
 # Print info about current job.
