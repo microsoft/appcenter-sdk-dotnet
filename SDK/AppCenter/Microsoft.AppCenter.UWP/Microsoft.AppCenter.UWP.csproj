@@ -12,7 +12,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.0" />
+    <PackageReference Include="SQLitePCLRaw.bundle_green" version="2.1.5" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0.16299'">
     <TransformFile Include="Properties\Microsoft.AppCenter.UWP.rd.xml" />
