@@ -2,6 +2,11 @@
 
 ## Version 5.0.3 (Under development)
 
+### App Center
+
+#### Windows
+
+* **[Improvement]** Update SQLitePCLRaw.bundle_green to version 2.1.5
 ___
 
 ## Version 5.0.2
