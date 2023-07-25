@@ -51,6 +51,23 @@ namespace Microsoft.AppCenter.Utils
 
         #endregion
 
+        private static bool _IsRunnigAsWinUi()
+        {
+            // Get the main assembly of the application
+            Assembly mainAssembly = Assembly.GetEntryAssembly();
+
+            // Check if the main assembly references the Microsoft.UI.Xaml or Microsoft.WinUI assembly, which is used by WinUI applications
+            foreach (AssemblyName referencedAssembly in mainAssembly.GetReferencedAssemblies())
+            {
+                if (referencedAssembly.Name == "Microsoft.UI.Xaml" || referencedAssembly.Name == "Microsoft.WinUI")
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         #region WinEventHook
 
         [DllImport("user32.dll")]
@@ -126,7 +143,7 @@ namespace Microsoft.AppCenter.Utils
                 AppCenterLog.Warn(AppCenterLog.LogTag, "Unabled to determine whether this application is WPF or Windows Forms; proceeding as though it is Windows Forms.");
             }
             IsRunningAsUwp = _IsRunningAsUwp();
-            IsRunningAsWinUI = IsRunningAsUwp || GetAssembly("System.Windows.Forms") == null;
+            IsRunningAsWinUI = IsRunningAsUwp || _IsRunnigAsWinUi();
         }
 
         // Store the int corresponding to the "Minimized" state for WPF Windows
