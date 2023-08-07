@@ -7,6 +7,7 @@
 #### Windows
 
 * **[Improvement]** Update SQLitePCLRaw.bundle_green to version 2.1.5
+* **[Improvement]** Improved desktop app type checking to work with app life cycle.
 ___
 
 ## Version 5.0.2
