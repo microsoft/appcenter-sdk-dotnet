@@ -42,27 +42,32 @@ namespace Microsoft.AppCenter.Utils
 
         public ApplicationLifecycleHelperDesktop()
         {
-            if (WindowsHelper.IsRunningAsWpf)
+            try
             {
-                var eventInfo = WindowsHelper.WpfApplication.GetType().GetEvent("DispatcherUnhandledException");
-
-                EventHandler<object> eventHandler = (sender, eventArgs) =>
-                { 
-                    var exceptionProperty = eventArgs.GetType().GetProperty("Exception");
-                    var exception = (Exception)exceptionProperty.GetValue(eventArgs);
-                    InvokeUnhandledExceptionOccurred(sender, new UnhandledExceptionOccurredEventArgs(exception));
-                };
-
-                var runtimeDelegate = Delegate.CreateDelegate(eventInfo.EventHandlerType, eventHandler.Target, eventHandler.Method);
-                eventInfo.AddEventHandler(WindowsHelper.WpfApplication, runtimeDelegate);
-            }
-            else 
-            {
-                AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) =>
+                if (WindowsHelper.IsRunningAsWpf)
                 {
-                    InvokeUnhandledExceptionOccurred(sender, new UnhandledExceptionOccurredEventArgs((Exception)eventArgs.ExceptionObject));
-                };
+                    var eventInfo = WindowsHelper.WpfApplication.GetType().GetEvent("DispatcherUnhandledException");
+
+                    EventHandler<object> eventHandler = (sender, eventArgs) =>
+                    {
+                        var exceptionProperty = eventArgs.GetType().GetProperty("Exception");
+                        var exception = (Exception)exceptionProperty.GetValue(eventArgs);
+                        InvokeUnhandledExceptionOccurred(sender, new UnhandledExceptionOccurredEventArgs(exception));
+                    };
+
+                    var runtimeDelegate = Delegate.CreateDelegate(eventInfo.EventHandlerType, eventHandler.Target, eventHandler.Method);
+                    eventInfo.AddEventHandler(WindowsHelper.WpfApplication, runtimeDelegate);
+                    return;
+                }
             }
+            catch
+            {
+                AppCenterLog.Warn(AppCenterLog.LogTag, "Failed to install crash handling with WPF application tools. Processing using a standard desktop handler...");
+            }
+            AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) =>
+            {
+                InvokeUnhandledExceptionOccurred(sender, new UnhandledExceptionOccurredEventArgs((Exception)eventArgs.ExceptionObject));
+            };
         }
     }
 }
