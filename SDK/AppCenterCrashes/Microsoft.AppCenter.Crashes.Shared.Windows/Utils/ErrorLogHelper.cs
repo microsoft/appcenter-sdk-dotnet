@@ -177,6 +177,7 @@ namespace Microsoft.AppCenter.Crashes.Utils
                 Exception = exceptionAndBinaries.Exception,
                 Sid = SessionContext.SessionId,
                 UserId = UserIdContext.Instance.UserId,
+                DataResidencyRegion = AppCenter.PlatformGetDataResidensyRegion(),
                 Binaries = exceptionAndBinaries.Binaries
             };
         }

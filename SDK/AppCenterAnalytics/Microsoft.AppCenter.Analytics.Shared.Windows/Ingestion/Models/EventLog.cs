@@ -46,8 +46,8 @@ namespace Microsoft.AppCenter.Analytics.Ingestion.Models
         /// </param>
         /// <param name="properties">Additional key/value pair parameters.
         /// </param>
-        public EventLog(Device device, System.Guid id, string name, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string userId = default(string), IDictionary<string, string> properties = default(IDictionary<string, string>))
-            : base(device, timestamp, sid, userId, properties)
+        public EventLog(Device device, System.Guid id, string name, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string userId = default(string), string dataResidencyRegion = default(string), IDictionary<string, string> properties = default(IDictionary<string, string>))
+            : base(device, timestamp, sid, userId, properties, dataResidencyRegion)
         {
             Id = id;
             Name = name;

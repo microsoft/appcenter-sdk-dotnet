@@ -50,8 +50,8 @@ namespace Microsoft.AppCenter.Crashes.Ingestion.Models
         /// launched, example: '2017-03-13T18:05:42Z'.
         /// </param>
         /// <param name="architecture">CPU architecture.</param>
-        public AbstractErrorLog(Microsoft.AppCenter.Ingestion.Models.Device device, System.Guid id, int processId, string processName, bool fatal, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string userId = default(string), int? parentProcessId = default(int?), string parentProcessName = default(string), long? errorThreadId = default(long?), string errorThreadName = default(string), System.DateTime? appLaunchTimestamp = default(System.DateTime?), string architecture = default(string))
-            : base(device, timestamp, sid, userId)
+        public AbstractErrorLog(Microsoft.AppCenter.Ingestion.Models.Device device, System.Guid id, int processId, string processName, bool fatal, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string userId = default(string), string dataResidencyRegion = default(string), int? parentProcessId = default(int?), string parentProcessName = default(string), long? errorThreadId = default(long?), string errorThreadName = default(string), System.DateTime? appLaunchTimestamp = default(System.DateTime?), string architecture = default(string))
+            : base(device, timestamp, sid, userId, dataResidencyRegion)
         {
             Id = id;
             ProcessId = processId;

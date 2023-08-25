@@ -32,12 +32,15 @@ namespace Microsoft.AppCenter.Ingestion.Models
         /// <param name="userId">optional string used for associating logs with
         /// users.
         /// </param>
-        public Log(Device device, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string userId = default(string))
+        /// <param name="dataResidencyRegion">optional string used for specify data residency region.
+        /// </param>
+        public Log(Device device, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string userId = default(string), string dataResidencyRegion = null)
         {
             Timestamp = timestamp;
             Sid = sid;
             UserId = userId;
             Device = device;
+            DataResidencyRegion = dataResidencyRegion;
             CustomInit();
         }
 
@@ -77,6 +80,13 @@ namespace Microsoft.AppCenter.Ingestion.Models
         /// </summary>
         [JsonProperty(PropertyName = "device")]
         public Device Device { get; set; }
+
+        /// <summary>
+        /// Gets or sets optional string used for specify data residency region.
+        ///
+        /// </summary>
+        [JsonProperty(PropertyName = "dataResidencyRegion")]
+        public string DataResidencyRegion { get; set; }
 
         /// <summary>
         /// Validate the object.

@@ -115,6 +115,15 @@ namespace Microsoft.AppCenter
         }
 
         /// <summary>
+        /// Sets the data residency region to send to the backend.
+        /// </summary>
+        /// <param name="dataResidencyRegion">The data residency region code.</param>
+        public static void SetDataResidencyRegion(string dataResidencyRegion)
+        {
+            PlatformSetCountryCode(dataResidencyRegion);
+        }
+
+        /// <summary>
         ///     Set the custom user id.
         /// </summary>
         /// <param name="userId">Custom string to identify user. 256 characters or less.</param>

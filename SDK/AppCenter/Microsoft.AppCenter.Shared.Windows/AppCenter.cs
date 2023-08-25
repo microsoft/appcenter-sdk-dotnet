@@ -48,6 +48,7 @@ namespace Microsoft.AppCenter
         private bool _instanceConfigured;
         private string _appSecret;
         private long _storageMaxSize;
+        private string _dataResidencyResion;
         private TaskCompletionSource<bool> _storageTaskCompletionSource;
 
         #region static
@@ -130,6 +131,27 @@ namespace Microsoft.AppCenter
                 return;
             }
             DeviceInformationHelper.SetCountryCode(countryCode);
+        }
+
+        /// <summary>
+        /// Sets the data residency region to send to the backend.
+        /// </summary>
+        /// <param name="dataResidencyRegion">The data residency region code.</param>
+        public static void PlatformSetDataResidensyRegion(string dataResidencyRegion)
+        {
+            lock (AppCenterLock)
+            {
+                Instance._dataResidencyResion = dataResidencyRegion;
+            }
+        }
+
+        /// <summary>
+        /// Get the data residency region.
+        /// </summary>
+        /// <returns>Data residency region code.</returns>
+        public static string PlatformGetDataResidensyRegion()
+        {
+            return Instance._dataResidencyResion;
         }
 
         // This method must be called *before* instance of AppCenter has been created

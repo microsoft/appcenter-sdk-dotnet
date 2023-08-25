@@ -38,8 +38,8 @@ namespace Microsoft.AppCenter.Analytics.Ingestion.Models
         /// Concrete types like StartSessionLog or PageLog are always part of a
         /// session and always include this identifier.
         /// </param>
-        public StartSessionLog(Device device, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?))
-            : base(device, timestamp, sid)
+        public StartSessionLog(Device device, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string dataResidencyRegion = default(string))
+            : base(device, timestamp, sid, null, dataResidencyRegion)
         {
         }
 

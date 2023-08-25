@@ -35,8 +35,8 @@ namespace Microsoft.AppCenter.Ingestion.Models
         /// </param>
         /// <param name="properties">Additional key/value pair parameters.
         /// </param>
-        public LogWithProperties(Device device, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string userId = default(string), IDictionary<string, string> properties = default(IDictionary<string, string>))
-            : base(device, timestamp, sid, userId)
+        public LogWithProperties(Device device, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string userId = default(string), string dataResidencyRegion = default(string), IDictionary<string, string> properties = default(IDictionary<string, string>))
+            : base(device, timestamp, sid, userId, dataResidencyRegion)
         {
             Properties = properties;
             CustomInit();

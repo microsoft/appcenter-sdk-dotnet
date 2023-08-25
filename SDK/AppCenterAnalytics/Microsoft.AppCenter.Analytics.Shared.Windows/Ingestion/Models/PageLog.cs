@@ -44,8 +44,8 @@ namespace Microsoft.AppCenter.Analytics.Ingestion.Models
         /// </param>
         /// <param name="properties">Additional key/value pair parameters.
         /// </param>
-        public PageLog(Device device, string name, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string userId = default(string), IDictionary<string, string> properties = default(IDictionary<string, string>))
-            : base(device, timestamp, sid, userId, properties)
+        public PageLog(Device device, string name, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string userId = default(string), string dataResidencyRegion = default(string), IDictionary<string, string> properties = default(IDictionary<string, string>))
+            : base(device, timestamp, sid, userId, properties, dataResidencyRegion)
         {
             Name = name;
             CustomInit();

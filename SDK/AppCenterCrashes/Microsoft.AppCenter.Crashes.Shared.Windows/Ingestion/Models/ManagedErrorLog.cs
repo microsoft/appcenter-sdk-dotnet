@@ -57,8 +57,8 @@ namespace Microsoft.AppCenter.Crashes.Ingestion.Models
         /// <param name="architecture">CPU architecture.</param>
         /// <param name="buildId">Unique ID for a Xamarin build or another
         /// similar technology.</param>
-        public ManagedErrorLog(Microsoft.AppCenter.Ingestion.Models.Device device, System.Guid id, int processId, string processName, bool fatal, Exception exception, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string userId = default(string), int? parentProcessId = default(int?), string parentProcessName = default(string), long? errorThreadId = default(long?), string errorThreadName = default(string), System.DateTime? appLaunchTimestamp = default(System.DateTime?), string architecture = default(string), IList<Binary> binaries = default(IList<Binary>), string buildId = default(string))
-            : base(device, id, processId, processName, fatal, timestamp, sid, userId, parentProcessId, parentProcessName, errorThreadId, errorThreadName, appLaunchTimestamp, architecture)
+        public ManagedErrorLog(Microsoft.AppCenter.Ingestion.Models.Device device, System.Guid id, int processId, string processName, bool fatal, Exception exception, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string userId = default(string), string dataResidencyRegion = default(string), int? parentProcessId = default(int?), string parentProcessName = default(string), long? errorThreadId = default(long?), string errorThreadName = default(string), System.DateTime? appLaunchTimestamp = default(System.DateTime?), string architecture = default(string), IList<Binary> binaries = default(IList<Binary>), string buildId = default(string))
+            : base(device, id, processId, processName, fatal, timestamp, sid, userId, dataResidencyRegion, parentProcessId, parentProcessName, errorThreadId, errorThreadName, appLaunchTimestamp, architecture)
         {
             Binaries = binaries;
             BuildId = buildId;
