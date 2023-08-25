@@ -34,7 +34,7 @@ namespace Microsoft.AppCenter.Ingestion.Models
         /// </param>
         /// <param name="dataResidencyRegion">optional string used for specify data residency region.
         /// </param>
-        public Log(Device device, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string userId = default(string), string dataResidencyRegion = null)
+        public Log(Device device, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string userId = default(string), string dataResidencyRegion = default(string))
         {
             Timestamp = timestamp;
             Sid = sid;
