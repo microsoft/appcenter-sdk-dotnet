@@ -148,11 +148,11 @@ namespace Microsoft.AppCenter.Test
             // Not null data residency region
             var dataResidencyRegion = "RG";
             AppCenter.SetDataResidencyRegion(dataResidencyRegion);
-            Assert.AreEqual(AppCenter.PlatformGetDataResidensyRegion(), dataResidencyRegion);
+            Assert.AreEqual(AppCenter.PlatformGetDataResidencyRegion(), dataResidencyRegion);
 
             // Null data residency region
             AppCenter.SetDataResidencyRegion(null);
-            Assert.IsNull(AppCenter.PlatformGetDataResidensyRegion());
+            Assert.IsNull(AppCenter.PlatformGetDataResidencyRegion());
         }
 
         /// <summary>

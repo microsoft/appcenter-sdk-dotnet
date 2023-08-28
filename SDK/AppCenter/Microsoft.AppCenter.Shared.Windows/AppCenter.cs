@@ -137,7 +137,7 @@ namespace Microsoft.AppCenter
         /// Sets the data residency region to send to the backend.
         /// </summary>
         /// <param name="dataResidencyRegion">The data residency region code.</param>
-        public static void PlatformSetDataResidensyRegion(string dataResidencyRegion)
+        public static void PlatformSetDataResidencyRegion(string dataResidencyRegion)
         {
             lock (AppCenterLock)
             {
@@ -149,7 +149,7 @@ namespace Microsoft.AppCenter
         /// Get the data residency region.
         /// </summary>
         /// <returns>Data residency region code.</returns>
-        public static string PlatformGetDataResidensyRegion()
+        public static string PlatformGetDataResidencyRegion()
         {
             return Instance._dataResidencyResion;
         }
@@ -359,7 +359,7 @@ namespace Microsoft.AppCenter
             // Send started services.
             if (_startedServiceNames != null && value)
             {
-                var startServiceLog = new StartServiceLog { Services = _startedServiceNames, DataResidencyRegion = PlatformGetDataResidensyRegion() };
+                var startServiceLog = new StartServiceLog { Services = _startedServiceNames, DataResidencyRegion = PlatformGetDataResidencyRegion() };
                 _startedServiceNames = null;
                 return _channel.EnqueueAsync(startServiceLog);
             }
@@ -476,7 +476,7 @@ namespace Microsoft.AppCenter
             {
                 if (InstanceEnabled)
                 {
-                    _channel.EnqueueAsync(new StartServiceLog { Services = serviceNames, DataResidencyRegion = PlatformGetDataResidensyRegion() }).ConfigureAwait(false);
+                    _channel.EnqueueAsync(new StartServiceLog { Services = serviceNames, DataResidencyRegion = PlatformGetDataResidencyRegion() }).ConfigureAwait(false);
                 }
                 else
                 {

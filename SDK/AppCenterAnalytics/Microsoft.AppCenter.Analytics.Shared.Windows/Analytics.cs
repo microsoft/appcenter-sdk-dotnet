@@ -187,7 +187,7 @@ namespace Microsoft.AppCenter.Analytics
                 if (ValidateName(ref name, type))
                 {
                     properties = PropertyValidator.ValidateProperties(properties, $"{type} '{name}'");
-                    var log = new EventLog(null, Guid.NewGuid(), name, null, null, null, AppCenter.PlatformGetDataResidensyRegion(), properties);
+                    var log = new EventLog(null, Guid.NewGuid(), name, null, null, null, AppCenter.PlatformGetDataResidencyRegion(), properties);
                     Channel.EnqueueAsync(log);
                 }
             }
