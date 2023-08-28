@@ -359,7 +359,7 @@ namespace Microsoft.AppCenter
             // Send started services.
             if (_startedServiceNames != null && value)
             {
-                var startServiceLog = new StartServiceLog { Services = _startedServiceNames, dataResidencyRegion = PlatformGetDataResidensyRegion() };
+                var startServiceLog = new StartServiceLog { Services = _startedServiceNames, DataResidencyRegion = PlatformGetDataResidensyRegion() };
                 _startedServiceNames = null;
                 return _channel.EnqueueAsync(startServiceLog);
             }
@@ -476,7 +476,7 @@ namespace Microsoft.AppCenter
             {
                 if (InstanceEnabled)
                 {
-                    _channel.EnqueueAsync(new StartServiceLog { Services = serviceNames, dataResidencyRegion = PlatformGetDataResidensyRegion() }).ConfigureAwait(false);
+                    _channel.EnqueueAsync(new StartServiceLog { Services = serviceNames, DataResidencyRegion = PlatformGetDataResidensyRegion() }).ConfigureAwait(false);
                 }
                 else
                 {
