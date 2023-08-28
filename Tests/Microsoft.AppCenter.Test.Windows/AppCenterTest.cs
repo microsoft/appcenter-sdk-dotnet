@@ -140,6 +140,22 @@ namespace Microsoft.AppCenter.Test
         }
 
         /// <summary>
+        /// Verify data residency region setter
+        /// </summary>
+        [TestMethod]
+        public void SetDataResidencyRegion()
+        {
+            // Not null data residency region
+            var dataResidencyRegion = "RG";
+            AppCenter.SetDataResidencyRegion(dataResidencyRegion);
+            Assert.AreEqual(AppCenter.PlatformGetDataResidensyRegion(), dataResidencyRegion);
+
+            // Null data residency region
+            AppCenter.SetDataResidencyRegion(null);
+            Assert.IsNull(AppCenter.PlatformGetDataResidensyRegion());
+        }
+
+        /// <summary>
         /// Verify that starting the same service twice (separately) only calls its OnChannelGroupReady
         /// </summary>
         [TestMethod]
