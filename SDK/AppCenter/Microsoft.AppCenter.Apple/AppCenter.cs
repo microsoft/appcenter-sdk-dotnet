@@ -101,6 +101,11 @@ namespace Microsoft.AppCenter
             MSACAppCenter.SetCountryCode(countryCode);
         }
 
+        static void PlatformSetDataResidencyRegion(string dataResidencyRegion)
+        {
+            MSACAppCenter.SetDataResidencyRegion(dataResidencyRegion);
+        }
+
         static bool PlatformConfigured
         {
             get

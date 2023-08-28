@@ -103,6 +103,11 @@ namespace Microsoft.AppCenter
             Android.AppCenter.SetCountryCode(countryCode);
         }
 
+        static void PlatformSetDataResidencyRegion(string dataResidencyRegion)
+        {
+            Android.AppCenter.SetDataResidencyRegion(dataResidencyRegion);
+        }
+
         static bool PlatformConfigured
         {
             get

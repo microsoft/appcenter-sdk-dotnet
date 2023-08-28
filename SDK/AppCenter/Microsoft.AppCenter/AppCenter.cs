@@ -50,6 +50,10 @@ namespace Microsoft.AppCenter
         {
         }
 
+        static void PlatformSetDataResidencyRegion(string dataResidencyRegion)
+        {
+        }
+
         static bool PlatformConfigured { get; }
 
         static void PlatformConfigure(string appSecret)

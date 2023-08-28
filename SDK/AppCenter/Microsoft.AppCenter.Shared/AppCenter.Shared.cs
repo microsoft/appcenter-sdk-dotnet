@@ -120,7 +120,7 @@ namespace Microsoft.AppCenter
         /// <param name="dataResidencyRegion">The data residency region code.</param>
         public static void SetDataResidencyRegion(string dataResidencyRegion)
         {
-            PlatformSetCountryCode(dataResidencyRegion);
+            PlatformSetDataResidencyRegion(dataResidencyRegion);
         }
 
         /// <summary>
