@@ -38,6 +38,7 @@ namespace Microsoft.AppCenter.Analytics.Ingestion.Models
         /// Concrete types like StartSessionLog or PageLog are always part of a
         /// session and always include this identifier.
         /// </param>
+        /// <param name="dataResidencyRegion">The data residency region code.</param>
         public StartSessionLog(Device device, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string dataResidencyRegion = default(string))
             : base(device, timestamp, sid, null, dataResidencyRegion)
         {

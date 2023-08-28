@@ -33,6 +33,7 @@ namespace Microsoft.AppCenter.Ingestion.Models
         /// <param name="userId">optional string used for associating logs with
         /// users.
         /// </param>
+        /// <param name="dataResidencyRegion">The data residency region code.</param>
         /// <param name="properties">Additional key/value pair parameters.
         /// </param>
         public LogWithProperties(Device device, System.DateTime? timestamp = default(System.DateTime?), System.Guid? sid = default(System.Guid?), string userId = default(string), string dataResidencyRegion = default(string), IDictionary<string, string> properties = default(IDictionary<string, string>))

@@ -42,6 +42,7 @@ namespace Microsoft.AppCenter.Crashes.Ingestion.Models
         /// <param name="userId">optional string used for associating logs with
         /// users.
         /// </param>
+        /// <param name="dataResidencyRegion">The data residency region code.</param>
         /// <param name="parentProcessId">Parent's process identifier.</param>
         /// <param name="parentProcessName">Parent's process name.</param>
         /// <param name="errorThreadId">Error thread identifier.</param>

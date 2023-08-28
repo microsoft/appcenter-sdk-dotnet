@@ -42,6 +42,7 @@ namespace Microsoft.AppCenter.Crashes.Ingestion.Models
         /// <param name="userId">optional string used for associating logs with
         /// users.
         /// </param>
+        /// <param name="dataResidencyRegion">The data residency region code.</param>
         /// <param name="properties">Additional key/value pair parameters.
         /// </param>
         /// <param name="id">Unique identifier for this Error.
