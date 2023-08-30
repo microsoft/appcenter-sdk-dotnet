@@ -172,6 +172,18 @@ namespace Contoso.WinUI.Desktop.Puppet
             AppCenter.SetCountryCode(CountryCodeText.Text.Length > 0 ? CountryCodeText.Text : null);
         }
 
+        private void SaveDataResidencyRegionButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveDataResidencyRegion();
+        }
+
+        private void SaveDataResidencyRegion()
+        {
+            DataResidencyRegionNotice.Visibility = Visibility.Visible;
+            localSettings.Values[Constants.KeyDataResidencyRegion] = DataResidencyRegionText.Text;
+            AppCenter.PlatformSetDataResidencyRegion(DataResidencyRegionText.Text.Length > 0 ? DataResidencyRegionText.Text : null);
+        }
+
         private void SaveStorageSize_Click(object sender, RoutedEventArgs e)
         {
             var storageSize = StorageMaxSize.Text;
