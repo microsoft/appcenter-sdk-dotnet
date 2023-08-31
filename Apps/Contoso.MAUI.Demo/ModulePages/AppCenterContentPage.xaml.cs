@@ -20,6 +20,8 @@ public partial class AppCenterContentPage : ContentPage
             StorageMaxSize.Text = Preferences.Get(Constants.StorageMaxSize, 0).ToString();
         }
 
+        DataResidencyRegion.Text = Preferences.Get(Constants.DataResidencyRegion, "").ToString();
+
         // Setup start type dropdown choices.
         foreach (var startType in StartTypeUtils.GetStartTypeChoiceStrings())
         {
@@ -75,6 +77,13 @@ public partial class AppCenterContentPage : ContentPage
         {
             AppCenterLog.Error(App.LogTag, "Wrong number value for the max storage size.");
         }
+    }
+
+    private void SaveDataResidencyRegion_Clicked(object sender, System.EventArgs e)
+    {
+        var inputText = DataResidencyRegion.Text;
+        AppCenter.PlatformSetDataResidencyRegion(inputText);
+        Preferences.Set(Constants.DataResidencyRegion, inputText);
     }
 
     void AllowedNetworkRequestEnabled(System.Object sender, ToggledEventArgs e)

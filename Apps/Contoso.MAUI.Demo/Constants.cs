@@ -12,5 +12,6 @@ public static class Constants
     public const string StorageMaxSize = "storage-max-size";
     public const string EnableManualSessionTracker = "enable-manual-session-tracker";
     public const string CountryCode = "country-code";
+    public const string DataResidencyRegion = "data-residency-region";
     public const string EnabledForDebuggableBuild = "enabled-for-debuggable-build";
 }
