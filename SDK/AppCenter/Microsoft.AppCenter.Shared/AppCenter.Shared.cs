@@ -118,11 +118,20 @@ namespace Microsoft.AppCenter
         /// Sets the data residency region to send to the backend.
         /// </summary>
         /// <param> name="dataResidencyRegion">The data residency region code.
-        /// Verify list of supported regions on [link]. Value outside of supported range is treated as ANY
+        /// Verify list of supported regions on [link]. Value outside of supported range is treated as ANY.
         /// </param>
         public static void SetDataResidencyRegion(string dataResidencyRegion)
         {
             PlatformSetDataResidencyRegion(dataResidencyRegion);
+        }
+
+        /// <summary>
+        /// Return the data residency region.
+        /// </summary>
+        /// <returns>Data residency region code if set, otherwise null.</returns>
+        public static string GetDataResidencyRegion()
+        {
+            return PlatformGetDataResidencyRegion();
         }
 
         /// <summary>

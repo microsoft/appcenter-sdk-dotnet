@@ -218,6 +218,11 @@ namespace Microsoft.AppCenter.Apple.Bindings
         [Export("setDataResidencyRegion:")]
         void SetDataResidencyRegion([NullAllowed] string dataResidencyRegion);
 
+        //+ (NSString *)dataResidencyRegion;
+        [Static]
+        [Export("dataResidencyRegion")]
+        NSString GetDataResidencyRegion();
+
         // + (void)setNetworkRequestsAllowed:(BOOL)isAllowed;
         [Static]
         [Export("setNetworkRequestsAllowed:")]

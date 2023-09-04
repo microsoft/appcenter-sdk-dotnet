@@ -108,6 +108,11 @@ namespace Microsoft.AppCenter
             Android.AppCenter.DataResidencyRegion = dataResidencyRegion;
         }
 
+        static string PlatformGetDataResidencyRegion()
+        {
+            return Android.AppCenter.DataResidencyRegion;
+        }
+
         static bool PlatformConfigured
         {
             get
