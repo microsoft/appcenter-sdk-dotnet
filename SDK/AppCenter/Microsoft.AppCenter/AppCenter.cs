@@ -56,6 +56,7 @@ namespace Microsoft.AppCenter
 
         static string PlatformGetDataResidencyRegion()
         {
+            return null;
         }
 
         static bool PlatformConfigured { get; }
