@@ -105,7 +105,7 @@ namespace Microsoft.AppCenter
 
         static void PlatformSetDataResidencyRegion(string dataResidencyRegion)
         {
-            Android.AppCenter.SetDataResidencyRegion(dataResidencyRegion);
+            Android.AppCenter.setDataResidencyRegion(dataResidencyRegion);
         }
 
         static bool PlatformConfigured

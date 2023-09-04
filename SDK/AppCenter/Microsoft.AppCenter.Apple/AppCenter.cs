@@ -103,7 +103,7 @@ namespace Microsoft.AppCenter
 
         static void PlatformSetDataResidencyRegion(string dataResidencyRegion)
         {
-            MSACAppCenter.SetDataResidencyRegion(dataResidencyRegion);
+            MSACAppCenter.setDataResidencyRegion(dataResidencyRegion);
         }
 
         static bool PlatformConfigured
