@@ -56,7 +56,7 @@
                                 <TextBlock Text="Data residency region" Name="DataResidencyRegionLabel"/>
                                 <TextBox Name="DataResidencyRegionText"  VerticalAlignment="Center"/>
                                 <Button Name="SaveDataResidencyRegionButton" Content="Save" Margin="0, 8, 0, 8" Click="SaveDataResidencyRegionButton_Click"/>
-                                <TextBlock Visibility="Collapsed" Text="Data residency region has been updated. This value will only be applied to the following sessions." Foreground="Red" Name="DataResidencyRegionNotice" TextWrapping="Wrap"/>
+                                <TextBlock Visibility="Collapsed" Text="Data residency region has been updated." Foreground="Red" Name="DataResidencyRegionNotice" TextWrapping="Wrap"/>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>

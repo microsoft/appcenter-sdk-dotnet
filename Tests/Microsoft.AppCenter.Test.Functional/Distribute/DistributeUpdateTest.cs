@@ -64,7 +64,7 @@ namespace Microsoft.AppCenter.Test.Functional.Distribute
 
             // Wait for processing event.
             var result = await eventTask;
-        
+
             // Verify response.
             Assert.Equal("GET", result.Method);
             Assert.Contains("releases/latest?", result.Uri);

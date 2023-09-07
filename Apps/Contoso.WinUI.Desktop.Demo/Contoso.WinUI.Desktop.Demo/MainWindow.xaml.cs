@@ -179,7 +179,7 @@ namespace Contoso.WinUI.Desktop.Demo
         {
             DataResidencyRegionNotice.Visibility = Visibility.Visible;
             localSettings.Values[Constants.KeyDataResidencyRegion] = DataResidencyRegionText.Text;
-            AppCenter.PlatformSetDataResidencyRegion(DataResidencyRegionText.Text.Length > 0 ? DataResidencyRegionText.Text : null);
+            AppCenter.PlatformSetDataResidencyRegion(!string.IsNullOrEmpty(DataResidencyRegionText.Text) ? DataResidencyRegionText.Text : null);
         }
 
         private void SaveStorageSize_Click(object sender, RoutedEventArgs e)
