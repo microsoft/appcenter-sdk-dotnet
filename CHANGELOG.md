@@ -1,8 +1,10 @@
 # App Center SDK for .NET Change Log
 
-## Version 5.0.3 (Under development)
+## Version 5.0.3
 
 ### App Center
+
+* **[Internal]** Add `dataResidencyRegion` option.
 
 #### Windows
 
