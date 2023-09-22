@@ -35,6 +35,18 @@ namespace Microsoft.AppCenter.Test.Windows.Ingestion.Models
         }
 
         /// <summary>
+        /// Verify that data residency region is set properly.
+        /// </summary>
+        [TestMethod]
+        public void TestDataResidencyRegionSetter()
+        {
+            var dataResidencyRegion = "RG";
+            Log log = new TestLog();
+            log.DataResidencyRegion = dataResidencyRegion;
+            Assert.AreEqual(dataResidencyRegion, log.DataResidencyRegion);
+        }
+
+        /// <summary>
         /// Verify that Validate method throws ValidationException when device == null.
         /// </summary>
         [TestMethod]

@@ -48,6 +48,17 @@
                                 <TextBlock Visibility="Collapsed" Text="Country code has been updated. This value will only be applied to the following sessions." Foreground="Red" Name="CountryCodeNotice" TextWrapping="Wrap"/>
                             </StackPanel>
                         </StackPanel>
+
+                        <!-- Set data residency region -->
+                        <StackPanel Orientation="Horizontal" Height="1" Background="Gray"/>
+                        <StackPanel  Margin="0, 16, 0, 16">
+                            <StackPanel Name="DataResidencyRegionPanel">
+                                <TextBlock Text="Data residency region" Name="DataResidencyRegionLabel"/>
+                                <TextBox Name="DataResidencyRegionText"  VerticalAlignment="Center"/>
+                                <Button Name="SaveDataResidencyRegionButton" Content="Save" Margin="0, 8, 0, 8" Click="SaveDataResidencyRegionButton_Click"/>
+                                <TextBlock Visibility="Collapsed" Text="Data residency region has been updated." Foreground="Red" Name="DataResidencyRegionNotice" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </StackPanel>
                     </StackPanel>
                 </muxc:TabViewItem>
                 <muxc:TabViewItem Header="Analytics" IsClosable="False">

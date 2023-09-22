@@ -48,6 +48,7 @@ namespace Microsoft.AppCenter
         private bool _instanceConfigured;
         private string _appSecret;
         private long _storageMaxSize;
+        private string _dataResidencyResion;
         private TaskCompletionSource<bool> _storageTaskCompletionSource;
 
         #region static
@@ -130,6 +131,28 @@ namespace Microsoft.AppCenter
                 return;
             }
             DeviceInformationHelper.SetCountryCode(countryCode);
+        }
+
+        /// <summary>
+        /// Sets the data residency region to send to the backend.
+        /// </summary>
+        /// <param name="dataResidencyRegion">The data residency region code.
+        /// Verify list of supported regions on <link>. Value outside of supported range is treated as ANY</param>
+        public static void PlatformSetDataResidencyRegion(string dataResidencyRegion)
+        {
+            lock (AppCenterLock)
+            {
+                Instance._dataResidencyResion = dataResidencyRegion;
+            }
+        }
+
+        /// <summary>
+        /// Get the data residency region.
+        /// </summary>
+        /// <returns>Data residency region code.</returns>
+        public static string PlatformGetDataResidencyRegion()
+        {
+            return Instance._dataResidencyResion;
         }
 
         // This method must be called *before* instance of AppCenter has been created
@@ -337,7 +360,7 @@ namespace Microsoft.AppCenter
             // Send started services.
             if (_startedServiceNames != null && value)
             {
-                var startServiceLog = new StartServiceLog { Services = _startedServiceNames };
+                var startServiceLog = new StartServiceLog { Services = _startedServiceNames, DataResidencyRegion = PlatformGetDataResidencyRegion() };
                 _startedServiceNames = null;
                 return _channel.EnqueueAsync(startServiceLog);
             }
@@ -454,7 +477,7 @@ namespace Microsoft.AppCenter
             {
                 if (InstanceEnabled)
                 {
-                    _channel.EnqueueAsync(new StartServiceLog { Services = serviceNames }).ConfigureAwait(false);
+                    _channel.EnqueueAsync(new StartServiceLog { Services = serviceNames, DataResidencyRegion = PlatformGetDataResidencyRegion() }).ConfigureAwait(false);
                 }
                 else
                 {

@@ -199,6 +199,7 @@ namespace Microsoft.AppCenter.Channel
             }
             log.Device = log.Device ?? _device;
             log.Timestamp = log.Timestamp ?? DateTime.Now;
+            log.DataResidencyRegion = log.DataResidencyRegion ?? AppCenter.PlatformGetDataResidencyRegion();
         }
 
         private async Task PersistLogAsync(Log log, State state)

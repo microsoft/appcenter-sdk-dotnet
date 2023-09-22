@@ -390,7 +390,7 @@ namespace Microsoft.AppCenter.Crashes
                 var exceptionAndBinaries = ErrorLogHelper.CreateModelExceptionAndBinaries(exception);
                 var errorId = Guid.NewGuid();
                 exceptionAndBinaries.Exception.StackTrace = ErrorLogHelper.ObfuscateUserName(exceptionAndBinaries.Exception.StackTrace);
-                var log = new HandledErrorLog(exception: exceptionAndBinaries.Exception, binaries: exceptionAndBinaries.Binaries, properties: properties, id: errorId, device: null, userId: UserIdContext.Instance.UserId);
+                var log = new HandledErrorLog(exception: exceptionAndBinaries.Exception, binaries: exceptionAndBinaries.Binaries, properties: properties, id: errorId, device: null, userId: UserIdContext.Instance.UserId, dataResidencyRegion: AppCenter.PlatformGetDataResidencyRegion());
                 Channel.EnqueueAsync(log);
                 SendErrorAttachmentsAsync(errorId, attachments);
             }
@@ -405,6 +405,7 @@ namespace Microsoft.AppCenter.Crashes
                 {
                     attachment.Id = Guid.NewGuid();
                     attachment.ErrorId = errorId;
+                    attachment.DataResidencyRegion = attachment.DataResidencyRegion ?? AppCenter.PlatformGetDataResidencyRegion();
                     if (!attachment.ValidatePropertiesForAttachment())
                     {
                         AppCenterLog.Error(LogTag, "Not all required fields are present in ErrorAttachmentLog.");
