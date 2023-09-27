@@ -28,5 +28,12 @@
         <StackLayout Margin="0, 8, 0, 0">
             <Button Text="Save Storage Size" Padding="16, 8, 16, 8" Clicked="SaveStorageSize_Clicked" VerticalOptions="Center" />
         </StackLayout>
+        <StackLayout Margin="0, 8, 0, 0" Orientation="Horizontal">
+            <Label FontSize="Small" Text="Data Residency Region" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+            <Entry FontSize="Small" BackgroundColor="LightGrey" x:Name="DataResidencyRegion" Margin="4, 0, 4, 0" HorizontalOptions="FillAndExpand" VerticalOptions="Center" HorizontalTextAlignment="End" />
+        </StackLayout>
+        <StackLayout Margin="0, 8, 0, 0">
+            <Button Text="Save Data Residency Region" Padding="16, 8, 16, 8" Clicked="SaveDataResidencyRegion_Clicked" VerticalOptions="Center" />
+        </StackLayout>
     </StackLayout>
 </ContentPage>

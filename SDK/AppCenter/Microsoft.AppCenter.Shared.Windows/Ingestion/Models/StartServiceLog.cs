@@ -39,8 +39,9 @@ namespace Microsoft.AppCenter.Ingestion.Models
         /// </param>
         /// <param name="services">The list of services of the MobileCenter
         /// Start API call.</param>
-        public StartServiceLog(Device device, DateTime? timestamp = default(DateTime?), Guid? sid = default(Guid?), IList<string> services = default(IList<string>))
-            : base(device, timestamp, sid)
+        /// <param name="dataResidencyRegion">The data residency region code.</param>
+        public StartServiceLog(Device device, DateTime? timestamp = default(DateTime?), Guid? sid = default(Guid?), IList<string> services = default(IList<string>), string dataResidencyRegion = default(string))
+            : base(device, timestamp, sid, null, dataResidencyRegion)
         {
             Services = services;
         }

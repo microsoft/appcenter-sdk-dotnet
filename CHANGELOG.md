@@ -1,5 +1,17 @@
 # App Center SDK for .NET Change Log
 
+## Version 5.0.3
+
+### App Center
+
+* **[Internal]** Add `dataResidencyRegion` option.
+
+#### Windows
+
+* **[Improvement]** Update SQLitePCLRaw.bundle_green to version 2.1.5
+* **[Improvement]** Improved desktop app type checking to work with app life cycle.
+___
+
 ## Version 5.0.2
 
 ### App Center

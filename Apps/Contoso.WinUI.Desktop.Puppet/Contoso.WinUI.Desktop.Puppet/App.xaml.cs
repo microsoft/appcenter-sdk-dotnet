@@ -48,6 +48,8 @@ namespace Contoso.WinUI.Desktop.Puppet
             {
                 AppCenter.SetCountryCode(countryCode);
             }
+            var dataResidencyRegion = localSettings.Values[Constants.KeyDataResidencyRegion] as string;
+            AppCenter.PlatformSetDataResidencyRegion(dataResidencyRegion);
             var storageSize = localSettings.Values[Constants.KeyStorageMaxSize] as long?;
             if (storageSize != null && storageSize > 0)
             {
