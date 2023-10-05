@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <config>
     <sdkInfo>
-        <sdkVersion>5.0.3-SNAPSHOT</sdkVersion>
-        <appleVersion>5.0.3-4+e375e3002b3e23a619164002729c6ddf7dd4fc4c</appleVersion>
+        <sdkVersion>5.0.4-SNAPSHOT</sdkVersion>
+        <appleVersion>5.0.4</appleVersion>
         <androidVersion>5.0.3</androidVersion>
     </sdkInfo>
     <group id="ios" buildGroup="mac">
