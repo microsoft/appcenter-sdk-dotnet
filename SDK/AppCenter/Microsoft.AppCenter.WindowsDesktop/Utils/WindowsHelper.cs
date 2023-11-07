@@ -34,19 +34,15 @@ namespace Microsoft.AppCenter.Utils
 
         private static bool _IsRunningAsUwp()
         {
-            if (Environment.OSVersion.Version < new Version(6, 2))
+            try
+            {
+                Type uwpType = Type.GetType("Windows.UI.Xaml.Application, Windows, ContentType=WindowsRuntime");
+                return uwpType != null;
+            }
+            catch
             {
                 return false;
             }
-
-            int length = 0;
-            var sb = new StringBuilder(0);
-            GetCurrentPackageFullName(ref length, sb);
-
-            sb = new StringBuilder(length);
-            int result = GetCurrentPackageFullName(ref length, sb);
-
-            return result != APPMODEL_ERROR_NO_PACKAGE;
         }
 
         #endregion
