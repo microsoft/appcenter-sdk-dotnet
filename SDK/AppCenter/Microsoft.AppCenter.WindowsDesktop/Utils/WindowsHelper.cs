@@ -34,15 +34,26 @@ namespace Microsoft.AppCenter.Utils
 
         private static bool _IsRunningAsUwp()
         {
-            try
+            try 
             {
-                Type uwpType = Type.GetType("Windows.UI.Xaml.Application, Windows, ContentType=WindowsRuntime");
-                return uwpType != null;
-            }
-            catch
+                // Get the main assembly of the application
+                Assembly mainAssembly = Assembly.GetEntryAssembly();
+
+                // Check if the main assembly references the Microsoft.UI.Xaml or Microsoft.WinUI assembly, which is used by WinUI applications
+                foreach (AssemblyName referencedAssembly in mainAssembly.GetReferencedAssemblies())
+                {
+                    if (referencedAssembly.Name == "Windows.UI.Xaml")
+                    {
+                        return true;
+                    }
+                }
+            } 
+            catch (Exception e) 
             {
-                return false;
+                AppCenterLog.Error(AppCenterLog.LogTag, "Failed to determine whether this application is UWP or not.", e);
             }
+
+            return false;
         }
 
         #endregion
