@@ -36,8 +36,7 @@ namespace Microsoft.AppCenter.Utils
         {
             try
             {
-                Assembly mainAssembly = Assembly.GetEntryAssembly();
-                return mainAssembly.GetReferencedAssemblies()
+                return Assembly.GetEntryAssembly().GetReferencedAssemblies()
                                 .Any(referencedAssembly => referencedAssembly.Name == "Windows.UI.Xaml");
             }
             catch (Exception e)
@@ -53,11 +52,7 @@ namespace Microsoft.AppCenter.Utils
         {
             try
             {
-                // Get the main assembly of the application
-                Assembly mainAssembly = Assembly.GetEntryAssembly();
-
-                // Check if the main assembly references the Microsoft.UI.Xaml or Microsoft.WinUI assembly using LINQ
-                return mainAssembly.GetReferencedAssemblies()
+                return Assembly.GetEntryAssembly().GetReferencedAssemblies()
                                 .Any(referencedAssembly => referencedAssembly.Name == "Microsoft.UI.Xaml" || referencedAssembly.Name == "Microsoft.WinUI");
             }
             catch (Exception e)
