@@ -6,7 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="SQLitePCLRaw.bundle_green" version="2.1.5" />
+    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.6" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1' or $(TargetFramework.StartsWith('net6.0-windows'))">
     <PackageReference Include="System.Management" Version="6.0.0" />
