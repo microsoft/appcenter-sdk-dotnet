@@ -2,6 +2,10 @@
 
 ## Version 5.0.4 (In development) 
 
+#### Windows
+
+* **[Improvement]** Improved UWP and WinUI app type checking.
+
 ___
 
 ## Version 5.0.3
