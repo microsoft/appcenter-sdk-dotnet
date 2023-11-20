@@ -34,40 +34,28 @@ namespace Microsoft.AppCenter.Utils
 
         private static bool _IsRunningAsUwp()
         {
-            if (Environment.OSVersion.Version < new Version(6, 2))
+            try
             {
-                return false;
+                return Assembly.GetEntryAssembly().GetReferencedAssemblies()
+                                .Any(referencedAssembly => referencedAssembly.Name == "Windows.UI.Xaml");
+            }
+            catch (Exception e)
+            {
+                AppCenterLog.Error(AppCenterLog.LogTag, "Failed to determine whether this application is UWP or not.", e);
             }
 
-            int length = 0;
-            var sb = new StringBuilder(0);
-            GetCurrentPackageFullName(ref length, sb);
-
-            sb = new StringBuilder(length);
-            int result = GetCurrentPackageFullName(ref length, sb);
-
-            return result != APPMODEL_ERROR_NO_PACKAGE;
+            return false;
         }
-
         #endregion
 
-        private static bool _IsRunnigAsWinUI()
+        private static bool _IsRunningAsWinUI()
         {
-            try 
+            try
             {
-                // Get the main assembly of the application
-                Assembly mainAssembly = Assembly.GetEntryAssembly();
-
-                // Check if the main assembly references the Microsoft.UI.Xaml or Microsoft.WinUI assembly, which is used by WinUI applications
-                foreach (AssemblyName referencedAssembly in mainAssembly.GetReferencedAssemblies())
-                {
-                    if (referencedAssembly.Name == "Microsoft.UI.Xaml" || referencedAssembly.Name == "Microsoft.WinUI")
-                    {
-                        return true;
-                    }
-                }
-            } 
-            catch (Exception e) 
+                return Assembly.GetEntryAssembly().GetReferencedAssemblies()
+                                .Any(referencedAssembly => referencedAssembly.Name == "Microsoft.UI.Xaml" || referencedAssembly.Name == "Microsoft.WinUI");
+            }
+            catch (Exception e)
             {
                 AppCenterLog.Error(AppCenterLog.LogTag, "Failed to determine whether this application is WinUI or not.", e);
             }
@@ -150,7 +138,7 @@ namespace Microsoft.AppCenter.Utils
                 AppCenterLog.Warn(AppCenterLog.LogTag, "Unabled to determine whether this application is WPF or Windows Forms; proceeding as though it is Windows Forms.");
             }
             IsRunningAsUwp = _IsRunningAsUwp();
-            IsRunningAsWinUI = IsRunningAsUwp || _IsRunnigAsWinUI();
+            IsRunningAsWinUI = IsRunningAsUwp || _IsRunningAsWinUI();
         }
 
         // Store the int corresponding to the "Minimized" state for WPF Windows

@@ -4,6 +4,7 @@
 
 #### Windows
 
+* **[Improvement]** Improve UWP and WinUI app type checking.
 * **[Improvement]** Update SQLitePCLRaw.bundle_green to version 2.1.6
 ___
 
