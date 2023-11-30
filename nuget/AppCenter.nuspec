@@ -18,25 +18,25 @@
       <group targetFramework="uap10.0.16299">
         <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="6.2.8"/>
         <dependency id="Newtonsoft.Json" version="13.0.2"/>
-        <dependency id="SQLitePCLRaw.bundle_green" version="2.1.6" />
+        <dependency id="SQLitePCLRaw.bundle_green" version="2.1.7" />
       </group>
       <group targetFramework="net462">
         <dependency id="Newtonsoft.Json" version="13.0.2"/>
-        <dependency id="SQLitePCLRaw.bundle_green" version="2.1.6" />
+        <dependency id="SQLitePCLRaw.bundle_green" version="2.1.7" />
       </group>
       <group targetFramework="net472">
         <dependency id="Newtonsoft.Json" version="13.0.2"/>
-        <dependency id="SQLitePCLRaw.bundle_green" version="2.1.6" />
+        <dependency id="SQLitePCLRaw.bundle_green" version="2.1.7" />
       </group>
       <group targetFramework="netcoreapp3.1">
         <dependency id="Newtonsoft.Json" version="13.0.2"/>
-        <dependency id="SQLitePCLRaw.bundle_green" version="2.1.6" />
+        <dependency id="SQLitePCLRaw.bundle_green" version="2.1.7" />
         <dependency id="System.Management" version="6.0.0"/>
         <dependency id="System.Configuration.ConfigurationManager" version="6.0.0"/>
       </group>
       <group targetFramework="net6.0-windows10.0.17763.0">
         <dependency id="Newtonsoft.Json" version="13.0.2"/>
-        <dependency id="SQLitePCLRaw.bundle_green" version="2.1.6" />
+        <dependency id="SQLitePCLRaw.bundle_green" version="2.1.7" />
         <dependency id="System.Management" version="6.0.0"/>
         <dependency id="System.Configuration.ConfigurationManager" version="6.0.0"/>
       </group>
