@@ -1,0 +1,89 @@
+trigger:
+- master
+- develop
+pr:
+- master
+- develop
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: refs/heads/develop
+  - repository: 1ESPipelineTemplates
+    type: git
+    name: 1ESPipelineTemplates/1ESPipelineTemplates
+    ref: refs/tags/release
+name: $(Build.SourceBranchName)_$(date:yyyyMMdd)$(rev:.r)
+variables:
+- name: 
+  value: 
+extends:
+  ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+    template: v1/1ES.Official.PipelineTemplate.yml@1ESPipelineTemplates
+  ${{ else }}:
+    template: v1/1ES.Unofficial.PipelineTemplate.yml@1ESPipelineTemplates
+  parameters:
+    pool:
+      name: Azure Pipelines
+      image: windows-2022
+      os: windows
+    customBuildTags:
+    - ES365AIMigrationTooling-BulkMigrated
+    sdl:
+      sourceAnalysisPool: 1ES-PT-Windows-2022
+    stages:
+    - stage: stage
+      jobs:
+      - job: sdkBuildJob
+        displayName: BuildWindowsAssemblies
+        cancelTimeoutInMinutes: 1
+        templateContext:
+          outputs:
+          - output: pipelineArtifact
+            displayName: 'Publish Artifact: framework'
+            path: '$(Build.ArtifactStagingDirectory)'
+            artifactName: zip
+        steps:
+        - checkout: self
+          fetchTags: false
+
+        - task: PowerShell@2
+          displayName: 'Set Release Version'
+          inputs:
+            targetType: filePath
+            filePath: ./build.ps1
+            arguments: '"version.cake" --Target="SetReleaseVersion"'
+
+        - powershell: |
+          Set-Location "C:\Program Files (x86)\Microsoft Visual Studio\Installer\"
+          $InstallPath = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise"
+          $componentsToAdd = @(
+              "Microsoft .NET Framework 4.6.1 Targeting Pack"
+          )
+          [string]$workloadArgs = $componentsToAdd | ForEach-Object {" --add " +  $_}
+          $Arguments = ('/c', "vs_installer.exe", 'modify', '--installPath', "`"$InstallPath`"",$workloadArgs, '--quiet', '--norestart', '--nocache')
+          $process = Start-Process -FilePath cmd.exe -ArgumentList $Arguments -Wait -PassThru -WindowStyle Hidden
+          if ($process.ExitCode -eq 0)
+          {
+              Write-Host "components have been successfully added"
+          }
+          else
+          {
+              Write-Host "components were not installed"
+              exit 1
+          }
+          displayName: 'Install Microsoft .NET Framework 4.6.1'
+
+        - task: cake-build.cake.cake-build-task.Cake@2
+          displayName: 'Prepare Assemblies'
+          inputs:
+            target: PrepareAssemblies
+            arguments: '--StorageAuthParams="$(STORAGE_AUTH_PARAMS)"'
+            Version: 2.2.0
+
+        - task: CopyFiles@2
+          displayName: 'Copy Assemblies'
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)\bin'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
