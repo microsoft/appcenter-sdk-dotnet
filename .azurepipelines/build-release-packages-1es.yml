@@ -14,9 +14,6 @@ resources:
     name: 1ESPipelineTemplates/1ESPipelineTemplates
     ref: refs/tags/release
 name: $(Build.SourceBranchName)_$(date:yyyyMMdd)$(rev:.r)
-variables:
-- name: ""
-  value: ""
 extends:
   ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
     template: v1/1ES.Official.PipelineTemplate.yml@1ESPipelineTemplates
