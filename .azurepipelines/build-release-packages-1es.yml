@@ -46,8 +46,8 @@ extends:
         - task: PowerShell@2
           displayName: 'Set Release Version'
           inputs:
-            targetType: filePath
-            filePath: ./build.ps1
+            targetType: 'filePath'
+            filePath: './build.ps1'
             arguments: '"version.cake" --Target="SetReleaseVersion"'
 
         - powershell: |
