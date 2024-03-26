@@ -46,8 +46,8 @@ extends:
         - task: PowerShell@2
           displayName: 'Set Release Version'
           inputs:
-            targetType: 'filePath'
-            filePath: './build.ps1'
+            targetType: filePath
+            filePath: ./build.ps1
             arguments: '"version.cake" --Target="SetReleaseVersion"'
 
         - powershell: |
@@ -68,7 +68,7 @@ extends:
                 Write-Host "components were not installed"
                 exit 1
             }
-            displayName: 'Install Microsoft .NET Framework 4.6.1'
+          displayName: 'Install Microsoft .NET Framework 4.6.1'
 
         - task: cake-build.cake.cake-build-task.Cake@2
           displayName: 'Prepare Assemblies'
