@@ -43,6 +43,13 @@ extends:
         - checkout: self
           fetchTags: false
 
+        - task: AzureKeyVault@2
+          inputs:
+            azureSubscription: 'AC - Dev Infra & Build Pool'
+            KeyVaultName: 'mobile-center-sdk'
+            SecretsFilter: 'appcenter-sdk-blob-storage-secret'
+            RunAsPreJob: false
+
         - task: PowerShell@2
           displayName: 'Set Release Version'
           inputs:
@@ -76,6 +83,8 @@ extends:
             target: PrepareAssemblies
             arguments: '--StorageAuthParams="$(STORAGE_AUTH_PARAMS)"'
             Version: 2.2.0
+          env:
+            STORAGE_AUTH_PARAMS: '$(appcenter-sdk-blob-storage-secret)'
 
         - task: CopyFiles@2
           displayName: 'Copy Assemblies'
