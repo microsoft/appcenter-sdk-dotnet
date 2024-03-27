@@ -79,11 +79,9 @@ extends:
 
         - task: cake-build.cake.cake-build-task.Cake@2
           displayName: 'Prepare Assemblies'
-          env:
-            STORAGE_AUTH_PARAMS: '$(appcenter-sdk-blob-storage-secret)'
           inputs:
             target: PrepareAssemblies
-            arguments: '--StorageAuthParams="$(STORAGE_AUTH_PARAMS)"'
+            arguments: '--StorageAuthParams="$(appcenter-sdk-blob-storage-secret)"'
             Version: 2.2.0
 
 
