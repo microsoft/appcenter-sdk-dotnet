@@ -38,7 +38,7 @@ extends:
           - output: pipelineArtifact
             displayName: 'Publish Artifact: framework'
             path: '$(Build.ArtifactStagingDirectory)'
-            artifactName: zip
+            artifactName: windowsAssemblies
         steps:
         - checkout: self
           fetchTags: false
@@ -90,4 +90,64 @@ extends:
           inputs:
             SourceFolder: '$(Build.SourcesDirectory)\bin'
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - stage: BuildXamarinAssemblies
+      dependsOn: BuildWindowsAssemblies
+      pool:
+        name: Azure Pipelines
+        image: macos-latest
+        os: macOS
+      jobs:
+      - job: sdkBuildJob
+        templateContext:
+          outputs:
+          - output: pipelineArtifact
+            displayName: 'Publish Artifact: framework'
+            path: '$(Build.ArtifactStagingDirectory)'
+            artifactName: xamarinAssemblies
+        steps:
+        - checkout: self
+          fetchTags: false
+
+        - task: Bash@3
+          displayName: 'Set Release Version'
+          inputs:
+            targetType: filePath
+            filePath: ./build.sh
+            arguments: '"version.cake"  -t SetReleaseVersion'
+            
+        - bash: 'dotnet workload install android ios macos'
+          displayName: 'Install .NET workloads'
+
+        - bash: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_12_0'
+          displayName: 'Use Xamarin Bundle 6.12.0'
+
+        - task: JavaToolInstaller@0
+          displayName: 'Use Java 11'
+          inputs:
+            versionSpec: 11
+            jdkArchitectureOption: x64
+            jdkSourceOption: PreInstalled
+
+        - task: AzureKeyVault@2
+          inputs:
+            azureSubscription: 'AC - Dev Infra & Build Pool'
+            KeyVaultName: 'mobile-center-sdk'
+            SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
+            RunAsPreJob: false
+
+        - task: cake-build.cake.cake-build-task.Cake@2
+          displayName: 'Prepare Assemblies'
+          inputs:
+            target: PrepareAssemblies
+            arguments: '--StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
+            Version: 2.2.0
+
+        - task: CopyFiles@2
+          displayName: 'Copy Assemblies'
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)/bin'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+
 
