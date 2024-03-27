@@ -28,7 +28,7 @@ extends:
     sdl:
       sourceAnalysisPool: 1ES-PT-Windows-2022
     stages:
-    - stage: stage
+    - stage: BuildWindowsAssemblies
       jobs:
       - job: sdkBuildJob
         displayName: BuildWindowsAssemblies
