@@ -92,7 +92,6 @@ extends:
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - stage: BuildXamarinAssemblies
-      dependsOn: BuildWindowsAssemblies
       pool:
         name: Azure Pipelines
         image: macos-latest
