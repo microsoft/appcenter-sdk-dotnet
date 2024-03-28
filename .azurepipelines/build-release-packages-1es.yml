@@ -156,7 +156,6 @@ extends:
     - stage: Package
       dependsOn:
       - BuildWindowsAssemblies
-      - BuildXamarinAssemblies
       pool:
         name: 1ES-PT-Windows-2022
         os: windows
