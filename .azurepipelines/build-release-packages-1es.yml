@@ -29,6 +29,7 @@ extends:
       sourceAnalysisPool: 1ES-PT-Windows-2022
     stages:
     - stage: BuildWindowsAssemblies
+      dependsOn: []
       jobs:
       - job: sdkBuildJob
         displayName: BuildWindowsAssemblies
@@ -92,6 +93,7 @@ extends:
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - stage: BuildXamarinAssemblies
+      dependsOn: []
       pool:
         name: Azure Pipelines
         image: macos-latest
@@ -152,6 +154,9 @@ extends:
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - stage: Package
+      dependsOn:
+      - BuildWindowsAssemblies
+      - BuildXamarinAssemblies
       pool:
         name: 1ES-PT-Windows-2022
         os: windows
