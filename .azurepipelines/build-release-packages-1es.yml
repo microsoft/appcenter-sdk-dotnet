@@ -152,29 +152,29 @@ extends:
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - stage: Package
-        pool:
-          name: 1ES-PT-Windows-2022
-          os: windows
-          jobs:
-          - job: sdkBuildJob
-            templateContext:
-              outputs:
-              - output: pipelineArtifact
-                displayName: 'Publish Artifact: framework'
-                path: '$(Build.ArtifactStagingDirectory)'
-                artifactName: package
-            steps:
-            - checkout: self
-              fetchTags: false
+      pool:
+        name: 1ES-PT-Windows-2022
+        os: windows
+      jobs:
+      - job: sdkBuildJob
+        templateContext:
+          outputs:
+          - output: pipelineArtifact
+            displayName: 'Publish Artifact: framework'
+            path: '$(Build.ArtifactStagingDirectory)'
+            artifactName: package
+        steps:
+        - checkout: self
+          fetchTags: false
 
-            - task: PowerShell@2
-              displayName: 'Set Release Version'
-              inputs:
-                targetType: filePath
-                filePath: ./build.ps1
-                arguments: '"version.cake" --Target="SetReleaseVersion"'
+        - task: PowerShell@2
+          displayName: 'Set Release Version'
+          inputs:
+            targetType: filePath
+            filePath: ./build.ps1
+            arguments: '"version.cake" --Target="SetReleaseVersion"'
 
-            - powershell: |
+        - powershell: |
                 $change_log_found = $False
                 $change_log = Foreach ($line in Get-Content "CHANGELOG.md") {
                     if ($change_log_found) {
@@ -187,157 +187,157 @@ extends:
                     }
                 }
                 ($change_log | Out-String).Trim() | Set-Content "RELEASE.md"
-              displayName: 'Collect Release Description'
+          displayName: 'Collect Release Description'
 
-            - task: DownloadBuildArtifacts@0
-              displayName: 'Download Assemblies'
-              inputs:
-                artifactName: assemblies
-                downloadPath: '$(Build.ArtifactStagingDirectory)'
-                extractTars: false
+        - task: DownloadBuildArtifacts@0
+          displayName: 'Download Assemblies'
+          inputs:
+            artifactName: assemblies
+            downloadPath: '$(Build.ArtifactStagingDirectory)'
+            extractTars: false
 
-            - task: DownloadSecureFile@1
-              displayName: 'Download the strong naming certificate'
-              inputs:
-                secureFile: 'appcenter-pair-key.snk'
+        - task: DownloadSecureFile@1
+          displayName: 'Download the strong naming certificate'
+          inputs:
+            secureFile: 'appcenter-pair-key.snk'
 
-            - task: UseDotNet@2
-              displayName: 'Use .NET Core sdk 6.0.x'
-              inputs:
-                version: 6.0.x
+        - task: UseDotNet@2
+          displayName: 'Use .NET Core sdk 6.0.x'
+          inputs:
+            version: 6.0.x
 
-            - powershell: |
-              # Run script
-              .\scripts\strong-named-sign.cmd "$(Build.ArtifactStagingDirectory)\assemblies" "$(Agent.TempDirectory)\appcenter-pair-key.snk"
-              displayName: 'Sign assemblies with strong naming'
+        - powershell: |
+          # Run script
+          .\scripts\strong-named-sign.cmd "$(Build.ArtifactStagingDirectory)\assemblies" "$(Agent.TempDirectory)\appcenter-pair-key.snk"
+          displayName: 'Sign assemblies with strong naming'
 
-            - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@2
-              displayName: 'Sign Assemblies'
-              inputs:
-                ConnectedServiceName: 'MobileCenter-ESRP'
-                FolderPath: '$(Build.ArtifactStagingDirectory)\assemblies'
-                Pattern: '*.dll,*.winmd'
-                signConfigType: inlineSignParams
-                inlineOperation: |
-                [
+        - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@2
+          displayName: 'Sign Assemblies'
+          inputs:
+            ConnectedServiceName: 'MobileCenter-ESRP'
+            FolderPath: '$(Build.ArtifactStagingDirectory)\assemblies'
+            Pattern: '*.dll,*.winmd'
+            signConfigType: inlineSignParams
+            inlineOperation: |
+            [
+            {
+            "keyCode": "CP-230012",
+            "operationSetCode": "SigntoolSign",
+            "parameters": [
+            {
+            "parameterName": "OpusName",
+            "parameterValue": "TestSign"
+            },
+            {
+            "parameterName": "OpusInfo",
+            "parameterValue": "http://test"
+            },
+            {
+            "parameterName": "PageHash",
+            "parameterValue": "/NPH"
+            },
+            {
+            "parameterName": "FileDigest",
+            "parameterValue": "/fd sha256"
+            },
+            {
+            "parameterName": "TimeStamp",
+            "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+            }
+            ],
+            "toolName": "signtool.exe",
+            "toolVersion": "6.2.9304.0"
+            },
+            {
+            "keyCode": "CP-230012",
+            "operationSetCode": "SigntoolVerify",
+            "parameters": [],
+            "toolName": "signtool.exe",
+            "toolVersion": "6.2.9304.0"
+            }
+            ]
+            SessionTimeout: 45
+            VerboseLogin: true
+
+        - task: CopyFiles@2
+          displayName: 'Move assemblies to bin'
+          inputs:
+            SourceFolder: '$(Build.ArtifactStagingDirectory)\assemblies'
+            TargetFolder: '$(System.DefaultWorkingDirectory)\bin'
+
+        - task: securedevelopmentteam.vss-secure-development-tools.build-task-apiscan.APIScan@2
+          displayName: 'Run APIScan'
+          inputs:
+            softwareFolder: 'bin\uwp;bin\unity-uwp;bin\windows*'
+            softwareName: 'appcenter-sdk-dotnet'
+            softwareVersionNum: Latest
+            isLargeApp: false
+            verbosityLevel: verbose
+            
+        - task: AzureKeyVault@2
+          inputs:
+            azureSubscription: 'AC - Dev Infra & Build Pool'
+            KeyVaultName: 'mobile-center-sdk'
+            SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
+            RunAsPreJob: false
+
+        - task: cake-build.cake.cake-build-task.Cake@2
+          displayName: 'Pack NuGets'
+          inputs:
+            target: NuGet
+            arguments: '--MainPackage=true --AssembliesPath="assemblies" --StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
+            Version: 2.2.0
+
+        - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
+          displayName: 'Sign Packages'
+          inputs:
+            ConnectedServiceName: 'MobileCenter-ESRP'
+            FolderPath: '$(System.DefaultWorkingDirectory)/'
+            Pattern: 'Microsoft.AppCenter*.nupkg'
+            signConfigType: inlineSignParams
+            inlineOperation: |
+            [ 
                 {
-                "keyCode": "CP-230012",
-                "operationSetCode": "SigntoolSign",
-                "parameters": [
-                {
-                "parameterName": "OpusName",
-                "parameterValue": "TestSign"
+                    "keyCode": "CP-401405",
+                    "operationSetCode": "NuGetSign",
+                    "parameters": [ ],
+                    "toolName": "sign",
+                    "toolVersion": "1.0"
                 },
                 {
-                "parameterName": "OpusInfo",
-                "parameterValue": "http://test"
-                },
-                {
-                "parameterName": "PageHash",
-                "parameterValue": "/NPH"
-                },
-                {
-                "parameterName": "FileDigest",
-                "parameterValue": "/fd sha256"
-                },
-                {
-                "parameterName": "TimeStamp",
-                "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                    "keyCode": "CP-401405",
+                    "operationSetCode": "NuGetVerify",
+                    "parameters": [ ],
+                    "toolName": "sign",
+                    "toolVersion": "1.0"
                 }
-                ],
-                "toolName": "signtool.exe",
-                "toolVersion": "6.2.9304.0"
-                },
-                {
-                "keyCode": "CP-230012",
-                "operationSetCode": "SigntoolVerify",
-                "parameters": [],
-                "toolName": "signtool.exe",
-                "toolVersion": "6.2.9304.0"
-                }
-                ]
-                SessionTimeout: 45
-                VerboseLogin: true
+            ]
+            SessionTimeout: 45
+          enabled: false
 
-            - task: CopyFiles@2
-              displayName: 'Move assemblies to bin'
-              inputs:
-                SourceFolder: '$(Build.ArtifactStagingDirectory)\assemblies'
-                TargetFolder: '$(System.DefaultWorkingDirectory)\bin'
+        - task: CopyFiles@2
+          displayName: 'Copy Packages'
+          inputs:
+            SourceFolder: 'D:\a\1\s\output'
+            Contents: |
+            *.nupkg
+            !Microsoft.AppCenter.Rum.*.nupkg
+            RELEASE.md
+            TargetFolder: '$(Build.ArtifactStagingDirectory)\Packages'
+            CleanTargetFolder: true
+            OverWrite: true
 
-            - task: securedevelopmentteam.vss-secure-development-tools.build-task-apiscan.APIScan@2
-              displayName: 'Run APIScan'
-              inputs:
-                softwareFolder: 'bin\uwp;bin\unity-uwp;bin\windows*'
-                softwareName: 'appcenter-sdk-dotnet'
-                softwareVersionNum: Latest
-                isLargeApp: false
-                verbosityLevel: verbose
-                
-            - task: AzureKeyVault@2
-              inputs:
-                azureSubscription: 'AC - Dev Infra & Build Pool'
-                KeyVaultName: 'mobile-center-sdk'
-                SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
-                RunAsPreJob: false
+        - powershell: |
+          $SdkVersion = Get-ChildItem $(System.DefaultWorkingDirectory)/output | Where-Object { $_.Name -match 'Microsoft\.AppCenter\.(\d+\.\d+\.\d+)\.nupkg' } | ForEach-Object { $matches[1] }
+          
+          Write-Host "SDK version: $SdkVersion"
+          Write-Host "##vso[task.setvariable variable=SdkVersion]$SdkVersion"
+          displayName: 'Extract SDK Version From NuGet Filename'
 
-            - task: cake-build.cake.cake-build-task.Cake@2
-              displayName: 'Pack NuGets'
-              inputs:
-                target: NuGet
-                arguments: '--MainPackage=true --AssembliesPath="assemblies" --StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
-                Version: 2.2.0
-
-            - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
-              displayName: 'Sign Packages'
-              inputs:
-                ConnectedServiceName: 'MobileCenter-ESRP'
-                FolderPath: '$(System.DefaultWorkingDirectory)/'
-                Pattern: 'Microsoft.AppCenter*.nupkg'
-                signConfigType: inlineSignParams
-                inlineOperation: |
-                [ 
-                    {
-                        "keyCode": "CP-401405",
-                        "operationSetCode": "NuGetSign",
-                        "parameters": [ ],
-                        "toolName": "sign",
-                        "toolVersion": "1.0"
-                    },
-                    {
-                        "keyCode": "CP-401405",
-                        "operationSetCode": "NuGetVerify",
-                        "parameters": [ ],
-                        "toolName": "sign",
-                        "toolVersion": "1.0"
-                    }
-                ]
-                SessionTimeout: 45
-              enabled: false
-
-            - task: CopyFiles@2
-              displayName: 'Copy Packages'
-              inputs:
-                SourceFolder: 'D:\a\1\s\output'
-                Contents: |
-                *.nupkg
-                !Microsoft.AppCenter.Rum.*.nupkg
-                RELEASE.md
-                TargetFolder: '$(Build.ArtifactStagingDirectory)\Packages'
-                CleanTargetFolder: true
-                OverWrite: true
-
-            - powershell: |
-              $SdkVersion = Get-ChildItem $(System.DefaultWorkingDirectory)/output | Where-Object { $_.Name -match 'Microsoft\.AppCenter\.(\d+\.\d+\.\d+)\.nupkg' } | ForEach-Object { $matches[1] }
-              
-              Write-Host "SDK version: $SdkVersion"
-              Write-Host "##vso[task.setvariable variable=SdkVersion]$SdkVersion"
-              displayName: 'Extract SDK Version From NuGet Filename'
-
-            - task: ArchiveFiles@2
-              displayName: 'Archive Unity UWP Assemblies'
-              inputs:
-                rootFolderOrFile: '$(System.DefaultWorkingDirectory)/assemblies/unity_uwp'
-                includeRootFolder: false
-                archiveFile: '$(Build.ArtifactStagingDirectory)/AppCenter-SDK-Unity-UWP-$(SdkVersion).zip'
+        - task: ArchiveFiles@2
+          displayName: 'Archive Unity UWP Assemblies'
+          inputs:
+            rootFolderOrFile: '$(System.DefaultWorkingDirectory)/assemblies/unity_uwp'
+            includeRootFolder: false
+            archiveFile: '$(Build.ArtifactStagingDirectory)/AppCenter-SDK-Unity-UWP-$(SdkVersion).zip'
 
