@@ -207,8 +207,8 @@ extends:
             version: 6.0.x
 
         - powershell: |
-          # Run script
-          .\scripts\strong-named-sign.cmd "$(Build.ArtifactStagingDirectory)\assemblies" "$(Agent.TempDirectory)\appcenter-pair-key.snk"
+            # Run script
+            .\scripts\strong-named-sign.cmd "$(Build.ArtifactStagingDirectory)\assemblies" "$(Agent.TempDirectory)\appcenter-pair-key.snk"
           displayName: 'Sign assemblies with strong naming'
 
         - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@2
@@ -219,43 +219,43 @@ extends:
             Pattern: '*.dll,*.winmd'
             signConfigType: inlineSignParams
             inlineOperation: |
-            [
-            {
-            "keyCode": "CP-230012",
-            "operationSetCode": "SigntoolSign",
-            "parameters": [
-            {
-            "parameterName": "OpusName",
-            "parameterValue": "TestSign"
-            },
-            {
-            "parameterName": "OpusInfo",
-            "parameterValue": "http://test"
-            },
-            {
-            "parameterName": "PageHash",
-            "parameterValue": "/NPH"
-            },
-            {
-            "parameterName": "FileDigest",
-            "parameterValue": "/fd sha256"
-            },
-            {
-            "parameterName": "TimeStamp",
-            "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
-            }
-            ],
-            "toolName": "signtool.exe",
-            "toolVersion": "6.2.9304.0"
-            },
-            {
-            "keyCode": "CP-230012",
-            "operationSetCode": "SigntoolVerify",
-            "parameters": [],
-            "toolName": "signtool.exe",
-            "toolVersion": "6.2.9304.0"
-            }
-            ]
+              [
+              {
+              "keyCode": "CP-230012",
+              "operationSetCode": "SigntoolSign",
+              "parameters": [
+              {
+              "parameterName": "OpusName",
+              "parameterValue": "TestSign"
+              },
+              {
+              "parameterName": "OpusInfo",
+              "parameterValue": "http://test"
+              },
+              {
+              "parameterName": "PageHash",
+              "parameterValue": "/NPH"
+              },
+              {
+              "parameterName": "FileDigest",
+              "parameterValue": "/fd sha256"
+              },
+              {
+              "parameterName": "TimeStamp",
+              "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+              }
+              ],
+              "toolName": "signtool.exe",
+              "toolVersion": "6.2.9304.0"
+              },
+              {
+              "keyCode": "CP-230012",
+              "operationSetCode": "SigntoolVerify",
+              "parameters": [],
+              "toolName": "signtool.exe",
+              "toolVersion": "6.2.9304.0"
+              }
+              ]
             SessionTimeout: 45
             VerboseLogin: true
 
@@ -312,7 +312,7 @@ extends:
                     "toolVersion": "1.0"
                 }
             ]
-            SessionTimeout: 45
+          SessionTimeout: 45
           enabled: false
 
         - task: CopyFiles@2
@@ -320,18 +320,18 @@ extends:
           inputs:
             SourceFolder: 'D:\a\1\s\output'
             Contents: |
-            *.nupkg
-            !Microsoft.AppCenter.Rum.*.nupkg
-            RELEASE.md
+              *.nupkg
+              !Microsoft.AppCenter.Rum.*.nupkg
+              RELEASE.md
             TargetFolder: '$(Build.ArtifactStagingDirectory)\Packages'
             CleanTargetFolder: true
             OverWrite: true
 
         - powershell: |
-          $SdkVersion = Get-ChildItem $(System.DefaultWorkingDirectory)/output | Where-Object { $_.Name -match 'Microsoft\.AppCenter\.(\d+\.\d+\.\d+)\.nupkg' } | ForEach-Object { $matches[1] }
-          
-          Write-Host "SDK version: $SdkVersion"
-          Write-Host "##vso[task.setvariable variable=SdkVersion]$SdkVersion"
+            $SdkVersion = Get-ChildItem $(System.DefaultWorkingDirectory)/output | Where-Object { $_.Name -match 'Microsoft\.AppCenter\.(\d+\.\d+\.\d+)\.nupkg' } | ForEach-Object { $matches[1] }
+            
+            Write-Host "SDK version: $SdkVersion"
+            Write-Host "##vso[task.setvariable variable=SdkVersion]$SdkVersion"
           displayName: 'Extract SDK Version From NuGet Filename'
 
         - task: ArchiveFiles@2
