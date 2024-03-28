@@ -193,7 +193,7 @@ extends:
                 ($change_log | Out-String).Trim() | Set-Content "RELEASE.md"
           displayName: 'Collect Release Description'
 
-        - task: DownloadBuildArtifacts@0
+        - task: DownloadPipelineArtifact@2
           displayName: 'Download Assemblies'
           inputs:
             artifactName: assemblies
