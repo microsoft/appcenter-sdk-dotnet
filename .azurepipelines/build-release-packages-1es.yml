@@ -197,7 +197,7 @@ extends:
           displayName: 'Download Assemblies'
           inputs:
             artifactName: assemblies
-            downloadPath: '$(Build.ArtifactStagingDirectory)'
+            downloadPath: '$(Build.ArtifactStagingDirectory)\assemblies'
             extractTars: false
 
         - task: DownloadSecureFile@1
