@@ -5,4 +5,4 @@
 
 echo running with app secret: $MAUI_ANDROID_PROD
 
-MAUI_ANDROID_PROD=$MAUI_ANDROID_PROD dotnet build -t:Run -f net6.0-$@
+MAUI_ANDROID_PROD=$MAUI_ANDROID_PROD dotnet build -t:Run -f net7.0-$@
