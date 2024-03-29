@@ -98,6 +98,8 @@ extends:
         name: Azure Pipelines
         image: macos-latest
         os: macOS
+        demands:
+        - msbuild
       jobs:
       - job: sdkBuildJob
         templateContext:
