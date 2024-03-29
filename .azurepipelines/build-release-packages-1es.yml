@@ -92,7 +92,7 @@ extends:
             SourceFolder: '$(Build.SourcesDirectory)\bin'
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-    - stage: BuildXamarinAssemblies
+    - stage: BuildDotNetAssemblies
       dependsOn: []
       pool:
         name: Azure Pipelines
@@ -153,6 +153,7 @@ extends:
     - stage: Package
       dependsOn:
       - BuildWindowsAssemblies
+      - BuildDotNetAssemblies
       pool:
         name: 1ES-PT-Windows-2022
         os: windows
