@@ -52,7 +52,7 @@ Task("Build")
     .IsDependentOn("Externals")
     .Does(() =>
 {
-    var platformId = IsRunningOnUnix() ? "mac" : "windows";
+    var platformId = IsRunningOnUnix() ? Argument("MacPlatformId", "mac") : "windows";
     var buildGroups = BuildGroup.ReadBuildGroups(platformId);
     foreach (var buildGroup in buildGroups)
     {
