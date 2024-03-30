@@ -113,18 +113,6 @@ extends:
         - checkout: self
           fetchTags: false
 
-        - task: UseDotNet@2
-          displayName: 'Install .NET 3.1'
-          inputs:
-            packageType: 'sdk'
-            version: '3.1.413'
-
-        - task: UseDotNet@2
-          displayName: 'Install .NET 7'
-          inputs:
-            packageType: 'sdk'
-            version: '7.0.308'
-
         - task: Bash@3
           displayName: 'Set Release Version'
           inputs:
@@ -152,11 +140,30 @@ extends:
             SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
             RunAsPreJob: false
 
+        - task: UseDotNet@2
+          displayName: 'Install .NET 7'
+          inputs:
+            packageType: 'sdk'
+            version: '7.0.308'
+
         - task: cake-build.cake.cake-build-task.Cake@2
-          displayName: 'Prepare Assemblies'
+          displayName: 'Prepare DotNet Assemblies'
           inputs:
             target: PrepareAssemblies
             arguments: '--StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
+            Version: 2.2.0
+
+        - task: UseDotNet@2
+          displayName: 'Install .NET 3.1'
+          inputs:
+            packageType: 'sdk'
+            version: '3.1.413'
+
+        - task: cake-build.cake.cake-build-task.Cake@2
+          displayName: 'Prepare Xamarin Assemblies'
+          inputs:
+            target: PrepareAssemblies
+            arguments: '--MacPlatformId="mac-xamarin" --StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
             Version: 2.2.0
 
         - task: CopyFiles@2
