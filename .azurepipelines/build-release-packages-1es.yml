@@ -39,7 +39,7 @@ extends:
           - output: pipelineArtifact
             displayName: 'Publish Artifact: framework'
             path: '$(Build.ArtifactStagingDirectory)'
-            artifactName: assemblies
+            artifactName: windows-assemblies
         steps:
         - checkout: self
           fetchTags: false
@@ -107,7 +107,7 @@ extends:
           - output: pipelineArtifact
             displayName: 'Publish Artifact: framework'
             path: '$(Build.ArtifactStagingDirectory)'
-            artifactName: assemblies
+            artifactName: dotnet-assemblies
         steps:
         - checkout: self
           fetchTags: false
@@ -213,9 +213,16 @@ extends:
           displayName: 'Collect Release Description'
 
         - task: DownloadPipelineArtifact@2
-          displayName: 'Download Assemblies'
+          displayName: 'Download Windows Assemblies'
           inputs:
-            artifactName: assemblies
+            artifactName: windows-assemblies
+            downloadPath: '$(Build.ArtifactStagingDirectory)\assemblies'
+            extractTars: false
+
+        - task: DownloadPipelineArtifact@2
+          displayName: 'Download DotNet Assemblies'
+          inputs:
+            artifactName: dotnet-assemblies
             downloadPath: '$(Build.ArtifactStagingDirectory)\assemblies'
             extractTars: false
 
