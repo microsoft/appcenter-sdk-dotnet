@@ -289,15 +289,25 @@ extends:
             SourceFolder: '$(Build.ArtifactStagingDirectory)\assemblies'
             TargetFolder: '$(System.DefaultWorkingDirectory)\bin'
 
-        - task: securedevelopmentteam.vss-secure-development-tools.build-task-apiscan.APIScan@2
+        - task: AzureKeyVault@2
+          inputs:
+            azureSubscription: 'AC - Dev Infra & Build Pool'
+            KeyVaultName: 'mobile-center-sdk'
+            SecretsFilter: 'appcenter-sdk-managed-identity-clientid'
+            RunAsPreJob: false
+
+        - task: APIScan@2
           displayName: 'Run APIScan'
           inputs:
-            softwareFolder: 'bin\uwp;bin\unity-uwp;bin\windows*'
+            softwareFolder: 'bin'
             softwareName: 'appcenter-sdk-dotnet'
-            softwareVersionNum: Latest
+            softwareVersionNum: '$(Build.BuildId)'
             isLargeApp: false
+            toolVersion: 'Latest'
             verbosityLevel: verbose
-          enabled: false
+          condition: and(succeeded(), ne(variables['DisableAPIScan'], 'true'))
+          env:
+            AzureServicesAuthConnectionString: 'runAs=App;AppId=$(appcenter-sdk-managed-identity-clientid)'
             
         - task: AzureKeyVault@2
           inputs:
@@ -306,7 +316,7 @@ extends:
             SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
             RunAsPreJob: false
 
-        - task: cake-build.cake.cake-build-task.Cake@2
+        - task: Cake@2
           displayName: 'Pack NuGets'
           inputs:
             target: NuGet
@@ -315,6 +325,7 @@ extends:
 
         - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
           displayName: 'Sign Packages'
+          enabled: false
           inputs:
             ConnectedServiceName: 'MobileCenter-ESRP'
             FolderPath: '$(System.DefaultWorkingDirectory)/'
