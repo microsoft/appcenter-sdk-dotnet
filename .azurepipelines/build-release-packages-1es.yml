@@ -29,7 +29,6 @@ extends:
       sourceAnalysisPool: 1ES-PT-Windows-2022
     stages:
     - stage: BuildWindowsAssemblies
-      condition: false
       dependsOn: []
       jobs:
       - job: sdkBuildJob
@@ -180,7 +179,7 @@ extends:
         name: 1ES-PT-Windows-2022
         os: windows
       jobs:
-      - job: sdkBuildJob
+      - job: Package
         templateContext:
           outputs:
           - output: pipelineArtifact
