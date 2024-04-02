@@ -326,7 +326,7 @@ extends:
           displayName: 'Pack NuGets'
           inputs:
             target: NuGet
-            arguments: '--MainPackage=true --AssembliesPath="assemblies" --StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
+            arguments: '--MainPackage=true --AssembliesPath="$(Build.ArtifactStagingDirectory)\assemblies" --StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
             Version: 2.2.0
 
         - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
