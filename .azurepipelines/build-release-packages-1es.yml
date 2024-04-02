@@ -378,7 +378,7 @@ extends:
         - task: ArchiveFiles@2
           displayName: 'Archive Unity UWP Assemblies'
           inputs:
-            rootFolderOrFile: '$(System.DefaultWorkingDirectory)/assemblies/unity_uwp'
+            rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/assemblies/unity_uwp'
             includeRootFolder: false
             archiveFile: '$(Build.ArtifactStagingDirectory)/AppCenter-SDK-Unity-UWP-$(SdkVersion).zip'
 
