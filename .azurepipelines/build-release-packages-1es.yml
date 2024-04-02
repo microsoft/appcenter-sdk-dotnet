@@ -359,7 +359,7 @@ extends:
         - task: CopyFiles@2
           displayName: 'Copy Packages'
           inputs:
-            SourceFolder: 'D:\a\1\s\output'
+            SourceFolder: '$(System.DefaultWorkingDirectory)\output'
             Contents: |
               *.nupkg
               !Microsoft.AppCenter.Rum.*.nupkg
