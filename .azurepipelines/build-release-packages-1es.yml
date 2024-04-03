@@ -160,6 +160,7 @@ extends:
         os: windows
       jobs:
       - job: Package
+        timeoutInMinutes: 180
         templateContext:
           outputs:
           - output: pipelineArtifact
