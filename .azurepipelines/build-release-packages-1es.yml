@@ -292,7 +292,7 @@ extends:
             isLargeApp: false
             toolVersion: 'Latest'
             verbosityLevel: verbose
-          condition: and(succeeded(), ne(variables['DisableAPIScan'], 'true'))
+          condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
           env:
             AzureServicesAuthConnectionString: 'runAs=App;AppId=$(appcenter-sdk-managed-identity-clientid)'
             
