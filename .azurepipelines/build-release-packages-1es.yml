@@ -132,12 +132,6 @@ extends:
             arguments: '--StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
             Version: 2.2.0
 
-        - task: UseDotNet@2
-          displayName: 'Install .NET 3.1'
-          inputs:
-            packageType: 'sdk'
-            version: '3.1.413'
-
         - task: cake-build.cake.cake-build-task.Cake@2
           displayName: 'Prepare Xamarin Assemblies'
           inputs:
@@ -271,7 +265,7 @@ extends:
             VerboseLogin: true
 
         - task: CopyFiles@2
-          displayName: 'Move assemblies to bin'
+          displayName: 'Copy assemblies to bin'
           inputs:
             SourceFolder: '$(Build.ArtifactStagingDirectory)\assemblies'
             TargetFolder: '$(System.DefaultWorkingDirectory)\bin'
@@ -295,7 +289,7 @@ extends:
           condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
           env:
             AzureServicesAuthConnectionString: 'runAs=App;AppId=$(appcenter-sdk-managed-identity-clientid)'
-            
+
         - task: AzureKeyVault@2
           inputs:
             azureSubscription: 'AC - Dev Infra & Build Pool'
