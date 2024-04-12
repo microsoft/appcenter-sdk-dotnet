@@ -1,0 +1,359 @@
+trigger:
+- master
+- develop
+pr:
+- master
+- develop
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: refs/heads/develop
+  - repository: 1ESPipelineTemplates
+    type: git
+    name: 1ESPipelineTemplates/1ESPipelineTemplates
+    ref: refs/tags/release
+name: $(Build.SourceBranchName)_$(date:yyyyMMdd)$(rev:.r)
+extends:
+  ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+    template: v1/1ES.Official.PipelineTemplate.yml@1ESPipelineTemplates
+  ${{ else }}:
+    template: v1/1ES.Unofficial.PipelineTemplate.yml@1ESPipelineTemplates
+  parameters:
+    pool:
+      name: 1ES-PT-Windows-2022
+      os: windows
+    customBuildTags:
+    - ES365AIMigrationTooling-BulkMigrated
+    sdl:
+      sourceAnalysisPool: 1ES-PT-Windows-2022
+    stages:
+    - stage: BuildWindowsAssemblies
+      dependsOn: []
+      jobs:
+      - job: sdkBuildJob
+        displayName: BuildWindowsAssemblies
+        cancelTimeoutInMinutes: 1
+        templateContext:
+          outputs:
+          - output: pipelineArtifact
+            displayName: 'Publish Artifact: framework'
+            path: '$(Build.ArtifactStagingDirectory)'
+            artifactName: windows-assemblies
+        steps:
+        - checkout: self
+          fetchTags: false
+
+        - task: AzureKeyVault@2
+          inputs:
+            azureSubscription: 'AC - Dev Infra & Build Pool'
+            KeyVaultName: 'mobile-center-sdk'
+            SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
+            RunAsPreJob: false
+
+        - task: PowerShell@2
+          displayName: 'Set Release Version'
+          inputs:
+            targetType: filePath
+            filePath: ./build.ps1
+            arguments: '"version.cake" --Target="SetReleaseVersion"'
+
+        - task: cake-build.cake.cake-build-task.Cake@2
+          displayName: 'Prepare Assemblies'
+          inputs:
+            target: PrepareAssemblies
+            arguments: '--StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
+            Version: 2.2.0
+
+
+        - task: CopyFiles@2
+          displayName: 'Copy Assemblies'
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)\bin'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - stage: BuildDotNetAssemblies
+      dependsOn: []
+      pool:
+        name: Azure Pipelines
+        image: macos-11
+        os: macOS
+        demands:
+        - msbuild
+      jobs:
+      - job: sdkBuildJob
+        templateContext:
+          outputs:
+          - output: pipelineArtifact
+            displayName: 'Publish Artifact: framework'
+            path: '$(Build.ArtifactStagingDirectory)'
+            artifactName: dotnet-assemblies
+        steps:
+        - checkout: self
+          fetchTags: false
+
+        - task: Bash@3
+          displayName: 'Set Release Version'
+          inputs:
+            targetType: filePath
+            filePath: ./build.sh
+            arguments: '"version.cake"  -t SetReleaseVersion'
+
+        - bash: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_12_0'
+          displayName: 'Use Xamarin Bundle 6.12.0'
+
+        - task: JavaToolInstaller@0
+          displayName: 'Use Java 11'
+          inputs:
+            versionSpec: 11
+            jdkArchitectureOption: x64
+            jdkSourceOption: PreInstalled
+
+        - task: AzureKeyVault@2
+          inputs:
+            azureSubscription: 'AC - Dev Infra & Build Pool'
+            KeyVaultName: 'mobile-center-sdk'
+            SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
+            RunAsPreJob: false
+
+        - task: UseDotNet@2
+          displayName: 'Install .NET 7'
+          inputs:
+            packageType: 'sdk'
+            version: '7.0.308'
+
+        - bash: 'dotnet workload install android ios macos'
+          displayName: 'Install .NET workloads'
+
+        - task: cake-build.cake.cake-build-task.Cake@2
+          displayName: 'Prepare DotNet Assemblies'
+          inputs:
+            target: PrepareAssemblies
+            arguments: '--StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
+            Version: 2.2.0
+
+        - task: cake-build.cake.cake-build-task.Cake@2
+          displayName: 'Prepare Xamarin Assemblies'
+          inputs:
+            target: PrepareAssemblies
+            arguments: '--MacPlatformId="mac-xamarin" --StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
+            Version: 2.2.0
+
+        - task: CopyFiles@2
+          displayName: 'Copy Assemblies'
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)/bin'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - stage: Package
+      dependsOn:
+      - BuildWindowsAssemblies
+      - BuildDotNetAssemblies
+      pool:
+        name: 1ES-PT-Windows-2022
+        os: windows
+      jobs:
+      - job: Package
+        timeoutInMinutes: 180
+        templateContext:
+          outputs:
+          - output: pipelineArtifact
+            displayName: 'Publish Artifact: framework'
+            path: '$(Build.ArtifactStagingDirectory)'
+            artifactName: package
+        steps:
+        - checkout: self
+          fetchTags: false
+
+        - task: PowerShell@2
+          displayName: 'Set Release Version'
+          inputs:
+            targetType: filePath
+            filePath: ./build.ps1
+            arguments: '"version.cake" --Target="SetReleaseVersion"'
+
+        - powershell: |
+                $change_log_found = $False
+                $change_log = Foreach ($line in Get-Content "CHANGELOG.md") {
+                    if ($change_log_found) {
+                        if ($line -like "___") {
+                            break
+                        }
+                        $line
+                    } elseif ($line -like "## Version*") {
+                        $change_log_found = $True
+                    }
+                }
+                ($change_log | Out-String).Trim() | Set-Content "RELEASE.md"
+          displayName: 'Collect Release Description'
+
+        - task: DownloadPipelineArtifact@2
+          displayName: 'Download Windows Assemblies'
+          inputs:
+            artifactName: windows-assemblies
+            downloadPath: '$(Build.ArtifactStagingDirectory)\assemblies'
+            extractTars: false
+
+        - task: DownloadPipelineArtifact@2
+          displayName: 'Download DotNet Assemblies'
+          inputs:
+            artifactName: dotnet-assemblies
+            downloadPath: '$(Build.ArtifactStagingDirectory)\assemblies'
+            extractTars: false
+
+        - task: DownloadSecureFile@1
+          displayName: 'Download the strong naming certificate'
+          inputs:
+            secureFile: 'appcenter-pair-key.snk'
+
+        - task: UseDotNet@2
+          displayName: 'Use .NET Core sdk 6.0.x'
+          inputs:
+            version: 6.0.x
+
+        - powershell: |
+            # Run script
+            .\scripts\strong-named-sign.cmd "$(Build.ArtifactStagingDirectory)\assemblies" "$(Agent.TempDirectory)\appcenter-pair-key.snk"
+          displayName: 'Sign assemblies with strong naming'
+
+        - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@2
+          displayName: 'Sign Assemblies'
+          inputs:
+            ConnectedServiceName: 'MobileCenter-ESRP'
+            FolderPath: '$(Build.ArtifactStagingDirectory)\assemblies'
+            Pattern: '*.dll,*.winmd'
+            signConfigType: inlineSignParams
+            inlineOperation: |
+              [
+              {
+              "keyCode": "CP-230012",
+              "operationSetCode": "SigntoolSign",
+              "parameters": [
+              {
+              "parameterName": "OpusName",
+              "parameterValue": "TestSign"
+              },
+              {
+              "parameterName": "OpusInfo",
+              "parameterValue": "http://test"
+              },
+              {
+              "parameterName": "PageHash",
+              "parameterValue": "/NPH"
+              },
+              {
+              "parameterName": "FileDigest",
+              "parameterValue": "/fd sha256"
+              },
+              {
+              "parameterName": "TimeStamp",
+              "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+              }
+              ],
+              "toolName": "signtool.exe",
+              "toolVersion": "6.2.9304.0"
+              },
+              {
+              "keyCode": "CP-230012",
+              "operationSetCode": "SigntoolVerify",
+              "parameters": [],
+              "toolName": "signtool.exe",
+              "toolVersion": "6.2.9304.0"
+              }
+              ]
+            SessionTimeout: 45
+            VerboseLogin: true
+
+        - task: CopyFiles@2
+          displayName: 'Copy assemblies to bin'
+          inputs:
+            SourceFolder: '$(Build.ArtifactStagingDirectory)\assemblies'
+            TargetFolder: '$(System.DefaultWorkingDirectory)\bin'
+
+        - task: AzureKeyVault@2
+          inputs:
+            azureSubscription: 'AC - Dev Infra & Build Pool'
+            KeyVaultName: 'mobile-center-sdk'
+            SecretsFilter: 'appcenter-sdk-managed-identity-clientid'
+            RunAsPreJob: false
+
+        - task: APIScan@2
+          displayName: 'Run APIScan'
+          inputs:
+            softwareFolder: 'bin'
+            softwareName: 'appcenter-sdk-dotnet'
+            softwareVersionNum: '$(Build.BuildId)'
+            isLargeApp: false
+            toolVersion: 'Latest'
+            verbosityLevel: verbose
+          condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+          env:
+            AzureServicesAuthConnectionString: 'runAs=App;AppId=$(appcenter-sdk-managed-identity-clientid)'
+
+        - task: AzureKeyVault@2
+          inputs:
+            azureSubscription: 'AC - Dev Infra & Build Pool'
+            KeyVaultName: 'mobile-center-sdk'
+            SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
+            RunAsPreJob: false
+
+        - task: Cake@2
+          displayName: 'Pack NuGets'
+          inputs:
+            target: NuGet
+            arguments: '--MainPackage=true --AssembliesPath="$(Build.ArtifactStagingDirectory)\assemblies" --StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
+            Version: 2.2.0
+
+        - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
+          displayName: 'Sign Packages'
+          enabled: false
+          inputs:
+            ConnectedServiceName: 'MobileCenter-ESRP'
+            FolderPath: '$(System.DefaultWorkingDirectory)/'
+            Pattern: 'Microsoft.AppCenter*.nupkg'
+            signConfigType: inlineSignParams
+            inlineOperation: |
+              [ 
+              {
+              "keyCode": "CP-401405",
+              "operationSetCode": "NuGetSign",
+              "parameters": [ ],
+              "toolName": "sign",
+              "toolVersion": "1.0"
+              },
+              {
+              "keyCode": "CP-401405",
+              "operationSetCode": "NuGetVerify",
+              "parameters": [ ],
+              "toolName": "sign",
+              "toolVersion": "1.0"
+              }
+              ]
+            SessionTimeout: 45
+
+        - task: CopyFiles@2
+          displayName: 'Copy Packages'
+          inputs:
+            SourceFolder: '$(System.DefaultWorkingDirectory)\output'
+            Contents: |
+              *.nupkg
+              !Microsoft.AppCenter.Rum.*.nupkg
+              RELEASE.md
+            TargetFolder: '$(Build.ArtifactStagingDirectory)\Packages'
+            CleanTargetFolder: true
+            OverWrite: true
+
+        - powershell: |
+            $SdkVersion = Get-ChildItem $(System.DefaultWorkingDirectory)/output | Where-Object { $_.Name -match 'Microsoft\.AppCenter\.(\d+\.\d+\.\d+)\.nupkg' } | ForEach-Object { $matches[1] }
+            
+            Write-Host "SDK version: $SdkVersion"
+            Write-Host "##vso[task.setvariable variable=SdkVersion]$SdkVersion"
+          displayName: 'Extract SDK Version From NuGet Filename'
+
+        - task: ArchiveFiles@2
+          displayName: 'Archive Unity UWP Assemblies'
+          inputs:
+            rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/assemblies/unity_uwp'
+            includeRootFolder: false
+            archiveFile: '$(Build.ArtifactStagingDirectory)/AppCenter-SDK-Unity-UWP-$(SdkVersion).zip'
+

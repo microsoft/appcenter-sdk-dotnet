@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
     <Company>Microsoft Corporation</Company>
-    <!-- Pin C# version. C# 8 features might have issues on Mono runtime. -->
-    <LangVersion>7.0</LangVersion>
     <!-- Current version. -->
     <Version>5.0.4-SNAPSHOT</Version>
     <FileVersion>5.0.4.0</FileVersion>
