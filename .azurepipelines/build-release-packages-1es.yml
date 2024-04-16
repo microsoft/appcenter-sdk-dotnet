@@ -51,12 +51,6 @@ extends:
             SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
             RunAsPreJob: false
 
-        - task: UseDotNet@2
-          displayName: 'Install .NET 7'
-          inputs:
-            packageType: 'sdk'
-            version: '7.0.308'
-
         - task: PowerShell@2
           displayName: 'Set Release Version'
           inputs:
@@ -97,12 +91,6 @@ extends:
         steps:
         - checkout: self
           fetchTags: false
-
-        - task: UseDotNet@2
-          displayName: 'Install .NET 7'
-          inputs:
-            packageType: 'sdk'
-            version: '7.0.308'
 
         - task: Bash@3
           displayName: 'Set Release Version'
@@ -211,11 +199,6 @@ extends:
           displayName: 'Download the strong naming certificate'
           inputs:
             secureFile: 'appcenter-pair-key.snk'
-
-        - task: UseDotNet@2
-          displayName: 'Use .NET Core sdk 6.0.x'
-          inputs:
-            version: 6.0.x
 
         - powershell: |
             # Run script
