@@ -128,7 +128,7 @@ extends:
             SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
             RunAsPreJob: false
 
-        - bash: 'dotnet workload install android ios macos'
+        - bash: 'dotnet workload install android ios macos maccatalyst'
           displayName: 'Install .NET workloads'
 
         - task: cake-build.cake.cake-build-task.Cake@2
