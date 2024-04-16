@@ -51,6 +51,12 @@ extends:
             SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
             RunAsPreJob: false
 
+        - task: UseDotNet@2
+          displayName: 'Install .NET 7'
+          inputs:
+            packageType: 'sdk'
+            version: '7.0.308'
+
         - task: PowerShell@2
           displayName: 'Set Release Version'
           inputs:
@@ -92,6 +98,12 @@ extends:
         - checkout: self
           fetchTags: false
 
+        - task: UseDotNet@2
+          displayName: 'Install .NET 7'
+          inputs:
+            packageType: 'sdk'
+            version: '7.0.308'
+
         - task: Bash@3
           displayName: 'Set Release Version'
           inputs:
@@ -115,12 +127,6 @@ extends:
             KeyVaultName: 'mobile-center-sdk'
             SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
             RunAsPreJob: false
-
-        - task: UseDotNet@2
-          displayName: 'Install .NET 7'
-          inputs:
-            packageType: 'sdk'
-            version: '7.0.308'
 
         - bash: 'dotnet workload install android ios macos'
           displayName: 'Install .NET workloads'
