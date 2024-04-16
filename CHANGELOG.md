@@ -2,10 +2,19 @@
 
 ## Version 5.0.4 (In development) 
 
+### App Center
+
+* **[Improvement]** Update DotNet target version to net7
+
 #### Windows
 
 * **[Improvement]** Improve UWP and WinUI app type checking.
 * **[Improvement]** Update SQLitePCLRaw.bundle_green to version 2.1.7
+
+#### Apple
+
+* **[Improvement]** Support Mac Catalyst
+
 ___
 
 ## Version 5.0.3
