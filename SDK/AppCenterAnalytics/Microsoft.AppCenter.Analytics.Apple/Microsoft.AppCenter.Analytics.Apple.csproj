@@ -41,6 +41,9 @@
       <Frameworks>IOKit</Frameworks>
     </NativeReference>
   </ItemGroup>
+  <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+    <BundleResource Include="..\..\..\externals\apple\AppCenter-SDK-Apple\iOS\AppCenterAnalytics.framework\PrivacyInfo.xcprivacy" LogicalName="PrivacyInfo.xcprivacy" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Apple\Microsoft.AppCenter.Apple.csproj" />
   </ItemGroup>
