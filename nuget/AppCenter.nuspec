@@ -34,7 +34,7 @@
         <dependency id="System.Management" version="6.0.0"/>
         <dependency id="System.Configuration.ConfigurationManager" version="6.0.0"/>
       </group>
-      <group targetFramework="net7.0-windows10.0.17763.0">
+      <group targetFramework="net8.0-windows10.0.17763.0">
         <dependency id="Newtonsoft.Json" version="13.0.2"/>
         <dependency id="SQLitePCLRaw.bundle_green" version="2.1.7" />
         <dependency id="System.Management" version="6.0.0"/>
@@ -49,11 +49,11 @@
       </group>
       <group targetFramework="Xamarin.Mac20">
       </group>
-      <group targetFramework="net7.0-android29.0">
+      <group targetFramework="net8.0-android29.0">
       </group>
-      <group targetFramework="net7.0-ios9.0">
+      <group targetFramework="net8.0-ios9.0">
       </group>
-      <group targetFramework="net7.0-macos10.10">
+      <group targetFramework="net8.0-macos10.10">
       </group>
     </dependencies>
     <frameworkAssemblies>
@@ -79,21 +79,21 @@
     <!-- Android -->
     <file src="$android_dir$/Microsoft.AppCenter.dll" target="lib/MonoAndroid10.0" />
     <file src="$android_dir$/Microsoft.AppCenter.xml" target="lib/MonoAndroid10.0" />
-    <file src="$android_net7_dir$/Microsoft.AppCenter.dll" target="lib/net7.0-android29.0" />
-    <file src="$android_net7_dir$/Microsoft.AppCenter.xml" target="lib/net7.0-android29.0" />
-    <file src="$android_net7_dir$/appcenter-release.aar" target="lib/net7.0-android29.0" />
+    <file src="$android_net8_dir$/Microsoft.AppCenter.dll" target="lib/net8.0-android29.0" />
+    <file src="$android_net8_dir$/Microsoft.AppCenter.xml" target="lib/net8.0-android29.0" />
+    <file src="$android_net8_dir$/appcenter-release.aar" target="lib/net8.0-android29.0" />
 
     <!-- iOS -->
     <file src="$ios_dir$/Microsoft.AppCenter.dll" target="lib/Xamarin.iOS10" />
     <file src="$ios_dir$/Microsoft.AppCenter.xml" target="lib/Xamarin.iOS10" />
-    <file src="$ios_net7_dir$/Microsoft.AppCenter.dll" target="lib/net7.0-ios9.0" />
-    <file src="$ios_net7_dir$/Microsoft.AppCenter.xml" target="lib/net7.0-ios9.0" />
+    <file src="$ios_net8_dir$/Microsoft.AppCenter.dll" target="lib/net8.0-ios9.0" />
+    <file src="$ios_net8_dir$/Microsoft.AppCenter.xml" target="lib/net8.0-ios9.0" />
 
     <!-- macOS -->
     <file src="$macos_dir$/Microsoft.AppCenter.dll" target="lib/Xamarin.Mac20" />
     <file src="$macos_dir$/Microsoft.AppCenter.xml" target="lib/Xamarin.Mac20" />
-    <file src="$macos_net7_dir$/Microsoft.AppCenter.dll" target="lib/net7.0-macos10.10" />
-    <file src="$macos_net7_dir$/Microsoft.AppCenter.xml" target="lib/net7.0-macos10.10" />
+    <file src="$macos_net8_dir$/Microsoft.AppCenter.dll" target="lib/net8.0-macos10.10" />
+    <file src="$macos_net8_dir$/Microsoft.AppCenter.xml" target="lib/net8.0-macos10.10" />
 
     <!-- UWP -->
     <file src="$uwp_dir$/Microsoft.AppCenter.dll" target="lib/uap10.0.16299" />
@@ -110,7 +110,7 @@
     <file src="$windows_netcore_dir$/Microsoft.AppCenter.xml" target="lib/netcoreapp3.1" />
 
     <!-- Windows Desktop for WinUI and modern OS targets -->
-    <file src="$windows_net7_dir$/Microsoft.AppCenter.dll" target="lib/net7.0-windows10.0.17763.0" />
-    <file src="$windows_net7_dir$/Microsoft.AppCenter.xml" target="lib/net7.0-windows10.0.17763.0" />
+    <file src="$windows_net8_dir$/Microsoft.AppCenter.dll" target="lib/net8.0-windows10.0.17763.0" />
+    <file src="$windows_net8_dir$/Microsoft.AppCenter.xml" target="lib/net8.0-windows10.0.17763.0" />
   </files>
 </package>

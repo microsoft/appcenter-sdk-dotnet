@@ -4,7 +4,7 @@
 
 ### App Center
 
-* **[Improvement]** Update DotNet target version to net7
+* **[Improvement]** Update DotNet target version to net8
 
 #### Windows
 

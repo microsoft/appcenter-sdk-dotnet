@@ -38,7 +38,7 @@
     <ProjectGuid>345565c8-4971-4d1a-88cc-f7cbdae2c7c7</ProjectGuid>
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
-    <AssetTargetFallback>net7.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
+    <AssetTargetFallback>net8.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\Contoso.WinUI.Desktop.Puppet\Contoso.WinUI.Desktop.Puppet.csproj</EntryPointProjectUniqueName>
