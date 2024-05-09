@@ -34,7 +34,7 @@
         <dependency id="System.Management" version="6.0.0"/>
         <dependency id="System.Configuration.ConfigurationManager" version="6.0.0"/>
       </group>
-      <group targetFramework="net7.0-windows10.0.17763.0">
+      <group targetFramework="net6.0-windows10.0.17763.0">
         <dependency id="Newtonsoft.Json" version="13.0.2"/>
         <dependency id="SQLitePCLRaw.bundle_green" version="2.1.7" />
         <dependency id="System.Management" version="6.0.0"/>
@@ -71,7 +71,7 @@
     <file src="$windows_netcore_dir$/Microsoft.AppCenter.xml" target="lib/netcoreapp3.1" />
 
     <!-- Windows Desktop for WinUI and modern OS targets -->
-    <file src="$windows_net7_dir$/Microsoft.AppCenter.dll" target="lib/net7.0-windows10.0.17763.0" />
-    <file src="$windows_net7_dir$/Microsoft.AppCenter.xml" target="lib/net7.0-windows10.0.17763.0" />
+    <file src="$windows_net6_dir$/Microsoft.AppCenter.dll" target="lib/net6.0-windows10.0.17763.0" />
+    <file src="$windows_net6_dir$/Microsoft.AppCenter.xml" target="lib/net6.0-windows10.0.17763.0" />
   </files>
 </package>

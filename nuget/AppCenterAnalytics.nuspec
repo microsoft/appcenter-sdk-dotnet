@@ -28,21 +28,21 @@
     <!-- Android -->
     <file src="$android_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/MonoAndroid10.0" />
     <file src="$android_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/MonoAndroid10.0" />
-    <file src="$android_net7_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net7.0-android29.0" />
-    <file src="$android_net7_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net7.0-android29.0" />
-    <file src="$android_net7_dir$/appcenter-analytics-release.aar" target="lib/net7.0-android29.0" />
+    <file src="$android_net8_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net8.0-android29.0" />
+    <file src="$android_net8_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net8.0-android29.0" />
+    <file src="$android_net8_dir$/appcenter-analytics-release.aar" target="lib/net8.0-android29.0" />
 
     <!-- iOS -->
     <file src="$ios_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/Xamarin.iOS10" />
     <file src="$ios_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/Xamarin.iOS10" />
-    <file src="$ios_net7_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net7.0-ios9.0" />
-    <file src="$ios_net7_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net7.0-ios9.0" />
+    <file src="$ios_net8_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net8.0-ios9.0" />
+    <file src="$ios_net8_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net8.0-ios9.0" />
 
     <!-- macOS -->
     <file src="$macos_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/Xamarin.Mac20" />
     <file src="$macos_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/Xamarin.Mac20" />
-    <file src="$macos_net7_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net7.0-macos10.10" />
-    <file src="$macos_net7_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net7.0-macos10.10" />
+    <file src="$macos_net8_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net8.0-macos10.10" />
+    <file src="$macos_net8_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net8.0-macos10.10" />
 
     <!-- UWP -->
     <file src="$uwp_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/uap10.0.16299" />
@@ -59,7 +59,7 @@
     <file src="$windows_netcore_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/netcoreapp3.1" />
 
     <!-- Windows Desktop for WinUI and modern OS targets -->
-    <file src="$windows_net7_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net7.0-windows10.0.17763.0" />
-    <file src="$windows_net7_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net7.0-windows10.0.17763.0" />
+    <file src="$windows_net6_dir$/Microsoft.AppCenter.Analytics.dll" target="lib/net6.0-windows10.0.17763.0" />
+    <file src="$windows_net6_dir$/Microsoft.AppCenter.Analytics.xml" target="lib/net6.0-windows10.0.17763.0" />
   </files>
 </package>

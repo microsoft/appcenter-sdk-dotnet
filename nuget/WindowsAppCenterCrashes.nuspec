@@ -41,7 +41,7 @@
     <file src="$windows_netcore_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/netcoreapp3.1" />
 
     <!-- Windows Desktop for WinUI and modern OS targets -->
-    <file src="$windows_net7_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net7.0-windows10.0.17763.0" />
-    <file src="$windows_net7_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net7.0-windows10.0.17763.0" />
+    <file src="$windows_net6_dir$/Microsoft.AppCenter.Crashes.dll" target="lib/net6.0-windows10.0.17763.0" />
+    <file src="$windows_net6_dir$/Microsoft.AppCenter.Crashes.xml" target="lib/net6.0-windows10.0.17763.0" />
   </files>
 </package>
