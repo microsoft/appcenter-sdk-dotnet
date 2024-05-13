@@ -2,7 +2,7 @@
 <config>
     <sdkInfo>
         <sdkVersion>5.0.4-SNAPSHOT</sdkVersion>
-        <appleVersion>5.0.4</appleVersion>
+        <appleVersion>5.0.5</appleVersion>
         <androidVersion>5.0.4</androidVersion>
     </sdkInfo>
     <group id="ios" buildGroup="mac">
