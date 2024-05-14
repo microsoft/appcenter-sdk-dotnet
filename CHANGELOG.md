@@ -1,6 +1,6 @@
 # App Center SDK for .NET Change Log
 
-## Version 5.0.4 (In development) 
+## Version 5.0.4
 
 ### App Center
 
@@ -14,6 +14,13 @@
 #### Apple
 
 * **[Improvement]** Support Mac Catalyst
+* **[Improvement]** Update PrivacyInfo files to include all relevant information.
+* **[Improvement]** Update PLCrashReporter to version 1.11.2.
+
+#### Android
+
+* **[Fix]** Add RECEIVER_EXPORTED flag for install receiver.
+* **[Fix]** Add FLAG_ALLOW_UNSAFE_IMPLICIT_INTENT flag for broadcast pending intent.
 
 ___
 
