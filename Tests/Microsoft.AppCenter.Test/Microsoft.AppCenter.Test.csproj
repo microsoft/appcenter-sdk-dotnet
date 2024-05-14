@@ -11,7 +11,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="SQLitePCLRaw.bundle_green" version="2.1.5" />
+    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.7" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Net.Http" />

@@ -1,5 +1,29 @@
 # App Center SDK for .NET Change Log
 
+## Version 5.0.4
+
+### App Center
+
+* **[Improvement]** Update DotNet target version to net8
+
+#### Windows
+
+* **[Improvement]** Improve UWP and WinUI app type checking.
+* **[Improvement]** Update SQLitePCLRaw.bundle_green to version 2.1.7
+
+#### Apple
+
+* **[Improvement]** Support Mac Catalyst
+* **[Improvement]** Update PrivacyInfo files to include all relevant information.
+* **[Improvement]** Update PLCrashReporter to version 1.11.2.
+
+#### Android
+
+* **[Fix]** Add RECEIVER_EXPORTED flag for install receiver.
+* **[Fix]** Add FLAG_ALLOW_UNSAFE_IMPLICIT_INTENT flag for broadcast pending intent.
+
+___
+
 ## Version 5.0.3
 
 ### App Center

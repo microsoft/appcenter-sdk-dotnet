@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-ios;net6.0-macos</TargetFrameworks>
+    <TargetFrameworks>net8.0-ios;net8.0-macos;net8.0-maccatalyst</TargetFrameworks>
     <IsBindingProject>true</IsBindingProject>
     <NoBindingEmbedding>false</NoBindingEmbedding>
   </PropertyGroup>
@@ -10,7 +10,7 @@
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.EndsWith('-macos'))">
+  <PropertyGroup Condition="$(TargetFramework.EndsWith('-macos')) Or $(TargetFramework.EndsWith('-maccatalyst'))">
     <LinkMode>SdkOnly</LinkMode>
     <SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
   </PropertyGroup>
@@ -29,6 +29,13 @@
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.EndsWith('-macos'))">
     <NativeReference Include="..\..\..\externals\apple\macOS\AppCenterAnalytics.a">
+      <Kind>Static</Kind>
+      <ForceLoad>True</ForceLoad>
+      <Frameworks>IOKit</Frameworks>
+    </NativeReference>
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.EndsWith('-maccatalyst'))">
+    <NativeReference Include="..\..\..\externals\apple\maccatalyst\AppCenterAnalytics.a">
       <Kind>Static</Kind>
       <ForceLoad>True</ForceLoad>
       <Frameworks>IOKit</Frameworks>

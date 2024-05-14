@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-android</TargetFrameworks>
+    <TargetFrameworks>net8.0-android</TargetFrameworks>
     <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
     <AndroidBoundInterfacesContainTypes>false</AndroidBoundInterfacesContainTypes>
     <AndroidGenerateResourceDesigner>false</AndroidGenerateResourceDesigner>

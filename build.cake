@@ -37,6 +37,7 @@ var SdkStorageUrl = "https://mobilecentersdkdev.blob.core.windows.net/sdk/";
 VersionReader.ReadVersions();
 var AndroidUrl = $"{SdkStorageUrl}AppCenter-SDK-Android-{VersionReader.AndroidVersion}.zip";
 var AppleUrl = $"{SdkStorageUrl}AppCenter-SDK-Apple-{VersionReader.AppleVersion}.zip";
+var AppleXCFrameworkUrl = $"{SdkStorageUrl}AppCenter-SDK-Apple-XCFramework-{VersionReader.AppleVersion}.zip";
 
 // Task Target for build
 var Target = Argument("Target", Argument("t", "Default"));
@@ -52,7 +53,7 @@ Task("Build")
     .IsDependentOn("Externals")
     .Does(() =>
 {
-    var platformId = IsRunningOnUnix() ? "mac" : "windows";
+    var platformId = IsRunningOnUnix() ? Argument("MacPlatformId", "mac") : "windows";
     var buildGroups = BuildGroup.ReadBuildGroups(platformId);
     foreach (var buildGroup in buildGroups)
     {
@@ -101,30 +102,15 @@ Task("Externals-Android")
     CopyFiles(files, AndroidExternals);
 }).OnError(HandleError);
 
-// Downloading iOS binaries.
-Task("Externals-Apple")
-    .WithCriteria(() => IsRunningOnUnix())
-    .Does(() =>
+public static void UnzipFile(this ICakeContext context, string zipFile, string outputPath)
 {
-    var zipFile = System.IO.Path.Combine(AppleExternals, "apple.zip");
-    if (FileExists(zipFile))
-    {
-        return;
-    }
-    CleanDirectory(AppleExternals);
-
-    // Download zip file.
-    var authParams = Argument("StorageAuthParams", EnvironmentVariable("STORAGE_AUTH_PARAMS"));
-    var artifactUrl = $"{AppleUrl}{authParams}";
-    using (VerboseVerbosity())
-        DownloadFile(artifactUrl, zipFile);
-    using(var process = StartAndReturnProcess("unzip",
+    using(var process = context.StartAndReturnProcess("unzip",
         new ProcessSettings
         {
             Arguments = new ProcessArgumentBuilder()
                 .Append(zipFile)
                 .Append("-d")
-                .Append(AppleExternals),
+                .Append(outputPath),
             RedirectStandardOutput = true,
         }))
     {
@@ -134,15 +120,39 @@ Task("Externals-Apple")
             throw new Exception($"Failed to unzip {zipFile}");
         }
     }
+}
+
+// Downloading iOS binaries.
+Task("Externals-Apple")
+    .WithCriteria(() => IsRunningOnUnix())
+    .Does(() =>
+{
+    var zipFile = System.IO.Path.Combine(AppleExternals, "apple.zip");
+    var zipXCFrameworkFile = System.IO.Path.Combine(AppleExternals, "apple-xcframework.zip");
+    var XCFrameworkOutputDir = System.IO.Path.Combine(AppleExternals, "xcframework");
+
+    CleanDirectory(AppleExternals);
+
+    // Download framework and xcframework files.
+    var authParams = Argument("StorageAuthParams", EnvironmentVariable("STORAGE_AUTH_PARAMS"));
+    using (VerboseVerbosity())
+    {
+        DownloadFile($"{AppleUrl}{authParams}", zipFile);
+        DownloadFile($"{AppleXCFrameworkUrl}{authParams}", zipXCFrameworkFile);
+    }
+
+    Context.UnzipFile(zipFile, AppleExternals);
+    Context.UnzipFile(zipXCFrameworkFile, XCFrameworkOutputDir);
 
     var iosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/iOS");
     var macosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/macOS");
+    var xcframeworkLocation = System.IO.Path.Combine(XCFrameworkOutputDir, "AppCenter-SDK-Apple");
 
     // Move iOS frameworks.
     var iosExternals = System.IO.Path.Combine(AppleExternals, "ios");
     CleanDirectory(iosExternals);
 
-    // Copy the AppCenter binaries directly from the frameworks and add the ".a" extension.s
+    // Copy the AppCenter binaries directly from the frameworks and add the ".a" extension.
     var files = GetFiles($"{iosFrameworksLocation}/*.framework/AppCenter*");
     foreach (var file in files)
     {
@@ -155,6 +165,25 @@ Task("Externals-Apple")
     if(DirectoryExists($"{iosFrameworksLocation}/{distributeBundle}"))
     {
         MoveDirectory($"{iosFrameworksLocation}/{distributeBundle}", $"{iosExternals}/{distributeBundle}");
+    }
+
+    // Move Maccatalyst frameworks.
+    var maccatalystExternals = System.IO.Path.Combine(AppleExternals, "maccatalyst");
+    CleanDirectory(maccatalystExternals);
+
+    // Copy the AppCenter binaries directly from the frameworks and add the ".a" extension.
+    files = GetFiles($"{xcframeworkLocation}/*.xcframework/*-maccatalyst/*.framework/Versions/A/AppCenter*");
+    foreach (var file in files)
+    {
+        var filename = file.GetFilename();
+        MoveFile(file, $"{maccatalystExternals}/{filename}.a");
+    }
+    
+    // Copy Distribute resource bundle and copy it to the externals directory.
+    distributeBundle = "AppCenterDistributeResources.bundle";
+    if(DirectoryExists($"{xcframeworkLocation}/{distributeBundle}"))
+    {
+        MoveDirectory($"{xcframeworkLocation}/{distributeBundle}", $"{maccatalystExternals}/{distributeBundle}");
     }
 
     // Move macOS frameworks.

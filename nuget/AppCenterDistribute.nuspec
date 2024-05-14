@@ -28,15 +28,15 @@
     <!-- Android -->
     <file src="$android_dir$/Microsoft.AppCenter.Distribute.dll" target="lib/MonoAndroid10.0" />
     <file src="$android_dir$/Microsoft.AppCenter.Distribute.xml" target="lib/MonoAndroid10.0" />
-    <file src="$android_net6_dir$/Microsoft.AppCenter.Distribute.dll" target="lib/net6.0-android29.0" />
-    <file src="$android_net6_dir$/Microsoft.AppCenter.Distribute.xml" target="lib/net6.0-android29.0" />
-    <file src="$android_net6_dir$/appcenter-distribute-release.aar" target="lib/net6.0-android29.0" />
+    <file src="$android_net8_dir$/Microsoft.AppCenter.Distribute.dll" target="lib/net8.0-android29.0" />
+    <file src="$android_net8_dir$/Microsoft.AppCenter.Distribute.xml" target="lib/net8.0-android29.0" />
+    <file src="$android_net8_dir$/appcenter-distribute-release.aar" target="lib/net8.0-android29.0" />
 
     <!-- iOS -->
     <file src="$ios_dir$/Microsoft.AppCenter.Distribute.dll" target="lib/Xamarin.iOS10" />
     <file src="$ios_dir$/Microsoft.AppCenter.Distribute.xml" target="lib/Xamarin.iOS10" />
-    <file src="$ios_net6_dir$/Microsoft.AppCenter.Distribute.dll" target="lib/net6.0-ios9.0" />
-    <file src="$ios_net6_dir$/Microsoft.AppCenter.Distribute.xml" target="lib/net6.0-ios9.0" />
+    <file src="$ios_net8_dir$/Microsoft.AppCenter.Distribute.dll" target="lib/net8.0-ios9.0" />
+    <file src="$ios_net8_dir$/Microsoft.AppCenter.Distribute.xml" target="lib/net8.0-ios9.0" />
 
   </files>
 </package>
