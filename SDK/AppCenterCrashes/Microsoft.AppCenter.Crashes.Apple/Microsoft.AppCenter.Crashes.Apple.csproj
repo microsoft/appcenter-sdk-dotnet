@@ -46,6 +46,9 @@
       <IsCxx>True</IsCxx>
     </NativeReference>
   </ItemGroup>
+  <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+    <BundleResource Include="..\..\..\externals\apple\AppCenter-SDK-Apple\iOS\AppCenterCrashes.framework\PrivacyInfo.xcprivacy" LogicalName="PrivacyInfo.xcprivacy" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Apple\Microsoft.AppCenter.Apple.csproj" />
   </ItemGroup>

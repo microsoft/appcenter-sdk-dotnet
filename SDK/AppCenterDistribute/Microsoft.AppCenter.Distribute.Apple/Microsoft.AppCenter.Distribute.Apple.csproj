@@ -29,6 +29,9 @@
       <Link>Resources\AppCenterDistributeResources.bundle\%(RecursiveDir)%(Filename)%(Extension)</Link>
     </BundleResource>
   </ItemGroup>
+  <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+    <BundleResource Include="..\..\..\externals\apple\AppCenter-SDK-Apple\iOS\AppCenterDistribute.framework\PrivacyInfo.xcprivacy" LogicalName="PrivacyInfo.xcprivacy" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AppCenter\Microsoft.AppCenter.Apple\Microsoft.AppCenter.Apple.csproj" />
   </ItemGroup>
