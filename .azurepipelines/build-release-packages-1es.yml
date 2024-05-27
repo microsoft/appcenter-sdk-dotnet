@@ -200,11 +200,6 @@ extends:
           inputs:
             secureFile: 'appcenter-pair-key.snk'
 
-        - task: UseDotNet@2
-          displayName: 'Use .NET Core sdk 8.0.x'
-          inputs:
-            version: 8.0.x
-
         - powershell: |
             # Run script
             .\scripts\strong-named-sign.cmd "$(Build.ArtifactStagingDirectory)\assemblies" "$(Agent.TempDirectory)\appcenter-pair-key.snk"
@@ -297,6 +292,11 @@ extends:
             target: NuGet
             arguments: '--MainPackage=true --AssembliesPath="$(Build.ArtifactStagingDirectory)\assemblies" --StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
             Version: 2.2.0
+
+        - task: UseDotNet@2
+          displayName: 'Use .NET Core sdk 8.0.x'
+          inputs:
+            version: 8.0.x
 
         - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
           displayName: 'Sign Packages'
