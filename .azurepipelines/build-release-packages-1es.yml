@@ -294,9 +294,9 @@ extends:
             Version: 2.2.0
 
         - task: UseDotNet@2
-          displayName: 'Use .NET Core sdk 8.0.x'
+          displayName: 'Use .NET Core sdk 2.1.0'
           inputs:
-            version: 8.0.x
+            version: 2.1.0
 
         - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
           displayName: 'Sign Packages'
