@@ -200,6 +200,11 @@ extends:
           inputs:
             secureFile: 'appcenter-pair-key.snk'
 
+        - task: UseDotNet@2
+          displayName: 'Use .NET Core sdk 8.0.x'
+          inputs:
+          version: 8.0.x
+
         - powershell: |
             # Run script
             .\scripts\strong-named-sign.cmd "$(Build.ArtifactStagingDirectory)\assemblies" "$(Agent.TempDirectory)\appcenter-pair-key.snk"
