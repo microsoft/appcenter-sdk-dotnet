@@ -293,12 +293,7 @@ extends:
             arguments: '--MainPackage=true --AssembliesPath="$(Build.ArtifactStagingDirectory)\assemblies" --StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
             Version: 2.2.0
 
-        - task: UseDotNet@2
-          displayName: 'Use .NET Core sdk 2.1.0'
-          inputs:
-            version: 2.1.0
-
-        - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
+        - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@2
           displayName: 'Sign Packages'
           enabled: true
           inputs:
