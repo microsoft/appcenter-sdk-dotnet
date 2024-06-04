@@ -99,7 +99,7 @@
     <buildGroup platformId="mac" solutionPath="AppCenter-SDK-Build-Mac-DotNet.slnf">
         <dotNetBuild configuration="Release" />
     </buildGroup>
-    <buildGroup platformId="mac-xamarin" solutionPath="AppCenter-SDK-Build-Mac-Mono.slnf">
+    <buildGroup platformId="mac" solutionPath="AppCenter-SDK-Build-Mac-Mono.slnf">
         <msBuild configuration="Release" />
     </buildGroup>
     <buildGroup platformId="windows" solutionPath="AppCenter-SDK-Build-Windows.sln">
