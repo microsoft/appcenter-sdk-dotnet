@@ -1,5 +1,15 @@
 # App Center SDK for .NET Change Log
 
+## Version 5.0.5
+
+### App Center
+
+#### Windows
+
+* **[Fix]** Fix Mac Catalyst by adding it to the main nuspec package
+
+___
+
 ## Version 5.0.4
 
 ### App Center
