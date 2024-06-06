@@ -4,8 +4,6 @@
 
 ### App Center
 
-#### Windows
-
 * **[Fix]** Fix Mac Catalyst by adding it to the main nuspec package
 
 ___
