@@ -46,7 +46,4 @@
       <Frameworks>CoreTelephony Security SystemConfiguration</Frameworks>
     </NativeReference>
   </ItemGroup>
-  <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
-    <BundleResource Include="..\..\..\externals\apple\AppCenter-SDK-Apple\iOS\AppCenter.framework\PrivacyInfo.xcprivacy" LogicalName="PrivacyInfo.xcprivacy" />
-  </ItemGroup>
 </Project>

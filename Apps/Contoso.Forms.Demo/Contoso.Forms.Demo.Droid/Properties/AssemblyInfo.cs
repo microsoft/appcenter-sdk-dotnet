@@ -22,8 +22,8 @@ using Android.App;
 // and "{Major}.{Minor}.{Build}.*" will update just the revision.
 
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("5.0.5.0")]
-[assembly: AssemblyInformationalVersion("5.0.5")]
+[assembly: AssemblyFileVersion("5.0.3.0")]
+[assembly: AssemblyInformationalVersion("5.0.3")]
 
 // The following attributes are used to specify the signing key for the assembly, 
 // if desired. See the Mono documentation for more information about signing.
