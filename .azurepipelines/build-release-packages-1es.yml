@@ -76,7 +76,7 @@ extends:
       dependsOn: []
       pool:
         name: Azure Pipelines
-        image: macos-11
+        image: macos-12
         os: macOS
         demands:
         - msbuild
@@ -199,6 +199,12 @@ extends:
           displayName: 'Download the strong naming certificate'
           inputs:
             secureFile: 'appcenter-pair-key.snk'
+
+        - task: UseDotNet@2
+          inputs:
+            packageType: 'sdk'
+            version: '6.x'
+          displayName: 'Install .NET 6 SDK'
 
         - powershell: |
             # Run script
