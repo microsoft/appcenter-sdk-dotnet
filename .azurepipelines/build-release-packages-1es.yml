@@ -134,6 +134,7 @@ extends:
             target: PrepareAssemblies
             arguments: '--MacPlatformId="mac-xamarin" --StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
             Version: 2.2.0
+            verbosity: Diagnostic
 
         - task: CopyFiles@2
           displayName: 'Copy Assemblies'

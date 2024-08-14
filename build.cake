@@ -11,6 +11,7 @@ using System.Text;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using Cake.Common.Tools.MSBuild;
 
 // Contains all assembly paths and how to use them
 IList<AssemblyGroup> AssemblyGroups = null;
@@ -53,6 +54,13 @@ Task("Build")
     .IsDependentOn("Externals")
     .Does(() =>
 {
+    Information("Build start");
+
+    var result = StartProcess("msbuild", new ProcessSettings {
+        Arguments = "/version /nologo"
+    });
+    Information("MSBuild Version: {0}", result);
+
     var platformId = IsRunningOnUnix() ? Argument("MacPlatformId", "mac") : "windows";
     var buildGroups = BuildGroup.ReadBuildGroups(platformId);
     foreach (var buildGroup in buildGroups)
