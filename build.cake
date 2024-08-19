@@ -54,13 +54,6 @@ Task("Build")
     .IsDependentOn("Externals")
     .Does(() =>
 {
-    Information("Build start");
-
-    var result = StartProcess("msbuild", new ProcessSettings {
-        Arguments = "/version /nologo"
-    });
-    Information("MSBuild Version: {0}", result);
-
     var platformId = IsRunningOnUnix() ? Argument("MacPlatformId", "mac") : "windows";
     var buildGroups = BuildGroup.ReadBuildGroups(platformId);
     foreach (var buildGroup in buildGroups)

@@ -80,8 +80,6 @@ extends:
         os: macOS
         demands:
         - msbuild
-        - dotnet
-        - mono
       jobs:
       - job: sdkBuildJob
         templateContext:
@@ -120,6 +118,22 @@ extends:
 
         - bash: 'dotnet workload install android ios macos maccatalyst'
           displayName: 'Install .NET workloads'
+
+        - task: Bash@3
+          displayName: 'Install Mono and MSBuild'
+          inputs:
+            targetType: 'inline'
+            script: |
+              brew update
+              brew install mono
+              echo "Mono version: $(mono --version)"
+              echo "MSBuild version: $(msbuild -version)"
+
+        - task: UseDotNet@2
+          displayName: 'Install .NET SDK'
+          inputs:
+            packageType: 'sdk'
+            version: '6.x'
 
         - task: cake-build.cake.cake-build-task.Cake@2
           displayName: 'Prepare DotNet Assemblies'
