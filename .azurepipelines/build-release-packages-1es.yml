@@ -120,6 +120,7 @@ extends:
             script: |
               brew update
               brew install mono
+              brew install --cask xamarin-mac
               brew install --cask xamarin-ios
               brew install --cask xamarin-android
               echo "Mono version: $(mono --version)"
