@@ -99,8 +99,8 @@ extends:
             filePath: ./build.sh
             arguments: '"version.cake"  -t SetReleaseVersion'
 
-        - bash: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_12_0'
-          displayName: 'Use Xamarin Bundle 6.12.0'
+        # - bash: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_12_0'
+        #   displayName: 'Use Xamarin Bundle 6.12.0'
 
         - task: JavaToolInstaller@0
           displayName: 'Use Java 11'
