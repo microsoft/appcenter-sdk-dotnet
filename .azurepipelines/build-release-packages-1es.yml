@@ -130,7 +130,7 @@ extends:
           displayName: 'Install .NET SDK'
           inputs:
             packageType: 'sdk'
-            version: '6.x'
+            version: '8.x'
 
         - bash: 'dotnet workload install android ios macos maccatalyst'
           displayName: 'Install .NET workloads'
