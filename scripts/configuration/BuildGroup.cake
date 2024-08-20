@@ -89,8 +89,19 @@ public class BuildGroup
         {
             using (var process = new System.Diagnostics.Process())
             {
-                process.StartInfo.FileName = "/bin/bash";
-                process.StartInfo.Arguments = $"-c \"{command}\"";
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                {
+                    // For Windows, use cmd.exe
+                    process.StartInfo.FileName = "cmd.exe";
+                    process.StartInfo.Arguments = $"/C {command}";
+                }
+                else
+                {
+                    // For Unix-based systems, use bash
+                    process.StartInfo.FileName = "/bin/bash";
+                    process.StartInfo.Arguments = $"-c \"{command}\"";
+                }
+
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.CreateNoWindow = true;
