@@ -23,14 +23,84 @@ public class BuildGroup
 
         public override void Build(string solutionPath)
         {
-            Statics.Context.MSBuild(solutionPath, settings => {
-                if (ToolVersion != null)
+            // Attempt to find MSBuild
+            var msbuildPath = FindMSBuild();
+
+            if (string.IsNullOrEmpty(msbuildPath))
+            {
+                throw new Exception("MSBuild could not be found.");
+            }
+
+            Statics.Context.MSBuild(solutionPath, settings =>
+            {
+                // Set the MSBuild ToolPath
+                settings.ToolPath = msbuildPath;
+
+                // Set the ToolVersion if specified
+                if (!string.IsNullOrEmpty(ToolVersion))
                 {
-                    Enum.TryParse(ToolVersion, out MSBuildToolVersion msBuildToolVersion);
-                    settings.ToolVersion = msBuildToolVersion;
+                    if (Enum.TryParse(ToolVersion, out MSBuildToolVersion msBuildToolVersion))
+                    {
+                        settings.ToolVersion = msBuildToolVersion;
+                    }
+                    else
+                    {
+                        throw new Exception($"Invalid MSBuild ToolVersion: {ToolVersion}");
+                    }
                 }
+
+                // Set the configuration (Release, Debug, etc.)
                 settings.Configuration = Configuration;
             });
+        }
+
+        private string FindMSBuild()
+        {
+            string msbuildPath = null;
+            try
+            {
+                // Use 'which' on Unix-based systems
+                if (Environment.OSVersion.Platform == PlatformID.Unix ||
+                    Environment.OSVersion.Platform == PlatformID.MacOSX)
+                {
+                    msbuildPath = ExecuteShellCommand("which msbuild");
+                }
+                // Use 'where' on Windows systems
+                else if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                {
+                    msbuildPath = ExecuteShellCommand("where msbuild");
+                }
+
+                // Return the first result from the command
+                if (!string.IsNullOrEmpty(msbuildPath))
+                {
+                    msbuildPath = msbuildPath.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)[0];
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error finding MSBuild: {ex.Message}");
+            }
+
+            return msbuildPath;
+        }
+
+        private string ExecuteShellCommand(string command)
+        {
+            using (var process = new System.Diagnostics.Process())
+            {
+                process.StartInfo.FileName = "/bin/bash";
+                process.StartInfo.Arguments = $"-c \"{command}\"";
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.CreateNoWindow = true;
+                process.Start();
+
+                string result = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
+
+                return result.Trim();
+            }
         }
     }
 
