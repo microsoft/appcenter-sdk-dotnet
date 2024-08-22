@@ -216,12 +216,6 @@ extends:
           inputs:
             secureFile: 'appcenter-pair-key.snk'
 
-        - task: UseDotNet@2
-          inputs:
-            packageType: 'sdk'
-            version: '8.x'
-          displayName: 'Install .NET 8 SDK'
-
         - powershell: |
             # Run script
             .\scripts\strong-named-sign.cmd "$(Build.ArtifactStagingDirectory)\assemblies" "$(Agent.TempDirectory)\appcenter-pair-key.snk"
