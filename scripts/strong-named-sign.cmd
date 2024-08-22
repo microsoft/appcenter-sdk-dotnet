@@ -13,17 +13,21 @@ setlocal
 set pathToAssemblies=%1
 set privateKey=%2
 
-if not defined VSAPPIDDIR (
-    echo Error: VSAPPIDDIR environment variable is not set.
+for /f "delims=" %%i in ('powershell -Command "Get-ChildItem -Path C:\ -Recurse -Directory -Filter 'Microsoft Visual Studio' -ErrorAction SilentlyContinue -Force | Select-Object -First 1 -ExpandProperty FullName"') do set vsPath=%%i
+
+if not defined vsPath (
+    echo Error: Could not find Microsoft Visual Studio directory.
     exit /b 1
 )
 
-if not exist "%VSAPPIDDIR%..\Tools\VsDevCmd.bat" (
-    echo Error: VsDevCmd.bat not found at %VSAPPIDDIR%..\Tools\VsDevCmd.bat
+set VSDEVCMDDIR=%vsPath%\%VSVERSION%\Enterprise\Common7\IDE\Tools\VsDevCmd.bat
+
+if not exist "%VSDEVCMDDIR%" (
+    echo Error: VsDevCmd.bat not found at %VSDEVCMDDIR%
     exit /b 1
 )
 
-call "%VSAPPIDDIR%..\Tools\VsDevCmd.bat"
+call "%VSDEVCMDDIR%"
 if errorlevel 1 (
     echo Error: Failed to execute VsDevCmd.bat
     exit /b 1

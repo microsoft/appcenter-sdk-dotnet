@@ -165,6 +165,8 @@ extends:
       jobs:
       - job: Package
         timeoutInMinutes: 180
+        variables:
+          VSVERSION: 2022
         templateContext:
           outputs:
           - output: pipelineArtifact
