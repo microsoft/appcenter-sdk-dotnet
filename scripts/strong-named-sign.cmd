@@ -20,7 +20,7 @@ if not defined vsPath (
     exit /b 1
 )
 
-set VSDEVCMDDIR=%vsPath%\%VSVERSION%\Enterprise\Common7\IDE\Tools\VsDevCmd.bat
+set VSDEVCMDDIR=%vsPath%\%VSVERSION%\Enterprise\Common7\Tools\VsDevCmd.bat
 
 if not exist "%VSDEVCMDDIR%" (
     echo Error: VsDevCmd.bat not found at %VSDEVCMDDIR%
