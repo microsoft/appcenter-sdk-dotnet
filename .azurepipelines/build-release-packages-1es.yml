@@ -76,7 +76,7 @@ extends:
       dependsOn: []
       pool:
         name: Azure Pipelines
-        image: macos-11
+        image: macos-12
         os: macOS
         demands:
         - msbuild
@@ -99,9 +99,6 @@ extends:
             filePath: ./build.sh
             arguments: '"version.cake"  -t SetReleaseVersion'
 
-        - bash: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_12_0'
-          displayName: 'Use Xamarin Bundle 6.12.0'
-
         - task: JavaToolInstaller@0
           displayName: 'Use Java 11'
           inputs:
@@ -116,6 +113,12 @@ extends:
             SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
             RunAsPreJob: false
 
+        - task: UseDotNet@2
+          displayName: 'Install .NET SDK'
+          inputs:
+            packageType: 'sdk'
+            version: '8.x'
+
         - bash: 'dotnet workload install android ios macos maccatalyst'
           displayName: 'Install .NET workloads'
 
@@ -125,6 +128,19 @@ extends:
             target: PrepareAssemblies
             arguments: '--StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
             Version: 2.2.0
+
+        - task: Bash@3
+          displayName: 'Install Mono, Xamarin and MSBuild'
+          inputs:
+            targetType: 'inline'
+            script: |
+              brew update
+              brew install mono
+              brew install --cask xamarin-mac
+              brew install --cask xamarin-ios
+              brew install --cask xamarin-android
+              echo "Mono version: $(mono --version)"
+              echo "MSBuild version: $(msbuild -version)"
 
         - task: cake-build.cake.cake-build-task.Cake@2
           displayName: 'Prepare Xamarin Assemblies'
@@ -199,6 +215,12 @@ extends:
           displayName: 'Download the strong naming certificate'
           inputs:
             secureFile: 'appcenter-pair-key.snk'
+
+        - task: UseDotNet@2
+          inputs:
+            packageType: 'sdk'
+            version: '8.x'
+          displayName: 'Install .NET 8 SDK'
 
         - powershell: |
             # Run script
