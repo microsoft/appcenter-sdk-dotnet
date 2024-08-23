@@ -13,14 +13,16 @@ setlocal
 set pathToAssemblies=%1
 set privateKey=%2
 
-for /f "delims=" %%i in ('powershell -Command "Get-ChildItem -Path C:\ -Recurse -Directory -Filter 'Microsoft Visual Studio' -ErrorAction SilentlyContinue -Force | Select-Object -First 1 -ExpandProperty FullName"') do set vsPath=%%i
+for /f "usebackq tokens=*" %%i in (`vswhere -latest -version [%VSVERSION%] -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
+    set "VSINSTALLDIR=%%i"
+)
 
-if not defined vsPath (
-    echo Error: Could not find Microsoft Visual Studio directory.
+if not defined VSINSTALLDIR (
+    echo Error: Visual Studio not found for version %VSVERSION%.
     exit /b 1
 )
 
-set VSDEVCMDDIR=%vsPath%\%VSVERSION%\Enterprise\Common7\Tools\VsDevCmd.bat
+set VSDEVCMDDIR=%VSINSTALLDIR%\%VSVERSION%\Enterprise\Common7\Tools\VsDevCmd.bat
 
 if not exist "%VSDEVCMDDIR%" (
     echo Error: VsDevCmd.bat not found at %VSDEVCMDDIR%
