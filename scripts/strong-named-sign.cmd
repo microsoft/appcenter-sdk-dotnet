@@ -13,7 +13,7 @@ setlocal
 set pathToAssemblies=%1
 set privateKey=%2
 
-for /f "usebackq tokens=*" %%i in (`vswhere -latest -requires Microsoft.VisualStudio -property installationPath`) do (
+for /f "usebackq tokens=*" %%i in (`vswhere -latest -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
     set "VSINSTALLDIR=%%i"
 )
 
