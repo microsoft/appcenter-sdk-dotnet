@@ -18,8 +18,8 @@ if not exist "%pathToAssemblies%" (
     exit /b 1
 )
 
-set "programFilesDir=%ProgramFiles%\Microsoft Visual Studio"
-set "programFilesDir86=%ProgramFiles(x86)%\Microsoft Visual Studio"
+set "programFilesDir=%PROGRAMFILES%\Microsoft Visual Studio"
+set "programFilesDir86=%PROGRAMFILES(x86)%\Microsoft Visual Studio"
 
 for %%d in ("%programFilesDir%\%VSVERSION%" "%programFilesDir86%\%VSVERSION%") do (
     if exist "%%d\Enterprise\Common7\Tools\VsDevCmd.bat" (
@@ -33,6 +33,10 @@ if not defined VSDEVCMDDIR (
     echo Error: VsDevCmd.bat not found for version %VSVERSION%.
     exit /b 1
 )
+
+goto :found_vsdevcmd
+
+echo "Start VS Dev Command CMD from path: %VSDEVCMDDIR%"
 
 call "%VSDEVCMDDIR%"
 if errorlevel 1 (
