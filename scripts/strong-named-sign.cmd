@@ -10,20 +10,20 @@
 ::   [privateKey] - private key for strong-name sign.
 
 setlocal
-set "pathToAssemblies=%1"
-set "privateKey=%2"
+set pathToAssemblies=%1
+set privateKey=%2
 
-if not exist "%pathToAssemblies%" (
+if not exist %pathToAssemblies% (
     echo Error: The path to assemblies does not exist: %pathToAssemblies%
     exit /b 1
 )
 
-set "programFilesDir=%PROGRAMFILES%\Microsoft Visual Studio"
-set "programFilesDir86=%PROGRAMFILES(x86)%\Microsoft Visual Studio"
+set programFilesDir=%PROGRAMFILES%\Microsoft Visual Studio
+set programFilesDir86=%PROGRAMFILES(x86)%\Microsoft Visual Studio
 
 for %%d in ("%programFilesDir%\%VSVERSION%" "%programFilesDir86%\%VSVERSION%") do (
-    if exist "%%d\Enterprise\Common7\Tools\VsDevCmd.bat" (
-        set "VSDEVCMDDIR=%%d\Enterprise\Common7\Tools\VsDevCmd.bat"
+    if exist %%d\Enterprise\Common7\Tools\VsDevCmd.bat (
+        set VSDEVCMDDIR=%%d\Enterprise\Common7\Tools\VsDevCmd.bat
         goto :found_vsdevcmd
     )
 )
