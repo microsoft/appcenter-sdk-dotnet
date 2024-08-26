@@ -10,33 +10,33 @@
 ::   [privateKey] - private key for strong-name sign.
 
 setlocal
-set pathToAssemblies=%1
-set privateKey=%2
+set "pathToAssemblies=%1"
+set "privateKey=%2"
 
-for /f "usebackq tokens=*" %%i in (`vswhere -latest -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
-    set "VSINSTALLDIR=%%i"
-)
-
-if not defined VSINSTALLDIR (
-    echo Error: Visual Studio not found for version %VSVERSION%.
+if not exist "%pathToAssemblies%" (
+    echo Error: The path to assemblies does not exist: %pathToAssemblies%
     exit /b 1
 )
 
-set VSDEVCMDDIR=%VSINSTALLDIR%\%VSVERSION%\Enterprise\Common7\Tools\VsDevCmd.bat
+set "programFilesDir=%ProgramFiles%\Microsoft Visual Studio"
+set "programFilesDir86=%ProgramFiles(x86)%\Microsoft Visual Studio"
 
-if not exist "%VSDEVCMDDIR%" (
-    echo Error: VsDevCmd.bat not found at %VSDEVCMDDIR%
+for %%d in ("%programFilesDir%\%VSVERSION%" "%programFilesDir86%\%VSVERSION%") do (
+    if exist "%%d\Enterprise\Common7\Tools\VsDevCmd.bat" (
+        set "VSDEVCMDDIR=%%d\Enterprise\Common7\Tools\VsDevCmd.bat"
+        goto :found_vsdevcmd
+    )
+)
+
+:found_vsdevcmd
+if not defined VSDEVCMDDIR (
+    echo Error: VsDevCmd.bat not found for version %VSVERSION%.
     exit /b 1
 )
 
 call "%VSDEVCMDDIR%"
 if errorlevel 1 (
     echo Error: Failed to execute VsDevCmd.bat
-    exit /b 1
-)
-
-if not exist "%pathToAssemblies%" (
-    echo Error: The path to assemblies does not exist: %pathToAssemblies%
     exit /b 1
 )
 
