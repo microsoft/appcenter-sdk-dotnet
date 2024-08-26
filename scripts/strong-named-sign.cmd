@@ -34,8 +34,6 @@ if not defined VSDEVCMDDIR (
     exit /b 1
 )
 
-goto :found_vsdevcmd
-
 echo "Start VS Dev Command CMD from path: %VSDEVCMDDIR%"
 
 call "%VSDEVCMDDIR%"
