@@ -2,6 +2,10 @@
 
 ## Version 5.0.6 (Under development)
 
+### App Center
+
+* **[Fix]** Fix strong name signing
+
 ___
 
 ## Version 5.0.5
