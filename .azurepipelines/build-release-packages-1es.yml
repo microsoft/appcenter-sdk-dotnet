@@ -223,11 +223,16 @@ extends:
             .\scripts\strong-named-sign.cmd "$(Build.ArtifactStagingDirectory)\assemblies" "$(Agent.TempDirectory)\appcenter-pair-key.snk"
           displayName: 'Sign assemblies with strong naming'
 
-        - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@2
+        - task: EsrpCodeSigning@5
           displayName: 'Sign Assemblies'
           inputs:
-            ConnectedServiceName: 'MobileCenter-ESRP'
+            ConnectedServiceName: 'App Center - Code Signing (WIF)'
             FolderPath: '$(Build.ArtifactStagingDirectory)\assemblies'
+            AppRegistrationClientId: '56ecf8eb-6143-4da0-9a53-716e9c2e6e86'
+            AppRegistrationTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
+            AuthAKVName: 'code-signing-poduction'
+            AuthCertName: 'appcenter-codesigning-auth'
+            AuthSignCertName: 'CodeSigning-Certificate-Managed'            
             Pattern: '*.dll,*.winmd'
             signConfigType: inlineSignParams
             inlineOperation: |
@@ -311,11 +316,16 @@ extends:
             arguments: '--MainPackage=true --AssembliesPath="$(Build.ArtifactStagingDirectory)\assemblies" --StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
             Version: 2.2.0
 
-        - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@2
+        - task: EsrpCodeSigning@5
           displayName: 'Sign Packages'
           enabled: true
           inputs:
-            ConnectedServiceName: 'MobileCenter-ESRP'
+            ConnectedServiceName: 'App Center - Code Signing (WIF)'
+            AppRegistrationClientId: '56ecf8eb-6143-4da0-9a53-716e9c2e6e86'
+            AppRegistrationTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
+            AuthAKVName: 'code-signing-poduction'
+            AuthCertName: 'appcenter-codesigning-auth'
+            AuthSignCertName: 'CodeSigning-Certificate-Managed'           
             FolderPath: '$(System.DefaultWorkingDirectory)/'
             Pattern: 'Microsoft.AppCenter*.nupkg'
             signConfigType: inlineSignParams
