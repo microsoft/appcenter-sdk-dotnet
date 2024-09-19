@@ -76,7 +76,7 @@ extends:
       dependsOn: []
       pool:
         name: Azure Pipelines
-        image: macos-11
+        image: macos-12
         os: macOS
         demands:
         - msbuild
