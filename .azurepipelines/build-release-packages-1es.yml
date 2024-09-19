@@ -205,53 +205,53 @@ extends:
             .\scripts\strong-named-sign.cmd "$(Build.ArtifactStagingDirectory)\assemblies" "$(Agent.TempDirectory)\appcenter-pair-key.snk"
           displayName: 'Sign assemblies with strong naming'
 
-        - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@2
-          displayName: 'Sign Assemblies'
-          inputs:
-            ConnectedServiceName: 'App Center - Code Signing (WIF)'
-            FolderPath: '$(Build.ArtifactStagingDirectory)\assemblies'
-            Pattern: '*.dll,*.winmd'
-            signConfigType: inlineSignParams
-            inlineOperation: |
-              [
-              {
-              "keyCode": "CP-230012",
-              "operationSetCode": "SigntoolSign",
-              "parameters": [
-              {
-              "parameterName": "OpusName",
-              "parameterValue": "TestSign"
-              },
-              {
-              "parameterName": "OpusInfo",
-              "parameterValue": "http://test"
-              },
-              {
-              "parameterName": "PageHash",
-              "parameterValue": "/NPH"
-              },
-              {
-              "parameterName": "FileDigest",
-              "parameterValue": "/fd sha256"
-              },
-              {
-              "parameterName": "TimeStamp",
-              "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
-              }
-              ],
-              "toolName": "signtool.exe",
-              "toolVersion": "6.2.9304.0"
-              },
-              {
-              "keyCode": "CP-230012",
-              "operationSetCode": "SigntoolVerify",
-              "parameters": [],
-              "toolName": "signtool.exe",
-              "toolVersion": "6.2.9304.0"
-              }
-              ]
-            SessionTimeout: 45
-            VerboseLogin: true
+        # - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@2
+        #   displayName: 'Sign Assemblies'
+        #   inputs:
+        #     ConnectedServiceName: 'MobileCenter-ESRP'
+        #     FolderPath: '$(Build.ArtifactStagingDirectory)\assemblies'
+        #     Pattern: '*.dll,*.winmd'
+        #     signConfigType: inlineSignParams
+        #     inlineOperation: |
+        #       [
+        #       {
+        #       "keyCode": "CP-230012",
+        #       "operationSetCode": "SigntoolSign",
+        #       "parameters": [
+        #       {
+        #       "parameterName": "OpusName",
+        #       "parameterValue": "TestSign"
+        #       },
+        #       {
+        #       "parameterName": "OpusInfo",
+        #       "parameterValue": "http://test"
+        #       },
+        #       {
+        #       "parameterName": "PageHash",
+        #       "parameterValue": "/NPH"
+        #       },
+        #       {
+        #       "parameterName": "FileDigest",
+        #       "parameterValue": "/fd sha256"
+        #       },
+        #       {
+        #       "parameterName": "TimeStamp",
+        #       "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+        #       }
+        #       ],
+        #       "toolName": "signtool.exe",
+        #       "toolVersion": "6.2.9304.0"
+        #       },
+        #       {
+        #       "keyCode": "CP-230012",
+        #       "operationSetCode": "SigntoolVerify",
+        #       "parameters": [],
+        #       "toolName": "signtool.exe",
+        #       "toolVersion": "6.2.9304.0"
+        #       }
+        #       ]
+        #     SessionTimeout: 45
+        #     VerboseLogin: true
 
         - task: CopyFiles@2
           displayName: 'Copy assemblies to bin'
@@ -293,32 +293,32 @@ extends:
             arguments: '--MainPackage=true --AssembliesPath="$(Build.ArtifactStagingDirectory)\assemblies" --StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
             Version: 2.2.0
 
-        - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@2
-          displayName: 'Sign Packages'
-          enabled: false
-          inputs:
-            ConnectedServiceName: 'App Center - Code Signing (WIF)'
-            FolderPath: '$(System.DefaultWorkingDirectory)/'
-            Pattern: 'Microsoft.AppCenter*.nupkg'
-            signConfigType: inlineSignParams
-            inlineOperation: |
-              [ 
-              {
-              "keyCode": "CP-401405",
-              "operationSetCode": "NuGetSign",
-              "parameters": [ ],
-              "toolName": "sign",
-              "toolVersion": "1.0"
-              },
-              {
-              "keyCode": "CP-401405",
-              "operationSetCode": "NuGetVerify",
-              "parameters": [ ],
-              "toolName": "sign",
-              "toolVersion": "1.0"
-              }
-              ]
-            SessionTimeout: 45
+        # - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@2
+        #   displayName: 'Sign Packages'
+        #   enabled: false
+        #   inputs:
+        #     ConnectedServiceName: 'MobileCenter-ESRP'
+        #     FolderPath: '$(System.DefaultWorkingDirectory)/'
+        #     Pattern: 'Microsoft.AppCenter*.nupkg'
+        #     signConfigType: inlineSignParams
+        #     inlineOperation: |
+        #       [ 
+        #       {
+        #       "keyCode": "CP-401405",
+        #       "operationSetCode": "NuGetSign",
+        #       "parameters": [ ],
+        #       "toolName": "sign",
+        #       "toolVersion": "1.0"
+        #       },
+        #       {
+        #       "keyCode": "CP-401405",
+        #       "operationSetCode": "NuGetVerify",
+        #       "parameters": [ ],
+        #       "toolName": "sign",
+        #       "toolVersion": "1.0"
+        #       }
+        #       ]
+        #     SessionTimeout: 45
 
         - task: CopyFiles@2
           displayName: 'Copy Packages'
