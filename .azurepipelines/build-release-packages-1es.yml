@@ -295,7 +295,7 @@ extends:
 
         - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@2
           displayName: 'Sign Packages'
-          enabled: true
+          enabled: false
           inputs:
             ConnectedServiceName: 'MobileCenter-ESRP'
             FolderPath: '$(System.DefaultWorkingDirectory)/'
