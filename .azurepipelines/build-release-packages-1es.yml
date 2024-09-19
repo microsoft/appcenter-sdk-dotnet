@@ -208,7 +208,7 @@ extends:
         - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@2
           displayName: 'Sign Assemblies'
           inputs:
-            ConnectedServiceName: 'MobileCenter-ESRP'
+            ConnectedServiceName: 'App Center - Code Signing (WIF)'
             FolderPath: '$(Build.ArtifactStagingDirectory)\assemblies'
             Pattern: '*.dll,*.winmd'
             signConfigType: inlineSignParams
@@ -297,7 +297,7 @@ extends:
           displayName: 'Sign Packages'
           enabled: false
           inputs:
-            ConnectedServiceName: 'MobileCenter-ESRP'
+            ConnectedServiceName: 'App Center - Code Signing (WIF)'
             FolderPath: '$(System.DefaultWorkingDirectory)/'
             Pattern: 'Microsoft.AppCenter*.nupkg'
             signConfigType: inlineSignParams
