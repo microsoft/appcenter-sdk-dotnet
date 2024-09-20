@@ -99,9 +99,6 @@ extends:
             filePath: ./build.sh
             arguments: '"version.cake"  -t SetReleaseVersion'
 
-        - bash: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_12_0'
-          displayName: 'Use Xamarin Bundle 6.12.0'
-
         - task: JavaToolInstaller@0
           displayName: 'Use Java 11'
           inputs:
@@ -118,6 +115,9 @@ extends:
 
         - bash: 'dotnet workload install android ios macos maccatalyst'
           displayName: 'Install .NET workloads'
+
+        - bash: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_12_0'
+          displayName: 'Use Xamarin Bundle 6.12.0'
 
         - task: cake-build.cake.cake-build-task.Cake@2
           displayName: 'Prepare DotNet Assemblies'
