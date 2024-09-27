@@ -43,6 +43,8 @@ Task("SetReleaseVersion").Does(() =>
     // Get base version of .NET standard core
     var releaseVersion = GetBaseSemanticVersion();
 
+    Warning($"Release version: {releaseVersion}");
+
     // Append suffix if any is provided for this release
     if (prereleaseSuffix != null) {
         releaseVersion = $"{releaseVersion}-{prereleaseSuffix}";
