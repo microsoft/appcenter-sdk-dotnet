@@ -5,7 +5,7 @@
 ### App Center
 
 * **[Fix]** Fix strong name signing.
-* **[Fix]** Set IncludeSourceRevisionInInformationalVersion=false for UWP and Windows desktop SDK.
+* **[Fix]** Remove commit hash from `sdkVersion` log field for UWP and Windows desktop SDK.
 
 ___
 
