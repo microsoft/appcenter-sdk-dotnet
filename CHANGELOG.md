@@ -4,7 +4,8 @@
 
 ### App Center
 
-* **[Fix]** Fix strong name signing
+* **[Fix]** Fix strong name signing.
+* **[Fix]** Set IncludeSourceRevisionInInformationalVersion=false for UWP and Windows desktop SDK.
 
 ___
 
