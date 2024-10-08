@@ -3,7 +3,7 @@
     <sdkInfo>
         <sdkVersion>5.0.6-SNAPSHOT</sdkVersion>
         <appleVersion>5.0.5</appleVersion>
-        <androidVersion>5.0.4</androidVersion>
+        <androidVersion>5.0.5</androidVersion>
     </sdkInfo>
     <group id="ios" buildGroup="mac">
         <assembly path="SDK/AppCenter/Microsoft.AppCenter.Apple/bin/Release/xamarin.ios/Microsoft.AppCenter.dll"/>
