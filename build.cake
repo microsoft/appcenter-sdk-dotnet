@@ -102,7 +102,8 @@ Task("Externals-Android")
 
     // fix since aar files contain version name instead of release string
     foreach (var file in files)
-    {   var filename = file.GetFilename();
+    {
+        var filename = file.GetFilename().ToString();
         if (filename.Contains($"{VersionReader.AndroidVersion}"))
         {
             var replacedName = filename.Replace($"{VersionReader.AndroidVersion}", "release");
