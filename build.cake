@@ -98,7 +98,7 @@ Task("Externals-Android")
 
     // Move binaries to externals/android so that linked files don't have versions
     // in their paths
-    var files = GetFiles($"{AndroidExternals}/*/*");
+    var files = GetFiles($"{AndroidExternals}/*");
 
     // fix since aar files contain version name instead of release string
     foreach (var file in files)
@@ -111,7 +111,6 @@ Task("Externals-Android")
         }
     }
 
-    CopyFiles(files, AndroidExternals);
 }).OnError(HandleError);
 
 public static void UnzipFile(this ICakeContext context, string zipFile, string outputPath)
