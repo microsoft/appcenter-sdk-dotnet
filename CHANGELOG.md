@@ -10,6 +10,9 @@
 
 * **[Fix]** Remove commit hash from `sdkVersion` log field for UWP and Windows desktop SDK.
 
+#### Android
+
+* **[Improvement]** Update native SDK to version [5.0.5](https://github.com/microsoft/appcenter-sdk-android/releases/tag/5.0.5)
 ___
 
 ## Version 5.0.5
