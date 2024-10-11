@@ -76,7 +76,7 @@ extends:
       dependsOn: []
       pool:
         name: Azure Pipelines
-        image: macos-11
+        image: macos-12
         os: macOS
         demands:
         - msbuild
@@ -99,9 +99,6 @@ extends:
             filePath: ./build.sh
             arguments: '"version.cake"  -t SetReleaseVersion'
 
-        - bash: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_12_0'
-          displayName: 'Use Xamarin Bundle 6.12.0'
-
         - task: JavaToolInstaller@0
           displayName: 'Use Java 11'
           inputs:
@@ -116,6 +113,12 @@ extends:
             SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
             RunAsPreJob: false
 
+        - task: UseDotNet@2
+          displayName: 'Install .NET SDK'
+          inputs:
+            packageType: 'sdk'
+            version: '8.x'
+
         - bash: 'dotnet workload install android ios macos maccatalyst'
           displayName: 'Install .NET workloads'
 
@@ -125,6 +128,19 @@ extends:
             target: PrepareAssemblies
             arguments: '--StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
             Version: 2.2.0
+
+        - task: Bash@3
+          displayName: 'Install Mono, Xamarin and MSBuild'
+          inputs:
+            targetType: 'inline'
+            script: |
+              brew update
+              brew install mono
+              brew install --cask xamarin-mac
+              brew install --cask xamarin-ios
+              brew install --cask xamarin-android
+              echo "Mono version: $(mono --version)"
+              echo "MSBuild version: $(msbuild -version)"
 
         - task: cake-build.cake.cake-build-task.Cake@2
           displayName: 'Prepare Xamarin Assemblies'
@@ -149,6 +165,8 @@ extends:
       jobs:
       - job: Package
         timeoutInMinutes: 180
+        variables:
+          VSVERSION: 2022
         templateContext:
           outputs:
           - output: pipelineArtifact
@@ -205,11 +223,16 @@ extends:
             .\scripts\strong-named-sign.cmd "$(Build.ArtifactStagingDirectory)\assemblies" "$(Agent.TempDirectory)\appcenter-pair-key.snk"
           displayName: 'Sign assemblies with strong naming'
 
-        - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@2
+        - task: EsrpCodeSigning@5
           displayName: 'Sign Assemblies'
           inputs:
-            ConnectedServiceName: 'MobileCenter-ESRP'
+            ConnectedServiceName: 'App Center - Code Signing (WIF)'
             FolderPath: '$(Build.ArtifactStagingDirectory)\assemblies'
+            AppRegistrationClientId: '56ecf8eb-6143-4da0-9a53-716e9c2e6e86'
+            AppRegistrationTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
+            AuthAKVName: 'code-signing-poduction'
+            AuthCertName: 'appcenter-codesigning-auth'
+            AuthSignCertName: 'CodeSigning-Certificate-Managed'            
             Pattern: '*.dll,*.winmd'
             signConfigType: inlineSignParams
             inlineOperation: |
@@ -293,11 +316,16 @@ extends:
             arguments: '--MainPackage=true --AssembliesPath="$(Build.ArtifactStagingDirectory)\assemblies" --StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
             Version: 2.2.0
 
-        - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@2
+        - task: EsrpCodeSigning@5
           displayName: 'Sign Packages'
           enabled: true
           inputs:
-            ConnectedServiceName: 'MobileCenter-ESRP'
+            ConnectedServiceName: 'App Center - Code Signing (WIF)'
+            AppRegistrationClientId: '56ecf8eb-6143-4da0-9a53-716e9c2e6e86'
+            AppRegistrationTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
+            AuthAKVName: 'code-signing-poduction'
+            AuthCertName: 'appcenter-codesigning-auth'
+            AuthSignCertName: 'CodeSigning-Certificate-Managed'           
             FolderPath: '$(System.DefaultWorkingDirectory)/'
             Pattern: 'Microsoft.AppCenter*.nupkg'
             signConfigType: inlineSignParams

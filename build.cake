@@ -98,13 +98,27 @@ Task("Externals-Android")
 
     // Move binaries to externals/android so that linked files don't have versions
     // in their paths
-    var files = GetFiles($"{AndroidExternals}/*/*");
-    CopyFiles(files, AndroidExternals);
+
+    var androidExternalsPath = System.IO.Path.Combine(AndroidExternals, "*");
+    var files = GetFiles(androidExternalsPath);
+
+    // fix since aar files contain version name instead of release string
+    foreach (var file in files)
+    {
+        var filename = file.GetFilename().ToString();
+        if (filename.Contains($"{VersionReader.AndroidVersion}"))
+        {
+            var replacedName = filename.Replace($"{VersionReader.AndroidVersion}", "release");
+            var newPath = System.IO.Path.Combine(AndroidExternals, replacedName);
+            MoveFile(file, newPath);
+        }
+    }
+
 }).OnError(HandleError);
 
 public static void UnzipFile(this ICakeContext context, string zipFile, string outputPath)
 {
-    using(var process = context.StartAndReturnProcess("unzip",
+    using (var process = context.StartAndReturnProcess("unzip",
         new ProcessSettings
         {
             Arguments = new ProcessArgumentBuilder()
@@ -159,10 +173,10 @@ Task("Externals-Apple")
         var filename = file.GetFilename();
         MoveFile(file, $"{iosExternals}/{filename}.a");
     }
-    
+
     // Copy Distribute resource bundle and copy it to the externals directory.
     var distributeBundle = "AppCenterDistributeResources.bundle";
-    if(DirectoryExists($"{iosFrameworksLocation}/{distributeBundle}"))
+    if (DirectoryExists($"{iosFrameworksLocation}/{distributeBundle}"))
     {
         MoveDirectory($"{iosFrameworksLocation}/{distributeBundle}", $"{iosExternals}/{distributeBundle}");
     }
@@ -178,10 +192,10 @@ Task("Externals-Apple")
         var filename = file.GetFilename();
         MoveFile(file, $"{maccatalystExternals}/{filename}.a");
     }
-    
+
     // Copy Distribute resource bundle and copy it to the externals directory.
     distributeBundle = "AppCenterDistributeResources.bundle";
-    if(DirectoryExists($"{xcframeworkLocation}/{distributeBundle}"))
+    if (DirectoryExists($"{xcframeworkLocation}/{distributeBundle}"))
     {
         MoveDirectory($"{xcframeworkLocation}/{distributeBundle}", $"{maccatalystExternals}/{distributeBundle}");
     }
@@ -216,7 +230,7 @@ Task("Default")
 
 // Pack NuGets for appropriate platform
 Task("NuGet")
-    .Does(()=>
+    .Does(() =>
 {
     CleanDirectory("output");
 
@@ -238,11 +252,12 @@ Task("NuGet")
         ReplaceTextInFiles(nuspecPath, "$version$", module.NuGetVersion);
         foreach (var group in AssemblyGroups)
         {
-            var groupFolder = MakeAbsolute((DirectoryPath) group.Folder).FullPath;
+            var groupFolder = MakeAbsolute((DirectoryPath)group.Folder).FullPath;
             ReplaceTextInFiles(nuspecPath, group.NuspecKey, groupFolder);
         }
         Information("Building a NuGet package for " + module.DotNetModule + " version " + module.NuGetVersion);
-        NuGetPack(File(nuspecPath), new NuGetPackSettings {
+        NuGetPack(File(nuspecPath), new NuGetPackSettings
+        {
             Verbosity = NuGetVerbosity.Detailed,
             Version = module.NuGetVersion,
             RequireLicenseAcceptance = true
