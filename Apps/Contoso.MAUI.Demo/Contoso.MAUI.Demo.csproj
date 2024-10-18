@@ -34,6 +34,10 @@
     <NoWarn></NoWarn>
     <NoStdLib>false</NoStdLib>
   </PropertyGroup>
+  <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+    <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
+		<ForceSimulatorX64ArchitectureInIDE>true</ForceSimulatorX64ArchitectureInIDE>
+  </PropertyGroup>
   <ItemGroup>
     <!-- App Icon -->
     <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
