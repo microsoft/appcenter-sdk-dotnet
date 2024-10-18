@@ -82,7 +82,7 @@ public partial class AppCenterContentPage : ContentPage
     private void SaveDataResidencyRegion_Clicked(object sender, System.EventArgs e)
     {
         var inputText = DataResidencyRegion.Text;
-        AppCenter.PlatformSetDataResidencyRegion(inputText);
+        AppCenter.SetDataResidencyRegion(inputText);
         Preferences.Set(Constants.DataResidencyRegion, inputText);
     }
 
