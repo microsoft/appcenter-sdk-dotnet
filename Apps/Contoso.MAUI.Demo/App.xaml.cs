@@ -77,7 +77,7 @@ public partial class App : Application
             {
                 AppCenter.SetMaxStorageSizeAsync(Preferences.Get(Constants.StorageMaxSize, 0));
             }
-            AppCenter.PlatformSetDataResidencyRegion(Preferences.Get(Constants.DataResidencyRegion, null));
+            AppCenter.SetDataResidencyRegion(Preferences.Get(Constants.DataResidencyRegion, null));
 
             var appSecret = GetTokensString();
             AppCenter.Start(appSecret, typeof(Analytics), typeof(Crashes), typeof(Distribute));
