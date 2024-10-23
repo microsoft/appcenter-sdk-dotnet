@@ -1,6 +1,9 @@
 # App Center SDK for .NET Change Log
 
-## Version 5.0.6 (Under development)
+## Version 5.0.7 (Under development)
+
+___
+## Version 5.0.6
 
 ### App Center
 
@@ -10,6 +13,9 @@
 
 * **[Fix]** Remove commit hash from `sdkVersion` log field for UWP and Windows desktop SDK.
 
+#### Android
+
+* **[Improvement]** Update native SDK to version [5.0.5](https://github.com/microsoft/appcenter-sdk-android/releases/tag/5.0.5)
 ___
 
 ## Version 5.0.5
