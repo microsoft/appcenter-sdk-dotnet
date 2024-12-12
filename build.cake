@@ -31,13 +31,20 @@ var ExternalsDirectory = "externals";
 var AndroidExternals = $"{ExternalsDirectory}/android";
 var AppleExternals = $"{ExternalsDirectory}/apple";
 
-var SdkStorageUrl = "https://mobilecentersdkdev.blob.core.windows.net/sdk/";
+var StorageAccount = "mobilecentersdkdev";
+var ContainerName = "sdk";
+var SdkStorageUrl = $"https://{StorageAccount}.blob.core.windows.net/{ContainerName}/";
 
 // Need to read versions before setting url values
 VersionReader.ReadVersions();
-var AndroidUrl = $"{SdkStorageUrl}AppCenter-SDK-Android-{VersionReader.AndroidVersion}.zip";
-var AppleUrl = $"{SdkStorageUrl}AppCenter-SDK-Apple-{VersionReader.AppleVersion}.zip";
-var AppleXCFrameworkUrl = $"{SdkStorageUrl}AppCenter-SDK-Apple-XCFramework-{VersionReader.AppleVersion}.zip";
+var AndroidFileName = $"AppCenter-SDK-Android-{VersionReader.AndroidVersion}.zip";
+var AndroidUrl = $"{SdkStorageUrl}{AndroidFileName}";
+
+var AppleFileName = $"AppCenter-SDK-Apple-{VersionReader.AppleVersion}.zip";
+var AppleUrl = $"{SdkStorageUrl}{AppleFileName}";
+
+var AppleXCFrameworkFileName = $"AppCenter-SDK-Apple-XCFramework-{VersionReader.AppleVersion}.zip";
+var AppleXCFrameworkUrl = $"{SdkStorageUrl}{AppleXCFrameworkFileName}";
 
 // Task Target for build
 var Target = Argument("Target", Argument("t", "Default"));
@@ -90,10 +97,8 @@ Task("Externals-Android")
     CleanDirectory(AndroidExternals);
 
     // Download zip file.
-    var authParams = Argument("StorageAuthParams", EnvironmentVariable("STORAGE_AUTH_PARAMS"));
-    var artifactUrl = $"{AndroidUrl}{authParams}";
     using (VerboseVerbosity())
-        DownloadFile(artifactUrl, zipFile);
+        DownloadAzureBlob(StorageAccount, ContainerName, AndroidFileName, zipFile);
     Unzip(zipFile, AndroidExternals);
 
     // Move binaries to externals/android so that linked files don't have versions
@@ -148,11 +153,10 @@ Task("Externals-Apple")
     CleanDirectory(AppleExternals);
 
     // Download framework and xcframework files.
-    var authParams = Argument("StorageAuthParams", EnvironmentVariable("STORAGE_AUTH_PARAMS"));
     using (VerboseVerbosity())
     {
-        DownloadFile($"{AppleUrl}{authParams}", zipFile);
-        DownloadFile($"{AppleXCFrameworkUrl}{authParams}", zipXCFrameworkFile);
+        DownloadAzureBlob(StorageAccount, ContainerName, AppleFileName, zipFile);
+        DownloadAzureBlob(StorageAccount, ContainerName, AppleXCFrameworkFileName, zipXCFrameworkFile);
     }
 
     Context.UnzipFile(zipFile, AppleExternals);

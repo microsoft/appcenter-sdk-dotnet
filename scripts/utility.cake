@@ -105,3 +105,9 @@ private T GetHandledResponseJson<T>(Func<string, T> responseHandler, HttpWebRequ
         return responseHandler(reader.ReadToEnd());
     }
 }
+
+void DownloadAzureBlob(string storageAccount, string containerName, string blobName, string destinationPath)
+{
+    var command = $"az storage blob download --account-name {storageAccount} --container-name {containerName} --name {blobName} --file {destinationPath} --auth-mode key";
+    StartProcess("az", command);
+}
