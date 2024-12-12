@@ -97,8 +97,8 @@ Task("Externals-Android")
     CleanDirectory(AndroidExternals);
 
     // Download zip file.
-    using (VerboseVerbosity())
-        DownloadAzureBlob(StorageAccount, ContainerName, AndroidFileName, zipFile);
+    // using (VerboseVerbosity())
+    //     DownloadAzureBlob(StorageAccount, ContainerName, AndroidFileName, zipFile);
     Unzip(zipFile, AndroidExternals);
 
     // Move binaries to externals/android so that linked files don't have versions
@@ -153,11 +153,11 @@ Task("Externals-Apple")
     CleanDirectory(AppleExternals);
 
     // Download framework and xcframework files.
-    using (VerboseVerbosity())
-    {
-        DownloadAzureBlob(StorageAccount, ContainerName, AppleFileName, zipFile);
-        DownloadAzureBlob(StorageAccount, ContainerName, AppleXCFrameworkFileName, zipXCFrameworkFile);
-    }
+    // using (VerboseVerbosity())
+    // {
+    //     DownloadAzureBlob(StorageAccount, ContainerName, AppleFileName, zipFile);
+    //     DownloadAzureBlob(StorageAccount, ContainerName, AppleXCFrameworkFileName, zipXCFrameworkFile);
+    // }
 
     Context.UnzipFile(zipFile, AppleExternals);
     Context.UnzipFile(zipXCFrameworkFile, XCFrameworkOutputDir);
