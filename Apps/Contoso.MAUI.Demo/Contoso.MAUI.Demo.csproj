@@ -19,8 +19,7 @@
     <SupportedOSPlatformVersion
       Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion
-      Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
-      14.0</SupportedOSPlatformVersion>
+      Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion
       Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion
@@ -71,7 +70,8 @@
     <None Remove="Platforms\iOS\Resources\Images\lightning.png" />
     <None Remove="Platforms\iOS\Resources\Images\socket.png" />
   </ItemGroup>
-  <ItemGroup>
+
+  <ItemGroup Condition=" '$(Configuration)'=='Release' ">
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.6" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.6" />
   </ItemGroup>
@@ -81,4 +81,33 @@
   <ItemGroup Condition=" '$(Configuration)'=='GooglePlay' ">
     <PackageReference Include="Microsoft.AppCenter.DistributePlay" Version="5.0.6" />
   </ItemGroup>
+
+  <!-- When using debug build specify the target framework to import appropriate platform SDKs otherwise build wont compile.
+  e.g. dotnet build -t:Run  -f net8.0-android  -c Debug -p:TargetFrameworks=net8.0-android  -->
+
+  <ItemGroup
+    Condition=" '$(Configuration)'=='Debug'  And !$(TargetFramework.Contains('-android')) ">
+    <ProjectReference
+      Include="..\..\SDK\AppCenter\Microsoft.AppCenter.Apple\Microsoft.AppCenter.Apple.csproj" />
+    <ProjectReference
+      Include="..\..\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Apple\Microsoft.AppCenter.Analytics.Apple.csproj" />
+    <ProjectReference
+      Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Apple\Microsoft.AppCenter.Crashes.Apple.csproj" />
+    <ProjectReference
+     Condition=" $(TargetFramework.Contains('-ios')) "
+      Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Apple\Microsoft.AppCenter.Distribute.Apple.csproj" />
+  </ItemGroup>
+
+  <ItemGroup
+    Condition=" '$(Configuration)'=='Debug' And $(TargetFramework.Contains('-android'))">
+    <ProjectReference
+      Include="..\..\SDK\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.csproj" />
+    <ProjectReference
+      Include="..\..\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Android\Microsoft.AppCenter.Analytics.Android.csproj" />
+    <ProjectReference
+      Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Android\Microsoft.AppCenter.Crashes.Android.csproj" />
+    <ProjectReference
+      Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Android\Microsoft.AppCenter.Distribute.Android.csproj" />
+  </ItemGroup>
+
 </Project>
