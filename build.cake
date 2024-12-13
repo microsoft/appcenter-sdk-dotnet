@@ -94,7 +94,7 @@ Task("Externals-Android")
     {
         return;
     }
-    CleanDirectory(AndroidExternals);
+    // CleanDirectory(AndroidExternals);
 
     // Download zip file.
     // using (VerboseVerbosity())
@@ -150,7 +150,7 @@ Task("Externals-Apple")
     var zipXCFrameworkFile = System.IO.Path.Combine(AppleExternals, "apple-xcframework.zip");
     var XCFrameworkOutputDir = System.IO.Path.Combine(AppleExternals, "xcframework");
 
-    CleanDirectory(AppleExternals);
+    // CleanDirectory(AppleExternals);
 
     // Download framework and xcframework files.
     // using (VerboseVerbosity())
