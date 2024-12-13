@@ -90,10 +90,7 @@ Task("Externals-Android")
     .Does(() =>
 {
     var zipFile = System.IO.Path.Combine(AndroidExternals, "android.zip");
-    if (FileExists(zipFile))
-    {
-        return;
-    }
+
     // CleanDirectory(AndroidExternals);
 
     // Download zip file.
