@@ -226,7 +226,7 @@ extends:
         - task: EsrpCodeSigning@5
           displayName: 'Sign Assemblies'
           inputs:
-            ConnectedServiceName: 'App Center - Code Signing (WIF)'
+            ConnectedServiceName: 'App Center - Code Signing (WIF) NEW'
             FolderPath: '$(Build.ArtifactStagingDirectory)\assemblies'
             AppRegistrationClientId: '56ecf8eb-6143-4da0-9a53-716e9c2e6e86'
             AppRegistrationTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
