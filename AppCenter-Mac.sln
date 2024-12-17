@@ -21,18 +21,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Crashes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{274AB35C-68B4-4EFA-803B-8A7CFEC25EFC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contoso.Forms.Puppet", "Contoso.Forms.Puppet", "{088DA4BA-0AFB-4690-A639-7559BE14D0C8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contoso.Forms.Puppet", "Apps\Contoso.Forms.Puppet\Contoso.Forms.Puppet\Contoso.Forms.Puppet.csproj", "{92313C69-3BC4-4276-A1C8-100C86183F12}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Forms.Puppet.Droid", "Apps\Contoso.Forms.Puppet\Contoso.Forms.Puppet.Droid\Contoso.Forms.Puppet.Droid.csproj", "{CBA94940-CBFA-4342-AA71-856FD863DDD0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Forms.Puppet.iOS", "Apps\Contoso.Forms.Puppet\Contoso.Forms.Puppet.iOS\Contoso.Forms.Puppet.iOS.csproj", "{B4CF8897-4030-445F-81C4-6DBA81F26AAC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Android.Puppet", "Apps\Contoso.Android.Puppet\Contoso.Android.Puppet.csproj", "{B189FF90-B901-4DA6-98EE-34474032FFCC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.iOS.Puppet", "Apps\Contoso.iOS.Puppet\Contoso.iOS.Puppet.csproj", "{7595F47D-11D6-4716-BDE6-264C1AFBFFB5}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppCenterDistribute", "AppCenterDistribute", "{B0562DBB-3784-4F1C-A355-61CFD44ED963}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Distribute.Android", "SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Android\Microsoft.AppCenter.Distribute.Android.csproj", "{AD38DEE9-8A74-4B04-93C3-0831B55E7254}"
@@ -40,10 +28,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Distribute", "SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute\Microsoft.AppCenter.Distribute.csproj", "{41FEBC72-C12B-47E1-B6F6-51D50158C825}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contoso.UtilClassLibrary", "Apps\Contoso.UtilClassLibrary\Contoso.UtilClassLibrary.csproj", "{D0FC73E2-AE97-495B-B41B-61CD422A8AE9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.MacOS.Puppet", "Apps\Contoso.MacOS.Puppet\Contoso.MacOS.Puppet.csproj", "{83AAE9C7-04A6-447E-AE5F-07C8E0A509A8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Forms.Puppet.MacOS", "Apps\Contoso.Forms.Puppet\Contoso.Forms.Puppet.MacOS\Contoso.Forms.Puppet.MacOS.csproj", "{C5B1AC34-F9F1-4C05-AF7A-CB84C16C5481}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Android", "SDK\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.csproj", "{B4868C2D-9475-4AF9-9E23-5501EA6468E7}"
 EndProject
