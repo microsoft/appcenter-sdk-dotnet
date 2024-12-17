@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <!-- In order to run demo app with debugger use only one target framework -->
     <TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">
       $(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
