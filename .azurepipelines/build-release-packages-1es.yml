@@ -44,11 +44,13 @@ extends:
         - checkout: self
           fetchTags: false
 
-        - task: AzureKeyVault@2
+        - task: DownloadPipelineArtifact@2
+          displayName: 'Download apple artifacts'
           inputs:
-            azureSubscription: 'AC - Dev Infra & Build Pool'
-            KeyVaultName: 'mobile-center-sdk'
-            SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
+            buildType: 'specific'
+            name: 'c5683969-a866-4281-b5c4-3a18f2414bc6'
+            pipeline: '4611'
+            patterns:  '**/Release/!(*carthage*)*.zip'
             RunAsPreJob: false
 
         - task: PowerShell@2
