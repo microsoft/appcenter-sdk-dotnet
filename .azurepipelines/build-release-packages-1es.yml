@@ -48,7 +48,7 @@ extends:
           displayName: 'Download apple artifacts'
           inputs:
             buildType: 'specific'
-            name: 'c5683969-a866-4281-b5c4-3a18f2414bc6'
+            project: 'c5683969-a866-4281-b5c4-3a18f2414bc6'
             pipeline: '4611'
             patterns:  '**/Release/!(*carthage*)*.zip'
             RunAsPreJob: false
