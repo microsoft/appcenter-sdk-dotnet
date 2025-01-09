@@ -126,7 +126,7 @@ Task("Externals-Apple")
     .WithCriteria(() => IsRunningOnUnix())
     .Does(() =>
 {
-    var files = GetFiles(AppleExternals + "**/*.*")
+    var files = GetFiles(AppleExternals + "**/*.*");
 
     foreach (var file in files)
     {
