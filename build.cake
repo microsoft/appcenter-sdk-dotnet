@@ -126,12 +126,10 @@ Task("Externals-Apple")
     .WithCriteria(() => IsRunningOnUnix())
     .Does(() =>
 {
-    GetFiles(AppleExternals + "")
     var zipFile = System.IO.Path.Combine(AppleExternals, AppleSDK);
     var zipXCFrameworkFile = System.IO.Path.Combine(AppleExternals, AppleXCFramework);
     var XCFrameworkOutputDir = System.IO.Path.Combine(AppleExternals, "xcframework");
 
-    CleanDirectory(AppleExternals);
 
     Context.UnzipFile(zipFile, AppleExternals);
     Context.UnzipFile(zipXCFrameworkFile, XCFrameworkOutputDir);
