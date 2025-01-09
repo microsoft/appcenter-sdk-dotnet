@@ -35,9 +35,8 @@ var SdkStorageUrl = "https://mobilecentersdkdev.blob.core.windows.net/sdk/";
 
 // Need to read versions before setting url values
 VersionReader.ReadVersions();
-var AndroidUrl = $"{SdkStorageUrl}AppCenter-SDK-Android-{VersionReader.AndroidVersion}.zip";
-var AppleUrl = $"{SdkStorageUrl}AppCenter-SDK-Apple-{VersionReader.AppleVersion}.zip";
-var AppleXCFrameworkUrl = $"{SdkStorageUrl}AppCenter-SDK-Apple-XCFramework-{VersionReader.AppleVersion}.zip";
+var AppleSDK = $"AppCenter-SDK-Apple-{VersionReader.AppleVersion}.zip";
+var AppleXCFramework = $"AppCenter-SDK-Apple-XCFramework-{VersionReader.AppleVersion}.zip";
 
 // Task Target for build
 var Target = Argument("Target", Argument("t", "Default"));
@@ -82,20 +81,6 @@ Task("PrepareAssemblies")
 Task("Externals-Android")
     .Does(() =>
 {
-    var zipFile = System.IO.Path.Combine(AndroidExternals, "android.zip");
-    if (FileExists(zipFile))
-    {
-        return;
-    }
-    CleanDirectory(AndroidExternals);
-
-    // Download zip file.
-    var authParams = Argument("StorageAuthParams", EnvironmentVariable("STORAGE_AUTH_PARAMS"));
-    var artifactUrl = $"{AndroidUrl}{authParams}";
-    using (VerboseVerbosity())
-        DownloadFile(artifactUrl, zipFile);
-    Unzip(zipFile, AndroidExternals);
-
     // Move binaries to externals/android so that linked files don't have versions
     // in their paths
 
@@ -141,19 +126,12 @@ Task("Externals-Apple")
     .WithCriteria(() => IsRunningOnUnix())
     .Does(() =>
 {
-    var zipFile = System.IO.Path.Combine(AppleExternals, "apple.zip");
-    var zipXCFrameworkFile = System.IO.Path.Combine(AppleExternals, "apple-xcframework.zip");
+    GetFiles(AppleExternals + "")
+    var zipFile = System.IO.Path.Combine(AppleExternals, AppleSDK);
+    var zipXCFrameworkFile = System.IO.Path.Combine(AppleExternals, AppleXCFramework);
     var XCFrameworkOutputDir = System.IO.Path.Combine(AppleExternals, "xcframework");
 
     CleanDirectory(AppleExternals);
-
-    // Download framework and xcframework files.
-    var authParams = Argument("StorageAuthParams", EnvironmentVariable("STORAGE_AUTH_PARAMS"));
-    using (VerboseVerbosity())
-    {
-        DownloadFile($"{AppleUrl}{authParams}", zipFile);
-        DownloadFile($"{AppleXCFrameworkUrl}{authParams}", zipXCFrameworkFile);
-    }
 
     Context.UnzipFile(zipFile, AppleExternals);
     Context.UnzipFile(zipXCFrameworkFile, XCFrameworkOutputDir);
