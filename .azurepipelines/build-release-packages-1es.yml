@@ -49,7 +49,7 @@ extends:
           inputs:
             buildType: 'specific'
             project: 'c5683969-a866-4281-b5c4-3a18f2414bc6'
-            pipeline: '5036'
+            pipeline: '4611'
             patterns:  '**/Release/!(*carthage*)*.zip'
             targetPath: '$(Build.ArtifactStagingDirectory)/externals/apple'
             RunAsPreJob: false
@@ -59,7 +59,7 @@ extends:
           inputs:
             buildType: 'specific'
             project: 'c5683969-a866-4281-b5c4-3a18f2414bc6'
-            pipeline: '4611'
+            pipeline: '5036'
             patterns:  '**/Release/appcenter/**/*.aar'
             targetPath: '$(Build.ArtifactStagingDirectory)/externals/android'
             RunAsPreJob: false            
