@@ -126,9 +126,10 @@ Task("Externals-Apple")
     .WithCriteria(() => IsRunningOnUnix())
     .Does(() =>
 {
-    var files = GetFiles(AppleExternals + "**/*.*");
+    var XCFrameworkOutputDir = System.IO.Path.Combine(AppleExternals, "xcframework");
+    var zipFiles = GetFiles(AppleExternals + "**/*.*");
 
-    foreach (var file in files)
+    foreach (var file in zipFiles)
     {
         var fileName = file.GetFilename().ToString();
         if (fileName.Contains("XCFramework"))
