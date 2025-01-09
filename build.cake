@@ -126,13 +126,23 @@ Task("Externals-Apple")
     .WithCriteria(() => IsRunningOnUnix())
     .Does(() =>
 {
-    var zipFile = System.IO.Path.Combine(AppleExternals, AppleSDK);
-    var zipXCFrameworkFile = System.IO.Path.Combine(AppleExternals, AppleXCFramework);
-    var XCFrameworkOutputDir = System.IO.Path.Combine(AppleExternals, "xcframework");
+    var files = GetFiles(AppleExternals + "**/*.*")
 
+    foreach (var file in files)
+    {
+        var fileName = file.GetFilename().ToString();
+        if (fileName.Contains("XCFramework"))
+        {
+            var zipXCFrameworkFile = System.IO.Path.Combine(AppleExternals, fileName);
+            Context.UnzipFile(zipXCFrameworkFile, XCFrameworkOutputDir);
+        }
+        else
+        {
+            var zipFile = System.IO.Path.Combine(AppleExternals, fileName);
+            Context.UnzipFile(zipFile, AppleExternals);
+        }
 
-    Context.UnzipFile(zipFile, AppleExternals);
-    Context.UnzipFile(zipXCFrameworkFile, XCFrameworkOutputDir);
+    }
 
     var iosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/iOS");
     var macosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/macOS");
