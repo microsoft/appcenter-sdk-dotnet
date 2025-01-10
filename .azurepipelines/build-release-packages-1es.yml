@@ -34,7 +34,9 @@ extends:
       - job: downloadExternalArtifacts
         displayName: DownloadExternalPipelineArtifacts
         steps:
-        
+        - checkout: self
+          fetchTags: false
+                  
         - task: DownloadPipelineArtifact@2
           displayName: 'Download apple artifacts'
           inputs:
