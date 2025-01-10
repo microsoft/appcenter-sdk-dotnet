@@ -37,6 +37,12 @@ extends:
       jobs:
       - job: downloadExternalArtifacts
         displayName: DownloadExternalPipelineArtifacts
+        templateContext:
+          outputs:
+          - output: pipelineArtifact
+            displayName: 'Publish Artifact: framework'
+            path: '$(Build.ArtifactStagingDirectory)'
+            artifactName: external-artifacts
         steps:
         - checkout: self
           fetchTags: false
@@ -78,7 +84,12 @@ extends:
           inputs:
             targetPath: '$(Build.SourcesDirectory)/externals'
             artifact: 'externals'
-            
+        - task: CopyFiles@2
+          displayName: 'Copy artifacts'
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)/externals'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
     - stage: BuildWindowsAssemblies
       dependsOn: 
       - DownloadExternalPipelineArtifacts
@@ -98,7 +109,7 @@ extends:
 
         - task: DownloadPipelineArtifact@2
           inputs:
-            artifact: 'externals'
+            artifact: 'external-artifacts'
             targetPath: '$(Build.SourcesDirectory)/externals'
           displayName: 'Download pipeline artifacts'
 
@@ -145,7 +156,7 @@ extends:
 
         - task: DownloadPipelineArtifact@2
           inputs:
-            artifact: 'externals'
+            artifact: 'external-artifacts'
             targetPath: '$(Build.SourcesDirectory)/externals'
           displayName: 'Download pipeline artifacts' 
 
