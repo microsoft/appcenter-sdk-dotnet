@@ -130,6 +130,8 @@ Task("Externals-Apple")
     var appleExternalsPath= System.IO.Path.Combine(AppleExternals, "*");
     var zipFiles = GetFiles(appleExternalsPath);
     
+    Information("Number of files found: {0}", zipFiles.Count);
+
     foreach (var file in zipFiles)
     {
         var fileName = file.GetFilename().ToString();
