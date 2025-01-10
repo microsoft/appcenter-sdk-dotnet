@@ -80,10 +80,6 @@ extends:
             find $(Build.SourcesDirectory)/externals/apple_unflattened -name '*.zip' -exec mv {} $(Build.SourcesDirectory)/externals/apple/ \;
             rm -rf $(Build.SourcesDirectory)/externals/apple_unflattened
           displayName: 'Flatten Apple artifacts'        
-        - task: PublishPipelineArtifact@1
-          inputs:
-            targetPath: '$(Build.SourcesDirectory)/externals'
-            artifact: 'externals'
         - task: CopyFiles@2
           displayName: 'Copy artifacts'
           inputs:
