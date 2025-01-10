@@ -121,9 +121,15 @@ extends:
             project: 'c5683969-a866-4281-b5c4-3a18f2414bc6'
             pipeline: '5036'
             patterns:  '**/Release/appcenter/**/*.aar'
-            targetPath: '$(Build.SourcesDirectory)/externals/android'
+            targetPath: '$(Build.SourcesDirectory)/externals/android_unflattened'
             RunAsPreJob: false  
-
+        - script: |
+            echo "Flattening Android artifacts:"
+            mkdir -p $(Build.SourcesDirectory)/externals/android
+            find $(Build.SourcesDirectory)/externals/android_unflattened -name '*.aar' -exec mv {} $(Build.SourcesDirectory)/externals/android/ \; 
+            rm -rf $(Build.SourcesDirectory)/externals/android_unflattened
+          displayName: 'Flatten Android artifacts'  
+        
         - script: |
             echo "Downloaded Apple artifacts:"
             ls -R $(Build.SourcesDirectory)/externals/apple
