@@ -107,8 +107,8 @@ public static void UnzipFile(this ICakeContext context, string zipFile, string o
         new ProcessSettings
         {
             Arguments = new ProcessArgumentBuilder()
-                .Append(zipFile)
                 .Append("-o")
+                .Append(zipFile)
                 .Append("-d")
                 .Append(outputPath),
             RedirectStandardOutput = true,
