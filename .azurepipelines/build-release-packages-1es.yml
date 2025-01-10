@@ -74,7 +74,11 @@ extends:
             find $(Build.SourcesDirectory)/externals/apple_unflattened -name '*.zip' -exec mv {} $(Build.SourcesDirectory)/externals/apple/ \;
             rm -rf $(Build.SourcesDirectory)/externals/apple_unflattened
           displayName: 'Flatten Apple artifacts'        
-      
+        - task: PublishPipelineArtifact@1
+          inputs:
+            targetPath: '$(Build.SourcesDirectory)/externals'
+            artifact: 'externals'
+            
     - stage: BuildWindowsAssemblies
       dependsOn: 
       - DownloadExternalPipelineArtifacts
@@ -91,6 +95,12 @@ extends:
         steps:
         - checkout: self
           fetchTags: false
+
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifact: 'externals'
+            targetPath: '$(Build.SourcesDirectory)/externals'
+          displayName: 'Download pipeline artifacts'
 
         - task: PowerShell@2
           displayName: 'Set Release Version'
@@ -132,7 +142,13 @@ extends:
         steps:
         - checkout: self
           fetchTags: false
-       
+
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifact: 'externals'
+            targetPath: '$(Build.SourcesDirectory)/externals'
+          displayName: 'Download pipeline artifacts' 
+
         - script: |
             echo "Downloaded Apple artifacts:"
             ls -R $(Build.SourcesDirectory)/externals/apple
