@@ -28,82 +28,13 @@ extends:
     sdl:
       sourceAnalysisPool: 1ES-PT-Windows-2022
     stages:
-    - stage: BuildWindowsAssemblies
-      dependsOn: []
+
+    - stage: DownloadExternalPipelineArtifacts
       jobs:
-      - job: sdkBuildJob
-        displayName: BuildWindowsAssemblies
-        cancelTimeoutInMinutes: 1
-        templateContext:
-          outputs:
-          - output: pipelineArtifact
-            displayName: 'Publish Artifact: framework'
-            path: '$(Build.ArtifactStagingDirectory)'
-            artifactName: windows-assemblies
+      - job: downloadExternalArtifacts
+        displayName: DownloadExternalPipelineArtifacts
         steps:
-        - checkout: self
-          fetchTags: false
-
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download apple artifacts'
-          inputs:
-            buildType: 'specific'
-            project: 'c5683969-a866-4281-b5c4-3a18f2414bc6'
-            pipeline: '4611'
-            patterns:  '**/Release/!(*carthage*)*.zip'
-            targetPath: '$(Build.SourcesDirectory)/externals/apple'
-            RunAsPreJob: false
-
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download android artifacts'
-          inputs:
-            buildType: 'specific'
-            project: 'c5683969-a866-4281-b5c4-3a18f2414bc6'
-            pipeline: '5036'
-            patterns:  '**/Release/appcenter/**/*.aar'
-            targetPath: '$(Build.SourcesDirectory)/externals/android'
-            RunAsPreJob: false            
-
-        - task: PowerShell@2
-          displayName: 'Set Release Version'
-          inputs:
-            targetType: filePath
-            filePath: ./build.ps1
-            arguments: '"version.cake" --Target="SetReleaseVersion"'
-
-        - task: cake-build.cake.cake-build-task.Cake@2
-          displayName: 'Prepare Assemblies'
-          inputs:
-            target: PrepareAssemblies
-            arguments: '--StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
-            Version: 2.2.0
-
-
-        - task: CopyFiles@2
-          displayName: 'Copy Assemblies'
-          inputs:
-            SourceFolder: '$(Build.SourcesDirectory)\bin'
-            TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-    - stage: BuildDotNetAssemblies
-      dependsOn: []
-      pool:
-        name: Azure Pipelines
-        image: macos-13
-        os: macOS
-        demands:
-        - msbuild
-      jobs:
-      - job: sdkBuildJob
-        templateContext:
-          outputs:
-          - output: pipelineArtifact
-            displayName: 'Publish Artifact: framework'
-            path: '$(Build.ArtifactStagingDirectory)'
-            artifactName: dotnet-assemblies
-        steps:
-        - checkout: self
-          fetchTags: false
+        
         - task: DownloadPipelineArtifact@2
           displayName: 'Download apple artifacts'
           inputs:
@@ -137,6 +68,64 @@ extends:
             find $(Build.SourcesDirectory)/externals/apple_unflattened -name '*.zip' -exec mv {} $(Build.SourcesDirectory)/externals/apple/ \;
             rm -rf $(Build.SourcesDirectory)/externals/apple_unflattened
           displayName: 'Flatten Apple artifacts'        
+      
+    - stage: BuildWindowsAssemblies
+      dependsOn: 
+      - DownloadExternalPipelineArtifacts
+      jobs:
+      - job: sdkBuildJob
+        displayName: BuildWindowsAssemblies
+        cancelTimeoutInMinutes: 1
+        templateContext:
+          outputs:
+          - output: pipelineArtifact
+            displayName: 'Publish Artifact: framework'
+            path: '$(Build.ArtifactStagingDirectory)'
+            artifactName: windows-assemblies
+        steps:
+        - checkout: self
+          fetchTags: false
+
+        - task: PowerShell@2
+          displayName: 'Set Release Version'
+          inputs:
+            targetType: filePath
+            filePath: ./build.ps1
+            arguments: '"version.cake" --Target="SetReleaseVersion"'
+
+        - task: cake-build.cake.cake-build-task.Cake@2
+          displayName: 'Prepare Assemblies'
+          inputs:
+            target: PrepareAssemblies
+            arguments: '--StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
+            Version: 2.2.0
+
+        - task: CopyFiles@2
+          displayName: 'Copy Assemblies'
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)\bin'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - stage: BuildDotNetAssemblies
+      dependsOn: 
+      - DownloadExternalPipelineArtifacts
+      pool:
+        name: Azure Pipelines
+        image: macos-13
+        os: macOS
+        demands:
+        - msbuild
+      jobs:
+      - job: sdkBuildJob
+        templateContext:
+          outputs:
+          - output: pipelineArtifact
+            displayName: 'Publish Artifact: framework'
+            path: '$(Build.ArtifactStagingDirectory)'
+            artifactName: dotnet-assemblies
+        steps:
+        - checkout: self
+          fetchTags: false
        
         - script: |
             echo "Downloaded Apple artifacts:"
