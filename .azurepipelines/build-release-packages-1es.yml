@@ -104,7 +104,25 @@ extends:
         steps:
         - checkout: self
           fetchTags: false
+        - task: DownloadPipelineArtifact@2
+          displayName: 'Download apple artifacts'
+          inputs:
+            buildType: 'specific'
+            project: 'c5683969-a866-4281-b5c4-3a18f2414bc6'
+            pipeline: '4611'
+            patterns:  '**/Release/!(*carthage*)*.zip'
+            targetPath: '$(Build.ArtifactStagingDirectory)/externals/apple'
+            RunAsPreJob: false
 
+        - task: DownloadPipelineArtifact@2
+          displayName: 'Download android artifacts'
+          inputs:
+            buildType: 'specific'
+            project: 'c5683969-a866-4281-b5c4-3a18f2414bc6'
+            pipeline: '5036'
+            patterns:  '**/Release/appcenter/**/*.aar'
+            targetPath: '$(Build.ArtifactStagingDirectory)/externals/android'
+            RunAsPreJob: false    
         - task: Bash@3
           displayName: 'Set Release Version'
           inputs:
