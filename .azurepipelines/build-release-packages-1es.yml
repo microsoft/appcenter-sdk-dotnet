@@ -122,7 +122,15 @@ extends:
             pipeline: '5036'
             patterns:  '**/Release/appcenter/**/*.aar'
             targetPath: '$(Build.SourcesDirectory)/externals/android'
-            RunAsPreJob: false    
+            RunAsPreJob: false  
+
+        - script: |
+            echo "Downloaded Apple artifacts:"
+            ls -R $(Build.SourcesDirectory)/externals/apple
+            echo "Downloaded Android artifacts:"
+            ls -R $(Build.SourcesDirectory)/externals/android
+          displayName: 'List downloaded files'        
+       
         - task: Bash@3
           displayName: 'Set Release Version'
           inputs:
