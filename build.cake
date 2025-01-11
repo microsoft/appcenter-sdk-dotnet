@@ -81,16 +81,18 @@ Task("PrepareAssemblies")
 Task("Externals-Android")
     .Does(() =>
 {
-    // Move binaries to externals/android so that linked files don't have versions
+    // Move binaries to     nals/android so that linked files don't have versions
     // in their paths
 
     var androidExternalsPath = System.IO.Path.Combine(AndroidExternals, "*");
     var files = GetFiles(androidExternalsPath);
+        Information("Number of files found: {0}", VersionReader.AndroidVersion);
 
     // fix since aar files contain version name instead of release string
     foreach (var file in files)
     {
         var filename = file.GetFilename().ToString();
+
         if (filename.Contains($"{VersionReader.AndroidVersion}"))
         {
             var replacedName = filename.Replace($"{VersionReader.AndroidVersion}", "release");
