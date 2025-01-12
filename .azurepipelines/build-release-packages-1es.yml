@@ -53,19 +53,21 @@ extends:
             buildType: 'specific'
             project: 'c5683969-a866-4281-b5c4-3a18f2414bc6'
             pipeline: '4611'
+            buildVersionToDownload: 'specific'
+            branchName: 'refs/heads/master'            
             patterns:  '**/Release/!(*carthage*)*.zip'
             targetPath: '$(Build.SourcesDirectory)/externals/apple_unflattened'
-            RunAsPreJob: false
 
         - task: DownloadPipelineArtifact@2
           displayName: 'Download android artifacts'
           inputs:
             buildType: 'specific'
             project: 'c5683969-a866-4281-b5c4-3a18f2414bc6'
+            buildVersionToDownload: 'specific'
+            branchName: 'refs/heads/master'
             pipeline: '5036'
             patterns:  '**/Release/appcenter/**/*.aar'
             targetPath: '$(Build.SourcesDirectory)/externals/android_unflattened'
-            RunAsPreJob: false  
        
         - script: |
             echo "Flattening Android artifacts:"
