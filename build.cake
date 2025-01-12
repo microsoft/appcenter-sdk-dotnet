@@ -125,9 +125,9 @@ Task("Externals-Apple")
     .Does(() =>
 {
     var XCFrameworkOutputDir = System.IO.Path.Combine(AppleExternals, "xcframework");
-    var appleExternalsPath= System.IO.Path.Combine(AppleExternals, "*");
+    var appleExternalsPath = System.IO.Path.Combine(AppleExternals, "*");
     var zipFiles = GetFiles(appleExternalsPath);
-    
+
     foreach (var file in zipFiles)
     {
         var fileName = file.GetFilename().ToString();

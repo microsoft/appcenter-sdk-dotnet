@@ -120,7 +120,6 @@ extends:
           displayName: 'Prepare Assemblies'
           inputs:
             target: PrepareAssemblies
-            arguments: '--StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
             Version: 2.2.0
 
         - task: CopyFiles@2
@@ -177,13 +176,6 @@ extends:
             jdkArchitectureOption: x64
             jdkSourceOption: PreInstalled
 
-        - task: AzureKeyVault@2
-          inputs:
-            azureSubscription: 'AC - Dev Infra & Build Pool'
-            KeyVaultName: 'mobile-center-sdk'
-            SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
-            RunAsPreJob: false
-
         - task: UseDotNet@2
           displayName: 'Install .NET SDK'
           inputs:
@@ -197,7 +189,6 @@ extends:
           displayName: 'Prepare DotNet Assemblies'
           inputs:
             target: PrepareAssemblies
-            arguments: '--StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
             Version: 2.2.0
 
         - task: Bash@3
@@ -217,7 +208,7 @@ extends:
           displayName: 'Prepare Xamarin Assemblies'
           inputs:
             target: PrepareAssemblies
-            arguments: '--MacPlatformId="mac-xamarin" --StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
+            arguments: '--MacPlatformId="mac-xamarin"'
             Version: 2.2.0
 
         - task: CopyFiles@2
@@ -373,12 +364,7 @@ extends:
           env:
             AzureServicesAuthConnectionString: 'runAs=App;AppId=$(appcenter-sdk-managed-identity-clientid)'
 
-        - task: AzureKeyVault@2
-          inputs:
-            azureSubscription: 'AC - Dev Infra & Build Pool'
-            KeyVaultName: 'mobile-center-sdk'
-            SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
-            RunAsPreJob: false
+
 
         - task: Cake@2
           displayName: 'Pack NuGets'
