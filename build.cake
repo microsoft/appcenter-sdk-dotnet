@@ -31,12 +31,8 @@ var ExternalsDirectory = "externals";
 var AndroidExternals = $"{ExternalsDirectory}/android";
 var AppleExternals = $"{ExternalsDirectory}/apple";
 
-var SdkStorageUrl = "https://mobilecentersdkdev.blob.core.windows.net/sdk/";
-
 // Need to read versions before setting url values
 VersionReader.ReadVersions();
-var AppleSDK = $"AppCenter-SDK-Apple-{VersionReader.AppleVersion}.zip";
-var AppleXCFramework = $"AppCenter-SDK-Apple-XCFramework-{VersionReader.AppleVersion}.zip";
 
 // Task Target for build
 var Target = Argument("Target", Argument("t", "Default"));
@@ -86,7 +82,6 @@ Task("Externals-Android")
 
     var androidExternalsPath = System.IO.Path.Combine(AndroidExternals, "*");
     var files = GetFiles(androidExternalsPath);
-        Information("Number of files found: {0}", VersionReader.AndroidVersion);
 
     // fix since aar files contain version name instead of release string
     foreach (var file in files)
@@ -133,8 +128,6 @@ Task("Externals-Apple")
     var appleExternalsPath= System.IO.Path.Combine(AppleExternals, "*");
     var zipFiles = GetFiles(appleExternalsPath);
     
-    Information("Number of files found: {0}", zipFiles.Count);
-
     foreach (var file in zipFiles)
     {
         var fileName = file.GetFilename().ToString();
