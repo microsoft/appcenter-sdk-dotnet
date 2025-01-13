@@ -154,14 +154,7 @@ extends:
             artifact: 'external-artifacts'
             targetPath: '$(Build.SourcesDirectory)/externals'
           displayName: 'Download pipeline artifacts' 
-
-        - script: |
-            echo "Downloaded Apple artifacts:"
-            ls -R $(Build.SourcesDirectory)/externals/apple
-            echo "Downloaded Android artifacts:"
-            ls -R $(Build.SourcesDirectory)/externals/android
-          displayName: 'List downloaded files'        
-       
+    
         - task: Bash@3
           displayName: 'Set Release Version'
           inputs:
