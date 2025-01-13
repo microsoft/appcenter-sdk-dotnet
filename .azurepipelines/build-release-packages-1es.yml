@@ -66,20 +66,27 @@ extends:
             pipeline: 'AppCenter-SDK-Android Publish Maven 1ES'
             patterns:  '**/Release/appcenter/**/*.aar'
             targetPath: '$(Build.SourcesDirectory)/externals/android_unflattened'
-       
-        - script: |
-            echo "Flattening Android artifacts:"
-            mkdir -p $(Build.SourcesDirectory)/externals/android
-            find $(Build.SourcesDirectory)/externals/android_unflattened -name '*.aar' -exec mv {} $(Build.SourcesDirectory)/externals/android/ \; 
-            rm -rf $(Build.SourcesDirectory)/externals/android_unflattened
+
+        - task: Bash@3
           displayName: 'Flatten Android artifacts'  
-       
-        - script: |
-            echo "Flattening Apple artifacts:"
-            mkdir -p $(Build.SourcesDirectory)/externals/apple
-            find $(Build.SourcesDirectory)/externals/apple_unflattened -name '*.zip' -exec mv {} $(Build.SourcesDirectory)/externals/apple/ \;
-            rm -rf $(Build.SourcesDirectory)/externals/apple_unflattened
-          displayName: 'Flatten Apple artifacts'        
+          inputs:
+            targetType: 'inline'
+            script: |
+              echo "Flattening Android artifacts:"
+              mkdir -p $(Build.SourcesDirectory)/externals/android
+              find $(Build.SourcesDirectory)/externals/android_unflattened -name '*.aar' -exec mv {} $(Build.SourcesDirectory)/externals/android/ \; 
+              rm -rf $(Build.SourcesDirectory)/externals/android_unflattened
+        
+        - task: Bash@3
+          displayName: 'Flatten Apple artifacts'  
+          inputs:
+            targetType: 'inline'
+            script: |
+              echo "Flattening Apple artifacts:"
+              mkdir -p $(Build.SourcesDirectory)/externals/apple
+              find $(Build.SourcesDirectory)/externals/apple_unflattened -name '*.zip' -exec mv {} $(Build.SourcesDirectory)/externals/apple/ \;
+              rm -rf $(Build.SourcesDirectory)/externals/apple_unflattened  
+
         - task: CopyFiles@2
           displayName: 'Copy artifacts'
           inputs:
