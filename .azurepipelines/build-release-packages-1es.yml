@@ -52,7 +52,7 @@ extends:
           inputs:
             buildType: 'specific'
             project: 'SDK'
-            pipeline: '4611'
+            pipeline: 'AppCenter-SDK-Apple Build Frameworks and Documentation 1ES'
             buildVersionToDownload: 'latestFromBranch'
             patterns:  '**/Release/!(*carthage*)*.zip'
             targetPath: '$(Build.SourcesDirectory)/externals/apple_unflattened'
@@ -63,7 +63,7 @@ extends:
             buildType: 'specific'
             project: 'SDK'
             buildVersionToDownload: 'latestFromBranch'
-            pipeline: '5036'
+            pipeline: 'AppCenter-SDK-Android Publish Maven 1ES'
             patterns:  '**/Release/appcenter/**/*.aar'
             targetPath: '$(Build.SourcesDirectory)/externals/android_unflattened'
        
