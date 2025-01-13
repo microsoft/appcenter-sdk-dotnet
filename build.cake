@@ -77,7 +77,7 @@ Task("PrepareAssemblies")
 Task("Externals-Android")
     .Does(() =>
 {
-    // Move binaries to     nals/android so that linked files don't have versions
+    // Move binaries to externals/android so that linked files don't have versions
     // in their paths
 
     var androidExternalsPath = System.IO.Path.Combine(AndroidExternals, "*");
@@ -87,7 +87,6 @@ Task("Externals-Android")
     foreach (var file in files)
     {
         var filename = file.GetFilename().ToString();
-
         if (filename.Contains($"{VersionReader.AndroidVersion}"))
         {
             var replacedName = filename.Replace($"{VersionReader.AndroidVersion}", "release");
@@ -127,7 +126,6 @@ Task("Externals-Apple")
     var XCFrameworkOutputDir = System.IO.Path.Combine(AppleExternals, "xcframework");
     var appleExternalsPath = System.IO.Path.Combine(AppleExternals, "*");
     var zipFiles = GetFiles(appleExternalsPath);
-
     foreach (var file in zipFiles)
     {
         var fileName = file.GetFilename().ToString();
@@ -141,7 +139,6 @@ Task("Externals-Apple")
             var zipFile = System.IO.Path.Combine(AppleExternals, fileName);
             Context.UnzipFile(zipFile, AppleExternals);
         }
-
     }
 
     var iosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/iOS");

@@ -364,8 +364,6 @@ extends:
           env:
             AzureServicesAuthConnectionString: 'runAs=App;AppId=$(appcenter-sdk-managed-identity-clientid)'
 
-
-
         - task: Cake@2
           displayName: 'Pack NuGets'
           inputs:
