@@ -51,7 +51,7 @@ extends:
           displayName: 'Download apple artifacts'
           inputs:
             buildType: 'specific'
-            project: 'c5683969-a866-4281-b5c4-3a18f2414bc6'
+            project: 'SDK'
             pipeline: '4611'
             buildVersionToDownload: 'latestFromBranch'
             patterns:  '**/Release/!(*carthage*)*.zip'
@@ -61,7 +61,7 @@ extends:
           displayName: 'Download android artifacts'
           inputs:
             buildType: 'specific'
-            project: 'c5683969-a866-4281-b5c4-3a18f2414bc6'
+            project: 'SDK'
             buildVersionToDownload: 'latestFromBranch'
             pipeline: '5036'
             patterns:  '**/Release/appcenter/**/*.aar'
