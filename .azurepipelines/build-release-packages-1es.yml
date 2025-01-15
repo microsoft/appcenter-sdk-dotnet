@@ -28,8 +28,74 @@ extends:
     sdl:
       sourceAnalysisPool: 1ES-PT-Windows-2022
     stages:
+
+    - stage: DownloadExternalPipelineArtifacts
+      pool:
+        name: Azure Pipelines
+        image: macos-14
+        os: macOS
+      jobs:
+      - job: downloadExternalArtifacts
+        displayName: DownloadExternalPipelineArtifacts
+        templateContext:
+          outputs:
+          - output: pipelineArtifact
+            displayName: 'Publish Artifact: framework'
+            path: '$(Build.ArtifactStagingDirectory)'
+            artifactName: external-artifacts
+        steps:
+        - checkout: self
+          fetchTags: false
+
+        - task: DownloadPipelineArtifact@2
+          displayName: 'Download apple artifacts'
+          inputs:
+            buildType: 'specific'
+            project: 'SDK'
+            pipeline: 'AppCenter-SDK-Apple Build Frameworks and Documentation 1ES'
+            buildVersionToDownload: 'latestFromBranch'
+            patterns:  '**/Release/!(*carthage*)*.zip'
+            targetPath: '$(Build.SourcesDirectory)/externals/apple_unflattened'
+
+        - task: DownloadPipelineArtifact@2
+          displayName: 'Download android artifacts'
+          inputs:
+            buildType: 'specific'
+            project: 'SDK'
+            buildVersionToDownload: 'latestFromBranch'
+            pipeline: 'AppCenter-SDK-Android Publish Maven 1ES'
+            patterns:  '**/Release/appcenter/**/*.aar'
+            targetPath: '$(Build.SourcesDirectory)/externals/android_unflattened'
+
+        - task: Bash@3
+          displayName: 'Flatten Android artifacts'  
+          inputs:
+            targetType: 'inline'
+            script: |
+              echo "Flattening Android artifacts:"
+              mkdir -p $(Build.SourcesDirectory)/externals/android
+              find $(Build.SourcesDirectory)/externals/android_unflattened -name '*.aar' -exec mv {} $(Build.SourcesDirectory)/externals/android/ \; 
+              rm -rf $(Build.SourcesDirectory)/externals/android_unflattened
+        
+        - task: Bash@3
+          displayName: 'Flatten Apple artifacts'  
+          inputs:
+            targetType: 'inline'
+            script: |
+              echo "Flattening Apple artifacts:"
+              mkdir -p $(Build.SourcesDirectory)/externals/apple
+              find $(Build.SourcesDirectory)/externals/apple_unflattened -name '*.zip' -exec mv {} $(Build.SourcesDirectory)/externals/apple/ \;
+              rm -rf $(Build.SourcesDirectory)/externals/apple_unflattened  
+
+        - task: CopyFiles@2
+          displayName: 'Copy artifacts'
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)/externals'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
     - stage: BuildWindowsAssemblies
-      dependsOn: []
+      dependsOn: 
+      - DownloadExternalPipelineArtifacts
       jobs:
       - job: sdkBuildJob
         displayName: BuildWindowsAssemblies
@@ -44,12 +110,11 @@ extends:
         - checkout: self
           fetchTags: false
 
-        - task: AzureKeyVault@2
+        - task: DownloadPipelineArtifact@2
           inputs:
-            azureSubscription: 'AC - Dev Infra & Build Pool'
-            KeyVaultName: 'mobile-center-sdk'
-            SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
-            RunAsPreJob: false
+            artifact: 'external-artifacts'
+            targetPath: '$(Build.SourcesDirectory)/externals'
+          displayName: 'Download pipeline artifacts'
 
         - task: PowerShell@2
           displayName: 'Set Release Version'
@@ -62,9 +127,7 @@ extends:
           displayName: 'Prepare Assemblies'
           inputs:
             target: PrepareAssemblies
-            arguments: '--StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
             Version: 2.2.0
-
 
         - task: CopyFiles@2
           displayName: 'Copy Assemblies'
@@ -73,10 +136,11 @@ extends:
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - stage: BuildDotNetAssemblies
-      dependsOn: []
+      dependsOn: 
+      - DownloadExternalPipelineArtifacts
       pool:
         name: Azure Pipelines
-        image: macos-13
+        image: macos-14
         os: macOS
         demands:
         - msbuild
@@ -92,6 +156,12 @@ extends:
         - checkout: self
           fetchTags: false
 
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifact: 'external-artifacts'
+            targetPath: '$(Build.SourcesDirectory)/externals'
+          displayName: 'Download pipeline artifacts' 
+    
         - task: Bash@3
           displayName: 'Set Release Version'
           inputs:
@@ -106,13 +176,6 @@ extends:
             jdkArchitectureOption: x64
             jdkSourceOption: PreInstalled
 
-        - task: AzureKeyVault@2
-          inputs:
-            azureSubscription: 'AC - Dev Infra & Build Pool'
-            KeyVaultName: 'mobile-center-sdk'
-            SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
-            RunAsPreJob: false
-
         - task: UseDotNet@2
           displayName: 'Install .NET SDK'
           inputs:
@@ -126,7 +189,6 @@ extends:
           displayName: 'Prepare DotNet Assemblies'
           inputs:
             target: PrepareAssemblies
-            arguments: '--StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
             Version: 2.2.0
 
         - task: Bash@3
@@ -146,7 +208,7 @@ extends:
           displayName: 'Prepare Xamarin Assemblies'
           inputs:
             target: PrepareAssemblies
-            arguments: '--MacPlatformId="mac-xamarin" --StorageAuthParams="$(appcenter-sdk-blob-storage-access-secret)"'
+            arguments: '--MacPlatformId="mac-xamarin"'
             Version: 2.2.0
 
         - task: CopyFiles@2
@@ -301,13 +363,6 @@ extends:
           condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
           env:
             AzureServicesAuthConnectionString: 'runAs=App;AppId=$(appcenter-sdk-managed-identity-clientid)'
-
-        - task: AzureKeyVault@2
-          inputs:
-            azureSubscription: 'AC - Dev Infra & Build Pool'
-            KeyVaultName: 'mobile-center-sdk'
-            SecretsFilter: 'appcenter-sdk-blob-storage-access-secret'
-            RunAsPreJob: false
 
         - task: Cake@2
           displayName: 'Pack NuGets'
