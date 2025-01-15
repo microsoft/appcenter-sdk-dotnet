@@ -27,6 +27,20 @@ IList<AppCenterModule> AppCenterModules = null;
  *     By running mozroots and install part of Mozilla's root certificates can make it work.
  */
 
+/* NOTE: Running build locally
+   When running build locally download artifacts from apple and android build pipelines manually and place them in `externals` folder.
+   Place the artifacts in appropriate `externals` subfolders `apple` or `android`
+   Apple:
+   AppCenter-SDK-Apple-XCFramework-VERSION.zip
+   AppCenter-SDK-Apple-VERSION.zip  
+   Android:
+   appcenter-distribute-play-VERSION.aar 
+   appcenter-distribute-VERSION.aar 
+   appcenter-crashes-VERSION.aar 
+   appcenter-analytics-VERSION.aar 
+   appcenter-VERSION.aar
+*/
+
 var ExternalsDirectory = "externals";
 var AndroidExternals = $"{ExternalsDirectory}/android";
 var AppleExternals = $"{ExternalsDirectory}/apple";
