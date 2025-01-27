@@ -51,12 +51,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AppCenter.Test.Wi
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.AppCenter.Test.WindowsDesktop.Shared", "Tests\Microsoft.AppCenter.Test.WindowsDesktop.Shared\Microsoft.AppCenter.Test.WindowsDesktop.Shared.shproj", "{09F38506-8DEF-431D-A749-DF7E73A719F0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contoso.Forms.Puppet", "Contoso.Forms.Puppet", "{AC1B688C-2519-4C40-9F23-D4021C30E115}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contoso.Forms.Puppet", "Apps\Contoso.Forms.Puppet\Contoso.Forms.Puppet\Contoso.Forms.Puppet.csproj", "{92313C69-3BC4-4276-A1C8-100C86183F12}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Forms.Puppet.UWP", "Apps\Contoso.Forms.Puppet\Contoso.Forms.Puppet.UWP\Contoso.Forms.Puppet.UWP.csproj", "{F2E21B65-DF87-40F0-BB2E-E67E728B86DA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.UWP.Demo", "Apps\Contoso.UWP.Demo\Contoso.UWP.Demo.csproj", "{612D30FE-E1F1-4CEE-8256-911C03A16890}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.UWP.Puppet", "Apps\Contoso.UWP.Puppet\Contoso.UWP.Puppet.csproj", "{2F81AF7B-06FC-4163-859A-979F375330FF}"

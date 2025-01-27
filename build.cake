@@ -27,17 +27,26 @@ IList<AppCenterModule> AppCenterModules = null;
  *     By running mozroots and install part of Mozilla's root certificates can make it work.
  */
 
+/* NOTE: Running build locally
+   When running build locally download artifacts from apple and android build pipelines manually and place them in `externals` folder.
+   Place the artifacts in appropriate `externals` subfolders `apple` or `android`
+   Apple:
+   AppCenter-SDK-Apple-XCFramework-VERSION.zip
+   AppCenter-SDK-Apple-VERSION.zip  
+   Android:
+   appcenter-distribute-play-VERSION.aar 
+   appcenter-distribute-VERSION.aar 
+   appcenter-crashes-VERSION.aar 
+   appcenter-analytics-VERSION.aar 
+   appcenter-VERSION.aar
+*/
+
 var ExternalsDirectory = "externals";
 var AndroidExternals = $"{ExternalsDirectory}/android";
 var AppleExternals = $"{ExternalsDirectory}/apple";
 
-var SdkStorageUrl = "https://mobilecentersdkdev.blob.core.windows.net/sdk/";
-
 // Need to read versions before setting url values
 VersionReader.ReadVersions();
-var AndroidUrl = $"{SdkStorageUrl}AppCenter-SDK-Android-{VersionReader.AndroidVersion}.zip";
-var AppleUrl = $"{SdkStorageUrl}AppCenter-SDK-Apple-{VersionReader.AppleVersion}.zip";
-var AppleXCFrameworkUrl = $"{SdkStorageUrl}AppCenter-SDK-Apple-XCFramework-{VersionReader.AppleVersion}.zip";
 
 // Task Target for build
 var Target = Argument("Target", Argument("t", "Default"));
@@ -82,20 +91,6 @@ Task("PrepareAssemblies")
 Task("Externals-Android")
     .Does(() =>
 {
-    var zipFile = System.IO.Path.Combine(AndroidExternals, "android.zip");
-    if (FileExists(zipFile))
-    {
-        return;
-    }
-    CleanDirectory(AndroidExternals);
-
-    // Download zip file.
-    var authParams = Argument("StorageAuthParams", EnvironmentVariable("STORAGE_AUTH_PARAMS"));
-    var artifactUrl = $"{AndroidUrl}{authParams}";
-    using (VerboseVerbosity())
-        DownloadFile(artifactUrl, zipFile);
-    Unzip(zipFile, AndroidExternals);
-
     // Move binaries to externals/android so that linked files don't have versions
     // in their paths
 
@@ -122,6 +117,7 @@ public static void UnzipFile(this ICakeContext context, string zipFile, string o
         new ProcessSettings
         {
             Arguments = new ProcessArgumentBuilder()
+                .Append("-o")
                 .Append(zipFile)
                 .Append("-d")
                 .Append(outputPath),
@@ -141,22 +137,23 @@ Task("Externals-Apple")
     .WithCriteria(() => IsRunningOnUnix())
     .Does(() =>
 {
-    var zipFile = System.IO.Path.Combine(AppleExternals, "apple.zip");
-    var zipXCFrameworkFile = System.IO.Path.Combine(AppleExternals, "apple-xcframework.zip");
     var XCFrameworkOutputDir = System.IO.Path.Combine(AppleExternals, "xcframework");
-
-    CleanDirectory(AppleExternals);
-
-    // Download framework and xcframework files.
-    var authParams = Argument("StorageAuthParams", EnvironmentVariable("STORAGE_AUTH_PARAMS"));
-    using (VerboseVerbosity())
+    var appleExternalsPath = System.IO.Path.Combine(AppleExternals, "*");
+    var zipFiles = GetFiles(appleExternalsPath);
+    foreach (var file in zipFiles)
     {
-        DownloadFile($"{AppleUrl}{authParams}", zipFile);
-        DownloadFile($"{AppleXCFrameworkUrl}{authParams}", zipXCFrameworkFile);
+        var fileName = file.GetFilename().ToString();
+        if (fileName.Contains("XCFramework"))
+        {
+            var zipXCFrameworkFile = System.IO.Path.Combine(AppleExternals, fileName);
+            Context.UnzipFile(zipXCFrameworkFile, XCFrameworkOutputDir);
+        }
+        else
+        {
+            var zipFile = System.IO.Path.Combine(AppleExternals, fileName);
+            Context.UnzipFile(zipFile, AppleExternals);
+        }
     }
-
-    Context.UnzipFile(zipFile, AppleExternals);
-    Context.UnzipFile(zipXCFrameworkFile, XCFrameworkOutputDir);
 
     var iosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/iOS");
     var macosFrameworksLocation = System.IO.Path.Combine(AppleExternals, "AppCenter-SDK-Apple/macOS");
