@@ -226,13 +226,14 @@ extends:
         - task: EsrpCodeSigning@5
           displayName: 'Sign Assemblies'
           inputs:
-            ConnectedServiceName: 'App Center - Code Signing (WIF)'
+            ConnectedServiceName: $(ConnectedServiceName)
             FolderPath: '$(Build.ArtifactStagingDirectory)\assemblies'
-            AppRegistrationClientId: '56ecf8eb-6143-4da0-9a53-716e9c2e6e86'
-            AppRegistrationTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
-            AuthAKVName: 'code-signing-poduction'
-            AuthCertName: 'appcenter-codesigning-auth'
-            AuthSignCertName: 'CodeSigning-Certificate-Managed'            
+            UseMSIAuthentication: true
+            AppRegistrationClientId: $(AppRegistrationClientId)
+            AppRegistrationTenantId: $(AppRegistrationTenantId)
+            EsrpClientId: $(EsrpClientId)
+            AuthAKVName: $(AuthAKVName)
+            AuthSignCertName: $(AuthSignCertName)
             Pattern: '*.dll,*.winmd'
             signConfigType: inlineSignParams
             inlineOperation: |
@@ -320,12 +321,13 @@ extends:
           displayName: 'Sign Packages'
           enabled: true
           inputs:
-            ConnectedServiceName: 'App Center - Code Signing (WIF)'
-            AppRegistrationClientId: '56ecf8eb-6143-4da0-9a53-716e9c2e6e86'
-            AppRegistrationTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
-            AuthAKVName: 'code-signing-poduction'
-            AuthCertName: 'appcenter-codesigning-auth'
-            AuthSignCertName: 'CodeSigning-Certificate-Managed'           
+            ConnectedServiceName: $(ConnectedServiceName)
+            UseMSIAuthentication: true
+            AppRegistrationClientId: $(AppRegistrationClientId)
+            AppRegistrationTenantId: $(AppRegistrationTenantId)
+            EsrpClientId: $(EsrpClientId)
+            AuthAKVName: $(AuthAKVName)
+            AuthSignCertName: $(AuthSignCertName)           
             FolderPath: '$(System.DefaultWorkingDirectory)/'
             Pattern: 'Microsoft.AppCenter*.nupkg'
             signConfigType: inlineSignParams
