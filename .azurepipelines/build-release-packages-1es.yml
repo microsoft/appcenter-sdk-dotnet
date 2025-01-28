@@ -373,13 +373,6 @@ extends:
           env:
             AzureServicesAuthConnectionString: 'runAs=App;AppId=$(appcenter-sdk-managed-identity-clientid)'
 
-        - task: AzureKeyVault@2
-          inputs:
-            azureSubscription: 'AC - Dev Infra & Build Pool'
-            KeyVaultName: 'mobile-center-sdk'
-            SecretsFilter: appcenter-sdk-blob-storage-access-secret
-            RunAsPreJob: false
-
         - task: Cake@2
           displayName: 'Pack NuGets'
           inputs:
