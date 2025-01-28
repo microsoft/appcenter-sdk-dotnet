@@ -385,7 +385,6 @@ extends:
           enabled: true
           inputs:
             ConnectedServiceName: 'App Center - Code Signing (PME)'
-            FolderPath: '$(Build.ArtifactStagingDirectory)\assemblies'
             UseMSIAuthentication: true
             AppRegistrationClientId: $(codesigning-msi-client-id)
             AppRegistrationTenantId: $(codesigning-msi-tenant-id)
