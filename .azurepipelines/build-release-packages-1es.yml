@@ -285,17 +285,25 @@ extends:
             .\scripts\strong-named-sign.cmd "$(Build.ArtifactStagingDirectory)\assemblies" "$(Agent.TempDirectory)\appcenter-pair-key.snk"
           displayName: 'Sign assemblies with strong naming'
 
+        - task: AzureKeyVault@2
+          displayName: 'Get MSI Client and Tenant IDs for App Center - Code Signing (PME) Service Connection'
+          inputs:
+            azureSubscription: AC - Dev Infra & Build Pool
+            keyVaultName: mobile-center-sdk
+            secretsFilter: codesigning-esrp-client-id, codesigning-msi-client-id, codesigning-msi-tenant-id
+            runAsPreJob: false
+
         - task: EsrpCodeSigning@5
           displayName: 'Sign Assemblies'
           inputs:
-            ConnectedServiceName: $(ConnectedServiceName)
+            ConnectedServiceName: 'App Center - Code Signing (PME)'
             FolderPath: '$(Build.ArtifactStagingDirectory)\assemblies'
             UseMSIAuthentication: true
-            AppRegistrationClientId: $(AppRegistrationClientId)
-            AppRegistrationTenantId: $(AppRegistrationTenantId)
-            EsrpClientId: $(EsrpClientId)
-            AuthAKVName: $(AuthAKVName)
-            AuthSignCertName: $(AuthSignCertName)
+            AppRegistrationClientId: $(codesigning-msi-client-id)
+            AppRegistrationTenantId: $(codesigning-msi-tenant-id)
+            EsrpClientId: $(codesigning-esrp-client-id)
+            AuthAKVName: 'ac-code-signing'
+            AuthSignCertName: 'CodeSigning-Certificate-Managed'
             Pattern: '*.dll,*.winmd'
             signConfigType: inlineSignParams
             inlineOperation: |
@@ -365,6 +373,13 @@ extends:
           env:
             AzureServicesAuthConnectionString: 'runAs=App;AppId=$(appcenter-sdk-managed-identity-clientid)'
 
+        - task: AzureKeyVault@2
+          inputs:
+            azureSubscription: 'AC - Dev Infra & Build Pool'
+            KeyVaultName: 'mobile-center-sdk'
+            SecretsFilter: appcenter-sdk-blob-storage-access-secret
+            RunAsPreJob: false
+
         - task: Cake@2
           displayName: 'Pack NuGets'
           inputs:
@@ -376,13 +391,14 @@ extends:
           displayName: 'Sign Packages'
           enabled: true
           inputs:
-            ConnectedServiceName: $(ConnectedServiceName)
+            ConnectedServiceName: 'App Center - Code Signing (PME)'
+            FolderPath: '$(Build.ArtifactStagingDirectory)\assemblies'
             UseMSIAuthentication: true
-            AppRegistrationClientId: $(AppRegistrationClientId)
-            AppRegistrationTenantId: $(AppRegistrationTenantId)
-            EsrpClientId: $(EsrpClientId)
-            AuthAKVName: $(AuthAKVName)
-            AuthSignCertName: $(AuthSignCertName)           
+            AppRegistrationClientId: $(codesigning-msi-client-id)
+            AppRegistrationTenantId: $(codesigning-msi-tenant-id)
+            EsrpClientId: $(codesigning-esrp-client-id)
+            AuthAKVName: 'ac-code-signing'
+            AuthSignCertName: 'CodeSigning-Certificate-Managed'
             FolderPath: '$(System.DefaultWorkingDirectory)/'
             Pattern: 'Microsoft.AppCenter*.nupkg'
             signConfigType: inlineSignParams
