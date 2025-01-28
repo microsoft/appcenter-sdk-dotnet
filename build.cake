@@ -97,13 +97,16 @@ Task("Externals-Android")
     var androidExternalsPath = System.IO.Path.Combine(AndroidExternals, "*");
     var files = GetFiles(androidExternalsPath);
 
+    // regex pattern for extracting version
+    var versionPattern = new System.Text.RegularExpressions.Regex(@"\d+\.\d+\.\d+");
+
     // fix since aar files contain version name instead of release string
     foreach (var file in files)
     {
         var filename = file.GetFilename().ToString();
-        if (filename.Contains($"{VersionReader.AndroidVersion}"))
+        if (versionPattern.IsMatch(filename))
         {
-            var replacedName = filename.Replace($"{VersionReader.AndroidVersion}", "release");
+            var replacedName = versionPattern.Replace(filename, "release");
             var newPath = System.IO.Path.Combine(AndroidExternals, replacedName);
             MoveFile(file, newPath);
         }
