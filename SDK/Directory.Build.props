@@ -4,8 +4,8 @@
     <Copyright>Microsoft Corp. All rights reserved.</Copyright>
     <Company>Microsoft Corporation</Company>
     <!-- Current version. -->
-    <Version>5.0.6-SNAPSHOT</Version>
-    <FileVersion>5.0.6.0</FileVersion>
+    <Version>5.0.7-SNAPSHOT</Version>
+    <FileVersion>5.0.7.0</FileVersion>
     <!-- Used in runtime to ensure versions match. Prevents loading in some cases, so don't set it as release version. -->
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
     <!-- Fix to have multiple projects in the same folder. -->
