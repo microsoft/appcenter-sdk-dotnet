@@ -1,6 +1,6 @@
 # App Center SDK for .NET Change Log
 
-## Version 5.0.7 (Under development)
+## Version 5.0.7
 
 #### Apple
 
