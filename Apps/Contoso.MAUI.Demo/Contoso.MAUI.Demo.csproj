@@ -11,26 +11,20 @@
     <UsingMauiEssentials>true</UsingMauiEssentials>
     <SingleProject>true</SingleProject>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>5.0.6</Version>
+    <Version>5.0.7</Version>
     <!-- Display name -->
     <ApplicationTitle>Contoso.MAUI.Demo</ApplicationTitle>
     <!-- App Identifier -->
     <ApplicationId>com.microsoft.appcenter.Contoso.MAUI.Demo</ApplicationId>
     <ApplicationIdGuid>d7a06185-3470-4ae9-8a6f-27a861f146b2</ApplicationIdGuid>
-    <SupportedOSPlatformVersion
-      Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
-    <SupportedOSPlatformVersion
-      Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
-    <SupportedOSPlatformVersion
-      Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
-    <SupportedOSPlatformVersion
-      Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
       10.0.17763.0</SupportedOSPlatformVersion>
-    <TargetPlatformMinVersion
-      Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
+    <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
       10.0.17763.0</TargetPlatformMinVersion>
-    <SupportedOSPlatformVersion
-      Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
     <Configurations>Debug;Release;GooglePlay</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'GooglePlay|AnyCPU' ">
@@ -44,15 +38,13 @@
     <NoWarn></NoWarn>
     <NoStdLib>false</NoStdLib>
   </PropertyGroup>
-  <PropertyGroup
-    Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+  <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
     <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
     <ForceSimulatorX64ArchitectureInIDE>true</ForceSimulatorX64ArchitectureInIDE>
   </PropertyGroup>
   <ItemGroup>
     <!-- App Icon -->
-    <MauiIcon Include="Resources\AppIcon\appicon.svg"
-      ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
     <!-- Splash Screen -->
     <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
     <!-- Images -->
@@ -71,44 +63,28 @@
     <None Remove="Platforms\iOS\Resources\Images\lightning.png" />
     <None Remove="Platforms\iOS\Resources\Images\socket.png" />
   </ItemGroup>
-
   <ItemGroup Condition=" '$(Configuration)'=='Release' ">
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.6" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.6" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.7" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.7" />
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'!='GooglePlay' ">
-    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="5.0.6" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="5.0.7" />
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'=='GooglePlay' ">
-    <PackageReference Include="Microsoft.AppCenter.DistributePlay" Version="5.0.6" />
+    <PackageReference Include="Microsoft.AppCenter.DistributePlay" Version="5.0.7" />
   </ItemGroup>
-
   <!-- When using debug build specify the target framework to import appropriate platform SDKs otherwise build wont compile.
   e.g. dotnet build -t:Run  -f net8.0-android  -c Debug -p:TargetFrameworks=net8.0-android  -->
-
-  <ItemGroup
-    Condition=" '$(Configuration)'=='Debug'  And !$(TargetFramework.Contains('-android')) ">
-    <ProjectReference
-      Include="..\..\SDK\AppCenter\Microsoft.AppCenter.Apple\Microsoft.AppCenter.Apple.csproj" />
-    <ProjectReference
-      Include="..\..\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Apple\Microsoft.AppCenter.Analytics.Apple.csproj" />
-    <ProjectReference
-      Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Apple\Microsoft.AppCenter.Crashes.Apple.csproj" />
-    <ProjectReference
-     Condition=" $(TargetFramework.Contains('-ios')) "
-      Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Apple\Microsoft.AppCenter.Distribute.Apple.csproj" />
+  <ItemGroup Condition=" '$(Configuration)'=='Debug'  And !$(TargetFramework.Contains('-android')) ">
+    <ProjectReference Include="..\..\SDK\AppCenter\Microsoft.AppCenter.Apple\Microsoft.AppCenter.Apple.csproj" />
+    <ProjectReference Include="..\..\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Apple\Microsoft.AppCenter.Analytics.Apple.csproj" />
+    <ProjectReference Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Apple\Microsoft.AppCenter.Crashes.Apple.csproj" />
+    <ProjectReference Condition=" $(TargetFramework.Contains('-ios')) " Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Apple\Microsoft.AppCenter.Distribute.Apple.csproj" />
   </ItemGroup>
-
-  <ItemGroup
-    Condition=" '$(Configuration)'=='Debug' And $(TargetFramework.Contains('-android'))">
-    <ProjectReference
-      Include="..\..\SDK\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.csproj" />
-    <ProjectReference
-      Include="..\..\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Android\Microsoft.AppCenter.Analytics.Android.csproj" />
-    <ProjectReference
-      Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Android\Microsoft.AppCenter.Crashes.Android.csproj" />
-    <ProjectReference
-      Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Android\Microsoft.AppCenter.Distribute.Android.csproj" />
+  <ItemGroup Condition=" '$(Configuration)'=='Debug' And $(TargetFramework.Contains('-android'))">
+    <ProjectReference Include="..\..\SDK\AppCenter\Microsoft.AppCenter.Android\Microsoft.AppCenter.Android.csproj" />
+    <ProjectReference Include="..\..\SDK\AppCenterAnalytics\Microsoft.AppCenter.Analytics.Android\Microsoft.AppCenter.Analytics.Android.csproj" />
+    <ProjectReference Include="..\..\SDK\AppCenterCrashes\Microsoft.AppCenter.Crashes.Android\Microsoft.AppCenter.Crashes.Android.csproj" />
+    <ProjectReference Include="..\..\SDK\AppCenterDistribute\Microsoft.AppCenter.Distribute.Android\Microsoft.AppCenter.Distribute.Android.csproj" />
   </ItemGroup>
-
 </Project>
